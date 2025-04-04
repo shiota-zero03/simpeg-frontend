@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #F3FBFB;
+    --text: #2B2B2B;
+    --primary: #12403C;
+    --secondary: #FFF100;
+    --success: #2B871D;
+    --info: #0C51A0;
+    --warning: #BCA105;
+    --danger: #BF1E43;
+    --accent-primary: #1AB29E;
+  }
+}
+
+* {
+    @apply font-jakarta;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee {
+  display: flex;
+  min-width: max-content;
+  animation: marquee 30s linear infinite;
+}
