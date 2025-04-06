@@ -6,6 +6,8 @@ const Layout = lazy(() => import("@/components/layout"));
 
 const Login = lazy(() => import("@/pages/auth/Login"));
 const Home = lazy(() => import("@/pages/home"));
+const Berita = lazy(() => import("@/pages/Berita"));
+const DetailBerita = lazy(() => import("@/pages/Berita/Detail"));
 
 export default function Router() {
     return (
@@ -14,6 +16,8 @@ export default function Router() {
                 <Route path="/login" element={<Login />} />
                 <Route element={<Layout />}>
                     <Route path="/" element={<Home />} />
+                    <Route path="/berita" element={<Berita />} />
+                    <Route path="/berita/:slug" element={<DetailBerita />} />
                     <Route path="/peta-jabatan" element={<Home />} />
                     <Route path="/buku-petunjuk" element={<Home />} />
                     <Route path="/customer-service" element={<Home />} />

@@ -91,13 +91,13 @@ export function AppSidebar() {
                   <SidebarGroupContent>
                     <SidebarMenu>
                       {item.menu.map((itemM) => {
-                        const isActive = (location.pathname === '/' && itemM.key === 'beranda') ||
+                        const isActive = ((location.pathname === '/' || location.pathname.includes('berita')) && itemM.key === 'beranda') ||
                             location.pathname.includes(itemM.key) || 
                             (itemM.subMenu && itemM.subMenu.some(subItem => 
-                                location.pathname === '/' && subItem.key === 'beranda' ||
+                                (location.pathname === '/' || location.pathname.includes('berita')) && subItem.key === 'beranda' ||
                                 location.pathname.includes(subItem.key)
                             ));
-
+                            
                         if (isMenuActive([itemM], allowedSubMenus)) { 
                           return (
                             <SidebarMenuItem key={itemM.key}>
@@ -136,7 +136,15 @@ export function AppSidebar() {
                                 </Collapsible>
                               ) : (
                                 <SidebarMenuButton asChild>
-                                  <Link to={itemM.link} className={`font-light text-xs px-4 hover:font-medium hover:text-secondary rounded-none ${location.pathname.includes(itemM.key) ? 'border-s-4 border-secondary bg-[#FFF1001A] text-secondary' : 'border-s-4 border-transparent hover:border-secondary hover:bg-[#FFF1001A] text-white'} duration-300`}>
+                                  <Link to={itemM.link} className={`
+                                    font-light text-xs px-4 hover:font-medium hover:text-secondary rounded-none duration-300 
+                                    ${location.pathname.includes(itemM.key) ? 'border-s-4 border-secondary bg-[#FFF1001A] text-secondary' : 
+                                      (
+                                        (location.pathname === "/" || location.pathname.includes('berita')) && itemM.key === "beranda" ? 'border-s-4 border-secondary bg-[#FFF1001A] text-secondary' : 
+                                        'border-s-4 border-transparent hover:border-secondary hover:bg-[#FFF1001A] text-white'
+                                      )
+                                    }
+                                  `}>
                                     <itemM.icon />
                                     <span>{itemM.name}</span>
                                   </Link>

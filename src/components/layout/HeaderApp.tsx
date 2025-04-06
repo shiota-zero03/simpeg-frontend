@@ -52,16 +52,21 @@ export default function Header() {
 
 const getFormattedDate = () => {
     const now = new Date();
-    return now.toLocaleString("id-ID", {
+    let day = now.toLocaleString("id-ID", {
         weekday: "long",
         day: "numeric",
         month: "long",
         year: "numeric",
+    });
+
+    let time = now.toLocaleString("id-ID", {
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
         hour12: false,
     });
+
+    return <span>{day} &nbsp; | &nbsp; {time}</span>
 };
 
 const RealTimeClock = () => {
