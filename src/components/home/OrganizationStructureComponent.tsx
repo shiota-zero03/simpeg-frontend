@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import OrgChart from '@balkangraph/orgchart.js';
+import React, { useEffect, useRef } from "react";
+import OrgChart from "@balkangraph/orgchart.js";
 
 const OrganizationStructureComponent = () => {
   const chartRef = useRef<OrgChart | null>(null);
@@ -13,11 +13,11 @@ const OrganizationStructureComponent = () => {
         nodes: [
           { id: 1, name: "CEO" },
           { id: 2, pid: 1, name: "Manager" },
-          { id: 3, pid: 2, name: "Staff" }
+          { id: 3, pid: 2, name: "Staff" },
         ],
         nodeBinding: {
-          field_0: "name"
-        }
+          field_0: "name",
+        },
       });
 
       chartRef.current = chart;
@@ -35,7 +35,7 @@ const OrganizationStructureComponent = () => {
     };
   }, []);
 
-  return <div ref={containerRef} style={{ width: '100%', height: '500px' }} />;
+  return <div ref={containerRef} style={{ width: "100%", height: "500px" }} />;
 };
 
 export default OrganizationStructureComponent;

@@ -1,5 +1,12 @@
 import { GaleryDummy } from "@/constants/DummyData";
-import { Button, Divider, Modal, ModalContent, ModalBody, Spinner } from "@heroui/react";
+import {
+  Button,
+  Divider,
+  Modal,
+  ModalContent,
+  ModalBody,
+  Spinner,
+} from "@heroui/react";
 import { useMemo, useState } from "react";
 import { LuRefreshCcw } from "react-icons/lu";
 import { TbFaceIdError } from "react-icons/tb";
@@ -18,7 +25,7 @@ const GaleriComponent = () => {
       image: item.image,
       title: item.title,
     }));
-  }, [GaleryDummy]);
+  }, []);
 
   const refetchGallery = () => {
     setIsFetchingGallery(true);
@@ -51,41 +58,49 @@ const GaleriComponent = () => {
       <div>
         {GaleriData.length > 0 ? (
           <div className="grid sm:grid-cols-8 grid-cols-1 gap-3 grid-rows-2 md:max-h-96">
-            {GaleriData.map((item, index) => 
-                {
-                    return index === 0 ? (
-                        <div key={index} className="lg:col-span-6 sm:col-span-5 cursor-pointer row-span-2" onClick={() => setSelectedImage(GaleriData[0].image)}>
-                            <div className="w-full overflow-hidden rounded-xl relative group h-full bg-black">
-                            <div className="absolute bg-black/60 inset-0 hidden group-hover:flex items-center justify-center p-4 text-center duration-300 animate-appearance-in">
-                                <h1 className="text-white font-semibold 2xl:text-4xl lg:text-2xl sm:text-base text-xs">
-                                {item.title}
-                                </h1>
-                            </div>
-                            <img
-                                src={item.image}
-                                alt="galeri-image"
-                                className="object-cover object-center min-w-full min-h-full"
-                            />
-                            </div>
-                        </div>
-                    ) : (
-                        <div key={index} className="lg:col-span-2 sm:col-span-3 grid grid-cols-1 gap-3 row-span-1">
-                            <div className="sm:h-full sm:max-h-full max-h-40 overflow-hidden rounded-xl relative group cursor-pointer" onClick={() => setSelectedImage(GaleriData[2].image)}>
-                            <div className="absolute bg-black/60 inset-0 hidden group-hover:flex items-center justify-center p-4 text-center duration-300 animate-appearance-in">
-                                <h1 className="text-white font-semibold lg:text-sm text-xs">
-                                {item.title}
-                                </h1>
-                            </div>
-                            <img
-                                src={item.image}
-                                alt="galeri-image"
-                                className="object-cover object-center min-w-full min-h-full"
-                            />
-                            </div>
-                        </div>
-                    )
-                }
-            )}
+            {GaleriData.map((item, index) => {
+              return index === 0 ? (
+                <div
+                  key={index}
+                  className="lg:col-span-6 sm:col-span-5 cursor-pointer row-span-2"
+                  onClick={() => setSelectedImage(GaleriData[0].image)}
+                >
+                  <div className="w-full overflow-hidden rounded-xl relative group h-full bg-black">
+                    <div className="absolute bg-black/60 inset-0 hidden group-hover:flex items-center justify-center p-4 text-center duration-300 animate-appearance-in">
+                      <h1 className="text-white font-semibold 2xl:text-4xl lg:text-2xl sm:text-base text-xs">
+                        {item.title}
+                      </h1>
+                    </div>
+                    <img
+                      src={item.image}
+                      alt="galeri-image"
+                      className="object-cover object-center min-w-full min-h-full"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div
+                  key={index}
+                  className="lg:col-span-2 sm:col-span-3 grid grid-cols-1 gap-3 row-span-1"
+                >
+                  <div
+                    className="sm:h-full sm:max-h-full max-h-40 overflow-hidden rounded-xl relative group cursor-pointer"
+                    onClick={() => setSelectedImage(GaleriData[2].image)}
+                  >
+                    <div className="absolute bg-black/60 inset-0 hidden group-hover:flex items-center justify-center p-4 text-center duration-300 animate-appearance-in">
+                      <h1 className="text-white font-semibold lg:text-sm text-xs">
+                        {item.title}
+                      </h1>
+                    </div>
+                    <img
+                      src={item.image}
+                      alt="galeri-image"
+                      className="object-cover object-center min-w-full min-h-full"
+                    />
+                  </div>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div className="flex items-center justify-center flex-col gap-2">
@@ -112,10 +127,18 @@ const GaleriComponent = () => {
       )}
 
       {/* Modal Gambar */}
-      <Modal isOpen={!!selectedImage} onOpenChange={() => setSelectedImage(null)} size="full">
+      <Modal
+        isOpen={!!selectedImage}
+        onOpenChange={() => setSelectedImage(null)}
+        size="full"
+      >
         <ModalContent className="flex items-center justify-center bg-black bg-opacity-90">
           <ModalBody className="flex items-center justify-center p-4">
-            <img src={selectedImage ?? ""} alt="popup-image" className="max-w-full max-h-screen object-contain" />
+            <img
+              src={selectedImage ?? ""}
+              alt="popup-image"
+              className="max-w-full max-h-screen object-contain"
+            />
           </ModalBody>
         </ModalContent>
       </Modal>

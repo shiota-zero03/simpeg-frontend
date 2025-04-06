@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,25 +6,29 @@
 
 @layer base {
   :root {
-    --background: #F3FBFB;
-    --text: #2B2B2B;
-    --primary: #12403C;
-    --secondary: #FFF100;
-    --success: #2B871D;
-    --info: #0C51A0;
-    --warning: #BCA105;
-    --danger: #BF1E43;
-    --accent-primary: #1AB29E;
+    --background: #f3fbfb;
+    --text: #2b2b2b;
+    --primary: #12403c;
+    --secondary: #fff100;
+    --success: #2b871d;
+    --info: #0c51a0;
+    --warning: #bca105;
+    --danger: #bf1e43;
+    --accent-primary: #1ab29e;
   }
 }
 
 * {
-    @apply font-jakarta;
+  @apply font-jakarta;
 }
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .marquee {

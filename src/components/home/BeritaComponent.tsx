@@ -24,16 +24,16 @@ const BeritaComponent = () => {
       title: item.title,
       slug: item.slug,
       createdAt: item.createdAt,
-      content: item.content
+      content: item.content,
     }));
-  }, [BeritaDummy]);
+  }, []);
 
   useEffect(() => {
-    setIsFetchingGallery(true)
+    setIsFetchingGallery(true);
     setTimeout(() => {
-      setIsFetchingGallery(false)
-    }, 500)
-  }, [])
+      setIsFetchingGallery(false);
+    }, 500);
+  }, []);
 
   const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ const BeritaComponent = () => {
         </div>
         <Button
           variant="bordered"
-          onPress={() => navigate('/berita')}
+          onPress={() => navigate("/berita")}
           endContent={<LuArrowRight />}
           className="border-accent-primary text-accent-primary"
           size="sm"
@@ -63,7 +63,11 @@ const BeritaComponent = () => {
           <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 grid-rows-3 gap-3 lg:max-h-80">
             {BeritaData.map((item, index) => {
               return index < 2 ? (
-                <div key={index} className="cursor-pointer rounded-xl overflow-hidden row-span-3 bg-white border shadow-md group relative z-0" onClick={() => navigate(`/berita/${item.slug}`)}>
+                <div
+                  key={index}
+                  className="cursor-pointer rounded-xl overflow-hidden row-span-3 bg-white border shadow-md group relative z-0"
+                  onClick={() => navigate(`/berita/${item.slug}`)}
+                >
                   <div className="absolute bg-black/10 inset-0 hidden group-hover:flex items-center justify-center p-4 text-center duration-300 animate-appearance-in z-10" />
                   <div className="w-full overflow-hidden relative group lg:h-52 h-32 z-0">
                     <img
@@ -73,7 +77,11 @@ const BeritaComponent = () => {
                     />
                   </div>
                   <div className="p-4 flex flex-col gap-3">
-                    <h4 className="md:text-sm text-xs font-semibold">{item.title.length > 60 ? item.title.slice(0, 60) + "..." : item.title}</h4>
+                    <h4 className="md:text-sm text-xs font-semibold">
+                      {item.title.length > 60
+                        ? item.title.slice(0, 60) + "..."
+                        : item.title}
+                    </h4>
                     <small className="flex md:text-xs text-[0.6rem] items-center gap-2 text-[#199FB1]">
                       <LucideCalendarDays size={12} />
                       {DMYIndoToFormat(item.createdAt)}
@@ -81,11 +89,26 @@ const BeritaComponent = () => {
                   </div>
                 </div>
               ) : (
-                <div key={index} className="row-span-1 bg-white border shadow-md p-4 rounded-xl lg:block hidden">
+                <div
+                  key={index}
+                  className="row-span-1 bg-white border shadow-md p-4 rounded-xl lg:block hidden"
+                >
                   <div className="text-sm flex flex-col xl:gap-3 gap-2">
                     <div className="flex items-start justify-between gap-4">
-                      <h4 className="xl:text-sm text-xs font-semibold">{item.title.length > 60 ? item.title.slice(0, 60) + "..." : item.title}</h4>
-                      <Button type="button" isIconOnly size="sm" variant="flat" radius="full" className="shadow-md border" onPress={() => navigate(`/berita/${item.slug}`)}>
+                      <h4 className="xl:text-sm text-xs font-semibold">
+                        {item.title.length > 60
+                          ? item.title.slice(0, 60) + "..."
+                          : item.title}
+                      </h4>
+                      <Button
+                        type="button"
+                        isIconOnly
+                        size="sm"
+                        variant="flat"
+                        radius="full"
+                        className="shadow-md border"
+                        onPress={() => navigate(`/berita/${item.slug}`)}
+                      >
                         <LuArrowUpRight />
                       </Button>
                     </div>
@@ -95,7 +118,7 @@ const BeritaComponent = () => {
                     </small>
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
         ) : (
