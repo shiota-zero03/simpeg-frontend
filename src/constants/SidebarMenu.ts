@@ -1,7 +1,23 @@
 import { IconType } from "react-icons";
-import { LuBookMarked, LuLayoutGrid } from "react-icons/lu";
-import { PiUserCircleGearLight, PiTreeStructure } from "react-icons/pi";
-import { RiCustomerService2Line } from "react-icons/ri";
+import { FaRegNewspaper } from "react-icons/fa";
+import { FaUsersRays } from "react-icons/fa6";
+import {
+  LuBookMarked,
+  LuChartLine,
+  LuLayoutGrid,
+  LuMails,
+} from "react-icons/lu";
+import {
+  PiTreeStructure,
+  PiOfficeChair,
+  PiUserList,
+  PiSuitcaseSimpleLight,
+} from "react-icons/pi";
+import {
+  RiCustomerService2Line,
+  RiFileEditFill,
+  RiFileList3Line,
+} from "react-icons/ri";
 
 export interface SidebarProps {
   name: string;
@@ -30,20 +46,25 @@ export const SidebarMenuData: SidebarProps[] = [
         link: "/peta-jabatan",
         icon: PiTreeStructure,
       },
-      { name: "Jabatan", key: "jabatan", link: "/jabatan", icon: LuLayoutGrid },
-      { name: "Pegawai", key: "pegawai", link: "/pegawai", icon: LuLayoutGrid },
-      { name: "Berita", key: "berita", link: "/berita", icon: LuLayoutGrid },
+      {
+        name: "Jabatan",
+        key: "jabatan",
+        link: "/jabatan",
+        icon: PiOfficeChair,
+      },
+      { name: "Pegawai", key: "pegawai", link: "/pegawai", icon: PiUserList },
+      { name: "Berita", key: "news", link: "/news", icon: FaRegNewspaper },
       {
         name: "Summary Report",
         key: "summary-report",
         link: "/summary-report",
-        icon: LuLayoutGrid,
+        icon: LuChartLine,
       },
       {
         name: "Penilaian Kinerja",
         key: "penilaian-kinerja",
         link: "#",
-        icon: PiUserCircleGearLight,
+        icon: RiFileEditFill,
         subMenu: [
           {
             name: "Berdasarkan Bobot",
@@ -61,12 +82,12 @@ export const SidebarMenuData: SidebarProps[] = [
         name: "Disiplin Pegawai",
         key: "disiplin-pegawai",
         link: "#",
-        icon: PiUserCircleGearLight,
+        icon: FaUsersRays,
         subMenu: [
           {
             name: "Berdasarkan Bobot",
-            key: "berdasarkan-bobot",
-            link: "/berdasarkan-bobot",
+            key: "pengaduan",
+            link: "/pengaduan",
           },
         ],
       },
@@ -74,10 +95,15 @@ export const SidebarMenuData: SidebarProps[] = [
         name: "Dialog Kinerja (IKP)",
         key: "dialog-kinerja",
         link: "/dialog-kinerja",
-        icon: LuLayoutGrid,
+        icon: RiFileList3Line,
       },
-      { name: "SPPD", key: "sppd", link: "/sppd", icon: LuLayoutGrid },
-      { name: "Asset", key: "asset", link: "/asset", icon: LuLayoutGrid },
+      { name: "SPPD", key: "sppd", link: "/sppd", icon: LuMails },
+      {
+        name: "Asset",
+        key: "asset",
+        link: "/asset",
+        icon: PiSuitcaseSimpleLight,
+      },
     ],
   },
   {

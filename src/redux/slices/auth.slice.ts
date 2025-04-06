@@ -23,17 +23,21 @@ const authSlice = createSlice({
         accessToken: string;
         refreshToken: string;
         role: string | null;
-      }>
+      }>,
     ) => {
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.role = action.payload.role ?? "";
-      
-      Cookies.set("simpegAccessToken", action.payload.accessToken, { expires: 7 });
-      Cookies.set("simpegRefreshToken", action.payload.refreshToken, { expires: 7 });
+
+      Cookies.set("simpegAccessToken", action.payload.accessToken, {
+        expires: 7,
+      });
+      Cookies.set("simpegRefreshToken", action.payload.refreshToken, {
+        expires: 7,
+      });
       Cookies.set("simpegRole", action.payload.role ?? "", { expires: 7 });
     },
-    
+
     clearAuthTokens: (state) => {
       state.accessToken = null;
       state.refreshToken = null;

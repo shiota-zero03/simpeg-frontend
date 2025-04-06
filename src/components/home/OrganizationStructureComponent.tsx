@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import OrgChart from "@balkangraph/orgchart.js";
 
 const OrganizationStructureComponent = () => {

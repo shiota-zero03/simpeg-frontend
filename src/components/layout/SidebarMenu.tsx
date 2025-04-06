@@ -17,7 +17,6 @@ import {
 import Logo from "@/assets/logo.png";
 import Wave from "@/assets/wave.png";
 import { Divider } from "@heroui/react";
-import { useEffect, useState } from "react";
 import { SidebarMenuData } from "@/constants/SidebarMenu";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -26,6 +25,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { FaCircle } from "react-icons/fa";
+import store from "@/redux/store";
 
 type SubMenu = {
   name: string;
@@ -41,16 +41,31 @@ type MenuItem = {
 
 const roleAccessMap: Record<string, string[]> = {
   GUEST: ["beranda", "peta-jabatan", "buku-petunjuk", "hubungi-kami"],
+  ADMIN: [
+    "beranda",
+    "peta-jabatan",
+    "jabatan",
+    "pegawai",
+    "news",
+    "summary-report",
+    "berdasarkan-bobot",
+    "berdasarkan-nilai",
+    "pengaduan",
+    "dialog-kinerja",
+    "sppd",
+    "asset",
+    "buku-petunjuk",
+    "hubungi-kami",
+  ],
 };
 
 export function AppSidebar() {
+  const { role } = store.getState().auth;
   const location = useLocation();
 
-  const [allowedSubMenus, setAllowedSubMenus] = useState<string[]>([]);
-
-  useEffect(() => {
-    setAllowedSubMenus(roleAccessMap["GUEST"]);
-  }, []);
+  const currentRole: keyof typeof roleAccessMap | "GUEST" =
+    role && roleAccessMap[role] ? role : "GUEST";
+  const allowedSubMenus = roleAccessMap[currentRole];
 
   const isMenuActive = (
     items: {

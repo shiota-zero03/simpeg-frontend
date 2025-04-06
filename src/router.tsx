@@ -11,6 +11,8 @@ const DetailBerita = lazy(() => import("@/pages/Berita/Detail"));
 const BukuPetunjuk = lazy(() => import("@/pages/BukuPetunjuk"));
 const HubungiKami = lazy(() => import("@/pages/HubungiKami"));
 
+const News = lazy(() => import("@/pages/News"));
+
 export default function Router() {
   return (
     <Suspense fallback={<LoaderPage />}>
@@ -25,6 +27,10 @@ export default function Router() {
           <Route path="/buku-petunjuk" element={<Home />} />
           <Route path="/customer-service" element={<Home />} />
           <Route path="/hubungi-kami" element={<HubungiKami />} />
+
+          <Route path="/news" element={<News />} />
+          <Route path="/news/tambah-data" element={<News />} />
+          <Route path="/news/edit-data/:id" element={<News />} />
         </Route>
       </Routes>
     </Suspense>
