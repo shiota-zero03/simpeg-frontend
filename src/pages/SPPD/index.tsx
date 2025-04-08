@@ -1,34 +1,57 @@
 import { TitleCase } from "@/components/card/TitleCase";
 import DataTables from "@/components/DataTables";
-import { BeritaDummy } from "@/constants/DummyData";
-import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
+import { SPPDDummy } from "@/constants/DummyData";
+import { Button, DateRangePicker, Input, Pagination, RangeValue, Tooltip, useDisclosure } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import { LuImage, LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
-import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
+import { LuFileArchive, LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
+import { BiErrorAlt, BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
+import { Link } from "react-router-dom";
+import { DMYIndoToFormat } from "@/utils/dateFormater";
+import { CalendarDate, parseDate } from "@internationalized/date";
+import CreateModal from "@/components/modals/SPPSModal/CreatedModal";
 
-interface BeritaDataProps {
+interface SPPDprops {
   id: number;
-  thumbnail: string;
-  slug: string;
-  title: string;
-  createdAt: string;
-  content: string;
+  pegawai: string;
+  kegiatan: string;
+  waktu: string;
+  lokasi: string;
+  anggaran: number;
+  pengikut: string[];
 }
 
 export default function News() {
   const limit = 5;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
+  const [searchKegiatan, setSearchKegiatan] = useState("");
+
+  const today = new Date();
+  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>({
+      start: parseDate(firstDayOfMonth.toISOString().split('T')[0]),
+      end: parseDate(today.toISOString().split('T')[0]),
+  });
+
+    // const formatDateToJakarta = (calendarDate: CalendarDate | null | undefined) => {
+    //     if (!calendarDate) return null;
+    //     const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
+    //     return new Intl.DateTimeFormat("id-ID", { timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit" })
+    //         .format(date)
+    //         .split("/")
+    //         .reverse()
+    //         .join("-");
+    // }
 
     // const { data: allData, isFetching: isFetchingData, refetch: refetchData } = useGetAllRiwayatObat();
-  const allData = BeritaDummy;
+  const allData = SPPDDummy;
 
-  const data: BeritaDataProps[] = useMemo(() => {
+  const data: SPPDprops[] = useMemo(() => {
     if(allData) {
       return allData;
     } else {
@@ -46,7 +69,7 @@ export default function News() {
 
   const navigate = useNavigate();
 
-  const columns: ColumnDef<BeritaDataProps>[] = [
+  const columns: ColumnDef<SPPDprops>[] = [
     {
       header: "No",
       cell: ({ row }) => {
@@ -60,37 +83,59 @@ export default function News() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
-      accessorKey: "thumbnail",
-      header: "Foto",
+      accessorKey: "pegawai",
+      header: "Pegawai",
+      cell: (info) => info.getValue() as string,
+    },
+    {
+      accessorKey: "kegiatan",
+      header: "Kegiatan",
+      cell: (info) => info.getValue() as string,
+    },
+    {
+      accessorKey: "waktu",
+      header: "Waktu",
+      cell: (info) => info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
+    },
+    {
+      accessorKey: "lokasi",
+      header: "Lokasi",
+      cell: (info) => info.getValue() as string,
+    },
+    {
+      accessorKey: "anggaran",
+      header: "Anggaran",
+      cell: (info) => 'Rp ' + (info.getValue() as number || 0).toLocaleString('id-ID'),
+    },
+    {
+      accessorKey: "pengikut",
+      header: "Pengikut",
       cell: (info) => {
-        const picture = info.getValue() as string | null;
-        return picture ? (
-          <div className="flex items-center justify-center">
-            <img src={picture} alt="news-picture" width={80} className="rounded-lg" />
-          </div>
-        ) : (
-          <LuImage size={80} className="border p-4  rounded-lg" />
+        const pengikut = info.getValue() as string[];
+        return (
+          <ul>
+            {pengikut.length > 0 ? pengikut.map((item, index) => (
+              <li className="list-disc" key={index}>{item}</li>
+            )) : (
+              <li className="list-disc text-danger italic">
+                Tidak ada pengikut
+              </li>
+            )}
+          </ul>
         )
       },
-      meta: { align: "center" },
     },
     {
-      accessorKey: "title",
-      header: "Judul",
-      cell: (info) => info.getValue() as string,
-      meta: { align: "center" },
-    },
-    {
-      accessorKey: "content",
-      header: "Konten",
+      accessorKey: "file",
+      header: "File",
       cell: (info) => {
-        let content = info.getValue() as string | null;
-        return content ? (
-                content.length > 60 ? 
-                content.slice(0, 60) + "..." : content 
-              ) : "-"
+        const file = info.getValue() as string | null;
+        if(file) {
+          return <Link to={file} target="__blank"><LuFileArchive className="border p-1 rounded-md text-accent-primary border-accent-primary" size={20} /></Link>
+        } else {
+          return <Tooltip content="Tidak ada file" radius="sm" color="danger" placement="top-start" size="sm"><BiErrorAlt className="border p-1 rounded-md text-danger border-danger" size={20} /></Tooltip>
+        }
       },
-      meta: { align: "center" },
     },
     {
       header: "Aksi",
@@ -111,9 +156,15 @@ export default function News() {
   ];
 
   const { isOpen: isOpenDelete, onOpen: onOpenDelete, onClose: onCloseDelete } = useDisclosure();
+  const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
 
   const handleReset = () => {
     setSearch('');
+    setSearchKegiatan('')
+    setRangeDate({
+      start: parseDate(firstDayOfMonth.toISOString().split('T')[0]),
+      end: parseDate(today.toISOString().split('T')[0]),
+    })
   }
 
   const [ isLoadingDelete, setLoadingDelete ] = useState<boolean>(false)
@@ -127,20 +178,28 @@ export default function News() {
     }, 1000);
   }
 
+  const handleClose = () => {
+    setPageIndex(0);
+    onCloseCreate()
+    onCloseDelete()
+    onCloseCreate()
+  }
+
   return (
     <>
-      <BreadcrumbAdmin location="/Berita" />
+      <BreadcrumbAdmin location="/SPPD" />
       <DeleteModal isOpen={isOpenDelete} onClose={onCloseDelete} isLoading={isLoadingDelete} handleSubmit={handleDelete} />
+      <CreateModal isOpen={isOpenCreate} onClose={onCloseCreate} handleClose={handleClose} />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
-          title="Berita"
-          text="Berikut ini menampilkan Daftar Berita yang sudah tersimpan"
+          title="SPPD"
+          text="Berikut ini menampilkan Daftar Surat Perintah Perjalanan Dinas "
         />
         <div className="bg-white shadow-md rounded-xl border">
             <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
                 <div className="pt-8 px-4 w-full text-primary shadow-sm">
-                    <div className="flex sm:flex-row flex-col justify-between gap-2 sm:items-end">
-                        <div className="flex sm:flex-row flex-col gap-2 items-end w-full">
+                    <div className="flex lg:flex-row flex-col justify-between gap-2 sm:items-end">
+                        <div className="flex lg:flex-row flex-col gap-2 items-end w-full">
                             <Input
                                 aria-label="search"
                                 value={search}
@@ -151,12 +210,41 @@ export default function News() {
                                 radius="sm"
                                 size="sm"
                                 variant="bordered"
-                                placeholder="Cari judul berita disini"
+                                placeholder="Cari nama pegawai disini"
                                 startContent={<LuSearch className="text-accent-gray text-xs" />}
                                 classNames={{
                                     inputWrapper: "border-[0.8px]",
                                     input: "text-xs"
                                 }}
+                            />
+                            <Input
+                                aria-label="searchKegiatan"
+                                value={searchKegiatan}
+                                onChange={(e) => {
+                                    setSearchKegiatan(e.target.value);
+                                    setPageIndex(0);
+                                }}
+                                radius="sm"
+                                size="sm"
+                                variant="bordered"
+                                placeholder="Cari nama kegiatan disini"
+                                startContent={<LuSearch className="text-accent-gray text-xs" />}
+                                classNames={{
+                                    inputWrapper: "border-[0.8px]",
+                                    input: "text-xs"
+                                }}
+                            />
+                            <DateRangePicker
+                              aria-label="range-date"
+                              value={rangeDate} 
+                              onChange={setRangeDate}
+                              radius="sm"
+                              size="sm"
+                              variant="bordered"
+                              classNames={{
+                                inputWrapper: "border-[0.8px]",
+                                input: "text-xs"
+                              }}
                             />
                         </div>
                         <div className="flex items-center justify-end gap-2">
@@ -182,7 +270,7 @@ export default function News() {
                             <BiReset size={12} />
                           </Button>
                           <Button
-                              onPress={() => navigate('/news/tambah-data')}
+                              onPress={onOpenCreate}
                               variant="solid"
                               radius="sm"
                               size="sm"

@@ -46,7 +46,6 @@ const roleAccessMap: Record<string, string[]> = {
     "peta-jabatan",
     "jabatan",
     "pegawai",
-    "news",
     "summary-report",
     "berdasarkan-bobot",
     "berdasarkan-nilai",
@@ -56,6 +55,9 @@ const roleAccessMap: Record<string, string[]> = {
     "asset",
     "buku-petunjuk",
     "hubungi-kami",
+    "news",
+    "galeri-dokumentasi",
+    "whatsapp",
   ],
 };
 
@@ -98,7 +100,7 @@ export function AppSidebar() {
   return (
     <Sidebar
       collapsible="icon"
-      className="!border-none !outline-none !ring-0 overflow-hidden !z-50 bg-primary"
+      className="!border-none !outline-none !ring-0 overflow-hidden !z-50 bg-primary group"
     >
       <img src={Wave} alt="wave-simpeg" className="absolute bottom-0 w-full" />
       <SidebarHeader className="py-8">
@@ -113,7 +115,7 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <Divider className="bg-[#FFF1005A] h-[0.1px] w-[80%] mx-auto" />
-      <SidebarContent className="relative m-0 py-4 z-20">
+      <SidebarContent className="relative m-0 py-4 z-20 overflow-y-hidden hover:overflow-y-auto duration-300">
         {SidebarMenuData.map((item, index) => {
           if (isMenuTrue(item, allowedSubMenus)) {
             return (

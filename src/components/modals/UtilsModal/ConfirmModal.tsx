@@ -7,7 +7,7 @@ interface props {
   handleSubmit: () => void;
 }
 
-const DeleteModal = ({ isOpen, isLoading, onClose, handleSubmit }: props) => {
+const ConfirmModal = ({ isOpen, isLoading, onClose, handleSubmit }: props) => {
   return (
     <>
       <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="md">
@@ -15,14 +15,14 @@ const DeleteModal = ({ isOpen, isLoading, onClose, handleSubmit }: props) => {
           <ModalBody className="max-h-[72vh] overflow-y-auto overflow-y-custom py-8">
             <div className="flex flex-col gap-2 items-center">
               <br />
-              <h1 className="font-bold text-xl">Anda yakin ingin menghapus data ini ?</h1>
-              <p className="text-center">Data ini akan langsung hilang dari data tersimpan, lho. Kamu yakin akan menghapusnya?</p>
+              <h1 className="font-bold text-xl">Anda yakin ingin menyimpan data ini ?</h1>
+              <p className="text-center">Pastikan semua informasi sudah benar sebelum melanjutkan.</p>
               <br />
               <div className="flex items-center w-full gap-2">
                 <Button
                   isLoading={isLoading}
                   onPress={onClose}
-                  className="flex-1 bg-primary text-white font-semibold"
+                  className="flex-1 bg-danger text-white font-semibold"
                   size="sm"
                   radius="sm"
                 >
@@ -31,11 +31,11 @@ const DeleteModal = ({ isOpen, isLoading, onClose, handleSubmit }: props) => {
                 <Button
                   isLoading={isLoading}
                   onPress={handleSubmit}
-                  className="flex-1 border border-danger bg-transparent text-danger font-semibold"
+                  className="flex-1 border border-button-primary bg-transparent text-button-primary font-semibold"
                   size="sm"
                   radius="sm"
                 >
-                  Ya, Hapus Data
+                  Ya, Simpan Data
                 </Button>
               </div>
             </div>
@@ -46,4 +46,4 @@ const DeleteModal = ({ isOpen, isLoading, onClose, handleSubmit }: props) => {
   );
 };
 
-export default DeleteModal;
+export default ConfirmModal;

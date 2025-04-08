@@ -15,6 +15,14 @@
     --warning: #bca105;
     --danger: #bf1e43;
     --accent-primary: #1ab29e;
+    --accent-success: #2B871D;
+    --button-primary: #128F82;
+
+
+    --alert-danger: #FFEFF3;
+    --alert-info: #E7F2FF;
+    --alert-warning: #FFF9D9;
+    --alert-success: #E1FFDD
   }
 }
 
@@ -35,4 +43,22 @@
   display: flex;
   min-width: max-content;
   animation: marquee 30s linear infinite;
+}
+
+input[type="file"]::file-selector-button {
+  background: var(--secondary);
+  padding: 6px 18px;
+  border: none;
+  color: black;
+}
+input[type="file"] {
+  cursor: pointer;
+  border: 0.5px solid #C0C0C0;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.ck-editor__main, .ck-content {
+  height: 50vh !important;
 }

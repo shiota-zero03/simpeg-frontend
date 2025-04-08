@@ -1,11 +1,12 @@
 import { IconType } from "react-icons";
-import { FaRegNewspaper } from "react-icons/fa";
+import { FaRegNewspaper, FaWhatsapp } from "react-icons/fa";
 import { FaUsersRays } from "react-icons/fa6";
 import {
   LuBookMarked,
   LuChartLine,
   LuLayoutGrid,
   LuMails,
+  LuPictureInPicture,
 } from "react-icons/lu";
 import {
   PiTreeStructure,
@@ -53,7 +54,6 @@ export const SidebarMenuData: SidebarProps[] = [
         icon: PiOfficeChair,
       },
       { name: "Pegawai", key: "pegawai", link: "/pegawai", icon: PiUserList },
-      { name: "Berita", key: "news", link: "/news", icon: FaRegNewspaper },
       {
         name: "Summary Report",
         key: "summary-report",
@@ -122,5 +122,13 @@ export const SidebarMenuData: SidebarProps[] = [
         icon: RiCustomerService2Line,
       },
     ],
+  },
+  {
+    name: "Menu Content",
+    menu: [
+      { name: "Berita", key: "news", link: "/news", icon: FaRegNewspaper },
+      { name: "Galeri dan Dokumentasi", key: "galeri-dokumentasi", link: "/galeri-dokumentasi", icon: LuPictureInPicture },
+      { name: "Whatsapp", key: "whatsapp", link: "/whatsapp", icon: FaWhatsapp },
+    ]
   },
 ];

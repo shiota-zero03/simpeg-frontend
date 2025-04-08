@@ -1,20 +1,19 @@
 export const FormatBreadcrumb = (pathname: string) => {
   const dataBreadcrumbs = [];
-  if (pathname.includes("sa/dashboard")) {
-    dataBreadcrumbs.push({ name: "Dashboard", link: "/sa/dashboard" });
-  } else if (!pathname.includes("dashboard")) {
-    dataBreadcrumbs.push({ name: "Dashboard", link: "/dashboard" });
+  if (pathname !== "/") {
+    dataBreadcrumbs.push({ name: "Beranda", link: "/" });
   }
 
   let currentPath = "";
 
-  if (pathname.split("/")[1] === "sa") {
-    currentPath = "/sa";
-  }
 
   pathname.split("/").forEach((item, index) => {
-    if (index !== 0 && item !== "sa") {
-      currentPath += `/${item}`;
+    if (index !== 0) {
+      if(item === "Berita") {
+        currentPath += `/news`;
+      } else {
+        currentPath += `/${item}`;
+      }
       dataBreadcrumbs.push({ name: FormatTitle(item), link: currentPath });
     }
   });
@@ -26,7 +25,6 @@ export const FormatTitle = (pathtitle: string) => {
   const formatedTitle = pathtitle
     .replace(/-/g, " ") // Mengganti "-" dengan spasi
     .split(" ") // Memisahkan kata
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Kapitalisasi setiap kata
     .join(" ");
 
   return formatedTitle;

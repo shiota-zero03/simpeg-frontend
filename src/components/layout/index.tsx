@@ -12,7 +12,7 @@ export default function Layout() {
           <div className="flex w-full">
             <Header />
           </div>
-          <div className="w-full md:mt-[84px] mt-[72px] duration-300 pb-24">
+          <div className="w-full md:mt-[74px] mt-[72px] duration-300 pb-24">
             <Outlet />
           </div>
         </main>

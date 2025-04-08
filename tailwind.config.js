@@ -20,6 +20,12 @@ export default {
         warning: "var(--warning)",
         danger: "var(--danger)",
         "accent-primary": "var(--accent-primary)",
+        "accent-success": "var(--accent-success)",
+        "button-primary": "var(--button-primary)",
+        "alert-danger": "var(--alert-danger)",
+        "alert-info": "var(--alert-info)",
+        "alert-warning": "var(--alert-warning)",
+        "alert-success": "var(--alert-success)",
       },
       fontFamily: {
         jakarta: ["Plus Jakarta Sans", "sans-serif"],

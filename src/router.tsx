@@ -12,6 +12,9 @@ const BukuPetunjuk = lazy(() => import("@/pages/BukuPetunjuk"));
 const HubungiKami = lazy(() => import("@/pages/HubungiKami"));
 
 const News = lazy(() => import("@/pages/News"));
+const NewsCreated = lazy(() => import("@/pages/News/Created"));
+const NewsUpdated = lazy(() => import("@/pages/News/Updated"));
+const SPPD = lazy(() => import("@/pages/SPPD"));
 
 export default function Router() {
   return (
@@ -29,8 +32,9 @@ export default function Router() {
           <Route path="/hubungi-kami" element={<HubungiKami />} />
 
           <Route path="/news" element={<News />} />
-          <Route path="/news/tambah-data" element={<News />} />
-          <Route path="/news/edit-data/:id" element={<News />} />
+          <Route path="/news/tambah-data" element={<NewsCreated />} />
+          <Route path="/news/edit-data/:id" element={<NewsUpdated />} />
+          <Route path="/sppd" element={<SPPD />} />
         </Route>
       </Routes>
     </Suspense>
