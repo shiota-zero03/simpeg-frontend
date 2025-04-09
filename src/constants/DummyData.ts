@@ -96,6 +96,68 @@ export const BeritaDummy: {
   },
 ];
 
+export const JabatanDummy: {
+  id: string;
+  nama: string;
+  kelas: number;
+  atasan: string; // atasan dari jabatan
+}[] = [
+  {
+    id: "1",
+    nama: "Kepala Dinas",
+    kelas: 1,
+    atasan: "", // posisi tertinggi
+  },
+  {
+    id: "2",
+    nama: "Sekretaris",
+    kelas: 2,
+    atasan: "Kepala Dinas",
+  },
+  {
+    id: "3",
+    nama: "Kepala Bidang Pelayanan",
+    kelas: 2,
+    atasan: "Kepala Dinas",
+  },
+  {
+    id: "4",
+    nama: "Kepala Bidang Pengawasan",
+    kelas: 2,
+    atasan: "Kepala Dinas",
+  },
+  {
+    id: "5",
+    nama: "Kepala Seksi Layanan Publik",
+    kelas: 3,
+    atasan: "Kepala Bidang Pelayanan",
+  },
+  {
+    id: "6",
+    nama: "Kepala Seksi Pengaduan Masyarakat",
+    kelas: 3,
+    atasan: "Kepala Bidang Pelayanan",
+  },
+  {
+    id: "7",
+    nama: "Kepala Seksi Audit Internal",
+    kelas: 3,
+    atasan: "Kepala Bidang Pengawasan",
+  },
+  {
+    id: "8",
+    nama: "Kepala Seksi Kepatuhan",
+    kelas: 3,
+    atasan: "Kepala Bidang Pengawasan",
+  },
+  {
+    id: "9",
+    nama: "Staf Sekretariat",
+    kelas: 4,
+    atasan: "Sekretaris",
+  },
+];
+
 export const PegawaiDummy: {
   id: number;
   nama: string;

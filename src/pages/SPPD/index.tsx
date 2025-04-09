@@ -31,7 +31,7 @@ import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { CalendarDate, parseDate } from "@internationalized/date";
-import CreateModal from "@/components/modals/SPPSModal/CreatedModal";
+import CreateModal from "@/components/modals/SPPDModal/CreatedModal";
 
 interface SPPDprops {
   id: number;
