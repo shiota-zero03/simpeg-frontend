@@ -1,8 +1,8 @@
 import WaveDashboard from "@/assets/wave-dashboard.png";
 import { BeritaCard } from "@/components/card/HomeCard";
-import { BeritaDummy } from "@/constants/DummyData";
+import { useGetAllBeritaHome } from "@/services/berita";
 import { Button, Input, Spinner } from "@heroui/react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { LuSearch } from "react-icons/lu";
 import { TbFaceIdError } from "react-icons/tb";
 
@@ -15,38 +15,53 @@ interface BeritaDataProps {
 }
 
 export default function Berita() {
-  // const limit = 10;
+  const limit = 6;
   const [totalPage, setTotalPage] = useState(1);
   const [search, setSearch] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isFetchingGallery, setIsFetchingGallery] = useState<boolean>(false);
+  const [BeritaData, setBeritaData] = useState<BeritaDataProps[]>([]);
 
-  const BeritaData: BeritaDataProps[] = useMemo(() => {
-    return BeritaDummy.map((item) => ({
-      thumbnail: item.thumbnail,
-      title: item.title,
-      slug: item.slug,
-      createdAt: item.createdAt,
-      content: item.content,
-    }));
-  }, []);
+  const { data, isFetching, refetch } = useGetAllBeritaHome(
+    currentPage,
+    limit,
+    search,
+  );
+  useEffect(() => {
+    if (data) {
+      const mappedData = data.data.response.map((item) => ({
+        thumbnail: item.images,
+        title: item.title,
+        slug: item.id,
+        createdAt: item.createdAt,
+        content: item.description,
+      }));
+
+      setBeritaData((prev) => [...prev, ...mappedData]);
+
+      if (data.data.pagination.totalPages) {
+        setTotalPage(data.data.pagination.totalPages);
+      }
+    }
+  }, [data]);
 
   useEffect(() => {
-    setIsFetchingGallery(true);
+    refetch();
     setCurrentPage(1);
     setSearch("");
-    setTotalPage(2);
-    setTimeout(() => {
-      setIsFetchingGallery(false);
-    }, 500);
-  }, []);
+    setBeritaData([]);
+  }, [refetch]);
 
   const refetchGallery = () => {
-    setIsFetchingGallery(true);
-    setInterval(() => {
-      setCurrentPage(currentPage + 1);
-      setIsFetchingGallery(false);
-    }, 500);
+    refetch();
+    setCurrentPage((prev) => prev + 1);
+  };
+
+  const handleSearch = () => {
+    setCurrentPage(1);
+    setBeritaData([]);
+    setTimeout(() => {
+      refetch();
+    }, 100);
   };
 
   return (
@@ -82,7 +97,10 @@ export default function Berita() {
                 radius="full"
                 onChange={(e) => setSearch(e.target.value)}
                 endContent={
-                  <button className="bg-accent-primary text-white md:p-2 p-1 -me-2 rounded-full border">
+                  <button
+                    onClick={handleSearch}
+                    className="bg-accent-primary text-white md:p-2 p-1 -me-2 rounded-full border"
+                  >
                     <LuSearch />
                   </button>
                 }
@@ -99,7 +117,7 @@ export default function Berita() {
           </div>
         </div>
         <div className="relative p-4 z-0">
-          {isFetchingGallery && (
+          {isFetching && (
             <div className="absolute inset-0 bg-slate-50/20 z-10 flex items-center justify-center">
               <Spinner
                 variant="wave"

@@ -16,28 +16,36 @@ import {
 import { LuBellDot, LuUserCog } from "react-icons/lu";
 import { FaPowerOff } from "react-icons/fa";
 import LogoutModal from "../modals/LogoutModal";
+import { useGetAllBeritaHome } from "@/services/berita";
 
 export default function Header() {
   const { role } = store.getState().auth;
 
   const navigate = useNavigate();
 
-  const berita = [
-    {
-      title:
-        "Untuk penambahan alokasi pupuk, harap menghubungi Dinas Pertanian",
-    },
-    { title: "Pendaftaran petani subsidi pupuk telah dibuka, segera daftar!" },
-    { title: "Program bantuan pertanian terbaru telah diumumkan." },
-    { title: "Pastikan data RDKK Anda sudah diperbarui tahun ini." },
-    { title: "Musim tanam akan dimulai, persiapkan kebutuhan pertanian Anda!" },
-  ];
+  const [berita, setBerita] = useState<{ title: string }[]>([]);
+
+  const { data: dataALlBerita, refetch: refetchAllBerita } =
+    useGetAllBeritaHome(1, 6);
+  useEffect(() => {
+    if (dataALlBerita) {
+      const mappedData = dataALlBerita.data.response.map((item) => ({
+        title: item.title,
+      }));
+
+      setBerita((prev) => [...prev, ...mappedData]);
+    }
+  }, [dataALlBerita]);
 
   const {
     isOpen: isOpenLogout,
     onOpen: onOpenLogout,
     onClose: onCloseLogout,
   } = useDisclosure();
+
+  useEffect(() => {
+    refetchAllBerita();
+  }, [refetchAllBerita]);
 
   return (
     <div className="md:w-[calc(100%-16rem)] w-full md:h-[72px] h-[72px] fixed bg-white shadow-sm duration-300 ms-auto md:me-2 !z-40 flex flex-col items-center justify-center">

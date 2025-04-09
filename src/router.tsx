@@ -27,7 +27,7 @@ export default function Router() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/berita" element={<Berita />} />
-          <Route path="/berita/:slug" element={<DetailBerita />} />
+          <Route path="/berita/:id" element={<DetailBerita />} />
           <Route path="/buku-petunjuk" element={<BukuPetunjuk />} />
           <Route path="/peta-jabatan" element={<Home />} />
           <Route path="/buku-petunjuk" element={<Home />} />

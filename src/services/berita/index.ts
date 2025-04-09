@@ -3,13 +3,34 @@ import {
   createBerita,
   deleteBerita,
   getAllBerita,
+  getAllBeritaHome,
   getDetailBerita,
+  getDetailBeritaHome,
   updateBerita,
 } from "./http";
 import { IBeritaRes } from "@/interface/responses/berita.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StoreBerita } from "@/interface/request/berita.interface";
+
+export const useGetAllBeritaHome = (
+  page: number,
+  limit: number,
+  search?: string | null,
+) => {
+  return useQuery({
+    queryKey: ["getAllBerita"],
+    queryFn: () => getAllBeritaHome(page, limit, search),
+    staleTime: 300000,
+  });
+};
+export const useGetDetailBeritaHome = (id: string) => {
+  return useQuery({
+    queryKey: ["getDetailBerita", id],
+    queryFn: () => getDetailBeritaHome(id),
+    staleTime: 300000,
+  });
+};
 
 export const useGetAllBerita = (
   page: number,

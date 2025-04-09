@@ -1,8 +1,8 @@
-import { BeritaDummy } from "@/constants/DummyData";
+import { useGetAllBeritaHome } from "@/services/berita";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { Button, Divider, Spinner } from "@heroui/react";
 import { LucideCalendarDays } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { LuArrowRight, LuArrowUpRight } from "react-icons/lu";
 import { TbFaceIdError } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
@@ -16,24 +16,25 @@ interface BeritaDataProps {
 }
 
 const BeritaComponent = () => {
-  const [isFetchingGallery, setIsFetchingGallery] = useState<boolean>(false);
+  const { data, isFetching, refetch } = useGetAllBeritaHome(1, 5);
 
   const BeritaData: BeritaDataProps[] = useMemo(() => {
-    return BeritaDummy.slice(0, 5).map((item) => ({
-      thumbnail: item.thumbnail,
-      title: item.title,
-      slug: item.slug,
-      createdAt: item.createdAt,
-      content: item.content,
-    }));
-  }, []);
+    if (data) {
+      return data.data.response.map((item) => ({
+        thumbnail: item.images,
+        title: item.title,
+        slug: item.id,
+        createdAt: item.createdAt,
+        content: item.description,
+      }));
+    } else {
+      return [];
+    }
+  }, [data]);
 
   useEffect(() => {
-    setIsFetchingGallery(true);
-    setTimeout(() => {
-      setIsFetchingGallery(false);
-    }, 500);
-  }, []);
+    refetch();
+  }, [refetch]);
 
   const navigate = useNavigate();
 
@@ -131,7 +132,7 @@ const BeritaComponent = () => {
         )}
       </div>
 
-      {isFetchingGallery && (
+      {isFetching && (
         <div className="flex items-center justify-center inset-0 absolute bg-slate-50/10">
           <Spinner
             variant="wave"

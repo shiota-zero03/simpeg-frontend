@@ -29,4 +29,3 @@ deploy:
     - docker run -d -p $PORT:3001 --name $CONTAINER_NAME $DOCKER_IMAGE
   only:
     - develop
-
