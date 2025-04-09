@@ -5,16 +5,15 @@ import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 export default function BukuPetunjukGuest() {
-
-  const { data, isFetching, refetch } = useGetAllManualBookHome(1,1);
+  const { data, isFetching, refetch } = useGetAllManualBookHome(1, 1);
 
   const dataBuku = useMemo(() => {
-    return data ? data.data.response[0].files  : null;
-  }, [data])
+    return data ? data.data.response[0]?.files || null : null;
+  }, [data]);
 
   useEffect(() => {
     refetch();
-  }, [])
+  }, []);
 
   return (
     <div>

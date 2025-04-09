@@ -45,7 +45,7 @@ export default function Header() {
 
   useEffect(() => {
     refetchAllBerita();
-  }, [refetchAllBerita]);
+  }, []);
 
   return (
     <div className="md:w-[calc(100%-16rem)] w-full md:h-[72px] h-[72px] fixed bg-white shadow-sm duration-300 ms-auto md:me-2 !z-40 flex flex-col items-center justify-center">
@@ -62,7 +62,7 @@ export default function Header() {
               </div>
             ) : (
               <div className="flex overflow-hidden items-center">
-                <div className="flex items-center gap-2 text-accent-primary font-bold text-sm w-[118px]">
+                <div className="flex items-center gap-2 text-accent-primary font-bold text-sm w-[180px]">
                   <GrAnnounce className="-rotate-12" size={14} />
                   Berita Terkini
                 </div>

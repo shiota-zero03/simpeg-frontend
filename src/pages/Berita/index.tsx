@@ -26,6 +26,7 @@ export default function Berita() {
     limit,
     search,
   );
+
   useEffect(() => {
     if (data) {
       const mappedData = data.data.response.map((item) => ({
@@ -49,7 +50,7 @@ export default function Berita() {
     setCurrentPage(1);
     setSearch("");
     setBeritaData([]);
-  }, [refetch]);
+  }, []);
 
   const refetchGallery = () => {
     refetch();
