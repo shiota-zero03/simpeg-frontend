@@ -49,8 +49,8 @@ export const SidebarMenuData: SidebarProps[] = [
       },
       {
         name: "Jabatan",
-        key: "jabatan",
-        link: "/jabatan",
+        key: "position",
+        link: "/position",
         icon: PiOfficeChair,
       },
       { name: "Pegawai", key: "pegawai", link: "/pegawai", icon: PiUserList },
