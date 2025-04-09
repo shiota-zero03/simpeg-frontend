@@ -1,0 +1,228 @@
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  Select,
+  SelectItem,
+} from "@heroui/react";
+import { useEffect, useMemo, useState } from "react";
+import { LuSave, LuX } from "react-icons/lu";
+import "react-datepicker/dist/react-datepicker.css";
+import { SuccessToast } from "@/utils/ToastMessage";
+import { JabatanDummy } from "@/constants/DummyData";
+
+interface props {
+  isOpen: boolean;
+  onClose: () => void;
+  handleClose: () => void;
+}
+
+interface formProps {
+  nama: string;
+  singkatan: string;
+  kelas: number | null;
+  atasan: string | null;
+}
+
+interface errorProps {
+  nama?: string;
+  singkatan?: string;
+  kelas?: string;
+  atasan?: string;
+}
+
+const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [formData, setFormData] = useState<formProps>({
+    nama: "",
+    singkatan: "",
+    kelas: null,
+    atasan: null,
+  });
+
+  const [formError, setFormError] = useState<errorProps>({});
+
+  const allData = JabatanDummy;
+  const JABATAN_SELECT = useMemo(() => {
+    return allData;
+  }, [allData]);
+
+  useEffect(() => {
+    setFormData({
+      nama: "",
+      singkatan: "",
+      kelas: null,
+      atasan: null,
+    });
+    setIsLoading(false);
+    setFormError({});
+  }, [isOpen]);
+
+  const validateData = () => {
+    const errors: errorProps = {};
+    if (!formData.nama) errors.nama = "Nama jabatan tidak boleh kosong";
+    if (!formData.singkatan)
+      errors.singkatan = "Singkatan jabatan tidak boleh kosong";
+    if (!formData.kelas) errors.kelas = "Kelas jabatan tidak boleh kosong";
+
+    return errors;
+  };
+
+  const handleSubmit = () => {
+    setFormError({});
+
+    const validate = validateData();
+    if (Object.keys(validate).length > 0) {
+      setFormError(validate);
+      return false;
+    }
+
+    setIsLoading(true);
+    setTimeout(() => {
+      handleClose();
+      SuccessToast({ text: "Data berhasil ditambahkan" });
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  return (
+    <>
+      <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="2xl">
+        <ModalContent>
+          <ModalHeader className="flex items-center justify-between">
+            <span className="text-base font-semibold">Tambah Data Jabatan</span>
+            <LuX
+              className="text-danger border border-danger rounded-full p-2 cursor-pointer"
+              onClick={onClose}
+              size={32}
+            />
+          </ModalHeader>
+          <ModalBody className="max-h-[72vh] overflow-y-auto overflow-y-custom flex flex-col gap-2 pb-8">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Nama Jabatan <span className="text-danger">*</span>
+                </label>
+                <Input
+                  aria-label="lokasi"
+                  variant="bordered"
+                  radius="sm"
+                  value={formData.nama}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nama: e.target.value })
+                  }
+                  placeholder="Masukkan disini"
+                  classNames={{
+                    input: "text-xs",
+                  }}
+                />
+                <div className="text-xs italic text-danger">
+                  {formError.nama}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Singkatan <span className="text-danger">*</span>
+                </label>
+                <Input
+                  aria-label="lokasi"
+                  variant="bordered"
+                  radius="sm"
+                  value={formData.singkatan}
+                  onChange={(e) =>
+                    setFormData({ ...formData, singkatan: e.target.value })
+                  }
+                  placeholder="Masukkan disini"
+                  classNames={{
+                    input: "text-xs",
+                  }}
+                />
+                <div className="text-xs italic text-danger">
+                  {formError.singkatan}
+                </div>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Kelas <span className="text-danger">*</span>
+                </label>
+                <Select
+                  aria-label="lokasi"
+                  variant="bordered"
+                  radius="sm"
+                  selectedKeys={[String(formData.kelas)]}
+                  onChange={(e) =>
+                    setFormData({ ...formData, kelas: Number(e.target.value) })
+                  }
+                  placeholder="Pilih kelas"
+                  classNames={{
+                    trigger: "text-xs",
+                  }}
+                >
+                  {Array.from({ length: 14 }, (_, i) => i + 1).map((item) => (
+                    <SelectItem key={`${item}`} textValue={`${item}`}>
+                      {item}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <div className="text-xs italic text-danger">
+                  {formError.kelas}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1 md:col-span-2 col-span-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Atasan
+                </label>
+                <Autocomplete
+                  aria-label="pegawai"
+                  placeholder="Cari jabatan atasan"
+                  variant="bordered"
+                  radius="sm"
+                  defaultItems={JABATAN_SELECT}
+                  selectedKey={String(formData.atasan)}
+                  onSelectionChange={(value) =>
+                    setFormData({ ...formData, atasan: value as string })
+                  }
+                  inputProps={{
+                    classNames: {
+                      input: "text-xs",
+                    },
+                  }}
+                >
+                  {(peg) => (
+                    <AutocompleteItem key={peg.id} textValue={peg.nama}>
+                      {peg.nama}
+                    </AutocompleteItem>
+                  )}
+                </Autocomplete>
+                <div className="text-xs italic text-danger">
+                  {formError.atasan}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-end w-full gap-2">
+              <Button
+                isLoading={isLoading}
+                onPress={handleSubmit}
+                className="border border-button-primary bg-button-primary text-white font-semibold"
+                size="sm"
+                radius="sm"
+              >
+                <LuSave /> Simpan Data
+              </Button>
+            </div>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
+
+export default CreateModal;
