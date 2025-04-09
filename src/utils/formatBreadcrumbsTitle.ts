@@ -6,10 +6,9 @@ export const FormatBreadcrumb = (pathname: string) => {
 
   let currentPath = "";
 
-
   pathname.split("/").forEach((item, index) => {
     if (index !== 0) {
-      if(item === "Berita") {
+      if (item === "Berita") {
         currentPath += `/news`;
       } else {
         currentPath += `/${item}`;

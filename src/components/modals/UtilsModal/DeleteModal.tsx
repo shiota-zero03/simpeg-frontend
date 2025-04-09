@@ -15,8 +15,13 @@ const DeleteModal = ({ isOpen, isLoading, onClose, handleSubmit }: props) => {
           <ModalBody className="max-h-[72vh] overflow-y-auto overflow-y-custom py-8">
             <div className="flex flex-col gap-2 items-center">
               <br />
-              <h1 className="font-bold text-xl">Anda yakin ingin menghapus data ini ?</h1>
-              <p className="text-center">Data ini akan langsung hilang dari data tersimpan, lho. Kamu yakin akan menghapusnya?</p>
+              <h1 className="font-bold text-xl">
+                Anda yakin ingin menghapus data ini ?
+              </h1>
+              <p className="text-center">
+                Data ini akan langsung hilang dari data tersimpan, lho. Kamu
+                yakin akan menghapusnya?
+              </p>
               <br />
               <div className="flex items-center w-full gap-2">
                 <Button

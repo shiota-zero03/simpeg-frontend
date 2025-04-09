@@ -15,8 +15,12 @@ const ConfirmModal = ({ isOpen, isLoading, onClose, handleSubmit }: props) => {
           <ModalBody className="max-h-[72vh] overflow-y-auto overflow-y-custom py-8">
             <div className="flex flex-col gap-2 items-center">
               <br />
-              <h1 className="font-bold text-xl">Anda yakin ingin menyimpan data ini ?</h1>
-              <p className="text-center">Pastikan semua informasi sudah benar sebelum melanjutkan.</p>
+              <h1 className="font-bold text-xl">
+                Anda yakin ingin menyimpan data ini ?
+              </h1>
+              <p className="text-center">
+                Pastikan semua informasi sudah benar sebelum melanjutkan.
+              </p>
               <br />
               <div className="flex items-center w-full gap-2">
                 <Button

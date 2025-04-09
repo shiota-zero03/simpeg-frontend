@@ -69,12 +69,12 @@ export const SidebarMenuData: SidebarProps[] = [
           {
             name: "Berdasarkan Bobot",
             key: "berdasarkan-bobot",
-            link: "/berdasarkan-bobot",
+            link: "/penilaian-kinerja/berdasarkan-bobot",
           },
           {
             name: "Berdasarkan Nilai",
             key: "berdasarkan-nilai",
-            link: "/berdasarkan-nilai",
+            link: "/penilaian-kinerja/berdasarkan-nilai",
           },
         ],
       },
@@ -127,8 +127,18 @@ export const SidebarMenuData: SidebarProps[] = [
     name: "Menu Content",
     menu: [
       { name: "Berita", key: "news", link: "/news", icon: FaRegNewspaper },
-      { name: "Galeri dan Dokumentasi", key: "galeri-dokumentasi", link: "/galeri-dokumentasi", icon: LuPictureInPicture },
-      { name: "Whatsapp", key: "whatsapp", link: "/whatsapp", icon: FaWhatsapp },
-    ]
+      {
+        name: "Galeri dan Dokumentasi",
+        key: "galeri-dokumentasi",
+        link: "/galeri-dokumentasi",
+        icon: LuPictureInPicture,
+      },
+      {
+        name: "Whatsapp",
+        key: "whatsapp",
+        link: "/whatsapp",
+        icon: FaWhatsapp,
+      },
+    ],
   },
 ];

@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import LoaderPage from "./components/loader/LoaderPage";
+import ScrollToTop from "./utils/ScrollToTop";
 
 const Layout = lazy(() => import("@/components/layout"));
 
@@ -15,10 +16,12 @@ const News = lazy(() => import("@/pages/News"));
 const NewsCreated = lazy(() => import("@/pages/News/Created"));
 const NewsUpdated = lazy(() => import("@/pages/News/Updated"));
 const SPPD = lazy(() => import("@/pages/SPPD"));
+const BobotKinerja = lazy(() => import("@/pages/PenilaianKinerja/Bobot"));
 
 export default function Router() {
   return (
     <Suspense fallback={<LoaderPage />}>
+      <ScrollToTop />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route element={<Layout />}>
@@ -35,6 +38,10 @@ export default function Router() {
           <Route path="/news/tambah-data" element={<NewsCreated />} />
           <Route path="/news/edit-data/:id" element={<NewsUpdated />} />
           <Route path="/sppd" element={<SPPD />} />
+          <Route
+            path="/penilaian-kinerja/berdasarkan-bobot"
+            element={<BobotKinerja />}
+          />
         </Route>
       </Routes>
     </Suspense>

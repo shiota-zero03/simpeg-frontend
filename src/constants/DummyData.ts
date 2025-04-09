@@ -15,13 +15,13 @@ export const GaleryDummy: {
   },
   {
     image:
-      "https://laacademy.id/images/artikel/Pengumuman-Seleksi-CPNS-Kementerian-Perdagangan-RI-TA-2024.jpg",
+      "https://cdn.rri.co.id/berita-foto/Voice_of_Indonesia/o/1717570131020-EfUuLMebWqGnAyZmx0NMTuU0zNG4P4CdXc6IZCo3/2ei0y5egvgoekzc.jpeg",
     title: null,
   },
 ];
 
 export const BeritaDummy: {
-  id: number,
+  id: number;
   thumbnail: string;
   title: string;
   createdAt: string;
@@ -102,11 +102,36 @@ export const PegawaiDummy: {
   atasan: string;
   jabatan: string;
 }[] = [
-  { id: 1, nama: "Ahmad Fadli", atasan: "Dr. Siti Lestari", jabatan: "Staff Keuangan" },
-  { id: 2, nama: "Nina Kartika", atasan: "Dr. Siti Lestari", jabatan: "Analis Program" },
-  { id: 3, nama: "Rudi Hartono", atasan: "Ir. Budi Prasetyo", jabatan: "Teknisi Lapangan" },
-  { id: 4, nama: "Dewi Ayu", atasan: "Ir. Budi Prasetyo", jabatan: "Sekretaris" },
-  { id: 5, nama: "Yusuf Hidayat", atasan: "Dr. Siti Lestari", jabatan: "Kasubbag Umum" }
+  {
+    id: 1,
+    nama: "Ahmad Fadli",
+    atasan: "Dr. Siti Lestari",
+    jabatan: "Staff Keuangan",
+  },
+  {
+    id: 2,
+    nama: "Nina Kartika",
+    atasan: "Dr. Siti Lestari",
+    jabatan: "Analis Program",
+  },
+  {
+    id: 3,
+    nama: "Rudi Hartono",
+    atasan: "Ir. Budi Prasetyo",
+    jabatan: "Teknisi Lapangan",
+  },
+  {
+    id: 4,
+    nama: "Dewi Ayu",
+    atasan: "Ir. Budi Prasetyo",
+    jabatan: "Sekretaris",
+  },
+  {
+    id: 5,
+    nama: "Yusuf Hidayat",
+    atasan: "Dr. Siti Lestari",
+    jabatan: "Kasubbag Umum",
+  },
 ];
 
 export const SPPDDummy: {
@@ -127,7 +152,7 @@ export const SPPDDummy: {
     waktu: "2025-04-10",
     lokasi: "Kabupaten Garut",
     anggaran: 3500000,
-    pengikut: ["Nina Kartika", "Rudi Hartono"]
+    pengikut: ["Nina Kartika", "Rudi Hartono"],
   },
   {
     id: 2,
@@ -137,7 +162,7 @@ export const SPPDDummy: {
     waktu: "2025-04-15",
     lokasi: "Kota Bandung",
     anggaran: 4200000,
-    pengikut: ["Dewi Ayu"]
+    pengikut: ["Dewi Ayu"],
   },
   {
     id: 3,
@@ -147,7 +172,7 @@ export const SPPDDummy: {
     waktu: "2025-04-20",
     lokasi: "Kabupaten Tasikmalaya",
     anggaran: 2800000,
-    pengikut: []
+    pengikut: [],
   },
   {
     id: 4,
@@ -157,7 +182,7 @@ export const SPPDDummy: {
     waktu: "2025-04-22",
     lokasi: "Kota Cimahi",
     anggaran: 3900000,
-    pengikut: ["Dewi Ayu"]
+    pengikut: ["Dewi Ayu"],
   },
   {
     id: 5,
@@ -167,7 +192,7 @@ export const SPPDDummy: {
     waktu: "2025-04-25",
     lokasi: "Kota Sukabumi",
     anggaran: 3100000,
-    pengikut: []
+    pengikut: [],
   },
   {
     id: 6,
@@ -177,7 +202,7 @@ export const SPPDDummy: {
     waktu: "2025-04-28",
     lokasi: "Kabupaten Sumedang",
     anggaran: 3600000,
-    pengikut: ["Yusuf Hidayat"]
+    pengikut: ["Yusuf Hidayat"],
   },
   {
     id: 7,
@@ -187,7 +212,7 @@ export const SPPDDummy: {
     waktu: "2025-05-01",
     lokasi: "Kota Tasikmalaya",
     anggaran: 4000000,
-    pengikut: ["Rudi Hartono", "Nina Kartika"]
+    pengikut: ["Rudi Hartono", "Nina Kartika"],
   },
   {
     id: 8,
@@ -197,7 +222,7 @@ export const SPPDDummy: {
     waktu: "2025-05-05",
     lokasi: "Kabupaten Ciamis",
     anggaran: 2750000,
-    pengikut: []
+    pengikut: [],
   },
   {
     id: 9,
@@ -207,7 +232,7 @@ export const SPPDDummy: {
     waktu: "2025-05-08",
     lokasi: "Kota Cirebon",
     anggaran: 3400000,
-    pengikut: ["Ahmad Fadli"]
+    pengikut: ["Ahmad Fadli"],
   },
   {
     id: 10,
@@ -217,6 +242,6 @@ export const SPPDDummy: {
     waktu: "2025-05-12",
     lokasi: "Kota Bekasi",
     anggaran: 3800000,
-    pengikut: ["Yusuf Hidayat", "Nina Kartika"]
-  }
-]
+    pengikut: ["Yusuf Hidayat", "Nina Kartika"],
+  },
+];
