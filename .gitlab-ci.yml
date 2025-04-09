@@ -14,6 +14,8 @@ build:
   script:
     - echo "🚀 Building Docker Image"
     - docker build -t $DOCKER_IMAGE .
+  only:
+    - develop
 
 deploy:
   stage: deploy
@@ -25,3 +27,5 @@ deploy:
     - docker rm $CONTAINER_NAME || true
     - echo "🚀 Running new container"
     - docker run -d -p $PORT:3001 --name $CONTAINER_NAME $DOCKER_IMAGE
+  only:
+    - develop
