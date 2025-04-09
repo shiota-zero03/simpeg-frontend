@@ -34,7 +34,7 @@ const BeritaComponent = () => {
 
   useEffect(() => {
     refetch();
-  }, [refetch]);
+  }, []);
 
   const navigate = useNavigate();
 

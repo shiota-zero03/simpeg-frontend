@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-  getAllManualBookHome
-} from "./http";
+import { getAllManualBookHome } from "./http";
 
 export const useGetAllManualBookHome = (
   page: number,

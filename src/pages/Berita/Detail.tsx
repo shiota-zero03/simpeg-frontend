@@ -63,14 +63,14 @@ export default function DetailBerita() {
   useEffect(() => {
     refetch();
     refetchAllBerita();
-  }, [refetch, refetchAllBerita]);
+  }, []);
 
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
       navigate("/berita");
     }
-  }, [isFetching, error, navigate]);
+  }, [isFetching, error]);
 
   return (
     <>

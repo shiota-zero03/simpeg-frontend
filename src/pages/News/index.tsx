@@ -62,7 +62,7 @@ export default function News() {
     } else {
       return [];
     }
-  }, [limit, pageIndex, allData]);
+  }, [search, limit, pageIndex, allData]);
 
   const navigate = useNavigate();
 

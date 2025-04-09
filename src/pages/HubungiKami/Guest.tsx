@@ -4,12 +4,11 @@ import { LuSend } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
 export default function HubungiKamiGuest() {
-
-  const [ message, setMessage ] = useState<string>("")
+  const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
-    setMessage("")
-  }, [])
+    setMessage("");
+  }, []);
 
   return (
     <div>
