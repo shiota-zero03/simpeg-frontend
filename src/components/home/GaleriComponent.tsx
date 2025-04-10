@@ -10,7 +10,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { LuRefreshCcw } from "react-icons/lu";
 import { TbFaceIdError } from "react-icons/tb";
-import ReactPlayer from 'react-player';
+import ReactPlayer from "react-player";
 
 interface GaleryDataProps {
   image: string;
@@ -20,24 +20,23 @@ interface GaleryDataProps {
 }
 
 const GaleriComponent = () => {
-  const [ pageIndex, setPageIndex ] = useState<number>(1);
-  const [ pageTotal, setPageTotal ] = useState<number>(1);
+  const [pageIndex, setPageIndex] = useState<number>(1);
+  const [pageTotal, setPageTotal] = useState<number>(1);
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [type, setType] = useState<string | null>(null);
-  console.log(type)
-  
+
   const { data, isFetching, refetch } = useGetAllGaleriHome(pageIndex, 3);
 
   const GaleriData: GaleryDataProps[] = useMemo(() => {
-    if(data) {
-      setPageTotal(data.data.pagination.totalPages || 0)
+    if (data) {
+      setPageTotal(data.data.pagination.totalPages || 0);
       return data.data.response.map((item) => ({
         image: item.images,
         title: item.title,
         type: item.type,
         video: item.video,
-      }))
+      }));
     } else {
       return [];
     }
@@ -48,12 +47,12 @@ const GaleriComponent = () => {
   }, []);
 
   const refetchGallery = () => {
-    if(pageIndex < pageTotal){
-      setPageIndex(pageIndex + 1)
+    if (pageIndex < pageTotal) {
+      setPageIndex(pageIndex + 1);
     } else {
-      setPageIndex(1)
+      setPageIndex(1);
     }
-    
+
     setTimeout(() => {
       refetch();
     }, 100);
@@ -80,7 +79,7 @@ const GaleriComponent = () => {
         </Button>
       </div>
 
-      <div className="min-h-96">
+      <div className="min-h-60">
         {GaleriData.length > 0 ? (
           <div className="grid sm:grid-cols-8 grid-cols-1 gap-3 grid-rows-2 md:max-h-96">
             {GaleriData.map((item, index) => {
@@ -89,11 +88,11 @@ const GaleriComponent = () => {
                   key={index}
                   className="lg:col-span-6 sm:col-span-5 cursor-pointer row-span-2"
                   onClick={() => {
-                    setType(item.type)
-                    if(item.type === "IMAGE"){
-                      setSelectedImage(item.image)
+                    setType(item.type);
+                    if (item.type === "IMAGE") {
+                      setSelectedImage(item.image);
                     } else {
-                      setSelectedImage(item.video)
+                      setSelectedImage(item.video);
                     }
                   }}
                 >
@@ -118,11 +117,11 @@ const GaleriComponent = () => {
                   <div
                     className="sm:h-full sm:max-h-full max-h-40 overflow-hidden rounded-xl relative group cursor-pointer"
                     onClick={() => {
-                      setType(item.type)
-                      if(item.type === "IMAGE"){
-                        setSelectedImage(item.image)
+                      setType(item.type);
+                      if (item.type === "IMAGE") {
+                        setSelectedImage(item.image);
                       } else {
-                        setSelectedImage(item.video)
+                        setSelectedImage(item.video);
                       }
                     }}
                   >
@@ -168,7 +167,10 @@ const GaleriComponent = () => {
       {/* Modal Gambar */}
       <Modal
         isOpen={!!selectedImage && !!type}
-        onOpenChange={() => {setSelectedImage(null); setType(null)}}
+        onOpenChange={() => {
+          setSelectedImage(null);
+          setType(null);
+        }}
         size="full"
       >
         <ModalContent className="flex items-center justify-center bg-black bg-opacity-90">

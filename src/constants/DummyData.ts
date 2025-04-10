@@ -429,3 +429,24 @@ export const SPPDDummy: {
     pengikut: ["Yusuf Hidayat", "Nina Kartika"],
   },
 ];
+
+export const localBindData = [
+  { Id: "parent", Role: "General Manager", color: "#71AF17" },
+  { Id: "1", Role: "HR Manager", Manager: "parent", color: "#1859B7" },
+  {
+    Id: "2",
+    Role: "Assistant GM",
+    Manager: "parent",
+    color: "#FF9800",
+    isAssistant: true,
+  },
+  { Id: "3", Role: "Design Manager", Manager: "parent", color: "#1859B7" },
+  { Id: "4", Role: "Design Manager", Manager: "2", color: "#1859B7" },
+  { Id: "5", Role: "Design Manager", Manager: "3", color: "#1859B7" },
+  { Id: "6", Role: "Design Manager", Manager: "3", color: "#1859B7" },
+  { Id: "7", Role: "Design Manager", Manager: "3", color: "#1859B7" },
+  { Id: "8", Role: "Design Manager", Manager: "3", color: "#1859B7" },
+  { Id: "9", Role: "Design Manager", Manager: "3", color: "#1859B7" },
+  { Id: "10", Role: "Design Manager", Manager: "4", color: "#1859B7" },
+  { Id: "11", Role: "Design Manager", Manager: "4", color: "#1859B7" },
+];
