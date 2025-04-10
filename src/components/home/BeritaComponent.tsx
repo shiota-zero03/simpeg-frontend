@@ -59,7 +59,7 @@ const BeritaComponent = () => {
         </Button>
       </div>
 
-      <div>
+      <div className="min-h-60">
         {BeritaData.length > 0 ? (
           <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 grid-rows-3 gap-3 lg:max-h-80">
             {BeritaData.map((item, index) => {
