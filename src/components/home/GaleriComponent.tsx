@@ -1,4 +1,4 @@
-import { GaleryDummy } from "@/constants/DummyData";
+import { useGetAllGaleriHome } from "@/services/galeri-dokumentasi";
 import {
   Button,
   Divider,
@@ -7,31 +7,56 @@ import {
   ModalBody,
   Spinner,
 } from "@heroui/react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { LuRefreshCcw } from "react-icons/lu";
 import { TbFaceIdError } from "react-icons/tb";
+import ReactPlayer from 'react-player';
 
 interface GaleryDataProps {
   image: string;
   title: string | null;
+  type: string | null;
+  video: string | null;
 }
 
 const GaleriComponent = () => {
-  const [isFetchingGallery, setIsFetchingGallery] = useState<boolean>(false);
+  const [ pageIndex, setPageIndex ] = useState<number>(1);
+  const [ pageTotal, setPageTotal ] = useState<number>(1);
+
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [type, setType] = useState<string | null>(null);
+  console.log(type)
+  
+  const { data, isFetching, refetch } = useGetAllGaleriHome(pageIndex, 3);
 
   const GaleriData: GaleryDataProps[] = useMemo(() => {
-    return GaleryDummy.slice(0, 3).map((item) => ({
-      image: item.image,
-      title: item.title,
-    }));
+    if(data) {
+      setPageTotal(data.data.pagination.totalPages || 0)
+      return data.data.response.map((item) => ({
+        image: item.images,
+        title: item.title,
+        type: item.type,
+        video: item.video,
+      }))
+    } else {
+      return [];
+    }
+  }, [data, pageIndex]);
+
+  useEffect(() => {
+    refetch();
   }, []);
 
   const refetchGallery = () => {
-    setIsFetchingGallery(true);
-    setInterval(() => {
-      setIsFetchingGallery(false);
-    }, 500);
+    if(pageIndex < pageTotal){
+      setPageIndex(pageIndex + 1)
+    } else {
+      setPageIndex(1)
+    }
+    
+    setTimeout(() => {
+      refetch();
+    }, 100);
   };
 
   return (
@@ -55,7 +80,7 @@ const GaleriComponent = () => {
         </Button>
       </div>
 
-      <div>
+      <div className="min-h-96">
         {GaleriData.length > 0 ? (
           <div className="grid sm:grid-cols-8 grid-cols-1 gap-3 grid-rows-2 md:max-h-96">
             {GaleriData.map((item, index) => {
@@ -63,7 +88,14 @@ const GaleriComponent = () => {
                 <div
                   key={index}
                   className="lg:col-span-6 sm:col-span-5 cursor-pointer row-span-2"
-                  onClick={() => setSelectedImage(GaleriData[0].image)}
+                  onClick={() => {
+                    setType(item.type)
+                    if(item.type === "IMAGE"){
+                      setSelectedImage(item.image)
+                    } else {
+                      setSelectedImage(item.video)
+                    }
+                  }}
                 >
                   <div className="w-full overflow-hidden rounded-xl relative group h-full bg-black">
                     <div className="absolute bg-black/60 inset-0 hidden group-hover:flex items-center justify-center p-4 text-center duration-300 animate-appearance-in">
@@ -85,7 +117,14 @@ const GaleriComponent = () => {
                 >
                   <div
                     className="sm:h-full sm:max-h-full max-h-40 overflow-hidden rounded-xl relative group cursor-pointer"
-                    onClick={() => setSelectedImage(GaleriData[2].image)}
+                    onClick={() => {
+                      setType(item.type)
+                      if(item.type === "IMAGE"){
+                        setSelectedImage(item.image)
+                      } else {
+                        setSelectedImage(item.video)
+                      }
+                    }}
                   >
                     <div className="absolute bg-black/60 inset-0 hidden group-hover:flex items-center justify-center p-4 text-center duration-300 animate-appearance-in">
                       <h1 className="text-white font-semibold lg:text-sm text-xs">
@@ -112,7 +151,7 @@ const GaleriComponent = () => {
         )}
       </div>
 
-      {isFetchingGallery && (
+      {isFetching && (
         <div className="flex items-center justify-center inset-0 absolute bg-slate-50/10">
           <Spinner
             variant="wave"
@@ -128,17 +167,21 @@ const GaleriComponent = () => {
 
       {/* Modal Gambar */}
       <Modal
-        isOpen={!!selectedImage}
-        onOpenChange={() => setSelectedImage(null)}
+        isOpen={!!selectedImage && !!type}
+        onOpenChange={() => {setSelectedImage(null); setType(null)}}
         size="full"
       >
         <ModalContent className="flex items-center justify-center bg-black bg-opacity-90">
           <ModalBody className="flex items-center justify-center p-4">
-            <img
-              src={selectedImage ?? ""}
-              alt="popup-image"
-              className="max-w-full max-h-screen object-contain"
-            />
+            {type === "IMAGE" ? (
+              <img
+                src={selectedImage ?? ""}
+                alt="popup-image"
+                className="max-w-full max-h-screen object-contain"
+              />
+            ) : (
+              <ReactPlayer url={selectedImage ?? ""} />
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>
