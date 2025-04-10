@@ -7,6 +7,8 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
+  Radio,
+  RadioGroup,
   Select,
   SelectItem,
 } from "@heroui/react";
@@ -27,6 +29,8 @@ interface formProps {
   singkatan: string;
   kelas: number | null;
   atasan: string | null;
+  fungsional: boolean;
+  jabatanFungsional: string | null;
 }
 
 interface errorProps {
@@ -34,6 +38,8 @@ interface errorProps {
   singkatan?: string;
   kelas?: string;
   atasan?: string;
+  fungsional?: string;
+  jabatanFungsional?: string;
 }
 
 const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
@@ -44,6 +50,8 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     singkatan: "",
     kelas: null,
     atasan: null,
+    fungsional: false,
+    jabatanFungsional: null,
   });
 
   const [formError, setFormError] = useState<errorProps>({});
@@ -59,6 +67,8 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
       singkatan: "",
       kelas: null,
       atasan: null,
+      fungsional: false,
+      jabatanFungsional: null,
     });
     setIsLoading(false);
     setFormError({});
@@ -70,6 +80,11 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     if (!formData.singkatan)
       errors.singkatan = "Singkatan jabatan tidak boleh kosong";
     if (!formData.kelas) errors.kelas = "Kelas jabatan tidak boleh kosong";
+
+    if (formData.fungsional) {
+      if (!formData.jabatanFungsional)
+        errors.jabatanFungsional = "Jabatan fungsional tidak boleh kosong";
+    }
 
     return errors;
   };
@@ -93,7 +108,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
 
   return (
     <>
-      <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="2xl">
+      <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="3xl">
         <ModalContent>
           <ModalHeader className="flex items-center justify-between">
             <span className="text-base font-semibold">Tambah Data Jabatan</span>
@@ -103,7 +118,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
               size={32}
             />
           </ModalHeader>
-          <ModalBody className="max-h-[72vh] overflow-y-auto overflow-y-custom flex flex-col gap-2 pb-8">
+          <ModalBody className="max-h-[72vh] overflow-y-auto overflow-y-custom flex flex-col gap-4 pb-8">
             <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
               <div className="flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
@@ -147,6 +162,73 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   {formError.singkatan}
                 </div>
               </div>
+            </div>
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+              <div className="flex flex-col gap-1">
+                <div className="mb-0.5">
+                  <label htmlFor="lokasi" className="text-xs font-semibold">
+                    Jabatan Fungsional ? <span className="text-danger">*</span>
+                  </label>
+                </div>
+                <RadioGroup
+                  aria-label="Jabatan Fungsional"
+                  orientation="horizontal"
+                  size="sm"
+                  value={formData.fungsional ? "true" : "false"}
+                  onValueChange={(value) =>
+                    setFormData({
+                      ...formData,
+                      fungsional: value === "true" ? true : false,
+                    })
+                  }
+                >
+                  <Radio value="true">Ya</Radio>
+                  <Radio value="false">Tidak</Radio>
+                </RadioGroup>
+              </div>
+              {formData.fungsional && (
+                <div className="flex flex-col gap-1 md:col-span-2 col-span-1">
+                  <label htmlFor="lokasi" className="text-xs font-semibold">
+                    Jenis Jabatan Fungsional{" "}
+                    <span className="text-danger">*</span>
+                  </label>
+                  <Select
+                    aria-label="lokasi"
+                    variant="bordered"
+                    radius="sm"
+                    selectedKeys={[String(formData.jabatanFungsional)]}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        jabatanFungsional: e.target.value,
+                      })
+                    }
+                    placeholder="Pilih Jabatan Fungsional"
+                    classNames={{
+                      trigger: "text-xs",
+                    }}
+                  >
+                    <SelectItem
+                      key={`ANALIS_PERDAGANGAN`}
+                      textValue={`Analis Perdagangan`}
+                    >
+                      Analis Perdagangan
+                    </SelectItem>
+                    <SelectItem
+                      key={`PENGAWAS_PERDAGANGAN`}
+                      textValue={`Pengawas Perdagangan`}
+                    >
+                      Pengawas Perdagangan
+                    </SelectItem>
+                    <SelectItem key={`PENERA`} textValue={`Penera`}>
+                      Penera
+                    </SelectItem>
+                  </Select>
+                  <div className="text-xs italic text-danger">
+                    {formError.jabatanFungsional}
+                  </div>
+                </div>
+              )}
             </div>
             <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
               <div className="flex flex-col gap-1">

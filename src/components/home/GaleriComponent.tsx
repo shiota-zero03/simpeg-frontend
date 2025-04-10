@@ -96,7 +96,7 @@ const GaleriComponent = () => {
                     }
                   }}
                 >
-                  <div className="w-full overflow-hidden rounded-xl relative group h-full bg-black">
+                  <div className="w-full overflow-hidden rounded-xl relative group h-full">
                     <div className="absolute bg-black/60 inset-0 hidden group-hover:flex items-center justify-center p-4 text-center duration-300 animate-appearance-in">
                       <h1 className="text-white font-semibold 2xl:text-4xl lg:text-2xl sm:text-base text-xs">
                         {item.title}

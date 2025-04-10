@@ -1,7 +1,6 @@
 import WaveDashboard from "@/assets/wave-dashboard.png";
 import BeritaComponent from "@/components/home/BeritaComponent";
 import GaleriComponent from "@/components/home/GaleriComponent";
-import OrganizationStructureComponent from "@/components/home/OrganizationStructureComponent";
 
 export default function Home() {
   return (
@@ -35,7 +34,6 @@ export default function Home() {
         </div>
         <GaleriComponent />
         <BeritaComponent />
-        <OrganizationStructureComponent />
       </div>
     </>
   );
