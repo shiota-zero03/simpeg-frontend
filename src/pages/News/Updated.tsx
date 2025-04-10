@@ -1,15 +1,19 @@
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { ClassicEditor, SimpleUploadAdapter } from "ckeditor5";
 import { ckPlugins, ckToolbar } from "@/constants/CkEditorPlugin";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TitleCase } from "@/components/card/TitleCase";
 import { Button, Input, useDisclosure } from "@heroui/react";
 import { convertFileToBase64 } from "@/utils/base64Formater";
 import { LuImage, LuSave } from "react-icons/lu";
 import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
+import { useGetDetailBerita, useUpdateBerita } from "@/services/berita";
+import { StoreBerita } from "@/interface/request/berita.interface";
+import { AxiosError } from "axios";
+import { BaseErrorRes } from "@/interface/responses/base.response";
 
 interface formProps {
   thumbnail: string;
@@ -24,6 +28,7 @@ interface errorProps {
 }
 
 export default function UpdateNews() {
+  const { id } = useParams();
   const [formData, setFormData] = useState<formProps>({
     thumbnail: "",
     title: "",
@@ -32,10 +37,10 @@ export default function UpdateNews() {
 
   const [formError, setFormError] = useState<errorProps>({});
 
+  const [imageLama, setImageLama] = useState<string>("");
+
   const rules = () => {
     const error: errorProps = {};
-    if (!formData.thumbnail)
-      error.thumbnail = "Foto thumbnail tidak boleh kosong";
     if (!formData.title) {
       error.title = "Judul berita tidak boleh kosong";
     }
@@ -45,13 +50,34 @@ export default function UpdateNews() {
     return error;
   };
 
+  const { data, isFetching, refetch, error } = useGetDetailBerita(id || "");
+  const AllData = useMemo(() => {
+    return data ? data.data : null;
+  }, [data, id]);
+
   useEffect(() => {
-    setFormData({
-      thumbnail: "",
-      title: "",
-      content: "",
-    });
-  }, []);
+    if (!isFetching && AllData) {
+      setFormData({
+        thumbnail: "",
+        title: AllData.title,
+        content: AllData.description,
+      });
+
+      setImageLama(AllData.images || "");
+    }
+  }, [AllData, isFetching]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isFetching && error) {
+      navigate("/news");
+    }
+  }, [error, navigate, isFetching]);
+
+  useEffect(() => {
+    refetch();
+  }, [id]);
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -62,8 +88,6 @@ export default function UpdateNews() {
       setFormData({ ...formData, thumbnail: "" });
     }
   };
-
-  const navigate = useNavigate();
 
   const {
     isOpen: isOpenConfirm,
@@ -76,6 +100,7 @@ export default function UpdateNews() {
     onOpenConfirm();
   };
 
+  const { mutate: mutatePost } = useUpdateBerita();
   const handleConfirm = () => {
     setLoadingConfirm(true);
 
@@ -88,17 +113,48 @@ export default function UpdateNews() {
       ErrorToast({ text: "Validasi gagal, cek kembali form anda" });
       return true;
     }
-    setTimeout(() => {
-      SuccessToast({ text: "Data berhasil disimpan" });
+
+    const formToSendData: StoreBerita = {
+      title: formData.title,
+      description: formData.content,
+      status: true,
+    };
+
+    if (formData.thumbnail) {
+      formToSendData.images = formData.thumbnail;
+    }
+    try {
+      mutatePost(
+        { id: id || "", formData: formToSendData },
+        {
+          onSuccess: () => {
+            SuccessToast({ text: "Data berhasil disimpan" });
+            setLoadingConfirm(false);
+            onCloseConfirm();
+            navigate("/news");
+          },
+          onError: (error: AxiosError<BaseErrorRes>) => {
+            setLoadingConfirm(false);
+            onCloseConfirm();
+            ErrorToast({
+              text:
+                (error.response?.data.error as string) ||
+                "Terjadi kesalahan saat mengupdate data",
+            });
+            throw error;
+          },
+        },
+      );
+    } catch (error) {
       setLoadingConfirm(false);
       onCloseConfirm();
-      navigate("/news");
-    }, 1000);
+      throw error;
+    }
   };
 
   return (
     <>
-      <BreadcrumbAdmin location="/Berita/Edit-Data" />
+      <BreadcrumbAdmin location="/Berita/Tambah-Data" />
       <ConfirmModal
         isOpen={isOpenConfirm}
         onClose={onCloseConfirm}
@@ -166,7 +222,9 @@ export default function UpdateNews() {
                   // }
                 }}
                 onChange={(_event, editor) => {
-                  setFormData({ ...formData, content: editor.getData() });
+                  setFormData((prev) => {
+                    return { ...prev, content: editor.getData() };
+                  });
                 }}
               />
               <div className="text-danger text-[0.7rem] mt-1">
@@ -182,6 +240,8 @@ export default function UpdateNews() {
               <div className="border p-8 mb-2 flex items-center justify-center">
                 {formData.thumbnail ? (
                   <img src={formData.thumbnail} className="rounded-lg" />
+                ) : imageLama ? (
+                  <img src={imageLama} className="rounded-lg" />
                 ) : (
                   <LuImage size={32} />
                 )}

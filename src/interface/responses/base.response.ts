@@ -14,4 +14,5 @@ export interface PaginationRes {
 export interface BaseErrorRes {
   status: string;
   message: string;
+  error: unknown;
 }

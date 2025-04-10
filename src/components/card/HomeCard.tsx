@@ -57,9 +57,13 @@ const BeritaCard = ({
             <LuArrowUpRight />
           </Button>
         </div>
-        <h4 className="lg:text-sm text-xs font-light">
-          {content.length > 60 ? content.slice(0, 60) + "..." : content}
-        </h4>
+        <h4
+          className="lg:text-sm text-xs font-light"
+          dangerouslySetInnerHTML={{
+            __html:
+              content.length > 60 ? content.slice(0, 60) + "..." : content,
+          }}
+        ></h4>
       </div>
     </div>
   );

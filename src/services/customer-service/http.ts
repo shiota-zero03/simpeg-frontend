@@ -1,43 +1,45 @@
 import instance from "@/api/axios";
-import { StoreManualBook } from "@/interface/request/manualBook.interface";
-import { IManualBookRes } from "@/interface/responses/manualBook.interface";
+import { StoreHubungiKami } from "@/interface/request/hubungi.interface";
+import { IHubungiKamiRes } from "@/interface/responses/hubungiKami.interface";
 
-export const getAllManualBookHome = async (
+export const getAllHubungiKamiHome = async (
   page: number,
   limit: number,
   search?: string | null,
-): Promise<IManualBookRes> => {
-  const params = new URLSearchParams();
-
-  if (page) params.set("page", page.toString());
-  if (limit) params.set("limit", limit.toString());
-  if (search) params.set("title", search);
-  const response = await instance.get(`/home/manual-book?${params.toString()}`);
-  return response.data;
-};
-
-export const getAllManualBook = async (
-  page: number,
-  limit: number,
-  search?: string | null,
-): Promise<IManualBookRes> => {
+): Promise<IHubungiKamiRes> => {
   const params = new URLSearchParams();
 
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
   if (search) params.set("title", search);
   const response = await instance.get(
-    `/admin/manual-book?${params.toString()}`,
+    `/home/customer-services?${params.toString()}`,
   );
   return response.data;
 };
 
-export const updateManualBook = async (
+export const getAllHubungiKami = async (
+  page: number,
+  limit: number,
+  search?: string | null,
+): Promise<IHubungiKamiRes> => {
+  const params = new URLSearchParams();
+
+  if (page) params.set("page", page.toString());
+  if (limit) params.set("limit", limit.toString());
+  if (search) params.set("title", search);
+  const response = await instance.get(
+    `/admin/customer-services?${params.toString()}`,
+  );
+  return response.data;
+};
+
+export const updateHubungiKami = async (
   id: string,
-  formData: StoreManualBook,
-): Promise<IManualBookRes> => {
+  formData: StoreHubungiKami,
+): Promise<IHubungiKamiRes> => {
   const response = await instance.put(
-    `/admin/manual-book/update/${id}`,
+    `/admin/customer-services/update/${id}`,
     formData,
   );
   return response.data;

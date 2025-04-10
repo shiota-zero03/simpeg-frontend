@@ -1,15 +1,16 @@
 import { BaseRes, PaginationRes } from "./base.response";
 
-export interface ManualBookRes {
+export interface HubungiKamiRes {
   id: string;
   title: string;
+  phoneNumber: string;
   description: string;
-  files: string;
+  createdAt: string;
 }
 
-export interface IManualBookRes extends BaseRes {
+export interface IHubungiKamiRes extends BaseRes {
   data: {
-    response: ManualBookRes[];
+    response: HubungiKamiRes[];
     pagination: PaginationRes;
   };
 }

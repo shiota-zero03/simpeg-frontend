@@ -1,3 +1,57 @@
+export const RoleAccess: {
+  name: string;
+  key: string;
+}[] = [
+  {
+    name: "Admin",
+    key: "ADMIN",
+  },
+  {
+    name: "Pimpinan",
+    key: "PIMPINAN",
+  },
+  {
+    name: "Pegawai",
+    key: "PEGAWAI",
+  },
+];
+
+export const EselonData: {
+  id: string;
+  nama: string;
+  keterangan: string;
+}[] = [
+  {
+    id: "1",
+    nama: "Eselon I",
+    keterangan:
+      "Jabatan pimpinan tinggi utama dan madya, misalnya Direktur Jenderal atau Sekretaris Jenderal.",
+  },
+  {
+    id: "2",
+    nama: "Eselon II",
+    keterangan:
+      "Jabatan pimpinan tinggi pratama, misalnya Kepala Dinas atau Direktur.",
+  },
+  {
+    id: "3",
+    nama: "Eselon III",
+    keterangan: "Jabatan administrator, misalnya Kepala Bidang.",
+  },
+  {
+    id: "4",
+    nama: "Eselon IV",
+    keterangan:
+      "Jabatan pengawas, misalnya Kepala Seksi atau Kepala Sub Bagian.",
+  },
+  {
+    id: "5",
+    nama: "Non Eselon",
+    keterangan:
+      "Jabatan fungsional atau staf yang tidak memiliki jabatan struktural.",
+  },
+];
+
 export const GaleryDummy: {
   image: string;
   title: string | null;
@@ -101,60 +155,128 @@ export const JabatanDummy: {
   nama: string;
   kelas: number;
   atasan: string; // atasan dari jabatan
+  singkatan: string;
 }[] = [
   {
     id: "1",
     nama: "Kepala Dinas",
     kelas: 1,
-    atasan: "", // posisi tertinggi
+    atasan: "",
+    singkatan: "KADIS",
   },
   {
     id: "2",
     nama: "Sekretaris",
     kelas: 2,
     atasan: "Kepala Dinas",
+    singkatan: "SEKDIS",
   },
   {
     id: "3",
     nama: "Kepala Bidang Pelayanan",
     kelas: 2,
     atasan: "Kepala Dinas",
+    singkatan: "KABID PEL",
   },
   {
     id: "4",
     nama: "Kepala Bidang Pengawasan",
     kelas: 2,
     atasan: "Kepala Dinas",
+    singkatan: "KABID WAS",
   },
   {
     id: "5",
     nama: "Kepala Seksi Layanan Publik",
     kelas: 3,
     atasan: "Kepala Bidang Pelayanan",
+    singkatan: "KASI LAYPUB",
   },
   {
     id: "6",
     nama: "Kepala Seksi Pengaduan Masyarakat",
     kelas: 3,
     atasan: "Kepala Bidang Pelayanan",
+    singkatan: "KASI PENGMAS",
   },
   {
     id: "7",
     nama: "Kepala Seksi Audit Internal",
     kelas: 3,
     atasan: "Kepala Bidang Pengawasan",
+    singkatan: "KASI AUDIT",
   },
   {
     id: "8",
     nama: "Kepala Seksi Kepatuhan",
     kelas: 3,
     atasan: "Kepala Bidang Pengawasan",
+    singkatan: "KASI KEPATUHAN",
   },
   {
     id: "9",
     nama: "Staf Sekretariat",
     kelas: 4,
     atasan: "Sekretaris",
+    singkatan: "STAF SEKRE",
+  },
+];
+
+export const PegawaiDataDummy: {
+  id: string;
+  nip: string;
+  nama: string;
+  role: string; // ADMIN, PEGAWAI, PIMPINAN
+  jabatan: string;
+  isActive: boolean;
+}[] = [
+  {
+    id: "1",
+    nip: "197512042022121001",
+    nama: "Dedi Supriadi",
+    role: "ADMIN",
+    jabatan: "Kepala Dinas",
+    isActive: true,
+  },
+  {
+    id: "2",
+    nip: "198604152019032004",
+    nama: "Rina Marlina",
+    role: "PEGAWAI",
+    jabatan: "Staf Sekretariat",
+    isActive: true,
+  },
+  {
+    id: "3",
+    nip: "199002112018121007",
+    nama: "Ahmad Fauzi",
+    role: "PIMPINAN",
+    jabatan: "Sekretaris",
+    isActive: true,
+  },
+  {
+    id: "4",
+    nip: "199305302020031006",
+    nama: "Lilis Kartika",
+    role: "PEGAWAI",
+    jabatan: "Kepala Seksi Audit Internal",
+    isActive: false,
+  },
+  {
+    id: "5",
+    nip: "198812142017041003",
+    nama: "Yusuf Hidayat",
+    role: "PEGAWAI",
+    jabatan: "Kepala Seksi Layanan Publik",
+    isActive: true,
+  },
+  {
+    id: "6",
+    nip: "197902022010122002",
+    nama: "Indah Permata",
+    role: "PIMPINAN",
+    jabatan: "Kepala Bidang Pelayanan",
+    isActive: true,
   },
 ];
 

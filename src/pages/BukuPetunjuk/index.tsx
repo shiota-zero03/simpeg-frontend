@@ -1,5 +1,7 @@
 import store from "@/redux/store";
 import BukuPetunjukGuest from "./Guest";
+import BukuPetunjukAdmin from "./Admin";
+import { TitleCase } from "@/components/card/TitleCase";
 
 export default function BukuPetunjuk() {
   const { role } = store.getState().auth;
@@ -7,8 +9,15 @@ export default function BukuPetunjuk() {
   return (
     <>
       <div className="md:pb-8 md:px-8 md:pt-4 pb-4 px-4 pt-6 grid grid-cols-1 gap-8">
-        <h1 className="font-semibold md:text-xl text-base">Buku Petunjuk</h1>
-        {!role ? <BukuPetunjukGuest /> : <></>}
+        <TitleCase
+          title="Buku Petunjuk"
+          text={
+            !role
+              ? ""
+              : "Berikut ini mengelola Buku Petunjuk penggunaan Aplikasi"
+          }
+        />
+        {!role ? <BukuPetunjukGuest /> : <BukuPetunjukAdmin />}
       </div>
     </>
   );

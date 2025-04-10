@@ -6,9 +6,8 @@ import { Link } from "react-router-dom";
 
 export default function BukuPetunjukGuest() {
   const { data, isFetching, refetch } = useGetAllManualBookHome(1, 1);
-
   const dataBuku = useMemo(() => {
-    return data ? data.data.response[0]?.files || null : null;
+    return data?.data?.response?.[0]?.files ?? null;
   }, [data]);
 
   useEffect(() => {
@@ -29,12 +28,12 @@ export default function BukuPetunjukGuest() {
               memahami fitur, cara penggunaan, dan pengelolaan data kepegawaian
               dengan lebih mudah. Klik tombol di bawah untuk mengunduh sekarang!
             </CardBody>
-            {!isFetching && (
+            {!isFetching && dataBuku && (
               <CardFooter>
                 <Link
-                  to={dataBuku || ""}
-                  target="__blank"
-                  className="border-[0.8px] border-accent-primary text-accent-primary font-normal flex items-center gap-2 p-2 rounded-lg"
+                  to={dataBuku}
+                  target="_blank"
+                  className="border-[0.8px] border-accent-primary text-accent-primary font-normal flex items-center gap-2 p-2 rounded-lg text-xs"
                 >
                   <LucideDownloadCloud size={16} /> Unduh Disini
                 </Link>

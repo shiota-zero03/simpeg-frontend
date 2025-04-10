@@ -10,10 +10,6 @@ import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-import { useCreateBerita } from "@/services/berita";
-import { StoreBerita } from "@/interface/request/berita.interface";
-import { AxiosError } from "axios";
-import { BaseErrorRes } from "@/interface/responses/base.response";
 
 interface formProps {
   thumbnail: string;
@@ -27,7 +23,7 @@ interface errorProps {
   content?: string;
 }
 
-export default function CreateNews() {
+export default function UpdateNews() {
   const [formData, setFormData] = useState<formProps>({
     thumbnail: "",
     title: "",
@@ -80,7 +76,6 @@ export default function CreateNews() {
     onOpenConfirm();
   };
 
-  const { mutate: mutatePost } = useCreateBerita();
   const handleConfirm = () => {
     setLoadingConfirm(true);
 
@@ -93,42 +88,17 @@ export default function CreateNews() {
       ErrorToast({ text: "Validasi gagal, cek kembali form anda" });
       return true;
     }
-
-    const formToSendData: StoreBerita = {
-      title: formData.title,
-      description: formData.content,
-      images: formData.thumbnail,
-      status: true,
-    };
-    try {
-      mutatePost(formToSendData, {
-        onSuccess: () => {
-          SuccessToast({ text: "Data berhasil disimpan" });
-          setLoadingConfirm(false);
-          onCloseConfirm();
-          navigate("/news");
-        },
-        onError: (error: AxiosError<BaseErrorRes>) => {
-          setLoadingConfirm(false);
-          onCloseConfirm();
-          ErrorToast({
-            text:
-              (error.response?.data.error as string) ||
-              "Terjadi kesalahan saat mengupdate data",
-          });
-          throw error;
-        },
-      });
-    } catch (error) {
+    setTimeout(() => {
+      SuccessToast({ text: "Data berhasil disimpan" });
       setLoadingConfirm(false);
       onCloseConfirm();
-      throw error;
-    }
+      navigate("/news");
+    }, 1000);
   };
 
   return (
     <>
-      <BreadcrumbAdmin location="/Berita/Tambah-Data" />
+      <BreadcrumbAdmin location="/Berita/Edit-Data" />
       <ConfirmModal
         isOpen={isOpenConfirm}
         onClose={onCloseConfirm}
@@ -196,9 +166,7 @@ export default function CreateNews() {
                   // }
                 }}
                 onChange={(_event, editor) => {
-                  setFormData((prev) => {
-                    return { ...prev, content: editor.getData() };
-                  });
+                  setFormData({ ...formData, content: editor.getData() });
                 }}
               />
               <div className="text-danger text-[0.7rem] mt-1">
