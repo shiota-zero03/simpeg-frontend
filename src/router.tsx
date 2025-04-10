@@ -21,6 +21,9 @@ const Summary = lazy(() => import("@/pages/Summary"));
 const News = lazy(() => import("@/pages/News"));
 const NewsCreated = lazy(() => import("@/pages/News/Created"));
 const NewsUpdated = lazy(() => import("@/pages/News/Updated"));
+const Galeri = lazy(() => import("@/pages/Galeri"));
+const GaleriCreated = lazy(() => import("@/pages/Galeri/Created"));
+const GaleriUpdated = lazy(() => import("@/pages/Galeri/Updated"));
 const SPPD = lazy(() => import("@/pages/SPPD"));
 const BobotKinerja = lazy(() => import("@/pages/PenilaianKinerja/Bobot"));
 
@@ -49,6 +52,15 @@ export default function Router() {
           <Route path="/news" element={<News />} />
           <Route path="/news/tambah-data" element={<NewsCreated />} />
           <Route path="/news/edit-data/:id" element={<NewsUpdated />} />
+          <Route path="/galeri-dokumentasi" element={<Galeri />} />
+          <Route
+            path="/galeri-dokumentasi/tambah-data"
+            element={<GaleriCreated />}
+          />
+          <Route
+            path="/galeri-dokumentasi/edit-data/:id"
+            element={<GaleriUpdated />}
+          />
           <Route path="/sppd" element={<SPPD />} />
           <Route
             path="/penilaian-kinerja/berdasarkan-bobot"
