@@ -1,66 +1,83 @@
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import { ClassicEditor, SimpleUploadAdapter } from "ckeditor5";
-import { ckPlugins, ckToolbar } from "@/constants/CkEditorPlugin";
 import { useEffect, useMemo, useState } from "react";
 import { TitleCase } from "@/components/card/TitleCase";
-import { Button, Input, useDisclosure } from "@heroui/react";
+import {
+  Button,
+  Input,
+  Select,
+  SelectItem,
+  useDisclosure,
+} from "@heroui/react";
 import { convertFileToBase64 } from "@/utils/base64Formater";
 import { LuImage, LuSave } from "react-icons/lu";
 import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate, useParams } from "react-router-dom";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-import { useGetDetailBerita, useUpdateBerita } from "@/services/berita";
-import { StoreBerita } from "@/interface/request/berita.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
+import {
+  useGetDetailGaleri,
+  useUpdateGaleri,
+} from "@/services/galeri-dokumentasi";
+import { StoreGaleri } from "@/interface/request/galeri.interface";
 
 interface formProps {
   thumbnail: string;
   title: string;
-  content: string;
+  video: string;
+  type: string;
 }
 
 interface errorProps {
   thumbnail?: string;
   title?: string;
-  content?: string;
+  video?: string;
+  type?: string;
 }
 
 export default function UpdateNews() {
   const { id } = useParams();
+
   const [formData, setFormData] = useState<formProps>({
     thumbnail: "",
     title: "",
-    content: "",
+    video: "",
+    type: "",
   });
 
   const [formError, setFormError] = useState<errorProps>({});
 
   const [imageLama, setImageLama] = useState<string>("");
 
-  const rules = () => {
-    const error: errorProps = {};
-    if (!formData.title) {
-      error.title = "Judul berita tidak boleh kosong";
-    }
-    if (!formData.content) {
-      error.content = "Isi berita tidak boleh kosong";
-    }
-    return error;
-  };
-
-  const { data, isFetching, refetch, error } = useGetDetailBerita(id || "");
+  const { data, isFetching, refetch, error } = useGetDetailGaleri(id || "");
   const AllData = useMemo(() => {
     return data ? data.data : null;
   }, [data, id]);
+
+  const rules = () => {
+    const error: errorProps = {};
+    if (!formData.title) {
+      error.title = "Judul galeri tidak boleh kosong";
+    }
+    if (!formData.type) {
+      error.type = "Tipe galeri tidak boleh kosong";
+    } else {
+      if (formData.type === "VIDEO") {
+        if (!formData.video) {
+          error.video = "Video galeri tidak boleh kosong";
+        }
+      }
+    }
+    return error;
+  };
 
   useEffect(() => {
     if (!isFetching && AllData) {
       setFormData({
         thumbnail: "",
         title: AllData.title,
-        content: AllData.description,
+        video: AllData.video,
+        type: AllData.type,
       });
 
       setImageLama(AllData.images || "");
@@ -71,7 +88,7 @@ export default function UpdateNews() {
 
   useEffect(() => {
     if (!isFetching && error) {
-      navigate("/news");
+      navigate("/galeri-dokumentasi");
     }
   }, [error, navigate, isFetching]);
 
@@ -100,7 +117,7 @@ export default function UpdateNews() {
     onOpenConfirm();
   };
 
-  const { mutate: mutatePost } = useUpdateBerita();
+  const { mutate: mutatePost } = useUpdateGaleri();
   const handleConfirm = () => {
     setLoadingConfirm(true);
 
@@ -114,14 +131,20 @@ export default function UpdateNews() {
       return true;
     }
 
-    const formToSendData: StoreBerita = {
+    const formToSendData: StoreGaleri = {
       title: formData.title,
-      description: formData.content,
+      type: formData.type,
       status: true,
     };
 
     if (formData.thumbnail) {
       formToSendData.images = formData.thumbnail;
+    }
+    if (formData.video) {
+      formToSendData.video = formData.video;
+    }
+    if (formData.video) {
+      formToSendData.video = formData.video;
     }
     try {
       mutatePost(
@@ -131,7 +154,7 @@ export default function UpdateNews() {
             SuccessToast({ text: "Data berhasil disimpan" });
             setLoadingConfirm(false);
             onCloseConfirm();
-            navigate("/news");
+            navigate("/galeri-dokumentasi");
           },
           onError: (error: AxiosError<BaseErrorRes>) => {
             setLoadingConfirm(false);
@@ -154,7 +177,7 @@ export default function UpdateNews() {
 
   return (
     <>
-      <BreadcrumbAdmin location="/Berita/Edit-Data" />
+      <BreadcrumbAdmin location="/Galeri-Dokumentasi/Edit-Data" />
       <ConfirmModal
         isOpen={isOpenConfirm}
         onClose={onCloseConfirm}
@@ -163,12 +186,12 @@ export default function UpdateNews() {
       />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
-          title="Edit Berita"
-          text="Digunakan Untuk Mengubah Berita yang Terbaru"
+          title="Update Galeri"
+          text="Digunakan Untuk Mengedit Galeri yang Terbaru"
         />
 
         <div className="bg-white shadow-md rounded-xl border p-4">
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
             <div>
               <div className="mb-1">
                 <label htmlFor="content" className="font-semibold text-xs">
@@ -197,44 +220,62 @@ export default function UpdateNews() {
             <div>
               <div className="mb-1">
                 <label htmlFor="content" className="font-semibold text-xs">
-                  Isi Konten <span className="text-danger">*</span>
+                  Tipe <span className="text-danger">*</span>
                 </label>
               </div>
-              <CKEditor
-                editor={ClassicEditor}
-                data={formData.content}
-                config={{
-                  extraPlugins: [SimpleUploadAdapter],
-                  toolbar: ckToolbar,
-                  plugins: ckPlugins,
-                  image: {
-                    toolbar: [
-                      "imageTextAlternative",
-                      "imageStyle:full",
-                      "imageStyle:side",
-                    ],
-                    upload: {
-                      types: ["jpeg", "png", "gif", "bmp", "webp"],
-                    },
-                  },
-                  // simpleUpload: {
-                  //     uploadUrl: `${BASE_URL}/upload-image`,
-                  // }
+              <Select
+                selectedKeys={[formData.type]}
+                onChange={(e) =>
+                  setFormData({ ...formData, type: e.target.value })
+                }
+                aria-label="Judul"
+                labelPlacement="outside"
+                placeholder="Pilih type galeri"
+                variant="bordered"
+                size="sm"
+                classNames={{
+                  trigger: "border-[0.8px]",
+                  value: "text-xs",
                 }}
-                onChange={(_event, editor) => {
-                  setFormData((prev) => {
-                    return { ...prev, content: editor.getData() };
-                  });
-                }}
-              />
+              >
+                <SelectItem key={"IMAGE"}>Gambar</SelectItem>
+                <SelectItem key={"VIDEO"}>Video</SelectItem>
+              </Select>
               <div className="text-danger text-[0.7rem] mt-1">
-                {formError.content}
+                {formError.type}
               </div>
             </div>
+            {formData.type === "VIDEO" && (
+              <div>
+                <div className="mb-1">
+                  <label htmlFor="content" className="font-semibold text-xs">
+                    Link Video <span className="text-danger">*</span>
+                  </label>
+                </div>
+                <Input
+                  value={formData.video}
+                  onChange={(e) =>
+                    setFormData({ ...formData, video: e.target.value })
+                  }
+                  aria-label="Judul"
+                  labelPlacement="outside"
+                  placeholder="Masukkan disini ..."
+                  variant="bordered"
+                  size="sm"
+                  classNames={{
+                    inputWrapper: "border-[0.8px]",
+                    input: "text-xs",
+                  }}
+                />
+                <div className="text-danger text-[0.7rem] mt-1">
+                  {formError.video}
+                </div>
+              </div>
+            )}
             <div className="max-w-80">
               <div className="mb-1">
                 <label htmlFor="content" className="font-semibold text-xs">
-                  Foto <span className="text-danger">*</span>
+                  Foto / Thumbnail <span className="text-danger">*</span>
                 </label>
               </div>
               <div className="border p-8 mb-2 flex items-center justify-center">

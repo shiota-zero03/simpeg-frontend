@@ -1,6 +1,7 @@
-export interface StoreBerita {
+export interface StoreGaleri {
   title?: string;
-  description?: string;
+  type?: string;
   images?: string;
+  video?: string;
   status?: boolean;
 }
