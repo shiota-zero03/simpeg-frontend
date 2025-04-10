@@ -52,7 +52,7 @@ const DataTables = <TData,>({
                     key={header.id}
                     colSpan={meta?.colSpan || 1}
                     rowSpan={meta?.rowSpan || 1}
-                    className={`border-b-2 border-accent-gray p-2 text-${meta?.align || "left"} text-sm`}
+                    className={`border-b-2 border-accent-gray p-2 text-${meta?.align || "left"} text-sm bg-primary text-white`}
                   >
                     {flexRender(
                       header.column.columnDef.header,

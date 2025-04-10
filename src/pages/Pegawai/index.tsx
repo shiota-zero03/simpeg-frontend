@@ -3,71 +3,78 @@ import DataTables from "@/components/DataTables";
 import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import { LuImage, LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
+import { LuEye, LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
-import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
+import { SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-import { useDeleteBerita, useGetAllBerita } from "@/services/berita";
-import { BeritaRes } from "@/interface/responses/berita.interface";
+import { useGetAllBerita } from "@/services/berita";
+import { PegawaiDataDummy } from "@/constants/DummyData";
+import { useNavigate } from "react-router-dom";
 
-interface BeritaDataProps {
+interface DataProps {
   id: string;
-  thumbnail: string;
-  slug: string;
-  title: string;
-  createdAt: string;
-  content: string;
+  nip: string;
+  nama: string;
+  role: string; // ADMIN, PEGAWAI, PIMPINAN
+  jabatan: string;
+  isActive: boolean;
 }
 
-export default function News() {
+export default function Jabatan() {
   const limit = 5;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
+
+  const navigate = useNavigate();
 
   const [startData, setStartData] = useState<number>(0);
   const [endData, setEndData] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [totalData, setTotalData] = useState<number>(0);
+
   const [selectedId, setSelectedId] = useState<string>("");
 
   const {
-    data: allData,
-    isFetching: isFetchingData,
+    // data: allData,
+    // isFetching: isFetchingData,
     refetch: refetchData,
   } = useGetAllBerita(pageIndex + 1, limit, search);
 
-  const paginatedData: BeritaDataProps[] = useMemo(() => {
+  const allData = PegawaiDataDummy;
+
+  const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
-      const data = allData.data;
-      setTotalData(data.pagination.totalData || 0);
-      setTotalPages(data.pagination.totalPages || 0);
+      const data = allData;
+      // setTotalData(data.pagination.totalData || 0);
+      // setTotalPages(data.pagination.totalPages || 0);
+      setTotalData(0);
+      setTotalPages(0);
 
       const start = pageIndex * limit + 1;
-      const end = Math.min(
-        (pageIndex + 1) * limit,
-        data.pagination.totalData || 0,
-      );
+      // const end = Math.min(
+      //   (pageIndex + 1) * limit,
+      //   data.pagination.totalData || 0,
+      // );
+      const end = Math.min(0);
+
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: BeritaRes) => ({
+      return data.map((item: DataProps) => ({
         id: item.id,
-        thumbnail: item.images,
-        slug: item.id,
-        title: item.title,
-        createdAt: item.createdAt,
-        content: item.description,
+        nip: item.nip,
+        nama: item.nama,
+        role: item.role,
+        jabatan: item.jabatan,
+        isActive: item.isActive,
       }));
     } else {
       return [];
     }
   }, [search, limit, pageIndex, allData]);
 
-  const navigate = useNavigate();
-
-  const columns: ColumnDef<BeritaDataProps>[] = [
+  const columns: ColumnDef<DataProps>[] = [
     {
       header: "No",
       cell: ({ row }) => {
@@ -77,29 +84,44 @@ export default function News() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
-      accessorKey: "thumbnail",
-      header: "Foto",
-      cell: (info) => {
-        const picture = info.getValue() as string | null;
-        return picture ? (
-          <div className="flex items-center justify-center">
-            <img
-              src={picture}
-              alt="news-picture"
-              width={80}
-              className="rounded-lg"
-            />
-          </div>
-        ) : (
-          <LuImage size={80} className="border p-4  rounded-lg" />
-        );
-      },
-      meta: { align: "center" },
+      accessorKey: "nip",
+      header: "NIP",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
     },
     {
-      accessorKey: "title",
-      header: "Judul",
+      accessorKey: "nama",
+      header: "Nama Pegawai",
       cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "role",
+      header: "Role",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "jabatan",
+      header: "Jabatan",
+      cell: (info) => (info.getValue() as string) || "-",
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "isActive",
+      header: "Status",
+      cell: (info) => {
+        const status = info.getValue() as string;
+        return status ? (
+          <ul className="ms-4">
+            <li className="list-disc text-accent-primary">Aktif</li>
+          </ul>
+        ) : (
+          <ul className="ms-4">
+            <li className="list-disc text-danger">Tidak Aktif</li>
+          </ul>
+        );
+      },
       // meta: { align: "center" },
     },
     {
@@ -109,7 +131,20 @@ export default function News() {
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
-              onPress={() => navigate(`/news/edit-data/${id}`)}
+              onPress={() => {
+                navigate(`/pegawai/detail-data/${id}`);
+              }}
+              isIconOnly
+              radius="sm"
+              size="sm"
+              className="bg-alert-warning text-warning shadow-sm"
+            >
+              <LuEye size={14} />
+            </Button>
+            <Button
+              onPress={() => {
+                navigate(`/pegawai/edit-data/${id}`);
+              }}
               isIconOnly
               radius="sm"
               size="sm"
@@ -160,48 +195,20 @@ export default function News() {
   }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const { mutate: mutateDelete } = useDeleteBerita();
-
   const handleDelete = () => {
-    if (isLoadingDelete) return; // Cegah pemanggilan ganda
-
     setLoadingDelete(true);
-
-    try {
-      mutateDelete(
-        { id: selectedId },
-        {
-          onSuccess() {
-            SuccessToast({ text: "Data berhasil dihapus" });
-            setLoadingDelete(false);
-            setSelectedId("");
-            onCloseDelete();
-            setPageIndex(0);
-            setTimeout(() => {
-              refetchData();
-            }, 100);
-          },
-          onError(error) {
-            setLoadingDelete(false);
-            ErrorToast({
-              text:
-                error.response?.data.message ||
-                "Terjadi kesalahan saat mengirim data",
-            });
-            throw error;
-          },
-        },
-      );
-    } catch (error) {
-      ErrorToast({ text: "Terjadi kesalahan di server" });
+    setTimeout(() => {
+      setPageIndex(0);
+      SuccessToast({ text: "Data berhasil dihapus" });
       setLoadingDelete(false);
-      throw error;
-    }
+      onCloseDelete();
+      console.log(selectedId);
+    }, 1000);
   };
 
   return (
     <>
-      <BreadcrumbAdmin location="/Berita" />
+      <BreadcrumbAdmin location="/Pegawai" />
       <DeleteModal
         isOpen={isOpenDelete}
         onClose={onCloseDelete}
@@ -210,8 +217,8 @@ export default function News() {
       />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
-          title="Berita"
-          text="Berikut ini menampilkan Daftar Berita yang sudah tersimpan"
+          title="Data Pegawai"
+          text="Berikut ini menampilkan Daftar dari Master Data Pegawai"
         />
         <div className="bg-white shadow-md rounded-xl border min-h-[70vh]">
           <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
@@ -228,7 +235,7 @@ export default function News() {
                     radius="sm"
                     size="sm"
                     variant="bordered"
-                    placeholder="Cari judul berita disini"
+                    placeholder="Cari nama pegawai disini"
                     startContent={
                       <LuSearch className="text-accent-gray text-xs" />
                     }
@@ -261,7 +268,7 @@ export default function News() {
                     <BiReset size={12} />
                   </Button>
                   <Button
-                    onPress={() => navigate("/news/tambah-data")}
+                    onPress={() => navigate(`/pegawai/tambah-data`)}
                     variant="solid"
                     radius="sm"
                     size="sm"
@@ -277,7 +284,7 @@ export default function News() {
           <div>
             <div className="py-8">
               <DataTables
-                isLoading={isFetchingData}
+                isLoading={false}
                 columns={columns}
                 data={paginatedData}
               />

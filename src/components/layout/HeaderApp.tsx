@@ -62,7 +62,7 @@ export default function Header() {
               </div>
             ) : (
               <div className="flex overflow-hidden items-center">
-                <div className="flex items-center gap-2 text-accent-primary font-bold text-sm w-[180px]">
+                <div className="flex items-center gap-2 text-accent-primary font-bold text-sm w-[140px]">
                   <GrAnnounce className="-rotate-12" size={14} />
                   Berita Terkini
                 </div>

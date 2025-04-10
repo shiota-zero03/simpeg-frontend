@@ -9,9 +9,12 @@ import { Button, Input } from "@heroui/react";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { clearAuthTokens, setAuthTokens } from "@/redux/slices/auth.slice";
+import { useAuthSignIn } from "@/services/auth";
+import { AxiosError } from "axios";
+import { BaseErrorRes } from "@/interface/responses/base.response";
 
 interface errorProps {
-  username?: string;
+  email?: string;
   password?: string;
 }
 
@@ -31,7 +34,7 @@ export default function Login() {
   const [isButtonActive, setIsButtonActive] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [formData, setFormData] = useState<SignInAuth>({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -39,8 +42,7 @@ export default function Login() {
 
   const rules = () => {
     const error: errorProps = {};
-    if (!formData.username)
-      error.username = "Username / NIP tidak boleh kosong";
+    if (!formData.email) error.email = "Username / NIP tidak boleh kosong";
     if (!formData.password) {
       error.password = "Password tidak boleh kosong";
     } else if (formData.password.length < 8) {
@@ -48,6 +50,8 @@ export default function Login() {
     }
     return error;
   };
+
+  const { mutate: mutateLogin } = useAuthSignIn();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,20 +67,40 @@ export default function Login() {
       ErrorToast({ text: "Validasi gagal, cek kembali form anda" });
       return true;
     }
-    const userData = {
-      accessToken: "access",
-      refreshToken: "refresh",
-      role: "ADMIN",
-    };
 
-    dispatch(setAuthTokens(userData));
+    try {
+      mutateLogin(formData, {
+        onSuccess: (res) => {
+          const userData = {
+            accessToken: res.data.accessToken,
+            refreshToken: res.data.refreshToken,
+            role: res.data.user.role,
+          };
 
-    SuccessToast({ text: "Anda berhasil masuk ke dalam sistem" });
-    navigate("/");
+          dispatch(setAuthTokens(userData));
+
+          SuccessToast({ text: "Anda berhasil masuk ke dalam sistem" });
+
+          setTimeout(() => {
+            navigate("/");
+          }, 100);
+        },
+        onError: (error: AxiosError<BaseErrorRes>) => {
+          ErrorToast({
+            text: (error.response?.data.error as string) || "User login error",
+          });
+          setIsLoading(false);
+          throw error;
+        },
+      });
+    } catch (error) {
+      setIsLoading(false);
+      throw error;
+    }
   };
 
   useEffect(() => {
-    if (formData.username && formData.password) {
+    if (formData.email && formData.password) {
       setIsButtonActive(false);
     } else {
       setIsButtonActive(true);
@@ -156,14 +180,14 @@ export default function Login() {
             <div>
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div className="text-center font-medium xl:text-2xl md:text-lg text-sm">
-                  Masukkan username atau email dan password untuk masuk ke
-                  halaman dashboard admin.
+                  Masukkan email atau email dan password untuk masuk ke halaman
+                  dashboard admin.
                 </div>
                 <div>
                   <Input
-                    value={formData.username}
+                    value={formData.email}
                     onChange={(e) =>
-                      setFormData({ ...formData, username: e.target.value })
+                      setFormData({ ...formData, email: e.target.value })
                     }
                     label="Username/NIP"
                     placeholder="Masukkan Username atau Nomor Induk Pegawai"
@@ -176,7 +200,7 @@ export default function Login() {
                     }}
                   />
                   <div className="text-danger text-[0.7rem] mt-1">
-                    {formError.username}
+                    {formError.email}
                   </div>
                 </div>
                 <div>

@@ -17,6 +17,7 @@ interface DataProps {
   nama: string;
   kelas: number;
   atasan: string;
+  singkatan: string;
 }
 
 export default function Jabatan() {
@@ -62,6 +63,7 @@ export default function Jabatan() {
         nama: item.nama,
         kelas: item.kelas,
         atasan: item.atasan,
+        singkatan: item.singkatan,
       }));
     } else {
       return [];
@@ -81,19 +83,25 @@ export default function Jabatan() {
       accessorKey: "nama",
       header: "Nama Jabatan",
       cell: (info) => info.getValue() as string,
-      meta: { align: "center" },
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "singkatan",
+      header: "Singkatan",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
     },
     {
       accessorKey: "kelas",
       header: "Kelas",
       cell: (info) => info.getValue() as string,
-      meta: { align: "center" },
+      // meta: { align: "center" },
     },
     {
       accessorKey: "atasan",
       header: "Atasan",
       cell: (info) => (info.getValue() as string) || "-",
-      meta: { align: "center" },
+      // meta: { align: "center" },
     },
     {
       header: "Aksi",

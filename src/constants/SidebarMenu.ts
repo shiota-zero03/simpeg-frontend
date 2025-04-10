@@ -1,5 +1,5 @@
 import { IconType } from "react-icons";
-import { FaRegNewspaper, FaWhatsapp } from "react-icons/fa";
+import { FaRegNewspaper } from "react-icons/fa";
 import { FaUsersRays } from "react-icons/fa6";
 import {
   LuBookMarked,
@@ -132,12 +132,6 @@ export const SidebarMenuData: SidebarProps[] = [
         key: "galeri-dokumentasi",
         link: "/galeri-dokumentasi",
         icon: LuPictureInPicture,
-      },
-      {
-        name: "Whatsapp",
-        key: "whatsapp",
-        link: "/whatsapp",
-        icon: FaWhatsapp,
       },
     ],
   },

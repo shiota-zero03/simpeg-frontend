@@ -13,6 +13,11 @@ const BukuPetunjuk = lazy(() => import("@/pages/BukuPetunjuk"));
 const HubungiKami = lazy(() => import("@/pages/HubungiKami"));
 
 const Jabatan = lazy(() => import("@/pages/Jabatan"));
+const Pegawai = lazy(() => import("@/pages/Pegawai"));
+const CreatePegawai = lazy(() => import("@/pages/Pegawai/Created"));
+const ViewPegawai = lazy(() => import("@/pages/Pegawai/Detail"));
+const UpdatePegawai = lazy(() => import("@/pages/Pegawai/Updated"));
+const Summary = lazy(() => import("@/pages/Summary"));
 const News = lazy(() => import("@/pages/News"));
 const NewsCreated = lazy(() => import("@/pages/News/Created"));
 const NewsUpdated = lazy(() => import("@/pages/News/Updated"));
@@ -36,6 +41,11 @@ export default function Router() {
           <Route path="/hubungi-kami" element={<HubungiKami />} />
 
           <Route path="/position" element={<Jabatan />} />
+          <Route path="/pegawai" element={<Pegawai />} />
+          <Route path="/pegawai/tambah-data" element={<CreatePegawai />} />
+          <Route path="/pegawai/edit-data/:id" element={<UpdatePegawai />} />
+          <Route path="/pegawai/detail-data/:id" element={<ViewPegawai />} />
+          <Route path="/summary-report" element={<Summary />} />
           <Route path="/news" element={<News />} />
           <Route path="/news/tambah-data" element={<NewsCreated />} />
           <Route path="/news/edit-data/:id" element={<NewsUpdated />} />
