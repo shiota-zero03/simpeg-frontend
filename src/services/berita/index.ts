@@ -19,14 +19,14 @@ export const useGetAllBeritaHome = (
   search?: string | null,
 ) => {
   return useQuery({
-    queryKey: ["getAllBerita"],
+    queryKey: ["getAllBeritaHome"],
     queryFn: () => getAllBeritaHome(page, limit, search),
     staleTime: 300000,
   });
 };
 export const useGetDetailBeritaHome = (id: string) => {
   return useQuery({
-    queryKey: ["getDetailBerita", id],
+    queryKey: ["getDetailBeritaHome", id],
     queryFn: () => getDetailBeritaHome(id),
     staleTime: 300000,
   });

@@ -19,14 +19,14 @@ export const useGetAllGaleriHome = (
   search?: string | null,
 ) => {
   return useQuery({
-    queryKey: ["getAllGaleri"],
+    queryKey: ["getAllGaleriHome"],
     queryFn: () => getAllGaleriHome(page, limit, search),
     staleTime: 300000,
   });
 };
 export const useGetDetailGaleriHome = (id: string) => {
   return useQuery({
-    queryKey: ["getDetailGaleri", id],
+    queryKey: ["getDetailGaleriHome", id],
     queryFn: () => getDetailGaleriHome(id),
     staleTime: 300000,
   });
