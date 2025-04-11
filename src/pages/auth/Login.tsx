@@ -14,7 +14,7 @@ import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 
 interface errorProps {
-  email?: string;
+  username?: string;
   password?: string;
 }
 
@@ -34,7 +34,7 @@ export default function Login() {
   const [isButtonActive, setIsButtonActive] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [formData, setFormData] = useState<SignInAuth>({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -42,7 +42,8 @@ export default function Login() {
 
   const rules = () => {
     const error: errorProps = {};
-    if (!formData.email) error.email = "Username / NIP tidak boleh kosong";
+    if (!formData.username)
+      error.username = "Username / NIP tidak boleh kosong";
     if (!formData.password) {
       error.password = "Password tidak boleh kosong";
     } else if (formData.password.length < 8) {
@@ -100,7 +101,7 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (formData.email && formData.password) {
+    if (formData.username && formData.password) {
       setIsButtonActive(false);
     } else {
       setIsButtonActive(true);
@@ -180,14 +181,14 @@ export default function Login() {
             <div>
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div className="text-center font-medium xl:text-2xl md:text-lg text-sm">
-                  Masukkan email atau email dan password untuk masuk ke halaman
-                  dashboard admin.
+                  Masukkan username atau username dan password untuk masuk ke
+                  halaman dashboard admin.
                 </div>
                 <div>
                   <Input
-                    value={formData.email}
+                    value={formData.username}
                     onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
+                      setFormData({ ...formData, username: e.target.value })
                     }
                     label="Username/NIP"
                     placeholder="Masukkan Username atau Nomor Induk Pegawai"
@@ -200,7 +201,7 @@ export default function Login() {
                     }}
                   />
                   <div className="text-danger text-[0.7rem] mt-1">
-                    {formError.email}
+                    {formError.username}
                   </div>
                 </div>
                 <div>

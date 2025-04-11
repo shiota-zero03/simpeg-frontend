@@ -27,6 +27,8 @@ const GaleriUpdated = lazy(() => import("@/pages/Galeri/Updated"));
 const SPPD = lazy(() => import("@/pages/SPPD"));
 const BobotKinerja = lazy(() => import("@/pages/PenilaianKinerja/Bobot"));
 
+const ExportPDFSummary = lazy(() => import("@/pages/export/pdf/SummaryPdf"));
+
 export default function Router() {
   return (
     <Suspense fallback={<LoaderPage />}>
@@ -67,6 +69,10 @@ export default function Router() {
             element={<BobotKinerja />}
           />
         </Route>
+        <Route
+          path="/summary-report/export/pdf"
+          element={<ExportPDFSummary />}
+        />
       </Routes>
     </Suspense>
   );

@@ -6,18 +6,20 @@ import { useEffect, useMemo, useState } from "react";
 import { LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
-import { SuccessToast } from "@/utils/ToastMessage";
+import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-import { useGetAllBerita } from "@/services/berita";
-import { JabatanDummy } from "@/constants/DummyData";
 import CreateModal from "@/components/modals/JabatanModal/CreatedModal";
+import { useDeleteJabatan, useGetAllJabatan } from "@/services/jabatan";
+import { JabatanRes } from "@/interface/responses/jabatan.interface";
+import UpdateModal from "@/components/modals/JabatanModal/UpdateModal";
 
 interface DataProps {
-  id: string;
+  id: number;
   nama: string;
-  kelas: number;
+  kelas: string;
   atasan: string;
   singkatan: string;
+  fungsional: boolean;
 }
 
 export default function Jabatan() {
@@ -30,40 +32,36 @@ export default function Jabatan() {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [totalData, setTotalData] = useState<number>(0);
 
-  const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const {
-    // data: allData,
-    // isFetching: isFetchingData,
+    data: allData,
+    isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllBerita(pageIndex + 1, limit, search);
-
-  const allData = JabatanDummy;
+  } = useGetAllJabatan(pageIndex + 1, limit, search);
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
-      const data = allData;
-      // setTotalData(data.pagination.totalData || 0);
-      // setTotalPages(data.pagination.totalPages || 0);
-      setTotalData(0);
-      setTotalPages(0);
+      const data = allData.data;
+      setTotalData(data.pagination.totalData || 0);
+      setTotalPages(data.pagination.totalPages || 0);
 
       const start = pageIndex * limit + 1;
-      // const end = Math.min(
-      //   (pageIndex + 1) * limit,
-      //   data.pagination.totalData || 0,
-      // );
-      const end = Math.min(0);
+      const end = Math.min(
+        (pageIndex + 1) * limit,
+        data.pagination.totalData || 0,
+      );
 
       setStartData(start);
       setEndData(end);
 
-      return data.map((item: DataProps) => ({
+      return data.response.map((item: JabatanRes) => ({
         id: item.id,
-        nama: item.nama,
-        kelas: item.kelas,
-        atasan: item.atasan,
+        nama: item.nameJob,
+        kelas: item.class,
+        atasan: String(item.parent ? item.parent.nameJob : "-"),
         singkatan: item.singkatan,
+        fungsional: item.fungsional,
       }));
     } else {
       return [];
@@ -98,6 +96,12 @@ export default function Jabatan() {
       // meta: { align: "center" },
     },
     {
+      accessorKey: "fungsional",
+      header: "Jabatan Fungsional ?",
+      cell: (info) => (info.getValue() ? "Ya" : "Tidak"),
+      // meta: { align: "center" },
+    },
+    {
       accessorKey: "atasan",
       header: "Atasan",
       cell: (info) => (info.getValue() as string) || "-",
@@ -112,7 +116,7 @@ export default function Jabatan() {
             <Button
               onPress={() => {
                 setSelectedId(id);
-                onOpenCreate();
+                onOpenUpdate();
               }}
               isIconOnly
               radius="sm"
@@ -122,7 +126,10 @@ export default function Jabatan() {
               <LuPencilLine size={14} />
             </Button>
             <Button
-              onPress={onOpenDelete}
+              onPress={() => {
+                setSelectedId(id);
+                onOpenDelete();
+              }}
               isIconOnly
               radius="sm"
               size="sm"
@@ -147,6 +154,11 @@ export default function Jabatan() {
     onOpen: onOpenCreate,
     onClose: onCloseCreate,
   } = useDisclosure();
+  const {
+    isOpen: isOpenUpdate,
+    onOpen: onOpenUpdate,
+    onClose: onCloseUpdate,
+  } = useDisclosure();
 
   const handleSearch = () => {
     setPageIndex(0);
@@ -166,39 +178,78 @@ export default function Jabatan() {
   }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
+  const { mutate: mutateDelete } = useDeleteJabatan();
+
   const handleDelete = () => {
+    if (isLoadingDelete) return;
+
     setLoadingDelete(true);
-    setTimeout(() => {
-      setPageIndex(0);
-      SuccessToast({ text: "Data berhasil dihapus" });
+
+    try {
+      mutateDelete(
+        { id: String(selectedId) },
+        {
+          onSuccess() {
+            SuccessToast({ text: "Data berhasil dihapus" });
+            setLoadingDelete(false);
+            setSelectedId(null);
+            onCloseDelete();
+            setPageIndex(0);
+            setTimeout(() => {
+              refetchData();
+            }, 100);
+          },
+          onError(error) {
+            setLoadingDelete(false);
+            ErrorToast({
+              text:
+                error.response?.data.message ||
+                "Terjadi kesalahan saat mengirim data",
+            });
+            throw error;
+          },
+        },
+      );
+    } catch (error) {
+      ErrorToast({ text: "Terjadi kesalahan di server" });
       setLoadingDelete(false);
-      onCloseDelete();
-    }, 1000);
+      throw error;
+    }
   };
 
   const handleClose = () => {
-    console.log(selectedId);
-    setSelectedId("");
+    setSelectedId(null);
     setPageIndex(0);
     onCloseCreate();
     onCloseDelete();
-    onCloseCreate();
+    onCloseUpdate();
+    refetchData();
   };
 
   return (
     <>
       <BreadcrumbAdmin location="/Jabatan" />
-      <DeleteModal
-        isOpen={isOpenDelete}
-        onClose={onCloseDelete}
-        isLoading={isLoadingDelete}
-        handleSubmit={handleDelete}
-      />
+      {selectedId && (
+        <DeleteModal
+          isOpen={isOpenDelete}
+          onClose={onCloseDelete}
+          isLoading={isLoadingDelete}
+          handleSubmit={handleDelete}
+        />
+      )}
       <CreateModal
         isOpen={isOpenCreate}
         onClose={onCloseCreate}
         handleClose={handleClose}
       />
+      {selectedId && (
+        <UpdateModal
+          id={selectedId}
+          isOpen={isOpenUpdate}
+          onClose={onCloseUpdate}
+          handleClose={handleClose}
+        />
+      )}
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
           title="Data Jabatan"
@@ -268,7 +319,7 @@ export default function Jabatan() {
           <div>
             <div className="py-8">
               <DataTables
-                isLoading={false}
+                isLoading={isFetchingData}
                 columns={columns}
                 data={paginatedData}
               />

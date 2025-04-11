@@ -16,12 +16,18 @@ import { useEffect, useMemo, useState } from "react";
 import { LuSave, LuX } from "react-icons/lu";
 import "react-datepicker/dist/react-datepicker.css";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
-import { useCreateJabatan, useGetAllJabatanOption } from "@/services/jabatan";
+import {
+  useGetAllJabatanOption,
+  useGetDetailJabatan,
+  useUpdateJabatan,
+} from "@/services/jabatan";
 import { StoreJabatan } from "@/interface/request/jabatan.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
+import { Commet } from "react-loading-indicators";
 
 interface props {
+  id: number | null;
   isOpen: boolean;
   onClose: () => void;
   handleClose: () => void;
@@ -45,7 +51,7 @@ interface errorProps {
   jabatanFungsional?: string;
 }
 
-const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
+const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [formData, setFormData] = useState<formProps>({
@@ -59,6 +65,8 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
 
   const [formError, setFormError] = useState<errorProps>({});
 
+  const { data, isFetching, refetch } = useGetDetailJabatan(String(id));
+
   const {
     data: allData,
     isFetching: isFetchingJabatan,
@@ -69,17 +77,23 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   }, [allData]);
 
   useEffect(() => {
-    setFormData({
-      nama: "",
-      singkatan: "",
-      kelas: null,
-      atasan: null,
-      fungsional: false,
-      jabatanFungsional: null,
-    });
+    if (data) {
+      setFormData({
+        nama: data.data.nameJob,
+        singkatan: data.data.singkatan,
+        kelas: Number(data.data.class),
+        atasan: String(data.data.atasan || ""),
+        fungsional: data.data.fungsional,
+        jabatanFungsional: data.data.fungsionalJob,
+      });
+    }
+  }, [isOpen, data]);
+
+  useEffect(() => {
     setIsLoading(false);
     setFormError({});
     refetchJabatan();
+    refetch();
   }, [isOpen]);
 
   const validateData = () => {
@@ -97,7 +111,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     return errors;
   };
 
-  const { mutate: mutatePost } = useCreateJabatan();
+  const { mutate: mutatePost } = useUpdateJabatan();
 
   const handleSubmit = () => {
     setFormError({});
@@ -125,21 +139,24 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     if (formData.atasan) formToSend.atasan = Number(formData.atasan);
 
     try {
-      mutatePost(formToSend, {
-        onSuccess: () => {
-          SuccessToast({ text: "Data berhasil ditambahkan" });
-          handleClose();
+      mutatePost(
+        { id: String(id), formData: formToSend },
+        {
+          onSuccess: () => {
+            SuccessToast({ text: "Data berhasil ditambahkan" });
+            handleClose();
+          },
+          onError: (error: AxiosError<BaseErrorRes>) => {
+            ErrorToast({
+              text:
+                (error.response?.data.error as string) ||
+                "Terjadi kesalahan saat mengirim data",
+            });
+            setIsLoading(false);
+            throw error;
+          },
         },
-        onError: (error: AxiosError<BaseErrorRes>) => {
-          ErrorToast({
-            text:
-              (error.response?.data.error as string) ||
-              "Terjadi kesalahan saat mengirim data",
-          });
-          setIsLoading(false);
-          throw error;
-        },
-      });
+      );
     } catch (error) {
       setIsLoading(false);
       throw error;
@@ -150,8 +167,13 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     <>
       <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="3xl">
         <ModalContent>
+          {isFetching && (
+            <div className="inset-0 flex items-center justify-center absolute">
+              <Commet color="#32cd32" size="medium" text="" textColor="" />
+            </div>
+          )}
           <ModalHeader className="flex items-center justify-between">
-            <span className="text-base font-semibold">Tambah Data Jabatan</span>
+            <span className="text-base font-semibold">Update Data Jabatan</span>
             <LuX
               className="text-danger border border-danger rounded-full p-2 cursor-pointer"
               onClick={onClose}
@@ -348,4 +370,4 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   );
 };
 
-export default CreateModal;
+export default UpdateModal;
