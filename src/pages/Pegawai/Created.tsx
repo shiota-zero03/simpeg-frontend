@@ -21,20 +21,56 @@ interface formProps {
   role: string;
   nama: string;
   nip: string;
+  email: string;
   jabatan: string;
+  asnStatus: string;
+  dinas: string;
   eselon: string;
+  golongan: string;
   whatsapp: string;
+  statusPegawai: string;
   isActive: boolean;
+  password: string;
+  passwordConfirmation: string;
+
+  noTelp?: string | null;
+  tempatLahir?: string | null;
+  tanggalLahir?: string | null;
+  pangkat?: string | null;
+  pendidikanTerakhir?: string | null;
+  usiaPensiun?: number | null;
+  tanggalPensium?: string | null;
+  tanggalTMT?: string | null;
+  tanggalKGP?: string | null;
+  foto?: string | null;
 }
 
 interface errorProps {
   role?: string;
   nama?: string;
   nip?: string;
+  email?: string;
   jabatan?: string;
+  asnStatus?: string;
+  dinas?: string;
   eselon?: string;
+  golongan?: string;
   whatsapp?: string;
+  statusPegawai?: string;
   isActive?: string;
+  password?: string;
+  passwordConfirmation?: string;
+
+  noTelp?: string;
+  tempatLahir?: string;
+  tanggalLahir?: string;
+  pangkat?: string;
+  pendidikanTerakhir?: string;
+  usiaPensiun?: string;
+  tanggalPensium?: string;
+  tanggalTMT?: string;
+  tanggalKGP?: string;
+  foto?: string;
 }
 
 export default function CreatePegawai() {
@@ -42,10 +78,28 @@ export default function CreatePegawai() {
     role: "",
     nama: "",
     nip: "",
+    email: "",
     jabatan: "",
+    asnStatus: "",
+    dinas: "",
     eselon: "",
+    golongan: "",
     whatsapp: "",
-    isActive: true,
+    statusPegawai: "",
+    isActive: false,
+    password: "",
+    passwordConfirmation: "",
+
+    noTelp: null,
+    tempatLahir: null,
+    tanggalLahir: null,
+    pangkat: null,
+    pendidikanTerakhir: null,
+    usiaPensiun: null,
+    tanggalPensium: null,
+    tanggalTMT: null,
+    tanggalKGP: null,
+    foto: null,
   });
 
   const [formError, setFormError] = useState<errorProps>({});
@@ -80,10 +134,28 @@ export default function CreatePegawai() {
       role: "",
       nama: "",
       nip: "",
+      email: "",
       jabatan: "",
+      asnStatus: "",
+      dinas: "",
       eselon: "",
+      golongan: "",
       whatsapp: "",
-      isActive: true,
+      statusPegawai: "",
+      isActive: false,
+      password: "",
+      passwordConfirmation: "",
+
+      noTelp: null,
+      tempatLahir: null,
+      tanggalLahir: null,
+      pangkat: null,
+      pendidikanTerakhir: null,
+      usiaPensiun: null,
+      tanggalPensium: null,
+      tanggalTMT: null,
+      tanggalKGP: null,
+      foto: null,
     });
   }, []);
 
@@ -143,36 +215,112 @@ export default function CreatePegawai() {
 
         <div className="bg-white shadow-md rounded-xl border p-4">
           <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-            <div>
-              <div className="mb-1">
-                <label htmlFor="content" className="font-semibold text-xs">
-                  Role / Hak Akses <span className="text-danger">*</span>
-                </label>
-              </div>
-              <Select
-                selectedKeys={[formData.role]}
-                onChange={(e) =>
-                  setFormData({ ...formData, role: e.target.value })
-                }
-                aria-label="Judul"
-                labelPlacement="outside"
-                placeholder="Pilih role"
-                variant="bordered"
-                radius="sm"
-                classNames={{
-                  trigger: "text-xs border-[0.8px]",
-                  value: "text-xs",
-                }}
-              >
-                {RoleAccess.map((item) => (
-                  <SelectItem key={item.key}>{item.name}</SelectItem>
-                ))}
-              </Select>
-              <div className="text-danger text-[0.7rem] mt-1">
-                {formError.role}
-              </div>
-            </div>
             <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
+              <div>
+                <div className="mb-1">
+                  <label htmlFor="content" className="font-semibold text-xs">
+                    Role / Hak Akses <span className="text-danger">*</span>
+                  </label>
+                </div>
+                <Select
+                  selectedKeys={[formData.role]}
+                  onChange={(e) =>
+                    setFormData({ ...formData, role: e.target.value })
+                  }
+                  aria-label="Judul"
+                  labelPlacement="outside"
+                  placeholder="Pilih role"
+                  variant="bordered"
+                  radius="sm"
+                  classNames={{
+                    trigger: "text-xs border-[0.8px]",
+                    value: "text-xs",
+                  }}
+                >
+                  {RoleAccess.map((item) => (
+                    <SelectItem key={item.key}>{item.name}</SelectItem>
+                  ))}
+                </Select>
+                <div className="text-danger text-[0.7rem] mt-1">
+                  {formError.role}
+                </div>
+              </div>
+              <div>
+                <div className="mb-1">
+                  <label htmlFor="content" className="font-semibold text-xs">
+                    Nama Pegawai <span className="text-danger">*</span>
+                  </label>
+                </div>
+                <Input
+                  value={formData.nama}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nama: e.target.value })
+                  }
+                  aria-label="Judul"
+                  labelPlacement="outside"
+                  placeholder="Masukkan disini"
+                  variant="bordered"
+                  radius="sm"
+                  classNames={{
+                    inputWrapper: "border-[0.8px]",
+                    input: "text-xs",
+                  }}
+                />
+                <div className="text-danger text-[0.7rem] mt-1">
+                  {formError.nama}
+                </div>
+              </div>
+              <div>
+                <div className="mb-1">
+                  <label htmlFor="content" className="font-semibold text-xs">
+                    NIP Pegawai <span className="text-danger">*</span>
+                  </label>
+                </div>
+                <Input
+                  value={formData.nip}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nip: e.target.value })
+                  }
+                  aria-label="Judul"
+                  labelPlacement="outside"
+                  placeholder="Masukkan disini"
+                  variant="bordered"
+                  radius="sm"
+                  classNames={{
+                    inputWrapper: "border-[0.8px]",
+                    input: "text-xs",
+                  }}
+                />
+                <div className="text-danger text-[0.7rem] mt-1">
+                  {formError.nip}
+                </div>
+              </div>
+              <div>
+                <div className="mb-1">
+                  <label htmlFor="content" className="font-semibold text-xs">
+                    Email <span className="text-danger">*</span>
+                  </label>
+                </div>
+                <Input
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  aria-label="Judul"
+                  labelPlacement="outside"
+                  placeholder="Masukkan disini"
+                  variant="bordered"
+                  radius="sm"
+                  classNames={{
+                    inputWrapper: "border-[0.8px]",
+                    input: "text-xs",
+                  }}
+                />
+                <div className="text-danger text-[0.7rem] mt-1">
+                  {formError.email}
+                </div>
+              </div>
+
               <div>
                 <div className="mb-1">
                   <label htmlFor="content" className="font-semibold text-xs">
@@ -239,60 +387,7 @@ export default function CreatePegawai() {
                   {formError.eselon}
                 </div>
               </div>
-            </div>
-            <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
-              <div>
-                <div className="mb-1">
-                  <label htmlFor="content" className="font-semibold text-xs">
-                    Nama Pegawai <span className="text-danger">*</span>
-                  </label>
-                </div>
-                <Input
-                  value={formData.nama}
-                  onChange={(e) =>
-                    setFormData({ ...formData, nama: e.target.value })
-                  }
-                  aria-label="Judul"
-                  labelPlacement="outside"
-                  placeholder="Masukkan disini"
-                  variant="bordered"
-                  radius="sm"
-                  classNames={{
-                    inputWrapper: "border-[0.8px]",
-                    input: "text-xs",
-                  }}
-                />
-                <div className="text-danger text-[0.7rem] mt-1">
-                  {formError.nama}
-                </div>
-              </div>
-              <div>
-                <div className="mb-1">
-                  <label htmlFor="content" className="font-semibold text-xs">
-                    NIP Pegawai <span className="text-danger">*</span>
-                  </label>
-                </div>
-                <Input
-                  value={formData.nip}
-                  onChange={(e) =>
-                    setFormData({ ...formData, nip: e.target.value })
-                  }
-                  aria-label="Judul"
-                  labelPlacement="outside"
-                  placeholder="Masukkan disini"
-                  variant="bordered"
-                  radius="sm"
-                  classNames={{
-                    inputWrapper: "border-[0.8px]",
-                    input: "text-xs",
-                  }}
-                />
-                <div className="text-danger text-[0.7rem] mt-1">
-                  {formError.nip}
-                </div>
-              </div>
-            </div>
-            <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
+              
               <div>
                 <div className="mb-1">
                   <label htmlFor="content" className="font-semibold text-xs">

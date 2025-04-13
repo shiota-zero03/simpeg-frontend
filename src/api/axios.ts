@@ -80,10 +80,10 @@ instance.interceptors.response.use(
 
 const redirectIfNotPublic = () => {
   const currentPath = window.location.pathname;
-  if (!publicRoutes.includes(currentPath)) {
-    store.dispatch(clearAuthTokens());
-    window.location.href = "/";
-  }
+  // if (!publicRoutes.includes(currentPath)) {
+  //   store.dispatch(clearAuthTokens());
+  //   window.location.href = "/";
+  // }
 };
 
 export default instance;

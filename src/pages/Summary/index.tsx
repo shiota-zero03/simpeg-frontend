@@ -1,5 +1,5 @@
 import { TitleCase } from "@/components/card/TitleCase";
-import { Card, CardBody, CardHeader, Divider, Input } from "@heroui/react";
+import { Card, CardBody, CardHeader, Divider, Input, useDisclosure } from "@heroui/react";
 import { useState } from "react";
 import { LuSearch } from "react-icons/lu";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
@@ -7,13 +7,22 @@ import { FaFileExcel } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { FaFilePdf, FaUsers } from "react-icons/fa";
 import { YMToIndoFormat } from "@/utils/dateFormater";
+import PegawaiModal from "@/components/modals/SummaryReportModal/PegawaiModal";
 
 export default function Jabatan() {
+  const [ type, setType ] = useState<string>("")
   const dateDefault = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
   const [search, setSearch] = useState(dateDefault);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
+      <PegawaiModal
+        type={type}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
       <BreadcrumbAdmin location="/Summary-Report" />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
@@ -137,7 +146,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             Dinas
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             32 Orang
                           </td>
                         </tr>
@@ -148,7 +157,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD I (Tambun)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             8 Orang
                           </td>
                         </tr>
@@ -159,7 +168,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD II (Cibitung)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             7 Orang
                           </td>
                         </tr>
@@ -170,7 +179,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD III (Setu)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             5 Orang
                           </td>
                         </tr>
@@ -181,7 +190,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD IV (Cikarang)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             4 Orang
                           </td>
                         </tr>
@@ -192,7 +201,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD V (Kedunggede)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             6 Orang
                           </td>
                         </tr>
@@ -203,7 +212,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD VI (Babelan)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             5 Orang
                           </td>
                         </tr>
@@ -214,7 +223,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD VII (Tarumajaya)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             4 Orang
                           </td>
                         </tr>
@@ -225,7 +234,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD VIII (Serang)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             4 Orang
                           </td>
                         </tr>
@@ -236,7 +245,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD IX (Cibarusah)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             6 Orang
                           </td>
                         </tr>
@@ -247,7 +256,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD Metrologi Legal
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             2 Orang
                           </td>
                         </tr>
@@ -296,7 +305,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             Dinas
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             32 Orang
                           </td>
                         </tr>
@@ -307,7 +316,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD I (Tambun)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             8 Orang
                           </td>
                         </tr>
@@ -318,7 +327,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD II (Cibitung)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             7 Orang
                           </td>
                         </tr>
@@ -329,7 +338,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD III (Setu)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             5 Orang
                           </td>
                         </tr>
@@ -340,7 +349,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD IV (Cikarang)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             4 Orang
                           </td>
                         </tr>
@@ -351,7 +360,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD V (Kedunggede)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             6 Orang
                           </td>
                         </tr>
@@ -362,7 +371,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD VI (Babelan)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             5 Orang
                           </td>
                         </tr>
@@ -373,7 +382,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD VII (Tarumajaya)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             4 Orang
                           </td>
                         </tr>
@@ -384,7 +393,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD VIII (Serang)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             4 Orang
                           </td>
                         </tr>
@@ -395,7 +404,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD IX (Cibarusah)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             6 Orang
                           </td>
                         </tr>
@@ -406,7 +415,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD Metrologi Legal
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             2 Orang
                           </td>
                         </tr>
@@ -455,7 +464,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             Dinas
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             32 Orang
                           </td>
                         </tr>
@@ -466,7 +475,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD I (Tambun)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             8 Orang
                           </td>
                         </tr>
@@ -477,7 +486,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD II (Cibitung)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             7 Orang
                           </td>
                         </tr>
@@ -488,7 +497,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD III (Setu)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             5 Orang
                           </td>
                         </tr>
@@ -499,7 +508,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD IV (Cikarang)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             4 Orang
                           </td>
                         </tr>
@@ -510,7 +519,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD V (Kedunggede)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             6 Orang
                           </td>
                         </tr>
@@ -521,7 +530,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD VI (Babelan)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             5 Orang
                           </td>
                         </tr>
@@ -532,7 +541,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD VII (Tarumajaya)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             4 Orang
                           </td>
                         </tr>
@@ -543,7 +552,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD VIII (Serang)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             4 Orang
                           </td>
                         </tr>
@@ -554,7 +563,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD IX (Cibarusah)
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             6 Orang
                           </td>
                         </tr>
@@ -565,7 +574,7 @@ export default function Jabatan() {
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             UPTD Metrologi Legal
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             2 Orang
                           </td>
                         </tr>
@@ -615,7 +624,7 @@ export default function Jabatan() {
                             Daftar Pegawai Kenaikan Pangkat TMT{" "}
                             {YMToIndoFormat(search || dateDefault)}
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             0 Orang
                           </td>
                         </tr>
@@ -627,7 +636,7 @@ export default function Jabatan() {
                             Daftar Pegawai Kenaikan Gaji Berkala TMT{" "}
                             {YMToIndoFormat(search || dateDefault)}
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             0 Orang
                           </td>
                         </tr>
@@ -639,7 +648,7 @@ export default function Jabatan() {
                             Daftar Pegawai Pensiun TMT{" "}
                             {YMToIndoFormat(search || dateDefault)}
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             0 Orang
                           </td>
                         </tr>
@@ -651,7 +660,7 @@ export default function Jabatan() {
                             Daftar Pegawai Cuti TMT{" "}
                             {YMToIndoFormat(search || dateDefault)}
                           </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center">
+                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             0 Orang
                           </td>
                         </tr>
