@@ -282,36 +282,42 @@ export const PegawaiDataDummy: {
 
 export const PegawaiDummy: {
   id: number;
+  nip?: string;
   nama: string;
   atasan: string;
   jabatan: string;
 }[] = [
   {
     id: 1,
+    nip: "123451312",
     nama: "Ahmad Fadli",
     atasan: "Dr. Siti Lestari",
     jabatan: "Staff Keuangan",
   },
   {
     id: 2,
+    nip: "123451312",
     nama: "Nina Kartika",
     atasan: "Dr. Siti Lestari",
     jabatan: "Analis Program",
   },
   {
     id: 3,
+    nip: "123451312",
     nama: "Rudi Hartono",
     atasan: "Ir. Budi Prasetyo",
     jabatan: "Teknisi Lapangan",
   },
   {
     id: 4,
+    nip: "123451312",
     nama: "Dewi Ayu",
     atasan: "Ir. Budi Prasetyo",
     jabatan: "Sekretaris",
   },
   {
     id: 5,
+    nip: "123451312",
     nama: "Yusuf Hidayat",
     atasan: "Dr. Siti Lestari",
     jabatan: "Kasubbag Umum",

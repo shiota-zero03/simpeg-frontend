@@ -7,6 +7,7 @@ const Layout = lazy(() => import("@/components/layout"));
 
 const Login = lazy(() => import("@/pages/auth/Login"));
 const Home = lazy(() => import("@/pages/home"));
+const PetaJabatan = lazy(() => import("@/pages/PetaJabatan"));
 const Berita = lazy(() => import("@/pages/Berita"));
 const DetailBerita = lazy(() => import("@/pages/Berita/Detail"));
 const BukuPetunjuk = lazy(() => import("@/pages/BukuPetunjuk"));
@@ -40,9 +41,7 @@ export default function Router() {
           <Route path="/berita" element={<Berita />} />
           <Route path="/berita/:id" element={<DetailBerita />} />
           <Route path="/buku-petunjuk" element={<BukuPetunjuk />} />
-          <Route path="/peta-jabatan" element={<Home />} />
-          <Route path="/buku-petunjuk" element={<Home />} />
-          <Route path="/customer-service" element={<Home />} />
+          <Route path="/peta-jabatan" element={<PetaJabatan />} />
           <Route path="/hubungi-kami" element={<HubungiKami />} />
 
           <Route path="/position" element={<Jabatan />} />
