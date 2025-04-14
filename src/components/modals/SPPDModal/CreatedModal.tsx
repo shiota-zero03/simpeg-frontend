@@ -175,9 +175,6 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                     input: "text-xs",
                   }}
                 />
-                <div className="text-xs italic text-danger">
-                  {formError.lokasi}
-                </div>
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="tanggal" className="text-xs font-semibold">
