@@ -2,14 +2,12 @@ version: "3.8"
 
 services:
   react-app:
-    image: ${CI_REGISTRY_IMAGE:-your-app-image}:latest
+    image: ${CI_REGISTRY_IMAGE:-simpeg-frontend}:latest
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3001:80"
+      - "3001:3001"
     environment:
-      - NODE_ENV=production
-    # env_file:
-    #   - .env
+      - NODE_ENV=local
     restart: unless-stopped
