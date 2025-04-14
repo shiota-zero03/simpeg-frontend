@@ -27,6 +27,9 @@ const GaleriCreated = lazy(() => import("@/pages/Galeri/Created"));
 const GaleriUpdated = lazy(() => import("@/pages/Galeri/Updated"));
 const SPPD = lazy(() => import("@/pages/SPPD"));
 const BobotKinerja = lazy(() => import("@/pages/PenilaianKinerja/Bobot"));
+const ViewBobotKinerja = lazy(() => import("@/pages/PenilaianKinerja/Bobot/View"));
+const NilaiKinerja = lazy(() => import("@/pages/PenilaianKinerja/Nilai"));
+const ViewNilaiKinerja = lazy(() => import("@/pages/PenilaianKinerja/Nilai/View"));
 
 const ExportPDFSummary = lazy(() => import("@/pages/export/pdf/SummaryPdf"));
 
@@ -66,6 +69,18 @@ export default function Router() {
           <Route
             path="/penilaian-kinerja/berdasarkan-bobot"
             element={<BobotKinerja />}
+          />
+          <Route
+            path="/penilaian-kinerja/berdasarkan-bobot/detail-data/:id"
+            element={<ViewBobotKinerja />}
+          />
+          <Route
+            path="/penilaian-kinerja/berdasarkan-nilai"
+            element={<NilaiKinerja />}
+          />
+          <Route
+            path="/penilaian-kinerja/berdasarkan-nilai/detail-data/:id"
+            element={<ViewNilaiKinerja />}
           />
         </Route>
         <Route

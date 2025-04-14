@@ -1,5 +1,5 @@
 import { IconType } from "react-icons";
-import { FaRegNewspaper } from "react-icons/fa";
+import { FaClipboardCheck, FaRegNewspaper } from "react-icons/fa";
 import { FaUsersRays } from "react-icons/fa6";
 import {
   LuBookMarked,
@@ -85,9 +85,34 @@ export const SidebarMenuData: SidebarProps[] = [
         icon: FaUsersRays,
         subMenu: [
           {
-            name: "Berdasarkan Bobot",
+            name: "Surat Perintah Pemeriksaan",
             key: "pengaduan",
-            link: "/pengaduan",
+            link: "/#",
+          },
+          {
+            name: "Surat Pemanggilan",
+            key: "pengaduan",
+            link: "/#",
+          },
+          {
+            name: "Berita Acara Permintaan Keterangan",
+            key: "pengaduan",
+            link: "/#",
+          },
+          {
+            name: "Berita Acara Pemeriksaan",
+            key: "pengaduan",
+            link: "/#",
+          },
+          {
+            name: "Laporan Hasil Pemeriksaan",
+            key: "pengaduan",
+            link: "/#",
+          },
+          {
+            name: "Keputusan Hukuman Disiplin",
+            key: "pengaduan",
+            link: "/#",
           },
         ],
       },
@@ -101,8 +126,14 @@ export const SidebarMenuData: SidebarProps[] = [
       {
         name: "Asset",
         key: "asset",
-        link: "/asset",
+        link: "/#",
         icon: PiSuitcaseSimpleLight,
+      },
+      {
+        name: "E-Filling",
+        key: "e-filling",
+        link: "/e-filling",
+        icon: FaClipboardCheck,
       },
     ],
   },

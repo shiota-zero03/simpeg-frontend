@@ -456,3 +456,105 @@ export const localBindData = [
   { Id: "10", Role: "Design Manager", Manager: "4", color: "#1859B7" },
   { Id: "11", Role: "Design Manager", Manager: "4", color: "#1859B7" },
 ];
+
+
+export const DinasUptdData: { name: string; key: string }[] = [
+  { name: "Dinas", key: "Dinas" },
+  { name: "UPTD I (Tambun)", key: "UPTD I (Tambun)" },
+  { name: "UPTD II (Cibitung)", key: "UPTD II (Cibitung)" },
+  { name: "UPTD III (Setu)", key: "UPTD III (Setu)" },
+  { name: "UPTD IV (Cikarang)", key: "UPTD IV (Cikarang)" },
+  { name: "UPTD V (Kedunggede)", key: "UPTD V (Kedunggede)" },
+  { name: "UPTD VI (Babelan)", key: "UPTD VI (Babelan)" },
+  { name: "UPTD VII (Tarumajaya)", key: "UPTD VII (Tarumajaya)" },
+  { name: "UPTD VIII (Serang)", key: "UPTD VIII (Serang)" },
+  { name: "UPTD IX (Cibarusah)", key: "UPTD IX (Cibarusah)" },
+  { name: "UPTD Metrologi Legal ", key: "UPTD Metrologi Legal " },
+]
+
+export const statusKepegawaianData: { name: string; key: string }[] = [
+  { name: "Dinas", key: "Dinas" },
+  { name: "UPTD I (Tambun)", key: "UPTD I (Tambun)" },
+  { name: "UPTD II (Cibitung)", key: "UPTD II (Cibitung)" },
+  { name: "UPTD III (Setu)", key: "UPTD III (Setu)" },
+  { name: "UPTD IV (Cikarang)", key: "UPTD IV (Cikarang)" },
+  { name: "UPTD V (Kedunggede)", key: "UPTD V (Kedunggede)" },
+  { name: "UPTD VI (Babelan)", key: "UPTD VI (Babelan)" },
+  { name: "UPTD VII (Tarumajaya)", key: "UPTD VII (Tarumajaya)" },
+  { name: "UPTD VIII (Serang)", key: "UPTD VIII (Serang)" },
+  { name: "UPTD IX (Cibarusah)", key: "UPTD IX (Cibarusah)" },
+  { name: "UPTD Metrologi Legal ", key: "UPTD Metrologi Legal " },
+]
+
+export const pendidikanTerakhir: { name: string; key: string }[] = [
+  {name: "Sekolah Dasar (SD)", key: "Sekolah Dasar (SD)"},
+  {name: "Sekolah Menengah Pertama (SMP)", key: "Sekolah Menengah Pertama (SMP)"},
+  {name: "Sekolah Menengah Atas (SMA)", key: "Sekolah Menengah Atas (SMA)"},
+  {name: "Sekolah Menengah Kejuruan (SMK)", key: "Sekolah Menengah Kejuruan (SMK)"},
+  {name: "Diploma (D1, D2, D3, D4/Sarjana Terapan)", key: "Diploma (D1, D2, D3, D4/Sarjana Terapan)"},
+  {name: "Sarjana (S1)", key: "Sarjana (S1)"},
+  {name: "Magister (S2)", key: "Magister (S2)"},
+  {name: "Doktor (S3)", key: "Doktor (S3)"},
+]
+
+export const penilaianBobotDummy: {
+  id: string;
+  nip?: string;
+  nama: string;
+  kinerja: number;
+  disiplin: number;
+  loyalitas: number;
+  kerjasama: number;
+  attitude: number;
+}[] = [
+  {
+    id: "1",
+    nip: "123451312",
+    nama: "Ahmad Fadli",
+    kinerja: 0,
+    disiplin: 0,
+    loyalitas: 0,
+    kerjasama: 0,
+    attitude: 0,
+  },
+  {
+    id: "2",
+    nip: "123451312",
+    nama: "Nina Kartika",
+    kinerja: 0,
+    disiplin: 0,
+    loyalitas: 0,
+    kerjasama: 0,
+    attitude: 0,
+  },
+  {
+    id: "3",
+    nip: "123451312",
+    nama: "Rudi Hartono",
+    kinerja: 0,
+    disiplin: 0,
+    loyalitas: 0,
+    kerjasama: 0,
+    attitude: 0,
+  },
+  {
+    id: "4",
+    nip: "123451312",
+    nama: "Dewi Ayu",
+    kinerja: 0,
+    disiplin: 0,
+    loyalitas: 0,
+    kerjasama: 0,
+    attitude: 0,
+  },
+  {
+    id: "5",
+    nip: "123451312",
+    nama: "Yusuf Hidayat",
+    kinerja: 0,
+    disiplin: 0,
+    loyalitas: 0,
+    kerjasama: 0,
+    attitude: 0,
+  },
+];

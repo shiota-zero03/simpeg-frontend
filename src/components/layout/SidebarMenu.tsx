@@ -58,6 +58,7 @@ const roleAccessMap: Record<string, string[]> = {
     "news",
     "galeri-dokumentasi",
     "whatsapp",
+    "e-filling"
   ],
 };
 

@@ -11,7 +11,7 @@ export default function BobotKinerja() {
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
           title="Penilaian Kinerja"
-          text="Berikut ini menampilkan Penilaian Kinerja Berdasarkan Bobot"
+          text="Berikut ini menampilkan Penilaian Kinerja Berdasarkan Nilai"
         />
         <div className="bg-white shadow-md rounded-xl border min-h-[64vh]">
           <div className="md:p-4 p-2">

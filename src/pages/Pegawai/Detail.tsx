@@ -1,213 +1,117 @@
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import { ClassicEditor, SimpleUploadAdapter } from "ckeditor5";
-import { ckPlugins, ckToolbar } from "@/constants/CkEditorPlugin";
-import { useEffect, useState } from "react";
 import { TitleCase } from "@/components/card/TitleCase";
-import { Button, Input, useDisclosure } from "@heroui/react";
-import { convertFileToBase64 } from "@/utils/base64Formater";
-import { LuImage, LuSave } from "react-icons/lu";
-import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
-import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
-import { useNavigate } from "react-router-dom";
+import { Card, CardBody, CardHeader} from "@heroui/react";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-
-interface formProps {
-  thumbnail: string;
-  title: string;
-  content: string;
-}
-
-interface errorProps {
-  thumbnail?: string;
-  title?: string;
-  content?: string;
-}
+import { Link } from "react-router-dom";
+import { LucidePencilLine } from "lucide-react";
 
 export default function UpdateNews() {
-  const [formData, setFormData] = useState<formProps>({
-    thumbnail: "",
-    title: "",
-    content: "",
-  });
-
-  const [formError, setFormError] = useState<errorProps>({});
-
-  const rules = () => {
-    const error: errorProps = {};
-    if (!formData.thumbnail)
-      error.thumbnail = "Foto thumbnail tidak boleh kosong";
-    if (!formData.title) {
-      error.title = "Judul berita tidak boleh kosong";
-    }
-    if (!formData.content) {
-      error.content = "Isi berita tidak boleh kosong";
-    }
-    return error;
-  };
-
-  useEffect(() => {
-    setFormData({
-      thumbnail: "",
-      title: "",
-      content: "",
-    });
-  }, []);
-
-  const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const fileToShow = await convertFileToBase64(file);
-      setFormData({ ...formData, thumbnail: fileToShow });
-    } else {
-      setFormData({ ...formData, thumbnail: "" });
-    }
-  };
-
-  const navigate = useNavigate();
-
-  const {
-    isOpen: isOpenConfirm,
-    onOpen: onOpenConfirm,
-    onClose: onCloseConfirm,
-  } = useDisclosure();
-  const [isLoadingConfirm, setLoadingConfirm] = useState<boolean>(false);
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onOpenConfirm();
-  };
-
-  const handleConfirm = () => {
-    setLoadingConfirm(true);
-
-    const errorRules = rules();
-    setFormError(errorRules);
-
-    if (Object.keys(errorRules).length > 0) {
-      setLoadingConfirm(false);
-      onCloseConfirm();
-      ErrorToast({ text: "Validasi gagal, cek kembali form anda" });
-      return true;
-    }
-    setTimeout(() => {
-      SuccessToast({ text: "Data berhasil disimpan" });
-      setLoadingConfirm(false);
-      onCloseConfirm();
-      navigate("/news");
-    }, 1000);
-  };
-
+  
   return (
     <>
-      <BreadcrumbAdmin location="/Berita/Edit-Data" />
-      <ConfirmModal
-        isOpen={isOpenConfirm}
-        onClose={onCloseConfirm}
-        isLoading={isLoadingConfirm}
-        handleSubmit={handleConfirm}
-      />
+      <BreadcrumbAdmin location="/Pegawai/Detail" />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
-          title="Tambah Berita"
-          text="Digunakan Untuk Menambah Berita yang Terbaru"
+          title="Detail Pegawai"
         />
 
-        <div className="bg-white shadow-md rounded-xl border p-4">
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            <div>
-              <div className="mb-1">
-                <label htmlFor="content" className="font-semibold text-xs">
-                  Judul <span className="text-danger">*</span>
-                </label>
-              </div>
-              <Input
-                value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
-                aria-label="Judul"
-                labelPlacement="outside"
-                placeholder="Masukkan disini ..."
-                variant="bordered"
-                size="sm"
-                classNames={{
-                  inputWrapper: "border-[0.8px]",
-                  input: "text-xs",
-                }}
-              />
-              <div className="text-danger text-[0.7rem] mt-1">
-                {formError.title}
-              </div>
-            </div>
-            <div>
-              <div className="mb-1">
-                <label htmlFor="content" className="font-semibold text-xs">
-                  Isi Konten <span className="text-danger">*</span>
-                </label>
-              </div>
-              <CKEditor
-                editor={ClassicEditor}
-                data={formData.content}
-                config={{
-                  extraPlugins: [SimpleUploadAdapter],
-                  toolbar: ckToolbar,
-                  plugins: ckPlugins,
-                  image: {
-                    toolbar: [
-                      "imageTextAlternative",
-                      "imageStyle:full",
-                      "imageStyle:side",
-                    ],
-                    upload: {
-                      types: ["jpeg", "png", "gif", "bmp", "webp"],
-                    },
-                  },
-                  // simpleUpload: {
-                  //     uploadUrl: `${BASE_URL}/upload-image`,
-                  // }
-                }}
-                onChange={(_event, editor) => {
-                  setFormData({ ...formData, content: editor.getData() });
-                }}
-              />
-              <div className="text-danger text-[0.7rem] mt-1">
-                {formError.content}
-              </div>
-            </div>
-            <div className="max-w-80">
-              <div className="mb-1">
-                <label htmlFor="content" className="font-semibold text-xs">
-                  Foto <span className="text-danger">*</span>
-                </label>
-              </div>
-              <div className="border p-8 mb-2 flex items-center justify-center">
-                {formData.thumbnail ? (
-                  <img src={formData.thumbnail} className="rounded-lg" />
-                ) : (
-                  <LuImage size={32} />
-                )}
-              </div>
-              <input
-                type="file"
-                onChange={handleChangeImage}
-                accept=".png,.jpg,.jpeg"
-              />
-              <div className="text-danger text-[0.7rem] mt-1">
-                {formError.thumbnail}
-              </div>
-            </div>
-            <div className="ms-auto">
-              <Button
-                isLoading={isLoadingConfirm}
-                className="bg-button-primary text-white"
-                size="sm"
-                radius="sm"
-                type="submit"
-              >
-                <LuSave /> Simpan Data
-              </Button>
-            </div>
-          </form>
-        </div>
+        <Card className="border" shadow="none">
+          <CardHeader>
+            <Link to={'/pegawai/edit-data/1'} className="flex gap-2 items-center text-info bg-alert-info font-semibold p-2 text-sm rounded-md ms-auto">
+              <LucidePencilLine size={18} /> Edit Data
+            </Link>
+          </CardHeader>
+          <CardBody className="flex flex-col gap-2">
+            <Card className="border relative overflow-hidden" shadow="none">
+              <div className="absolute top-0 right-0 bg-primary text-white py-2 px-4 text-sm rounded-bl-lg">Admin</div>
+              <CardBody className="p-4 flex items-center md:flex-row flex-col gap-4">
+                <img src={`https://i.pravatar.cc/150?u=a042581f4e29026024d`} alt="profile" width={80} height={80} className="rounded-full" />
+                <div className="text-sm flex flex-col gap-1 md:items-start items-center">
+                  <p className="text-xs">Kepala Bidang Perdagangan</p>
+                  <p className="font-semibold text-lg">Alfonso Philips</p>
+                  <p className="text-xs">12345678901234567890</p>
+                  <ul className={`ms-5 text-success font-semibold mt-1`}>
+                    <li className="list-disc">Aktif</li>
+                  </ul>
+                </div>
+              </CardBody>
+            </Card>
+            <Card className="border relative overflow-hidden" shadow="none">
+              <CardBody className="p-4 grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
+                <div>
+                  <p className="text-sm">Jabatan</p>
+                  <h4 className="font-semibold">Kepala Bidang Perdagangan</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Status ASN</p>
+                  <h4 className="font-semibold">ASN</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Dinas / UPTD</p>
+                  <h4 className="font-semibold">UPTD I (Tambun)</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Eselon</p>
+                  <h4 className="font-semibold">IV</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Golongan</p>
+                  <h4 className="font-semibold">IV/b</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Status Kepegawaian</p>
+                  <h4 className="font-semibold">Mutasi (Pindah)</h4>
+                </div>
+              </CardBody>
+            </Card>
+            <Card className="border relative overflow-hidden" shadow="none">
+              <CardBody className="px-4 pb-4 grid md:grid-cols-2 grid-cols-1 gap-3">
+                <div className="font-bold md:col-span-2 col-span-1">
+                  Detail Lainnya
+                </div>
+                <div>
+                  <p className="text-sm">Email</p>
+                  <h4 className="font-semibold">email@gmail.com</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Kontak / No. Whatsapp</p>
+                  <h4 className="font-semibold">082141241231</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Tempat Lahir</p>
+                  <h4 className="font-semibold">Cikarang</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Tanggal Lahir</p>
+                  <h4 className="font-semibold">20/03/1976</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Pangkat</p>
+                  <h4 className="font-semibold">Mayor</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Pendidikan Terakhir</p>
+                  <h4 className="font-semibold">S1</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Usia Pensiun</p>
+                  <h4 className="font-semibold">70</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Tanggal Pensiun</p>
+                  <h4 className="font-semibold">10/04/2026</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Tanggal TMT</p>
+                  <h4 className="font-semibold">10/04/2026</h4>
+                </div>
+                <div>
+                  <p className="text-sm">Tanggal KGB</p>
+                  <h4 className="font-semibold">10/04/2026</h4>
+                </div>
+              </CardBody>
+            </Card>
+          </CardBody>
+        </Card>
       </div>
     </>
   );
