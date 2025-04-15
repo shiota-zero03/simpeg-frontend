@@ -14,6 +14,7 @@ const BukuPetunjuk = lazy(() => import("@/pages/BukuPetunjuk"));
 const HubungiKami = lazy(() => import("@/pages/HubungiKami"));
 
 const Jabatan = lazy(() => import("@/pages/Jabatan"));
+const Unit = lazy(() => import("@/pages/Unit"));
 const Pegawai = lazy(() => import("@/pages/Pegawai"));
 const CreatePegawai = lazy(() => import("@/pages/Pegawai/Created"));
 const ViewPegawai = lazy(() => import("@/pages/Pegawai/Detail"));
@@ -33,6 +34,8 @@ const ViewNilaiKinerja = lazy(() => import("@/pages/PenilaianKinerja/Nilai/View"
 
 const ExportPDFSummary = lazy(() => import("@/pages/export/pdf/SummaryPdf"));
 
+const Error404 = lazy(() => import("@/pages/Errors/Error404"));
+
 export default function Router() {
   return (
     <Suspense fallback={<LoaderPage />}>
@@ -48,6 +51,7 @@ export default function Router() {
           <Route path="/hubungi-kami" element={<HubungiKami />} />
 
           <Route path="/position" element={<Jabatan />} />
+          <Route path="/unit" element={<Unit />} />
           <Route path="/pegawai" element={<Pegawai />} />
           <Route path="/pegawai/tambah-data" element={<CreatePegawai />} />
           <Route path="/pegawai/edit-data/:id" element={<UpdatePegawai />} />
@@ -87,6 +91,7 @@ export default function Router() {
           path="/summary-report/export/pdf"
           element={<ExportPDFSummary />}
         />
+        <Route path="*" element={<Error404 />} />
       </Routes>
     </Suspense>
   );

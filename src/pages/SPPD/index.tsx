@@ -24,7 +24,6 @@ import {
   BiSearch,
   BiSolidPlusSquare,
 } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
@@ -84,8 +83,6 @@ export default function News() {
   const startData = paginatedData.length > 0 ? pageIndex * limit + 1 : 0;
   const endData = Math.min((pageIndex + 1) * limit, data.length);
   const totalPages = Math.ceil(data.length / limit);
-
-  const navigate = useNavigate();
 
   const columns: ColumnDef<SPPDprops>[] = [
     {
@@ -179,12 +176,11 @@ export default function News() {
     },
     {
       header: "Aksi",
-      cell: ({ row }) => {
-        const { id } = row.original;
+      cell: () => {
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
-              onPress={() => navigate(`/news/edit-data/${id}`)}
+              onPress={onOpenCreate}
               isIconOnly
               radius="sm"
               size="sm"

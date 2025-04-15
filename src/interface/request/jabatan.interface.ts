@@ -3,6 +3,6 @@ export interface StoreJabatan {
   singkatan?: string;
   fungsionalJob?: string;
   fungsional?: boolean;
-  class?: string;
+  Class?: string;
   atasan?: number | null;
 }

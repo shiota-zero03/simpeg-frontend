@@ -121,7 +121,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     } else {
       formToSend.fungsional = false;
     }
-    if (formData.kelas) formToSend.class = String(formData.kelas);
+    if (formData.kelas) formToSend.Class = String(formData.kelas);
     if (formData.atasan) formToSend.atasan = Number(formData.atasan);
 
     try {

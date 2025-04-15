@@ -1,5 +1,5 @@
 import { TitleCase } from "@/components/card/TitleCase";
-import { Button, Input, useDisclosure } from "@heroui/react";
+import { Button, Card, CardBody, Input, useDisclosure } from "@heroui/react";
 
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
@@ -47,23 +47,17 @@ export default function ViewBobotKinerja() {
         />
         <div className="bg-white shadow-md rounded-xl border min-h-[64vh] flex flex-col gap-1">
           <div className="md:p-4 p-2">
-            <div className="border rounded-lg p-4 max-w-80 overflow-x-auto">
-              <table>
-                <tbody>
-                  <tr>
-                    <th className="text-start">NIP</th>
-                    <th className="text-start">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 198203028014061400</th>
-                  </tr>
-                  <tr>
-                    <th className="text-start">Nama</th>
-                    <th className="text-start">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Lincoln George</th>
-                  </tr>
-                  <tr>
-                    <th className="text-start">Jabatan</th>
-                    <th className="text-start">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Kepala Dinas UPTD</th>
-                  </tr>
-                </tbody>
-              </table>
+            <div className="flex">
+              <Card className="border relative overflow-hidden" shadow="none">
+                <CardBody className="p-4 flex items-center md:flex-row flex-col gap-4">
+                  <img src={`https://i.pravatar.cc/150?u=a042581f4e29026024d`} alt="profile" width={80} height={80} className="rounded-full" />
+                  <div className="text-sm flex flex-col gap-1 md:items-start items-center">
+                    <p className="text-sm">Kepala Bidang Perdagangan</p>
+                    <p className="font-semibold text-lg">Alfonso Philips</p>
+                    <p className="text-sm">12345678901234567890</p>
+                  </div>
+                </CardBody>
+              </Card>
             </div>
             <div className="flex items-center justify-between my-6">
               <div className="flex items-center gap-2 font-semibold">
@@ -140,7 +134,7 @@ export default function ViewBobotKinerja() {
                         className="border-y-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-normal"
                         colSpan={5}
                       >
-                        Rekap Kategori Penilaian Keseluruhan Pegawai
+                        Penilaian
                       </th>
                       <th
                         className="border-y-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-normal"

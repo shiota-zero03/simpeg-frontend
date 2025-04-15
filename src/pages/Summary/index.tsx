@@ -449,7 +449,7 @@ export default function Jabatan() {
                             No
                           </th>
                           <th className="border-b-2 min-w-60 border-accent-gray p-2 text-sm bg-primary text-white">
-                            Pegawai
+                            Jabatan Fungsional
                           </th>
                           <th className="border-b-2 min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-lg text-center">
                             Jumlah Orang
@@ -462,7 +462,7 @@ export default function Jabatan() {
                             1
                           </td>
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            Dinas
+                            Analis Perdagangan
                           </td>
                           <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer" onClick={() => { setType('uptd'); onOpen(); }}>
                             32 Orang

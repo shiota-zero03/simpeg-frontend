@@ -8,6 +8,7 @@ import {
   Spinner,
 } from "@heroui/react";
 import { useEffect, useMemo, useState } from "react";
+import { FaPlayCircle } from "react-icons/fa";
 import { LuRefreshCcw } from "react-icons/lu";
 import { TbFaceIdError } from "react-icons/tb";
 import ReactPlayer from "react-player";
@@ -97,6 +98,11 @@ const GaleriComponent = () => {
                   }}
                 >
                   <div className="w-full overflow-hidden rounded-xl relative group h-full">
+                    {item.type !== "IMAGE" && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <FaPlayCircle size={60} />
+                      </div>
+                    )}
                     <div className="absolute bg-black/60 inset-0 hidden group-hover:flex items-center justify-center p-4 text-center duration-300 animate-appearance-in">
                       <h1 className="text-white font-semibold 2xl:text-4xl lg:text-2xl sm:text-base text-xs">
                         {item.title}
@@ -125,6 +131,11 @@ const GaleriComponent = () => {
                       }
                     }}
                   >
+                    {item.type !== "IMAGE" && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <FaPlayCircle size={60} />
+                      </div>
+                    )}
                     <div className="absolute bg-black/60 inset-0 hidden group-hover:flex items-center justify-center p-4 text-center duration-300 animate-appearance-in">
                       <h1 className="text-white font-semibold lg:text-sm text-xs">
                         {item.title}

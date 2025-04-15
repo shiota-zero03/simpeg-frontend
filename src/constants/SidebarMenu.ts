@@ -13,6 +13,7 @@ import {
   PiOfficeChair,
   PiUserList,
   PiSuitcaseSimpleLight,
+  PiBuildingApartment,
 } from "react-icons/pi";
 import {
   RiCustomerService2Line,
@@ -46,6 +47,12 @@ export const SidebarMenuData: SidebarProps[] = [
         key: "peta-jabatan",
         link: "/peta-jabatan",
         icon: PiTreeStructure,
+      },
+      {
+        name: "Unit",
+        key: "unit",
+        link: "/unit",
+        icon: PiBuildingApartment,
       },
       {
         name: "Jabatan",
@@ -124,7 +131,7 @@ export const SidebarMenuData: SidebarProps[] = [
       },
       { name: "SPPD", key: "sppd", link: "/sppd", icon: LuMails },
       {
-        name: "Asset",
+        name: "Manajemen Asset",
         key: "asset",
         link: "/#",
         icon: PiSuitcaseSimpleLight,
