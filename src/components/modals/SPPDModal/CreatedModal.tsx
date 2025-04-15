@@ -29,10 +29,12 @@ interface props {
 }
 
 interface formProps {
-  atasan?: string;
+  nip?: string;
+  jabatan?: string;
   pegawai: number | null;
   kegiatan: string;
   waktu: string;
+  durasi: number;
   lokasi: string;
   anggaran: number;
   pengikut: string[];
@@ -43,6 +45,7 @@ interface formProps {
 interface errorProps {
   pegawai?: string;
   kegiatan?: string;
+  durasi?: string;
   waktu?: string;
   lokasi?: string;
   anggaran?: string;
@@ -62,7 +65,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   };
 
   const removePengikut = (index: number) => {
-    if (Pengikut.length > 1) {
+    if (Pengikut.length > 0) {
       setPengikut(Pengikut.filter((_, i) => i !== index));
     }
   };
@@ -70,6 +73,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   const [formData, setFormData] = useState<formProps>({
     pegawai: null,
     kegiatan: "",
+    durasi: 1,
     waktu: "",
     lokasi: "",
     anggaran: 0,
@@ -95,6 +99,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   useEffect(() => {
     setFormData({
       pegawai: null,
+      durasi: 1,
       kegiatan: "",
       waktu: "",
       lokasi: "",
@@ -117,10 +122,11 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     if (formData.pegawai) {
       setFormData({
         ...formData,
-        atasan: pegawai.find((item) => item.id === formData.pegawai)?.atasan,
+        nip: pegawai.find((item) => item.id === formData.pegawai)?.nip,
+        jabatan: pegawai.find((item) => item.id === formData.pegawai)?.jabatan,
       });
     } else {
-      setFormData({ ...formData, atasan: "" });
+      setFormData({ ...formData, nip: "", jabatan: "" });
     }
   }, [formData, formData.pegawai, pegawai]);
 
@@ -147,7 +153,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
 
   return (
     <>
-      <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="2xl">
+      <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="4xl">
         <ModalContent>
           <ModalHeader className="flex items-center justify-between">
             <span className="text-base font-semibold">Tambah Data SPPD</span>
@@ -158,24 +164,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
             />
           </ModalHeader>
           <ModalBody className="max-h-[72vh] overflow-y-auto overflow-y-custom flex flex-col gap-2 pb-8">
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
-              <div className="flex flex-col gap-1">
-                <label htmlFor="lokasi" className="text-xs font-semibold">
-                  Atasan <span className="text-danger">*</span>
-                </label>
-                <Input
-                  aria-label="lokasi"
-                  isReadOnly
-                  variant="bordered"
-                  radius="sm"
-                  value={formData.atasan}
-                  placeholder="AUTO_FILLED"
-                  classNames={{
-                    inputWrapper: "bg-slate-50",
-                    input: "text-xs",
-                  }}
-                />
-              </div>
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
               <div className="flex flex-col gap-1">
                 <label htmlFor="tanggal" className="text-xs font-semibold">
                   Pilih Pegawai <span className="text-danger">*</span>
@@ -205,6 +194,40 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                 <div className="text-xs italic text-danger">
                   {formError.pegawai}
                 </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
+                  NIP
+                </label>
+                <Input
+                  aria-label="lokasi"
+                  isReadOnly
+                  variant="bordered"
+                  radius="sm"
+                  value={formData.nip}
+                  placeholder="AUTO_FILLED"
+                  classNames={{
+                    inputWrapper: "bg-slate-50",
+                    input: "text-xs",
+                  }}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Jabatan
+                </label>
+                <Input
+                  aria-label="lokasi"
+                  isReadOnly
+                  variant="bordered"
+                  radius="sm"
+                  value={formData.jabatan}
+                  placeholder="AUTO_FILLED"
+                  classNames={{
+                    inputWrapper: "bg-slate-50",
+                    input: "text-xs",
+                  }}
+                />
               </div>
             </div>
             <div className="flex flex-col gap-1">
@@ -261,6 +284,29 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
               </div>
               <div className="md:col-span-2 col-span-3 flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Durasi (Hari) <span className="text-danger">*</span>
+                </label>
+                <Input
+                  aria-label="lokasi"
+                  variant="bordered"
+                  radius="sm"
+                  value={String(formData.durasi)}
+                  onChange={(e) =>
+                    setFormData({ ...formData, durasi: Number(e.target.value) })
+                  }
+                  placeholder="Masukkan disini"
+                  classNames={{
+                    input: "text-xs",
+                  }}
+                />
+                <div className="text-xs italic text-danger">
+                  {formError.durasi}
+                </div>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-2 col-span-1 gap-2">
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
                   Lokasi Pelaksanaan <span className="text-danger">*</span>
                 </label>
                 <Input
@@ -280,25 +326,25 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   {formError.lokasi}
                 </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <label htmlFor="lokasi" className="text-xs font-semibold">
-                Anggaran <span className="text-danger">*</span>
-              </label>
-              <Input
-                startContent={<div className="text-xs">Rp</div>}
-                aria-label="lokasi"
-                variant="bordered"
-                radius="sm"
-                value={formattedValue}
-                onChange={handleChangeValue}
-                placeholder="Masukkan disini"
-                classNames={{
-                  input: "text-xs",
-                }}
-              />
-              <div className="text-xs italic text-danger">
-                {formError.anggaran}
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Anggaran <span className="text-danger">*</span>
+                </label>
+                <Input
+                  startContent={<div className="text-xs">Rp</div>}
+                  aria-label="lokasi"
+                  variant="bordered"
+                  radius="sm"
+                  value={formattedValue}
+                  onChange={handleChangeValue}
+                  placeholder="Masukkan disini"
+                  classNames={{
+                    input: "text-xs",
+                  }}
+                />
+                <div className="text-xs italic text-danger">
+                  {formError.anggaran}
+                </div>
               </div>
             </div>
             <div className="flex flex-col gap-2">

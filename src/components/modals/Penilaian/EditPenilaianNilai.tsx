@@ -49,7 +49,7 @@ interface formErrorProps {
     attitudeAttach?: string;
 }
 
-const EditPenilaianBobot = ({ nama, jabatan, nip, isOpen, onClose, handleClose }: props) => {
+const EditPenilaianNilai = ({ nama, jabatan, nip, isOpen, onClose, handleClose }: props) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [formData, setFormData] = useState<formProps>({
         kinerja: 0,
@@ -148,7 +148,7 @@ const EditPenilaianBobot = ({ nama, jabatan, nip, isOpen, onClose, handleClose }
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                            Bukti Lampiran
+                            Bukti Pendukung
                         </label>
                         <input
                             type="file"
@@ -193,7 +193,7 @@ const EditPenilaianBobot = ({ nama, jabatan, nip, isOpen, onClose, handleClose }
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                            Bukti Lampiran
+                            Bukti Pendukung
                         </label>
                         <input
                             type="file"
@@ -238,7 +238,7 @@ const EditPenilaianBobot = ({ nama, jabatan, nip, isOpen, onClose, handleClose }
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                            Bukti Lampiran
+                            Bukti Pendukung
                         </label>
                         <input
                             type="file"
@@ -283,7 +283,7 @@ const EditPenilaianBobot = ({ nama, jabatan, nip, isOpen, onClose, handleClose }
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                            Bukti Lampiran
+                            Bukti Pendukung
                         </label>
                         <input
                             type="file"
@@ -328,7 +328,7 @@ const EditPenilaianBobot = ({ nama, jabatan, nip, isOpen, onClose, handleClose }
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                            Bukti Lampiran
+                            Bukti Pendukung
                         </label>
                         <input
                             type="file"
@@ -358,4 +358,4 @@ const EditPenilaianBobot = ({ nama, jabatan, nip, isOpen, onClose, handleClose }
   );
 };
 
-export default EditPenilaianBobot;
+export default EditPenilaianNilai;

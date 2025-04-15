@@ -140,7 +140,7 @@ export default function ListKaryawan() {
           <div className="flex items-center gap-2 justify-center">
             <Button
               onPress={() => {
-                navigate(`/penilaian-kinerja/berdasarkan-bobot/detail-data/${id}`);
+                navigate(`/penilaian-kinerja/berdasarkan-nilai/detail-data/${id}`);
               }}
               isIconOnly
               radius="sm"
@@ -151,7 +151,7 @@ export default function ListKaryawan() {
             </Button>
             <Button
               onPress={() => {
-                navigate(`/penilaian-kinerja/berdasarkan-bobot/export-data/${id}`);
+                navigate(`/penilaian-kinerja/berdasarkan-nilai/export-data/${id}`);
               }}
               isIconOnly
               radius="sm"
@@ -191,78 +191,81 @@ export default function ListKaryawan() {
         <div className="bg-white shadow-md rounded-xl border min-h-[70vh]">
           <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
             <div className="pt-8 px-4 w-full text-primary shadow-sm">
-              <div className="flex sm:flex-row flex-col justify-between gap-2 sm:items-end">
-                <div className="flex sm:flex-row flex-col gap-2 items-end w-full">
-                  <Input
-                    aria-label="search"
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                    }}
-                    radius="sm"
-                    size="sm"
-                    variant="bordered"
-                    placeholder="Cari nama pegawai disini"
-                    startContent={
-                      <LuSearch className="text-accent-gray text-xs" />
-                    }
-                    classNames={{
-                      inputWrapper: "border-[0.8px]",
-                      input: "text-xs",
-                    }}
-                  />
-                  <Input
-                    type="month"
-                    aria-label="search"
-                    value={searchMonth}
-                    onChange={(e) => {
-                      setSearchMonth(e.target.value);
-                    }}
-                    radius="sm"
-                    size="sm"
-                    variant="bordered"
-                    placeholder="Cari nama pegawai disini"
-                    startContent={
-                      <LuCalendarDays className="text-accent-gray text-xs" />
-                    }
-                    classNames={{
-                      inputWrapper: "border-[0.8px]",
-                      input: "text-xs",
-                    }}
-                  />
-                </div>
-                <div className="flex items-center justify-end gap-2">
-                  <Button
-                    onPress={handleSearch}
-                    variant="solid"
-                    radius="sm"
-                    size="sm"
-                    className="bg-accent-success text-white text-xs"
-                    isIconOnly
-                  >
-                    <BiSearch size={12} />
-                  </Button>
-                  <Button
-                    onPress={handleReset}
-                    variant="bordered"
-                    color="danger"
-                    radius="sm"
-                    size="sm"
-                    isIconOnly
-                    className="border-[0.8px] text-xs"
-                  >
-                    <BiReset size={12} />
-                  </Button>
-                  <Button
-                    onPress={() => navigate(`/pegawai/tambah-data`)}
-                    variant="solid"
-                    radius="sm"
-                    size="sm"
-                    startContent={<FaFileExcel size={12} />}
-                    className="border-[0.8px] w-28 text-xs text-button-primary bg-alert-success"
-                  >
-                    Export .xlsx
-                  </Button>
+              <div className="flex md:items-center md:flex-row flex-col md:justify-between gap-2">
+                <h1 className="font-semibold">Daftar Penilaian Kinerja Pegawai</h1>
+                <div className="flex sm:flex-row flex-col justify-between gap-2 sm:items-end">
+                  <div className="flex sm:flex-row flex-col gap-2 items-end w-full">
+                    <Input
+                      aria-label="search"
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                      }}
+                      radius="sm"
+                      size="sm"
+                      variant="bordered"
+                      placeholder="Cari nama pegawai disini"
+                      startContent={
+                        <LuSearch className="text-accent-gray text-xs" />
+                      }
+                      classNames={{
+                        inputWrapper: "border-[0.8px]",
+                        input: "text-xs",
+                      }}
+                    />
+                    <Input
+                      type="month"
+                      aria-label="search"
+                      value={searchMonth}
+                      onChange={(e) => {
+                        setSearchMonth(e.target.value);
+                      }}
+                      radius="sm"
+                      size="sm"
+                      variant="bordered"
+                      placeholder="Cari nama pegawai disini"
+                      startContent={
+                        <LuCalendarDays className="text-accent-gray text-xs" />
+                      }
+                      classNames={{
+                        inputWrapper: "border-[0.8px]",
+                        input: "text-xs",
+                      }}
+                    />
+                  </div>
+                  <div className="flex items-center justify-end gap-2">
+                    <Button
+                      onPress={handleSearch}
+                      variant="solid"
+                      radius="sm"
+                      size="sm"
+                      className="bg-accent-success text-white text-xs"
+                      isIconOnly
+                    >
+                      <BiSearch size={12} />
+                    </Button>
+                    <Button
+                      onPress={handleReset}
+                      variant="bordered"
+                      color="danger"
+                      radius="sm"
+                      size="sm"
+                      isIconOnly
+                      className="border-[0.8px] text-xs"
+                    >
+                      <BiReset size={12} />
+                    </Button>
+                    <Button
+                      onPress={() => navigate(`/pegawai/tambah-data`)}
+                      variant="solid"
+                      radius="sm"
+                      size="sm"
+                      startContent={<FaFileExcel size={12} />}
+                      className="border-[0.8px] w-28 text-xs text-button-primary bg-alert-success"
+                    >
+                      Export .xlsx
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
