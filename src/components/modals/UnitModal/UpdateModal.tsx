@@ -49,13 +49,12 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
 
   const { data, isFetching, refetch } = useGetDetailUnit(String(id));
 
-
   useEffect(() => {
     if (data) {
       setFormData({
         idUnit: data.data.idUnit,
         nameUnit: data.data.nameUnit,
-        description: data.data.description || ""
+        description: data.data.description || "",
       });
     }
   }, [isOpen, data]);
@@ -127,7 +126,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
             </div>
           )}
           <ModalHeader className="flex items-center justify-between">
-            <span className="text-base font-semibold">Update Data Jabatan</span>
+            <span className="text-base font-semibold">Update Data Unit</span>
             <LuX
               className="text-danger border border-danger rounded-full p-2 cursor-pointer"
               onClick={onClose}
@@ -180,7 +179,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
               </div>
               <div className="md:col-span-2 col-span-1 flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
-                  Deskripsi <span className="text-danger">*</span>
+                  Keterangan
                 </label>
                 <Textarea
                   aria-label="lokasi"

@@ -10,14 +10,14 @@ import { useNavigate } from "react-router-dom";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 
 interface DataProps {
-    id: string;
-    nip?: string;
-    nama: string;
-    kinerja: number;
-    disiplin: number;
-    loyalitas: number;
-    kerjasama: number;
-    attitude: number;
+  id: string;
+  nip?: string;
+  nama: string;
+  kinerja: number;
+  disiplin: number;
+  loyalitas: number;
+  kerjasama: number;
+  attitude: number;
 }
 
 export default function ListKaryawan() {
@@ -68,7 +68,12 @@ export default function ListKaryawan() {
         loyalitas: item.loyalitas,
         kerjasama: item.kerjasama,
         attitude: item.attitude,
-        total: item.kinerja + item.disiplin + item.loyalitas + item.kerjasama + item.attitude,
+        total:
+          item.kinerja +
+          item.disiplin +
+          item.loyalitas +
+          item.kerjasama +
+          item.attitude,
       }));
     } else {
       return [];
@@ -97,40 +102,40 @@ export default function ListKaryawan() {
       // meta: { align: "center" },
     },
     {
-        accessorKey: "kinerja",
-        header: "Kinerja",
-        cell: (info) => info.getValue() as number || 0,
-        meta: { align: "center" }
+      accessorKey: "kinerja",
+      header: "Kinerja",
+      cell: (info) => (info.getValue() as number) || 0,
+      meta: { align: "center" },
     },
     {
-        accessorKey: "disiplin",
-        header: "Disiplin",
-        cell: (info) => info.getValue() as number || 0,
-        meta: { align: "center" }
+      accessorKey: "disiplin",
+      header: "Disiplin",
+      cell: (info) => (info.getValue() as number) || 0,
+      meta: { align: "center" },
     },
     {
-        accessorKey: "loyalitas",
-        header: "Loyalitas",
-        cell: (info) => info.getValue() as number || 0,
-        meta: { align: "center" }
+      accessorKey: "loyalitas",
+      header: "Loyalitas",
+      cell: (info) => (info.getValue() as number) || 0,
+      meta: { align: "center" },
     },
     {
-        accessorKey: "kerjasama",
-        header: "Kerjasama",
-        cell: (info) => info.getValue() as number || 0,
-        meta: { align: "center" }
+      accessorKey: "kerjasama",
+      header: "Kerjasama",
+      cell: (info) => (info.getValue() as number) || 0,
+      meta: { align: "center" },
     },
     {
-        accessorKey: "attitude",
-        header: "Attitude",
-        cell: (info) => info.getValue() as number || 0,
-        meta: { align: "center" }
+      accessorKey: "attitude",
+      header: "Attitude",
+      cell: (info) => (info.getValue() as number) || 0,
+      meta: { align: "center" },
     },
     {
-        accessorKey: "total",
-        header: "Total",
-        cell: (info) => info.getValue() as number || 0,
-        meta: { align: "center" }
+      accessorKey: "total",
+      header: "Total",
+      cell: (info) => (info.getValue() as number) || 0,
+      meta: { align: "center" },
     },
     {
       header: "Aksi",
@@ -140,7 +145,9 @@ export default function ListKaryawan() {
           <div className="flex items-center gap-2 justify-center">
             <Button
               onPress={() => {
-                navigate(`/penilaian-kinerja/berdasarkan-nilai/detail-data/${id}`);
+                navigate(
+                  `/penilaian-kinerja/berdasarkan-nilai/detail-data/${id}`,
+                );
               }}
               isIconOnly
               radius="sm"
@@ -151,7 +158,9 @@ export default function ListKaryawan() {
             </Button>
             <Button
               onPress={() => {
-                navigate(`/penilaian-kinerja/berdasarkan-nilai/export-data/${id}`);
+                navigate(
+                  `/penilaian-kinerja/berdasarkan-nilai/export-data/${id}`,
+                );
               }}
               isIconOnly
               radius="sm"
@@ -192,7 +201,9 @@ export default function ListKaryawan() {
           <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
             <div className="pt-8 px-4 w-full text-primary shadow-sm">
               <div className="flex md:items-center md:flex-row flex-col md:justify-between gap-2">
-                <h1 className="font-semibold">Daftar Penilaian Kinerja Pegawai</h1>
+                <h1 className="font-semibold">
+                  Daftar Penilaian Kinerja Pegawai
+                </h1>
                 <div className="flex sm:flex-row flex-col justify-between gap-2 sm:items-end">
                   <div className="flex sm:flex-row flex-col gap-2 items-end w-full">
                     <Input

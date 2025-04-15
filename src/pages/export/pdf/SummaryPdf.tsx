@@ -72,7 +72,6 @@ const PDFPreviewer = () => {
       startY: continueY,
     });
 
-     
     continueY = (doc as any).lastAutoTable.finalY || continueY;
     continueY += 10;
     doc.text("Data Pegawai Non-ASN", 14, continueY);
@@ -198,7 +197,6 @@ const PDFPreviewer = () => {
       startY: continueY,
     });
 
-     
     continueY = (doc as any).lastAutoTable.finalY || continueY;
     continueY += 10;
     doc.text(
@@ -219,7 +217,7 @@ const PDFPreviewer = () => {
       tableLineWidth: 0.1,
       startY: continueY,
     });
-     
+
     continueY = (doc as any).lastAutoTable.finalY || continueY;
     autoTable(doc, {
       body: [["1", "1234567890", "Taufik Hidayat", "Perdagangan"]],
@@ -248,7 +246,7 @@ const PDFPreviewer = () => {
       tableLineWidth: 0.1,
       startY: continueY,
     });
-     
+
     continueY = (doc as any).lastAutoTable.finalY || continueY;
     autoTable(doc, {
       body: [["1", "1234567890", "Taufik Hidayat", "Perdagangan"]],
@@ -275,7 +273,7 @@ const PDFPreviewer = () => {
       tableLineWidth: 0.1,
       startY: continueY,
     });
-     
+
     continueY = (doc as any).lastAutoTable.finalY || continueY;
     autoTable(doc, {
       body: [["1", "1234567890", "Taufik Hidayat", "Perdagangan"]],
@@ -302,7 +300,7 @@ const PDFPreviewer = () => {
       tableLineWidth: 0.1,
       startY: continueY,
     });
-     
+
     continueY = (doc as any).lastAutoTable.finalY || continueY;
     autoTable(doc, {
       body: [["1", "1234567890", "Taufik Hidayat", "Perdagangan"]],

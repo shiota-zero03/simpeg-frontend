@@ -108,7 +108,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
       <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="3xl">
         <ModalContent>
           <ModalHeader className="flex items-center justify-between">
-            <span className="text-base font-semibold">Tambah Data Jabatan</span>
+            <span className="text-base font-semibold">Tambah Data Unit</span>
             <LuX
               className="text-danger border border-danger rounded-full p-2 cursor-pointer"
               onClick={onClose}
@@ -161,7 +161,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
               </div>
               <div className="md:col-span-2 col-span-1 flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
-                  Deskripsi <span className="text-danger">*</span>
+                  Keterangan
                 </label>
                 <Textarea
                   aria-label="lokasi"

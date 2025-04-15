@@ -3,7 +3,10 @@ import { Card, CardBody } from "@heroui/react";
 
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import ListKaryawan from "./penilaian";
-import { PenilaianKinerjaDougnhut, PenilaianKinerjaLine } from "@/components/Charts/penilaian-kinerja";
+import {
+  PenilaianKinerjaDougnhut,
+  PenilaianKinerjaLine,
+} from "@/components/Charts/penilaian-kinerja";
 
 export default function BobotKinerja() {
   return (

@@ -1,30 +1,38 @@
 import { TitleCase } from "@/components/card/TitleCase";
-import { Card, CardBody, CardHeader} from "@heroui/react";
+import { Card, CardBody, CardHeader } from "@heroui/react";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
 import { LucidePencilLine } from "lucide-react";
 
 export default function UpdateNews() {
-  
   return (
     <>
       <BreadcrumbAdmin location="/Pegawai/Detail" />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
-        <TitleCase
-          title="Detail Pegawai"
-        />
+        <TitleCase title="Detail Pegawai" />
 
         <Card className="border" shadow="none">
           <CardHeader>
-            <Link to={'/pegawai/edit-data/1'} className="flex gap-2 items-center text-info bg-alert-info font-semibold p-2 text-sm rounded-md ms-auto">
+            <Link
+              to={"/pegawai/edit-data/1"}
+              className="flex gap-2 items-center text-info bg-alert-info font-semibold p-2 text-sm rounded-md ms-auto"
+            >
               <LucidePencilLine size={18} /> Edit Data
             </Link>
           </CardHeader>
           <CardBody className="flex flex-col gap-2">
             <Card className="border relative overflow-hidden" shadow="none">
-              <div className="absolute top-0 right-0 bg-primary text-white py-2 px-4 text-sm rounded-bl-lg">Admin</div>
+              <div className="absolute top-0 right-0 bg-primary text-white py-2 px-4 text-sm rounded-bl-lg">
+                Admin
+              </div>
               <CardBody className="p-4 flex items-center md:flex-row flex-col gap-4">
-                <img src={`https://i.pravatar.cc/150?u=a042581f4e29026024d`} alt="profile" width={80} height={80} className="rounded-full" />
+                <img
+                  src={`https://i.pravatar.cc/150?u=a042581f4e29026024d`}
+                  alt="profile"
+                  width={80}
+                  height={80}
+                  className="rounded-full"
+                />
                 <div className="text-sm flex flex-col gap-1 md:items-start items-center">
                   <p className="text-xs">Kepala Bidang Perdagangan</p>
                   <p className="font-semibold text-lg">Alfonso Philips</p>

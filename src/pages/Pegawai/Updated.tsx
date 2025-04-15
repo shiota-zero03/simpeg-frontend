@@ -21,7 +21,13 @@ import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
-import { DinasUptdData, statusKepegawaianData, JabatanDummy, RoleAccess, pendidikanTerakhir } from "@/constants/DummyData";
+import {
+  DinasUptdData,
+  statusKepegawaianData,
+  JabatanDummy,
+  RoleAccess,
+  pendidikanTerakhir,
+} from "@/constants/DummyData";
 import { LucideEye, LucideEyeClosed, LucideXCircle } from "lucide-react";
 import { convertFileToBase64 } from "@/utils/base64Formater";
 import { FaCheckCircle } from "react-icons/fa";
@@ -83,7 +89,7 @@ interface errorProps {
 }
 
 export default function CreatePegawai() {
-  const [ showPassword, setShowPassword ] = useState<boolean>(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [formData, setFormData] = useState<formProps>({
     role: "",
     nama: "",
@@ -136,7 +142,7 @@ export default function CreatePegawai() {
 
   const rules = () => {
     const error: errorProps = {};
-  
+
     if (!formData.role) error.role = "Role / hak akses tidak boleh kosong";
     if (!formData.nama) error.nama = "Nama pegawai tidak boleh kosong";
     if (!formData.nip) error.nip = "NIP tidak boleh kosong";
@@ -148,7 +154,8 @@ export default function CreatePegawai() {
     if (formData.asnStatus === null || formData.asnStatus === undefined)
       error.asnStatus = "Status ASN harus dipilih";
     if (!formData.dinas) error.dinas = "Dinas tidak boleh kosong";
-    if (!formData.whatsapp) error.whatsapp = "Nomor WhatsApp tidak boleh kosong";
+    if (!formData.whatsapp)
+      error.whatsapp = "Nomor WhatsApp tidak boleh kosong";
     else if (!/^08\d{8,11}$/.test(formData.whatsapp)) {
       error.whatsapp = "Format nomor WhatsApp tidak valid";
     }
@@ -161,7 +168,7 @@ export default function CreatePegawai() {
       error.passwordConfirmation = "Konfirmasi password tidak boleh kosong";
     else if (formData.password !== formData.passwordConfirmation)
       error.passwordConfirmation = "Konfirmasi password tidak sama";
-  
+
     return error;
   };
 
@@ -193,7 +200,7 @@ export default function CreatePegawai() {
       tanggalKGB: null,
       foto: null,
     });
-    setShowPassword(false)
+    setShowPassword(false);
   }, []);
 
   const navigate = useNavigate();
@@ -230,15 +237,14 @@ export default function CreatePegawai() {
   };
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) {
-        const fileToShow = await convertFileToBase64(file);
-        setFormData({ ...formData, foto: fileToShow });
-      } else {
-        setFormData({ ...formData, foto: "" });
-      }
-    };
-  
+    const file = e.target.files?.[0];
+    if (file) {
+      const fileToShow = await convertFileToBase64(file);
+      setFormData({ ...formData, foto: fileToShow });
+    } else {
+      setFormData({ ...formData, foto: "" });
+    }
+  };
 
   return (
     <>
@@ -263,10 +269,7 @@ export default function CreatePegawai() {
 
         <div>
           <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-            <Card
-              shadow="none"
-              className="border p-4"
-            >
+            <Card shadow="none" className="border p-4">
               <CardHeader className="text-sm font-semibold">
                 Data Pegawai
               </CardHeader>
@@ -274,7 +277,10 @@ export default function CreatePegawai() {
                 <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Role / Hak Akses <span className="text-danger">*</span>
                       </label>
                     </div>
@@ -303,7 +309,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Nama Pegawai <span className="text-danger">*</span>
                       </label>
                     </div>
@@ -328,7 +337,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         NIP Pegawai <span className="text-danger">*</span>
                       </label>
                     </div>
@@ -353,7 +365,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Email <span className="text-danger">*</span>
                       </label>
                     </div>
@@ -378,7 +393,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Jabatan <span className="text-danger">*</span>
                       </label>
                     </div>
@@ -410,24 +428,34 @@ export default function CreatePegawai() {
                     </div>
                   </div>
                   <div>
-                  <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                    <div className="mb-1">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Status ASN <span className="text-danger">*</span>
                       </label>
                     </div>
                     <RadioGroup
                       size="sm"
-                      value={formData.asnStatus ? 'ASN' : 'NON-ASN'}
+                      value={formData.asnStatus ? "ASN" : "NON-ASN"}
                       orientation="horizontal"
                       className="ms-4"
                     >
-                      <Radio value={'ASN'} key={'ASN'}>ASN</Radio>
-                      <Radio value={'NON-ASN'} key={'NON-ASN'}>Non-ASN</Radio>
+                      <Radio value={"ASN"} key={"ASN"}>
+                        ASN
+                      </Radio>
+                      <Radio value={"NON-ASN"} key={"NON-ASN"}>
+                        Non-ASN
+                      </Radio>
                     </RadioGroup>
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Dinas / UPTD <span className="text-danger">*</span>
                       </label>
                     </div>
@@ -460,7 +488,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Eselon
                       </label>
                     </div>
@@ -485,7 +516,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Golongan
                       </label>
                     </div>
@@ -510,14 +544,20 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Status Kepegawaian
                       </label>
                     </div>
                     <Select
                       selectedKeys={[formData.statusPegawai]}
                       onChange={(e) =>
-                        setFormData({ ...formData, statusPegawai: e.target.value })
+                        setFormData({
+                          ...formData,
+                          statusPegawai: e.target.value,
+                        })
                       }
                       aria-label="Judul"
                       labelPlacement="outside"
@@ -528,7 +568,7 @@ export default function CreatePegawai() {
                         trigger: "border-[0.8px]",
                       }}
                     >
-                      {STATUS_PEGAWAI.map(item => (
+                      {STATUS_PEGAWAI.map((item) => (
                         <SelectItem key={item.key}>{item.name}</SelectItem>
                       ))}
                     </Select>
@@ -538,13 +578,28 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Password <span className="text-danger">*</span>
                       </label>
                     </div>
                     <Input
                       type={showPassword ? "text" : "password"}
-                      endContent={showPassword ? <LucideEyeClosed className="cursor-pointer" onClick={() => setShowPassword(false)} /> : <LucideEye className="cursor-pointer" onClick={() => setShowPassword(true)} />}
+                      endContent={
+                        showPassword ? (
+                          <LucideEyeClosed
+                            className="cursor-pointer"
+                            onClick={() => setShowPassword(false)}
+                          />
+                        ) : (
+                          <LucideEye
+                            className="cursor-pointer"
+                            onClick={() => setShowPassword(true)}
+                          />
+                        )
+                      }
                       value={formData.password}
                       onChange={(e) =>
                         setFormData({ ...formData, password: e.target.value })
@@ -565,16 +620,34 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
-                      Confirm Password <span className="text-danger">*</span>
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
+                        Confirm Password <span className="text-danger">*</span>
                       </label>
                     </div>
                     <Input
                       type={showPassword ? "text" : "password"}
-                      endContent={showPassword ? <LucideEyeClosed className="cursor-pointer" onClick={() => setShowPassword(false)} /> : <LucideEye className="cursor-pointer" onClick={() => setShowPassword(true)} />}
+                      endContent={
+                        showPassword ? (
+                          <LucideEyeClosed
+                            className="cursor-pointer"
+                            onClick={() => setShowPassword(false)}
+                          />
+                        ) : (
+                          <LucideEye
+                            className="cursor-pointer"
+                            onClick={() => setShowPassword(true)}
+                          />
+                        )
+                      }
                       value={formData.passwordConfirmation}
                       onChange={(e) =>
-                        setFormData({ ...formData, passwordConfirmation: e.target.value })
+                        setFormData({
+                          ...formData,
+                          passwordConfirmation: e.target.value,
+                        })
                       }
                       aria-label="Judul"
                       labelPlacement="outside"
@@ -593,10 +666,7 @@ export default function CreatePegawai() {
                 </div>
               </CardBody>
             </Card>
-            <Card
-              shadow="none"
-              className="border p-4"
-            >
+            <Card shadow="none" className="border p-4">
               <CardHeader className="text-sm font-semibold">
                 Data Lainnya
               </CardHeader>
@@ -604,7 +674,10 @@ export default function CreatePegawai() {
                 <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                   <div className="sm:col-span-2 col-span-1">
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Kontak/No. Whatsapp
                       </label>
                     </div>
@@ -630,14 +703,20 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Tempat Lahir
                       </label>
                     </div>
                     <Input
                       value={formData.tempatLahir || ""}
                       onChange={(e) =>
-                        setFormData({ ...formData, tempatLahir: e.target.value })
+                        setFormData({
+                          ...formData,
+                          tempatLahir: e.target.value,
+                        })
                       }
                       aria-label="Judul"
                       labelPlacement="outside"
@@ -655,7 +734,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Tanggal Lahir
                       </label>
                     </div>
@@ -663,7 +745,10 @@ export default function CreatePegawai() {
                       type="date"
                       value={formData.tanggalLahir || ""}
                       onChange={(e) =>
-                        setFormData({ ...formData, tanggalLahir: e.target.value })
+                        setFormData({
+                          ...formData,
+                          tanggalLahir: e.target.value,
+                        })
                       }
                       aria-label="Judul"
                       labelPlacement="outside"
@@ -681,7 +766,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Pangkat
                       </label>
                     </div>
@@ -706,7 +794,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Pendidikan Terakhir
                       </label>
                     </div>
@@ -718,7 +809,10 @@ export default function CreatePegawai() {
                       defaultItems={PENDIDIKAN_SELECT}
                       selectedKey={String(formData.pendidikanTerakhir)}
                       onSelectionChange={(value) =>
-                        setFormData({ ...formData, pendidikanTerakhir: value as string })
+                        setFormData({
+                          ...formData,
+                          pendidikanTerakhir: value as string,
+                        })
                       }
                       inputProps={{
                         classNames: {
@@ -739,7 +833,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Usia Pensiun
                       </label>
                     </div>
@@ -747,7 +844,10 @@ export default function CreatePegawai() {
                       type="number"
                       value={String(formData.usiaPensiun || "")}
                       onChange={(e) =>
-                        setFormData({ ...formData, usiaPensiun: Number(e.target.value) })
+                        setFormData({
+                          ...formData,
+                          usiaPensiun: Number(e.target.value),
+                        })
                       }
                       aria-label="Judul"
                       labelPlacement="outside"
@@ -765,7 +865,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Tanggal Pensium
                       </label>
                     </div>
@@ -773,7 +876,10 @@ export default function CreatePegawai() {
                       type="date"
                       value={formData.tanggalPensiun || ""}
                       onChange={(e) =>
-                        setFormData({ ...formData, tanggalPensiun: e.target.value })
+                        setFormData({
+                          ...formData,
+                          tanggalPensiun: e.target.value,
+                        })
                       }
                       aria-label="Judul"
                       labelPlacement="outside"
@@ -791,7 +897,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Tanggal TMT
                       </label>
                     </div>
@@ -817,7 +926,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Tanggal KGB
                       </label>
                     </div>
@@ -844,7 +956,10 @@ export default function CreatePegawai() {
                   <div className="sm:col-span-2 col-span-1">
                     <div className="max-w-80">
                       <div className="mb-1">
-                        <label htmlFor="content" className="font-semibold text-xs">
+                        <label
+                          htmlFor="content"
+                          className="font-semibold text-xs"
+                        >
                           Foto
                         </label>
                       </div>
@@ -879,8 +994,12 @@ export default function CreatePegawai() {
                 isSelected={formData.isActive}
                 color="primary"
                 size="lg"
-                thumbIcon={({isSelected}) =>
-                  isSelected ? <FaCheckCircle className={'text-primary'} /> : <LucideXCircle className={'text-danger'} />
+                thumbIcon={({ isSelected }) =>
+                  isSelected ? (
+                    <FaCheckCircle className={"text-primary"} />
+                  ) : (
+                    <LucideXCircle className={"text-danger"} />
+                  )
                 }
               />
             </div>

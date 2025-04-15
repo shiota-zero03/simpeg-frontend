@@ -1,5 +1,12 @@
 import { TitleCase } from "@/components/card/TitleCase";
-import { Button, Card, CardBody, Input, useDisclosure, Tooltip } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  Input,
+  useDisclosure,
+  Tooltip,
+} from "@heroui/react";
 
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
@@ -10,7 +17,6 @@ import { PenilaianKinerjaDougnhut } from "@/components/Charts/penilaian-kinerja"
 import EditPenilaianNilai from "@/components/modals/Penilaian/EditPenilaianNilai";
 
 export default function ViewBobotKinerja() {
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -33,15 +39,19 @@ export default function ViewBobotKinerja() {
             <LuArrowLeft /> Kembali
           </Link>
         </div>
-        <TitleCase
-          title="Detail Penilaian Kinerja"
-        />
+        <TitleCase title="Detail Penilaian Kinerja" />
         <div className="bg-white shadow-md rounded-xl border min-h-[64vh] flex flex-col gap-1">
           <div className="md:p-4 p-2 grid md:grid-cols-5 grid-cols-1 gap-4">
             <div className="flex flex-col gap-2 md:col-span-2 grid-cols-1 mb-2">
               <Card className="border relative overflow-hidden" shadow="none">
                 <CardBody className="p-4 flex items-center md:flex-row flex-col gap-4">
-                  <img src={`https://i.pravatar.cc/150?u=a042581f4e29026024d`} alt="profile" width={80} height={80} className="rounded-full" />
+                  <img
+                    src={`https://i.pravatar.cc/150?u=a042581f4e29026024d`}
+                    alt="profile"
+                    width={80}
+                    height={80}
+                    className="rounded-full"
+                  />
                   <div className="text-sm flex flex-col gap-1 md:items-start items-center">
                     <p className="text-sm">Kepala Bidang Perdagangan</p>
                     <p className="font-semibold text-lg">Alfonso Philips</p>
@@ -75,13 +85,13 @@ export default function ViewBobotKinerja() {
                           classNames={{
                             inputWrapper: "border-[0.8px]",
                             input: "text-xs",
-                            label: "font-semibold"
+                            label: "font-semibold",
                           }}
                         />
                       </div>
                       <div className="flex items-center justify-end gap-2">
                         <Link
-                          to={'#'}
+                          to={"#"}
                           className="border-[0.8px] text-xs flex items-center p-1.5 border-danger text-danger rounded-md w-28 gap-2 justify-center"
                         >
                           <FaFilePdf size={12} /> Export .pdf
@@ -103,186 +113,250 @@ export default function ViewBobotKinerja() {
                     <div className="mb-3">
                       <span className="font-semibold text-xs">Tanggal</span>
                       <div className="flex items-center gap-2 font-semibold text-xs">
-                        <LucideCalendarDays className="text-button-primary text-xs" size={18} /> 14 April 2025
+                        <LucideCalendarDays
+                          className="text-button-primary text-xs"
+                          size={18}
+                        />{" "}
+                        14 April 2025
                       </div>
                     </div>
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="flex flex-col gap-1">
-                          <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                              Kinerja 
-                              <Tooltip
-                                  content="Tidak ada file"
-                                  radius="full"
-                                  color="primary"
-                                  placement="top-start"
-                                  size="sm"
-                              >
-                                  <FaQuestionCircle
-                                      className="text-info border-info"
-                                      size={12}
-                                  />
-                              </Tooltip>
-                              <span className="text-danger">*</span>
-                          </label>
-                          <Input
-                              aria-label="lokasi"
-                              readOnly
-                              value={"Tingkat V (Nilai 5) - Sangat Baik"}
-                              variant="bordered"
-                              radius="sm"
-                              placeholder="Masukkan Disini"
-                              classNames={{
-                                input: "text-xs cursor-not-allowed",
-                              }}
-                          />
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold flex items-center gap-2"
+                        >
+                          Kinerja
+                          <Tooltip
+                            content="Tidak ada file"
+                            radius="full"
+                            color="primary"
+                            placement="top-start"
+                            size="sm"
+                          >
+                            <FaQuestionCircle
+                              className="text-info border-info"
+                              size={12}
+                            />
+                          </Tooltip>
+                          <span className="text-danger">*</span>
+                        </label>
+                        <Input
+                          aria-label="lokasi"
+                          readOnly
+                          value={"Tingkat V (Nilai 5) - Sangat Baik"}
+                          variant="bordered"
+                          radius="sm"
+                          placeholder="Masukkan Disini"
+                          classNames={{
+                            input: "text-xs cursor-not-allowed",
+                          }}
+                        />
                       </div>
                       <div className="flex flex-col gap-1">
-                          <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                              Bukti Pendukung
-                          </label>
-                          <Link className="text-info underline text-sm mt-2 italic" target="__blank" to={`#`}>File Lampiran</Link>
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold flex items-center gap-2"
+                        >
+                          Bukti Pendukung
+                        </label>
+                        <Link
+                          className="text-info underline text-sm mt-2 italic"
+                          target="__blank"
+                          to={`#`}
+                        >
+                          File Lampiran
+                        </Link>
                       </div>
                       <div className="flex flex-col gap-1">
-                          <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                              Disiplin 
-                              <Tooltip
-                                  content="Tidak ada file"
-                                  radius="full"
-                                  color="primary"
-                                  placement="top-start"
-                                  size="sm"
-                              >
-                                  <FaQuestionCircle
-                                      className="text-info border-info"
-                                      size={12}
-                                  />
-                              </Tooltip>
-                              <span className="text-danger">*</span>
-                          </label>
-                          <Input
-                              aria-label="lokasi"
-                              readOnly
-                              value={"Tingkat V (Nilai 5) - Sangat Baik"}
-                              variant="bordered"
-                              radius="sm"
-                              placeholder="Masukkan Disini"
-                              classNames={{
-                                input: "text-xs cursor-not-allowed",
-                              }}
-                          />
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold flex items-center gap-2"
+                        >
+                          Disiplin
+                          <Tooltip
+                            content="Tidak ada file"
+                            radius="full"
+                            color="primary"
+                            placement="top-start"
+                            size="sm"
+                          >
+                            <FaQuestionCircle
+                              className="text-info border-info"
+                              size={12}
+                            />
+                          </Tooltip>
+                          <span className="text-danger">*</span>
+                        </label>
+                        <Input
+                          aria-label="lokasi"
+                          readOnly
+                          value={"Tingkat V (Nilai 5) - Sangat Baik"}
+                          variant="bordered"
+                          radius="sm"
+                          placeholder="Masukkan Disini"
+                          classNames={{
+                            input: "text-xs cursor-not-allowed",
+                          }}
+                        />
                       </div>
                       <div className="flex flex-col gap-1">
-                          <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                              Bukti Pendukung
-                          </label>
-                          <Link className="text-info underline text-sm mt-2 italic" target="__blank" to={`#`}>File Lampiran</Link>
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold flex items-center gap-2"
+                        >
+                          Bukti Pendukung
+                        </label>
+                        <Link
+                          className="text-info underline text-sm mt-2 italic"
+                          target="__blank"
+                          to={`#`}
+                        >
+                          File Lampiran
+                        </Link>
                       </div>
                       <div className="flex flex-col gap-1">
-                          <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                              Loyalitas 
-                              <Tooltip
-                                  content="Tidak ada file"
-                                  radius="full"
-                                  color="primary"
-                                  placement="top-start"
-                                  size="sm"
-                              >
-                                  <FaQuestionCircle
-                                      className="text-info border-info"
-                                      size={12}
-                                  />
-                              </Tooltip>
-                              <span className="text-danger">*</span>
-                          </label>
-                          <Input
-                              aria-label="lokasi"
-                              readOnly
-                              value={"Tingkat V (Nilai 5) - Sangat Baik"}
-                              variant="bordered"
-                              radius="sm"
-                              placeholder="Masukkan Disini"
-                              classNames={{
-                                input: "text-xs cursor-not-allowed",
-                              }}
-                          />
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold flex items-center gap-2"
+                        >
+                          Loyalitas
+                          <Tooltip
+                            content="Tidak ada file"
+                            radius="full"
+                            color="primary"
+                            placement="top-start"
+                            size="sm"
+                          >
+                            <FaQuestionCircle
+                              className="text-info border-info"
+                              size={12}
+                            />
+                          </Tooltip>
+                          <span className="text-danger">*</span>
+                        </label>
+                        <Input
+                          aria-label="lokasi"
+                          readOnly
+                          value={"Tingkat V (Nilai 5) - Sangat Baik"}
+                          variant="bordered"
+                          radius="sm"
+                          placeholder="Masukkan Disini"
+                          classNames={{
+                            input: "text-xs cursor-not-allowed",
+                          }}
+                        />
                       </div>
                       <div className="flex flex-col gap-1">
-                          <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                              Bukti Pendukung
-                          </label>
-                          <Link className="text-info underline text-sm mt-2 italic" target="__blank" to={`#`}>File Lampiran</Link>
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold flex items-center gap-2"
+                        >
+                          Bukti Pendukung
+                        </label>
+                        <Link
+                          className="text-info underline text-sm mt-2 italic"
+                          target="__blank"
+                          to={`#`}
+                        >
+                          File Lampiran
+                        </Link>
                       </div>
                       <div className="flex flex-col gap-1">
-                          <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                              Kerjasama 
-                              <Tooltip
-                                  content="Tidak ada file"
-                                  radius="full"
-                                  color="primary"
-                                  placement="top-start"
-                                  size="sm"
-                              >
-                                  <FaQuestionCircle
-                                      className="text-info border-info"
-                                      size={12}
-                                  />
-                              </Tooltip>
-                              <span className="text-danger">*</span>
-                          </label>
-                          <Input
-                              aria-label="lokasi"
-                              readOnly
-                              value={"Tingkat V (Nilai 5) - Sangat Baik"}
-                              variant="bordered"
-                              radius="sm"
-                              placeholder="Masukkan Disini"
-                              classNames={{
-                                input: "text-xs cursor-not-allowed",
-                              }}
-                          />
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold flex items-center gap-2"
+                        >
+                          Kerjasama
+                          <Tooltip
+                            content="Tidak ada file"
+                            radius="full"
+                            color="primary"
+                            placement="top-start"
+                            size="sm"
+                          >
+                            <FaQuestionCircle
+                              className="text-info border-info"
+                              size={12}
+                            />
+                          </Tooltip>
+                          <span className="text-danger">*</span>
+                        </label>
+                        <Input
+                          aria-label="lokasi"
+                          readOnly
+                          value={"Tingkat V (Nilai 5) - Sangat Baik"}
+                          variant="bordered"
+                          radius="sm"
+                          placeholder="Masukkan Disini"
+                          classNames={{
+                            input: "text-xs cursor-not-allowed",
+                          }}
+                        />
                       </div>
                       <div className="flex flex-col gap-1">
-                          <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                              Bukti Pendukung
-                          </label>
-                          <Link className="text-info underline text-sm mt-2 italic" target="__blank" to={`#`}>File Lampiran</Link>
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold flex items-center gap-2"
+                        >
+                          Bukti Pendukung
+                        </label>
+                        <Link
+                          className="text-info underline text-sm mt-2 italic"
+                          target="__blank"
+                          to={`#`}
+                        >
+                          File Lampiran
+                        </Link>
                       </div>
                       <div className="flex flex-col gap-1">
-                          <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                              Attitude 
-                              <Tooltip
-                                  content="Tidak ada file"
-                                  radius="full"
-                                  color="primary"
-                                  placement="top-start"
-                                  size="sm"
-                              >
-                                  <FaQuestionCircle
-                                      className="text-info border-info"
-                                      size={12}
-                                  />
-                              </Tooltip>
-                              <span className="text-danger">*</span>
-                          </label>
-                          <Input
-                              aria-label="lokasi"
-                              readOnly
-                              value={"Tingkat V (Nilai 5) - Sangat Baik"}
-                              variant="bordered"
-                              radius="sm"
-                              placeholder="Masukkan Disini"
-                              classNames={{
-                                input: "text-xs cursor-not-allowed",
-                              }}
-                          />
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold flex items-center gap-2"
+                        >
+                          Attitude
+                          <Tooltip
+                            content="Tidak ada file"
+                            radius="full"
+                            color="primary"
+                            placement="top-start"
+                            size="sm"
+                          >
+                            <FaQuestionCircle
+                              className="text-info border-info"
+                              size={12}
+                            />
+                          </Tooltip>
+                          <span className="text-danger">*</span>
+                        </label>
+                        <Input
+                          aria-label="lokasi"
+                          readOnly
+                          value={"Tingkat V (Nilai 5) - Sangat Baik"}
+                          variant="bordered"
+                          radius="sm"
+                          placeholder="Masukkan Disini"
+                          classNames={{
+                            input: "text-xs cursor-not-allowed",
+                          }}
+                        />
                       </div>
                       <div className="flex flex-col gap-1">
-                          <label htmlFor="lokasi" className="text-xs font-semibold flex items-center gap-2">
-                              Bukti Pendukung
-                          </label>
-                          <Link className="text-info underline text-sm mt-2 italic" target="__blank" to={`#`}>File Lampiran</Link>
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold flex items-center gap-2"
+                        >
+                          Bukti Pendukung
+                        </label>
+                        <Link
+                          className="text-info underline text-sm mt-2 italic"
+                          target="__blank"
+                          to={`#`}
+                        >
+                          File Lampiran
+                        </Link>
                       </div>
-                  </div>
+                    </div>
                   </div>
                 </CardBody>
               </Card>
