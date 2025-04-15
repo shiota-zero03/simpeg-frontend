@@ -57,7 +57,7 @@ export default function Unit() {
         id: item.id,
         idUnit: item.idUnit,
         nameUnit: item.nameUnit,
-        description: item.description
+        description: item.description,
       }));
     } else {
       return [];

@@ -10,14 +10,14 @@ import { useNavigate } from "react-router-dom";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 
 interface DataProps {
-    id: string;
-    nip?: string;
-    nama: string;
-    kinerja: number;
-    disiplin: number;
-    loyalitas: number;
-    kerjasama: number;
-    attitude: number;
+  id: string;
+  nip?: string;
+  nama: string;
+  kinerja: number;
+  disiplin: number;
+  loyalitas: number;
+  kerjasama: number;
+  attitude: number;
 }
 
 export default function ListKaryawan() {
@@ -68,7 +68,12 @@ export default function ListKaryawan() {
         loyalitas: item.loyalitas,
         kerjasama: item.kerjasama,
         attitude: item.attitude,
-        total: item.kinerja + item.disiplin + item.loyalitas + item.kerjasama + item.attitude,
+        total:
+          item.kinerja +
+          item.disiplin +
+          item.loyalitas +
+          item.kerjasama +
+          item.attitude,
       }));
     } else {
       return [];
@@ -97,40 +102,40 @@ export default function ListKaryawan() {
       // meta: { align: "center" },
     },
     {
-        accessorKey: "kinerja",
-        header: "Kinerja",
-        cell: (info) => info.getValue() as number || 0,
-        meta: { align: "center" }
+      accessorKey: "kinerja",
+      header: "Kinerja",
+      cell: (info) => (info.getValue() as number) || 0,
+      meta: { align: "center" },
     },
     {
-        accessorKey: "disiplin",
-        header: "Disiplin",
-        cell: (info) => info.getValue() as number || 0,
-        meta: { align: "center" }
+      accessorKey: "disiplin",
+      header: "Disiplin",
+      cell: (info) => (info.getValue() as number) || 0,
+      meta: { align: "center" },
     },
     {
-        accessorKey: "loyalitas",
-        header: "Loyalitas",
-        cell: (info) => info.getValue() as number || 0,
-        meta: { align: "center" }
+      accessorKey: "loyalitas",
+      header: "Loyalitas",
+      cell: (info) => (info.getValue() as number) || 0,
+      meta: { align: "center" },
     },
     {
-        accessorKey: "kerjasama",
-        header: "Kerjasama",
-        cell: (info) => info.getValue() as number || 0,
-        meta: { align: "center" }
+      accessorKey: "kerjasama",
+      header: "Kerjasama",
+      cell: (info) => (info.getValue() as number) || 0,
+      meta: { align: "center" },
     },
     {
-        accessorKey: "attitude",
-        header: "Attitude",
-        cell: (info) => info.getValue() as number || 0,
-        meta: { align: "center" }
+      accessorKey: "attitude",
+      header: "Attitude",
+      cell: (info) => (info.getValue() as number) || 0,
+      meta: { align: "center" },
     },
     {
-        accessorKey: "total",
-        header: "Total",
-        cell: (info) => info.getValue() as number || 0,
-        meta: { align: "center" }
+      accessorKey: "total",
+      header: "Total",
+      cell: (info) => (info.getValue() as number) || 0,
+      meta: { align: "center" },
     },
     {
       header: "Aksi",
@@ -140,7 +145,9 @@ export default function ListKaryawan() {
           <div className="flex items-center gap-2 justify-center">
             <Button
               onPress={() => {
-                navigate(`/penilaian-kinerja/berdasarkan-bobot/detail-data/${id}`);
+                navigate(
+                  `/penilaian-kinerja/berdasarkan-bobot/detail-data/${id}`,
+                );
               }}
               isIconOnly
               radius="sm"
@@ -151,7 +158,9 @@ export default function ListKaryawan() {
             </Button>
             <Button
               onPress={() => {
-                navigate(`/penilaian-kinerja/berdasarkan-bobot/export-data/${id}`);
+                navigate(
+                  `/penilaian-kinerja/berdasarkan-bobot/export-data/${id}`,
+                );
               }}
               isIconOnly
               radius="sm"

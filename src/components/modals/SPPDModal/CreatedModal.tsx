@@ -186,7 +186,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   }}
                 >
                   {(peg) => (
-                    <AutocompleteItem key={peg.id} textValue={peg.nama}>
+                    <AutocompleteItem key={String(peg.id)} textValue={peg.nama}>
                       {peg.nama}
                     </AutocompleteItem>
                   )}
@@ -238,10 +238,10 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                 aria-label="lokasi"
                 variant="bordered"
                 radius="sm"
-                value={formData.kegiatan}
-                onChange={(e) =>
-                  setFormData({ ...formData, kegiatan: e.target.value })
-                }
+                // value={formData.kegiatan}
+                // onChange={(e) =>
+                //   setFormData({ ...formData, kegiatan: e.target.value })
+                // }
                 placeholder="Masukkan disini"
                 classNames={{
                   input: "text-xs",
@@ -313,10 +313,8 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   aria-label="lokasi"
                   variant="bordered"
                   radius="sm"
-                  value={formData.lokasi}
-                  onChange={(e) =>
-                    setFormData({ ...formData, lokasi: e.target.value })
-                  }
+                  // value={formData.lokasi}
+                  // onChange={(e) => setFormData({ ...formData, lokasi: e.target.value })}
                   placeholder="Masukkan disini"
                   classNames={{
                     input: "text-xs",

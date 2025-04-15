@@ -30,9 +30,7 @@ export const createUnit = async (
   const response = await instance.post(`/admin/unit/create`, formData);
   return response.data;
 };
-export const getDetailUnit = async (
-  id: string,
-): Promise<IUnitDetailRes> => {
+export const getDetailUnit = async (id: string): Promise<IUnitDetailRes> => {
   const response = await instance.get(`/admin/unit/${id}`);
   return response.data;
 };

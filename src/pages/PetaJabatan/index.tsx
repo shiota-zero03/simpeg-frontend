@@ -1,5 +1,3 @@
-export default function PetaJabatan(){
-    return (
-        <></>
-    )
+export default function PetaJabatan() {
+  return <></>;
 }

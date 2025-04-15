@@ -3,7 +3,6 @@
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 
- 
 const exportToExcel = async (data: any[]) => {
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet("Laporan Data");

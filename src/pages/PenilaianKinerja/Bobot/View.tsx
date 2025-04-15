@@ -4,23 +4,47 @@ import { Button, Card, CardBody, Input, useDisclosure } from "@heroui/react";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
 import { LuArrowLeft, LuCalendarDays } from "react-icons/lu";
-import { LucideCalendarDays, LucideFileArchive, LucidePencilLine } from "lucide-react";
+import {
+  LucideCalendarDays,
+  LucideFileArchive,
+  LucidePencilLine,
+} from "lucide-react";
 import { useState } from "react";
 import { FaFilePdf } from "react-icons/fa";
 import EditPenilaianBobot from "@/components/modals/Penilaian/EditPenilaianBobot";
 
 export default function ViewBobotKinerja() {
-  const [ searchMonth, setSearchMonth ] = useState<string>("")
+  const [searchMonth, setSearchMonth] = useState<string>("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dataPenilaian = [
-    { variabel: 'Kinerja', bobot: 50, nilai: 80, lampiran: "https://www.google.com" },
-    { variabel: 'Disiplin', bobot: 20, nilai: 20, lampiran: "https://www.google.com" },
-    { variabel: 'Loyalitas', bobot: 5, nilai: 60, lampiran: "https://www.google.com" },
-    { variabel: 'Kerjasama', bobot: 5, nilai: 80, lampiran: "https://www.google.com" },
-    { variabel: 'Attitude', bobot: 20, nilai: 20, lampiran: "" }
-  ]
+    {
+      variabel: "Kinerja",
+      bobot: 50,
+      nilai: 80,
+      lampiran: "https://www.google.com",
+    },
+    {
+      variabel: "Disiplin",
+      bobot: 20,
+      nilai: 20,
+      lampiran: "https://www.google.com",
+    },
+    {
+      variabel: "Loyalitas",
+      bobot: 5,
+      nilai: 60,
+      lampiran: "https://www.google.com",
+    },
+    {
+      variabel: "Kerjasama",
+      bobot: 5,
+      nilai: 80,
+      lampiran: "https://www.google.com",
+    },
+    { variabel: "Attitude", bobot: 20, nilai: 20, lampiran: "" },
+  ];
 
   return (
     <>
@@ -42,15 +66,19 @@ export default function ViewBobotKinerja() {
             <LuArrowLeft /> Kembali
           </Link>
         </div>
-        <TitleCase
-          title="Detail Penilaian Kinerja"
-        />
+        <TitleCase title="Detail Penilaian Kinerja" />
         <div className="bg-white shadow-md rounded-xl border min-h-[64vh] flex flex-col gap-1">
           <div className="md:p-4 p-2">
             <div className="flex">
               <Card className="border relative overflow-hidden" shadow="none">
                 <CardBody className="p-4 flex items-center md:flex-row flex-col gap-4">
-                  <img src={`https://i.pravatar.cc/150?u=a042581f4e29026024d`} alt="profile" width={80} height={80} className="rounded-full" />
+                  <img
+                    src={`https://i.pravatar.cc/150?u=a042581f4e29026024d`}
+                    alt="profile"
+                    width={80}
+                    height={80}
+                    className="rounded-full"
+                  />
                   <div className="text-sm flex flex-col gap-1 md:items-start items-center">
                     <p className="text-sm">Kepala Bidang Perdagangan</p>
                     <p className="font-semibold text-lg">Alfonso Philips</p>
@@ -61,7 +89,8 @@ export default function ViewBobotKinerja() {
             </div>
             <div className="flex items-center justify-between my-6">
               <div className="flex items-center gap-2 font-semibold">
-                <LucideCalendarDays className="text-button-primary" size={18} /> 14 April 2025
+                <LucideCalendarDays className="text-button-primary" size={18} />{" "}
+                14 April 2025
               </div>
               <div className="flex items-end gap-2">
                 <div className="flex sm:flex-row flex-col gap-2 items-end w-full">
@@ -83,13 +112,13 @@ export default function ViewBobotKinerja() {
                     classNames={{
                       inputWrapper: "border-[0.8px]",
                       input: "text-xs",
-                      label: "font-semibold"
+                      label: "font-semibold",
                     }}
                   />
                 </div>
                 <div className="flex items-center justify-end gap-2">
                   <Link
-                    to={'#'}
+                    to={"#"}
                     className="border-[0.8px] text-xs flex items-center p-1.5 border-danger text-danger rounded-md w-28 gap-2 justify-center"
                   >
                     <FaFilePdf size={12} /> Export .pdf
@@ -136,9 +165,7 @@ export default function ViewBobotKinerja() {
                       >
                         Penilaian
                       </th>
-                      <th
-                        className="border-y-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-normal"
-                      >
+                      <th className="border-y-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-normal">
                         Nilai Akhir
                       </th>
                       <th
@@ -164,7 +191,10 @@ export default function ViewBobotKinerja() {
                       <th className="border-b-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-normal bg-[#CEFFC7]">
                         Sangat Tinggi
                       </th>
-                      <th className="border-b-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-normal" rowSpan={2}>
+                      <th
+                        className="border-b-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-normal"
+                        rowSpan={2}
+                      >
                         (nilai * bobot)/100
                       </th>
                     </tr>
@@ -189,16 +219,50 @@ export default function ViewBobotKinerja() {
                   <tbody>
                     {dataPenilaian.map((item, index) => (
                       <tr key={index}>
-                        <td className="text-center border-s-2 sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">{index + 1}</td>
-                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">{item.variabel}</td>
-                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">{item.bobot}</td>
-                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">{item.nilai <= 50 ? item.nilai : "-"}</td>
-                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">{(item.nilai <= 60 && item.nilai >= 51) ? item.nilai : "-"}</td>
-                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">{(item.nilai <= 70 && item.nilai >= 61) ? item.nilai : "-"}</td>
-                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">{(item.nilai <= 80 && item.nilai >= 71) ? item.nilai : "-"}</td>
-                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">{(item.nilai <= 100 && item.nilai >= 81) ? item.nilai : "-"}</td>
-                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">{(item.nilai * item.bobot) / 100}</td>
-                        <td className="flex items-center justify-center text-info border-e-2 sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">{item.lampiran ? <Link to={item.lampiran} target="__blank"><LucideFileArchive /></Link> : "-"}</td>
+                        <td className="text-center border-s-2 sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">
+                          {index + 1}
+                        </td>
+                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">
+                          {item.variabel}
+                        </td>
+                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">
+                          {item.bobot}
+                        </td>
+                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">
+                          {item.nilai <= 50 ? item.nilai : "-"}
+                        </td>
+                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">
+                          {item.nilai <= 60 && item.nilai >= 51
+                            ? item.nilai
+                            : "-"}
+                        </td>
+                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">
+                          {item.nilai <= 70 && item.nilai >= 61
+                            ? item.nilai
+                            : "-"}
+                        </td>
+                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">
+                          {item.nilai <= 80 && item.nilai >= 71
+                            ? item.nilai
+                            : "-"}
+                        </td>
+                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">
+                          {item.nilai <= 100 && item.nilai >= 81
+                            ? item.nilai
+                            : "-"}
+                        </td>
+                        <td className="text-center sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">
+                          {(item.nilai * item.bobot) / 100}
+                        </td>
+                        <td className="flex items-center justify-center text-info border-e-2 sm:text-sm text-xs min-w-6 p-2 border-b-2 border-accent-gray">
+                          {item.lampiran ? (
+                            <Link to={item.lampiran} target="__blank">
+                              <LucideFileArchive />
+                            </Link>
+                          ) : (
+                            "-"
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -210,28 +274,20 @@ export default function ViewBobotKinerja() {
                       >
                         Total Nilai
                       </th>
-                      <th
-                        className="border-y-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-semibold"
-                      >
+                      <th className="border-y-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-semibold">
                         100
                       </th>
                       <th
                         colSpan={5}
                         className="border-y-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-semibold"
                       />
-                      <th
-                        className="border-y-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-semibold"
-                      >
-                        {
-                          dataPenilaian.reduce((total, item) => {
-                            const skor = (item.nilai * item.bobot)/100;
-                            return total + skor;
-                          }, 0)
-                        }
+                      <th className="border-y-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-semibold">
+                        {dataPenilaian.reduce((total, item) => {
+                          const skor = (item.nilai * item.bobot) / 100;
+                          return total + skor;
+                        }, 0)}
                       </th>
-                      <th
-                        className="border-y-2 border-e-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-semibold"
-                      />
+                      <th className="border-y-2 border-e-2 border-accent-gray p-2 sm:text-sm text-xs text-gray-600 font-semibold" />
                     </tr>
                   </tfoot>
                 </table>

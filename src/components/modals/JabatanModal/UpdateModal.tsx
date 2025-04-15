@@ -190,7 +190,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   aria-label="lokasi"
                   variant="bordered"
                   radius="sm"
-                  value={formData.nama}
+                  value={formData.nama || ""}
                   onChange={(e) =>
                     setFormData({ ...formData, nama: e.target.value })
                   }
@@ -211,7 +211,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   aria-label="lokasi"
                   variant="bordered"
                   radius="sm"
-                  value={formData.singkatan}
+                  value={formData.singkatan || ""}
                   onChange={(e) =>
                     setFormData({ ...formData, singkatan: e.target.value })
                   }
@@ -258,7 +258,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                     aria-label="lokasi"
                     variant="bordered"
                     radius="sm"
-                    selectedKeys={[String(formData.jabatanFungsional)]}
+                    selectedKeys={[String(formData.jabatanFungsional || "")]}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -301,7 +301,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   aria-label="lokasi"
                   variant="bordered"
                   radius="sm"
-                  selectedKeys={[String(formData.kelas)]}
+                  selectedKeys={[String(formData.kelas || "")]}
                   onChange={(e) =>
                     setFormData({ ...formData, kelas: Number(e.target.value) })
                   }
@@ -331,7 +331,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   variant="bordered"
                   radius="sm"
                   defaultItems={JABATAN_SELECT}
-                  selectedKey={String(formData.atasan)}
+                  selectedKey={String(formData.atasan || "")}
                   onSelectionChange={(value) =>
                     setFormData({ ...formData, atasan: value as string })
                   }

@@ -20,11 +20,7 @@ export const useGetAllUnitOption = () => {
   });
 };
 
-export const useGetAllUnit = (
-  page: number,
-  limit: number,
-  title?: string,
-) => {
+export const useGetAllUnit = (page: number, limit: number, title?: string) => {
   return useQuery({
     queryKey: ["getAllUnit"],
     queryFn: () => getAllUnit(page, limit, title),
@@ -33,17 +29,15 @@ export const useGetAllUnit = (
 };
 export const useCreateUnit = () => {
   const queryClient = useQueryClient();
-  return useMutation<IUnitDetailRes, AxiosError<BaseErrorRes>, StoreUnit>(
-    {
-      mutationFn: (formData) => createUnit(formData),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["createUnit"] });
-      },
-      onError: (error) => {
-        throw error;
-      },
+  return useMutation<IUnitDetailRes, AxiosError<BaseErrorRes>, StoreUnit>({
+    mutationFn: (formData) => createUnit(formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["createUnit"] });
     },
-  );
+    onError: (error) => {
+      throw error;
+    },
+  });
 };
 export const useGetDetailUnit = (id: string) => {
   return useQuery({
@@ -70,11 +64,7 @@ export const useUpdateUnit = () => {
 };
 export const useDeleteUnit = () => {
   const queryClient = useQueryClient();
-  return useMutation<
-    IUnitDetailRes,
-    AxiosError<BaseErrorRes>,
-    { id: string }
-  >({
+  return useMutation<IUnitDetailRes, AxiosError<BaseErrorRes>, { id: string }>({
     mutationFn: ({ id }) => deleteUnit(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["deleteUnit"] });

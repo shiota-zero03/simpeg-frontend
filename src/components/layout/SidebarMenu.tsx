@@ -44,7 +44,7 @@ const roleAccessMap: Record<string, string[]> = {
   ADMIN: [
     "beranda",
     "peta-jabatan",
-    'unit',
+    "unit",
     "position",
     "pegawai",
     "summary-report",
@@ -59,7 +59,7 @@ const roleAccessMap: Record<string, string[]> = {
     "news",
     "galeri-dokumentasi",
     "whatsapp",
-    "e-filling"
+    "e-filling",
   ],
 };
 

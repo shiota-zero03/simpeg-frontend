@@ -1,9 +1,20 @@
+/* eslint-disable */
+
 import React, { useState } from "react";
 import {
-  LineChart, Line,
-  BarChart, Bar,
-  PieChart, Pie, Cell,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
 } from "recharts";
 
 interface ChartProps {
@@ -14,15 +25,30 @@ interface ChartProps {
   xKey?: string; // Default: 'data'
 }
 
-const DEFAULT_COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#8dd1e1", "#a28dd1", "#ff9f7f"];
+const DEFAULT_COLORS = [
+  "#8884d8",
+  "#82ca9d",
+  "#ffc658",
+  "#ff7f50",
+  "#8dd1e1",
+  "#a28dd1",
+  "#ff9f7f",
+];
 
-const CustomChart: React.FC<ChartProps> = ({ data, dataKeys, type, colors = DEFAULT_COLORS, xKey = "data" }) => {
-  const defaultVisible = type === "doughnut" ? data.map(item => item.name) : [...dataKeys];
+const CustomChart: React.FC<ChartProps> = ({
+  data,
+  dataKeys,
+  type,
+  colors = DEFAULT_COLORS,
+  xKey = "data",
+}) => {
+  const defaultVisible =
+    type === "doughnut" ? data.map((item) => item.name) : [...dataKeys];
   const [visibleKeys, setVisibleKeys] = useState<string[]>(defaultVisible);
 
   const toggleKey = (key: string) => {
     setVisibleKeys((prev) =>
-      prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key]
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key],
     );
   };
 
@@ -85,9 +111,11 @@ const CustomChart: React.FC<ChartProps> = ({ data, dataKeys, type, colors = DEFA
         ) : (
           <PieChart>
             <Pie
-              data={data.map(item => ({
+              data={data.map((item) => ({
                 ...item,
-                [dataKeys[0]]: visibleKeys.includes(item.name) ? item[dataKeys[0]] : 0
+                [dataKeys[0]]: visibleKeys.includes(item.name)
+                  ? item[dataKeys[0]]
+                  : 0,
               }))}
               dataKey={dataKeys[0]}
               nameKey="name"

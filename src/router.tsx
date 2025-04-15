@@ -27,10 +27,15 @@ const Galeri = lazy(() => import("@/pages/Galeri"));
 const GaleriCreated = lazy(() => import("@/pages/Galeri/Created"));
 const GaleriUpdated = lazy(() => import("@/pages/Galeri/Updated"));
 const SPPD = lazy(() => import("@/pages/SPPD"));
+const EFilling = lazy(() => import("@/pages/E-FIlling"));
 const BobotKinerja = lazy(() => import("@/pages/PenilaianKinerja/Bobot"));
-const ViewBobotKinerja = lazy(() => import("@/pages/PenilaianKinerja/Bobot/View"));
+const ViewBobotKinerja = lazy(
+  () => import("@/pages/PenilaianKinerja/Bobot/View"),
+);
 const NilaiKinerja = lazy(() => import("@/pages/PenilaianKinerja/Nilai"));
-const ViewNilaiKinerja = lazy(() => import("@/pages/PenilaianKinerja/Nilai/View"));
+const ViewNilaiKinerja = lazy(
+  () => import("@/pages/PenilaianKinerja/Nilai/View"),
+);
 
 const ExportPDFSummary = lazy(() => import("@/pages/export/pdf/SummaryPdf"));
 
@@ -70,6 +75,7 @@ export default function Router() {
             element={<GaleriUpdated />}
           />
           <Route path="/sppd" element={<SPPD />} />
+          <Route path="/e-filling" element={<EFilling />} />
           <Route
             path="/penilaian-kinerja/berdasarkan-bobot"
             element={<BobotKinerja />}

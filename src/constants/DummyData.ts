@@ -457,7 +457,6 @@ export const localBindData = [
   { Id: "11", Role: "Design Manager", Manager: "4", color: "#1859B7" },
 ];
 
-
 export const DinasUptdData: { name: string; key: string }[] = [
   { name: "Dinas", key: "Dinas" },
   { name: "UPTD I (Tambun)", key: "UPTD I (Tambun)" },
@@ -470,7 +469,7 @@ export const DinasUptdData: { name: string; key: string }[] = [
   { name: "UPTD VIII (Serang)", key: "UPTD VIII (Serang)" },
   { name: "UPTD IX (Cibarusah)", key: "UPTD IX (Cibarusah)" },
   { name: "UPTD Metrologi Legal ", key: "UPTD Metrologi Legal " },
-]
+];
 
 export const statusKepegawaianData: { name: string; key: string }[] = [
   { name: "Dinas", key: "Dinas" },
@@ -484,18 +483,27 @@ export const statusKepegawaianData: { name: string; key: string }[] = [
   { name: "UPTD VIII (Serang)", key: "UPTD VIII (Serang)" },
   { name: "UPTD IX (Cibarusah)", key: "UPTD IX (Cibarusah)" },
   { name: "UPTD Metrologi Legal ", key: "UPTD Metrologi Legal " },
-]
+];
 
 export const pendidikanTerakhir: { name: string; key: string }[] = [
-  {name: "Sekolah Dasar (SD)", key: "Sekolah Dasar (SD)"},
-  {name: "Sekolah Menengah Pertama (SMP)", key: "Sekolah Menengah Pertama (SMP)"},
-  {name: "Sekolah Menengah Atas (SMA)", key: "Sekolah Menengah Atas (SMA)"},
-  {name: "Sekolah Menengah Kejuruan (SMK)", key: "Sekolah Menengah Kejuruan (SMK)"},
-  {name: "Diploma (D1, D2, D3, D4/Sarjana Terapan)", key: "Diploma (D1, D2, D3, D4/Sarjana Terapan)"},
-  {name: "Sarjana (S1)", key: "Sarjana (S1)"},
-  {name: "Magister (S2)", key: "Magister (S2)"},
-  {name: "Doktor (S3)", key: "Doktor (S3)"},
-]
+  { name: "Sekolah Dasar (SD)", key: "Sekolah Dasar (SD)" },
+  {
+    name: "Sekolah Menengah Pertama (SMP)",
+    key: "Sekolah Menengah Pertama (SMP)",
+  },
+  { name: "Sekolah Menengah Atas (SMA)", key: "Sekolah Menengah Atas (SMA)" },
+  {
+    name: "Sekolah Menengah Kejuruan (SMK)",
+    key: "Sekolah Menengah Kejuruan (SMK)",
+  },
+  {
+    name: "Diploma (D1, D2, D3, D4/Sarjana Terapan)",
+    key: "Diploma (D1, D2, D3, D4/Sarjana Terapan)",
+  },
+  { name: "Sarjana (S1)", key: "Sarjana (S1)" },
+  { name: "Magister (S2)", key: "Magister (S2)" },
+  { name: "Doktor (S3)", key: "Doktor (S3)" },
+];
 
 export const penilaianBobotDummy: {
   id: string;
@@ -556,5 +564,87 @@ export const penilaianBobotDummy: {
     loyalitas: 0,
     kerjasama: 0,
     attitude: 0,
+  },
+];
+
+export const EFillingDummy: {
+  id: number;
+  judulDokumen: string;
+  tanggalDokumen: string;
+  uraian: string;
+  lampiran: string;
+}[] = [
+  {
+    id: 1,
+    judulDokumen: "Surat Tugas Monitoring",
+    tanggalDokumen: "2025-04-01",
+    uraian:
+      "Surat tugas untuk pelaksanaan monitoring dana BOS di Kabupaten Garut.",
+    lampiran: "https://example.com/lampiran/surat-tugas-monitoring.pdf",
+  },
+  {
+    id: 2,
+    judulDokumen: "Laporan Workshop Sistem Informasi",
+    tanggalDokumen: "2025-04-15",
+    uraian:
+      "Dokumen hasil laporan kegiatan workshop pengembangan sistem informasi.",
+    lampiran: "https://example.com/lampiran/laporan-workshop-sistem.pdf",
+  },
+  {
+    id: 3,
+    judulDokumen: "Hasil Survey Infrastruktur",
+    tanggalDokumen: "2025-04-20",
+    uraian: "Dokumen berisi hasil survey lapangan infrastruktur pendidikan.",
+    lampiran: "https://example.com/lampiran/survey-infrastruktur.pdf",
+  },
+  {
+    id: 4,
+    judulDokumen: "Notulen Bimbingan Teknis",
+    tanggalDokumen: "2025-04-22",
+    uraian: "Notulen pelaksanaan Bimtek aplikasi e-SPPD.",
+    lampiran: "https://example.com/lampiran/notulen-bimtek.pdf",
+  },
+  {
+    id: 5,
+    judulDokumen: "Rencana Kegiatan Tahunan",
+    tanggalDokumen: "2025-04-25",
+    uraian: "Rencana kegiatan tahunan bidang administrasi keuangan.",
+    lampiran: "https://example.com/lampiran/rencana-kegiatan.pdf",
+  },
+  {
+    id: 6,
+    judulDokumen: "Evaluasi Pelaporan Keuangan",
+    tanggalDokumen: "2025-04-28",
+    uraian: "Evaluasi dan tindak lanjut pelaporan keuangan triwulan I.",
+    lampiran: "https://example.com/lampiran/evaluasi-keuangan.pdf",
+  },
+  {
+    id: 7,
+    judulDokumen: "Materi Sosialisasi SPBE",
+    tanggalDokumen: "2025-05-01",
+    uraian:
+      "Materi sosialisasi Sistem Pemerintahan Berbasis Elektronik (SPBE).",
+    lampiran: "https://example.com/lampiran/materi-spbe.pdf",
+  },
+  {
+    id: 8,
+    judulDokumen: "Dokumentasi Pemeliharaan Jaringan",
+    tanggalDokumen: "2025-05-05",
+    uraian: "Laporan pemeliharaan jaringan komputer kantor daerah.",
+    lampiran: "https://example.com/lampiran/pemeliharaan-jaringan.pdf",
+  },
+  {
+    id: 9,
+    judulDokumen: "Berita Acara Koordinasi Data",
+    tanggalDokumen: "2025-05-08",
+    uraian: "Berita acara kegiatan koordinasi pengelolaan data antar OPD.",
+    lampiran: "https://example.com/lampiran/berita-acara-data.pdf",
+  },
+  {
+    id: 10,
+    judulDokumen: "Modul Kompetensi Pegawai",
+    tanggalDokumen: "2025-05-12",
+    uraian: "Modul pelatihan peningkatan kompetensi pegawai bidang TI.",
+    lampiran: "https://example.com/lampiran/modul-kompetensi.pdf",
   },
 ];
