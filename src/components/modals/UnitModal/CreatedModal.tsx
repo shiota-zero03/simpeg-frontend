@@ -26,12 +26,14 @@ interface formProps {
   idUnit: string;
   nameUnit: string;
   description: string;
+  ketersediaan: number;
 }
 
 interface errorProps {
   idUnit?: string;
   nameUnit?: string;
   description?: string;
+  ketersediaan?: string;
 }
 
 const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
@@ -41,6 +43,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     idUnit: "",
     nameUnit: "",
     description: "",
+    ketersediaan: 0
   });
 
   const [formError, setFormError] = useState<errorProps>({});
@@ -50,6 +53,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
       idUnit: "",
       nameUnit: "",
       description: "",
+      ketersediaan: 0
     });
     setIsLoading(false);
     setFormError({});
@@ -59,6 +63,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     const errors: errorProps = {};
     if (!formData.idUnit) errors.idUnit = "ID Unit tidak boleh kosong";
     if (!formData.nameUnit) errors.nameUnit = "Nama unit tidak boleh kosong";
+    if (!formData.ketersediaan) errors.ketersediaan = "Ketersediaan tidak boleh kosong";
 
     return errors;
   };
@@ -80,6 +85,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     if (formData.idUnit) formToSend.idUnit = formData.idUnit;
     if (formData.nameUnit) formToSend.nameUnit = formData.nameUnit;
     if (formData.description) formToSend.description = formData.description;
+    if (formData.ketersediaan) formToSend.ketersediaan = formData.ketersediaan;
 
     try {
       mutatePost(formToSend, {
@@ -116,7 +122,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
             />
           </ModalHeader>
           <ModalBody className="max-h-[72vh] overflow-y-auto overflow-y-custom flex flex-col gap-4 pb-8">
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
               <div className="flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
                   ID Unit <span className="text-danger">*</span>
@@ -159,7 +165,28 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   {formError.nameUnit}
                 </div>
               </div>
-              <div className="md:col-span-2 col-span-1 flex flex-col gap-1">
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Ketersediaan <span className="text-danger">*</span>
+                </label>
+                <Input
+                  aria-label="lokasi"
+                  variant="bordered"
+                  radius="sm"
+                  value={String(formData.ketersediaan)}
+                  onChange={(e) =>
+                    setFormData({ ...formData, ketersediaan: Number(e.target.value) })
+                  }
+                  placeholder="Masukkan disini"
+                  classNames={{
+                    input: "text-xs",
+                  }}
+                />
+                <div className="text-xs italic text-danger">
+                  {formError.ketersediaan}
+                </div>
+              </div>
+              <div className="md:col-span-3 col-span-1 flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
                   Keterangan
                 </label>

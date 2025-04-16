@@ -5,7 +5,7 @@ import {
   ColumnDef,
   flexRender,
 } from "@tanstack/react-table";
-import { TbError404 } from "react-icons/tb";
+import { TbFaceIdError } from "react-icons/tb";
 
 interface TableProps<TData> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -96,7 +96,7 @@ const DataTables = <TData,>({
             <tr>
               <td colSpan={columns.length} className="py-4">
                 <div className="w-full flex items-center justify-center flex-col text-primary opacity-20">
-                  <TbError404 size={120} />
+                  <TbFaceIdError size={120} />
                   <span className="italic text-xl font-semibold">
                     No Data Found
                   </span>

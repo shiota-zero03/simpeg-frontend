@@ -33,6 +33,7 @@ interface formProps {
   kelas: number | null;
   atasan: string | null;
   fungsional: boolean;
+  fungsionalJob: string | null;
   jabatanFungsional: string | null;
 }
 
@@ -42,6 +43,7 @@ interface errorProps {
   kelas?: string;
   atasan?: string;
   fungsional?: string;
+  fungsionalJob?: string;
   jabatanFungsional?: string;
 }
 
@@ -54,6 +56,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     kelas: null,
     atasan: null,
     fungsional: false,
+    fungsionalJob: null,
     jabatanFungsional: null,
   });
 
@@ -75,6 +78,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
       kelas: null,
       atasan: null,
       fungsional: false,
+      fungsionalJob: null,
       jabatanFungsional: null,
     });
     setIsLoading(false);
@@ -91,7 +95,9 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
 
     if (formData.fungsional) {
       if (!formData.jabatanFungsional)
-        errors.jabatanFungsional = "Jabatan fungsional tidak boleh kosong";
+        errors.jabatanFungsional = "Jenis jabatan fungsional tidak boleh kosong";
+      if (!formData.fungsionalJob)
+        errors.fungsionalJob = "Jabatan fungsional tidak boleh kosong";
     }
 
     return errors;
@@ -115,11 +121,16 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     if (formData.singkatan) formToSend.singkatan = formData.singkatan;
     if (formData.fungsional) {
       formToSend.fungsional = true;
+      if (formData.fungsionalJob) {
+        formToSend.fungsionalJob = formData.fungsionalJob;
+      }
       if (formData.jabatanFungsional) {
-        formToSend.fungsionalJob = formData.jabatanFungsional;
+        formToSend.jabatanFungsional = formData.jabatanFungsional;
       }
     } else {
       formToSend.fungsional = false;
+      formToSend.fungsionalJob = null;
+      formToSend.jabatanFungsional = null;
     }
     if (formData.kelas) formToSend.Class = String(formData.kelas);
     if (formData.atasan) formToSend.atasan = Number(formData.atasan);
@@ -203,8 +214,8 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                 </div>
               </div>
             </div>
-            <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
-              <div className="flex flex-col gap-1">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+              <div className="flex flex-col gap-1 md:col-span-2 col-span-1">
                 <div className="mb-0.5">
                   <label htmlFor="lokasi" className="text-xs font-semibold">
                     Jabatan Fungsional ? <span className="text-danger">*</span>
@@ -227,7 +238,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                 </RadioGroup>
               </div>
               {formData.fungsional && (
-                <div className="flex flex-col gap-1 md:col-span-2 col-span-1">
+                <div className="flex flex-col gap-1">
                   <label htmlFor="lokasi" className="text-xs font-semibold">
                     Jenis Jabatan Fungsional{" "}
                     <span className="text-danger">*</span>
@@ -236,16 +247,17 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                     aria-label="lokasi"
                     variant="bordered"
                     radius="sm"
-                    selectedKeys={[String(formData.jabatanFungsional)]}
+                    selectedKeys={[String(formData.fungsionalJob)]}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        jabatanFungsional: e.target.value,
+                        fungsionalJob: e.target.value,
                       })
                     }
                     placeholder="Pilih Jabatan Fungsional"
                     classNames={{
                       trigger: "text-xs",
+                      value: "text-xs"
                     }}
                   >
                     <SelectItem
@@ -262,6 +274,50 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                     </SelectItem>
                     <SelectItem key={`PENERA`} textValue={`Penera`}>
                       Penera
+                    </SelectItem>
+                  </Select>
+                  <div className="text-xs italic text-danger">
+                    {formError.fungsionalJob}
+                  </div>
+                </div>
+              )}
+              {formData.fungsional && (
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="lokasi" className="text-xs font-semibold">
+                    Jenis Jabatan Fungsional{" "}
+                    <span className="text-danger">*</span>
+                  </label>
+                  <Select
+                    aria-label="lokasi"
+                    variant="bordered"
+                    radius="sm"
+                    selectedKeys={[String(formData.jabatanFungsional)]}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        jabatanFungsional: e.target.value,
+                      })
+                    }
+                    placeholder="Pilih Jenis Jabatan Fungsional"
+                    classNames={{
+                      trigger: "text-xs",
+                      value: "text-xs"
+                    }}
+                  >
+                    <SelectItem
+                      key={`MUDA`}
+                      textValue={`Ahli Muda`}
+                    >
+                      Ahli Muda
+                    </SelectItem>
+                    <SelectItem
+                      key={`MADYA`}
+                      textValue={`Ahli Madya`}
+                    >
+                      Ahli Madya
+                    </SelectItem>
+                    <SelectItem key={`PERTAMA`} textValue={`Ahli Pertama`}>
+                      Ahli Pertama
                     </SelectItem>
                   </Select>
                   <div className="text-xs italic text-danger">
@@ -286,6 +342,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   placeholder="Pilih kelas"
                   classNames={{
                     trigger: "text-xs",
+                    value: "text-xs",
                   }}
                 >
                   {Array.from({ length: 14 }, (_, i) => i + 1).map((item) => (

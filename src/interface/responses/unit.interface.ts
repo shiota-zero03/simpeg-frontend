@@ -3,6 +3,7 @@ import { BaseRes, PaginationRes } from "./base.response";
 export interface UnitRes {
   id: number;
   idUnit: string;
+  ketersediaan: number;
   nameUnit: string;
   description: string | null;
 }
