@@ -110,7 +110,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="grid md:grid-cols-2 grid-cols-1">
+      <div className="grid lg:grid-cols-2 grid-cols-1 h-screen overflow-hidden">
         <div className="h-screen md:m-8 m-4 overflow-hidden lg:block hidden">
           <div className="h-[calc(100%-4rem)] w-full bg-primary flex items-center justify-center lg:rounded-bl-[6rem] rounded-bl-[3rem] lg:rounded-tr-[6rem] rounded-tr-[3rem] lg:rounded-tl-3xl rounded-tl-[3rem] lg:rounded-br-3xl rounded-br-[3rem] overflow-hidden relative z-0">
             <div className="absolute top-0 flex items-center justify-between w-full">

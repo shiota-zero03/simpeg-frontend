@@ -135,7 +135,7 @@ const BeritaComponent = () => {
       {isFetching && (
         <div className="flex items-center justify-center inset-0 absolute bg-slate-50/10">
           <Spinner
-            variant="wave"
+            variant="dots"
             size="lg"
             classNames={{
               dots: "w-5 h-5",
