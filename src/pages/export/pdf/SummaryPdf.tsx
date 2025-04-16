@@ -30,287 +30,86 @@ const PDFPreviewer = () => {
     continueY += 1;
     doc.setLineWidth(0.5);
     doc.line(20, continueY, 190, continueY);
-    continueY += 14;
+    continueY += 12;
 
     doc.setFontSize(12);
-    doc.text("Data Pegawai", 14, continueY);
-    continueY += 4;
-
-    autoTable(doc, {
-      head: [["No", "Pegawai", "Jumlah Orang"]],
-      body: [
-        ["1", "Dinas", "32 Orang"],
-        ["2", "UPTD I (Tambun)", "8 Orang"],
-        ["3", "UPTD II (Cibitung)", "7 Orang"],
-        ["4", "UPTD III (Setu)", "5 Orang"],
-        ["5", "UPTD IV (Cikarang)", "4 Orang"],
-        ["6", "UPTD V (Kedunggede)", "6 Orang"],
-        ["7", "UPTD VI (Babelan)", "5 Orang"],
-        ["8", "UPTD VII (Tarumajaya)", "4 Orang"],
-        ["9", "UPTD VIII (Serang)", "4 Orang"],
-        ["10", "UPTD IX (Cibarusah)", "6 Orang"],
-        ["11", "UPTD Metrologi Legal", "2 Orang"],
-      ],
-      foot: [["", "Total", "100 Orang"]],
-      headStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "center",
-      },
-      footStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "center",
-      },
-      bodyStyles: {
-        halign: "center",
-        valign: "middle",
-        lineWidth: 0.1,
-      },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-
-    continueY = (doc as any).lastAutoTable.finalY || continueY;
-    continueY += 10;
-    doc.text("Data Pegawai Non-ASN", 14, continueY);
-    continueY += 4;
-
-    autoTable(doc, {
-      head: [["No", "Pegawai", "Jumlah Orang"]],
-      body: [
-        ["1", "Dinas", "32 Orang"],
-        ["2", "UPTD I (Tambun)", "8 Orang"],
-        ["3", "UPTD II (Cibitung)", "7 Orang"],
-        ["4", "UPTD III (Setu)", "5 Orang"],
-        ["5", "UPTD IV (Cikarang)", "4 Orang"],
-        ["6", "UPTD V (Kedunggede)", "6 Orang"],
-        ["7", "UPTD VI (Babelan)", "5 Orang"],
-        ["8", "UPTD VII (Tarumajaya)", "4 Orang"],
-        ["9", "UPTD VIII (Serang)", "4 Orang"],
-        ["10", "UPTD IX (Cibarusah)", "6 Orang"],
-        ["11", "UPTD Metrologi Legal", "2 Orang"],
-      ],
-      foot: [["", "Total", "100 Orang"]],
-      headStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "center",
-      },
-      footStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "center",
-      },
-      bodyStyles: {
-        halign: "center",
-        valign: "middle",
-        lineWidth: 0.1,
-      },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-
-    doc.addPage();
-
-    continueY = 20;
-    doc.text("Jabatan Fungsional", 14, continueY);
-    continueY += 4;
-
-    autoTable(doc, {
-      head: [["1", "Analis Perdagangan", "6 Orang"]],
-      body: [
-        ["", "Analis Perdagangan Ahli Madya", "1 Orang"],
-        ["", "Analis Perdagangan Ahli Muda", "4 Orang"],
-        ["", "Analis Perdagangan Ahli Pertama", "1 Orang"],
-      ],
-      headStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "center",
-      },
-      bodyStyles: {
-        halign: "center",
-        valign: "middle",
-        lineWidth: 0.1,
-      },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-    continueY = ((doc as any).lastAutoTable.finalY || continueY) + 4;
-    autoTable(doc, {
-      head: [["2", "Pengawas Perdagangan", "6 Orang"]],
-      body: [
-        ["", "Pengawas Perdagangan Ahli Madya", "1 Orang"],
-        ["", "Pengawas Perdagangan Ahli Muda", "4 Orang"],
-        ["", "Pengawas Perdagangan Ahli Pertama", "1 Orang"],
-      ],
-      headStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "center",
-      },
-      bodyStyles: {
-        halign: "center",
-        valign: "middle",
-        lineWidth: 0.1,
-      },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-    continueY = ((doc as any).lastAutoTable.finalY || continueY) + 4;
-    autoTable(doc, {
-      head: [["3", "Penera", "6 Orang"]],
-      body: [
-        ["", "Penera Ahli Madya", "1 Orang"],
-        ["", "Penera Ahli Muda", "4 Orang"],
-        ["", "Penera Ahli Pertama", "1 Orang"],
-      ],
-      headStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "center",
-      },
-      bodyStyles: {
-        halign: "center",
-        valign: "middle",
-        lineWidth: 0.1,
-      },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-    continueY = ((doc as any).lastAutoTable.finalY || continueY) + 4;
-    autoTable(doc, {
-      foot: [["", "Total Jabatan Fungsional", "18 Orang"]],
-      footStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "center",
-      },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-
-    continueY = (doc as any).lastAutoTable.finalY || continueY;
-    continueY += 10;
-    doc.text(
-      "Kenaikan Pangkat, Kegiatan Gaji Berkala, Pensiun dan Cuti",
-      14,
-      continueY,
-    );
-    continueY += 4;
-
-    autoTable(doc, {
-      head: [[`Daftar Pegawai Kenaikan Pangkat TMT 01 March 2025 (1 Orang)`]],
-      headStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "left",
-      },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-
-    continueY = (doc as any).lastAutoTable.finalY || continueY;
-    autoTable(doc, {
-      body: [["1", "1234567890", "Taufik Hidayat", "Perdagangan"]],
-      footStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "center",
-      },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-
-    continueY = ((doc as any).lastAutoTable.finalY || continueY) + 4;
+    doc.text("Bulan Maret", 14, continueY);
 
     autoTable(doc, {
       head: [
-        [`Daftar Pegawai Kenaikan Gaji Berkala TMT 01 March 2025 (1 Orang)`],
+        [
+          { content: "", styles: { cellWidth: 8, lineWidth: 0 } },
+          { content: "", styles: { cellWidth: 42, lineWidth: 0 }},
+          { content: "", styles: { lineWidth: 0 }},
+          { content: "", styles: { lineWidth: 0 }},
+          { content: "", styles: { lineWidth: 0 }},
+          { content: "", styles: { lineWidth: 0 }},
+          { content: "", styles: { cellWidth: 10, lineWidth: 0 }},
+          { content: "", styles: { cellWidth: 48, lineWidth: 0 }},
+          { content: "", styles: { lineWidth: 0 }},
+        ],
+        [
+          { content: "Komposisi Pegawai", styles: { fillColor: [219, 219, 219], textColor: [0, 0, 0], valign: "middle" }, colSpan: 2 }, 
+          { content: "K", styles: { fillColor: [219, 219, 219], textColor: [0, 0, 0], halign: "center", valign: "middle" } }, 
+          { content: "B", styles: { fillColor: [219, 219, 219], textColor: [0, 0, 0], halign: "center", valign: "middle" } }, 
+          { content: "K = Ketersediaan\nB = Terisi", styles: { fillColor: [219, 219, 219], textColor: [0, 0, 0], fontStyle: "normal", fontSize: 8, halign: "left" }, colSpan: 2 },
+          { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } },
+          { content: "", styles: { fillColor: [219, 219, 219], textColor: [0, 0, 0], halign: "center", valign: "middle" }, colSpan: 2 },
+        ],
+        [
+          { content: "Jumlah Pegawai", styles: { fillColor: [255, 192, 0], textColor: [0, 0, 0] }, colSpan: 2 }, 
+          { content: "103", styles: { fillColor: [255, 192, 0], textColor: [0, 0, 0], halign: "center" } }, 
+          { content: "103", styles: { fillColor: [255, 192, 0], textColor: [0, 0, 0], halign: "center" } }, 
+          { content: "", styles: { fillColor: [255, 192, 0], textColor: [0, 0, 0], halign: "center" }, colSpan: 2 },
+          { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } },
+          { content: "Pegawai Non ASN", styles: { fillColor: [255, 192, 0], textColor: [0, 0, 0] } }, 
+          { content: "213", styles: { fillColor: [255, 192, 0], textColor: [0, 0, 0], halign: "center" } }, 
+        ]
+      ],
+      body: [
+        [{ content: "Dinas", colSpan: 2 }, { content: "32", styles: { halign: "center" } }, { content: "32", styles: { halign: "center" } }, "21 PNS", "10 PPTK", { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } }, "Dinas", { content: "32", styles: { halign: "center" } }, { content: "32", styles: { halign: "center" } }],
+        [{ content: "UPTD I (Tambun)", colSpan: 2 }, { content: "8", styles: { halign: "center" } }, { content: "8", styles: { halign: "center" } }, "", "", { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } }, "UPTD I (Tambun)", { content: "8", styles: { halign: "center" } }, { content: "8", styles: { halign: "center" } }],
+        [{ content: "UPTD II (Cibitung)", colSpan: 2 }, { content: "7", styles: { halign: "center" } }, { content: "7", styles: { halign: "center" } }, "", "", { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } },  "UPTD II (Cibitung)", { content: "7", styles: { halign: "center" } }, { content: "7", styles: { halign: "center" } }],
+        [{ content: "UPTD III (Setu)", colSpan: 2 }, { content: "5", styles: { halign: "center" } }, { content: "5", styles: { halign: "center" } }, "", "", { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } },  "UPTD III (Setu)", { content: "5", styles: { halign: "center" } }, { content: "5", styles: { halign: "center" } }],
+        [{ content: "UPTD IV (Cikarang)", colSpan: 2 }, { content: "4", styles: { halign: "center" } }, { content: "4", styles: { halign: "center" } }, "", "", { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } },  "UPTD IV (Cikarang)", { content: "4", styles: { halign: "center" } }, { content: "4", styles: { halign: "center" } }],
+        [{ content: "UPTD V (Kedunggede)", colSpan: 2 }, { content: "6", styles: { halign: "center" } }, { content: "6", styles: { halign: "center" } }, "", "", { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } },  "UPTD V (Kedunggede)", { content: "6", styles: { halign: "center" } }, { content: "6", styles: { halign: "center" } }],
+        [{ content: "UPTD VI (Babelan)", colSpan: 2 }, { content: "5", styles: { halign: "center" } }, { content: "5", styles: { halign: "center" } }, "", "", { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } },  "UPTD VI (Babelan)", { content: "5", styles: { halign: "center" } }, { content: "5", styles: { halign: "center" } }],
+        [{ content: "UPTD VII (Tarumajaya)", colSpan: 2 }, { content: "4", styles: { halign: "center" } }, { content: "4", styles: { halign: "center" } }, "", "", { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } },  "UPTD VII (Tarumajaya)", { content: "4", styles: { halign: "center" } }, { content: "4", styles: { halign: "center" } }],
+        [{ content: "UPTD VIII (Serang)", colSpan: 2 }, { content: "4", styles: { halign: "center" } }, { content: "4", styles: { halign: "center" } }, "", "", { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } },  "UPTD VIII (Serang)", { content: "4", styles: { halign: "center" } }, { content: "4", styles: { halign: "center" } }],
+        [{ content: "UPTD IX (Cibarusah)", colSpan: 2 }, { content: "6", styles: { halign: "center" } }, { content: "6", styles: { halign: "center" } }, "", "", { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } },  "UPTD IX (Cibarusah)", { content: "6", styles: { halign: "center" } }, { content: "6", styles: { halign: "center" } }],
+        [{ content: "UPTD Metrologi Legal", colSpan: 2 }, { content: "2", styles: { halign: "center" } }, { content: "2", styles: { halign: "center" } }, "", "", { content: "", styles: { lineWidth: { left: 0.1, bottom: 0 }, fillColor: [255, 255, 255] } },  "UPTD Metrologi Legal", { content: "2", styles: { halign: "center" } }, { content: "2", styles: { halign: "center" } }],
+
+        [{ content: "", colSpan: 9, styles: { lineWidth: 0 } }], 
+
+
+        [{ content: "Jabatan Fungsional (20 Orang)", colSpan: 9, styles: { fillColor: [255, 192, 0], textColor: [0, 0, 0], valign: "middle", fontStyle: "bold" }, }],
+
+        [{ content: "1", styles: { fontStyle: "bold" } }, { content: "Analis Perdagangan (6 Orang)", styles: { fontStyle: "bold" }, colSpan: 8 }],
+        ["", {content: "Analis Perdagangan Ahli Madya", colSpan: 3 }, {content: "1", styles: { halign: "center" } }, {content: "Agus Burhan", colSpan: 4 }],
+        ["", {content: "Analis Perdagangan Ahli Muda", colSpan: 3 }, {content: "4", styles: { halign: "center" } }, {content: "Galuh, Ratna, Soleh, Rudi", colSpan: 4 }],
+        ["", {content: "Analis Perdagangan Ahli Pertama", colSpan: 3 }, {content: "1", styles: { halign: "center" } }, {content: "Suhuri", colSpan: 4 }],
+
+        [{ content: "2", styles: { fontStyle: "bold" } }, { content: "Pengawas Perdagangan (2 Orang)", styles: { fontStyle: "bold" }, colSpan: 8 }],
+        ["", {content: "Pengawas Perdagangan Ahli Madya", colSpan: 3 }, {content: "", styles: { halign: "center" } }, {content: "", colSpan: 4 }],
+        ["", {content: "Pengawas Perdagangan Ahli Muda", colSpan: 3 }, {content: "1", styles: { halign: "center" } }, {content: "Iwan", colSpan: 4 }],
+        ["", {content: "Pengawas Perdagangan Ahli Pertama", colSpan: 3 }, {content: "1", styles: { halign: "center" } }, {content: "Arisma", colSpan: 4 }],
+
+        [{ content: "3", styles: { fontStyle: "bold" } }, { content: "Penera (12 Orang)", styles: { fontStyle: "bold" }, colSpan: 8 }],
+        ["", {content: "Penera Ahli Madya", colSpan: 3 }, {content: "", styles: { halign: "center" } }, {content: "", colSpan: 4 }],
+        ["", {content: "Penera Ahli Muda", colSpan: 3 }, {content: "3", styles: { halign: "center" } }, {content: "Sunarto, Agus Ruhyat, Ahmad", colSpan: 4 }],
+        ["", {content: "Penera Ahli Pertama", colSpan: 3 }, {content: "9", styles: { halign: "center" } }, {content: "Teguh, Atika, Amaina, Ilmi, Yohanes, Sinta, Mardiyah, Iqbal, Chandra", colSpan: 5 }],
       ],
       headStyles: {
-        fillColor: [18, 64, 60],
+        fillColor: [255, 255, 255],
         textColor: [255, 255, 255],
         halign: "left",
+        lineWidth: 0.1,
       },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-
-    continueY = (doc as any).lastAutoTable.finalY || continueY;
-    autoTable(doc, {
-      body: [["1", "1234567890", "Taufik Hidayat", "Perdagangan"]],
-      footStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "center",
-      },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-
-    continueY = ((doc as any).lastAutoTable.finalY || continueY) + 4;
-
-    autoTable(doc, {
-      head: [[`Daftar Pegawai Pensiun TMT 01 March 2025 (1 Orang)`]],
-      headStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
+      bodyStyles: {
         halign: "left",
+        valign: "middle",
+        lineWidth: 0.1,
       },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-
-    continueY = (doc as any).lastAutoTable.finalY || continueY;
-    autoTable(doc, {
-      body: [["1", "1234567890", "Taufik Hidayat", "Perdagangan"]],
-      footStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "center",
-      },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-
-    continueY = ((doc as any).lastAutoTable.finalY || continueY) + 4;
-
-    autoTable(doc, {
-      head: [[`Daftar Pegawai Cuti TMT 01 March 2025 (1 Orang)`]],
-      headStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "left",
-      },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
-      startY: continueY,
-    });
-
-    continueY = (doc as any).lastAutoTable.finalY || continueY;
-    autoTable(doc, {
-      body: [["1", "1234567890", "Taufik Hidayat", "Perdagangan"]],
-      footStyles: {
-        fillColor: [18, 64, 60],
-        textColor: [255, 255, 255],
-        halign: "center",
-      },
-      tableLineColor: [0, 0, 0],
-      tableLineWidth: 0.1,
       startY: continueY,
     });
 

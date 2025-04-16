@@ -7,6 +7,7 @@ export interface JabatanRes {
   fungsionalJob: string | null;
   fungsional: boolean;
   class: string;
+  jabatanFungsional: string | null;
   atasan: number | null;
   parent: {
     nameJob: string;

@@ -16,6 +16,7 @@ import UpdateModal from "@/components/modals/UnitModal/UpdateModal";
 interface DataProps {
   id: number;
   idUnit: string;
+  capacity: number;
   nameUnit: string;
   description: string | null;
 }
@@ -27,7 +28,7 @@ export default function Unit() {
 
   const [startData, setStartData] = useState<number>(0);
   const [endData, setEndData] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const [totalData, setTotalData] = useState<number>(0);
 
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -42,7 +43,7 @@ export default function Unit() {
     if (allData) {
       const data = allData.data;
       setTotalData(data.pagination.totalData || 0);
-      setTotalPages(data.pagination.totalPages || 0);
+      setTotalPages(data.pagination.totalPages || 1);
 
       const start = pageIndex * limit + 1;
       const end = Math.min(
@@ -56,6 +57,7 @@ export default function Unit() {
       return data.response.map((item: UnitRes) => ({
         id: item.id,
         idUnit: item.idUnit,
+        capacity: item.ketersediaan || 0,
         nameUnit: item.nameUnit,
         description: item.description,
       }));
@@ -83,6 +85,12 @@ export default function Unit() {
       accessorKey: "nameUnit",
       header: "Nama Unit",
       cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "capacity",
+      header: "Ketersediaan",
+      cell: (info) => info.getValue() as number || 0,
       // meta: { align: "center" },
     },
     {

@@ -40,6 +40,7 @@ interface formProps {
   atasan: string | null;
   fungsional: boolean;
   jabatanFungsional: string | null;
+  fungsionalJob: string | null;
 }
 
 interface errorProps {
@@ -49,6 +50,7 @@ interface errorProps {
   atasan?: string;
   fungsional?: string;
   jabatanFungsional?: string;
+  fungsionalJob?: string;
 }
 
 const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
@@ -61,6 +63,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
     atasan: null,
     fungsional: false,
     jabatanFungsional: null,
+    fungsionalJob: null,
   });
 
   const [formError, setFormError] = useState<errorProps>({});
@@ -84,7 +87,8 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
         kelas: Number(data.data.class),
         atasan: String(data.data.atasan || ""),
         fungsional: data.data.fungsional,
-        jabatanFungsional: data.data.fungsionalJob,
+        jabatanFungsional: data.data.jabatanFungsional,
+        fungsionalJob: data.data.fungsionalJob,
       });
     }
   }, [isOpen, data]);
@@ -105,7 +109,9 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
 
     if (formData.fungsional) {
       if (!formData.jabatanFungsional)
-        errors.jabatanFungsional = "Jabatan fungsional tidak boleh kosong";
+        errors.jabatanFungsional = "Jenis jabatan fungsional tidak boleh kosong";
+      if (!formData.fungsionalJob)
+        errors.fungsionalJob = "Jabatan fungsional tidak boleh kosong";
     }
 
     return errors;
@@ -129,11 +135,16 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
     if (formData.singkatan) formToSend.singkatan = formData.singkatan;
     if (formData.fungsional) {
       formToSend.fungsional = true;
+      if (formData.fungsionalJob) {
+        formToSend.fungsionalJob = formData.fungsionalJob;
+      }
       if (formData.jabatanFungsional) {
-        formToSend.fungsionalJob = formData.jabatanFungsional;
+        formToSend.jabatanFungsional = formData.jabatanFungsional;
       }
     } else {
       formToSend.fungsional = false;
+      formToSend.fungsionalJob = null;
+      formToSend.jabatanFungsional = null;
     }
     if (formData.kelas) formToSend.Class = String(formData.kelas);
     if (formData.atasan) formToSend.atasan = Number(formData.atasan);
@@ -190,7 +201,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   aria-label="lokasi"
                   variant="bordered"
                   radius="sm"
-                  value={formData.nama || ""}
+                  value={formData.nama}
                   onChange={(e) =>
                     setFormData({ ...formData, nama: e.target.value })
                   }
@@ -211,7 +222,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   aria-label="lokasi"
                   variant="bordered"
                   radius="sm"
-                  value={formData.singkatan || ""}
+                  value={formData.singkatan}
                   onChange={(e) =>
                     setFormData({ ...formData, singkatan: e.target.value })
                   }
@@ -225,8 +236,8 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                 </div>
               </div>
             </div>
-            <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
-              <div className="flex flex-col gap-1">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+              <div className="flex flex-col gap-1 md:col-span-2 col-span-1">
                 <div className="mb-0.5">
                   <label htmlFor="lokasi" className="text-xs font-semibold">
                     Jabatan Fungsional ? <span className="text-danger">*</span>
@@ -249,7 +260,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                 </RadioGroup>
               </div>
               {formData.fungsional && (
-                <div className="flex flex-col gap-1 md:col-span-2 col-span-1">
+                <div className="flex flex-col gap-1">
                   <label htmlFor="lokasi" className="text-xs font-semibold">
                     Jenis Jabatan Fungsional{" "}
                     <span className="text-danger">*</span>
@@ -258,16 +269,17 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                     aria-label="lokasi"
                     variant="bordered"
                     radius="sm"
-                    selectedKeys={[String(formData.jabatanFungsional || "")]}
+                    selectedKeys={[String(formData.fungsionalJob)]}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        jabatanFungsional: e.target.value,
+                        fungsionalJob: e.target.value,
                       })
                     }
                     placeholder="Pilih Jabatan Fungsional"
                     classNames={{
                       trigger: "text-xs",
+                      value: "text-xs"
                     }}
                   >
                     <SelectItem
@@ -287,6 +299,50 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                     </SelectItem>
                   </Select>
                   <div className="text-xs italic text-danger">
+                    {formError.fungsionalJob}
+                  </div>
+                </div>
+              )}
+              {formData.fungsional && (
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="lokasi" className="text-xs font-semibold">
+                    Jenis Jabatan Fungsional{" "}
+                    <span className="text-danger">*</span>
+                  </label>
+                  <Select
+                    aria-label="lokasi"
+                    variant="bordered"
+                    radius="sm"
+                    selectedKeys={[String(formData.jabatanFungsional)]}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        jabatanFungsional: e.target.value,
+                      })
+                    }
+                    placeholder="Pilih Jenis Jabatan Fungsional"
+                    classNames={{
+                      trigger: "text-xs",
+                      value: "text-xs"
+                    }}
+                  >
+                    <SelectItem
+                      key={`MUDA`}
+                      textValue={`Ahli Muda`}
+                    >
+                      Ahli Muda
+                    </SelectItem>
+                    <SelectItem
+                      key={`MADYA`}
+                      textValue={`Ahli Madya`}
+                    >
+                      Ahli Madya
+                    </SelectItem>
+                    <SelectItem key={`PERTAMA`} textValue={`Ahli Pertama`}>
+                      Ahli Pertama
+                    </SelectItem>
+                  </Select>
+                  <div className="text-xs italic text-danger">
                     {formError.jabatanFungsional}
                   </div>
                 </div>
@@ -301,13 +357,14 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   aria-label="lokasi"
                   variant="bordered"
                   radius="sm"
-                  selectedKeys={[String(formData.kelas || "")]}
+                  selectedKeys={[String(formData.kelas)]}
                   onChange={(e) =>
                     setFormData({ ...formData, kelas: Number(e.target.value) })
                   }
                   placeholder="Pilih kelas"
                   classNames={{
                     trigger: "text-xs",
+                    value: "text-xs",
                   }}
                 >
                   {Array.from({ length: 14 }, (_, i) => i + 1).map((item) => (
@@ -331,7 +388,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   variant="bordered"
                   radius="sm"
                   defaultItems={JABATAN_SELECT}
-                  selectedKey={String(formData.atasan || "")}
+                  selectedKey={String(formData.atasan)}
                   onSelectionChange={(value) =>
                     setFormData({ ...formData, atasan: value as string })
                   }

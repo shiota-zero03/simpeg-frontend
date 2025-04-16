@@ -20,6 +20,7 @@ interface DataProps {
   atasan: string;
   singkatan: string;
   fungsional: boolean;
+  fungsionalJob: string | null;
 }
 
 export default function Jabatan() {
@@ -29,7 +30,7 @@ export default function Jabatan() {
 
   const [startData, setStartData] = useState<number>(0);
   const [endData, setEndData] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const [totalData, setTotalData] = useState<number>(0);
 
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -44,7 +45,7 @@ export default function Jabatan() {
     if (allData) {
       const data = allData.data;
       setTotalData(data.pagination.totalData || 0);
-      setTotalPages(data.pagination.totalPages || 0);
+      setTotalPages(data.pagination.totalPages || 1);
 
       const start = pageIndex * limit + 1;
       const end = Math.min(
@@ -62,6 +63,7 @@ export default function Jabatan() {
         atasan: String(item.parent ? item.parent.nameJob : "-"),
         singkatan: item.singkatan,
         fungsional: item.fungsional,
+        fungsionalJob: item.fungsionalJob,
       }));
     } else {
       return [];
@@ -96,9 +98,17 @@ export default function Jabatan() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "fungsional",
       header: "Jabatan Fungsional ?",
-      cell: (info) => (info.getValue() ? "Ya" : "Tidak"),
+      cell: ({ row }) => {
+        const { fungsional, fungsionalJob } = row.original;
+        return fungsional ? (
+          fungsionalJob === "PENERA" ? "Penera" : (
+            fungsionalJob === "ANALIS_PERDAGANGAN" ? "Analis Perdagangan" : (
+              fungsionalJob === "PENGAWAS_PERDAGANGAN" ? "Pengawas Perdagangan" : "Jabatan tidak ditemukan"
+            )
+          )
+        ) : "Tidak"
+      },
       // meta: { align: "center" },
     },
     {
