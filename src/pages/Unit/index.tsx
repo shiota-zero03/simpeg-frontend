@@ -90,7 +90,7 @@ export default function Unit() {
     {
       accessorKey: "capacity",
       header: "Ketersediaan",
-      cell: (info) => info.getValue() as number || 0,
+      cell: (info) => (info.getValue() as number) || 0,
       // meta: { align: "center" },
     },
     {

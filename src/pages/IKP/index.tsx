@@ -1,75 +1,56 @@
 import { TitleCase } from "@/components/card/TitleCase";
 import DataTables from "@/components/DataTables";
+import { IKPDummy } from "@/constants/DummyData";
 import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { LuEye, LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
+import { YMToIndoFormat } from "@/utils/dateFormater";
 import { useNavigate } from "react-router-dom";
-import { useGetAllPegawai } from "@/services/pegawai";
-import { PegawaiRes } from "@/interface/responses/pegawai.interface";
+import { FaFileExcel, FaFilePdf } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-interface DataProps {
+interface IKPProps {
   id: string;
+  namaPegawai: string;
   nip: string;
-  nama: string;
-  role: string; // ADMIN, PEGAWAI, PIMPINAN
   jabatan: string;
-  isActive: boolean;
+  waktu: string;
+  status: string;
 }
 
-export default function Jabatan() {
+export default function IKP() {
   const limit = 5;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
+  const [searchMonth, setSearchMonth] = useState("");
 
   const navigate = useNavigate();
 
-  const [startData, setStartData] = useState<number>(0);
-  const [endData, setEndData] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [totalData, setTotalData] = useState<number>(0);
+  // const { data: allData, isFetching: isFetchingData, refetch: refetchData } = useGetAllRiwayatObat();
+  const allData = IKPDummy;
 
-  const [selectedId, setSelectedId] = useState<string>("");
-
-  const {
-    data: allData,
-    isFetching: isFetchingData,
-    refetch: refetchData,
-  } = useGetAllPegawai(pageIndex + 1, limit, search);
-
-  const paginatedData: DataProps[] = useMemo(() => {
+  const data: IKPProps[] = useMemo(() => {
     if (allData) {
-      const data = allData.data;
-      setTotalData(data.pagination.totalData || 0);
-      setTotalPages(data.pagination.totalPages || 0);
-
-      const start = pageIndex * limit + 1;
-      const end = Math.min(
-        (pageIndex + 1) * limit,
-        data.pagination.totalData || 0,
-      );
-
-      setStartData(start);
-      setEndData(end);
-
-      return data.data.map((item: PegawaiRes) => ({
-        id: item.id,
-        nip: item.nip,
-        nama: item.name,
-        role: item.role,
-        jabatan: item.jabatan ? item.jabatan.nameJob : "-",
-        isActive: item.status,
-      }));
+      return allData;
     } else {
       return [];
     }
-  }, [search, limit, pageIndex, allData]);
+  }, [allData]);
 
-  const columns: ColumnDef<DataProps>[] = [
+  const paginatedData = useMemo(() => {
+    return data.slice(pageIndex * limit, (pageIndex + 1) * limit);
+  }, [data, limit, pageIndex]);
+
+  const startData = paginatedData.length > 0 ? pageIndex * limit + 1 : 0;
+  const endData = Math.min((pageIndex + 1) * limit, data.length);
+  const totalPages = Math.ceil(data.length / limit);
+
+  const columns: ColumnDef<IKPProps>[] = [
     {
       header: "No",
       cell: ({ row }) => {
@@ -79,54 +60,47 @@ export default function Jabatan() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
+      accessorKey: "namaPegawai",
+      header: "Nama Pegawai",
+      cell: (info) => info.getValue() as string,
+    },
+    {
       accessorKey: "nip",
       header: "NIP",
       cell: (info) => info.getValue() as string,
-      // meta: { align: "center" },
-    },
-    {
-      accessorKey: "nama",
-      header: "Nama Pegawai",
-      cell: (info) => info.getValue() as string,
-      // meta: { align: "center" },
-    },
-    {
-      accessorKey: "role",
-      header: "Role",
-      cell: (info) => {
-        const role = info.getValue() as string;
-        if (role === "ADMIN") {
-          return "Admin";
-        } else if (role === "PEGAWAI") {
-          return "Pegawai";
-        } else {
-          return "-";
-        }
-      },
-      // meta: { align: "center" },
     },
     {
       accessorKey: "jabatan",
       header: "Jabatan",
-      cell: (info) => (info.getValue() as string) || "-",
-      // meta: { align: "center" },
+      cell: (info) => info.getValue() as string,
     },
     {
-      accessorKey: "isActive",
+      accessorKey: "waktu",
+      header: "Bulan",
+      cell: (info) => {
+        const bulan = info.getValue() as string;
+        return bulan ? YMToIndoFormat(bulan) : "-";
+      },
+    },
+    {
+      accessorKey: "status",
       header: "Status",
       cell: (info) => {
         const status = info.getValue() as string;
-        return status ? (
-          <ul className="ms-4">
-            <li className="list-disc text-accent-primary">Aktif</li>
-          </ul>
-        ) : (
-          <ul className="ms-4">
-            <li className="list-disc text-danger">Tidak Aktif</li>
+        return (
+          <ul className="px-6">
+            {status === "MENUNGGU" ? (
+              <li className="list-disc font-semibold text-warning">Menunggu</li>
+            ) : status === "DITOLAK" ? (
+              <li className="list-disc font-semibold text-danger">Ditolak</li>
+            ) : (
+              <li className="list-disc font-semibold text-success">
+                Disetujui
+              </li>
+            )}
           </ul>
         );
       },
-      // meta: { align: "center" },
     },
     {
       header: "Aksi",
@@ -135,9 +109,7 @@ export default function Jabatan() {
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
-              onPress={() => {
-                navigate(`/pegawai/detail-data/${id}`);
-              }}
+              onPress={() => navigate(`/dialog-kinerja/detail-data/${id}`)}
               isIconOnly
               radius="sm"
               size="sm"
@@ -146,9 +118,16 @@ export default function Jabatan() {
               <LuEye size={14} />
             </Button>
             <Button
-              onPress={() => {
-                navigate(`/pegawai/edit-data/${id}`);
-              }}
+              onPress={() => navigate(`/dialog-kinerja/export-pdf/${id}`)}
+              isIconOnly
+              radius="sm"
+              size="sm"
+              className="bg-[#FFF3F6] text-danger shadow-sm"
+            >
+              <FaFilePdf size={14} />
+            </Button>
+            <Button
+              onPress={() => navigate(`/dialog-kinerja/edit-data/${id}`)}
               isIconOnly
               radius="sm"
               size="sm"
@@ -157,10 +136,7 @@ export default function Jabatan() {
               <LuPencilLine size={14} />
             </Button>
             <Button
-              onPress={() => {
-                setSelectedId(id);
-                onOpenDelete();
-              }}
+              onPress={onOpenDelete}
               isIconOnly
               radius="sm"
               size="sm"
@@ -181,22 +157,10 @@ export default function Jabatan() {
     onClose: onCloseDelete,
   } = useDisclosure();
 
-  const handleSearch = () => {
-    setPageIndex(0);
-    refetchData();
-  };
-
   const handleReset = () => {
     setSearch("");
-    setPageIndex(0);
-    setTimeout(() => {
-      refetchData();
-    }, 100);
+    setSearchMonth("");
   };
-
-  useEffect(() => {
-    refetchData();
-  }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
   const handleDelete = () => {
@@ -206,13 +170,12 @@ export default function Jabatan() {
       SuccessToast({ text: "Data berhasil dihapus" });
       setLoadingDelete(false);
       onCloseDelete();
-      console.log(selectedId);
     }, 1000);
   };
 
   return (
     <>
-      <BreadcrumbAdmin location="/Pegawai" />
+      <BreadcrumbAdmin location="/Dialog Kinerja (IKP)" />
       <DeleteModal
         isOpen={isOpenDelete}
         onClose={onCloseDelete}
@@ -221,14 +184,14 @@ export default function Jabatan() {
       />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
-          title="Data Pegawai"
-          text="Berikut ini menampilkan Daftar dari Master Data Pegawai"
+          title="Dialog Kinerja (IKP)"
+          text="Berikut ini Mengelola Daftar Dialog Kinerja Intruksi Khusus Pimpinan"
         />
-        <div className="bg-white shadow-md rounded-xl border min-h-[70vh]">
+        <div className="bg-white shadow-md rounded-xl border">
           <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
             <div className="pt-8 px-4 w-full text-primary shadow-sm">
-              <div className="flex sm:flex-row flex-col justify-between gap-2 sm:items-end">
-                <div className="flex sm:flex-row flex-col gap-2 items-end w-full">
+              <div className="flex lg:flex-row flex-col justify-between gap-2 sm:items-end">
+                <div className="flex lg:flex-row flex-col gap-2 items-end w-full">
                   <Input
                     aria-label="search"
                     value={search}
@@ -248,10 +211,30 @@ export default function Jabatan() {
                       input: "text-xs",
                     }}
                   />
+                  <Input
+                    aria-label="searchMonth"
+                    value={searchMonth}
+                    onChange={(e) => {
+                      setSearchMonth(e.target.value);
+                      setPageIndex(0);
+                    }}
+                    type="month"
+                    radius="sm"
+                    size="sm"
+                    variant="bordered"
+                    placeholder="Cari berdasarkan bulan disini"
+                    startContent={
+                      <LuSearch className="text-accent-gray text-xs" />
+                    }
+                    classNames={{
+                      inputWrapper: "border-[0.8px]",
+                      input: "text-xs",
+                    }}
+                  />
                 </div>
-                <div className="flex items-center justify-end gap-2">
+                <div className="flex items-center sm:flex-nowrap flex-wrap justify-end gap-2">
                   <Button
-                    onPress={handleSearch}
+                    onPress={handleReset}
                     variant="solid"
                     radius="sm"
                     size="sm"
@@ -271,8 +254,14 @@ export default function Jabatan() {
                   >
                     <BiReset size={12} />
                   </Button>
+                  <Link
+                    to={`/dialog-kinerja/export-excel?month=${searchMonth}`}
+                    className="border-[0.8px] w-24 text-xs border-success text-success flex items-center gap-2 px-2 py-1.5 rounded-md justify-center"
+                  >
+                    <FaFileExcel size={12} /> Export
+                  </Link>
                   <Button
-                    onPress={() => navigate(`/pegawai/tambah-data`)}
+                    onPress={() => navigate("/dialog-kinerja/tambah-data")}
                     variant="solid"
                     radius="sm"
                     size="sm"
@@ -288,7 +277,7 @@ export default function Jabatan() {
           <div>
             <div className="py-8">
               <DataTables
-                isLoading={isFetchingData}
+                isLoading={false}
                 columns={columns}
                 data={paginatedData}
               />
@@ -296,7 +285,7 @@ export default function Jabatan() {
           </div>
           <div className="pb-4 px-4 flex md:flex-row flex-col items-center justify-between gap-4">
             <span className="sm:text-sm text-xs text-[#8C8C8C]">
-              {startData} - {endData} dari {totalData} data
+              {startData} - {endData} dari {data.length} data
             </span>
             <Pagination
               showControls
@@ -306,7 +295,6 @@ export default function Jabatan() {
               radius="sm"
               total={totalPages}
               page={pageIndex + 1}
-              initialPage={pageIndex + 1}
               onChange={(page) => setPageIndex(page - 1)}
               classNames={{
                 item: "border-[0.8px] text-primary border-accent-gray",
