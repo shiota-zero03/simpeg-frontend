@@ -101,13 +101,15 @@ export default function Jabatan() {
       header: "Jabatan Fungsional ?",
       cell: ({ row }) => {
         const { fungsional, fungsionalJob } = row.original;
-        return fungsional ? (
-          fungsionalJob === "PENERA" ? "Penera" : (
-            fungsionalJob === "ANALIS_PERDAGANGAN" ? "Analis Perdagangan" : (
-              fungsionalJob === "PENGAWAS_PERDAGANGAN" ? "Pengawas Perdagangan" : "Jabatan tidak ditemukan"
-            )
-          )
-        ) : "Tidak"
+        return fungsional
+          ? fungsionalJob === "PENERA"
+            ? "Penera"
+            : fungsionalJob === "ANALIS_PERDAGANGAN"
+              ? "Analis Perdagangan"
+              : fungsionalJob === "PENGAWAS_PERDAGANGAN"
+                ? "Pengawas Perdagangan"
+                : "Jabatan tidak ditemukan"
+          : "Tidak";
       },
       // meta: { align: "center" },
     },

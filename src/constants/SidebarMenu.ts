@@ -126,7 +126,7 @@ export const SidebarMenuData: SidebarProps[] = [
       {
         name: "Dialog Kinerja (IKP)",
         key: "dialog-kinerja",
-        link: "#",
+        link: "dialog-kinerja",
         icon: RiFileList3Line,
       },
       { name: "SPPD", key: "sppd", link: "/sppd", icon: LuMails },

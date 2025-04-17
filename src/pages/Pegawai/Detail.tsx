@@ -1,10 +1,34 @@
 import { TitleCase } from "@/components/card/TitleCase";
 import { Card, CardBody, CardHeader } from "@heroui/react";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { LucidePencilLine } from "lucide-react";
+import { useGetDetailPegawai } from "@/services/pegawai";
+import { useEffect, useMemo } from "react";
+import { ErrorToast } from "@/utils/ToastMessage";
+import { DMYIndoToFormat } from "@/utils/dateFormater";
 
 export default function UpdateNews() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const { data, isFetching, refetch, error } = useGetDetailPegawai(id || "");
+  useEffect(() => {
+    if (!isFetching && error) {
+      ErrorToast({ text: "Data tidak ditemukan" });
+      navigate("/pegawai");
+    }
+  }, [isFetching, refetch]);
+
+  const DATA_FETCHING = useMemo(() => {
+    if (!data) return null;
+    return data.data;
+  }, [data, id]);
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
   return (
     <>
       <BreadcrumbAdmin location="/Pegawai/Detail" />
@@ -23,22 +47,33 @@ export default function UpdateNews() {
           <CardBody className="flex flex-col gap-2">
             <Card className="border relative overflow-hidden" shadow="none">
               <div className="absolute top-0 right-0 bg-primary text-white py-2 px-4 text-sm rounded-bl-lg">
-                Admin
+                {DATA_FETCHING?.role === "ADMIN"
+                  ? "Admin"
+                  : DATA_FETCHING?.role === "PEGAWAI"
+                    ? "Pegawai"
+                    : "-"}
               </div>
               <CardBody className="p-4 flex items-center md:flex-row flex-col gap-4">
                 <img
-                  src={`https://i.pravatar.cc/150?u=a042581f4e29026024d`}
+                  src={
+                    DATA_FETCHING?.photo ??
+                    `https://ui-avatars.com/api/?name=${DATA_FETCHING?.name ?? "Dinas Perdagangan"}&background=random`
+                  }
                   alt="profile"
                   width={80}
                   height={80}
-                  className="rounded-full"
+                  className="rounded-full border"
                 />
                 <div className="text-sm flex flex-col gap-1 md:items-start items-center">
-                  <p className="text-xs">Kepala Bidang Perdagangan</p>
-                  <p className="font-semibold text-lg">Alfonso Philips</p>
-                  <p className="text-xs">12345678901234567890</p>
-                  <ul className={`ms-5 text-success font-semibold mt-1`}>
-                    <li className="list-disc">Aktif</li>
+                  <p className="text-xs">{DATA_FETCHING?.jabatan.nameJob}</p>
+                  <p className="font-semibold text-lg">{DATA_FETCHING?.name}</p>
+                  <p className="text-xs">{DATA_FETCHING?.nip}</p>
+                  <ul
+                    className={`ms-5 ${DATA_FETCHING?.status ? "text-success" : "text-danger"} font-semibold mt-1`}
+                  >
+                    <li className="list-disc">
+                      {DATA_FETCHING?.status ? "Aktif" : "Tidak Aktif"}
+                    </li>
                   </ul>
                 </div>
               </CardBody>
@@ -47,27 +82,57 @@ export default function UpdateNews() {
               <CardBody className="p-4 grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
                 <div>
                   <p className="text-sm">Jabatan</p>
-                  <h4 className="font-semibold">Kepala Bidang Perdagangan</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.jabatan.nameJob}
+                  </h4>
                 </div>
                 <div>
                   <p className="text-sm">Status ASN</p>
-                  <h4 className="font-semibold">ASN</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.statusAsn ? "ASN" : "Non-ASN"}
+                  </h4>
                 </div>
                 <div>
-                  <p className="text-sm">Dinas / UPTD</p>
-                  <h4 className="font-semibold">UPTD I (Tambun)</h4>
+                  <p className="text-sm">Unit</p>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.unit.nameUnit}
+                  </h4>
                 </div>
                 <div>
                   <p className="text-sm">Eselon</p>
-                  <h4 className="font-semibold">IV</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.eselon ?? "-"}
+                  </h4>
                 </div>
                 <div>
                   <p className="text-sm">Golongan</p>
-                  <h4 className="font-semibold">IV/b</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.group ?? "-"}
+                  </h4>
                 </div>
                 <div>
                   <p className="text-sm">Status Kepegawaian</p>
-                  <h4 className="font-semibold">Mutasi (Pindah)</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.employmentStatus ?? "-"}
+                  </h4>
+                </div>
+                <div>
+                  <p className="text-sm">Email</p>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.email ?? "-"}
+                  </h4>
+                </div>
+                <div>
+                  <p className="text-sm">Kontak / No. Whatsapp</p>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.phoneNumber ?? "-"}
+                  </h4>
+                </div>
+                <div>
+                  <p className="text-sm">Jenis Kelamin</p>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.gender ?? "-"}
+                  </h4>
                 </div>
               </CardBody>
             </Card>
@@ -77,44 +142,60 @@ export default function UpdateNews() {
                   Detail Lainnya
                 </div>
                 <div>
-                  <p className="text-sm">Email</p>
-                  <h4 className="font-semibold">email@gmail.com</h4>
-                </div>
-                <div>
-                  <p className="text-sm">Kontak / No. Whatsapp</p>
-                  <h4 className="font-semibold">082141241231</h4>
-                </div>
-                <div>
                   <p className="text-sm">Tempat Lahir</p>
-                  <h4 className="font-semibold">Cikarang</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.placeOfBirth ?? "-"}
+                  </h4>
                 </div>
                 <div>
                   <p className="text-sm">Tanggal Lahir</p>
-                  <h4 className="font-semibold">20/03/1976</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.dateOfBirth
+                      ? DMYIndoToFormat(DATA_FETCHING.dateOfBirth)
+                      : "-"}
+                  </h4>
                 </div>
                 <div>
                   <p className="text-sm">Pangkat</p>
-                  <h4 className="font-semibold">Mayor</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.rank ?? "-"}
+                  </h4>
                 </div>
                 <div>
                   <p className="text-sm">Pendidikan Terakhir</p>
-                  <h4 className="font-semibold">S1</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.education ?? "-"}
+                  </h4>
                 </div>
                 <div>
                   <p className="text-sm">Usia Pensiun</p>
-                  <h4 className="font-semibold">70</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.pensionAge ?? "-"}
+                  </h4>
                 </div>
                 <div>
                   <p className="text-sm">Tanggal Pensiun</p>
-                  <h4 className="font-semibold">10/04/2026</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.pensionDate
+                      ? DMYIndoToFormat(DATA_FETCHING.pensionDate)
+                      : "-"}
+                  </h4>
                 </div>
                 <div>
                   <p className="text-sm">Tanggal TMT</p>
-                  <h4 className="font-semibold">10/04/2026</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.employmentDate
+                      ? DMYIndoToFormat(DATA_FETCHING.employmentDate)
+                      : "-"}
+                  </h4>
                 </div>
                 <div>
                   <p className="text-sm">Tanggal KGB</p>
-                  <h4 className="font-semibold">10/04/2026</h4>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.tanggalKGB
+                      ? DMYIndoToFormat(DATA_FETCHING.tanggalKGB)
+                      : "-"}
+                  </h4>
                 </div>
               </CardBody>
             </Card>

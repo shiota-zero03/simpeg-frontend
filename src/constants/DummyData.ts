@@ -17,39 +17,45 @@ export const RoleAccess: {
 ];
 
 export const EselonData: {
-  id: string;
   nama: string;
-  keterangan: string;
 }[] = [
   {
-    id: "1",
     nama: "Eselon I",
-    keterangan:
-      "Jabatan pimpinan tinggi utama dan madya, misalnya Direktur Jenderal atau Sekretaris Jenderal.",
   },
   {
-    id: "2",
     nama: "Eselon II",
-    keterangan:
-      "Jabatan pimpinan tinggi pratama, misalnya Kepala Dinas atau Direktur.",
   },
   {
-    id: "3",
     nama: "Eselon III",
-    keterangan: "Jabatan administrator, misalnya Kepala Bidang.",
   },
   {
-    id: "4",
     nama: "Eselon IV",
-    keterangan:
-      "Jabatan pengawas, misalnya Kepala Seksi atau Kepala Sub Bagian.",
   },
   {
-    id: "5",
     nama: "Non Eselon",
-    keterangan:
-      "Jabatan fungsional atau staf yang tidak memiliki jabatan struktural.",
   },
+];
+
+export const GolonganData: {
+  nama: string;
+}[] = [
+  { nama: "I/a - Juru Muda" },
+  { nama: "I/b - Juru Muda Tingkat I" },
+  { nama: "I/c - Juru" },
+  { nama: "I/d - Juru Tingkat I" },
+  { nama: "II/a - Pengatur Muda" },
+  { nama: "II/b - Pengatur Muda Tingkat I" },
+  { nama: "II/c - Pengatur" },
+  { nama: "II/d - Pengatur Tingkat I" },
+  { nama: "III/a - Penata Muda" },
+  { nama: "III/b - Penata Muda Tingkat I" },
+  { nama: "III/c - Penata" },
+  { nama: "III/d - Penata Tingkat I" },
+  { nama: "IV/a - Pembina" },
+  { nama: "IV/b - Pembina Tingkat I" },
+  { nama: "IV/c - Pembina Utama Muda" },
+  { nama: "IV/d - Pembina Utama Madya" },
+  { nama: "IV/e - Pembina Utama" },
 ];
 
 export const GaleryDummy: {
@@ -436,6 +442,136 @@ export const SPPDDummy: {
   },
 ];
 
+export const IKPDummy: {
+  id: string;
+  namaPegawai: string;
+  nip: string;
+  jabatan: string;
+  waktu: string;
+  status: string;
+}[] = [
+  {
+    id: "1",
+    namaPegawai: "Dr. Siti Aminah",
+    nip: "3275012300010001",
+    jabatan: "Dokter Umum",
+    waktu: "2025-04-15T09:00:00",
+    status: "DISETUJUI",
+  },
+  {
+    id: "2",
+    namaPegawai: "Ahmad Fauzi",
+    nip: "3275012300020002",
+    jabatan: "Perawat",
+    waktu: "2025-04-14T13:30:00",
+    status: "MENUNGGU",
+  },
+  {
+    id: "3",
+    namaPegawai: "Nurul Hidayati",
+    nip: "3275012300030003",
+    jabatan: "Bidan",
+    waktu: "2025-04-13T11:15:00",
+    status: "DITOLAK",
+  },
+  {
+    id: "4",
+    namaPegawai: "Dedi Kusnadi",
+    nip: "3275012300040004",
+    jabatan: "Apoteker",
+    waktu: "2025-04-12T08:45:00",
+    status: "DISETUJUI",
+  },
+  {
+    id: "5",
+    namaPegawai: "Sri Lestari",
+    nip: "3275012300050005",
+    jabatan: "Administrasi",
+    waktu: "2025-04-11T10:00:00",
+    status: "MENUNGGU",
+  },
+  {
+    id: "6",
+    namaPegawai: "Fajar Pratama",
+    nip: "3275012300060006",
+    jabatan: "Teknisi Lab",
+    waktu: "2025-04-10T07:30:00",
+    status: "DISETUJUI",
+  },
+  {
+    id: "7",
+    namaPegawai: "Lina Marlina",
+    nip: "3275012300070007",
+    jabatan: "Kepala TU",
+    waktu: "2025-04-09T14:10:00",
+    status: "DITOLAK",
+  },
+  {
+    id: "8",
+    namaPegawai: "Rudi Hartono",
+    nip: "3275012300080008",
+    jabatan: "Cleaning Service",
+    waktu: "2025-04-08T10:30:00",
+    status: "MENUNGGU",
+  },
+  {
+    id: "9",
+    namaPegawai: "Mega Andini",
+    nip: "3275012300090009",
+    jabatan: "Farmasi",
+    waktu: "2025-04-07T09:20:00",
+    status: "DISETUJUI",
+  },
+  {
+    id: "10",
+    namaPegawai: "Hendra Gunawan",
+    nip: "3275012300100010",
+    jabatan: "Security",
+    waktu: "2025-04-06T15:00:00",
+    status: "DISETUJUI",
+  },
+  {
+    id: "11",
+    namaPegawai: "Yuni Rahmawati",
+    nip: "3275012300110011",
+    jabatan: "Petugas Gizi",
+    waktu: "2025-04-05T11:00:00",
+    status: "MENUNGGU",
+  },
+  {
+    id: "12",
+    namaPegawai: "Rizal Fikri",
+    nip: "3275012300120012",
+    jabatan: "Driver Ambulans",
+    waktu: "2025-04-04T08:00:00",
+    status: "DITOLAK",
+  },
+  {
+    id: "13",
+    namaPegawai: "Anisa Zahra",
+    nip: "3275012300130013",
+    jabatan: "Petugas Administrasi",
+    waktu: "2025-04-03T09:45:00",
+    status: "DISETUJUI",
+  },
+  {
+    id: "14",
+    namaPegawai: "Joko Santoso",
+    nip: "3275012300140014",
+    jabatan: "Petugas Rekam Medis",
+    waktu: "2025-04-02T13:15:00",
+    status: "MENUNGGU",
+  },
+  {
+    id: "15",
+    namaPegawai: "Maria Ulfa",
+    nip: "3275012300150015",
+    jabatan: "Kasir",
+    waktu: "2025-04-01T10:10:00",
+    status: "DISETUJUI",
+  },
+];
+
 export const localBindData = [
   { Id: "parent", Role: "General Manager", color: "#71AF17" },
   { Id: "1", Role: "HR Manager", Manager: "parent", color: "#1859B7" },
@@ -472,17 +608,10 @@ export const DinasUptdData: { name: string; key: string }[] = [
 ];
 
 export const statusKepegawaianData: { name: string; key: string }[] = [
-  { name: "Dinas", key: "Dinas" },
-  { name: "UPTD I (Tambun)", key: "UPTD I (Tambun)" },
-  { name: "UPTD II (Cibitung)", key: "UPTD II (Cibitung)" },
-  { name: "UPTD III (Setu)", key: "UPTD III (Setu)" },
-  { name: "UPTD IV (Cikarang)", key: "UPTD IV (Cikarang)" },
-  { name: "UPTD V (Kedunggede)", key: "UPTD V (Kedunggede)" },
-  { name: "UPTD VI (Babelan)", key: "UPTD VI (Babelan)" },
-  { name: "UPTD VII (Tarumajaya)", key: "UPTD VII (Tarumajaya)" },
-  { name: "UPTD VIII (Serang)", key: "UPTD VIII (Serang)" },
-  { name: "UPTD IX (Cibarusah)", key: "UPTD IX (Cibarusah)" },
-  { name: "UPTD Metrologi Legal ", key: "UPTD Metrologi Legal " },
+  { key: "MENINGGAL", name: "Meninggal" },
+  { key: "MUTASI", name: "Mutasi (Pindah)" },
+  { key: "MENGUNDURKAN_DIRI", name: "Mengundurkan diri" },
+  { key: "DIBERHENTIKAN", name: "Diberhentikan Karena Hukuman Disiplin" },
 ];
 
 export const pendidikanTerakhir: { name: string; key: string }[] = [

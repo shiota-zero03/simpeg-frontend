@@ -109,7 +109,8 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
 
     if (formData.fungsional) {
       if (!formData.jabatanFungsional)
-        errors.jabatanFungsional = "Jenis jabatan fungsional tidak boleh kosong";
+        errors.jabatanFungsional =
+          "Jenis jabatan fungsional tidak boleh kosong";
       if (!formData.fungsionalJob)
         errors.fungsionalJob = "Jabatan fungsional tidak boleh kosong";
     }
@@ -279,7 +280,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                     placeholder="Pilih Jabatan Fungsional"
                     classNames={{
                       trigger: "text-xs",
-                      value: "text-xs"
+                      value: "text-xs",
                     }}
                   >
                     <SelectItem
@@ -323,19 +324,13 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                     placeholder="Pilih Jenis Jabatan Fungsional"
                     classNames={{
                       trigger: "text-xs",
-                      value: "text-xs"
+                      value: "text-xs",
                     }}
                   >
-                    <SelectItem
-                      key={`MUDA`}
-                      textValue={`Ahli Muda`}
-                    >
+                    <SelectItem key={`MUDA`} textValue={`Ahli Muda`}>
                       Ahli Muda
                     </SelectItem>
-                    <SelectItem
-                      key={`MADYA`}
-                      textValue={`Ahli Madya`}
-                    >
+                    <SelectItem key={`MADYA`} textValue={`Ahli Madya`}>
                       Ahli Madya
                     </SelectItem>
                     <SelectItem key={`PERTAMA`} textValue={`Ahli Pertama`}>

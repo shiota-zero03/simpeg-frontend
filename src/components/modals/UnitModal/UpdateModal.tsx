@@ -45,7 +45,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
     idUnit: "",
     nameUnit: "",
     description: "",
-    ketersediaan: 0
+    ketersediaan: 0,
   });
 
   const [formError, setFormError] = useState<errorProps>({});
@@ -58,7 +58,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
         idUnit: data.data.idUnit,
         nameUnit: data.data.nameUnit,
         description: data.data.description || "",
-        ketersediaan: data.data.ketersediaan || 0
+        ketersediaan: data.data.ketersediaan || 0,
       });
     }
   }, [isOpen, data]);
@@ -73,7 +73,8 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
     const errors: errorProps = {};
     if (!formData.idUnit) errors.idUnit = "ID Unit tidak boleh kosong";
     if (!formData.nameUnit) errors.nameUnit = "Nama unit tidak boleh kosong";
-    if (!formData.ketersediaan) errors.ketersediaan = "Ketersediaan tidak boleh kosong";
+    if (!formData.ketersediaan)
+      errors.ketersediaan = "Ketersediaan tidak boleh kosong";
 
     return errors;
   };
@@ -193,7 +194,10 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   radius="sm"
                   value={String(formData.ketersediaan)}
                   onChange={(e) =>
-                    setFormData({ ...formData, ketersediaan: Number(e.target.value) })
+                    setFormData({
+                      ...formData,
+                      ketersediaan: Number(e.target.value),
+                    })
                   }
                   placeholder="Masukkan disini"
                   classNames={{
