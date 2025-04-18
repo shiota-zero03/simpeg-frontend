@@ -3,30 +3,36 @@ import DataTables from "@/components/DataTables";
 import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import { LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
+import { LuEye, LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-import CreateModal from "@/components/modals/JabatanModal/CreatedModal";
-import { useDeleteJabatan, useGetAllJabatan } from "@/services/jabatan";
-import { JabatanRes } from "@/interface/responses/jabatan.interface";
-import UpdateModal from "@/components/modals/JabatanModal/UpdateModal";
+import { useNavigate } from "react-router-dom";
+import { SuratPemeriksaanRes } from "@/interface/responses/surat.interface";
+import {
+  useDeleteSuratPemeriksaan,
+  useGetAllSuratPemeriksaan,
+} from "@/services/surat/pemeriksaan";
+import { DMYIndoToFormat } from "@/utils/dateFormater";
+import { FaFilePdf } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 interface DataProps {
   id: number;
-  nama: string;
-  kelas: string;
-  atasan: string;
-  singkatan: string;
-  fungsional: boolean;
-  fungsionalJob: string | null;
+  tanggalSurat: string;
+  nomorSurat: string;
+  namaTtd: string;
+  diPerintah: string;
 }
 
-export default function Jabatan() {
+export default function SuratPemeriksaan() {
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
+  const [searchNo, setSearchNo] = useState("");
+
+  const navigate = useNavigate();
 
   const [startData, setStartData] = useState<number>(0);
   const [endData, setEndData] = useState<number>(0);
@@ -39,13 +45,13 @@ export default function Jabatan() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllJabatan(pageIndex + 1, limit, search);
+  } = useGetAllSuratPemeriksaan(pageIndex + 1, limit, search, searchNo);
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
       const data = allData.data;
       setTotalData(data.pagination.totalData || 0);
-      setTotalPages(data.pagination.totalPages || 1);
+      setTotalPages(data.pagination.totalPages || 0);
 
       const start = pageIndex * limit + 1;
       const end = Math.min(
@@ -56,14 +62,12 @@ export default function Jabatan() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: JabatanRes) => ({
+      return data.response.map((item: SuratPemeriksaanRes) => ({
         id: item.id,
-        nama: item.nameJob,
-        kelas: item.class,
-        atasan: String(item.parent ? item.parent.nameJob : "-"),
-        singkatan: item.singkatan,
-        fungsional: item.fungsional,
-        fungsionalJob: item.fungsionalJob,
+        tanggalSurat: item.tanggalSurat,
+        nomorSurat: item.nomorSurat,
+        namaTtd: item.namaTtd,
+        diPerintah: item.diPerintah,
       }));
     } else {
       return [];
@@ -80,43 +84,28 @@ export default function Jabatan() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
-      accessorKey: "nama",
-      header: "Nama Jabatan",
+      accessorKey: "tanggalSurat",
+      header: "Tanggal",
+      cell: (info) =>
+        info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "nomorSurat",
+      header: "Nomor Surat",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      accessorKey: "singkatan",
-      header: "Singkatan",
+      accessorKey: "namaTtd",
+      header: "Yang bertanda tangan",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      accessorKey: "kelas",
-      header: "Kelas",
+      accessorKey: "diPerintah",
+      header: "Memerintahkan Kepada",
       cell: (info) => info.getValue() as string,
-      // meta: { align: "center" },
-    },
-    {
-      header: "Jabatan Fungsional ?",
-      cell: ({ row }) => {
-        const { fungsional, fungsionalJob } = row.original;
-        return fungsional
-          ? fungsionalJob === "PENERA"
-            ? "Penera"
-            : fungsionalJob === "ANALIS_PERDAGANGAN"
-              ? "Analis Perdagangan"
-              : fungsionalJob === "PENGAWAS_PERDAGANGAN"
-                ? "Pengawas Perdagangan"
-                : "Jabatan tidak ditemukan"
-          : "Tidak";
-      },
-      // meta: { align: "center" },
-    },
-    {
-      accessorKey: "atasan",
-      header: "Atasan",
-      cell: (info) => (info.getValue() as string) || "-",
       // meta: { align: "center" },
     },
     {
@@ -127,16 +116,22 @@ export default function Jabatan() {
           <div className="flex items-center gap-2 justify-center">
             <Button
               onPress={() => {
-                setSelectedId(id);
-                onOpenUpdate();
+                navigate(`/surat-perintah-pemeriksaan/detail-data/${id}`);
               }}
               isIconOnly
               radius="sm"
               size="sm"
-              className="bg-alert-info text-info shadow-sm"
+              className="bg-alert-warning text-warning shadow-sm"
             >
-              <LuPencilLine size={14} />
+              <LuEye size={14} />
             </Button>
+            <Link
+              target="__blank"
+              to={`/surat-perintah-pemeriksaan/export-data/${id}`}
+              className="bg-alert-info text-info shadow-sm p-2 rounded-md"
+            >
+              <FaFilePdf size={14} />
+            </Link>
             <Button
               onPress={() => {
                 setSelectedId(id);
@@ -161,16 +156,6 @@ export default function Jabatan() {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
-  const {
-    isOpen: isOpenCreate,
-    onOpen: onOpenCreate,
-    onClose: onCloseCreate,
-  } = useDisclosure();
-  const {
-    isOpen: isOpenUpdate,
-    onOpen: onOpenUpdate,
-    onClose: onCloseUpdate,
-  } = useDisclosure();
 
   const handleSearch = () => {
     setPageIndex(0);
@@ -179,6 +164,7 @@ export default function Jabatan() {
 
   const handleReset = () => {
     setSearch("");
+    setSearchNo("");
     setPageIndex(0);
     setTimeout(() => {
       refetchData();
@@ -190,7 +176,7 @@ export default function Jabatan() {
   }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const { mutate: mutateDelete } = useDeleteJabatan();
+  const { mutate: mutateDelete } = useDeleteSuratPemeriksaan();
 
   const handleDelete = () => {
     if (isLoadingDelete) return;
@@ -229,43 +215,19 @@ export default function Jabatan() {
     }
   };
 
-  const handleClose = () => {
-    setSelectedId(null);
-    setPageIndex(0);
-    onCloseCreate();
-    onCloseDelete();
-    onCloseUpdate();
-    refetchData();
-  };
-
   return (
     <>
-      <BreadcrumbAdmin location="/Jabatan" />
-      {selectedId && (
-        <DeleteModal
-          isOpen={isOpenDelete}
-          onClose={onCloseDelete}
-          isLoading={isLoadingDelete}
-          handleSubmit={handleDelete}
-        />
-      )}
-      <CreateModal
-        isOpen={isOpenCreate}
-        onClose={onCloseCreate}
-        handleClose={handleClose}
+      <BreadcrumbAdmin location="/Surat-Perintah-Pemeriksaan" />
+      <DeleteModal
+        isOpen={isOpenDelete}
+        onClose={onCloseDelete}
+        isLoading={isLoadingDelete}
+        handleSubmit={handleDelete}
       />
-      {selectedId && (
-        <UpdateModal
-          id={selectedId}
-          isOpen={isOpenUpdate}
-          onClose={onCloseUpdate}
-          handleClose={handleClose}
-        />
-      )}
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
-          title="Data Jabatan"
-          text="Berikut ini menampilkan Daftar dari Master Data Jabatan"
+          title="Daftar Surat Perintah Pemeriksaan"
+          text="Berikut ini Mengelola Daftar Surat Perintah Pemeriksaan"
         />
         <div className="bg-white shadow-md rounded-xl border min-h-[70vh]">
           <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
@@ -274,15 +236,32 @@ export default function Jabatan() {
                 <div className="flex sm:flex-row flex-col gap-2 items-end w-full">
                   <Input
                     aria-label="search"
-                    value={search}
+                    value={searchNo}
                     onChange={(e) => {
-                      setSearch(e.target.value);
-                      setPageIndex(0);
+                      setSearchNo(e.target.value);
                     }}
                     radius="sm"
                     size="sm"
                     variant="bordered"
-                    placeholder="Cari nama jabatan disini"
+                    placeholder="Cari nomor surat disini"
+                    startContent={
+                      <LuSearch className="text-accent-gray text-xs" />
+                    }
+                    classNames={{
+                      inputWrapper: "border-[0.8px]",
+                      input: "text-xs",
+                    }}
+                  />
+                  <Input
+                    aria-label="search"
+                    value={search}
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                    }}
+                    radius="sm"
+                    size="sm"
+                    variant="bordered"
+                    placeholder="Cari berdasarkan nama disini"
                     startContent={
                       <LuSearch className="text-accent-gray text-xs" />
                     }
@@ -315,7 +294,9 @@ export default function Jabatan() {
                     <BiReset size={12} />
                   </Button>
                   <Button
-                    onPress={() => onOpenCreate()}
+                    onPress={() =>
+                      navigate(`/surat-perintah-pemeriksaan/tambah-data`)
+                    }
                     variant="solid"
                     radius="sm"
                     size="sm"

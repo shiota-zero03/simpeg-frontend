@@ -7,6 +7,7 @@ import { useGetDetailPegawai } from "@/services/pegawai";
 import { useEffect, useMemo } from "react";
 import { ErrorToast } from "@/utils/ToastMessage";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
+import { Commet } from "react-loading-indicators";
 
 export default function UpdateNews() {
   const { id } = useParams();
@@ -32,6 +33,11 @@ export default function UpdateNews() {
   return (
     <>
       <BreadcrumbAdmin location="/Pegawai/Detail" />
+      {isFetching && (
+        <div className="inset-0 flex items-center justify-center absolute z-10">
+          <Commet color="#32cd32" size="medium" text="" textColor="" />
+        </div>
+      )}
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase title="Detail Pegawai" />
 

@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { TitleCase } from "@/components/card/TitleCase";
-import { Autocomplete, AutocompleteItem, Button, Input, useDisclosure } from "@heroui/react";
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Button,
+  Input,
+  useDisclosure,
+} from "@heroui/react";
 import { LuArrowLeft, LuSave } from "react-icons/lu";
 import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
@@ -15,377 +21,397 @@ import { useCreateIKP } from "@/services/ikp";
 import { StoreIKP } from "@/interface/request/ikp.interface";
 
 interface formProps {
-    userId: string;
+  userId: string;
 }
 
 interface errorProps {
-    userId?: string;
+  userId?: string;
 }
 
 export default function CreateNews() {
+  const [formUser, setFormUser] = useState<{ nip: string; jabatan: string }>({
+    nip: "",
+    jabatan: "",
+  });
 
-    const [ formUser, setFormUser ] = useState<{ nip: string; jabatan: string }>({
-        nip: "",
-        jabatan: ""
-    })
+  const [formData, setFormData] = useState<formProps>({
+    userId: "",
+  });
 
-    const [formData, setFormData] = useState<formProps>({
-        userId: "",
+  const [ikps, setIKPS] = useState<
+    {
+      sasaran?: string;
+      indicator?: string;
+      target?: string;
+      status?: string;
+    }[]
+  >([{ sasaran: "", indicator: "", target: "", status: "MENUNGGU" }]);
+
+  const addIKPS = () => {
+    setIKPS([
+      ...ikps,
+      { sasaran: "", indicator: "", target: "", status: "MENUNGGU" },
+    ]);
+  };
+
+  const removeIKPS = (index: number) => {
+    if (ikps.length > 1) {
+      setIKPS(ikps.filter((_, i) => i !== index));
+    }
+  };
+
+  const handleChangeIKPS = (
+    index: number,
+    field: string,
+    value: string | number,
+  ) => {
+    const newPermasalahan = [...ikps];
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (newPermasalahan[index] as any)[field] = value;
+    setIKPS(newPermasalahan);
+  };
+
+  const {
+    data: allDataJabatan,
+    isFetching: isFetchingJabatan,
+    refetch: refetchJabatan,
+  } = useGetAllPegawaiOption();
+
+  const PEGAWAI_SELECT = useMemo(() => {
+    if (!allDataJabatan) return [];
+    return allDataJabatan.data;
+  }, [allDataJabatan]);
+
+  const [formError, setFormError] = useState<errorProps>({});
+
+  const rules = () => {
+    const error: errorProps = {};
+    if (!formData.userId) error.userId = "Pilih pegawai terlebih dahulu";
+    return error;
+  };
+
+  useEffect(() => {
+    setFormData({
+      userId: "",
     });
+    setFormUser({
+      nip: "",
+      jabatan: "",
+    });
+    setIKPS([{ sasaran: "", indicator: "", target: "", status: "MENUNGGU" }]);
+    refetchJabatan();
+  }, []);
 
-    const [ ikps, setIKPS ] = useState<{
-        sasaran?: string;
-        indicator?: string;
-        target?: number;
-        status?: string;
-    }[]>([{ sasaran: "", indicator: "", target: 0, status: "MENUNGGU" }])
+  const onChangePegawai = (value: string) => {
+    if (value) {
+      const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
+      setFormData({ ...formData, userId: value as string });
+      setFormUser({
+        nip: checkPegawai?.nip || "",
+        jabatan: checkPegawai?.jabatan ? checkPegawai?.jabatan.nameJob : "",
+      });
+    } else {
+      setFormData({ ...formData, userId: "" });
+      setFormUser({
+        nip: "",
+        jabatan: "",
+      });
+    }
+  };
 
-    const addIKPS = () => {
-        setIKPS([...ikps, { sasaran: "", indicator: "", target: 0, status: "MENUNGGU" }]);
-    };
+  const navigate = useNavigate();
 
-    const removeIKPS = (index: number) => {
-        if (ikps.length > 1) {
-            setIKPS(ikps.filter((_, i) => i !== index));
-        }
-    };
+  const {
+    isOpen: isOpenConfirm,
+    onOpen: onOpenConfirm,
+    onClose: onCloseConfirm,
+  } = useDisclosure();
 
-    const handleChangeIKPS = (index: number, field: string, value: string | number) => {
-        const newPermasalahan = [...ikps];
+  const [isLoadingConfirm, setLoadingConfirm] = useState<boolean>(false);
 
-        (newPermasalahan[index] as any)[field] = value;
-        setIKPS(newPermasalahan);
-    };
-    
-    const {
-        data: allDataJabatan,
-        isFetching: isFetchingJabatan,
-        refetch: refetchJabatan,
-    } = useGetAllPegawaiOption();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onOpenConfirm();
+  };
 
-    const PEGAWAI_SELECT = useMemo(() => {
-        if (!allDataJabatan) return [];
-        return allDataJabatan.data;
-    }, [allDataJabatan]);
+  const { mutate: mutatePost } = useCreateIKP();
 
-    const [formError, setFormError] = useState<errorProps>({});
+  const handleConfirm = () => {
+    setLoadingConfirm(true);
 
-    const rules = () => {
-        const error: errorProps = {};
-        if (!formData.userId)
-            error.userId = "Pilih pegawai terlebih dahulu";
-        return error;
-    };
+    const errorRules = rules();
+    setFormError(errorRules);
 
-    useEffect(() => {
-        setFormData({
-            userId: "",
-        });
-        setFormUser({
-            nip: "",
-            jabatan: ""
-        })
-        setIKPS([{ sasaran: "", indicator: "", target: 0, status: "MENUNGGU" }])
-        refetchJabatan();
-    }, []);
-
-    const onChangePegawai = (value: string) => {
-        if(value) {
-            let checkPegawai = PEGAWAI_SELECT.find(item => item.id === value);
-            setFormData({ ...formData, userId: value as string })
-            setFormUser({
-                nip: checkPegawai?.nip || "",
-                jabatan: checkPegawai?.jabatan ? checkPegawai?.jabatan.nameJob : ""
-            })
-        } else {
-            setFormData({ ...formData, userId: "" })
-            setFormUser({
-                nip: "",
-                jabatan: "",
-            })
-        }
+    if (Object.keys(errorRules).length > 0) {
+      setLoadingConfirm(false);
+      onCloseConfirm();
+      ErrorToast({ text: "Validasi gagal, cek kembali form anda" });
+      return true;
     }
 
-    const navigate = useNavigate();
+    const formToSendData: StoreIKP = {};
 
-    const {
-        isOpen: isOpenConfirm,
-        onOpen: onOpenConfirm,
-        onClose: onCloseConfirm,
-    } = useDisclosure();
+    const ikpsData: {
+      sasaran?: string;
+      indicator?: string;
+      target?: string;
+      status?: string;
+    }[] = [];
 
-    const [isLoadingConfirm, setLoadingConfirm] = useState<boolean>(false);
+    ikps.forEach((item) => {
+      ikpsData.push({
+        sasaran: item.sasaran,
+        indicator: item.indicator,
+        target: item.target,
+        status: item.status,
+      });
+    });
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        onOpenConfirm();
-    };
+    if (formData.userId) formToSendData.userId = formData.userId;
+    if (ikpsData.length > 0) formToSendData.ikps = ikpsData;
 
-    const { mutate: mutatePost } = useCreateIKP();
-
-    const handleConfirm = () => {
-        setLoadingConfirm(true);
-
-        const errorRules = rules();
-        setFormError(errorRules);
-
-        if (Object.keys(errorRules).length > 0) {
-            setLoadingConfirm(false);
-            onCloseConfirm();
-            ErrorToast({ text: "Validasi gagal, cek kembali form anda" });
-            return true;
-        }
-
-        const formToSendData: StoreIKP = {};
-
-        const ikpsData: {sasaran?: string; indicator?: string; target?: number; status?: string;}[] = [];
-
-        ikps.forEach(item => {
-            ikpsData.push({
-                sasaran: item.sasaran,
-                indicator: item.indicator,
-                target: Number(item.target),
-                status: item.status
-            })
-        })
-
-        if(formData.userId) formToSendData.userId = formData.userId;
-        if(ikpsData.length > 0) formToSendData.ikps = ikpsData;
-
-
-        try {
-            mutatePost(formToSendData, {
-                onSuccess: () => {
-                    SuccessToast({ text: "Data berhasil disimpan" });
-                    setLoadingConfirm(false);
-                    onCloseConfirm();
-                    navigate("/dialog-kinerja");
-                },
-                onError: (error: AxiosError<BaseErrorRes>) => {
-                    setLoadingConfirm(false);
-                    onCloseConfirm();
-                    ErrorToast({
-                        text:
-                        (error.response?.data.error as string) ||
-                        "Terjadi kesalahan saat menambah data",
-                    });
-                    throw error;
-                },
-            });
-        } catch (error) {
-            setLoadingConfirm(false);
-            onCloseConfirm();
-            throw error;
-        }
+    try {
+      mutatePost(formToSendData, {
+        onSuccess: () => {
+          SuccessToast({ text: "Data berhasil disimpan" });
+          setLoadingConfirm(false);
+          onCloseConfirm();
+          navigate("/dialog-kinerja");
+        },
+        onError: (error: AxiosError<BaseErrorRes>) => {
+          setLoadingConfirm(false);
+          onCloseConfirm();
+          ErrorToast({
+            text:
+              (error.response?.data.error as string) ||
+              "Terjadi kesalahan saat menambah data",
+          });
+          throw error;
+        },
+      });
+    } catch (error) {
+      setLoadingConfirm(false);
+      onCloseConfirm();
+      throw error;
+    }
   };
 
   return (
     <>
-    <BreadcrumbAdmin location="/Dialog-Kinerja/Tambah-Data" />
-    <ConfirmModal
+      <BreadcrumbAdmin location="/Dialog-Kinerja/Tambah-Data" />
+      <ConfirmModal
         isOpen={isOpenConfirm}
         onClose={onCloseConfirm}
         isLoading={isLoadingConfirm}
         handleSubmit={handleConfirm}
-    />
-        <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
-            <div className="flex">
-                <Link
-                    to={`/dialog-kinerja`}
-                    className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
-                >
-                    <LuArrowLeft /> Kembali
-                </Link>
-            </div>
-            <TitleCase
-                title="Tambah Dialog Kinerja (IKP)"
-            />
-
-            <div className="bg-white shadow-md rounded-xl border p-4">
-                <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-                    <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
-                        <div>
-                            <div className="mb-1">
-                                <label htmlFor="content" className="font-semibold text-xs">
-                                    Nama Pegawai <span className="text-danger">*</span>
-                                </label>
-                            </div>
-                            <Autocomplete
-                                defaultItems={PEGAWAI_SELECT}
-                                isLoading={isFetchingJabatan}
-                                aria-label="pegawai"
-                                placeholder="Cari pegawai"
-                                variant="bordered"
-                                radius="sm"
-                                selectedKey={String(formData.userId)}
-                                onSelectionChange={(value) => onChangePegawai(value as string)}
-                                inputProps={{
-                                    classNames: {
-                                        input: "text-xs",
-                                        inputWrapper: "border-[0.8px]",
-                                    },
-                                }}
-                            >
-                                {(peg) => (
-                                    <AutocompleteItem key={peg.id} textValue={peg.name}>
-                                        {peg.name}
-                                    </AutocompleteItem>
-                                )}
-                            </Autocomplete>
-                            <div className="text-danger text-[0.7rem] mt-1">
-                                {formError.userId}
-                            </div>
-                        </div>
-                        <div>
-                            <div className="mb-1">
-                                <label htmlFor="content" className="font-semibold text-xs">
-                                    NIP
-                                </label>
-                            </div>
-                            <Input
-                                isDisabled
-                                value={formUser.nip}
-                                aria-label="Judul"
-                                labelPlacement="outside"
-                                placeholder="AUTO_FILLED"
-                                variant="bordered"
-                                radius="sm"
-                                classNames={{
-                                    inputWrapper: "border-[0.8px]",
-                                    input: "text-xs",
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <div className="mb-1">
-                                <label htmlFor="content" className="font-semibold text-xs">
-                                    Jabatan
-                                </label>
-                            </div>
-                            <Input
-                                isDisabled
-                                value={formUser.jabatan}
-                                aria-label="Judul"
-                                labelPlacement="outside"
-                                placeholder="AUTO_FILLED"
-                                variant="bordered"
-                                radius="sm"
-                                classNames={{
-                                    inputWrapper: "border-[0.8px]",
-                                    input: "text-xs",
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
-                            <div className="mb-1">
-                                <label htmlFor="sasaran" className="font-semibold text-xs">
-                                    Sasaran
-                                </label>
-                            </div>
-                            <div className="mb-1">
-                                <label htmlFor="indikator" className="font-semibold text-xs">
-                                    Indikator
-                                </label>
-                            </div>
-                            <div className="mb-1">
-                                <label htmlFor="target" className="font-semibold text-xs">
-                                    Target
-                                </label>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1 mb-2">
-                            {ikps.map((item, index) => (
-                                <div key={index} className="flex md:flex-row flex-col gap-2 w-full">
-                                    <div className="w-full">
-                                        <Input
-                                            value={item.sasaran}
-                                            onChange={(e) => handleChangeIKPS(index, "sasaran", e.target.value)}
-                                            aria-label="Judul"
-                                            labelPlacement="outside"
-                                            placeholder="Masukkan disini"
-                                            variant="bordered"
-                                            radius="sm"
-                                            classNames={{
-                                                inputWrapper: "border-[0.8px]",
-                                                input: "text-xs",
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="w-full">
-                                        <Input
-                                            value={item.indicator}
-                                            onChange={(e) => handleChangeIKPS(index, "indicator", e.target.value)}
-                                            aria-label="Judul"
-                                            labelPlacement="outside"
-                                            placeholder="Masukkan disini"
-                                            variant="bordered"
-                                            radius="sm"
-                                            classNames={{
-                                                inputWrapper: "border-[0.8px]",
-                                                input: "text-xs",
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="w-full">
-                                        <Input
-                                            type="number"
-                                            value={String(item.target || "")}
-                                            onChange={(e) => handleChangeIKPS(index, "target", e.target.value)}
-                                            aria-label="Judul"
-                                            labelPlacement="outside"
-                                            placeholder="Masukkan disini"
-                                            variant="bordered"
-                                            radius="sm"
-                                            classNames={{
-                                                inputWrapper: "border-[0.8px]",
-                                                input: "text-xs",
-                                            }}
-                                            endContent={"%"}
-                                        />
-                                    </div>
-                                    {ikps.length > 1 && (
-                                        <div>
-                                            <Button 
-                                                onPress={() => removeIKPS(index)} 
-                                                radius="sm"
-                                                isIconOnly
-                                                variant="bordered"
-                                                className="border border-danger text-danger"
-                                            >
-                                                <LucideTrash2 size={14} />
-                                            </Button>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                        <div>
-                            <Button 
-                                onPress={addIKPS} 
-                                radius="full"
-                                size="sm"
-                                className="bg-button-primary text-white max-w-48 flex justify-start text-xs"
-                            >
-                                <LucidePlusCircle size={14} />Tambah Data
-                            </Button>
-                        </div>
-                    </div>
-                    <div className="ms-auto">
-                        <Button
-                            isLoading={isLoadingConfirm}
-                            className="bg-button-primary text-white"
-                            size="sm"
-                            radius="sm"
-                            type="submit"
-                        >
-                            <LuSave /> Simpan Data
-                        </Button>
-                    </div>
-                </form>
-            </div>
+      />
+      <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
+        <div className="flex">
+          <Link
+            to={`/dialog-kinerja`}
+            className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
+          >
+            <LuArrowLeft /> Kembali
+          </Link>
         </div>
+        <TitleCase title="Tambah Dialog Kinerja (IKP)" />
+
+        <div className="bg-white shadow-md rounded-xl border p-4">
+          <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+              <div>
+                <div className="mb-1">
+                  <label htmlFor="content" className="font-semibold text-xs">
+                    Nama Pegawai <span className="text-danger">*</span>
+                  </label>
+                </div>
+                <Autocomplete
+                  defaultItems={PEGAWAI_SELECT}
+                  isLoading={isFetchingJabatan}
+                  aria-label="pegawai"
+                  placeholder="Cari pegawai"
+                  variant="bordered"
+                  radius="sm"
+                  selectedKey={String(formData.userId)}
+                  onSelectionChange={(value) =>
+                    onChangePegawai(value as string)
+                  }
+                  inputProps={{
+                    classNames: {
+                      input: "text-xs",
+                      inputWrapper: "border-[0.8px]",
+                    },
+                  }}
+                >
+                  {(peg) => (
+                    <AutocompleteItem key={peg.id} textValue={peg.name}>
+                      {peg.name}
+                    </AutocompleteItem>
+                  )}
+                </Autocomplete>
+                <div className="text-danger text-[0.7rem] mt-1">
+                  {formError.userId}
+                </div>
+              </div>
+              <div>
+                <div className="mb-1">
+                  <label htmlFor="content" className="font-semibold text-xs">
+                    NIP
+                  </label>
+                </div>
+                <Input
+                  isDisabled
+                  value={formUser.nip}
+                  aria-label="Judul"
+                  labelPlacement="outside"
+                  placeholder="AUTO_FILLED"
+                  variant="bordered"
+                  radius="sm"
+                  classNames={{
+                    inputWrapper: "border-[0.8px]",
+                    input: "text-xs",
+                  }}
+                />
+              </div>
+              <div>
+                <div className="mb-1">
+                  <label htmlFor="content" className="font-semibold text-xs">
+                    Jabatan
+                  </label>
+                </div>
+                <Input
+                  isDisabled
+                  value={formUser.jabatan}
+                  aria-label="Judul"
+                  labelPlacement="outside"
+                  placeholder="AUTO_FILLED"
+                  variant="bordered"
+                  radius="sm"
+                  classNames={{
+                    inputWrapper: "border-[0.8px]",
+                    input: "text-xs",
+                  }}
+                />
+              </div>
+            </div>
+            <div>
+              <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+                <div className="mb-1">
+                  <label htmlFor="sasaran" className="font-semibold text-xs">
+                    Sasaran
+                  </label>
+                </div>
+                <div className="mb-1">
+                  <label htmlFor="indikator" className="font-semibold text-xs">
+                    Indikator
+                  </label>
+                </div>
+                <div className="mb-1">
+                  <label htmlFor="target" className="font-semibold text-xs">
+                    Target
+                  </label>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1 mb-2">
+                {ikps.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex md:flex-row flex-col gap-2 w-full"
+                  >
+                    <div className="w-full">
+                      <Input
+                        value={item.sasaran}
+                        onChange={(e) =>
+                          handleChangeIKPS(index, "sasaran", e.target.value)
+                        }
+                        aria-label="Judul"
+                        labelPlacement="outside"
+                        placeholder="Masukkan disini"
+                        variant="bordered"
+                        radius="sm"
+                        classNames={{
+                          inputWrapper: "border-[0.8px]",
+                          input: "text-xs",
+                        }}
+                      />
+                    </div>
+                    <div className="w-full">
+                      <Input
+                        value={item.indicator}
+                        onChange={(e) =>
+                          handleChangeIKPS(index, "indicator", e.target.value)
+                        }
+                        aria-label="Judul"
+                        labelPlacement="outside"
+                        placeholder="Masukkan disini"
+                        variant="bordered"
+                        radius="sm"
+                        classNames={{
+                          inputWrapper: "border-[0.8px]",
+                          input: "text-xs",
+                        }}
+                      />
+                    </div>
+                    <div className="w-full">
+                      <Input
+                        value={item.target}
+                        onChange={(e) =>
+                          handleChangeIKPS(index, "target", e.target.value)
+                        }
+                        aria-label="Judul"
+                        labelPlacement="outside"
+                        placeholder="Masukkan disini"
+                        variant="bordered"
+                        radius="sm"
+                        classNames={{
+                          inputWrapper: "border-[0.8px]",
+                          input: "text-xs",
+                        }}
+                      />
+                    </div>
+                    {ikps.length > 1 && (
+                      <div>
+                        <Button
+                          onPress={() => removeIKPS(index)}
+                          radius="sm"
+                          isIconOnly
+                          variant="bordered"
+                          className="border border-danger text-danger"
+                        >
+                          <LucideTrash2 size={14} />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div>
+                <Button
+                  onPress={addIKPS}
+                  radius="full"
+                  size="sm"
+                  className="bg-button-primary text-white max-w-48 flex justify-start text-xs"
+                >
+                  <LucidePlusCircle size={14} />
+                  Tambah Data
+                </Button>
+              </div>
+            </div>
+            <div className="ms-auto">
+              <Button
+                isLoading={isLoadingConfirm}
+                className="bg-button-primary text-white"
+                size="sm"
+                radius="sm"
+                type="submit"
+              >
+                <LuSave /> Simpan Data
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
     </>
   );
 }

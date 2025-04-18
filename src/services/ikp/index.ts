@@ -11,7 +11,13 @@ import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StoreIKP } from "@/interface/request/ikp.interface";
 
-export const useGetAllIKP = (page: number, limit: number, title?: string, month?: string, year?: string) => {
+export const useGetAllIKP = (
+  page: number,
+  limit: number,
+  title?: string,
+  month?: string,
+  year?: string,
+) => {
   return useQuery({
     queryKey: ["getAllIKP"],
     queryFn: () => getAllIKP(page, limit, title, month, year),

@@ -40,53 +40,62 @@ export default function IKP() {
 
   const navigate = useNavigate();
 
-  const { data: allData, isFetching: isFetchingData, refetch: refetchData } = useGetAllIKP(pageIndex + 1, limit, search, searchMonth.split('-')[1] || "", searchMonth.split('-')[0] || "");
-
+  const {
+    data: allData,
+    isFetching: isFetchingData,
+    refetch: refetchData,
+  } = useGetAllIKP(
+    pageIndex + 1,
+    limit,
+    search,
+    searchMonth.split("-")[1] || "",
+    searchMonth.split("-")[0] || "",
+  );
 
   const paginatedData: IKPProps[] = useMemo(() => {
-      if (allData) {
-        const data = allData.data;
-        setTotalData(data.pagination.totalData || 0);
-        setTotalPages(data.pagination.totalPages || 1);
-  
-        const start = pageIndex * limit + 1;
-        const end = Math.min(
-          (pageIndex + 1) * limit,
-          data.pagination.totalData || 0,
-        );
-  
-        setStartData(start);
-        setEndData(end);
-  
-        return data.response.map((item: IKPListRes) => {
-          let ikps = item.ikps; // misalnya item.ikps adalah array of object dengan properti "status"
+    if (allData) {
+      const data = allData.data;
+      setTotalData(data.pagination.totalData || 0);
+      setTotalPages(data.pagination.totalPages || 1);
 
-          let hasMenunggu = ikps.some(el => el.status === "MENUNGGU");
-          let allSetujui = ikps.every(el => el.status === "DISETUJUI");
-          let allDitolak = ikps.every(el => el.status === "DITOLAK");
+      const start = pageIndex * limit + 1;
+      const end = Math.min(
+        (pageIndex + 1) * limit,
+        data.pagination.totalData || 0,
+      );
 
-          let status = "MENUNGGU"; // default
+      setStartData(start);
+      setEndData(end);
 
-          if (hasMenunggu) {
-            status = "MENUNGGU";
-          } else if (allSetujui) {
-            status = "SETUJUI";
-          } else if (allDitolak) {
-            status = "DITOLAK";
-          }
+      return data.response.map((item: IKPListRes) => {
+        const ikps = item.ikps; // misalnya item.ikps adalah array of object dengan properti "status"
 
-          return ({
-            id: item.id,
-            namaPegawai: item.name,
-            nip: item.nip,
-            jabatan: item.jabatan,
-            waktu: item.createdAt,
-            status: status
-          })
-        });
-      } else {
-        return [];
-      }
+        const hasMenunggu = ikps.some((el) => el.status === "MENUNGGU");
+        const allSetujui = ikps.every((el) => el.status === "DISETUJUI");
+        const allDitolak = ikps.every((el) => el.status === "DITOLAK");
+
+        let status = "MENUNGGU"; // default
+
+        if (hasMenunggu) {
+          status = "MENUNGGU";
+        } else if (allSetujui) {
+          status = "SETUJUI";
+        } else if (allDitolak) {
+          status = "DITOLAK";
+        }
+
+        return {
+          id: item.id,
+          namaPegawai: item.name,
+          nip: item.nip,
+          jabatan: item.jabatan,
+          waktu: item.createdAt,
+          status: status,
+        };
+      });
+    } else {
+      return [];
+    }
   }, [search, limit, pageIndex, allData]);
 
   const columns: ColumnDef<IKPProps>[] = [
@@ -219,7 +228,7 @@ export default function IKP() {
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
   const { mutate: mutateDelete } = useDeleteIKP();
-  
+
   const handleDelete = () => {
     if (isLoadingDelete) return; // Cegah pemanggilan ganda
 

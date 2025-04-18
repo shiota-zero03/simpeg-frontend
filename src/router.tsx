@@ -43,6 +43,27 @@ const ExportPDFSummary = lazy(() => import("@/pages/export/pdf/SummaryPdf"));
 
 const Error404 = lazy(() => import("@/pages/Errors/Error404"));
 
+const SuratPemeriksaan = lazy(() => import("@/pages/Surat/Pemeriksaan"));
+const CreateSuratPemeriksaan = lazy(
+  () => import("@/pages/Surat/Pemeriksaan/Created"),
+);
+const ViewSuratPemeriksaan = lazy(
+  () => import("@/pages/Surat/Pemeriksaan/Detail"),
+);
+const ExportSuratPemeriksaan = lazy(
+  () => import("@/pages/Surat/Pemeriksaan/Export"),
+);
+const SuratPemanggilan = lazy(() => import("@/pages/Surat/Pemanggilan"));
+const CreateSuratPemanggilan = lazy(
+  () => import("@/pages/Surat/Pemanggilan/Created"),
+);
+const ViewSuratPemanggilan = lazy(
+  () => import("@/pages/Surat/Pemanggilan/Detail"),
+);
+const ExportSuratPemanggilan = lazy(
+  () => import("@/pages/Surat/Pemanggilan/Export"),
+);
+
 export default function Router() {
   return (
     <Suspense fallback={<LoaderPage />}>
@@ -96,11 +117,44 @@ export default function Router() {
             path="/penilaian-kinerja/berdasarkan-nilai/detail-data/:id"
             element={<ViewNilaiKinerja />}
           />
+
+          <Route
+            path="/surat-perintah-pemeriksaan"
+            element={<SuratPemeriksaan />}
+          />
+          <Route
+            path="/surat-perintah-pemeriksaan/tambah-data"
+            element={<CreateSuratPemeriksaan />}
+          />
+          <Route
+            path="/surat-perintah-pemeriksaan/detail-data/:id"
+            element={<ViewSuratPemeriksaan />}
+          />
+          <Route path="/surat-pemanggilan" element={<SuratPemanggilan />} />
+          <Route
+            path="/surat-pemanggilan/tambah-data"
+            element={<CreateSuratPemanggilan />}
+          />
+          <Route
+            path="/surat-pemanggilan/detail-data/:id"
+            element={<ViewSuratPemanggilan />}
+          />
         </Route>
+
+        {/* export */}
         <Route
           path="/summary-report/export/pdf"
           element={<ExportPDFSummary />}
         />
+        <Route
+          path="/surat-perintah-pemeriksaan/export-data/:id"
+          element={<ExportSuratPemeriksaan />}
+        />
+        <Route
+          path="/surat-pemanggilan/export-data/:id"
+          element={<ExportSuratPemanggilan />}
+        />
+
         <Route path="*" element={<Error404 />} />
       </Routes>
     </Suspense>

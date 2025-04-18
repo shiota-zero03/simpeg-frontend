@@ -6,13 +6,13 @@ export interface IKPListRes {
   nip: string;
   jabatan: string;
   ikps: {
-    id:number;
+    id: number;
     sasaran: string;
-    target: number;
-    ubahTarget: number;
-    realisasi: number;
+    target: string;
+    ubahTarget: string;
+    realisasi: string;
     status: string;
-  }[]
+  }[];
   createdAt: string;
 }
 export interface IIKPListRes extends BaseRes {

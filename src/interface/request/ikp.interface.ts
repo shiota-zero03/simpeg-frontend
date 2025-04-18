@@ -3,7 +3,7 @@ export interface StoreIKP {
   ikps?: {
     sasaran?: string;
     indicator?: string;
-    target?: number;
+    target?: string;
     status?: string;
   }[];
 }

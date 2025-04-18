@@ -25,6 +25,29 @@
   }
 }
 
+@media print {
+  @page {
+    margin: 0;
+    size: A4 portrait;
+
+    /* Coba hilangkan header & footer default */
+    /* Chrome tidak selalu hormati ini, tapi layak dicoba */
+  }
+
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 12px;
+    -webkit-print-color-adjust: exact; /* agar warna tailwind tetap terlihat */
+  }
+
+  /* Sembunyikan elemen-elemen tertentu jika perlu */
+  .no-print {
+    display: none !important;
+  }
+}
+
 * {
   @apply font-jakarta;
 }
@@ -61,4 +84,16 @@ input[type="file"] {
 .ck-editor__main,
 .ck-content {
   height: 50vh !important;
+}
+
+.ck-content ul,
+.ck-content ol {
+  margin-left: 12px !important;
+}
+
+.ck-editor-keterangan ul li {
+  list-style: disc;
+}
+.ck-editor-keterangan ol li {
+  list-style: decimal;
 }

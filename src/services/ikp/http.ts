@@ -22,9 +22,7 @@ export const getAllIKP = async (
   const response = await instance.get(`/admin/ikp?${params.toString()}`);
   return response.data;
 };
-export const createIKP = async (
-  formData: StoreIKP,
-): Promise<IIKPDetailRes> => {
+export const createIKP = async (formData: StoreIKP): Promise<IIKPDetailRes> => {
   const response = await instance.post(`/admin/ikp/create`, formData);
   return response.data;
 };
