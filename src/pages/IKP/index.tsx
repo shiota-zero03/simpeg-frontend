@@ -1,18 +1,19 @@
 import { TitleCase } from "@/components/card/TitleCase";
 import DataTables from "@/components/DataTables";
-import { IKPDummy } from "@/constants/DummyData";
 import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { LuEye, LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
-import { SuccessToast } from "@/utils/ToastMessage";
+import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { YMToIndoFormat } from "@/utils/dateFormater";
 import { useNavigate } from "react-router-dom";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useDeleteIKP, useGetAllIKP } from "@/services/ikp";
+import { IKPListRes } from "@/interface/responses/ikp.interface";
 
 interface IKPProps {
   id: string;
@@ -26,29 +27,67 @@ interface IKPProps {
 export default function IKP() {
   const limit = 5;
   const [pageIndex, setPageIndex] = useState(0);
+
   const [search, setSearch] = useState("");
   const [searchMonth, setSearchMonth] = useState("");
 
+  const [startData, setStartData] = useState<number>(0);
+  const [endData, setEndData] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalData, setTotalData] = useState<number>(0);
+
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
   const navigate = useNavigate();
 
-  // const { data: allData, isFetching: isFetchingData, refetch: refetchData } = useGetAllRiwayatObat();
-  const allData = IKPDummy;
+  const { data: allData, isFetching: isFetchingData, refetch: refetchData } = useGetAllIKP(pageIndex + 1, limit, search, searchMonth.split('-')[1] || "", searchMonth.split('-')[0] || "");
 
-  const data: IKPProps[] = useMemo(() => {
-    if (allData) {
-      return allData;
-    } else {
-      return [];
-    }
-  }, [allData]);
 
-  const paginatedData = useMemo(() => {
-    return data.slice(pageIndex * limit, (pageIndex + 1) * limit);
-  }, [data, limit, pageIndex]);
+  const paginatedData: IKPProps[] = useMemo(() => {
+      if (allData) {
+        const data = allData.data;
+        setTotalData(data.pagination.totalData || 0);
+        setTotalPages(data.pagination.totalPages || 1);
+  
+        const start = pageIndex * limit + 1;
+        const end = Math.min(
+          (pageIndex + 1) * limit,
+          data.pagination.totalData || 0,
+        );
+  
+        setStartData(start);
+        setEndData(end);
+  
+        return data.response.map((item: IKPListRes) => {
+          let ikps = item.ikps; // misalnya item.ikps adalah array of object dengan properti "status"
 
-  const startData = paginatedData.length > 0 ? pageIndex * limit + 1 : 0;
-  const endData = Math.min((pageIndex + 1) * limit, data.length);
-  const totalPages = Math.ceil(data.length / limit);
+          let hasMenunggu = ikps.some(el => el.status === "MENUNGGU");
+          let allSetujui = ikps.every(el => el.status === "DISETUJUI");
+          let allDitolak = ikps.every(el => el.status === "DITOLAK");
+
+          let status = "MENUNGGU"; // default
+
+          if (hasMenunggu) {
+            status = "MENUNGGU";
+          } else if (allSetujui) {
+            status = "SETUJUI";
+          } else if (allDitolak) {
+            status = "DITOLAK";
+          }
+
+          return ({
+            id: item.id,
+            namaPegawai: item.name,
+            nip: item.nip,
+            jabatan: item.jabatan,
+            waktu: item.createdAt,
+            status: status
+          })
+        });
+      } else {
+        return [];
+      }
+  }, [search, limit, pageIndex, allData]);
 
   const columns: ColumnDef<IKPProps>[] = [
     {
@@ -136,7 +175,10 @@ export default function IKP() {
               <LuPencilLine size={14} />
             </Button>
             <Button
-              onPress={onOpenDelete}
+              onPress={() => {
+                setSelectedId(id);
+                onOpenDelete();
+              }}
               isIconOnly
               radius="sm"
               size="sm"
@@ -157,20 +199,62 @@ export default function IKP() {
     onClose: onCloseDelete,
   } = useDisclosure();
 
+  const handleSearch = () => {
+    setPageIndex(0);
+    refetchData();
+  };
+
+  useEffect(() => {
+    refetchData();
+  }, [pageIndex, refetchData]);
+
   const handleReset = () => {
     setSearch("");
     setSearchMonth("");
+    setPageIndex(0);
+    setTimeout(() => {
+      refetchData();
+    }, 100);
   };
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
+  const { mutate: mutateDelete } = useDeleteIKP();
+  
   const handleDelete = () => {
+    if (isLoadingDelete) return; // Cegah pemanggilan ganda
+
     setLoadingDelete(true);
-    setTimeout(() => {
-      setPageIndex(0);
-      SuccessToast({ text: "Data berhasil dihapus" });
+
+    try {
+      mutateDelete(
+        { id: String(selectedId || "") },
+        {
+          onSuccess() {
+            SuccessToast({ text: "Data berhasil dihapus" });
+            setLoadingDelete(false);
+            setSelectedId("");
+            onCloseDelete();
+            setPageIndex(0);
+            setTimeout(() => {
+              refetchData();
+            }, 100);
+          },
+          onError(error) {
+            setLoadingDelete(false);
+            ErrorToast({
+              text:
+                error.response?.data.message ||
+                "Terjadi kesalahan saat mengirim data",
+            });
+            throw error;
+          },
+        },
+      );
+    } catch (error) {
+      ErrorToast({ text: "Terjadi kesalahan di server" });
       setLoadingDelete(false);
-      onCloseDelete();
-    }, 1000);
+      throw error;
+    }
   };
 
   return (
@@ -234,7 +318,7 @@ export default function IKP() {
                 </div>
                 <div className="flex items-center sm:flex-nowrap flex-wrap justify-end gap-2">
                   <Button
-                    onPress={handleReset}
+                    onPress={handleSearch}
                     variant="solid"
                     radius="sm"
                     size="sm"
@@ -277,7 +361,7 @@ export default function IKP() {
           <div>
             <div className="py-8">
               <DataTables
-                isLoading={false}
+                isLoading={isFetchingData}
                 columns={columns}
                 data={paginatedData}
               />
@@ -285,7 +369,7 @@ export default function IKP() {
           </div>
           <div className="pb-4 px-4 flex md:flex-row flex-col items-center justify-between gap-4">
             <span className="sm:text-sm text-xs text-[#8C8C8C]">
-              {startData} - {endData} dari {data.length} data
+              {startData} - {endData} dari {totalData} data
             </span>
             <Pagination
               showControls

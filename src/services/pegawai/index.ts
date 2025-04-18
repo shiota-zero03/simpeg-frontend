@@ -3,6 +3,7 @@ import {
   createPegawai,
   deletePegawai,
   getAllPegawai,
+  getAllPegawaiOption,
   getDetailPegawai,
   updatePegawai,
 } from "./http";
@@ -10,6 +11,14 @@ import { IPegawaiRes } from "@/interface/responses/pegawai.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StorePegawai } from "@/interface/request/pegawai.interface";
+
+export const useGetAllPegawaiOption = () => {
+  return useQuery({
+    queryKey: ["getAllPegawaiOption"],
+    queryFn: () => getAllPegawaiOption(),
+    staleTime: 300000,
+  });
+};
 
 export const useGetAllPegawai = (
   page: number,

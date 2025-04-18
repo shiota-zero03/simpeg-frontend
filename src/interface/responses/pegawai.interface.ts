@@ -45,3 +45,7 @@ export interface IPegawaiListRes extends BaseRes {
 export interface IPegawaiRes extends BaseRes {
   data: PegawaiRes;
 }
+
+export interface IPegawaiOptionRes extends BaseRes {
+  data: PegawaiRes[];
+}

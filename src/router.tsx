@@ -37,6 +37,7 @@ const ViewNilaiKinerja = lazy(
   () => import("@/pages/PenilaianKinerja/Nilai/View"),
 );
 const IKP = lazy(() => import("@/pages/IKP"));
+const TambahIKP = lazy(() => import("@/pages/IKP/Tambah"));
 
 const ExportPDFSummary = lazy(() => import("@/pages/export/pdf/SummaryPdf"));
 
@@ -77,6 +78,7 @@ export default function Router() {
           />
           <Route path="/sppd" element={<SPPD />} />
           <Route path="/dialog-kinerja" element={<IKP />} />
+          <Route path="/dialog-kinerja/tambah-data" element={<TambahIKP />} />
           <Route path="/e-filling" element={<EFilling />} />
           <Route
             path="/penilaian-kinerja/berdasarkan-bobot"
