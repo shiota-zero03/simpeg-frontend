@@ -10,7 +10,10 @@ import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { useNavigate } from "react-router-dom";
 import { SuratPemeriksaanRes } from "@/interface/responses/surat.interface";
-import { useDeleteSuratPemeriksaan, useGetAllSuratPemeriksaan } from "@/services/surat/pemeriksaan";
+import {
+  useDeleteSuratPemeriksaan,
+  useGetAllSuratPemeriksaan,
+} from "@/services/surat/pemeriksaan";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { FaFilePdf } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -64,7 +67,7 @@ export default function SuratPemeriksaan() {
         tanggalSurat: item.tanggalSurat,
         nomorSurat: item.nomorSurat,
         namaTtd: item.namaTtd,
-        diPerintah: item.diPerintah
+        diPerintah: item.diPerintah,
       }));
     } else {
       return [];
@@ -83,7 +86,8 @@ export default function SuratPemeriksaan() {
     {
       accessorKey: "tanggalSurat",
       header: "Tanggal",
-      cell: (info) => info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
+      cell: (info) =>
+        info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
       // meta: { align: "center" },
     },
     {
@@ -173,7 +177,7 @@ export default function SuratPemeriksaan() {
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
   const { mutate: mutateDelete } = useDeleteSuratPemeriksaan();
-  
+
   const handleDelete = () => {
     if (isLoadingDelete) return;
 
@@ -290,7 +294,9 @@ export default function SuratPemeriksaan() {
                     <BiReset size={12} />
                   </Button>
                   <Button
-                    onPress={() => navigate(`/surat-perintah-pemeriksaan/tambah-data`)}
+                    onPress={() =>
+                      navigate(`/surat-perintah-pemeriksaan/tambah-data`)
+                    }
                     variant="solid"
                     radius="sm"
                     size="sm"

@@ -12,12 +12,13 @@ import { SuratPemeriksaanRes } from "@/interface/responses/surat.interface";
 import { Commet } from "react-loading-indicators";
 
 export default function DetailPemeriksaan() {
-
   const { id } = useParams();
 
   const navigate = useNavigate();
-  
-  const { data, isFetching, refetch, error } = useGetDetailSuratPemeriksaan(id || "");
+
+  const { data, isFetching, refetch, error } = useGetDetailSuratPemeriksaan(
+    id || "",
+  );
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
@@ -31,7 +32,7 @@ export default function DetailPemeriksaan() {
 
   const DATA_DETAIL: SuratPemeriksaanRes | null = useMemo(() => {
     if (data) {
-      return ({
+      return {
         id: data.data.id,
         nomorSurat: data.data.nomorSurat,
         tempatDikeluarkan: data.data.tempatDikeluarkan,
@@ -46,7 +47,7 @@ export default function DetailPemeriksaan() {
         namaTtd: data.data.namaTtd,
         nipTtd: data.data.nipTtd,
         jabatanTtd: data.data.jabatanTtd,
-      });
+      };
     } else {
       return null;
     }
@@ -81,7 +82,12 @@ export default function DetailPemeriksaan() {
               </Link>
             </CardHeader>
             <CardBody className="flex flex-col">
-              {DATA_DETAIL && <DetailExportSurat DATA_DETAIL={DATA_DETAIL} isFetching={isFetching} />}
+              {DATA_DETAIL && (
+                <DetailExportSurat
+                  DATA_DETAIL={DATA_DETAIL}
+                  isFetching={isFetching}
+                />
+              )}
             </CardBody>
           </Card>
         </div>

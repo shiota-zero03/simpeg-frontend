@@ -1,11 +1,11 @@
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { Commet } from "react-loading-indicators";
-import KOP from "@/assets/kop.png"
+import KOP from "@/assets/kop.png";
 import { SuratPemeriksaanRes } from "@/interface/responses/surat.interface";
 
 interface props {
-    DATA_DETAIL: SuratPemeriksaanRes;
-    isFetching: boolean;
+  DATA_DETAIL: SuratPemeriksaanRes;
+  isFetching: boolean;
 }
 
 export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
@@ -19,18 +19,20 @@ export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
         <div className="flex flex-col text-lg px-24 py-12">
           <img src={KOP} alt="kop-surat" className="w-full" />
           <br />
-          <h1 className="text-center font-bold text-xl underline">SURAT PERINTAH</h1>
+          <h1 className="text-center font-bold text-xl underline">
+            SURAT PERINTAH
+          </h1>
           <div className="flex items-center justify-center font-semibold gap-2 mb-2">
-            Nomor : { DATA_DETAIL?.nomorSurat }
+            Nomor : {DATA_DETAIL?.nomorSurat}
           </div>
           <br />
-          <div className="mb-2">
-            Yang bertanda tangan di bawah ini:
-          </div>
+          <div className="mb-2">Yang bertanda tangan di bawah ini:</div>
           <div className="flex flex-col ms-12">
             <div className="flex items-center font-normal gap-2">
               <div className="w-32">Nama </div>
-              <span className="font-semibold">:&nbsp;{DATA_DETAIL?.namaTtd}</span>
+              <span className="font-semibold">
+                :&nbsp;{DATA_DETAIL?.namaTtd}
+              </span>
             </div>
             <div className="flex items-center font-normal gap-2">
               <div className="w-32">NIP </div>
@@ -42,13 +44,13 @@ export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
             </div>
           </div>
           <br />
-          <div className="mb-2">
-            Memerintahkan kepada:
-          </div>
+          <div className="mb-2">Memerintahkan kepada:</div>
           <div className="flex flex-col ms-12">
             <div className="flex items-center font-normal gap-2">
               <div className="w-32">Nama </div>
-              <span className="font-semibold">:&nbsp;{DATA_DETAIL?.diPerintah}</span>
+              <span className="font-semibold">
+                :&nbsp;{DATA_DETAIL?.diPerintah}
+              </span>
             </div>
             <div className="flex items-center font-normal gap-2">
               <div className="w-32">NIP </div>
@@ -61,26 +63,37 @@ export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
           </div>
           <br />
           <div className="flex gap-4">
-            <div className="me-28">
-              Untuk
-            </div>
+            <div className="me-28">Untuk</div>
             <span>:</span>
-            <div className="ck-editor-keterangan ms-4" dangerouslySetInnerHTML={{ __html: DATA_DETAIL?.keterangan || "" }} />
+            <div
+              className="ck-editor-keterangan ms-4"
+              dangerouslySetInnerHTML={{
+                __html: DATA_DETAIL?.keterangan || "",
+              }}
+            />
           </div>
-          <br /><br />
+          <br />
+          <br />
           <div className="ms-auto text-start">
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Dikeluarkan di</div>: {DATA_DETAIL?.tempatDikeluarkan}
+              <div className="w-36">Dikeluarkan di</div>:{" "}
+              {DATA_DETAIL?.tempatDikeluarkan}
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Pada Tanggal</div>: {DATA_DETAIL?.tanggalSurat ? DMYIndoToFormat(DATA_DETAIL?.tanggalSurat) : ""}
+              <div className="w-36">Pada Tanggal</div>:{" "}
+              {DATA_DETAIL?.tanggalSurat
+                ? DMYIndoToFormat(DATA_DETAIL?.tanggalSurat)
+                : ""}
             </div>
             <br />
             <div className="ms-auto">
               <div className="flex items-center font-semibold gap-2">
                 {DATA_DETAIL?.jabatanPemberiPerintah || "Autofill jabatan"}
               </div>
-              <br /><br /><br /><br />
+              <br />
+              <br />
+              <br />
+              <br />
               <div className="flex items-center font-semibold gap-2">
                 {DATA_DETAIL?.pemberiPerintah || "Autofill nama"}
               </div>

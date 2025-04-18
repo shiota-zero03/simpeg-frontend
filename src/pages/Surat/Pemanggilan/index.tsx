@@ -69,7 +69,7 @@ export default function SuratPemanggilan() {
         tanggalSurat: item.tanggalSurat,
         waktu: item.waktu,
         pemanggil: item.pemanggil,
-        diPanggil: item.diPanggil
+        diPanggil: item.diPanggil,
       }));
     } else {
       return [];
@@ -88,7 +88,8 @@ export default function SuratPemanggilan() {
     {
       accessorKey: "tanggalSurat",
       header: "Tanggal",
-      cell: (info) => info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
+      cell: (info) =>
+        info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
       // meta: { align: "center" },
     },
     {
@@ -184,7 +185,7 @@ export default function SuratPemanggilan() {
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
   const { mutate: mutateDelete } = useDeleteSuratPemanggilan();
-  
+
   const handleDelete = () => {
     if (isLoadingDelete) return;
 

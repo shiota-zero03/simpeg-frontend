@@ -93,12 +93,18 @@ export default function CreateSurat() {
   const rules = () => {
     const error: errorProps = {};
 
-    if (!formData.nomorSurat) error.nomorSurat = "Nomor surat tidak boleh kosong";
-    if (!formData.idDiperintah) error.diPerintah = "Nama yang diberi perintah tidak boleh kosong";
-    if (!formData.idTtd) error.namaTtd = "Nama penanda tangan tidak boleh kosong";
-    if (!formData.keterangan) error.keterangan = "Keterangan (untuk) tidak boleh kosong";
-    if (!formData.tempatDikeluarkan) error.tempatDikeluarkan = "Tempat dikeluarkan surat tidak boleh kosong";
-    if (!formData.tanggalSurat) error.tanggalSurat = "Tanggal surat tidak boleh kosong";
+    if (!formData.nomorSurat)
+      error.nomorSurat = "Nomor surat tidak boleh kosong";
+    if (!formData.idDiperintah)
+      error.diPerintah = "Nama yang diberi perintah tidak boleh kosong";
+    if (!formData.idTtd)
+      error.namaTtd = "Nama penanda tangan tidak boleh kosong";
+    if (!formData.keterangan)
+      error.keterangan = "Keterangan (untuk) tidak boleh kosong";
+    if (!formData.tempatDikeluarkan)
+      error.tempatDikeluarkan = "Tempat dikeluarkan surat tidak boleh kosong";
+    if (!formData.tanggalSurat)
+      error.tanggalSurat = "Tanggal surat tidak boleh kosong";
 
     return error;
   };
@@ -119,9 +125,9 @@ export default function CreateSurat() {
       nipTtd: "",
       jabatanTtd: "",
       idDiperintah: "",
-      idTtd: ""
+      idTtd: "",
     });
-    setFormError({})
+    setFormError({});
     refetchPegawai();
   }, []);
 
@@ -155,19 +161,25 @@ export default function CreateSurat() {
     }
 
     const formToSend: StoreSuratPemeriksaan = {};
-    if(formData.nomorSurat) formToSend.nomorSurat = formData.nomorSurat;
-    if(formData.tempatDikeluarkan) formToSend.tempatDikeluarkan = formData.tempatDikeluarkan;
-    if(formData.tanggalSurat) formToSend.tanggalSurat = formData.tanggalSurat;
-    if(formData.pemberiPerintah) formToSend.pemberiPerintah = formData.pemberiPerintah;
-    if(formData.nipPemberiPerintah) formToSend.nipPemberiPerintah = formData.nipPemberiPerintah;
-    if(formData.jabatanPemberiPerintah) formToSend.jabatanPemberiPerintah = formData.jabatanPemberiPerintah;
-    if(formData.diPerintah) formToSend.diPerintah = formData.diPerintah;
-    if(formData.nipDiPerintah) formToSend.nipDiPerintah = formData.nipDiPerintah;
-    if(formData.jabatanDiPerintah) formToSend.jabatanDiPerintah = formData.jabatanDiPerintah;
-    if(formData.keterangan) formToSend.keterangan = formData.keterangan;
-    if(formData.namaTtd) formToSend.namaTtd = formData.namaTtd;
-    if(formData.nipTtd) formToSend.nipTtd = formData.nipTtd;
-    if(formData.jabatanTtd) formToSend.jabatanTtd = formData.jabatanTtd;
+    if (formData.nomorSurat) formToSend.nomorSurat = formData.nomorSurat;
+    if (formData.tempatDikeluarkan)
+      formToSend.tempatDikeluarkan = formData.tempatDikeluarkan;
+    if (formData.tanggalSurat) formToSend.tanggalSurat = formData.tanggalSurat;
+    if (formData.pemberiPerintah)
+      formToSend.pemberiPerintah = formData.pemberiPerintah;
+    if (formData.nipPemberiPerintah)
+      formToSend.nipPemberiPerintah = formData.nipPemberiPerintah;
+    if (formData.jabatanPemberiPerintah)
+      formToSend.jabatanPemberiPerintah = formData.jabatanPemberiPerintah;
+    if (formData.diPerintah) formToSend.diPerintah = formData.diPerintah;
+    if (formData.nipDiPerintah)
+      formToSend.nipDiPerintah = formData.nipDiPerintah;
+    if (formData.jabatanDiPerintah)
+      formToSend.jabatanDiPerintah = formData.jabatanDiPerintah;
+    if (formData.keterangan) formToSend.keterangan = formData.keterangan;
+    if (formData.namaTtd) formToSend.namaTtd = formData.namaTtd;
+    if (formData.nipTtd) formToSend.nipTtd = formData.nipTtd;
+    if (formData.jabatanTtd) formToSend.jabatanTtd = formData.jabatanTtd;
 
     try {
       mutatePost(formToSend, {
@@ -195,9 +207,9 @@ export default function CreateSurat() {
   };
 
   const onChangeName = (value: string, type: string) => {
-    if(type === "ttd") {
-      let checkPegawai = PEGAWAI_SELECT.find(item => item.id === value)
-      if(checkPegawai) {
+    if (type === "ttd") {
+      const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
+      if (checkPegawai) {
         setFormData({
           ...formData,
           idTtd: checkPegawai.id,
@@ -205,9 +217,11 @@ export default function CreateSurat() {
           pemberiPerintah: checkPegawai.name,
           nipTtd: checkPegawai.nip,
           nipPemberiPerintah: checkPegawai.nip,
-          jabatanTtd: checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
-          jabatanPemberiPerintah: checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
-        })
+          jabatanTtd:
+            checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
+          jabatanPemberiPerintah:
+            checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
+        });
       } else {
         setFormData({
           ...formData,
@@ -218,18 +232,19 @@ export default function CreateSurat() {
           nipPemberiPerintah: "",
           jabatanTtd: "",
           jabatanPemberiPerintah: "",
-        })
+        });
       }
-    } else if(type === "perintah") {
-      let checkPegawai = PEGAWAI_SELECT.find(item => item.id === value)
-      if(checkPegawai) {
+    } else if (type === "perintah") {
+      const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
+      if (checkPegawai) {
         setFormData({
           ...formData,
           idDiperintah: checkPegawai.id,
           diPerintah: checkPegawai.name,
           nipDiPerintah: checkPegawai.nip,
-          jabatanDiPerintah: checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui"
-        })
+          jabatanDiPerintah:
+            checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
+        });
       } else {
         setFormData({
           ...formData,
@@ -237,10 +252,10 @@ export default function CreateSurat() {
           diPerintah: "",
           nipDiPerintah: "",
           jabatanDiPerintah: "",
-        })
+        });
       }
     }
-  }
+  };
 
   return (
     <>
@@ -261,7 +276,10 @@ export default function CreateSurat() {
             <LuArrowLeft /> Kembali
           </Link>
         </div>
-        <TitleCase title="Tambah Surat Perintah Pemeriksaan" text="Digunakan Untuk Menambah Surat Perintah Pemeriksaan Terbaru" />
+        <TitleCase
+          title="Tambah Surat Perintah Pemeriksaan"
+          text="Digunakan Untuk Menambah Surat Perintah Pemeriksaan Terbaru"
+        />
 
         <div>
           <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
@@ -282,25 +300,39 @@ export default function CreateSurat() {
               {Object.keys(formError).length > 0 && (
                 <div className="bg-alert-danger p-2 text-xs text-danger italic rounded-md border border-danger space-y-1">
                   {Object.entries(formError).map(([field, error]) => (
-                    <div key={field}>
-                      {error}
-                    </div>
+                    <div key={field}>{error}</div>
                   ))}
                 </div>
               )}
               <CardBody>
                 <div className="flex flex-col gap-2 text-sm">
-                  <h1 className="text-center underline font-semibold text-base">SURAT PERINTAH</h1>
+                  <h1 className="text-center underline font-semibold text-base">
+                    SURAT PERINTAH
+                  </h1>
                   <div className="flex items-center justify-center font-semibold text-sm gap-2 mb-2">
-                    Nomor: <Input variant="bordered" aria-label="nomorSurat" size="sm" radius="sm" className="max-w-72" classNames={{ inputWrapper: "border-[0.8px] border-button-primary rounded-md", input: "text-xs" }} placeholder="Masukkan nomor surat disini" value={formData.nomorSurat} onChange={(e) => setFormData({...formData, nomorSurat: e.target.value})} />
+                    Nomor:{" "}
+                    <Input
+                      variant="bordered"
+                      aria-label="nomorSurat"
+                      size="sm"
+                      radius="sm"
+                      className="max-w-72"
+                      classNames={{
+                        inputWrapper:
+                          "border-[0.8px] border-button-primary rounded-md",
+                        input: "text-xs",
+                      }}
+                      placeholder="Masukkan nomor surat disini"
+                      value={formData.nomorSurat}
+                      onChange={(e) =>
+                        setFormData({ ...formData, nomorSurat: e.target.value })
+                      }
+                    />
                   </div>
-                  <div>
-                    Yang bertanda tangan di bawah ini:
-                  </div>
+                  <div>Yang bertanda tangan di bawah ini:</div>
                   <div className="flex flex-col gap-2 ms-4">
                     <div className="flex items-center font-semibold text-sm gap-2 mb-2">
-                      <div className="w-16">Nama </div>
-                      : 
+                      <div className="w-16">Nama </div>:
                       <Autocomplete
                         isLoading={isFetchingPegawai}
                         aria-label="pegawai"
@@ -311,42 +343,70 @@ export default function CreateSurat() {
                         defaultItems={PEGAWAI_SELECT}
                         selectedKey={String(formData.idTtd)}
                         onSelectionChange={(value) =>
-                          onChangeName(value as string, 'ttd')
+                          onChangeName(value as string, "ttd")
                         }
                         className="max-w-72"
                         inputProps={{
                           classNames: {
                             input: "text-xs",
-                            inputWrapper: "border-[0.8px] border-button-primary rounded-md",
+                            inputWrapper:
+                              "border-[0.8px] border-button-primary rounded-md",
                           },
                         }}
                       >
                         {(peg) => (
                           <AutocompleteItem key={peg.id} textValue={peg.name}>
-                            {peg.name} - {peg.jabatan?.nameJob || "jabatan tidak diketahui"} - {peg.nip}
+                            {peg.name} -{" "}
+                            {peg.jabatan?.nameJob || "jabatan tidak diketahui"}{" "}
+                            - {peg.nip}
                           </AutocompleteItem>
                         )}
                       </Autocomplete>
                     </div>
                     <div className="flex items-center font-semibold text-sm gap-2 mb-2">
                       <div className="w-16">NIP </div>
-                      : 
-                      <Input isReadOnly variant="bordered" aria-label="nomorSurat" size="sm" radius="sm" className="max-w-72" classNames={{ inputWrapper: "border-[0.8px] border-button-primary rounded-md", input: "text-xs placeholder:italic" }} placeholder="Autofill NIP" value={formData.nipTtd} />
+                      :
+                      <Input
+                        isReadOnly
+                        variant="bordered"
+                        aria-label="nomorSurat"
+                        size="sm"
+                        radius="sm"
+                        className="max-w-72"
+                        classNames={{
+                          inputWrapper:
+                            "border-[0.8px] border-button-primary rounded-md",
+                          input: "text-xs placeholder:italic",
+                        }}
+                        placeholder="Autofill NIP"
+                        value={formData.nipTtd}
+                      />
                     </div>
                     <div className="flex items-center font-semibold text-sm gap-2 mb-2">
                       <div className="w-16">Jabatan </div>
-                      : 
-                      <Input isReadOnly variant="bordered" aria-label="nomorSurat" size="sm" radius="sm" className="max-w-72" classNames={{ inputWrapper: "border-[0.8px] border-button-primary rounded-md", input: "text-xs placeholder:italic" }} placeholder="Autofill Jabatan" value={formData.jabatanTtd} />
+                      :
+                      <Input
+                        isReadOnly
+                        variant="bordered"
+                        aria-label="nomorSurat"
+                        size="sm"
+                        radius="sm"
+                        className="max-w-72"
+                        classNames={{
+                          inputWrapper:
+                            "border-[0.8px] border-button-primary rounded-md",
+                          input: "text-xs placeholder:italic",
+                        }}
+                        placeholder="Autofill Jabatan"
+                        value={formData.jabatanTtd}
+                      />
                     </div>
                   </div>
                   <br />
-                  <div>
-                    Memerintahkan kepada:
-                  </div>
+                  <div>Memerintahkan kepada:</div>
                   <div className="flex flex-col gap-2 ms-4">
                     <div className="flex items-center font-semibold text-sm gap-2 mb-2">
-                      <div className="w-16">Nama </div>
-                      : 
+                      <div className="w-16">Nama </div>:
                       <Autocomplete
                         isLoading={isFetchingPegawai}
                         aria-label="pegawai"
@@ -357,38 +417,67 @@ export default function CreateSurat() {
                         defaultItems={PEGAWAI_SELECT}
                         selectedKey={String(formData.idDiperintah)}
                         onSelectionChange={(value) =>
-                          onChangeName(value as string, 'perintah')
+                          onChangeName(value as string, "perintah")
                         }
                         className="max-w-72"
                         inputProps={{
                           classNames: {
                             input: "text-xs",
-                            inputWrapper: "border-[0.8px] border-button-primary rounded-md",
+                            inputWrapper:
+                              "border-[0.8px] border-button-primary rounded-md",
                           },
                         }}
                       >
                         {(peg) => (
                           <AutocompleteItem key={peg.id} textValue={peg.name}>
-                            {peg.name} - {peg.jabatan?.nameJob || "jabatan tidak diketahui"} - {peg.nip}
+                            {peg.name} -{" "}
+                            {peg.jabatan?.nameJob || "jabatan tidak diketahui"}{" "}
+                            - {peg.nip}
                           </AutocompleteItem>
                         )}
                       </Autocomplete>
                     </div>
                     <div className="flex items-center font-semibold text-sm gap-2 mb-2">
                       <div className="w-16">NIP </div>
-                      : 
-                      <Input isReadOnly variant="bordered" aria-label="nomorSurat" size="sm" radius="sm" className="max-w-72" classNames={{ inputWrapper: "border-[0.8px] border-button-primary rounded-md", input: "text-xs placeholder:italic" }} placeholder="Autofill NIP" value={formData.nipDiPerintah} />
+                      :
+                      <Input
+                        isReadOnly
+                        variant="bordered"
+                        aria-label="nomorSurat"
+                        size="sm"
+                        radius="sm"
+                        className="max-w-72"
+                        classNames={{
+                          inputWrapper:
+                            "border-[0.8px] border-button-primary rounded-md",
+                          input: "text-xs placeholder:italic",
+                        }}
+                        placeholder="Autofill NIP"
+                        value={formData.nipDiPerintah}
+                      />
                     </div>
                     <div className="flex items-center font-semibold text-sm gap-2 mb-2">
                       <div className="w-16">Jabatan </div>
-                      : 
-                      <Input isReadOnly variant="bordered" aria-label="nomorSurat" size="sm" radius="sm" className="max-w-72" classNames={{ inputWrapper: "border-[0.8px] border-button-primary rounded-md", input: "text-xs placeholder:italic" }} placeholder="Autofill Jabatan" value={formData.jabatanDiPerintah} />
+                      :
+                      <Input
+                        isReadOnly
+                        variant="bordered"
+                        aria-label="nomorSurat"
+                        size="sm"
+                        radius="sm"
+                        className="max-w-72"
+                        classNames={{
+                          inputWrapper:
+                            "border-[0.8px] border-button-primary rounded-md",
+                          input: "text-xs placeholder:italic",
+                        }}
+                        placeholder="Autofill Jabatan"
+                        value={formData.jabatanDiPerintah}
+                      />
                     </div>
                   </div>
                   <br />
-                  <div>
-                    Untuk
-                  </div>
+                  <div>Untuk</div>
                   <div>
                     <CKEditor
                       editor={ClassicEditor}
@@ -420,16 +509,58 @@ export default function CreateSurat() {
                   </div>
                   <br />
                   <div className="flex items-center justify-end font-semibold text-sm gap-2 mb-2">
-                    Dikeluarkan di: <Input variant="bordered" aria-label="nomorSurat" size="sm" radius="sm" className="max-w-72" classNames={{ inputWrapper: "border-[0.8px] border-button-primary rounded-md", input: "text-xs" }} placeholder="Masukkan lokasi disini" value={formData.tempatDikeluarkan} onChange={(e) => setFormData({...formData, tempatDikeluarkan: e.target.value})} />
+                    Dikeluarkan di:{" "}
+                    <Input
+                      variant="bordered"
+                      aria-label="nomorSurat"
+                      size="sm"
+                      radius="sm"
+                      className="max-w-72"
+                      classNames={{
+                        inputWrapper:
+                          "border-[0.8px] border-button-primary rounded-md",
+                        input: "text-xs",
+                      }}
+                      placeholder="Masukkan lokasi disini"
+                      value={formData.tempatDikeluarkan}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          tempatDikeluarkan: e.target.value,
+                        })
+                      }
+                    />
                   </div>
                   <div className="flex items-center justify-end font-semibold text-sm gap-2 mb-2">
-                    Pada Tanggal: <Input type="date" variant="bordered" aria-label="nomorSurat" size="sm" radius="sm" className="max-w-72" classNames={{ inputWrapper: "border-[0.8px] border-button-primary rounded-md", input: "text-xs" }} placeholder="Masukkan lokasi disini" value={formData.tanggalSurat} onChange={(e) => setFormData({...formData, tanggalSurat: e.target.value})} />
+                    Pada Tanggal:{" "}
+                    <Input
+                      type="date"
+                      variant="bordered"
+                      aria-label="nomorSurat"
+                      size="sm"
+                      radius="sm"
+                      className="max-w-72"
+                      classNames={{
+                        inputWrapper:
+                          "border-[0.8px] border-button-primary rounded-md",
+                        input: "text-xs",
+                      }}
+                      placeholder="Masukkan lokasi disini"
+                      value={formData.tanggalSurat}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          tanggalSurat: e.target.value,
+                        })
+                      }
+                    />
                   </div>
                   <div className="ms-auto">
                     <div className="flex items-center justify-center font-semibold text-sm gap-2 mb-2">
                       {formData.jabatanPemberiPerintah || "Autofill jabatan"}
                     </div>
-                    <br /><br />
+                    <br />
+                    <br />
                     <div className="flex items-center justify-center font-semibold text-sm gap-2 mb-2">
                       {formData.pemberiPerintah || "Autofill nama"}
                     </div>

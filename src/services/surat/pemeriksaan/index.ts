@@ -11,7 +11,12 @@ import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StoreSuratPemeriksaan } from "@/interface/request/surat.interface";
 
-export const useGetAllSuratPemeriksaan = (page: number, limit: number, name?: string, nomorSurat?: string) => {
+export const useGetAllSuratPemeriksaan = (
+  page: number,
+  limit: number,
+  name?: string,
+  nomorSurat?: string,
+) => {
   return useQuery({
     queryKey: ["getAllSuratPemeriksaan"],
     queryFn: () => getAllSuratPemeriksaan(page, limit, name, nomorSurat),
@@ -20,7 +25,11 @@ export const useGetAllSuratPemeriksaan = (page: number, limit: number, name?: st
 };
 export const useCreateSuratPemeriksaan = () => {
   const queryClient = useQueryClient();
-  return useMutation<ISuratPemeriksaanDetaiRes, AxiosError<BaseErrorRes>, StoreSuratPemeriksaan>({
+  return useMutation<
+    ISuratPemeriksaanDetaiRes,
+    AxiosError<BaseErrorRes>,
+    StoreSuratPemeriksaan
+  >({
     mutationFn: (formData) => createSuratPemeriksaan(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["createSuratPemeriksaan"] });
@@ -55,7 +64,11 @@ export const useUpdateSuratPemeriksaan = () => {
 };
 export const useDeleteSuratPemeriksaan = () => {
   const queryClient = useQueryClient();
-  return useMutation<ISuratPemeriksaanDetaiRes, AxiosError<BaseErrorRes>, { id: string }>({
+  return useMutation<
+    ISuratPemeriksaanDetaiRes,
+    AxiosError<BaseErrorRes>,
+    { id: string }
+  >({
     mutationFn: ({ id }) => deleteSuratPemeriksaan(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["deleteSuratPemeriksaan"] });

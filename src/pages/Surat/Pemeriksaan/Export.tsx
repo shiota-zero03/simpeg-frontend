@@ -10,7 +10,9 @@ export default function ExportSurat() {
 
   const navigate = useNavigate();
 
-  const { data, isFetching, refetch, error } = useGetDetailSuratPemeriksaan(id || "");
+  const { data, isFetching, refetch, error } = useGetDetailSuratPemeriksaan(
+    id || "",
+  );
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
@@ -24,7 +26,7 @@ export default function ExportSurat() {
 
   const DATA_DETAIL: SuratPemeriksaanRes | null = useMemo(() => {
     if (data) {
-      return ({
+      return {
         id: data.data.id,
         nomorSurat: data.data.nomorSurat,
         tempatDikeluarkan: data.data.tempatDikeluarkan,
@@ -39,7 +41,7 @@ export default function ExportSurat() {
         namaTtd: data.data.namaTtd,
         nipTtd: data.data.nipTtd,
         jabatanTtd: data.data.jabatanTtd,
-      });
+      };
     } else {
       return null;
     }
@@ -51,14 +53,14 @@ export default function ExportSurat() {
       setTimeout(() => {
         window.print();
       }, 500);
-  
+
       // Setelah print ditutup, close tab
       const handleAfterPrint = () => {
         window.close();
       };
-  
+
       window.addEventListener("afterprint", handleAfterPrint);
-  
+
       return () => {
         window.removeEventListener("afterprint", handleAfterPrint);
       };
@@ -67,8 +69,9 @@ export default function ExportSurat() {
 
   return (
     <>
-      {DATA_DETAIL && <DetailExportSurat DATA_DETAIL={DATA_DETAIL} isFetching={isFetching} />}
+      {DATA_DETAIL && (
+        <DetailExportSurat DATA_DETAIL={DATA_DETAIL} isFetching={isFetching} />
+      )}
     </>
   );
 }
-
