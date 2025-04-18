@@ -2,8 +2,14 @@ import instance from "@/api/axios";
 import { StorePegawai } from "@/interface/request/pegawai.interface";
 import {
   IPegawaiListRes,
+  IPegawaiOptionRes,
   IPegawaiRes,
 } from "@/interface/responses/pegawai.interface";
+
+export const getAllPegawaiOption = async (): Promise<IPegawaiOptionRes> => {
+  const response = await instance.get(`/admin/pegawai/dropdown/list`);
+  return response.data;
+};
 
 export const getAllPegawai = async (
   page: number,
