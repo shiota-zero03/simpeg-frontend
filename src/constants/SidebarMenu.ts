@@ -93,13 +93,13 @@ export const SidebarMenuData: SidebarProps[] = [
         subMenu: [
           {
             name: "Surat Perintah Pemeriksaan",
-            key: "pengaduan",
-            link: "#",
+            key: "surat-perintah-pemeriksaan",
+            link: "/surat-perintah-pemeriksaan",
           },
           {
             name: "Surat Pemanggilan",
-            key: "pengaduan",
-            link: "#",
+            key: "surat-pemanggilan",
+            link: "/surat-pemanggilan",
           },
           {
             name: "Berita Acara Permintaan Keterangan",

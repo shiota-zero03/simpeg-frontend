@@ -36,12 +36,12 @@ export default function CreateNews() {
     const [ ikps, setIKPS ] = useState<{
         sasaran?: string;
         indicator?: string;
-        target?: number;
+        target?: string;
         status?: string;
-    }[]>([{ sasaran: "", indicator: "", target: 0, status: "MENUNGGU" }])
+    }[]>([{ sasaran: "", indicator: "", target: "", status: "MENUNGGU" }])
 
     const addIKPS = () => {
-        setIKPS([...ikps, { sasaran: "", indicator: "", target: 0, status: "MENUNGGU" }]);
+        setIKPS([...ikps, { sasaran: "", indicator: "", target: "", status: "MENUNGGU" }]);
     };
 
     const removeIKPS = (index: number) => {
@@ -85,7 +85,7 @@ export default function CreateNews() {
             nip: "",
             jabatan: ""
         })
-        setIKPS([{ sasaran: "", indicator: "", target: 0, status: "MENUNGGU" }])
+        setIKPS([{ sasaran: "", indicator: "", target: "", status: "MENUNGGU" }])
         refetchJabatan();
     }, []);
 
@@ -138,13 +138,13 @@ export default function CreateNews() {
 
         const formToSendData: StoreIKP = {};
 
-        const ikpsData: {sasaran?: string; indicator?: string; target?: number; status?: string;}[] = [];
+        const ikpsData: {sasaran?: string; indicator?: string; target?: string; status?: string;}[] = [];
 
         ikps.forEach(item => {
             ikpsData.push({
                 sasaran: item.sasaran,
                 indicator: item.indicator,
-                target: Number(item.target),
+                target: item.target,
                 status: item.status
             })
         })
@@ -330,8 +330,7 @@ export default function CreateNews() {
                                     </div>
                                     <div className="w-full">
                                         <Input
-                                            type="number"
-                                            value={String(item.target || "")}
+                                            value={item.target}
                                             onChange={(e) => handleChangeIKPS(index, "target", e.target.value)}
                                             aria-label="Judul"
                                             labelPlacement="outside"
@@ -342,7 +341,6 @@ export default function CreateNews() {
                                                 inputWrapper: "border-[0.8px]",
                                                 input: "text-xs",
                                             }}
-                                            endContent={"%"}
                                         />
                                     </div>
                                     {ikps.length > 1 && (

@@ -8,9 +8,9 @@ export interface IKPListRes {
   ikps: {
     id:number;
     sasaran: string;
-    target: number;
-    ubahTarget: number;
-    realisasi: number;
+    target: string;
+    ubahTarget: string;
+    realisasi: string;
     status: string;
   }[]
   createdAt: string;
