@@ -22,10 +22,9 @@ export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
           <h1 className="text-center font-bold text-xl underline">
             SURAT PERINTAH
           </h1>
-          <div className="flex items-center justify-center font-semibold gap-2 mb-2">
+          <div className="flex items-center justify-center font-normal gap-2 my-2">
             Nomor : {DATA_DETAIL?.nomorSurat}
           </div>
-          <br />
           <div className="mb-2">Yang bertanda tangan di bawah ini:</div>
           <div className="flex flex-col ms-12">
             <div className="flex items-center font-normal gap-2">
@@ -94,7 +93,7 @@ export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
               <br />
               <br />
               <br />
-              <div className="flex items-center font-semibold gap-2">
+              <div className="flex items-center font-semibold gap-2 underline">
                 {DATA_DETAIL?.pemberiPerintah || "Autofill nama"}
               </div>
               <div className="flex items-center font-normal gap-2">

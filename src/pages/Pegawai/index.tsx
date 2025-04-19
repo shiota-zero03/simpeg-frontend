@@ -6,11 +6,13 @@ import { useEffect, useMemo, useState } from "react";
 import { LuEye, LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
-import { SuccessToast } from "@/utils/ToastMessage";
+import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { useNavigate } from "react-router-dom";
-import { useGetAllPegawai } from "@/services/pegawai";
+import { useDeletePegawai, useGetAllPegawai } from "@/services/pegawai";
 import { PegawaiRes } from "@/interface/responses/pegawai.interface";
+import store from "@/redux/store";
+import { FaFileExcel } from "react-icons/fa";
 
 interface DataProps {
   id: string;
@@ -22,7 +24,9 @@ interface DataProps {
 }
 
 export default function Jabatan() {
-  const limit = 5;
+  const role = store.getState().auth.role as string;
+
+  const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
 
@@ -33,7 +37,7 @@ export default function Jabatan() {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [totalData, setTotalData] = useState<number>(0);
 
-  const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const {
     data: allData,
@@ -145,29 +149,33 @@ export default function Jabatan() {
             >
               <LuEye size={14} />
             </Button>
-            <Button
-              onPress={() => {
-                navigate(`/pegawai/edit-data/${id}`);
-              }}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-info text-info shadow-sm"
-            >
-              <LuPencilLine size={14} />
-            </Button>
-            <Button
-              onPress={() => {
-                setSelectedId(id);
-                onOpenDelete();
-              }}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-danger text-danger shadow-sm"
-            >
-              <LuTrash2 size={14} />
-            </Button>
+            {role !== "PEGAWAI" && (
+              <Button
+                onPress={() => {
+                  navigate(`/pegawai/edit-data/${id}`);
+                }}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-info text-info shadow-sm"
+              >
+                <LuPencilLine size={14} />
+              </Button>
+            )}
+            {role !== "PEGAWAI" && (
+              <Button
+                onPress={() => {
+                  setSelectedId(id);
+                  onOpenDelete();
+                }}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-danger text-danger shadow-sm"
+              >
+                <LuTrash2 size={14} />
+              </Button>
+            )}
           </div>
         );
       },
@@ -199,15 +207,43 @@ export default function Jabatan() {
   }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
+  const { mutate: mutateDelete } = useDeletePegawai();
+
   const handleDelete = () => {
+    if (isLoadingDelete) return;
+
     setLoadingDelete(true);
-    setTimeout(() => {
-      setPageIndex(0);
-      SuccessToast({ text: "Data berhasil dihapus" });
+
+    try {
+      mutateDelete(
+        { id: String(selectedId) },
+        {
+          onSuccess() {
+            SuccessToast({ text: "Data berhasil dihapus" });
+            setLoadingDelete(false);
+            setSelectedId(null);
+            onCloseDelete();
+            setPageIndex(0);
+            setTimeout(() => {
+              refetchData();
+            }, 100);
+          },
+          onError(error) {
+            setLoadingDelete(false);
+            ErrorToast({
+              text:
+                error.response?.data.message ||
+                "Terjadi kesalahan saat mengirim data",
+            });
+            throw error;
+          },
+        },
+      );
+    } catch (error) {
+      ErrorToast({ text: "Terjadi kesalahan di server" });
       setLoadingDelete(false);
-      onCloseDelete();
-      console.log(selectedId);
-    }, 1000);
+      throw error;
+    }
   };
 
   return (
@@ -272,15 +308,27 @@ export default function Jabatan() {
                     <BiReset size={12} />
                   </Button>
                   <Button
-                    onPress={() => navigate(`/pegawai/tambah-data`)}
-                    variant="solid"
+                    onPress={() => navigate(`/pegawai/export-data`)}
+                    variant="bordered"
                     radius="sm"
                     size="sm"
-                    startContent={<BiSolidPlusSquare size={12} />}
-                    className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                    startContent={<FaFileExcel size={12} />}
+                    className="border-[0.8px] w-24 text-xs border-button-primary text-button-primary"
                   >
-                    Tambah
+                    Export
                   </Button>
+                  {role !== "PEGAWAI" && (
+                    <Button
+                      onPress={() => navigate(`/pegawai/tambah-data`)}
+                      variant="solid"
+                      radius="sm"
+                      size="sm"
+                      startContent={<BiSolidPlusSquare size={12} />}
+                      className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                    >
+                      Tambah
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

@@ -8,8 +8,10 @@ import { useEffect, useMemo } from "react";
 import { ErrorToast } from "@/utils/ToastMessage";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { Commet } from "react-loading-indicators";
+import store from "@/redux/store";
 
 export default function UpdateNews() {
+  const role = store.getState().auth.role as string;
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -42,14 +44,16 @@ export default function UpdateNews() {
         <TitleCase title="Detail Pegawai" />
 
         <Card className="border" shadow="none">
-          <CardHeader>
-            <Link
-              to={"/pegawai/edit-data/1"}
-              className="flex gap-2 items-center text-info bg-alert-info font-semibold p-2 text-sm rounded-md ms-auto"
-            >
-              <LucidePencilLine size={18} /> Edit Data
-            </Link>
-          </CardHeader>
+          {role !== "PEGAWAI" && (
+            <CardHeader>
+              <Link
+                to={"/pegawai/edit-data/1"}
+                className="flex gap-2 items-center text-info bg-alert-info font-semibold p-2 text-sm rounded-md ms-auto"
+              >
+                <LucidePencilLine size={18} /> Edit Data
+              </Link>
+            </CardHeader>
+          )}
           <CardBody className="flex flex-col gap-2">
             <Card className="border relative overflow-hidden" shadow="none">
               <div className="absolute top-0 right-0 bg-primary text-white py-2 px-4 text-sm rounded-bl-lg">

@@ -49,7 +49,7 @@ export const SidebarMenuData: SidebarProps[] = [
         icon: PiTreeStructure,
       },
       {
-        name: "Unit",
+        name: "Unit Kerja",
         key: "unit",
         link: "/unit",
         icon: PiBuildingApartment,
@@ -70,20 +70,8 @@ export const SidebarMenuData: SidebarProps[] = [
       {
         name: "Penilaian Kinerja",
         key: "penilaian-kinerja",
-        link: "#",
+        link: "/penilaian-kinerja",
         icon: RiFileEditFill,
-        subMenu: [
-          {
-            name: "Berdasarkan Bobot",
-            key: "berdasarkan-bobot",
-            link: "/penilaian-kinerja/berdasarkan-bobot",
-          },
-          {
-            name: "Berdasarkan Nilai",
-            key: "berdasarkan-nilai",
-            link: "/penilaian-kinerja/berdasarkan-nilai",
-          },
-        ],
       },
       {
         name: "Disiplin Pegawai",

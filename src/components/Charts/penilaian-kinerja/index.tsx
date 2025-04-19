@@ -5,7 +5,7 @@ const PenilaianKinerjaLine = () => {
   return (
     <div className="p-6 grid grid-cols-1 gap-6 relative">
       <div className="flex sm:flex-row flex-col items-center justify-between gap-2">
-        <h1 className="font-semibold">Hasil Kinerja Pegawai</h1>
+        <h1 className="font-semibold">Penilaian Pegawai Berdasarkan Bobot</h1>
         <Select
           aria-label="variabel-kualifikasi"
           variant="bordered"
@@ -128,7 +128,7 @@ const PenilaianKinerjaDougnhut = () => {
   return (
     <div className="p-6 grid grid-cols-1 gap-6 relative">
       <div className="flex sm:flex-row flex-col items-center justify-between gap-2">
-        <h1 className="font-semibold">Variabel dan Kualifikasi</h1>
+        <h1 className="font-semibold">Penilaian Pegawai Berdasarkan Nilai</h1>
         <Select
           aria-label="variabel-kualifikasi"
           variant="bordered"

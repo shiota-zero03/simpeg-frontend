@@ -5,5 +5,6 @@ export interface StoreIKP {
     indicator?: string;
     target?: string;
     status?: string;
+    realisasi?: string;
   }[];
 }

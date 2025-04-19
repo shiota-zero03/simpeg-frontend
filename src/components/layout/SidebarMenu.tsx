@@ -12,6 +12,7 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 import Logo from "@/assets/logo.png";
@@ -48,8 +49,7 @@ const roleAccessMap: Record<string, string[]> = {
     "position",
     "pegawai",
     "summary-report",
-    "berdasarkan-bobot",
-    "berdasarkan-nilai",
+    "penilaian-kinerja",
     "surat-perintah-pemeriksaan",
     "surat-pemanggilan",
     "dialog-kinerja",
@@ -62,11 +62,26 @@ const roleAccessMap: Record<string, string[]> = {
     "whatsapp",
     "e-filling",
   ],
+  PEGAWAI: [
+    "beranda",
+    "peta-jabatan",
+    "summary-report",
+    "pegawai",
+    "penilaian-kinerja",
+    "dialog-kinerja",
+    "asset",
+    "buku-petunjuk",
+    "hubungi-kami",
+    "whatsapp",
+    "e-filling",
+  ],
 };
 
 export function AppSidebar() {
   const { role } = store.getState().auth;
   const location = useLocation();
+
+  const { open } = useSidebar();
 
   const currentRole: keyof typeof roleAccessMap | "GUEST" =
     role && roleAccessMap[role] ? role : "GUEST";
@@ -110,7 +125,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem className="text-white flex items-center justify-center gap-3">
             <img src={Logo} alt="logo-simpeg" width={40} />
-            <div>
+            <div className={`${open ? "block" : "hidden"}`}>
               <h5 className="text-sm font-semibold -mb-1">DINAS PERDAGANGAN</h5>
               <span className="text-xs">KABUPATEN BEKASI</span>
             </div>
