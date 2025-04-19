@@ -82,3 +82,16 @@ export const YMToIndoFormat = (ymString: string) => {
 
   return formattedDate;
 };
+
+export const DaysDMYIndoToFormat = (timeStamp: string) => {
+  const date = new Date(timeStamp);
+
+  const dayName = date.toLocaleString("id-ID", { weekday: "long" });
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = date.toLocaleString("id-ID", { month: "long" }); // Nama bulan dalam bahasa Indonesia
+  const year = date.getFullYear();
+
+  const formattedTimestamp = `${dayName}, ${day} ${month} ${year}`;
+
+  return formattedTimestamp;
+};

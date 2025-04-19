@@ -12,12 +12,16 @@ export default function BukuPetunjuk() {
         <TitleCase
           title="Buku Petunjuk"
           text={
-            !role
+            !role || role === "PEGAWAI"
               ? ""
               : "Berikut ini mengelola Buku Petunjuk penggunaan Aplikasi"
           }
         />
-        {!role ? <BukuPetunjukGuest /> : <BukuPetunjukAdmin />}
+        {!role || role === "PEGAWAI" ? (
+          <BukuPetunjukGuest />
+        ) : (
+          <BukuPetunjukAdmin />
+        )}
       </div>
     </>
   );

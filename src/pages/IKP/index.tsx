@@ -25,7 +25,7 @@ interface IKPProps {
 }
 
 export default function IKP() {
-  const limit = 5;
+  const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
 
   const [search, setSearch] = useState("");

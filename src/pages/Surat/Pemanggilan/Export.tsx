@@ -1,22 +1,22 @@
 import { useEffect, useMemo } from "react";
 import { ErrorToast } from "@/utils/ToastMessage";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetDetailSuratPemeriksaan } from "@/services/surat/pemeriksaan";
 import DetailExportSurat from "./DetEx";
-import { SuratPemeriksaanRes } from "@/interface/responses/surat.interface";
+import { SuratPemanggilanRes } from "@/interface/responses/surat.interface";
+import { useGetDetailSuratPemanggilan } from "@/services/surat/pemanggilan";
 
 export default function ExportSurat() {
   const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const { data, isFetching, refetch, error } = useGetDetailSuratPemeriksaan(
+  const { data, isFetching, refetch, error } = useGetDetailSuratPemanggilan(
     id || "",
   );
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/surat-perintah-pemeriksaan");
+      navigate("/surat-pemanggilan");
     }
   }, [isFetching, refetch]);
 
@@ -24,20 +24,24 @@ export default function ExportSurat() {
     refetch();
   }, []);
 
-  const DATA_DETAIL: SuratPemeriksaanRes | null = useMemo(() => {
+  const DATA_DETAIL: SuratPemanggilanRes | null = useMemo(() => {
     if (data) {
       return {
         id: data.data.id,
         nomorSurat: data.data.nomorSurat,
-        tempatDikeluarkan: data.data.tempatDikeluarkan,
+        nomorPemanggilan: data.data.nomorPemanggilan,
         tanggalSurat: data.data.tanggalSurat,
-        pemberiPerintah: data.data.pemberiPerintah,
-        nipPemberiPerintah: data.data.nipPemberiPerintah,
-        jabatanPemberiPerintah: data.data.jabatanPemberiPerintah,
-        diPerintah: data.data.diPerintah,
-        nipDiPerintah: data.data.nipDiPerintah,
-        jabatanDiPerintah: data.data.jabatanDiPerintah,
+        waktu: data.data.waktu,
+        tempat: data.data.tempat,
         keterangan: data.data.keterangan,
+        pemanggil: data.data.pemanggil,
+        nipPemanggil: data.data.nipPemanggil,
+        jabatanPemanggil: data.data.jabatanPemanggil,
+        unitPemanggil: data.data.unitPemanggil,
+        diPanggil: data.data.diPanggil,
+        nipDiPanggil: data.data.nipDiPanggil,
+        jabatanDiPanggil: data.data.jabatanDiPanggil,
+        unitDiPanggil: data.data.unitDiPanggil,
         namaTtd: data.data.namaTtd,
         nipTtd: data.data.nipTtd,
         jabatanTtd: data.data.jabatanTtd,

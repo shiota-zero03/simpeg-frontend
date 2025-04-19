@@ -17,7 +17,11 @@ export default function HubungiKami() {
               : "Berikut ini mengelola Nomor Whatsapp untuk fitur Hubungi Kami"
           }
         />
-        {!role ? <HubungiKamiGuest /> : <HubungikamiAdmin />}
+        {!role || role === "PEGAWAI" ? (
+          <HubungiKamiGuest />
+        ) : (
+          <HubungikamiAdmin />
+        )}
       </div>
     </>
   );

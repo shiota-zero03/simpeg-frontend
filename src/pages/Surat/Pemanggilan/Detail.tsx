@@ -6,23 +6,23 @@ import { useEffect, useMemo } from "react";
 import { ErrorToast } from "@/utils/ToastMessage";
 import { LuArrowLeft } from "react-icons/lu";
 import { FaFilePdf } from "react-icons/fa";
-import { useGetDetailSuratPemeriksaan } from "@/services/surat/pemeriksaan";
 import DetailExportSurat from "./DetEx";
-import { SuratPemeriksaanRes } from "@/interface/responses/surat.interface";
+import { SuratPemanggilanRes } from "@/interface/responses/surat.interface";
 import { Commet } from "react-loading-indicators";
+import { useGetDetailSuratPemanggilan } from "@/services/surat/pemanggilan";
 
 export default function DetailPemeriksaan() {
   const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const { data, isFetching, refetch, error } = useGetDetailSuratPemeriksaan(
+  const { data, isFetching, refetch, error } = useGetDetailSuratPemanggilan(
     id || "",
   );
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/surat-perintah-pemeriksaan");
+      navigate("/surat-pemanggilan");
     }
   }, [isFetching, refetch]);
 
@@ -30,20 +30,24 @@ export default function DetailPemeriksaan() {
     refetch();
   }, []);
 
-  const DATA_DETAIL: SuratPemeriksaanRes | null = useMemo(() => {
+  const DATA_DETAIL: SuratPemanggilanRes | null = useMemo(() => {
     if (data) {
       return {
         id: data.data.id,
         nomorSurat: data.data.nomorSurat,
-        tempatDikeluarkan: data.data.tempatDikeluarkan,
+        nomorPemanggilan: data.data.nomorPemanggilan,
         tanggalSurat: data.data.tanggalSurat,
-        pemberiPerintah: data.data.pemberiPerintah,
-        nipPemberiPerintah: data.data.nipPemberiPerintah,
-        jabatanPemberiPerintah: data.data.jabatanPemberiPerintah,
-        diPerintah: data.data.diPerintah,
-        nipDiPerintah: data.data.nipDiPerintah,
-        jabatanDiPerintah: data.data.jabatanDiPerintah,
+        waktu: data.data.waktu,
+        tempat: data.data.tempat,
         keterangan: data.data.keterangan,
+        pemanggil: data.data.pemanggil,
+        nipPemanggil: data.data.nipPemanggil,
+        jabatanPemanggil: data.data.jabatanPemanggil,
+        unitPemanggil: data.data.unitPemanggil,
+        diPanggil: data.data.diPanggil,
+        nipDiPanggil: data.data.nipDiPanggil,
+        jabatanDiPanggil: data.data.jabatanDiPanggil,
+        unitDiPanggil: data.data.unitDiPanggil,
         namaTtd: data.data.namaTtd,
         nipTtd: data.data.nipTtd,
         jabatanTtd: data.data.jabatanTtd,
@@ -55,7 +59,7 @@ export default function DetailPemeriksaan() {
 
   return (
     <>
-      <BreadcrumbAdmin location="/Surat-Perintah-Pemeriksaan/Detail" />
+      <BreadcrumbAdmin location="/Surat-Pemanggilan/Detail" />
       {isFetching ? (
         <div className="inset-0 fixed flex items-center justify-center z-20">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
@@ -64,17 +68,17 @@ export default function DetailPemeriksaan() {
         <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
           <div className="flex">
             <Link
-              to={`/surat-perintah-pemeriksaan`}
+              to={`/surat-pemanggilan`}
               className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
             >
               <LuArrowLeft /> Kembali
             </Link>
           </div>
-          <TitleCase title="Detail Surat Perintah Pemeriksaan" />
+          <TitleCase title="Detail Surat Pemanggilan" />
           <Card className="border" shadow="none">
             <CardHeader className="p-8">
               <Link
-                to={`/surat-perintah-pemeriksaan/export-data/${id}`}
+                to={`/surat-pemanggilan/export-data/${id}`}
                 target="__blank"
                 className="flex gap-2 items-center text-danger border border-danger font-semibold p-2 text-sm rounded-md ms-auto"
               >

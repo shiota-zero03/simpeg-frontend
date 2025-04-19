@@ -65,11 +65,11 @@ export default function CreateNews() {
     field: string,
     value: string | number,
   ) => {
-    const newPermasalahan = [...ikps];
+    const newIKPData = [...ikps];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (newPermasalahan[index] as any)[field] = value;
-    setIKPS(newPermasalahan);
+    (newIKPData[index] as any)[field] = value;
+    setIKPS(newIKPData);
   };
 
   const {
@@ -157,6 +157,7 @@ export default function CreateNews() {
       indicator?: string;
       target?: string;
       status?: string;
+      realisasi?: string;
     }[] = [];
 
     ikps.forEach((item) => {
@@ -165,6 +166,7 @@ export default function CreateNews() {
         indicator: item.indicator,
         target: item.target,
         status: item.status,
+        realisasi: "",
       });
     });
 

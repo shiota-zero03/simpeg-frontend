@@ -192,8 +192,8 @@ export default function CreatePegawai() {
     if (formData.isActive === null || formData.isActive === undefined)
       error.isActive = "Status aktif harus dipilih";
     if (!formData.password) error.password = "Password tidak boleh kosong";
-    else if (formData.password.length < 6)
-      error.password = "Password minimal 6 karakter";
+    else if (formData.password.length < 8)
+      error.password = "Password minimal 8 karakter";
     if (!formData.passwordConfirmation)
       error.passwordConfirmation = "Konfirmasi password tidak boleh kosong";
     else if (formData.password !== formData.passwordConfirmation)

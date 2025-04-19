@@ -28,13 +28,10 @@ const GaleriCreated = lazy(() => import("@/pages/Galeri/Created"));
 const GaleriUpdated = lazy(() => import("@/pages/Galeri/Updated"));
 const SPPD = lazy(() => import("@/pages/SPPD"));
 const EFilling = lazy(() => import("@/pages/E-FIlling"));
-const BobotKinerja = lazy(() => import("@/pages/PenilaianKinerja/Bobot"));
-const ViewBobotKinerja = lazy(
-  () => import("@/pages/PenilaianKinerja/Bobot/View"),
-);
-const NilaiKinerja = lazy(() => import("@/pages/PenilaianKinerja/Nilai"));
-const ViewNilaiKinerja = lazy(
-  () => import("@/pages/PenilaianKinerja/Nilai/View"),
+
+const PenilaianKinerja = lazy(() => import("@/pages/PenilaianKinerja"));
+const ViewPenilaianKinerja = lazy(
+  () => import("@/pages/PenilaianKinerja/View"),
 );
 const IKP = lazy(() => import("@/pages/IKP"));
 const TambahIKP = lazy(() => import("@/pages/IKP/Tambah"));
@@ -101,21 +98,10 @@ export default function Router() {
           <Route path="/dialog-kinerja" element={<IKP />} />
           <Route path="/dialog-kinerja/tambah-data" element={<TambahIKP />} />
           <Route path="/e-filling" element={<EFilling />} />
+          <Route path="/penilaian-kinerja" element={<PenilaianKinerja />} />
           <Route
-            path="/penilaian-kinerja/berdasarkan-bobot"
-            element={<BobotKinerja />}
-          />
-          <Route
-            path="/penilaian-kinerja/berdasarkan-bobot/detail-data/:id"
-            element={<ViewBobotKinerja />}
-          />
-          <Route
-            path="/penilaian-kinerja/berdasarkan-nilai"
-            element={<NilaiKinerja />}
-          />
-          <Route
-            path="/penilaian-kinerja/berdasarkan-nilai/detail-data/:id"
-            element={<ViewNilaiKinerja />}
+            path="/penilaian-kinerja/detail-data/:id"
+            element={<ViewPenilaianKinerja />}
           />
 
           <Route
