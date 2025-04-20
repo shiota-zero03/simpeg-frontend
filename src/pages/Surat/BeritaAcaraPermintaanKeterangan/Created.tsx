@@ -312,8 +312,8 @@ export default function CreateSurat() {
           </Link>
         </div>
         <TitleCase
-          title="Tambah Surat Perintah Pemeriksaan"
-          text="Digunakan Untuk Menambah Surat Perintah Pemeriksaan Terbaru"
+          title="Tambah Berita Acara Permintaan Keterangan"
+          text="Digunakan Untuk Menambah Berita Acara Permintaan Keterangan Terbaru"
         />
 
         <div>
@@ -431,57 +431,55 @@ export default function CreateSurat() {
                   <div className="md:ms-8 ms-2 flex flex-col gap-2">
                     {formData.timPemeriksa &&
                       formData.timPemeriksa.map((item, index) => (
-                        <>
-                          <div className="flex items-center gap-2" key={index}>
-                            <div className="w-6">{index + 1}. </div>
-                            <Autocomplete
-                              isLoading={isFetchingPegawai}
-                              aria-label="pegawai"
-                              placeholder="Cari pegawai"
-                              variant="bordered"
-                              radius="sm"
-                              size="sm"
-                              defaultItems={PEGAWAI_SELECT}
-                              selectedKey={String(item.id)}
-                              onSelectionChange={(value) =>
-                                onChangePemeriksa(value as string, index)
-                              }
-                              className="max-w-72"
-                              inputProps={{
-                                classNames: {
-                                  input: "text-xs",
-                                  inputWrapper:
-                                    "border-[0.8px] border-button-primary rounded-md",
-                                },
-                              }}
-                            >
-                              {(peg) => (
-                                <AutocompleteItem
-                                  key={peg.id}
-                                  textValue={peg.name}
-                                >
-                                  {peg.name} -{" "}
-                                  {peg.jabatan?.nameJob ||
-                                    "jabatan tidak diketahui"}{" "}
-                                  - {peg.nip}
-                                </AutocompleteItem>
-                              )}
-                            </Autocomplete>
-                            {formData.timPemeriksa &&
-                              formData.timPemeriksa.length > 1 && (
-                                <Button
-                                  isIconOnly
-                                  variant="bordered"
-                                  color="danger"
-                                  radius="sm"
-                                  size="sm"
-                                  onPress={() => removetimPemeriksa(index)}
-                                >
-                                  <LucideTrash2 size={16} />
-                                </Button>
-                              )}
-                          </div>
-                        </>
+                        <div className="flex items-center gap-2" key={index}>
+                          <div className="w-6">{index + 1}. </div>
+                          <Autocomplete
+                            isLoading={isFetchingPegawai}
+                            aria-label="pegawai"
+                            placeholder="Cari pegawai"
+                            variant="bordered"
+                            radius="sm"
+                            size="sm"
+                            defaultItems={PEGAWAI_SELECT}
+                            selectedKey={String(item.id)}
+                            onSelectionChange={(value) =>
+                              onChangePemeriksa(value as string, index)
+                            }
+                            className="max-w-72"
+                            inputProps={{
+                              classNames: {
+                                input: "text-xs",
+                                inputWrapper:
+                                  "border-[0.8px] border-button-primary rounded-md",
+                              },
+                            }}
+                          >
+                            {(peg) => (
+                              <AutocompleteItem
+                                key={peg.id}
+                                textValue={peg.name}
+                              >
+                                {peg.name} -{" "}
+                                {peg.jabatan?.nameJob ||
+                                  "jabatan tidak diketahui"}{" "}
+                                - {peg.nip}
+                              </AutocompleteItem>
+                            )}
+                          </Autocomplete>
+                          {formData.timPemeriksa &&
+                            formData.timPemeriksa.length > 1 && (
+                              <Button
+                                isIconOnly
+                                variant="bordered"
+                                color="danger"
+                                radius="sm"
+                                size="sm"
+                                onPress={() => removetimPemeriksa(index)}
+                              >
+                                <LucideTrash2 size={16} />
+                              </Button>
+                            )}
+                        </div>
                       ))}
                     <div>
                       <Button
@@ -532,9 +530,9 @@ export default function CreateSurat() {
                   <div className="md:ms-4 flex flex-col gap-2">
                     {formData.pihakDiminta &&
                       formData.pihakDiminta.map((item, index) => (
-                        <>
-                          <div className="overflow-x-auto" key={index}>
-                            <table>
+                        <div className="overflow-x-auto" key={index}>
+                          <table>
+                            <tbody>
                               <tr>
                                 <td className="w-8 text-center">{index + 1}</td>
                                 <td className="min-w-40">Nama</td>
@@ -684,9 +682,9 @@ export default function CreateSurat() {
                                   />
                                 </td>
                               </tr>
-                            </table>
-                          </div>
-                        </>
+                            </tbody>
+                          </table>
+                        </div>
                       ))}
                     <div>
                       <Button
@@ -706,10 +704,9 @@ export default function CreateSurat() {
                     <div className="md:ms-8 ms-2 flex flex-col gap-2 mt-2">
                       {formData.pertanyaan &&
                         formData.pertanyaan.map((item, index) => (
-                          <>
+                          <div className="flex flex-col gap-2" key={index}>
                             <div
                               className="flex items-center gap-2"
-                              key={index}
                             >
                               <div className="w-6">{index + 1}. </div>
                               <Input
@@ -774,7 +771,7 @@ export default function CreateSurat() {
                                 }
                               />
                             </div>
-                          </>
+                          </div>
                         ))}
                     </div>
                     <div>

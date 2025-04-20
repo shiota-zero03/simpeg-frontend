@@ -2,9 +2,9 @@ import { useEffect, useMemo } from "react";
 import { ErrorToast } from "@/utils/ToastMessage";
 import { useNavigate, useParams } from "react-router-dom";
 import DetailExportSurat from "./DetEx";
-import { BeritaAcaraPermintaanRes } from "@/interface/responses/surat.interface";
+import { BeritaAcaraPemeriksaanRes } from "@/interface/responses/surat.interface";
 import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
-import { useGetDetailBeritaAcaraPermintaan } from "@/services/surat/berita-acara-permintaan";
+import { useGetDetailBeritaAcaraPemeriksaan } from "@/services/surat/berita-acara-pemeriksaan";
 
 export default function ExportSurat() {
   const { id } = useParams();
@@ -12,11 +12,11 @@ export default function ExportSurat() {
   const navigate = useNavigate();
 
   const { data, isFetching, refetch, error } =
-    useGetDetailBeritaAcaraPermintaan(id || "");
+    useGetDetailBeritaAcaraPemeriksaan(id || "");
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/berita-acara-permintaan-keterangan");
+      navigate("/berita-acara-pemeriksaan");
     }
   }, [isFetching, refetch]);
 
@@ -24,7 +24,7 @@ export default function ExportSurat() {
     data: allKop,
     isFetching: isFetchingKop,
     refetch: refetchKop,
-  } = useGetKopSuratBySlug("BERITA_ACARA_PERMINTAAN_KETERANGAN");
+  } = useGetKopSuratBySlug("BERITA_ACARA_PEMERIKSAAN");
 
   const kopSuratData = useMemo(() => {
     if (!allKop) return null;
@@ -36,21 +36,27 @@ export default function ExportSurat() {
     refetch();
   }, []);
 
-  const DATA_DETAIL: BeritaAcaraPermintaanRes | null = useMemo(() => {
+  const DATA_DETAIL: BeritaAcaraPemeriksaanRes | null = useMemo(() => {
     if (data) {
       return {
         id: data.data.id,
-        nomorSurat: data.data.nomorSurat,
-        nomorSuratKeterangan: data.data.nomorSuratKeterangan,
         tanggalSurat: data.data.tanggalSurat,
-        waktu: data.data.waktu,
-        tempat: data.data.tempat,
+        nomorSurat: data.data.nomorSurat,
         keterangan: data.data.keterangan,
+        pemeriksa: data.data.pemeriksa,
+        nipPemeriksa: data.data.nipPemeriksa,
+        jabatanPemeriksa: data.data.jabatanPemeriksa,
+        pangkatPemeriksa: data.data.pangkatPemeriksa,
+        golonganPemeriksa: data.data.golonganPemeriksa,
+        unitPemeriksa: data.data.unitPemeriksa,
+        diPeriksa: data.data.diPeriksa,
+        nipDiPeriksa: data.data.nipDiPeriksa,
+        jabatanDiPeriksa: data.data.jabatanDiPeriksa,
+        pangkatDiPeriksa: data.data.pangkatDiPeriksa,
+        golonganDiPeriksa: data.data.golonganDiPeriksa,
+        unitDiPeriksa: data.data.unitDiPeriksa,
         createdAt: data.data.createdAt,
         updatedAt: data.data.updatedAt,
-        TimPemeriksa: data.data.TimPemeriksa,
-        PihakDimintai: data.data.PihakDimintai,
-        Pertanyaan: data.data.Pertanyaan,
       };
     } else {
       return null;

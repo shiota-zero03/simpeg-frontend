@@ -75,7 +75,7 @@ export default function UpdateNews() {
                   className="rounded-full border"
                 />
                 <div className="text-sm flex flex-col gap-1 md:items-start items-center">
-                  <p className="text-xs">{DATA_FETCHING?.jabatan.nameJob}</p>
+                  <p className="text-xs">{DATA_FETCHING?.jabatan.nameJob} { DATA_FETCHING?.isPimpinan ? `( Pimpinan )` : "" }</p>
                   <p className="font-semibold text-lg">{DATA_FETCHING?.name}</p>
                   <p className="text-xs">{DATA_FETCHING?.nip}</p>
                   <ul

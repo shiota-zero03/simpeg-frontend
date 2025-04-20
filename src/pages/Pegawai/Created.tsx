@@ -45,6 +45,7 @@ interface formProps {
   email: string;
   jabatan: string;
   asnStatus: boolean;
+  isPimpinan: boolean;
   dinas: string;
   eselon: string;
   golongan: string;
@@ -74,6 +75,7 @@ interface errorProps {
   email?: string;
   jabatan?: string;
   asnStatus?: string;
+  isPimpinan?: string;
   dinas?: string;
   eselon?: string;
   golongan?: string;
@@ -105,6 +107,7 @@ export default function CreatePegawai() {
     email: "",
     jabatan: "",
     asnStatus: false,
+    isPimpinan: false,
     dinas: "",
     eselon: "",
     golongan: "",
@@ -210,6 +213,7 @@ export default function CreatePegawai() {
       email: "",
       jabatan: "",
       asnStatus: false,
+      isPimpinan: false,
       dinas: "",
       eselon: "",
       golongan: "",
@@ -306,6 +310,7 @@ export default function CreatePegawai() {
 
     if (formData.gender) formToSend.gender = formData.gender;
     formToSend.status = formData.isActive;
+    formToSend.isPimpinan = formData.isPimpinan;
     formToSend.statusAsn = formData.asnStatus;
 
     try {
@@ -525,28 +530,65 @@ export default function CreatePegawai() {
                       {formError.jabatan}
                     </div>
                   </div>
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
+                  <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
+                    <div>
+                      <div className="mb-1">
+                        <label
+                          htmlFor="content"
+                          className="font-semibold text-xs"
+                        >
+                          Status Pimpinan <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      <RadioGroup
+                        size="sm"
+                        value={formData.isPimpinan ? "YA" : "TIDAK"}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            isPimpinan: e.target.value === "YA" ? true : false,
+                          }))
+                        }
+                        orientation="horizontal"
+                        className="ms-4"
                       >
-                        Status ASN <span className="text-danger">*</span>
-                      </label>
+                        <Radio value={"YA"} key={"YA"}>
+                          Ya
+                        </Radio>
+                        <Radio value={"TIDAK"} key={"TIDAK"}>
+                          Tidak
+                        </Radio>
+                      </RadioGroup>
                     </div>
-                    <RadioGroup
-                      size="sm"
-                      value={formData.asnStatus ? "ASN" : "NON-ASN"}
-                      orientation="horizontal"
-                      className="ms-4"
-                    >
-                      <Radio value={"ASN"} key={"ASN"}>
-                        ASN
-                      </Radio>
-                      <Radio value={"NON-ASN"} key={"NON-ASN"}>
-                        Non-ASN
-                      </Radio>
-                    </RadioGroup>
+                    <div>
+                      <div className="mb-1">
+                        <label
+                          htmlFor="content"
+                          className="font-semibold text-xs"
+                        >
+                          Status ASN <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      <RadioGroup
+                        size="sm"
+                        value={formData.asnStatus ? "ASN" : "NON-ASN"}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            asnStatus: e.target.value === "ASN" ? true : false,
+                          }))
+                        }
+                        orientation="horizontal"
+                        className="ms-4"
+                      >
+                        <Radio value={"ASN"} key={"ASN"}>
+                          ASN
+                        </Radio>
+                        <Radio value={"NON-ASN"} key={"NON-ASN"}>
+                          Non-ASN
+                        </Radio>
+                      </RadioGroup>
+                    </div>
                   </div>
                   <div>
                     <div className="mb-1">

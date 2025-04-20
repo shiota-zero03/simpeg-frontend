@@ -60,3 +60,21 @@ export interface StoreBeritaAcaraPermintaan {
     jawaban?: string;
   }[];
 }
+
+export interface StoreBeritaAcaraPemeriksaan {
+  nomorSurat?: string;
+  tanggalSurat?: string;
+  keterangan?: string;
+  pemeriksa?: string;
+  nipPemeriksa?: string;
+  jabatanPemeriksa?: string;
+  pangkatPemeriksa?: string;
+  golonganPemeriksa?: string;
+  unitPemeriksa?: string;
+  diPeriksa?: string;
+  nipDiPeriksa?: string;
+  jabatanDiPeriksa?: string;
+  pangkatDiPeriksa?: string;
+  golonganDiPeriksa?: string;
+  unitDiPeriksa?: string;
+}

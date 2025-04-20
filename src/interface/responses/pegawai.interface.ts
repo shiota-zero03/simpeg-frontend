@@ -31,6 +31,7 @@ export interface PegawaiRes {
   tanggalKGB: string;
   statusAsn: boolean;
   status: boolean;
+  isPimpinan: boolean;
   gender: string;
 }
 
