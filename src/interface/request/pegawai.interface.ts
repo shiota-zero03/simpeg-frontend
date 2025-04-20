@@ -20,6 +20,7 @@ export interface StorePegawai {
   unit?: number | null;
   tanggalKGB?: string | null;
   statusAsn?: boolean;
+  isPimpinan?: boolean;
   status?: boolean;
   gender?: string | null;
 }

@@ -6,12 +6,15 @@ export interface IKPListRes {
   nip: string;
   jabatan: string;
   ikps: {
-    id: number;
-    sasaran: string;
-    target: string;
-    ubahTarget: string;
-    realisasi: string;
-    status: string;
+    id: number | null;
+    sasaran: string | null;
+    target: string | null;
+    indicator: string | null;
+    description: string | null;
+    dialog: string | null;
+    status: string | null;
+    ubahTarget: string | null;
+    realisasi: string | null;
   }[];
   createdAt: string;
 }

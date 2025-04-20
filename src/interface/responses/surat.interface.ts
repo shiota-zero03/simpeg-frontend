@@ -112,3 +112,36 @@ export interface IBeritaAcaraPermintaanRes extends BaseRes {
 export interface IBeritaAcaraPermintaanDetaiRes extends BaseRes {
   data: BeritaAcaraPermintaanRes;
 }
+
+
+export interface BeritaAcaraPemeriksaanRes {
+  id: number;
+  tanggalSurat: string;
+  nomorSurat: string;
+  keterangan: string;
+  pemeriksa: string;
+  nipPemeriksa: string;
+  jabatanPemeriksa: string;
+  pangkatPemeriksa: string;
+  golonganPemeriksa: string;
+  unitPemeriksa: string;
+  diPeriksa: string;
+  nipDiPeriksa: string;
+  jabatanDiPeriksa: string;
+  pangkatDiPeriksa: string;
+  golonganDiPeriksa: string;
+  unitDiPeriksa: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IBeritaAcaraPemeriksaanRes extends BaseRes {
+  data: {
+    response: BeritaAcaraPemeriksaanRes[];
+    pagination: PaginationRes;
+  };
+}
+
+export interface IBeritaAcaraPemeriksaanDetaiRes extends BaseRes {
+  data: BeritaAcaraPemeriksaanRes;
+}

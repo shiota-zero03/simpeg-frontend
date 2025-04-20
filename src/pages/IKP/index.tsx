@@ -14,6 +14,7 @@ import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useDeleteIKP, useGetAllIKP } from "@/services/ikp";
 import { IKPListRes } from "@/interface/responses/ikp.interface";
+import store from "@/redux/store";
 
 interface IKPProps {
   id: string;
@@ -25,6 +26,7 @@ interface IKPProps {
 }
 
 export default function IKP() {
+  const { role } = store.getState().auth;
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
 
@@ -153,7 +155,7 @@ export default function IKP() {
     {
       header: "Aksi",
       cell: ({ row }) => {
-        const { id } = row.original;
+        const { id, status } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
@@ -174,27 +176,31 @@ export default function IKP() {
             >
               <FaFilePdf size={14} />
             </Button>
-            <Button
-              onPress={() => navigate(`/dialog-kinerja/edit-data/${id}`)}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-info text-info shadow-sm"
-            >
-              <LuPencilLine size={14} />
-            </Button>
-            <Button
-              onPress={() => {
-                setSelectedId(id);
-                onOpenDelete();
-              }}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-danger text-danger shadow-sm"
-            >
-              <LuTrash2 size={14} />
-            </Button>
+            { status !== "DISETUJUI" && (
+              <Button
+                onPress={() => navigate(`/dialog-kinerja/edit-data/${id}`)}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-info text-info shadow-sm"
+              >
+                <LuPencilLine size={14} />
+              </Button>
+            )}
+            {role === "ADMIN" && (
+              <Button
+                onPress={() => {
+                  setSelectedId(id);
+                  onOpenDelete();
+                }}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-danger text-danger shadow-sm"
+              >
+                <LuTrash2 size={14} />
+              </Button>
+            )}
           </div>
         );
       },
@@ -344,25 +350,29 @@ export default function IKP() {
                     size="sm"
                     isIconOnly
                     className="border-[0.8px] text-xs"
-                  >
+                    >
                     <BiReset size={12} />
                   </Button>
-                  <Link
-                    to={`/dialog-kinerja/export-excel?month=${searchMonth}`}
-                    className="border-[0.8px] w-24 text-xs border-success text-success flex items-center gap-2 px-2 py-1.5 rounded-md justify-center"
-                  >
-                    <FaFileExcel size={12} /> Export
-                  </Link>
-                  <Button
-                    onPress={() => navigate("/dialog-kinerja/tambah-data")}
-                    variant="solid"
-                    radius="sm"
-                    size="sm"
-                    startContent={<BiSolidPlusSquare size={12} />}
-                    className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                  >
-                    Tambah
-                  </Button>
+                  {role === "ADMIN" && (
+                    <Link
+                      to={`/dialog-kinerja/export-excel?month=${searchMonth}`}
+                      className="border-[0.8px] w-24 text-xs border-success text-success flex items-center gap-2 px-2 py-1.5 rounded-md justify-center"
+                    >
+                      <FaFileExcel size={12} /> Export
+                    </Link>
+                  )}
+                  {role === "ADMIN" && (
+                    <Button
+                      onPress={() => navigate("/dialog-kinerja/tambah-data")}
+                      variant="solid"
+                      radius="sm"
+                      size="sm"
+                      startContent={<BiSolidPlusSquare size={12} />}
+                      className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                    >
+                      Tambah
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

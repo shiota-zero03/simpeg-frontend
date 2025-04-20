@@ -35,6 +35,7 @@ const ViewPenilaianKinerja = lazy(
 );
 const IKP = lazy(() => import("@/pages/IKP"));
 const TambahIKP = lazy(() => import("@/pages/IKP/Tambah"));
+const DetailIKP = lazy(() => import("@/pages/IKP/Detail"));
 
 const ExportPDFSummary = lazy(() => import("@/pages/export/pdf/SummaryPdf"));
 const ExportExcelSummary = lazy(
@@ -77,6 +78,19 @@ const ExportBeritaAcaraPermintaanKeterangan = lazy(
   () => import("@/pages/Surat/BeritaAcaraPermintaanKeterangan/Export"),
 );
 
+const BeritaAcaraPemeriksaan = lazy(
+  () => import("@/pages/Surat/BeritaAcaraPemeriksaan"),
+);
+const CreateBeritaAcaraPemeriksaan = lazy(
+  () => import("@/pages/Surat/BeritaAcaraPemeriksaan/Created"),
+);
+const ViewBeritaAcaraPemeriksaan = lazy(
+  () => import("@/pages/Surat/BeritaAcaraPemeriksaan/Detail"),
+);
+const ExportBeritaAcaraPemeriksaan = lazy(
+  () => import("@/pages/Surat/BeritaAcaraPemeriksaan/Export"),
+);
+
 export default function Router() {
   return (
     <Suspense fallback={<LoaderPage />}>
@@ -113,6 +127,7 @@ export default function Router() {
           <Route path="/sppd" element={<SPPD />} />
           <Route path="/dialog-kinerja" element={<IKP />} />
           <Route path="/dialog-kinerja/tambah-data" element={<TambahIKP />} />
+          <Route path="/dialog-kinerja/detail-data/:id" element={<DetailIKP />} />
           <Route path="/e-filling" element={<EFilling />} />
           <Route path="/penilaian-kinerja" element={<PenilaianKinerja />} />
           <Route
@@ -155,6 +170,19 @@ export default function Router() {
             path="/berita-acara-permintaan-keterangan/detail-data/:id"
             element={<ViewBeritaAcaraPermintaanKeterangan />}
           />
+
+          <Route
+            path="/berita-acara-pemeriksaan"
+            element={<BeritaAcaraPemeriksaan />}
+          />
+          <Route
+            path="/berita-acara-pemeriksaan/tambah-data"
+            element={<CreateBeritaAcaraPemeriksaan />}
+          />
+          <Route
+            path="/berita-acara-pemeriksaan/detail-data/:id"
+            element={<ViewBeritaAcaraPemeriksaan />}
+          />
         </Route>
 
         {/* export */}
@@ -177,6 +205,10 @@ export default function Router() {
         <Route
           path="/berita-acara-permintaan-keterangan/export-data/:id"
           element={<ExportBeritaAcaraPermintaanKeterangan />}
+        />
+        <Route
+          path="/berita-acara-pemeriksaan/export-data/:id"
+          element={<ExportBeritaAcaraPemeriksaan />}
         />
 
         <Route path="*" element={<Error404 />} />
