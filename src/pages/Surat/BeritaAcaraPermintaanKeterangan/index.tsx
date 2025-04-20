@@ -9,27 +9,31 @@ import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { useNavigate } from "react-router-dom";
-import { SuratPemanggilanRes } from "@/interface/responses/surat.interface";
-import { useDeleteSuratPemanggilan } from "@/services/surat/pemanggilan";
+import { BeritaAcaraPermintaanRes } from "@/interface/responses/surat.interface";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { FaFilePdf } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useGetAllSuratPemanggilan } from "@/services/surat/pemanggilan";
+import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
 import KopSuratModal from "@/components/modals/Surat/KopSuratModal";
 import { LucideMail } from "lucide-react";
-import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
+import {
+  useDeleteBeritaAcaraPermintaan,
+  useGetAllBeritaAcaraPermintaan,
+} from "@/services/surat/berita-acara-permintaan";
 
 interface DataProps {
   id: number;
   nomorSurat: string;
-  nomorPemanggilan: string;
   tanggalSurat: string;
-  waktu: string;
-  pemanggil: string;
-  diPanggil: string;
+  PihakDimintai: {
+    name: string;
+  }[];
+  TimPemeriksa: {
+    name: string;
+  }[];
 }
 
-export default function SuratPemanggilan() {
+export default function SuratPemeriksaan() {
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
@@ -48,22 +52,7 @@ export default function SuratPemanggilan() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllSuratPemanggilan(pageIndex + 1, limit, search, searchNo);
-
-  const {
-    data: allKop,
-    isFetching: isFetchingKop,
-    refetch: refetchKop,
-  } = useGetKopSuratBySlug("SURAT_PEMANGGILAN");
-
-  const kopSuratData = useMemo(() => {
-    if (!allKop) return null;
-    return allKop.data;
-  }, [allKop]);
-
-  useEffect(() => {
-    refetchKop();
-  }, []);
+  } = useGetAllBeritaAcaraPermintaan(pageIndex + 1, limit, search, searchNo);
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
@@ -80,19 +69,32 @@ export default function SuratPemanggilan() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: SuratPemanggilanRes) => ({
+      return data.response.map((item: BeritaAcaraPermintaanRes) => ({
         id: item.id,
         nomorSurat: item.nomorSurat,
-        nomorPemanggilan: item.nomorPemanggilan,
         tanggalSurat: item.tanggalSurat,
-        waktu: item.waktu,
-        pemanggil: item.pemanggil,
-        diPanggil: item.diPanggil,
+        PihakDimintai: item.PihakDimintai,
+        TimPemeriksa: item.TimPemeriksa,
       }));
     } else {
       return [];
     }
   }, [search, limit, pageIndex, allData]);
+
+  const {
+    data: allKop,
+    isFetching: isFetchingKop,
+    refetch: refetchKop,
+  } = useGetKopSuratBySlug("BERITA_ACARA_PERMINTAAN_KETERANGAN");
+
+  const kopSuratData = useMemo(() => {
+    if (!allKop) return null;
+    return allKop.data;
+  }, [allKop]);
+
+  useEffect(() => {
+    refetchKop();
+  }, []);
 
   const columns: ColumnDef<DataProps>[] = [
     {
@@ -117,21 +119,43 @@ export default function SuratPemanggilan() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "nomorPemanggilan",
-      header: "Surat Pemanggilan",
-      cell: (info) => info.getValue() as string,
+      header: "Yang Meminta Keterangan",
+      cell: ({ row }) => {
+        const { TimPemeriksa } = row.original;
+        return (
+          <ol className="ms-4">
+            {TimPemeriksa.length > 0 ? (
+              TimPemeriksa.map((item, index) => (
+                <li key={index} className="list-decimal">
+                  {item.name}
+                </li>
+              ))
+            ) : (
+              <li>Tidak ada pihak yang dimintai keterangan</li>
+            )}
+          </ol>
+        );
+      },
       // meta: { align: "center" },
     },
     {
-      accessorKey: "diPanggil",
-      header: "Panggilan Kepada",
-      cell: (info) => info.getValue() as string,
-      // meta: { align: "center" },
-    },
-    {
-      accessorKey: "pemanggil",
-      header: "Untuk Menghadap",
-      cell: (info) => info.getValue() as string,
+      header: "Yang Dimintai Keterangan",
+      cell: ({ row }) => {
+        const { PihakDimintai } = row.original;
+        return (
+          <ol className="ms-4">
+            {PihakDimintai.length > 0 ? (
+              PihakDimintai.map((item, index) => (
+                <li key={index} className="list-decimal">
+                  {item.name}
+                </li>
+              ))
+            ) : (
+              <li>Tidak ada pihak yang dimintai keterangan</li>
+            )}
+          </ol>
+        );
+      },
       // meta: { align: "center" },
     },
     {
@@ -142,7 +166,9 @@ export default function SuratPemanggilan() {
           <div className="flex items-center gap-2 justify-center">
             <Button
               onPress={() => {
-                navigate(`/surat-pemanggilan/detail-data/${id}`);
+                navigate(
+                  `/berita-acara-permintaan-keterangan/detail-data/${id}`,
+                );
               }}
               isIconOnly
               radius="sm"
@@ -153,7 +179,7 @@ export default function SuratPemanggilan() {
             </Button>
             <Link
               target="__blank"
-              to={`/surat-pemanggilan/export-data/${id}`}
+              to={`/berita-acara-permintaan-keterangan/export-data/${id}`}
               className="bg-alert-info text-info shadow-sm p-2 rounded-md"
             >
               <FaFilePdf size={14} />
@@ -208,7 +234,7 @@ export default function SuratPemanggilan() {
   }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const { mutate: mutateDelete } = useDeleteSuratPemanggilan();
+  const { mutate: mutateDelete } = useDeleteBeritaAcaraPermintaan();
 
   const handleDelete = () => {
     if (isLoadingDelete) return;
@@ -249,7 +275,7 @@ export default function SuratPemanggilan() {
 
   return (
     <>
-      <BreadcrumbAdmin location="/Surat-Pemanggilan" />
+      <BreadcrumbAdmin location="/Berita-Acara-Permintaan-Keterangan" />
       <DeleteModal
         isOpen={isOpenDelete}
         onClose={onCloseDelete}
@@ -271,8 +297,8 @@ export default function SuratPemanggilan() {
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <div className="flex items-center justify-between gap-2 md:flex-row flex-col">
           <TitleCase
-            title="Daftar Surat Pemanggilan"
-            text="Berikut ini Mengelola Daftar Surat Pemanggilan"
+            title="Daftar Berita Acara Permintaan Keterangan"
+            text="Berikut ini Mengelola Daftar Berita Acara Permintaan Keterangan"
           />
           <Button
             onPress={onOpenKop}
@@ -347,7 +373,11 @@ export default function SuratPemanggilan() {
                     <BiReset size={12} />
                   </Button>
                   <Button
-                    onPress={() => navigate(`/surat-pemanggilan/tambah-data`)}
+                    onPress={() =>
+                      navigate(
+                        `/berita-acara-permintaan-keterangan/tambah-data`,
+                      )
+                    }
                     variant="solid"
                     radius="sm"
                     size="sm"

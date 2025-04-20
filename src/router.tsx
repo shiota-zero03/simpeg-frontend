@@ -37,6 +37,9 @@ const IKP = lazy(() => import("@/pages/IKP"));
 const TambahIKP = lazy(() => import("@/pages/IKP/Tambah"));
 
 const ExportPDFSummary = lazy(() => import("@/pages/export/pdf/SummaryPdf"));
+const ExportExcelSummary = lazy(
+  () => import("@/pages/export/excel/SummaryExcel"),
+);
 
 const Error404 = lazy(() => import("@/pages/Errors/Error404"));
 
@@ -59,6 +62,19 @@ const ViewSuratPemanggilan = lazy(
 );
 const ExportSuratPemanggilan = lazy(
   () => import("@/pages/Surat/Pemanggilan/Export"),
+);
+
+const BeritaAcaraPermintaanKeterangan = lazy(
+  () => import("@/pages/Surat/BeritaAcaraPermintaanKeterangan"),
+);
+const CreateBeritaAcaraPermintaanKeterangan = lazy(
+  () => import("@/pages/Surat/BeritaAcaraPermintaanKeterangan/Created"),
+);
+const ViewBeritaAcaraPermintaanKeterangan = lazy(
+  () => import("@/pages/Surat/BeritaAcaraPermintaanKeterangan/Detail"),
+);
+const ExportBeritaAcaraPermintaanKeterangan = lazy(
+  () => import("@/pages/Surat/BeritaAcaraPermintaanKeterangan/Export"),
 );
 
 export default function Router() {
@@ -116,6 +132,7 @@ export default function Router() {
             path="/surat-perintah-pemeriksaan/detail-data/:id"
             element={<ViewSuratPemeriksaan />}
           />
+
           <Route path="/surat-pemanggilan" element={<SuratPemanggilan />} />
           <Route
             path="/surat-pemanggilan/tambah-data"
@@ -125,6 +142,19 @@ export default function Router() {
             path="/surat-pemanggilan/detail-data/:id"
             element={<ViewSuratPemanggilan />}
           />
+
+          <Route
+            path="/berita-acara-permintaan-keterangan"
+            element={<BeritaAcaraPermintaanKeterangan />}
+          />
+          <Route
+            path="/berita-acara-permintaan-keterangan/tambah-data"
+            element={<CreateBeritaAcaraPermintaanKeterangan />}
+          />
+          <Route
+            path="/berita-acara-permintaan-keterangan/detail-data/:id"
+            element={<ViewBeritaAcaraPermintaanKeterangan />}
+          />
         </Route>
 
         {/* export */}
@@ -133,12 +163,20 @@ export default function Router() {
           element={<ExportPDFSummary />}
         />
         <Route
+          path="/summary-report/export/excel"
+          element={<ExportExcelSummary />}
+        />
+        <Route
           path="/surat-perintah-pemeriksaan/export-data/:id"
           element={<ExportSuratPemeriksaan />}
         />
         <Route
           path="/surat-pemanggilan/export-data/:id"
           element={<ExportSuratPemanggilan />}
+        />
+        <Route
+          path="/berita-acara-permintaan-keterangan/export-data/:id"
+          element={<ExportBeritaAcaraPermintaanKeterangan />}
         />
 
         <Route path="*" element={<Error404 />} />

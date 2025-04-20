@@ -95,3 +95,59 @@ export const DaysDMYIndoToFormat = (timeStamp: string) => {
 
   return formattedTimestamp;
 };
+
+export const textToFormat = (isoString: string) => {
+  const date = new Date(isoString);
+
+  // Mapping hari
+  const namaHari = new Intl.DateTimeFormat("id-ID", { weekday: "long" }).format(
+    date,
+  );
+
+  // Mapping bulan
+  const namaBulan = new Intl.DateTimeFormat("id-ID", { month: "long" }).format(
+    date,
+  );
+
+  // Mapping tanggal angka ke huruf
+  const angkaKeHuruf: { [key: number]: string } = {
+    1: "Satu",
+    2: "Dua",
+    3: "Tiga",
+    4: "Empat",
+    5: "Lima",
+    6: "Enam",
+    7: "Tujuh",
+    8: "Delapan",
+    9: "Sembilan",
+    10: "Sepuluh",
+    11: "Sebelas",
+    12: "Dua Belas",
+    13: "Tiga Belas",
+    14: "Empat Belas",
+    15: "Lima Belas",
+    16: "Enam Belas",
+    17: "Tujuh Belas",
+    18: "Delapan Belas",
+    19: "Sembilan Belas",
+    20: "Dua Puluh",
+    21: "Dua Puluh Satu",
+    22: "Dua Puluh Dua",
+    23: "Dua Puluh Tiga",
+    24: "Dua Puluh Empat",
+    25: "Dua Puluh Lima",
+    26: "Dua Puluh Enam",
+    27: "Dua Puluh Tujuh",
+    28: "Dua Puluh Delapan",
+    29: "Dua Puluh Sembilan",
+    30: "Tiga Puluh",
+    31: "Tiga Puluh Satu",
+  };
+
+  // Tahun bisa di-hardcode per bagian
+  const tahunHuruf = "Dua Ribu Dua Puluh Lima"; // untuk 2025
+
+  const tanggal = date.getDate();
+  const kalimat = `${namaHari} tanggal ${angkaKeHuruf[tanggal]} bulan ${namaBulan} tahun ${tahunHuruf}`;
+  return kalimat;
+};

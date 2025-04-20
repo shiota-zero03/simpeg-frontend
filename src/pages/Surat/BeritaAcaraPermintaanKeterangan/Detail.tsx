@@ -7,23 +7,22 @@ import { ErrorToast } from "@/utils/ToastMessage";
 import { LuArrowLeft } from "react-icons/lu";
 import { FaFilePdf } from "react-icons/fa";
 import DetailExportSurat from "./DetEx";
-import { SuratPemanggilanRes } from "@/interface/responses/surat.interface";
+import { BeritaAcaraPermintaanRes } from "@/interface/responses/surat.interface";
 import { Commet } from "react-loading-indicators";
-import { useGetDetailSuratPemanggilan } from "@/services/surat/pemanggilan";
 import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
+import { useGetDetailBeritaAcaraPermintaan } from "@/services/surat/berita-acara-permintaan";
 
 export default function DetailPemeriksaan() {
   const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const { data, isFetching, refetch, error } = useGetDetailSuratPemanggilan(
-    id || "",
-  );
+  const { data, isFetching, refetch, error } =
+    useGetDetailBeritaAcaraPermintaan(id || "");
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/surat-pemanggilan");
+      navigate("/berita-acara-permintaan-keterangan");
     }
   }, [isFetching, refetch]);
 
@@ -31,7 +30,7 @@ export default function DetailPemeriksaan() {
     data: allKop,
     isFetching: isFetchingKop,
     refetch: refetchKop,
-  } = useGetKopSuratBySlug("SURAT_PEMANGGILAN");
+  } = useGetKopSuratBySlug("BERITA_ACARA_PERMINTAAN_KETERANGAN");
 
   const kopSuratData = useMemo(() => {
     if (!allKop) return null;
@@ -43,27 +42,21 @@ export default function DetailPemeriksaan() {
     refetchKop();
   }, []);
 
-  const DATA_DETAIL: SuratPemanggilanRes | null = useMemo(() => {
+  const DATA_DETAIL: BeritaAcaraPermintaanRes | null = useMemo(() => {
     if (data) {
       return {
         id: data.data.id,
         nomorSurat: data.data.nomorSurat,
-        nomorPemanggilan: data.data.nomorPemanggilan,
+        nomorSuratKeterangan: data.data.nomorSuratKeterangan,
         tanggalSurat: data.data.tanggalSurat,
         waktu: data.data.waktu,
         tempat: data.data.tempat,
         keterangan: data.data.keterangan,
-        pemanggil: data.data.pemanggil,
-        nipPemanggil: data.data.nipPemanggil,
-        jabatanPemanggil: data.data.jabatanPemanggil,
-        unitPemanggil: data.data.unitPemanggil,
-        diPanggil: data.data.diPanggil,
-        nipDiPanggil: data.data.nipDiPanggil,
-        jabatanDiPanggil: data.data.jabatanDiPanggil,
-        unitDiPanggil: data.data.unitDiPanggil,
-        namaTtd: data.data.namaTtd,
-        nipTtd: data.data.nipTtd,
-        jabatanTtd: data.data.jabatanTtd,
+        createdAt: data.data.createdAt,
+        updatedAt: data.data.updatedAt,
+        TimPemeriksa: data.data.TimPemeriksa,
+        PihakDimintai: data.data.PihakDimintai,
+        Pertanyaan: data.data.Pertanyaan,
       };
     } else {
       return null;
@@ -72,7 +65,7 @@ export default function DetailPemeriksaan() {
 
   return (
     <>
-      <BreadcrumbAdmin location="/Surat-Pemanggilan/Detail" />
+      <BreadcrumbAdmin location="/Berita-Acara-Permintaan-Keterangan/Detail" />
       {isFetching || isFetchingKop ? (
         <div className="inset-0 fixed flex items-center justify-center z-20">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
@@ -81,17 +74,17 @@ export default function DetailPemeriksaan() {
         <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
           <div className="flex">
             <Link
-              to={`/surat-pemanggilan`}
+              to={`/berita-acara-permintaan-keterangan`}
               className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
             >
               <LuArrowLeft /> Kembali
             </Link>
           </div>
-          <TitleCase title="Detail Surat Pemanggilan" />
+          <TitleCase title="Detail Surat Perintah Pemeriksaan" />
           <Card className="border" shadow="none">
             <CardHeader className="p-8">
               <Link
-                to={`/surat-pemanggilan/export-data/${id}`}
+                to={`/berita-acara-permintaan-keterangan/export-data/${id}`}
                 target="__blank"
                 className="flex gap-2 items-center text-danger border border-danger font-semibold p-2 text-sm rounded-md ms-auto"
               >

@@ -1,5 +1,15 @@
 import { BaseRes, PaginationRes } from "./base.response";
 
+export interface KopSuratRes {
+  id: number;
+  kopSurat: string;
+  slug: string;
+}
+
+export interface IKopSuratDetaiRes extends BaseRes {
+  data: KopSuratRes;
+}
+
 export interface SuratPemeriksaanRes {
   id: number;
   nomorSurat: string;
@@ -58,4 +68,47 @@ export interface ISuratPemanggilanRes extends BaseRes {
 
 export interface ISuratPemanggilanDetaiRes extends BaseRes {
   data: SuratPemanggilanRes;
+}
+
+export interface BeritaAcaraPermintaanRes {
+  id: number;
+  nomorSurat: string;
+  nomorSuratKeterangan: string;
+  tanggalSurat: string;
+  waktu: string;
+  tempat: string;
+  keterangan: string;
+  createdAt: string;
+  updatedAt: string;
+  TimPemeriksa: {
+    id: number;
+    name: string;
+    pemeriksaKeteranganId: number;
+  }[];
+  PihakDimintai: {
+    id: number;
+    name: string;
+    nip: string;
+    jabatan: string;
+    pangkat: string;
+    golongan: string;
+    pemeriksaKeteranganId: number;
+  }[];
+  Pertanyaan: {
+    id: number;
+    pemeriksaKeteranganId: number;
+    pertanyaan: string;
+    jawaban: string;
+  }[];
+}
+
+export interface IBeritaAcaraPermintaanRes extends BaseRes {
+  data: {
+    response: BeritaAcaraPermintaanRes[];
+    pagination: PaginationRes;
+  };
+}
+
+export interface IBeritaAcaraPermintaanDetaiRes extends BaseRes {
+  data: BeritaAcaraPermintaanRes;
 }

@@ -10,6 +10,7 @@ import { useGetDetailSuratPemeriksaan } from "@/services/surat/pemeriksaan";
 import DetailExportSurat from "./DetEx";
 import { SuratPemeriksaanRes } from "@/interface/responses/surat.interface";
 import { Commet } from "react-loading-indicators";
+import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
 
 export default function DetailPemeriksaan() {
   const { id } = useParams();
@@ -26,8 +27,20 @@ export default function DetailPemeriksaan() {
     }
   }, [isFetching, refetch]);
 
+  const {
+    data: allKop,
+    isFetching: isFetchingKop,
+    refetch: refetchKop,
+  } = useGetKopSuratBySlug("SURAT_PEMERIKSAAN");
+
+  const kopSuratData = useMemo(() => {
+    if (!allKop) return null;
+    return allKop.data;
+  }, [allKop]);
+
   useEffect(() => {
     refetch();
+    refetchKop();
   }, []);
 
   const DATA_DETAIL: SuratPemeriksaanRes | null = useMemo(() => {
@@ -56,7 +69,7 @@ export default function DetailPemeriksaan() {
   return (
     <>
       <BreadcrumbAdmin location="/Surat-Perintah-Pemeriksaan/Detail" />
-      {isFetching ? (
+      {isFetching || isFetchingKop ? (
         <div className="inset-0 fixed flex items-center justify-center z-20">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
         </div>
@@ -82,10 +95,11 @@ export default function DetailPemeriksaan() {
               </Link>
             </CardHeader>
             <CardBody className="flex flex-col">
-              {DATA_DETAIL && (
+              {DATA_DETAIL && kopSuratData && (
                 <DetailExportSurat
                   DATA_DETAIL={DATA_DETAIL}
                   isFetching={isFetching}
+                  kopSurat={kopSuratData.kopSurat || ""}
                 />
               )}
             </CardBody>

@@ -91,8 +91,8 @@ export const SidebarMenuData: SidebarProps[] = [
           },
           {
             name: "Berita Acara Permintaan Keterangan",
-            key: "pengaduan",
-            link: "#",
+            key: "berita-acara-permintaan-keterangan",
+            link: "/berita-acara-permintaan-keterangan",
           },
           {
             name: "Berita Acara Pemeriksaan",

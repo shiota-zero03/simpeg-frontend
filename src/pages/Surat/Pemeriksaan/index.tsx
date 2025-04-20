@@ -17,6 +17,9 @@ import {
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { FaFilePdf } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
+import KopSuratModal from "@/components/modals/Surat/KopSuratModal";
+import { LucideMail } from "lucide-react";
 
 interface DataProps {
   id: number;
@@ -73,6 +76,21 @@ export default function SuratPemeriksaan() {
       return [];
     }
   }, [search, limit, pageIndex, allData]);
+
+  const {
+    data: allKop,
+    isFetching: isFetchingKop,
+    refetch: refetchKop,
+  } = useGetKopSuratBySlug("SURAT_PEMERIKSAAN");
+
+  const kopSuratData = useMemo(() => {
+    if (!allKop) return null;
+    return allKop.data;
+  }, [allKop]);
+
+  useEffect(() => {
+    refetchKop();
+  }, []);
 
   const columns: ColumnDef<DataProps>[] = [
     {
@@ -157,6 +175,12 @@ export default function SuratPemeriksaan() {
     onClose: onCloseDelete,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenKop,
+    onOpen: onOpenKop,
+    onClose: onCloseKop,
+  } = useDisclosure();
+
   const handleSearch = () => {
     setPageIndex(0);
     refetchData();
@@ -224,11 +248,32 @@ export default function SuratPemeriksaan() {
         isLoading={isLoadingDelete}
         handleSubmit={handleDelete}
       />
-      <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
-        <TitleCase
-          title="Daftar Surat Perintah Pemeriksaan"
-          text="Berikut ini Mengelola Daftar Surat Perintah Pemeriksaan"
+      {!isFetchingKop && kopSuratData && (
+        <KopSuratModal
+          isOpen={isOpenKop}
+          onClose={onCloseKop}
+          id={kopSuratData?.id}
+          fileShow={kopSuratData?.kopSurat || ""}
+          handleClose={() => {
+            onCloseKop();
+            refetchKop();
+          }}
         />
+      )}
+      <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
+        <div className="flex items-center justify-between gap-2 md:flex-row flex-col">
+          <TitleCase
+            title="Daftar Surat Perintah Pemeriksaan"
+            text="Berikut ini Mengelola Daftar Surat Perintah Pemeriksaan"
+          />
+          <Button
+            onPress={onOpenKop}
+            className="bg-alert-warning text-warning font-semibold flex items-center gap-2 border border-warning"
+            size="sm"
+          >
+            <LucideMail size={16} /> Kop Surat
+          </Button>
+        </div>
         <div className="bg-white shadow-md rounded-xl border min-h-[70vh]">
           <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
             <div className="pt-8 px-4 w-full text-primary shadow-sm">
