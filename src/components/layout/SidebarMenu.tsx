@@ -52,6 +52,7 @@ const roleAccessMap: Record<string, string[]> = {
     "penilaian-kinerja",
     "surat-perintah-pemeriksaan",
     "surat-pemanggilan",
+    "berita-acara-permintaan-keterangan",
     "dialog-kinerja",
     "sppd",
     "asset",
@@ -146,14 +147,14 @@ export function AppSidebar() {
                     {item.menu.map((itemM) => {
                       const isActive =
                         ((location.pathname === "/" ||
-                          location.pathname.includes("berita")) &&
+                          location.pathname.includes("/berita/")) &&
                           itemM.key === "beranda") ||
                         location.pathname.includes(itemM.key) ||
                         (itemM.subMenu &&
                           itemM.subMenu.some(
                             (subItem) =>
                               ((location.pathname === "/" ||
-                                location.pathname.includes("berita")) &&
+                                location.pathname.includes("/berita/")) &&
                                 subItem.key === "beranda") ||
                               location.pathname.includes(subItem.key),
                           ));
@@ -218,7 +219,7 @@ export function AppSidebar() {
                                         ? "border-s-4 border-secondary bg-[#FFF1001A] text-secondary"
                                         : (location.pathname === "/" ||
                                               location.pathname.includes(
-                                                "berita",
+                                                "/berita/",
                                               )) &&
                                             itemM.key === "beranda"
                                           ? "border-s-4 border-secondary bg-[#FFF1001A] text-secondary"

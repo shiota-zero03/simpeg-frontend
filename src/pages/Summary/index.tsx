@@ -68,7 +68,8 @@ export default function Jabatan() {
                     <FaFilePdf size={12} /> Export PDF
                   </Link>
                   <Link
-                    to={"#"}
+                    to={`/summary-report/export/excel?m=${search}`}
+                    target="__blank"
                     className="border-[0.8px] text-xs w-32 border-success text-success flex items-center justify-center gap-2 p-2 rounded-lg font-medium hover:bg-success hover:text-white duration-200"
                   >
                     <FaFileExcel size={12} /> Export Excel

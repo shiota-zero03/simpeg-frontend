@@ -1,23 +1,22 @@
 import { useEffect, useMemo } from "react";
 import { ErrorToast } from "@/utils/ToastMessage";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetDetailSuratPemeriksaan } from "@/services/surat/pemeriksaan";
 import DetailExportSurat from "./DetEx";
-import { SuratPemeriksaanRes } from "@/interface/responses/surat.interface";
+import { BeritaAcaraPermintaanRes } from "@/interface/responses/surat.interface";
 import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
+import { useGetDetailBeritaAcaraPermintaan } from "@/services/surat/berita-acara-permintaan";
 
 export default function ExportSurat() {
   const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const { data, isFetching, refetch, error } = useGetDetailSuratPemeriksaan(
-    id || "",
-  );
+  const { data, isFetching, refetch, error } =
+    useGetDetailBeritaAcaraPermintaan(id || "");
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/surat-perintah-pemeriksaan");
+      navigate("/berita-acara-permintaan-keterangan");
     }
   }, [isFetching, refetch]);
 
@@ -37,23 +36,21 @@ export default function ExportSurat() {
     refetch();
   }, []);
 
-  const DATA_DETAIL: SuratPemeriksaanRes | null = useMemo(() => {
+  const DATA_DETAIL: BeritaAcaraPermintaanRes | null = useMemo(() => {
     if (data) {
       return {
         id: data.data.id,
         nomorSurat: data.data.nomorSurat,
-        tempatDikeluarkan: data.data.tempatDikeluarkan,
+        nomorSuratKeterangan: data.data.nomorSuratKeterangan,
         tanggalSurat: data.data.tanggalSurat,
-        pemberiPerintah: data.data.pemberiPerintah,
-        nipPemberiPerintah: data.data.nipPemberiPerintah,
-        jabatanPemberiPerintah: data.data.jabatanPemberiPerintah,
-        diPerintah: data.data.diPerintah,
-        nipDiPerintah: data.data.nipDiPerintah,
-        jabatanDiPerintah: data.data.jabatanDiPerintah,
+        waktu: data.data.waktu,
+        tempat: data.data.tempat,
         keterangan: data.data.keterangan,
-        namaTtd: data.data.namaTtd,
-        nipTtd: data.data.nipTtd,
-        jabatanTtd: data.data.jabatanTtd,
+        createdAt: data.data.createdAt,
+        updatedAt: data.data.updatedAt,
+        TimPemeriksa: data.data.TimPemeriksa,
+        PihakDimintai: data.data.PihakDimintai,
+        Pertanyaan: data.data.Pertanyaan,
       };
     } else {
       return null;

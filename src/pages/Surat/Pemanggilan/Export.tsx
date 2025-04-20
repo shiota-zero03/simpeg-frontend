@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import DetailExportSurat from "./DetEx";
 import { SuratPemanggilanRes } from "@/interface/responses/surat.interface";
 import { useGetDetailSuratPemanggilan } from "@/services/surat/pemanggilan";
+import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
 
 export default function ExportSurat() {
   const { id } = useParams();
@@ -20,7 +21,19 @@ export default function ExportSurat() {
     }
   }, [isFetching, refetch]);
 
+  const {
+    data: allKop,
+    isFetching: isFetchingKop,
+    refetch: refetchKop,
+  } = useGetKopSuratBySlug("SURAT_PEMANGGILAN");
+
+  const kopSuratData = useMemo(() => {
+    if (!allKop) return null;
+    return allKop.data;
+  }, [allKop]);
+
   useEffect(() => {
+    refetchKop();
     refetch();
   }, []);
 
@@ -52,7 +65,7 @@ export default function ExportSurat() {
   }, [id, data]);
 
   useEffect(() => {
-    if (!isFetching && DATA_DETAIL) {
+    if (!isFetching && !isFetchingKop && DATA_DETAIL && kopSuratData) {
       // Tunggu render selesai dulu baru trigger print
       setTimeout(() => {
         window.print();
@@ -69,12 +82,16 @@ export default function ExportSurat() {
         window.removeEventListener("afterprint", handleAfterPrint);
       };
     }
-  }, [isFetching, DATA_DETAIL]);
+  }, [isFetching, isFetchingKop, DATA_DETAIL, kopSuratData]);
 
   return (
     <>
-      {DATA_DETAIL && (
-        <DetailExportSurat DATA_DETAIL={DATA_DETAIL} isFetching={isFetching} />
+      {DATA_DETAIL && kopSuratData && (
+        <DetailExportSurat
+          DATA_DETAIL={DATA_DETAIL}
+          isFetching={isFetching}
+          kopSurat={kopSuratData.kopSurat}
+        />
       )}
     </>
   );

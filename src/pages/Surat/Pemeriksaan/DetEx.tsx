@@ -6,9 +6,14 @@ import { SuratPemeriksaanRes } from "@/interface/responses/surat.interface";
 interface props {
   DATA_DETAIL: SuratPemeriksaanRes;
   isFetching: boolean;
+  kopSurat: string;
 }
 
-export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
+export default function DetailExportSurat({
+  DATA_DETAIL,
+  isFetching,
+  kopSurat,
+}: props) {
   return (
     <>
       {isFetching ? (
@@ -17,7 +22,7 @@ export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
         </div>
       ) : (
         <div className="flex flex-col text-lg px-24 py-12">
-          <img src={KOP} alt="kop-surat" className="w-full" />
+          <img src={kopSurat || KOP} alt="kop-surat" className="w-full" />
           <br />
           <h1 className="text-center font-bold text-xl underline">
             SURAT PERINTAH
