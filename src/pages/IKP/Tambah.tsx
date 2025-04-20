@@ -28,7 +28,7 @@ interface errorProps {
   userId?: string;
 }
 
-export default function CreateNews() {
+export default function CreateIKP() {
   const [formUser, setFormUser] = useState<{ nip: string; jabatan: string }>({
     nip: "",
     jabatan: "",

@@ -10,6 +10,7 @@ import { IIKPDetailRes } from "@/interface/responses/ikp.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StoreIKP } from "@/interface/request/ikp.interface";
+import store from "@/redux/store";
 
 export const useGetAllIKP = (
   page: number,
@@ -18,8 +19,9 @@ export const useGetAllIKP = (
   month?: string,
   year?: string,
 ) => {
+  let { role } = store.getState().auth;
   return useQuery({
-    queryKey: ["getAllIKP"],
+    queryKey: ["getAllIKP", role],
     queryFn: () => getAllIKP(page, limit, title, month, year),
     staleTime: 300000,
   });
