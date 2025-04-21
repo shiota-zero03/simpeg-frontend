@@ -13,6 +13,8 @@ const DetailBerita = lazy(() => import("@/pages/Berita/Detail"));
 const BukuPetunjuk = lazy(() => import("@/pages/BukuPetunjuk"));
 const HubungiKami = lazy(() => import("@/pages/HubungiKami"));
 
+const Profile = lazy(() => import("@/pages/Profile"));
+const EditProfile = lazy(() => import("@/pages/Profile/EditProfile"));
 const Jabatan = lazy(() => import("@/pages/Jabatan"));
 const Unit = lazy(() => import("@/pages/Unit"));
 const Pegawai = lazy(() => import("@/pages/Pegawai"));
@@ -100,6 +102,10 @@ const ViewHasilPemeriksaan = lazy(
 const ExportHasilPemeriksaan = lazy(
   () => import("@/pages/Surat/HasilPemeriksaan/Export"),
 );
+const Keputusan = lazy(() => import("@/pages/Surat/Keputusan"));
+const CreateKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Created"));
+const ViewKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Detail"));
+const ExportKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Export"));
 
 export default function Router() {
   return (
@@ -115,6 +121,8 @@ export default function Router() {
           <Route path="/peta-jabatan" element={<PetaJabatan />} />
           <Route path="/hubungi-kami" element={<HubungiKami />} />
 
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/position" element={<Jabatan />} />
           <Route path="/unit" element={<Unit />} />
           <Route path="/pegawai" element={<Pegawai />} />
@@ -209,6 +217,16 @@ export default function Router() {
             path="/laporan-hasil-pemeriksaan/detail-data/:id"
             element={<ViewHasilPemeriksaan />}
           />
+
+          <Route path="/keputusan-hukuman-disiplin" element={<Keputusan />} />
+          <Route
+            path="/keputusan-hukuman-disiplin/tambah-data"
+            element={<CreateKeputusan />}
+          />
+          <Route
+            path="/keputusan-hukuman-disiplin/detail-data/:id"
+            element={<ViewKeputusan />}
+          />
         </Route>
 
         {/* export */}
@@ -239,6 +257,10 @@ export default function Router() {
         <Route
           path="/laporan-hasil-pemeriksaan/export-data/:id"
           element={<ExportHasilPemeriksaan />}
+        />
+        <Route
+          path="/keputusan-hukuman-disiplin/export-data/:id"
+          element={<ExportKeputusan />}
         />
 
         <Route path="*" element={<Error404 />} />

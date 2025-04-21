@@ -105,3 +105,28 @@ export interface StoreHasilPemeriksaan {
     jabatan?: string;
   }[];
 }
+
+export interface StoreKeputusan {
+  membaca?: string;
+  menimbang?: string;
+  mengingat?: string;
+  kesatu?: string;
+  nameYangDitetapkan?: string;
+  nipYangDitetapkan?: string;
+  jabatanYangDitetapkan?: string;
+  golonganYangDitetapkan?: string;
+  unitYangDitetapkan?: string;
+  alasan?: string;
+  kedua?: string;
+  ketiga?: string;
+  nameJabatan?: string;
+  nipJabatan?: string;
+  ttdJabatan?: string;
+  tingkat?: string;
+  tanggalSurat?: string;
+  nomorSurat?: string;
+  tempatDikeluarkan?: string;
+  tembusan?: {
+    jabatan?: string;
+  }[];
+}
