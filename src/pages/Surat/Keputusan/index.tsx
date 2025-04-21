@@ -8,57 +8,69 @@ import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-import { YMToIndoFormat } from "@/utils/dateFormater";
 import { useNavigate } from "react-router-dom";
-import { FaFileExcel, FaFilePdf } from "react-icons/fa";
+import { KeputusanRes } from "@/interface/responses/surat.interface";
+import { DMYIndoToFormat } from "@/utils/dateFormater";
+import { FaFilePdf } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useDeleteIKP, useGetAllIKP } from "@/services/ikp";
-import { IKPListRes } from "@/interface/responses/ikp.interface";
-import store from "@/redux/store";
+import KopSuratModal from "@/components/modals/Surat/KopSuratModal";
+import { LucideMail } from "lucide-react";
+import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
+import {
+  useDeleteKeputusan,
+  useGetAllKeputusan,
+} from "@/services/surat/surat-keputusan";
 
-interface IKPProps {
-  id: string;
-  namaPegawai: string;
-  nip: string;
-  jabatan: string;
-  waktu: string;
-  status: string;
+interface DataProps {
+  id: number;
+  tanggalSurat: string;
+  nomorSurat: string;
+  tingkat: string;
+  nameYangDitetapkan: string;
+  kedua: string;
 }
 
-export default function IKP() {
-  const { role } = store.getState().auth;
+export default function Keputusan() {
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
-
   const [search, setSearch] = useState("");
-  const [searchMonth, setSearchMonth] = useState("");
+  const [searchNo, setSearchNo] = useState("");
+
+  const navigate = useNavigate();
 
   const [startData, setStartData] = useState<number>(0);
   const [endData, setEndData] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalData, setTotalData] = useState<number>(0);
 
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-
-  const navigate = useNavigate();
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllIKP(
-    pageIndex + 1,
-    limit,
-    search,
-    searchMonth.split("-")[1] || "",
-    searchMonth.split("-")[0] || "",
-  );
+  } = useGetAllKeputusan(pageIndex + 1, limit, search, searchNo);
 
-  const paginatedData: IKPProps[] = useMemo(() => {
+  const {
+    data: allKop,
+    isFetching: isFetchingKop,
+    refetch: refetchKop,
+  } = useGetKopSuratBySlug("HUKUMAN_DISIPLIN");
+
+  const kopSuratData = useMemo(() => {
+    if (!allKop) return null;
+    return allKop.data;
+  }, [allKop]);
+
+  useEffect(() => {
+    refetchKop();
+  }, []);
+
+  const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
       const data = allData.data;
       setTotalData(data.pagination.totalData || 0);
-      setTotalPages(data.pagination.totalPages || 1);
+      setTotalPages(data.pagination.totalPages || 0);
 
       const start = pageIndex * limit + 1;
       const end = Math.min(
@@ -69,38 +81,20 @@ export default function IKP() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: IKPListRes) => {
-        const ikps = item.ikps; // misalnya item.ikps adalah array of object dengan properti "status"
-
-        const hasMenunggu = ikps.some((el) => el.status === "MENUNGGU");
-        const allSetujui = ikps.every((el) => el.status === "DISETUJUI");
-        const allDitolak = ikps.every((el) => el.status === "DITOLAK");
-
-        let status = "MENUNGGU"; // default
-
-        if (hasMenunggu) {
-          status = "MENUNGGU";
-        } else if (allSetujui) {
-          status = "SETUJUI";
-        } else if (allDitolak) {
-          status = "DITOLAK";
-        }
-
-        return {
-          id: item.id,
-          namaPegawai: item.name,
-          nip: item.nip,
-          jabatan: item.jabatan,
-          waktu: item.createdAt,
-          status: status,
-        };
-      });
+      return data.response.map((item: KeputusanRes) => ({
+        id: item.id || 0,
+        tanggalSurat: item.tanggalSurat || "",
+        nomorSurat: item.nomorSurat || "",
+        tingkat: item.tingkat || "",
+        nameYangDitetapkan: item.nameYangDitetapkan || "",
+        kedua: item.kedua || "",
+      }));
     } else {
       return [];
     }
   }, [search, limit, pageIndex, allData]);
 
-  const columns: ColumnDef<IKPProps>[] = [
+  const columns: ColumnDef<DataProps>[] = [
     {
       header: "No",
       cell: ({ row }) => {
@@ -110,47 +104,29 @@ export default function IKP() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
-      accessorKey: "namaPegawai",
-      header: "Nama Pegawai",
+      accessorKey: "tanggalSurat",
+      header: "Tanggal",
+      cell: (info) =>
+        info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "nomorSurat",
+      header: "Nomor Surat",
       cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
     },
     {
-      accessorKey: "nip",
-      header: "NIP",
+      accessorKey: "tingkat",
+      header: "TIngkat Hukuman Disiplin",
       cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
     },
     {
-      accessorKey: "jabatan",
-      header: "Jabatan",
+      accessorKey: "nameYangDitetapkan",
+      header: "Jatuhan Hukuman Pada",
       cell: (info) => info.getValue() as string,
-    },
-    {
-      accessorKey: "waktu",
-      header: "Bulan",
-      cell: (info) => {
-        const bulan = info.getValue() as string;
-        return bulan ? YMToIndoFormat(bulan) : "-";
-      },
-    },
-    {
-      accessorKey: "status",
-      header: "Status",
-      cell: (info) => {
-        const status = info.getValue() as string;
-        return (
-          <ul className="px-6">
-            {status === "MENUNGGU" ? (
-              <li className="list-disc font-semibold text-warning">Menunggu</li>
-            ) : status === "DITOLAK" ? (
-              <li className="list-disc font-semibold text-danger">Ditolak</li>
-            ) : (
-              <li className="list-disc font-semibold text-success">
-                Disetujui
-              </li>
-            )}
-          </ul>
-        );
-      },
+      // meta: { align: "center" },
     },
     {
       header: "Aksi",
@@ -159,7 +135,9 @@ export default function IKP() {
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
-              onPress={() => navigate(`/dialog-kinerja/detail-data/${id}`)}
+              onPress={() => {
+                navigate(`/keputusan-hukuman-disiplin/detail-data/${id}`);
+              }}
               isIconOnly
               radius="sm"
               size="sm"
@@ -167,29 +145,25 @@ export default function IKP() {
             >
               <LuEye size={14} />
             </Button>
+            <Link
+              target="__blank"
+              to={`/keputusan-hukuman-disiplin/export-data/${id}`}
+              className="bg-alert-info text-info shadow-sm p-2 rounded-md"
+            >
+              <FaFilePdf size={14} />
+            </Link>
             <Button
-              onPress={() => navigate(`/dialog-kinerja/export-pdf/${id}`)}
+              onPress={() => {
+                setSelectedId(id);
+                onOpenDelete();
+              }}
               isIconOnly
               radius="sm"
               size="sm"
-              className="bg-[#FFF3F6] text-danger shadow-sm"
+              className="bg-alert-danger text-danger shadow-sm"
             >
-              <FaFilePdf size={14} />
+              <LuTrash2 size={14} />
             </Button>
-            {role === "ADMIN" && (
-              <Button
-                onPress={() => {
-                  setSelectedId(id);
-                  onOpenDelete();
-                }}
-                isIconOnly
-                radius="sm"
-                size="sm"
-                className="bg-alert-danger text-danger shadow-sm"
-              >
-                <LuTrash2 size={14} />
-              </Button>
-            )}
           </div>
         );
       },
@@ -203,40 +177,46 @@ export default function IKP() {
     onClose: onCloseDelete,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenKop,
+    onOpen: onOpenKop,
+    onClose: onCloseKop,
+  } = useDisclosure();
+
   const handleSearch = () => {
     setPageIndex(0);
     refetchData();
   };
 
-  useEffect(() => {
-    refetchData();
-  }, [pageIndex, refetchData]);
-
   const handleReset = () => {
     setSearch("");
-    setSearchMonth("");
+    setSearchNo("");
     setPageIndex(0);
     setTimeout(() => {
       refetchData();
     }, 100);
   };
 
+  useEffect(() => {
+    refetchData();
+  }, [pageIndex, refetchData]);
+
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const { mutate: mutateDelete } = useDeleteIKP();
+  const { mutate: mutateDelete } = useDeleteKeputusan();
 
   const handleDelete = () => {
-    if (isLoadingDelete) return; // Cegah pemanggilan ganda
+    if (isLoadingDelete) return;
 
     setLoadingDelete(true);
 
     try {
       mutateDelete(
-        { id: String(selectedId || "") },
+        { id: String(selectedId) },
         {
           onSuccess() {
             SuccessToast({ text: "Data berhasil dihapus" });
             setLoadingDelete(false);
-            setSelectedId("");
+            setSelectedId(null);
             onCloseDelete();
             setPageIndex(0);
             setTimeout(() => {
@@ -263,54 +243,54 @@ export default function IKP() {
 
   return (
     <>
-      <BreadcrumbAdmin location="/Dialog Kinerja (IKP)" />
+      <BreadcrumbAdmin location="/Keputusan-Hukuman-Disiplin" />
       <DeleteModal
         isOpen={isOpenDelete}
         onClose={onCloseDelete}
         isLoading={isLoadingDelete}
         handleSubmit={handleDelete}
       />
-      <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
-        <TitleCase
-          title="Dialog Kinerja (IKP)"
-          text="Berikut ini Mengelola Daftar Dialog Kinerja Intruksi Khusus Pimpinan"
+      {!isFetchingKop && kopSuratData && (
+        <KopSuratModal
+          isOpen={isOpenKop}
+          onClose={onCloseKop}
+          id={kopSuratData?.id}
+          fileShow={kopSuratData?.kopSurat || ""}
+          handleClose={() => {
+            onCloseKop();
+            refetchKop();
+          }}
         />
-        <div className="bg-white shadow-md rounded-xl border">
+      )}
+      <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
+        <div className="flex items-center justify-between gap-2 md:flex-row flex-col">
+          <TitleCase
+            title="Daftar Keputusan Hukuman Disiplin"
+            text="Berikut ini Mengelola Daftar Keputusan Hukuman Disiplin"
+          />
+          <Button
+            onPress={onOpenKop}
+            className="bg-alert-warning text-warning font-semibold flex items-center gap-2 border border-warning"
+            size="sm"
+          >
+            <LucideMail size={16} /> Kop Surat
+          </Button>
+        </div>
+        <div className="bg-white shadow-md rounded-xl border min-h-[70vh]">
           <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
             <div className="pt-8 px-4 w-full text-primary shadow-sm">
-              <div className="flex lg:flex-row flex-col justify-between gap-2 sm:items-end">
-                <div className="flex lg:flex-row flex-col gap-2 items-end w-full">
+              <div className="flex sm:flex-row flex-col justify-between gap-2 sm:items-end">
+                <div className="flex sm:flex-row flex-col gap-2 items-end w-full">
                   <Input
                     aria-label="search"
                     value={search}
                     onChange={(e) => {
                       setSearch(e.target.value);
-                      setPageIndex(0);
                     }}
                     radius="sm"
                     size="sm"
                     variant="bordered"
-                    placeholder="Cari nama pegawai disini"
-                    startContent={
-                      <LuSearch className="text-accent-gray text-xs" />
-                    }
-                    classNames={{
-                      inputWrapper: "border-[0.8px]",
-                      input: "text-xs",
-                    }}
-                  />
-                  <Input
-                    aria-label="searchMonth"
-                    value={searchMonth}
-                    onChange={(e) => {
-                      setSearchMonth(e.target.value);
-                      setPageIndex(0);
-                    }}
-                    type="month"
-                    radius="sm"
-                    size="sm"
-                    variant="bordered"
-                    placeholder="Cari berdasarkan bulan disini"
+                    placeholder="Cari berdasarkan nama disini"
                     startContent={
                       <LuSearch className="text-accent-gray text-xs" />
                     }
@@ -320,7 +300,7 @@ export default function IKP() {
                     }}
                   />
                 </div>
-                <div className="flex items-center sm:flex-nowrap flex-wrap justify-end gap-2">
+                <div className="flex items-center justify-end gap-2">
                   <Button
                     onPress={handleSearch}
                     variant="solid"
@@ -342,26 +322,18 @@ export default function IKP() {
                   >
                     <BiReset size={12} />
                   </Button>
-                  {role === "ADMIN" && (
-                    <Link
-                      to={`/dialog-kinerja/export-excel?month=${searchMonth}`}
-                      className="border-[0.8px] w-24 text-xs border-success text-success flex items-center gap-2 px-2 py-1.5 rounded-md justify-center"
-                    >
-                      <FaFileExcel size={12} /> Export
-                    </Link>
-                  )}
-                  {role === "ADMIN" && (
-                    <Button
-                      onPress={() => navigate("/dialog-kinerja/tambah-data")}
-                      variant="solid"
-                      radius="sm"
-                      size="sm"
-                      startContent={<BiSolidPlusSquare size={12} />}
-                      className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                    >
-                      Tambah
-                    </Button>
-                  )}
+                  <Button
+                    onPress={() =>
+                      navigate(`/keputusan-hukuman-disiplin/tambah-data`)
+                    }
+                    variant="solid"
+                    radius="sm"
+                    size="sm"
+                    startContent={<BiSolidPlusSquare size={12} />}
+                    className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                  >
+                    Tambah
+                  </Button>
                 </div>
               </div>
             </div>
@@ -387,6 +359,7 @@ export default function IKP() {
               radius="sm"
               total={totalPages}
               page={pageIndex + 1}
+              initialPage={pageIndex + 1}
               onChange={(page) => setPageIndex(page - 1)}
               classNames={{
                 item: "border-[0.8px] text-primary border-accent-gray",
