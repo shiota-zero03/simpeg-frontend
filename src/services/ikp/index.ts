@@ -11,7 +11,11 @@ import {
 import { IIKPDetailRes } from "@/interface/responses/ikp.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
-import { StoreIKP, StoreIKPPerubahan, StoreIKPSetuju } from "@/interface/request/ikp.interface";
+import {
+  StoreIKP,
+  StoreIKPPerubahan,
+  StoreIKPSetuju,
+} from "@/interface/request/ikp.interface";
 import store from "@/redux/store";
 
 export const useGetAllIKP = (

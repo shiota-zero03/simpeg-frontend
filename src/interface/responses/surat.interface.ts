@@ -144,3 +144,49 @@ export interface IBeritaAcaraPemeriksaanRes extends BaseRes {
 export interface IBeritaAcaraPemeriksaanDetaiRes extends BaseRes {
   data: BeritaAcaraPemeriksaanRes;
 }
+
+export interface HasilPemeriksaanRes {
+  id: number;
+  lokasi: string;
+  yangMelaporkan: string;
+  nipMelaporkan: string;
+  jabatanMelaporkan: string;
+  pangkatMelaporakn: string;
+  nameKepada: string;
+  namePermintaan: string;
+  tanggalSurat: string;
+  nipPermintaan: string;
+  jabatanPermintaan: string;
+  golonganPermintaan: string;
+  unitPermintaan: string;
+  keterangan: string;
+  createdAt: string;
+  updatedAt: string;
+  hasil: {
+    id: number;
+    idHasilPemeriksaan: number;
+    bentukPelanggaran: string;
+    waktu: string;
+    tempat: string;
+    faktorPemberat: string;
+    faktorMeringankan: string;
+    dampak: string;
+  }[];
+  tembusan: {
+    id: number;
+    jabatan: string;
+    idHasilPemeriksaan: number;
+    idKeputusan: null;
+  }[];
+}
+
+export interface IHasilPemeriksaanRes extends BaseRes {
+  data: {
+    response: HasilPemeriksaanRes[];
+    pagination: PaginationRes;
+  };
+}
+
+export interface IHasilPemeriksaanDetaiRes extends BaseRes {
+  data: HasilPemeriksaanRes;
+}

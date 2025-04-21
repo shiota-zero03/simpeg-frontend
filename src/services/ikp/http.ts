@@ -1,5 +1,9 @@
 import instance from "@/api/axios";
-import { StoreIKP, StoreIKPPerubahan, StoreIKPSetuju } from "@/interface/request/ikp.interface";
+import {
+  StoreIKP,
+  StoreIKPPerubahan,
+  StoreIKPSetuju,
+} from "@/interface/request/ikp.interface";
 import {
   IIKPListRes,
   IIKPDetailRes,
@@ -41,12 +45,24 @@ export const deleteIKP = async (id: string): Promise<IIKPDetailRes> => {
   const response = await instance.delete(`/admin/ikp/delete/${id}`);
   return response.data;
 };
-export const updateStatusIKP = async (id: string, formData: { status: string }): Promise<IIKPDetailRes> => {
-  const response = await instance.put(`/admin/ikp/update/status/${id}`, formData);
+export const updateStatusIKP = async (
+  id: string,
+  formData: { status: string },
+): Promise<IIKPDetailRes> => {
+  const response = await instance.put(
+    `/admin/ikp/update/status/${id}`,
+    formData,
+  );
   return response.data;
 };
-export const updateStatusPerubahanIKP = async (id: string, formData: StoreIKPPerubahan): Promise<IIKPDetailRes> => {
-  const response = await instance.put(`/admin/ikp/update/target/${id}`, formData);
+export const updateStatusPerubahanIKP = async (
+  id: string,
+  formData: StoreIKPPerubahan,
+): Promise<IIKPDetailRes> => {
+  const response = await instance.put(
+    `/admin/ikp/update/target/${id}`,
+    formData,
+  );
   return response.data;
 };
 
