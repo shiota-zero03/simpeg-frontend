@@ -96,12 +96,16 @@ export default function CreateSurat() {
 
   const rules = () => {
     const error: errorProps = {};
-    if(!formData.nomorSurat)  error.nomorSurat = "Nomor surat tidak boleh kosong";
-    if(!formData.tanggalSurat)  error.tanggalSurat = "Tanggal surat tidak boleh kosong";
-    if(!formData.keterangan)  error.keterangan = "Keterangan tidak boleh kosong";
-    if(!formData.iddiPeriksa)  error.pemeriksa = "Pemeriksa tidak boleh kosong";
-    if(!formData.iddiPeriksa)  error.diPeriksa = "Pegawai yang diperiksa tidak boleh kosong";
-    
+    if (!formData.nomorSurat)
+      error.nomorSurat = "Nomor surat tidak boleh kosong";
+    if (!formData.tanggalSurat)
+      error.tanggalSurat = "Tanggal surat tidak boleh kosong";
+    if (!formData.keterangan)
+      error.keterangan = "Keterangan tidak boleh kosong";
+    if (!formData.iddiPeriksa) error.pemeriksa = "Pemeriksa tidak boleh kosong";
+    if (!formData.iddiPeriksa)
+      error.diPeriksa = "Pegawai yang diperiksa tidak boleh kosong";
+
     return error;
   };
 
@@ -160,7 +164,7 @@ export default function CreateSurat() {
 
     const formToSend: StoreBeritaAcaraPemeriksaan = {};
 
-    if(formData.nomorSurat) formToSend.nomorSurat = formData.nomorSurat
+    if (formData.nomorSurat) formToSend.nomorSurat = formData.nomorSurat;
     if (formData.tanggalSurat) {
       const tanggal = new Date(formData.tanggalSurat);
       const tahun = tanggal.getFullYear();
@@ -169,19 +173,27 @@ export default function CreateSurat() {
 
       formToSend.tanggalSurat = `${tahun}-${bulan}-${hari}T00:00:00`;
     }
-    if(formData.keterangan) formToSend.keterangan = formData.keterangan
-    if(formData.pemeriksa) formToSend.pemeriksa = formData.pemeriksa
-    if(formData.nipPemeriksa) formToSend.nipPemeriksa = formData.nipPemeriksa
-    if(formData.jabatanPemeriksa) formToSend.jabatanPemeriksa = formData.jabatanPemeriksa
-    if(formData.pangkatPemeriksa) formToSend.pangkatPemeriksa = formData.pangkatPemeriksa
-    if(formData.golonganPemeriksa) formToSend.golonganPemeriksa = formData.golonganPemeriksa
-    if(formData.unitPemeriksa) formToSend.unitPemeriksa = formData.unitPemeriksa
-    if(formData.diPeriksa) formToSend.diPeriksa = formData.diPeriksa
-    if(formData.nipDiPeriksa) formToSend.nipDiPeriksa = formData.nipDiPeriksa
-    if(formData.jabatanDiPeriksa) formToSend.jabatanDiPeriksa = formData.jabatanDiPeriksa
-    if(formData.pangkatDiPeriksa) formToSend.pangkatDiPeriksa = formData.pangkatDiPeriksa
-    if(formData.golonganDiPeriksa) formToSend.golonganDiPeriksa = formData.golonganDiPeriksa
-    if(formData.unitDiPeriksa) formToSend.unitDiPeriksa = formData.unitDiPeriksa
+    if (formData.keterangan) formToSend.keterangan = formData.keterangan;
+    if (formData.pemeriksa) formToSend.pemeriksa = formData.pemeriksa;
+    if (formData.nipPemeriksa) formToSend.nipPemeriksa = formData.nipPemeriksa;
+    if (formData.jabatanPemeriksa)
+      formToSend.jabatanPemeriksa = formData.jabatanPemeriksa;
+    if (formData.pangkatPemeriksa)
+      formToSend.pangkatPemeriksa = formData.pangkatPemeriksa;
+    if (formData.golonganPemeriksa)
+      formToSend.golonganPemeriksa = formData.golonganPemeriksa;
+    if (formData.unitPemeriksa)
+      formToSend.unitPemeriksa = formData.unitPemeriksa;
+    if (formData.diPeriksa) formToSend.diPeriksa = formData.diPeriksa;
+    if (formData.nipDiPeriksa) formToSend.nipDiPeriksa = formData.nipDiPeriksa;
+    if (formData.jabatanDiPeriksa)
+      formToSend.jabatanDiPeriksa = formData.jabatanDiPeriksa;
+    if (formData.pangkatDiPeriksa)
+      formToSend.pangkatDiPeriksa = formData.pangkatDiPeriksa;
+    if (formData.golonganDiPeriksa)
+      formToSend.golonganDiPeriksa = formData.golonganDiPeriksa;
+    if (formData.unitDiPeriksa)
+      formToSend.unitDiPeriksa = formData.unitDiPeriksa;
 
     try {
       mutatePost(formToSend, {
@@ -211,21 +223,23 @@ export default function CreateSurat() {
   const onChangePemeriksa = (value: string, type: "periksa" | "diperiksa") => {
     const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
 
-    if(type === "periksa") {
-      if(checkPegawai) {
-        setFormData({ 
-          ...formData, 
+    if (type === "periksa") {
+      if (checkPegawai) {
+        setFormData({
+          ...formData,
           idpemeriksa: checkPegawai?.id,
           pemeriksa: checkPegawai?.name,
           nipPemeriksa: checkPegawai?.nip,
-          jabatanPemeriksa: checkPegawai?.jabatan ? checkPegawai?.jabatan.nameJob : "Jabatan tidak diketahui",
+          jabatanPemeriksa: checkPegawai?.jabatan
+            ? checkPegawai?.jabatan.nameJob
+            : "Jabatan tidak diketahui",
           pangkatPemeriksa: checkPegawai?.rank,
           golonganPemeriksa: checkPegawai?.group,
           unitPemeriksa: checkPegawai?.unit ? checkPegawai?.unit.nameUnit : "",
         });
       } else {
-        setFormData({ 
-          ...formData, 
+        setFormData({
+          ...formData,
           idpemeriksa: "",
           pemeriksa: "",
           nipPemeriksa: "",
@@ -233,23 +247,25 @@ export default function CreateSurat() {
           pangkatPemeriksa: "",
           golonganPemeriksa: "",
           unitPemeriksa: "",
-        }); 
+        });
       }
     } else {
-      if(checkPegawai) {
-        setFormData({ 
-          ...formData, 
+      if (checkPegawai) {
+        setFormData({
+          ...formData,
           iddiPeriksa: checkPegawai?.id,
           diPeriksa: checkPegawai?.name,
           nipDiPeriksa: checkPegawai?.nip,
-          jabatanDiPeriksa: checkPegawai?.jabatan ? checkPegawai?.jabatan.nameJob : "Jabatan tidak diketahui",
+          jabatanDiPeriksa: checkPegawai?.jabatan
+            ? checkPegawai?.jabatan.nameJob
+            : "Jabatan tidak diketahui",
           pangkatDiPeriksa: checkPegawai?.rank,
           golonganDiPeriksa: checkPegawai?.group,
           unitDiPeriksa: checkPegawai?.unit ? checkPegawai?.unit.nameUnit : "",
         });
       } else {
-        setFormData({ 
-          ...formData, 
+        setFormData({
+          ...formData,
           iddiPeriksa: "",
           diPeriksa: "",
           nipDiPeriksa: "",
@@ -257,7 +273,7 @@ export default function CreateSurat() {
           pangkatDiPeriksa: "",
           golonganDiPeriksa: "",
           unitDiPeriksa: "",
-        }); 
+        });
       }
     }
   };
@@ -342,144 +358,144 @@ export default function CreateSurat() {
                     <span>kami :</span>
                   </div>
                   <div className="md:ms-4 flex flex-col gap-2">
-                      <div className="overflow-x-auto">
-                        <table>
-                          <tbody>
-                            <tr>
-                              <td className="w-8 text-center"></td>
-                              <td className="min-w-40">Nama</td>
-                              <td className="flex items-center gap-2">
-                                :
-                                <Autocomplete
-                                  isLoading={isFetchingPegawai}
-                                  aria-label="pegawai"
-                                  placeholder="Cari pegawai"
-                                  variant="bordered"
-                                  radius="sm"
-                                  size="sm"
-                                  defaultItems={PEGAWAI_SELECT}
-                                  selectedKey={String(formData.idpemeriksa)}
-                                  onSelectionChange={(value) =>
-                                    onChangePemeriksa(value as string, "periksa")
-                                  }
-                                  className="w-72"
-                                  inputProps={{
-                                    classNames: {
-                                      input: "text-xs",
-                                      inputWrapper:
-                                        "border-[0.8px] border-button-primary rounded-md",
-                                    },
-                                  }}
-                                >
-                                  {(peg) => (
-                                    <AutocompleteItem
-                                      key={peg.id}
-                                      textValue={peg.name}
-                                    >
-                                      {peg.name} -{" "}
-                                      {peg.jabatan?.nameJob ||
-                                        "jabatan tidak diketahui"}{" "}
-                                      - {peg.nip}
-                                    </AutocompleteItem>
-                                  )}
-                                </Autocomplete>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="w-8 text-center"></td>
-                              <td className="min-w-40">NIP</td>
-                              <td className="flex items-center gap-2">
-                                :
-                                <Input
-                                  variant="bordered"
-                                  aria-label="nomorSurat"
-                                  size="sm"
-                                  radius="sm"
-                                  className="w-72"
-                                  classNames={{
+                    <div className="overflow-x-auto">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td className="w-8 text-center"></td>
+                            <td className="min-w-40">Nama</td>
+                            <td className="flex items-center gap-2">
+                              :
+                              <Autocomplete
+                                isLoading={isFetchingPegawai}
+                                aria-label="pegawai"
+                                placeholder="Cari pegawai"
+                                variant="bordered"
+                                radius="sm"
+                                size="sm"
+                                defaultItems={PEGAWAI_SELECT}
+                                selectedKey={String(formData.idpemeriksa)}
+                                onSelectionChange={(value) =>
+                                  onChangePemeriksa(value as string, "periksa")
+                                }
+                                className="w-72"
+                                inputProps={{
+                                  classNames: {
+                                    input: "text-xs",
                                     inputWrapper:
                                       "border-[0.8px] border-button-primary rounded-md",
-                                    input: "text-xs",
-                                  }}
-                                  placeholder="Autofill NIP"
-                                  value={formData.nipPemeriksa}
-                                  isReadOnly
-                                  isDisabled
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="w-8 text-center"></td>
-                              <td className="min-w-40">Jabatan</td>
-                              <td className="flex items-center gap-2">
-                                :
-                                <Input
-                                  variant="bordered"
-                                  aria-label="nomorSurat"
-                                  size="sm"
-                                  radius="sm"
-                                  className="w-72"
-                                  classNames={{
-                                    inputWrapper:
-                                      "border-[0.8px] border-button-primary rounded-md",
-                                    input: "text-xs",
-                                  }}
-                                  placeholder="Autofill Jabatan"
-                                  value={formData.jabatanPemeriksa}
-                                  isReadOnly
-                                  isDisabled
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="w-8 text-center"></td>
-                              <td className="min-w-40">Pangkat</td>
-                              <td className="flex items-center gap-2">
-                                :
-                                <Input
-                                  variant="bordered"
-                                  aria-label="nomorSurat"
-                                  size="sm"
-                                  radius="sm"
-                                  className="w-72"
-                                  classNames={{
-                                    inputWrapper:
-                                      "border-[0.8px] border-button-primary rounded-md",
-                                    input: "text-xs",
-                                  }}
-                                  placeholder="Autofill Pangkat"
-                                  value={formData.pangkatPemeriksa}
-                                  isReadOnly
-                                  isDisabled
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="w-8 text-center"></td>
-                              <td className="min-w-40">Golongan</td>
-                              <td className="flex items-center gap-2">
-                                :
-                                <Input
-                                  variant="bordered"
-                                  aria-label="nomorSurat"
-                                  size="sm"
-                                  radius="sm"
-                                  className="w-72"
-                                  classNames={{
-                                    inputWrapper:
-                                      "border-[0.8px] border-button-primary rounded-md",
-                                    input: "text-xs",
-                                  }}
-                                  placeholder="Autofill Golongan"
-                                  value={formData.golonganPemeriksa}
-                                  isReadOnly
-                                  isDisabled
-                                />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
+                                  },
+                                }}
+                              >
+                                {(peg) => (
+                                  <AutocompleteItem
+                                    key={peg.id}
+                                    textValue={peg.name}
+                                  >
+                                    {peg.name} -{" "}
+                                    {peg.jabatan?.nameJob ||
+                                      "jabatan tidak diketahui"}{" "}
+                                    - {peg.nip}
+                                  </AutocompleteItem>
+                                )}
+                              </Autocomplete>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="w-8 text-center"></td>
+                            <td className="min-w-40">NIP</td>
+                            <td className="flex items-center gap-2">
+                              :
+                              <Input
+                                variant="bordered"
+                                aria-label="nomorSurat"
+                                size="sm"
+                                radius="sm"
+                                className="w-72"
+                                classNames={{
+                                  inputWrapper:
+                                    "border-[0.8px] border-button-primary rounded-md",
+                                  input: "text-xs",
+                                }}
+                                placeholder="Autofill NIP"
+                                value={formData.nipPemeriksa}
+                                isReadOnly
+                                isDisabled
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="w-8 text-center"></td>
+                            <td className="min-w-40">Jabatan</td>
+                            <td className="flex items-center gap-2">
+                              :
+                              <Input
+                                variant="bordered"
+                                aria-label="nomorSurat"
+                                size="sm"
+                                radius="sm"
+                                className="w-72"
+                                classNames={{
+                                  inputWrapper:
+                                    "border-[0.8px] border-button-primary rounded-md",
+                                  input: "text-xs",
+                                }}
+                                placeholder="Autofill Jabatan"
+                                value={formData.jabatanPemeriksa}
+                                isReadOnly
+                                isDisabled
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="w-8 text-center"></td>
+                            <td className="min-w-40">Pangkat</td>
+                            <td className="flex items-center gap-2">
+                              :
+                              <Input
+                                variant="bordered"
+                                aria-label="nomorSurat"
+                                size="sm"
+                                radius="sm"
+                                className="w-72"
+                                classNames={{
+                                  inputWrapper:
+                                    "border-[0.8px] border-button-primary rounded-md",
+                                  input: "text-xs",
+                                }}
+                                placeholder="Autofill Pangkat"
+                                value={formData.pangkatPemeriksa}
+                                isReadOnly
+                                isDisabled
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="w-8 text-center"></td>
+                            <td className="min-w-40">Golongan</td>
+                            <td className="flex items-center gap-2">
+                              :
+                              <Input
+                                variant="bordered"
+                                aria-label="nomorSurat"
+                                size="sm"
+                                radius="sm"
+                                className="w-72"
+                                classNames={{
+                                  inputWrapper:
+                                    "border-[0.8px] border-button-primary rounded-md",
+                                  input: "text-xs",
+                                }}
+                                placeholder="Autofill Golongan"
+                                value={formData.golonganPemeriksa}
+                                isReadOnly
+                                isDisabled
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <div className="flex items-center gap-1 flex-wrap mt-2 whitespace-nowrap">
                     <span>Berdasarkan</span>
@@ -514,167 +530,170 @@ export default function CreateSurat() {
                     <span>saudara</span>
                   </div>
                   <div className="md:ms-4 flex flex-col gap-2">
-                      <div className="overflow-x-auto">
-                        <table>
-                          <tbody>
-                            <tr>
-                              <td className="w-8 text-center"></td>
-                              <td className="min-w-40">Nama</td>
-                              <td className="flex items-center gap-2">
-                                :
-                                <Autocomplete
-                                  isLoading={isFetchingPegawai}
-                                  aria-label="pegawai"
-                                  placeholder="Cari pegawai"
-                                  variant="bordered"
-                                  radius="sm"
-                                  size="sm"
-                                  defaultItems={PEGAWAI_SELECT}
-                                  selectedKey={String(formData.iddiPeriksa)}
-                                  onSelectionChange={(value) =>
-                                    onChangePemeriksa(value as string, "diperiksa")
-                                  }
-                                  className="w-72"
-                                  inputProps={{
-                                    classNames: {
-                                      input: "text-xs",
-                                      inputWrapper:
-                                        "border-[0.8px] border-button-primary rounded-md",
-                                    },
-                                  }}
-                                >
-                                  {(peg) => (
-                                    <AutocompleteItem
-                                      key={peg.id}
-                                      textValue={peg.name}
-                                    >
-                                      {peg.name} -{" "}
-                                      {peg.jabatan?.nameJob ||
-                                        "jabatan tidak diketahui"}{" "}
-                                      - {peg.nip}
-                                    </AutocompleteItem>
-                                  )}
-                                </Autocomplete>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="w-8 text-center"></td>
-                              <td className="min-w-40">NIP</td>
-                              <td className="flex items-center gap-2">
-                                :
-                                <Input
-                                  variant="bordered"
-                                  aria-label="nomorSurat"
-                                  size="sm"
-                                  radius="sm"
-                                  className="w-72"
-                                  classNames={{
+                    <div className="overflow-x-auto">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td className="w-8 text-center"></td>
+                            <td className="min-w-40">Nama</td>
+                            <td className="flex items-center gap-2">
+                              :
+                              <Autocomplete
+                                isLoading={isFetchingPegawai}
+                                aria-label="pegawai"
+                                placeholder="Cari pegawai"
+                                variant="bordered"
+                                radius="sm"
+                                size="sm"
+                                defaultItems={PEGAWAI_SELECT}
+                                selectedKey={String(formData.iddiPeriksa)}
+                                onSelectionChange={(value) =>
+                                  onChangePemeriksa(
+                                    value as string,
+                                    "diperiksa",
+                                  )
+                                }
+                                className="w-72"
+                                inputProps={{
+                                  classNames: {
+                                    input: "text-xs",
                                     inputWrapper:
                                       "border-[0.8px] border-button-primary rounded-md",
-                                    input: "text-xs",
-                                  }}
-                                  placeholder="Autofill NIP"
-                                  value={formData.nipDiPeriksa}
-                                  isReadOnly
-                                  isDisabled
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="w-8 text-center"></td>
-                              <td className="min-w-40">Jabatan</td>
-                              <td className="flex items-center gap-2">
-                                :
-                                <Input
-                                  variant="bordered"
-                                  aria-label="nomorSurat"
-                                  size="sm"
-                                  radius="sm"
-                                  className="w-72"
-                                  classNames={{
-                                    inputWrapper:
-                                      "border-[0.8px] border-button-primary rounded-md",
-                                    input: "text-xs",
-                                  }}
-                                  placeholder="Autofill Jabatan"
-                                  value={formData.jabatanDiPeriksa}
-                                  isReadOnly
-                                  isDisabled
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="w-8 text-center"></td>
-                              <td className="min-w-40">Pangkat</td>
-                              <td className="flex items-center gap-2">
-                                :
-                                <Input
-                                  variant="bordered"
-                                  aria-label="nomorSurat"
-                                  size="sm"
-                                  radius="sm"
-                                  className="w-72"
-                                  classNames={{
-                                    inputWrapper:
-                                      "border-[0.8px] border-button-primary rounded-md",
-                                    input: "text-xs",
-                                  }}
-                                  placeholder="Autofill Pangkat"
-                                  value={formData.pangkatDiPeriksa}
-                                  isReadOnly
-                                  isDisabled
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="w-8 text-center"></td>
-                              <td className="min-w-40">Golongan</td>
-                              <td className="flex items-center gap-2">
-                                :
-                                <Input
-                                  variant="bordered"
-                                  aria-label="nomorSurat"
-                                  size="sm"
-                                  radius="sm"
-                                  className="w-72"
-                                  classNames={{
-                                    inputWrapper:
-                                      "border-[0.8px] border-button-primary rounded-md",
-                                    input: "text-xs",
-                                  }}
-                                  placeholder="Autofill Golongan"
-                                  value={formData.golonganDiPeriksa}
-                                  isReadOnly
-                                  isDisabled
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="w-8 text-center"></td>
-                              <td className="min-w-40">Unit Kerja</td>
-                              <td className="flex items-center gap-2">
-                                :
-                                <Input
-                                  variant="bordered"
-                                  aria-label="nomorSurat"
-                                  size="sm"
-                                  radius="sm"
-                                  className="w-72"
-                                  classNames={{
-                                    inputWrapper:
-                                      "border-[0.8px] border-button-primary rounded-md",
-                                    input: "text-xs",
-                                  }}
-                                  placeholder="Autofill Unit Kerja"
-                                  value={formData.unitDiPeriksa}
-                                  isReadOnly
-                                  isDisabled
-                                />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
+                                  },
+                                }}
+                              >
+                                {(peg) => (
+                                  <AutocompleteItem
+                                    key={peg.id}
+                                    textValue={peg.name}
+                                  >
+                                    {peg.name} -{" "}
+                                    {peg.jabatan?.nameJob ||
+                                      "jabatan tidak diketahui"}{" "}
+                                    - {peg.nip}
+                                  </AutocompleteItem>
+                                )}
+                              </Autocomplete>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="w-8 text-center"></td>
+                            <td className="min-w-40">NIP</td>
+                            <td className="flex items-center gap-2">
+                              :
+                              <Input
+                                variant="bordered"
+                                aria-label="nomorSurat"
+                                size="sm"
+                                radius="sm"
+                                className="w-72"
+                                classNames={{
+                                  inputWrapper:
+                                    "border-[0.8px] border-button-primary rounded-md",
+                                  input: "text-xs",
+                                }}
+                                placeholder="Autofill NIP"
+                                value={formData.nipDiPeriksa}
+                                isReadOnly
+                                isDisabled
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="w-8 text-center"></td>
+                            <td className="min-w-40">Jabatan</td>
+                            <td className="flex items-center gap-2">
+                              :
+                              <Input
+                                variant="bordered"
+                                aria-label="nomorSurat"
+                                size="sm"
+                                radius="sm"
+                                className="w-72"
+                                classNames={{
+                                  inputWrapper:
+                                    "border-[0.8px] border-button-primary rounded-md",
+                                  input: "text-xs",
+                                }}
+                                placeholder="Autofill Jabatan"
+                                value={formData.jabatanDiPeriksa}
+                                isReadOnly
+                                isDisabled
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="w-8 text-center"></td>
+                            <td className="min-w-40">Pangkat</td>
+                            <td className="flex items-center gap-2">
+                              :
+                              <Input
+                                variant="bordered"
+                                aria-label="nomorSurat"
+                                size="sm"
+                                radius="sm"
+                                className="w-72"
+                                classNames={{
+                                  inputWrapper:
+                                    "border-[0.8px] border-button-primary rounded-md",
+                                  input: "text-xs",
+                                }}
+                                placeholder="Autofill Pangkat"
+                                value={formData.pangkatDiPeriksa}
+                                isReadOnly
+                                isDisabled
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="w-8 text-center"></td>
+                            <td className="min-w-40">Golongan</td>
+                            <td className="flex items-center gap-2">
+                              :
+                              <Input
+                                variant="bordered"
+                                aria-label="nomorSurat"
+                                size="sm"
+                                radius="sm"
+                                className="w-72"
+                                classNames={{
+                                  inputWrapper:
+                                    "border-[0.8px] border-button-primary rounded-md",
+                                  input: "text-xs",
+                                }}
+                                placeholder="Autofill Golongan"
+                                value={formData.golonganDiPeriksa}
+                                isReadOnly
+                                isDisabled
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="w-8 text-center"></td>
+                            <td className="min-w-40">Unit Kerja</td>
+                            <td className="flex items-center gap-2">
+                              :
+                              <Input
+                                variant="bordered"
+                                aria-label="nomorSurat"
+                                size="sm"
+                                radius="sm"
+                                className="w-72"
+                                classNames={{
+                                  inputWrapper:
+                                    "border-[0.8px] border-button-primary rounded-md",
+                                  input: "text-xs",
+                                }}
+                                placeholder="Autofill Unit Kerja"
+                                value={formData.unitDiPeriksa}
+                                isReadOnly
+                                isDisabled
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <div className="flex items-center gap-1 flex-wrap mt-2 whitespace-nowrap">
                     <Input
@@ -699,11 +718,15 @@ export default function CreateSurat() {
                     />
                   </div>
                   <div className="flex items-center gap-1 flex-wrap mt-2 whitespace-nowrap">
-                    <span>Demikian Berita Acara Pemeriksaan ini dibuat untuk digunakan sebagaimana mestinya.</span>
+                    <span>
+                      Demikian Berita Acara Pemeriksaan ini dibuat untuk
+                      digunakan sebagaimana mestinya.
+                    </span>
                   </div>
                   <div className="mt-2 w-full">
                     <div className="ms-auto w-full text-end">
-                      Bekasi, { DMYIndoToFormat(new Date().toISOString().split('T')[0]) }
+                      Bekasi,{" "}
+                      {DMYIndoToFormat(new Date().toISOString().split("T")[0])}
                     </div>
                     <div className="mt-2 grid sm:grid-cols-2 grid-cols-1 gap-2">
                       <div className="overflow-x-auto">
@@ -730,7 +753,7 @@ export default function CreateSurat() {
                         </table>
                       </div>
                       <div className="overflow-x-auto">
-                      <table className="w-full">
+                        <table className="w-full">
                           <thead>
                             <tr>
                               <th colSpan={2}>Yang memeriksa</th>

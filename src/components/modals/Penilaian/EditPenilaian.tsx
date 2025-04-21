@@ -249,7 +249,7 @@ const EditPenilaian = ({
               </div>
               <div className="flex flex-col">
                 <div className="bg-[#CEF9EF] p-2 rounded-lg text-sm font-semibold flex items-center justify-between">
-                  <h1>Penilaian Berdasarkan Bobot</h1>
+                  <h1>Penilaian Berdasarkan Nilai</h1>
                   {
                     <LucideChevronDownCircle
                       onClick={() => setIsBobotOpen(!isBobotOpen)}
@@ -575,7 +575,7 @@ const EditPenilaian = ({
               </div>
               <div className="flex flex-col">
                 <div className="bg-[#CEF9EF] p-2 rounded-lg text-sm font-semibold flex items-center justify-between">
-                  <h1>Penilaian Berdasarkan Nilai</h1>
+                  <h1>Penilaian Berdasarkan Bobot</h1>
                   {
                     <LucideChevronDownCircle
                       onClick={() => setIsNilaiOpen(!isNilaiOpen)}

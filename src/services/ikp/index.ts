@@ -5,11 +5,13 @@ import {
   getAllIKP,
   getDetailIKP,
   updateIKP,
+  updateStatusIKP,
+  updateStatusPerubahanIKP,
 } from "./http";
 import { IIKPDetailRes } from "@/interface/responses/ikp.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
-import { StoreIKP } from "@/interface/request/ikp.interface";
+import { StoreIKP, StoreIKPPerubahan, StoreIKPSetuju } from "@/interface/request/ikp.interface";
 import store from "@/redux/store";
 
 export const useGetAllIKP = (
@@ -19,7 +21,7 @@ export const useGetAllIKP = (
   month?: string,
   year?: string,
 ) => {
-  let { role } = store.getState().auth;
+  const { role } = store.getState().auth;
   return useQuery({
     queryKey: ["getAllIKP", role],
     queryFn: () => getAllIKP(page, limit, title, month, year),
@@ -45,28 +47,60 @@ export const useGetDetailIKP = (id: string) => {
     staleTime: 300000,
   });
 };
-export const useUpdateIKP = () => {
-  const queryClient = useQueryClient();
-  return useMutation<
-    IIKPDetailRes,
-    AxiosError<BaseErrorRes>,
-    { id: string; formData: StoreIKP }
-  >({
-    mutationFn: ({ id, formData }) => updateIKP(id, formData),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["updateIKP"] });
-    },
-    onError: (error) => {
-      throw error;
-    },
-  });
-};
 export const useDeleteIKP = () => {
   const queryClient = useQueryClient();
   return useMutation<IIKPDetailRes, AxiosError<BaseErrorRes>, { id: string }>({
     mutationFn: ({ id }) => deleteIKP(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["deleteIKP"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
+  });
+};
+export const useUpdateStatusIKP = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IIKPDetailRes,
+    AxiosError<BaseErrorRes>,
+    { id: string; formData: { status: string } }
+  >({
+    mutationFn: ({ id, formData }) => updateStatusIKP(id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["updateStatusIKP"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
+  });
+};
+export const useUpdateStatusPerubahanIKP = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IIKPDetailRes,
+    AxiosError<BaseErrorRes>,
+    { id: string; formData: StoreIKPPerubahan }
+  >({
+    mutationFn: ({ id, formData }) => updateStatusPerubahanIKP(id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["updateStatusPerubahanIKP"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
+  });
+};
+export const useUpdateIKP = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IIKPDetailRes,
+    AxiosError<BaseErrorRes>,
+    { id: string; formData: StoreIKPSetuju }
+  >({
+    mutationFn: ({ id, formData }) => updateIKP(id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["updateIKP"] });
     },
     onError: (error) => {
       throw error;

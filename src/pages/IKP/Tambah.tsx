@@ -136,7 +136,6 @@ export default function CreateIKP() {
   };
 
   const { mutate: mutatePost } = useCreateIKP();
-
   const handleConfirm = () => {
     setLoadingConfirm(true);
 

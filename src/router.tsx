@@ -127,7 +127,10 @@ export default function Router() {
           <Route path="/sppd" element={<SPPD />} />
           <Route path="/dialog-kinerja" element={<IKP />} />
           <Route path="/dialog-kinerja/tambah-data" element={<TambahIKP />} />
-          <Route path="/dialog-kinerja/detail-data/:id" element={<DetailIKP />} />
+          <Route
+            path="/dialog-kinerja/detail-data/:id"
+            element={<DetailIKP />}
+          />
           <Route path="/e-filling" element={<EFilling />} />
           <Route path="/penilaian-kinerja" element={<PenilaianKinerja />} />
           <Route

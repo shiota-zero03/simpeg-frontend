@@ -55,7 +55,8 @@ export const useUpdateBeritaAcaraPemeriksaan = () => {
     AxiosError<BaseErrorRes>,
     { id: string; formData: StoreBeritaAcaraPemeriksaan }
   >({
-    mutationFn: ({ id, formData }) => updateBeritaAcaraPemeriksaan(id, formData),
+    mutationFn: ({ id, formData }) =>
+      updateBeritaAcaraPemeriksaan(id, formData),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["updateBeritaAcaraPemeriksaan"],

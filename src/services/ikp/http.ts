@@ -1,5 +1,5 @@
 import instance from "@/api/axios";
-import { StoreIKP } from "@/interface/request/ikp.interface";
+import { StoreIKP, StoreIKPPerubahan, StoreIKPSetuju } from "@/interface/request/ikp.interface";
 import {
   IIKPListRes,
   IIKPDetailRes,
@@ -21,9 +21,9 @@ export const getAllIKP = async (
   if (monthly) params.set("monthly", monthly);
   if (yearly) params.set("yearly", yearly);
 
-  let { role } = store.getState().auth;
+  const { role } = store.getState().auth;
   let link = `/admin/ikp?${params.toString()}`;
-  if(role === "PEGAWAI") {
+  if (role === "PEGAWAI") {
     link = `/admin/ikp/users/pegawai?${params.toString()}`;
   }
   const response = await instance.get(link);
@@ -41,12 +41,19 @@ export const deleteIKP = async (id: string): Promise<IIKPDetailRes> => {
   const response = await instance.delete(`/admin/ikp/delete/${id}`);
   return response.data;
 };
-
+export const updateStatusIKP = async (id: string, formData: { status: string }): Promise<IIKPDetailRes> => {
+  const response = await instance.put(`/admin/ikp/update/status/${id}`, formData);
+  return response.data;
+};
+export const updateStatusPerubahanIKP = async (id: string, formData: StoreIKPPerubahan): Promise<IIKPDetailRes> => {
+  const response = await instance.put(`/admin/ikp/update/target/${id}`, formData);
+  return response.data;
+};
 
 export const updateIKP = async (
   id: string,
-  formData: StoreIKP,
+  formData: StoreIKPSetuju,
 ): Promise<IIKPDetailRes> => {
-  const response = await instance.put(`/admin/unit/update/${id}`, formData);
+  const response = await instance.put(`/admin/ikp/update/${id}`, formData);
   return response.data;
 };

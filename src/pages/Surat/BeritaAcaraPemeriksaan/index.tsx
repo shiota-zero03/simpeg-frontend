@@ -16,7 +16,10 @@ import { Link } from "react-router-dom";
 import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
 import KopSuratModal from "@/components/modals/Surat/KopSuratModal";
 import { LucideMail } from "lucide-react";
-import { useDeleteBeritaAcaraPemeriksaan, useGetAllBeritaAcaraPemeriksaan } from "@/services/surat/berita-acara-pemeriksaan";
+import {
+  useDeleteBeritaAcaraPemeriksaan,
+  useGetAllBeritaAcaraPemeriksaan,
+} from "@/services/surat/berita-acara-pemeriksaan";
 
 interface DataProps {
   id: number;
@@ -129,9 +132,7 @@ export default function SuratPemeriksaan() {
           <div className="flex items-center gap-2 justify-center">
             <Button
               onPress={() => {
-                navigate(
-                  `/berita-acara-pemeriksaan/detail-data/${id}`,
-                );
+                navigate(`/berita-acara-pemeriksaan/detail-data/${id}`);
               }}
               isIconOnly
               radius="sm"
@@ -319,9 +320,7 @@ export default function SuratPemeriksaan() {
                   </Button>
                   <Button
                     onPress={() =>
-                      navigate(
-                        `/berita-acara-pemeriksaan/tambah-data`,
-                      )
+                      navigate(`/berita-acara-pemeriksaan/tambah-data`)
                     }
                     variant="solid"
                     radius="sm"
