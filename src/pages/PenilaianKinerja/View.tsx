@@ -30,14 +30,21 @@ import {
   TooltipLoyalitasNilai,
 } from "./TooltipContent";
 import { useState } from "react";
+// import { useGetDetailPenilaian } from "@/services/penilaian";
 
 export default function ViewBobotKinerja() {
+  // const { id } = useParams();
+  // const queryParams = new URLSearchParams(window.location.search);
+  // const m = queryParams.get("m");
+
   const getCurrentMonth = () => {
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0"); // tambahkan leading zero kalau perlu
     return `${year}-${month}`;
   };
+
+  // const { data, isFetching, refetch, error } = useGetDetailPenilaian(id || "");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 

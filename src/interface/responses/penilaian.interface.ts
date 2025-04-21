@@ -34,3 +34,7 @@ export interface IPenilaianListRes extends BaseRes {
     pagination: PaginationRes;
   };
 }
+
+export interface IPenilaianDetailRes extends BaseRes {
+  data: PernilaianListRes;
+}

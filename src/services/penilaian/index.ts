@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllPenilaian } from "./http";
+import { getAllPenilaian, getDetailPenilaian } from "./http";
 
 export const useGetAllPenilaian = (
   page: number,
@@ -11,6 +11,13 @@ export const useGetAllPenilaian = (
   return useQuery({
     queryKey: ["getAllPenilaian"],
     queryFn: () => getAllPenilaian(page, limit, title, monthly, yearly),
+    staleTime: 300000,
+  });
+};
+export const useGetDetailPenilaian = (id: string) => {
+  return useQuery({
+    queryKey: ["getDetailPenilaian"],
+    queryFn: () => getDetailPenilaian(id),
     staleTime: 300000,
   });
 };

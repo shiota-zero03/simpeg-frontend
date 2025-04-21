@@ -318,13 +318,13 @@ export default function DetailIKP() {
         isOpen={isOpenConfirm2}
         onClose={onCloseConfirm2}
         isLoading={isLoadingConfirm}
-        handleSubmit={handleUpdate}
+        handleSubmit={handleConfirmPerubahan}
       />
       <ConfirmModal
         isOpen={isOpenConfirm3}
         onClose={onCloseConfirm3}
         isLoading={isLoadingConfirm}
-        handleSubmit={handleConfirmPerubahan}
+        handleSubmit={handleUpdate}
       />
       <BreadcrumbAdmin location="/Dialog-Kinerja/Detail-Data" />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">

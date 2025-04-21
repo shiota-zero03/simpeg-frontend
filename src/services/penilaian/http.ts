@@ -1,5 +1,8 @@
 import instance from "@/api/axios";
-import { IPenilaianListRes } from "@/interface/responses/penilaian.interface";
+import {
+  IPenilaianDetailRes,
+  IPenilaianListRes,
+} from "@/interface/responses/penilaian.interface";
 
 export const getAllPenilaian = async (
   page: number,
@@ -16,5 +19,12 @@ export const getAllPenilaian = async (
   if (monthly) params.set("monthly", monthly);
   if (yearly) params.set("yearly", yearly);
   const response = await instance.get(`/admin/penilaian?${params.toString()}`);
+  return response.data;
+};
+
+export const getDetailPenilaian = async (
+  id: string,
+): Promise<IPenilaianDetailRes> => {
+  const response = await instance.get(`/admin/penilaian/${id}`);
   return response.data;
 };
