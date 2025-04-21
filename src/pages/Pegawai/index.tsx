@@ -5,8 +5,7 @@ import PegawaiIndex from "./PegawaiIndex";
 import { useState } from "react";
 
 export default function Jabatan() {
-
-  const [ selectedTab, setSelectedTab ] = useState<string>("data-pegawai")
+  const [selectedTab, setSelectedTab] = useState<string>("data-pegawai");
 
   return (
     <>
@@ -18,15 +17,25 @@ export default function Jabatan() {
         />
         <div>
           <div className="overflow-x-auto flex min-w-full">
-            <Button size="sm" radius="none" onPress={() => setSelectedTab('data-pegawai')} className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "data-pegawai" ? "bg-[#E1FFDD] text-success" : "bg-white"}`}>Data Pegawai</Button>
-            <Button size="sm" radius="none" onPress={() => setSelectedTab('pelaporan')} className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pelaporan" ? "bg-[#E1FFDD] text-success" : "bg-white"}`}>Pelaporan</Button>
+            <Button
+              size="sm"
+              radius="none"
+              onPress={() => setSelectedTab("data-pegawai")}
+              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "data-pegawai" ? "bg-[#E1FFDD] text-success" : "bg-white"}`}
+            >
+              Data Pegawai
+            </Button>
+            <Button
+              size="sm"
+              radius="none"
+              onPress={() => setSelectedTab("pelaporan")}
+              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pelaporan" ? "bg-[#E1FFDD] text-success" : "bg-white"}`}
+            >
+              Pelaporan
+            </Button>
           </div>
           <div className="bg-white shadow-md rounded-b-xl border min-h-[70vh]">
-            {selectedTab === "data-pegawai" ? (
-              <PegawaiIndex />
-            ) : (
-              <></>
-            )}
+            {selectedTab === "data-pegawai" ? <PegawaiIndex /> : <></>}
           </div>
         </div>
       </div>

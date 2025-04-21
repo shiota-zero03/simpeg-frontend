@@ -113,7 +113,6 @@ export interface IBeritaAcaraPermintaanDetaiRes extends BaseRes {
   data: BeritaAcaraPermintaanRes;
 }
 
-
 export interface BeritaAcaraPemeriksaanRes {
   id: number;
   tanggalSurat: string;

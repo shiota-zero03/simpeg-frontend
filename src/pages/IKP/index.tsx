@@ -155,7 +155,7 @@ export default function IKP() {
     {
       header: "Aksi",
       cell: ({ row }) => {
-        const { id, status } = row.original;
+        const { id } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
@@ -176,7 +176,7 @@ export default function IKP() {
             >
               <FaFilePdf size={14} />
             </Button>
-            { status !== "DISETUJUI" && (
+            {role === "ADMIN" && (
               <Button
                 onPress={() => navigate(`/dialog-kinerja/edit-data/${id}`)}
                 isIconOnly
@@ -350,7 +350,7 @@ export default function IKP() {
                     size="sm"
                     isIconOnly
                     className="border-[0.8px] text-xs"
-                    >
+                  >
                     <BiReset size={12} />
                   </Button>
                   {role === "ADMIN" && (

@@ -705,9 +705,7 @@ export default function CreateSurat() {
                       {formData.pertanyaan &&
                         formData.pertanyaan.map((item, index) => (
                           <div className="flex flex-col gap-2" key={index}>
-                            <div
-                              className="flex items-center gap-2"
-                            >
+                            <div className="flex items-center gap-2">
                               <div className="w-6">{index + 1}. </div>
                               <Input
                                 variant="bordered"

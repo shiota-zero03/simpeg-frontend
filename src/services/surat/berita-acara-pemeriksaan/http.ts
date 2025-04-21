@@ -34,9 +34,7 @@ export const createBeritaAcaraPemeriksaan = async (
 export const getDetailBeritaAcaraPemeriksaan = async (
   id: string,
 ): Promise<IBeritaAcaraPemeriksaanDetaiRes> => {
-  const response = await instance.get(
-    `/admin/berita-acara-pemeriksaan/${id}`,
-  );
+  const response = await instance.get(`/admin/berita-acara-pemeriksaan/${id}`);
   return response.data;
 };
 export const updateBeritaAcaraPemeriksaan = async (
