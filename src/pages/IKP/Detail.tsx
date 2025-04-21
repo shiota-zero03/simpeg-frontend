@@ -1,20 +1,37 @@
 import { useEffect, useMemo, useState } from "react";
 import { TitleCase } from "@/components/card/TitleCase";
-import { Button, Checkbox, Input, Textarea, useDisclosure } from "@heroui/react";
+import {
+  Button,
+  Checkbox,
+  Input,
+  Textarea,
+  useDisclosure,
+} from "@heroui/react";
 import { LuArrowLeft, LuFilePenLine } from "react-icons/lu";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate, useParams } from "react-router-dom";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
-import { LucideCheckCircle, LucideFileCheck2, LucidePencilLine, LucideSend, LucideX, LucideXCircle } from "lucide-react";
-import { useGetDetailIKP, useUpdateIKP, useUpdateStatusIKP, useUpdateStatusPerubahanIKP } from "@/services/ikp";
+import {
+  LucideCheckCircle,
+  LucideFileCheck2,
+  LucidePencilLine,
+  LucideSend,
+  LucideX,
+  LucideXCircle,
+} from "lucide-react";
+import {
+  useGetDetailIKP,
+  useUpdateIKP,
+  useUpdateStatusIKP,
+  useUpdateStatusPerubahanIKP,
+} from "@/services/ikp";
 import store from "@/redux/store";
 import { TbFaceIdError } from "react-icons/tb";
 import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StoreIKPSetuju } from "@/interface/request/ikp.interface";
-
 
 interface PropsPerubahan {
   id: number;
@@ -65,9 +82,21 @@ export default function DetailIKP() {
     }
   }, [isFetching, refetch]);
 
-  const { isOpen: isOpenConfirm, onClose: onCloseConfirm, onOpen: onOpenConfirm } = useDisclosure();
-  const { isOpen: isOpenConfirm2, onClose: onCloseConfirm2, onOpen: onOpenConfirm2 } = useDisclosure();
-  const { isOpen: isOpenConfirm3, onClose: onCloseConfirm3, onOpen: onOpenConfirm3 } = useDisclosure();
+  const {
+    isOpen: isOpenConfirm,
+    onClose: onCloseConfirm,
+    onOpen: onOpenConfirm,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenConfirm2,
+    onClose: onCloseConfirm2,
+    onOpen: onOpenConfirm2,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenConfirm3,
+    onClose: onCloseConfirm3,
+    onOpen: onOpenConfirm3,
+  } = useDisclosure();
 
   const [isPengajuaun, setIsPengajuan] = useState<boolean>(false);
 
@@ -75,9 +104,9 @@ export default function DetailIKP() {
   const { mutateAsync: mutatePost } = useUpdateStatusIKP();
   const handleConfirm = async () => {
     if (!DATA_DETAIL?.ikps) return;
-  
+
     setIsLoadingConfirm(true);
-  
+
     try {
       for (const element of DATA_DETAIL.ikps) {
         await mutatePost({
@@ -85,35 +114,37 @@ export default function DetailIKP() {
           formData: { status: "DISETUJUI" },
         });
       }
-  
+
       SuccessToast({ text: "Data berhasil diperbarui" });
       onCloseConfirm();
       navigate("/dialog-kinerja");
-  
     } catch (error) {
       const err = error as AxiosError<BaseErrorRes>;
       ErrorToast({
-        text: (err.response?.data.error as string) ||
-        "Terjadi kesalahan saat mengubah data",
+        text:
+          (err.response?.data.error as string) ||
+          "Terjadi kesalahan saat mengubah data",
       });
     } finally {
       setIsLoadingConfirm(false);
     }
   };
 
-  const [formDataPerubahan, setFormDataPerubahan] = useState<PropsPerubahan[]>([]);
+  const [formDataPerubahan, setFormDataPerubahan] = useState<PropsPerubahan[]>(
+    [],
+  );
 
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const handleCheckboxChange = (id: string, checked: boolean) => {
-    const item = DATA_DETAIL?.ikps.find(ikp => String(ikp.id) === id);
+    const item = DATA_DETAIL?.ikps.find((ikp) => String(ikp.id) === id);
     if (!item) return;
 
-    setSelectedIds(prev =>
-      checked ? [...prev, id] : prev.filter(itemId => itemId !== id)
+    setSelectedIds((prev) =>
+      checked ? [...prev, id] : prev.filter((itemId) => itemId !== id),
     );
 
-    setFormDataPerubahan(prev => {
+    setFormDataPerubahan((prev) => {
       if (checked) {
         const newItem: PropsPerubahan = {
           id: item.id || 0,
@@ -127,19 +158,21 @@ export default function DetailIKP() {
         };
         return [...prev, newItem];
       } else {
-        return prev.filter(data => String(data.id) !== id);
+        return prev.filter((data) => String(data.id) !== id);
       }
     });
   };
 
   const handleSelectAll = (checked: boolean) => {
     if (checked && DATA_DETAIL?.ikps) {
-      const filteredIKPs = DATA_DETAIL.ikps.filter(item => item.status !== "DISETUJUI");
-      const allIds = filteredIKPs.map(item => String(item.id));
+      const filteredIKPs = DATA_DETAIL.ikps.filter(
+        (item) => item.status !== "DISETUJUI",
+      );
+      const allIds = filteredIKPs.map((item) => String(item.id));
 
       setSelectedIds(allIds);
-  
-      const allFormData: PropsPerubahan[] = filteredIKPs.map(item => ({
+
+      const allFormData: PropsPerubahan[] = filteredIKPs.map((item) => ({
         id: item.id || 0,
         sasaran: item.sasaran || "",
         indicator: item.indicator || "",
@@ -156,8 +189,12 @@ export default function DetailIKP() {
     }
   };
 
-  const handleUbahTargetChange = (index: number, value: string, type: "ubahTarget" | "dialog" | "description") => {
-    setFormDataPerubahan(prev => {
+  const handleUbahTargetChange = (
+    index: number,
+    value: string,
+    type: "ubahTarget" | "dialog" | "description",
+  ) => {
+    setFormDataPerubahan((prev) => {
       const updated = [...prev];
       updated[index] = {
         ...updated[index],
@@ -170,18 +207,17 @@ export default function DetailIKP() {
   const { mutateAsync: mutatePerubahan } = useUpdateStatusPerubahanIKP();
   const handleConfirmPerubahan = async () => {
     if (!DATA_DETAIL?.ikps) return;
-  
+
     setIsLoadingConfirm(true);
-  
+
     try {
-      const existingIds = formDataPerubahan.map(data => data.id);
+      const existingIds = formDataPerubahan.map((data) => data.id);
       const approvedData: PropsPerubahan[] = DATA_DETAIL.ikps
         .filter(
-          item => 
-            !existingIds.includes(item.id || 0) && 
-            item.status !== "DISETUJUI" // <--- tambahkan ini
+          (item) =>
+            !existingIds.includes(item.id || 0) && item.status !== "DISETUJUI", // <--- tambahkan ini
         )
-        .map(item => ({
+        .map((item) => ({
           id: item.id || 0,
           sasaran: item.sasaran || "",
           indicator: item.indicator || "",
@@ -204,64 +240,68 @@ export default function DetailIKP() {
           },
         });
       }
-  
+
       SuccessToast({ text: "Data berhasil diperbarui" });
       onCloseConfirm();
       navigate("/dialog-kinerja");
-  
     } catch (error) {
       const err = error as AxiosError<BaseErrorRes>;
       ErrorToast({
-        text: (err.response?.data.error as string) ||
-        "Terjadi kesalahan saat mengubah data",
+        text:
+          (err.response?.data.error as string) ||
+          "Terjadi kesalahan saat mengubah data",
       });
     } finally {
       setIsLoadingConfirm(false);
     }
   };
 
-  const [ selectedId, setSelectedid ] = useState<number | null>(null)
+  const [selectedId, setSelectedid] = useState<number | null>(null);
   const { mutate: mutateUpdate } = useUpdateIKP();
   const handleUpdate = async () => {
     setIsLoadingConfirm(true);
 
-    const item = DATA_DETAIL?.ikps.find(ikp => ikp.id === selectedId);
+    const item = DATA_DETAIL?.ikps.find((ikp) => ikp.id === selectedId);
 
-    let dataToSend: StoreIKPSetuju = {
+    const dataToSend: StoreIKPSetuju = {
       sasaran: item?.sasaran || "",
       indicator: item?.indicator || "",
       target: item?.ubahTarget || "",
       status: "DISETUJUI",
-      realisasi: "20"
-    }
+      realisasi: "20",
+    };
 
     try {
-      mutateUpdate({
-        id: String(selectedId), formData: dataToSend
-      }, {
-        onSuccess: () => {
-          SuccessToast({ text: "Data berhasil disetujui" });
-          setIsLoadingConfirm(false);
-          onCloseConfirm();
-          setSelectedid(null)
-          refetch();
+      mutateUpdate(
+        {
+          id: String(selectedId),
+          formData: dataToSend,
         },
-        onError: (error: AxiosError<BaseErrorRes>) => {
-          setIsLoadingConfirm(false);
-          onCloseConfirm();
-          setSelectedid(null)
-          ErrorToast({
-            text:
-              (error.response?.data.error as string) ||
-              "Terjadi kesalahan saat menambah data",
-          });
-          throw error;
+        {
+          onSuccess: () => {
+            SuccessToast({ text: "Data berhasil disetujui" });
+            setIsLoadingConfirm(false);
+            onCloseConfirm();
+            setSelectedid(null);
+            refetch();
+          },
+          onError: (error: AxiosError<BaseErrorRes>) => {
+            setIsLoadingConfirm(false);
+            onCloseConfirm();
+            setSelectedid(null);
+            ErrorToast({
+              text:
+                (error.response?.data.error as string) ||
+                "Terjadi kesalahan saat menambah data",
+            });
+            throw error;
+          },
         },
-      });
+      );
     } catch (error) {
       setIsLoadingConfirm(false);
       onCloseConfirm();
-      setSelectedid(null)
+      setSelectedid(null);
       throw error;
     }
   };
@@ -523,25 +563,50 @@ export default function DetailIKP() {
                             <td
                               className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left`}
                             >
-                              { item.status === "DISETUJUI" ? (
+                              {item.status === "DISETUJUI" ? (
                                 <div className="flex items-center justify-center gap-2">
-                                  <Button size="sm" isIconOnly className="bg-alert-warning text-warning"><LuFilePenLine size={12} /></Button>
+                                  <Button
+                                    size="sm"
+                                    isIconOnly
+                                    className="bg-alert-warning text-warning"
+                                  >
+                                    <LuFilePenLine size={12} />
+                                  </Button>
                                 </div>
                               ) : item.status === "DITOLAK" ? (
                                 <div className="flex items-center justify-center gap-2">
-                                  <Button size="sm" isIconOnly onPress={() => {
-                                    setSelectedid(item.id); 
-                                    setTimeout(() => {
-                                      onOpenConfirm3()
-                                    }, 100)
-                                  }} className="bg-alert-success text-success"><LucideCheckCircle size={12} /></Button>
-                                  <Button size="sm" isIconOnly className="bg-alert-danger text-danger"><LucideXCircle size={12} /></Button>
+                                  <Button
+                                    size="sm"
+                                    isIconOnly
+                                    onPress={() => {
+                                      setSelectedid(item.id);
+                                      setTimeout(() => {
+                                        onOpenConfirm3();
+                                      }, 100);
+                                    }}
+                                    className="bg-alert-success text-success"
+                                  >
+                                    <LucideCheckCircle size={12} />
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    isIconOnly
+                                    className="bg-alert-danger text-danger"
+                                  >
+                                    <LucideXCircle size={12} />
+                                  </Button>
                                 </div>
                               ) : (
                                 <div className="flex items-center justify-center gap-2">
-                                  <Button size="sm" isIconOnly className="bg-alert-info text-info"><LucidePencilLine /></Button>
+                                  <Button
+                                    size="sm"
+                                    isIconOnly
+                                    className="bg-alert-info text-info"
+                                  >
+                                    <LucidePencilLine />
+                                  </Button>
                                 </div>
-                              ) }
+                              )}
                             </td>
                           )}
                         </tr>
@@ -655,8 +720,13 @@ export default function DetailIKP() {
                       >
                         <Checkbox
                           isSelected={
-                            (DATA_DETAIL?.ikps?.filter(item => item.status !== "DISETUJUI").length ?? 0) > 0 &&
-                            selectedIds.length === DATA_DETAIL?.ikps?.filter(item => item.status !== "DISETUJUI").length
+                            (DATA_DETAIL?.ikps?.filter(
+                              (item) => item.status !== "DISETUJUI",
+                            ).length ?? 0) > 0 &&
+                            selectedIds.length ===
+                              DATA_DETAIL?.ikps?.filter(
+                                (item) => item.status !== "DISETUJUI",
+                              ).length
                           }
                           onChange={(e) => handleSelectAll(e.target.checked)}
                         />
@@ -694,13 +764,16 @@ export default function DetailIKP() {
                         <tr key={index}>
                           <td className="flex items-center justify-center px-2 py-4 text-xs border-b-2 border-accent-gray max-w-20">
                             <Checkbox
-                                isSelected={selectedIds.includes(String(item.id))}
-                                isDisabled={item.status === "DISETUJUI"}
-                                isIndeterminate={item.status === "DISETUJUI"}
-                                onChange={(e) =>
-                                  handleCheckboxChange(String(item.id), e.target.checked)
-                                }
-                              />
+                              isSelected={selectedIds.includes(String(item.id))}
+                              isDisabled={item.status === "DISETUJUI"}
+                              isIndeterminate={item.status === "DISETUJUI"}
+                              onChange={(e) =>
+                                handleCheckboxChange(
+                                  String(item.id),
+                                  e.target.checked,
+                                )
+                              }
+                            />
                           </td>
                           <td
                             className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-center w-10`}
@@ -745,12 +818,17 @@ export default function DetailIKP() {
                 </table>
               </div>
               <div className="mt-2 flex flex-col gap-4">
-                <div className="bg-[#F1FCFA] text-black font-semibold py-3 px-4 text-xs rounded-lg">Pengajuan Perubahan</div>
+                <div className="bg-[#F1FCFA] text-black font-semibold py-3 px-4 text-xs rounded-lg">
+                  Pengajuan Perubahan
+                </div>
                 <div>
                   {formDataPerubahan.length > 0 ? (
                     <div className="overflow-x-auto">
                       {formDataPerubahan.map((item, index) => (
-                        <div className="flex items-start gap-2 mb-4 w-full" key={index}>
+                        <div
+                          className="flex items-start gap-2 mb-4 w-full"
+                          key={index}
+                        >
                           <div className="w-10 flex items-center justify-center border bg-[#F2F2F7] rounded-md p-2.5 text-sm">
                             {index + 1}
                           </div>
@@ -805,11 +883,22 @@ export default function DetailIKP() {
                             </div>
                             <div className="md:col-span-6">
                               <div className="mb-1">
-                                <label className="text-xs font-medium" htmlFor="ubah-target">Ubah Target</label>
+                                <label
+                                  className="text-xs font-medium"
+                                  htmlFor="ubah-target"
+                                >
+                                  Ubah Target
+                                </label>
                               </div>
                               <Input
                                 value={item.ubahTarget}
-                                onChange={(e) => handleUbahTargetChange(index, e.target.value, "ubahTarget")}
+                                onChange={(e) =>
+                                  handleUbahTargetChange(
+                                    index,
+                                    e.target.value,
+                                    "ubahTarget",
+                                  )
+                                }
                                 aria-label="Judul"
                                 labelPlacement="outside"
                                 placeholder="Masukkan disini"
@@ -824,11 +913,22 @@ export default function DetailIKP() {
                             </div>
                             <div className="md:col-span-3">
                               <div className="mb-1">
-                                <label className="text-xs font-medium" htmlFor="ubah-target">Keterangan</label>
+                                <label
+                                  className="text-xs font-medium"
+                                  htmlFor="ubah-target"
+                                >
+                                  Keterangan
+                                </label>
                               </div>
                               <Textarea
                                 value={item.description}
-                                onChange={(e) => handleUbahTargetChange(index, e.target.value, "description")}
+                                onChange={(e) =>
+                                  handleUbahTargetChange(
+                                    index,
+                                    e.target.value,
+                                    "description",
+                                  )
+                                }
                                 aria-label="Judul"
                                 labelPlacement="outside"
                                 placeholder="Masukkan disini"
@@ -843,11 +943,22 @@ export default function DetailIKP() {
                             </div>
                             <div className="md:col-span-3">
                               <div className="mb-1">
-                                <label className="text-xs font-medium" htmlFor="ubah-target">Dialog Kinerja</label>
+                                <label
+                                  className="text-xs font-medium"
+                                  htmlFor="ubah-target"
+                                >
+                                  Dialog Kinerja
+                                </label>
                               </div>
                               <Textarea
                                 value={item.dialog}
-                                onChange={(e) => handleUbahTargetChange(index, e.target.value, "dialog")}
+                                onChange={(e) =>
+                                  handleUbahTargetChange(
+                                    index,
+                                    e.target.value,
+                                    "dialog",
+                                  )
+                                }
                                 aria-label="Judul"
                                 labelPlacement="outside"
                                 placeholder="Masukkan disini"
@@ -862,12 +973,14 @@ export default function DetailIKP() {
                             </div>
                           </div>
                         </div>
-                      ))}                        
+                      ))}
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center gap-2">
                       <TbFaceIdError size={60} />
-                      <span className="italic text-sm">Belum ada data yang dipilih</span>
+                      <span className="italic text-sm">
+                        Belum ada data yang dipilih
+                      </span>
                     </div>
                   )}
                 </div>

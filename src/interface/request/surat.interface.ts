@@ -78,3 +78,30 @@ export interface StoreBeritaAcaraPemeriksaan {
   golonganDiPeriksa?: string;
   unitDiPeriksa?: string;
 }
+
+export interface StoreHasilPemeriksaan {
+  lokasi?: string;
+  yangMelaporkan?: string;
+  nipMelaporkan?: string;
+  jabatanMelaporkan?: string;
+  pangkatMelaporakn?: string;
+  nameKepada?: string;
+  namePermintaan?: string;
+  nipPermintaan?: string;
+  jabatanPermintaan?: string;
+  golonganPermintaan?: string;
+  unitPermintaan?: string;
+  tanggalSurat?: string;
+  keterangan?: string;
+  hasil?: {
+    bentukPelanggaran?: string;
+    waktu?: string;
+    tempat?: string;
+    faktorPemberat?: string;
+    faktorMeringankan?: string;
+    dampak?: string;
+  }[];
+  tembusan?: {
+    jabatan?: string;
+  }[];
+}

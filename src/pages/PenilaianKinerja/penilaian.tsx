@@ -4,20 +4,18 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
 import { LuCalendarDays, LuEye, LuSearch } from "react-icons/lu";
 import { BiReset, BiSearch } from "react-icons/bi";
-import { useGetAllBerita } from "@/services/berita";
-import { penilaianBobotDummy } from "@/constants/DummyData";
 import { useNavigate } from "react-router-dom";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa";
+import { useGetAllPenilaian } from "@/services/penilaian";
+import { PernilaianListRes } from "@/interface/responses/penilaian.interface";
 
 interface DataProps {
   id: string;
   nip?: string;
   nama: string;
-  kinerja: number;
-  disiplin: number;
-  loyalitas: number;
-  kerjasama: number;
-  attitude: number;
+  jabatan?: string;
+  totalBobot: number;
+  totalNilai: number;
 }
 
 export default function ListKaryawan() {
@@ -34,46 +32,33 @@ export default function ListKaryawan() {
   const [totalData, setTotalData] = useState<number>(0);
 
   const {
-    // data: allData,
-    // isFetching: isFetchingData,
+    data: allData,
+    isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllBerita(pageIndex + 1, limit, search);
-
-  const allData = penilaianBobotDummy;
+  } = useGetAllPenilaian(pageIndex + 1, limit, search);
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
-      const data = allData;
-      // setTotalData(data.pagination.totalData || 0);
-      // setTotalPages(data.pagination.totalPages || 0);
-      setTotalData(0);
-      setTotalPages(0);
+      const data = allData.data;
+      setTotalData(data.pagination.totalData || 0);
+      setTotalPages(data.pagination.totalPages || 0);
 
       const start = pageIndex * limit + 1;
-      // const end = Math.min(
-      //   (pageIndex + 1) * limit,
-      //   data.pagination.totalData || 0,
-      // );
-      const end = Math.min(0);
+      const end = Math.min(
+        (pageIndex + 1) * limit,
+        data.pagination.totalData || 0,
+      );
 
       setStartData(start);
       setEndData(end);
 
-      return data.map((item: DataProps) => ({
+      return data.response.map((item: PernilaianListRes) => ({
         id: item.id,
-        nip: item.nip,
-        nama: item.nama,
-        kinerja: item.kinerja,
-        disiplin: item.disiplin,
-        loyalitas: item.loyalitas,
-        kerjasama: item.kerjasama,
-        attitude: item.attitude,
-        total:
-          item.kinerja +
-          item.disiplin +
-          item.loyalitas +
-          item.kerjasama +
-          item.attitude,
+        nip: item.user.nip || "",
+        nama: item.user.name || "",
+        jabatan: item.user.jabatan ? item.user.jabatan.nameJob : "-",
+        totalBobot: item.totalBobot || 0,
+        totalNilai: item.totalNilai || 0,
       }));
     } else {
       return [];
@@ -102,38 +87,20 @@ export default function ListKaryawan() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "kinerja",
-      header: "Kinerja",
+      accessorKey: "jabatan",
+      header: "Jabatan",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "totalBobot",
+      header: "Total Penilaian Berdasarkan Bobot",
       cell: (info) => (info.getValue() as number) || 0,
       meta: { align: "center" },
     },
     {
-      accessorKey: "disiplin",
-      header: "Disiplin",
-      cell: (info) => (info.getValue() as number) || 0,
-      meta: { align: "center" },
-    },
-    {
-      accessorKey: "loyalitas",
-      header: "Loyalitas",
-      cell: (info) => (info.getValue() as number) || 0,
-      meta: { align: "center" },
-    },
-    {
-      accessorKey: "kerjasama",
-      header: "Kerjasama",
-      cell: (info) => (info.getValue() as number) || 0,
-      meta: { align: "center" },
-    },
-    {
-      accessorKey: "attitude",
-      header: "Attitude",
-      cell: (info) => (info.getValue() as number) || 0,
-      meta: { align: "center" },
-    },
-    {
-      accessorKey: "total",
-      header: "Total",
+      accessorKey: "totalNilai",
+      header: "Total Penilaian Berdasarkan Nilai",
       cell: (info) => (info.getValue() as number) || 0,
       meta: { align: "center" },
     },
@@ -196,12 +163,12 @@ export default function ListKaryawan() {
         <div className="bg-white shadow-md rounded-xl border min-h-[70vh]">
           <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
             <div className="pt-8 px-4 w-full text-primary shadow-sm">
-              <div className="flex md:items-center md:flex-row flex-col md:justify-between gap-2">
+              <div className="flex md:items-center xl:flex-row flex-col md:justify-between gap-2">
                 <h1 className="font-semibold">
                   Daftar Penilaian Kinerja Pegawai
                 </h1>
-                <div className="flex sm:flex-row flex-col justify-between gap-2 sm:items-end">
-                  <div className="flex sm:flex-row flex-col gap-2 items-end w-full">
+                <div className="flex lg:flex-row flex-col justify-between gap-2 sm:items-end">
+                  <div className="flex lg:flex-row flex-col gap-2 items-end w-full">
                     <Input
                       aria-label="search"
                       value={search}
@@ -280,7 +247,7 @@ export default function ListKaryawan() {
           <div>
             <div className="py-8">
               <DataTables
-                isLoading={false}
+                isLoading={isFetchingData}
                 columns={columns}
                 data={paginatedData}
               />

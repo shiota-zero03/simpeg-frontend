@@ -90,6 +90,16 @@ const ViewBeritaAcaraPemeriksaan = lazy(
 const ExportBeritaAcaraPemeriksaan = lazy(
   () => import("@/pages/Surat/BeritaAcaraPemeriksaan/Export"),
 );
+const HasilPemeriksaan = lazy(() => import("@/pages/Surat/HasilPemeriksaan"));
+const CreateHasilPemeriksaan = lazy(
+  () => import("@/pages/Surat/HasilPemeriksaan/Created"),
+);
+const ViewHasilPemeriksaan = lazy(
+  () => import("@/pages/Surat/HasilPemeriksaan/Detail"),
+);
+const ExportHasilPemeriksaan = lazy(
+  () => import("@/pages/Surat/HasilPemeriksaan/Export"),
+);
 
 export default function Router() {
   return (
@@ -186,6 +196,19 @@ export default function Router() {
             path="/berita-acara-pemeriksaan/detail-data/:id"
             element={<ViewBeritaAcaraPemeriksaan />}
           />
+
+          <Route
+            path="/laporan-hasil-pemeriksaan"
+            element={<HasilPemeriksaan />}
+          />
+          <Route
+            path="/laporan-hasil-pemeriksaan/tambah-data"
+            element={<CreateHasilPemeriksaan />}
+          />
+          <Route
+            path="/laporan-hasil-pemeriksaan/detail-data/:id"
+            element={<ViewHasilPemeriksaan />}
+          />
         </Route>
 
         {/* export */}
@@ -212,6 +235,10 @@ export default function Router() {
         <Route
           path="/berita-acara-pemeriksaan/export-data/:id"
           element={<ExportBeritaAcaraPemeriksaan />}
+        />
+        <Route
+          path="/laporan-hasil-pemeriksaan/export-data/:id"
+          element={<ExportHasilPemeriksaan />}
         />
 
         <Route path="*" element={<Error404 />} />

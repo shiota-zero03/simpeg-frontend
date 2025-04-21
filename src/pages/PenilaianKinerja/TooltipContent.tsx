@@ -13,28 +13,39 @@ export const TooltipKinerjaNilai = () => {
           <strong>Tingkat 2 (Nilai 2) - Kurang</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>Pelaksanaan Kinerja sudah mempunyai target kinerja tertuang dalam jobdesk masing-masing tenaga Non ASN</li>
+            <li>
+              Pelaksanaan Kinerja sudah mempunyai target kinerja tertuang dalam
+              jobdesk masing-masing tenaga Non ASN
+            </li>
           </ul>
         </li>
         <li>
           <strong>Tingkat 3 (Nilai 3) - Cukup</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>Pelaksanaan kinerja dapat diselesaikan namun ada beberapa yang selesai dan sebagian tidak tepat waktu</li>
+            <li>
+              Pelaksanaan kinerja dapat diselesaikan namun ada beberapa yang
+              selesai dan sebagian tidak tepat waktu
+            </li>
           </ul>
         </li>
         <li>
           <strong>Tingkat 4 (Nilai 4) - Baik</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>Pelaksanaan kinerja selesai tepat pada waktu yang ditentukan </li>
+            <li>
+              Pelaksanaan kinerja selesai tepat pada waktu yang ditentukan{" "}
+            </li>
           </ul>
         </li>
         <li>
           <strong>Tingkat 5 (Nilai 5) - Sangat Baik</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>Pelaksanaan kinerja selesai semua tepat pada waktunya ditambah dengan penyelesaian tugas tambahan dan disposisi dari pimpinan</li>
+            <li>
+              Pelaksanaan kinerja selesai semua tepat pada waktunya ditambah
+              dengan penyelesaian tugas tambahan dan disposisi dari pimpinan
+            </li>
           </ul>
         </li>
       </ol>
@@ -50,35 +61,51 @@ export const TooltipDisiplinNilai = () => {
           <strong>Tingkat 1 (Nilai 1) - Sangat Kurang</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>Tidak Hadir lebih dari 3 hari, berturut-turut, mauapun berulang dalam jeda waktu tertentu</li>
+            <li>
+              Tidak Hadir lebih dari 3 hari, berturut-turut, mauapun berulang
+              dalam jeda waktu tertentu
+            </li>
           </ul>
         </li>
         <li>
           <strong>Tingkat 2 (Nilai 2) - Kurang</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>Tidak tepat waktu datang dan pulang kerja, tidak tepat penggunaan seragam dinas</li>
+            <li>
+              Tidak tepat waktu datang dan pulang kerja, tidak tepat penggunaan
+              seragam dinas
+            </li>
           </ul>
         </li>
         <li>
           <strong>Tingkat 3 (Nilai 3) - Cukup</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>Tepat waktu datang dan/atau tidak tepat waktu pulang kerja atau sebaliknya, tidak tepat penggunaan seragam dinas</li>
+            <li>
+              Tepat waktu datang dan/atau tidak tepat waktu pulang kerja atau
+              sebaliknya, tidak tepat penggunaan seragam dinas
+            </li>
           </ul>
         </li>
         <li>
           <strong>Tingkat 4 (Nilai 4) - Baik</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>Tepat waktu datang dan pulang kerja, tidak tepat penggunaan seragam dinas dan/atau sebaliknya </li>
+            <li>
+              Tepat waktu datang dan pulang kerja, tidak tepat penggunaan
+              seragam dinas dan/atau sebaliknya{" "}
+            </li>
           </ul>
         </li>
         <li>
           <strong>Tingkat 5 (Nilai 5) - Sangat Baik</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>tepat waktu datang, tepat waktu pulang, tepat penggunaan seragam dinas, plus pulang lebih akhir untuk menyelesaikan tugas dilebih waktu.</li>
+            <li>
+              tepat waktu datang, tepat waktu pulang, tepat penggunaan seragam
+              dinas, plus pulang lebih akhir untuk menyelesaikan tugas dilebih
+              waktu.
+            </li>
           </ul>
         </li>
       </ol>
@@ -95,7 +122,10 @@ export const TooltipLoyalitasNilai = () => {
           <br />
           <ul className="list-disc pl-4 space-y-2">
             <li>Keinginan kuat untuk tetap menjadi anggota organisasi</li>
-            <li>Keinginan dan penerimaan yang kuat terhadap nilai dan tujuan organisasi</li>
+            <li>
+              Keinginan dan penerimaan yang kuat terhadap nilai dan tujuan
+              organisasi
+            </li>
             <li>Memberikan ide kreatif tanpa paksaaan</li>
             <li>Melaksanakan tugas tanpa paksaan</li>
             <li>Melaporkan hasil kerja pada atasan</li>
@@ -106,7 +136,10 @@ export const TooltipLoyalitasNilai = () => {
           <br />
           <ul className="list-disc pl-4 space-y-2">
             <li>Keinginan kuat untuk tetap menjadi anggota organisasi</li>
-            <li>Keinginan dan penerimaan yang kuat terhadap nilai dan tujuan organisasi</li>
+            <li>
+              Keinginan dan penerimaan yang kuat terhadap nilai dan tujuan
+              organisasi
+            </li>
             <li>Memberikan ide kreatif tanpa paksaaan</li>
             <li>Melaksanakan tugas tanpa paksaan</li>
             <li>Melaporkan hasil kerja pada atasan</li>
@@ -117,7 +150,10 @@ export const TooltipLoyalitasNilai = () => {
           <br />
           <ul className="list-disc pl-4 space-y-2">
             <li>Keinginan kuat untuk tetap menjadi anggota organisasi</li>
-            <li>Keinginan dan penerimaan yang kuat terhadap nilai dan tujuan organisasi</li>
+            <li>
+              Keinginan dan penerimaan yang kuat terhadap nilai dan tujuan
+              organisasi
+            </li>
             <li>Memberikan ide kreatif tanpa paksaaan</li>
             <li>Melaksanakan tugas tanpa paksaan</li>
             <li>Melaporkan hasil kerja pada atasan</li>
@@ -128,7 +164,10 @@ export const TooltipLoyalitasNilai = () => {
           <br />
           <ul className="list-disc pl-4 space-y-2">
             <li>Keinginan kuat untuk tetap menjadi anggota organisasi</li>
-            <li>Keinginan dan penerimaan yang kuat terhadap nilai dan tujuan organisasi</li>
+            <li>
+              Keinginan dan penerimaan yang kuat terhadap nilai dan tujuan
+              organisasi
+            </li>
             <li>Memberikan ide kreatif tanpa paksaaan</li>
             <li>Melaksanakan tugas tanpa paksaan</li>
             <li>Melaporkan hasil kerja pada atasan</li>
@@ -139,7 +178,10 @@ export const TooltipLoyalitasNilai = () => {
           <br />
           <ul className="list-disc pl-4 space-y-2">
             <li>Keinginan kuat untuk tetap menjadi anggota organisasi</li>
-            <li>Keinginan dan penerimaan yang kuat terhadap nilai dan tujuan organisasi</li>
+            <li>
+              Keinginan dan penerimaan yang kuat terhadap nilai dan tujuan
+              organisasi
+            </li>
             <li>Memberikan ide kreatif tanpa paksaaan</li>
             <li>Melaksanakan tugas tanpa paksaan</li>
             <li>Melaporkan hasil kerja pada atasan</li>
@@ -165,28 +207,43 @@ export const TooltipKerjasamaNilai = () => {
           <strong>Tingkat 2 (Nilai 2) - Kurang</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>Melaksanakan tugas dan Tanggung jawab secara bersama-sama dalam menyelesaikan pekerjaan</li>
+            <li>
+              Melaksanakan tugas dan Tanggung jawab secara bersama-sama dalam
+              menyelesaikan pekerjaan
+            </li>
           </ul>
         </li>
         <li>
           <strong>Tingkat 3 (Nilai 3) - Cukup</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>Tanggung jawab secara bersama-sama menyelesaikan pekerjaan, dan saling berkontribusi terhadap penyelesaian pekerjaan</li>
+            <li>
+              Tanggung jawab secara bersama-sama menyelesaikan pekerjaan, dan
+              saling berkontribusi terhadap penyelesaian pekerjaan
+            </li>
           </ul>
         </li>
         <li>
           <strong>Tingkat 4 (Nilai 4) - Baik</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>Tanggung jawab secara bersama-sama menyelesaikan pekerjaan, saling berkontribusi terhadap penyelesaian pekerjaan, dan Pengerahan kemampuan secara maksimal</li>
+            <li>
+              Tanggung jawab secara bersama-sama menyelesaikan pekerjaan, saling
+              berkontribusi terhadap penyelesaian pekerjaan, dan Pengerahan
+              kemampuan secara maksimal
+            </li>
           </ul>
         </li>
         <li>
           <strong>Tingkat 5 (Nilai 5) - Sangat Baik</strong>
           <br />
           <ul className="list-disc pl-4 space-y-2">
-            <li>Tanggung jawab secara bersama-sama menyelesaikan pekerjaan, saling berkontribusi terhadap penyelesaian pekerjaan, dan Pengerahan kemampuan secara maksimal serta mampu melaksanakan tugas bersama lintas sektoral</li>
+            <li>
+              Tanggung jawab secara bersama-sama menyelesaikan pekerjaan, saling
+              berkontribusi terhadap penyelesaian pekerjaan, dan Pengerahan
+              kemampuan secara maksimal serta mampu melaksanakan tugas bersama
+              lintas sektoral
+            </li>
           </ul>
         </li>
       </ol>
@@ -266,10 +323,16 @@ export const TooltipBobotKinerja = () => {
           <strong>Nilai ≤ 50 (Tidak dapat direkomendasikan)</strong>
         </li>
         <li>
-          <strong>Nilai 50-60 (Dapat dipertimbangkan untuk direkomendasikan dengan catatan)</strong>
+          <strong>
+            Nilai 50-60 (Dapat dipertimbangkan untuk direkomendasikan dengan
+            catatan)
+          </strong>
         </li>
         <li>
-          <strong>Nilai 61-70 (Dapat dipertimbangkan untuk direkomendasikan dengan catatan)</strong>
+          <strong>
+            Nilai 61-70 (Dapat dipertimbangkan untuk direkomendasikan dengan
+            catatan)
+          </strong>
         </li>
         <li>
           <strong>Nilai 71-80 (Direkomendasikan dengan catatan)</strong>
@@ -290,10 +353,16 @@ export const TooltipBobotDisiplin = () => {
           <strong>Nilai ≤ 50 (Tidak dapat direkomendasikan)</strong>
         </li>
         <li>
-          <strong>Nilai 50-60 (Dapat dipertimbangkan untuk direkomendasikan dengan catatan)</strong>
+          <strong>
+            Nilai 50-60 (Dapat dipertimbangkan untuk direkomendasikan dengan
+            catatan)
+          </strong>
         </li>
         <li>
-          <strong>Nilai 61-70 (Dapat dipertimbangkan untuk direkomendasikan dengan catatan)</strong>
+          <strong>
+            Nilai 61-70 (Dapat dipertimbangkan untuk direkomendasikan dengan
+            catatan)
+          </strong>
         </li>
         <li>
           <strong>Nilai 71-80 (Direkomendasikan dengan catatan)</strong>
@@ -314,10 +383,16 @@ export const TooltipBobotLoyalitas = () => {
           <strong>Nilai ≤ 50 (Tidak dapat direkomendasikan)</strong>
         </li>
         <li>
-          <strong>Nilai 50-60 (Dapat dipertimbangkan untuk direkomendasikan dengan catatan)</strong>
+          <strong>
+            Nilai 50-60 (Dapat dipertimbangkan untuk direkomendasikan dengan
+            catatan)
+          </strong>
         </li>
         <li>
-          <strong>Nilai 61-70 (Dapat dipertimbangkan untuk direkomendasikan dengan catatan)</strong>
+          <strong>
+            Nilai 61-70 (Dapat dipertimbangkan untuk direkomendasikan dengan
+            catatan)
+          </strong>
         </li>
         <li>
           <strong>Nilai 71-80 (Direkomendasikan dengan catatan)</strong>
@@ -338,10 +413,16 @@ export const TooltipBobotKerjasama = () => {
           <strong>Nilai ≤ 50 (Tidak dapat direkomendasikan)</strong>
         </li>
         <li>
-          <strong>Nilai 50-60 (Dapat dipertimbangkan untuk direkomendasikan dengan catatan)</strong>
+          <strong>
+            Nilai 50-60 (Dapat dipertimbangkan untuk direkomendasikan dengan
+            catatan)
+          </strong>
         </li>
         <li>
-          <strong>Nilai 61-70 (Dapat dipertimbangkan untuk direkomendasikan dengan catatan)</strong>
+          <strong>
+            Nilai 61-70 (Dapat dipertimbangkan untuk direkomendasikan dengan
+            catatan)
+          </strong>
         </li>
         <li>
           <strong>Nilai 71-80 (Direkomendasikan dengan catatan)</strong>
@@ -362,10 +443,16 @@ export const TooltipBobotAttitude = () => {
           <strong>Nilai ≤ 50 (Tidak dapat direkomendasikan)</strong>
         </li>
         <li>
-          <strong>Nilai 50-60 (Dapat dipertimbangkan untuk direkomendasikan dengan catatan)</strong>
+          <strong>
+            Nilai 50-60 (Dapat dipertimbangkan untuk direkomendasikan dengan
+            catatan)
+          </strong>
         </li>
         <li>
-          <strong>Nilai 61-70 (Dapat dipertimbangkan untuk direkomendasikan dengan catatan)</strong>
+          <strong>
+            Nilai 61-70 (Dapat dipertimbangkan untuk direkomendasikan dengan
+            catatan)
+          </strong>
         </li>
         <li>
           <strong>Nilai 71-80 (Direkomendasikan dengan catatan)</strong>
