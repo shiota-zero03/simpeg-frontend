@@ -261,7 +261,6 @@ export default function PegawaiIndex() {
                   value={search}
                   onChange={(e) => {
                     setSearch(e.target.value);
-                    setPageIndex(0);
                   }}
                   radius="sm"
                   size="sm"
