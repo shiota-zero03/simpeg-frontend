@@ -1,6 +1,5 @@
 import { TitleCase } from "@/components/card/TitleCase";
 import DataTables from "@/components/DataTables";
-import { EFillingDummy } from "@/constants/DummyData";
 import {
   Button,
   DateRangePicker,
@@ -11,7 +10,7 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   LuFileArchive,
   LuPencilLine,
@@ -25,25 +24,33 @@ import {
   BiSolidPlusSquare,
 } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
-import { SuccessToast } from "@/utils/ToastMessage";
+import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { CalendarDate, parseDate } from "@internationalized/date";
+import {
+  CalendarDate,
+  getLocalTimeZone,
+  parseDate,
+} from "@internationalized/date";
 import CreateModal from "@/components/modals/E-FillingModal/CreatedModal";
+import { useDeleteEFilling, useGetAllEFilling } from "@/services/efilling";
+import { EFillingRes } from "@/interface/responses/efilling.interface";
+import UpdateModal from "@/components/modals/E-FillingModal/UpdateModal";
 
 interface EFillingprops {
-  id: number;
+  id: string;
   judulDokumen: string;
   tanggalDokumen: string;
   uraian: string;
   lampiran: string;
 }
 
-export default function News() {
-  const limit = 5;
+export default function EFilling() {
+  const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [searchJudul, setSearchJudul] = useState("");
+  const [selectedId, setSelectedId] = useState("");
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -52,34 +59,66 @@ export default function News() {
     end: parseDate(today.toISOString().split("T")[0]),
   });
 
-  // const formatDateToJakarta = (calendarDate: CalendarDate | null | undefined) => {
-  //     if (!calendarDate) return null;
-  //     const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
-  //     return new Intl.DateTimeFormat("id-ID", { timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit" })
-  //         .format(date)
-  //         .split("/")
-  //         .reverse()
-  //         .join("-");
-  // }
+  const formatDateToJakarta = (
+    calendarDate: CalendarDate | null | undefined,
+  ) => {
+    if (!calendarDate) return null;
+    const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
+    return new Intl.DateTimeFormat("id-ID", {
+      timeZone: "Asia/Jakarta",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+      .format(date)
+      .split("/")
+      .reverse()
+      .join("-");
+  };
 
-  // const { data: allData, isFetching: isFetchingData, refetch: refetchData } = useGetAllRiwayatObat();
-  const allData = EFillingDummy;
+  const [startData, setStartData] = useState<number>(0);
+  const [endData, setEndData] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalData, setTotalData] = useState<number>(0);
 
-  const data: EFillingprops[] = useMemo(() => {
+  const {
+    data: allData,
+    isFetching: isFetchingData,
+    refetch: refetchData,
+  } = useGetAllEFilling(
+    pageIndex + 1,
+    limit,
+    searchJudul,
+    formatDateToJakarta(rangeDate?.start),
+    formatDateToJakarta(rangeDate?.end),
+  );
+
+  const paginatedData: EFillingprops[] = useMemo(() => {
     if (allData) {
-      return allData;
+      const data = allData.data;
+      setTotalData(data.pagination.totalData || 0);
+      setTotalPages(data.pagination.totalPages || 1);
+
+      const start = pageIndex * limit + 1;
+      const end = Math.min(
+        (pageIndex + 1) * limit,
+        data.pagination.totalData || 0,
+      );
+
+      setStartData(start);
+      setEndData(end);
+
+      return data.response.map((item: EFillingRes) => ({
+        id: item.id,
+        judulDokumen: item.title,
+        tanggalDokumen: item.tanggal || "",
+        uraian: item.description,
+        lampiran: item.file,
+      }));
     } else {
       return [];
     }
-  }, [allData]);
-
-  const paginatedData = useMemo(() => {
-    return data.slice(pageIndex * limit, (pageIndex + 1) * limit);
-  }, [data, limit, pageIndex]);
-
-  const startData = paginatedData.length > 0 ? pageIndex * limit + 1 : 0;
-  const endData = Math.min((pageIndex + 1) * limit, data.length);
-  const totalPages = Math.ceil(data.length / limit);
+  }, [searchJudul, rangeDate, limit, pageIndex, allData]);
 
   const columns: ColumnDef<EFillingprops>[] = [
     {
@@ -140,11 +179,15 @@ export default function News() {
     },
     {
       header: "Aksi",
-      cell: () => {
+      cell: ({ row }) => {
+        const { id } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
-              onPress={onOpenCreate}
+              onPress={() => {
+                setSelectedId(id);
+                onOpenUpdate();
+              }}
               isIconOnly
               radius="sm"
               size="sm"
@@ -153,7 +196,10 @@ export default function News() {
               <LuPencilLine size={14} />
             </Button>
             <Button
-              onPress={onOpenDelete}
+              onPress={() => {
+                setSelectedId(id);
+                onOpenDelete();
+              }}
               isIconOnly
               radius="sm"
               size="sm"
@@ -178,6 +224,16 @@ export default function News() {
     onOpen: onOpenCreate,
     onClose: onCloseCreate,
   } = useDisclosure();
+  const {
+    isOpen: isOpenUpdate,
+    onOpen: onOpenUpdate,
+    onClose: onCloseUpdate,
+  } = useDisclosure();
+
+  const handleSearch = () => {
+    setPageIndex(0);
+    refetchData();
+  };
 
   const handleReset = () => {
     setSearchJudul("");
@@ -185,24 +241,61 @@ export default function News() {
       start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
       end: parseDate(today.toISOString().split("T")[0]),
     });
+    setTimeout(() => {
+      refetchData();
+    }, 100);
   };
 
+  useEffect(() => {
+    refetchData();
+  }, [pageIndex, refetchData]);
+
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
+  const { mutate: mutateDelete } = useDeleteEFilling();
+
   const handleDelete = () => {
+    if (isLoadingDelete) return;
+
     setLoadingDelete(true);
-    setTimeout(() => {
-      setPageIndex(0);
-      SuccessToast({ text: "Data berhasil dihapus" });
+
+    try {
+      mutateDelete(
+        { id: String(selectedId) },
+        {
+          onSuccess() {
+            SuccessToast({ text: "Data berhasil dihapus" });
+            setLoadingDelete(false);
+            setSelectedId("");
+            onCloseDelete();
+            setPageIndex(0);
+            setTimeout(() => {
+              refetchData();
+            }, 100);
+          },
+          onError(error) {
+            setLoadingDelete(false);
+            ErrorToast({
+              text:
+                error.response?.data.message ||
+                "Terjadi kesalahan saat mengirim data",
+            });
+            throw error;
+          },
+        },
+      );
+    } catch (error) {
+      ErrorToast({ text: "Terjadi kesalahan di server" });
       setLoadingDelete(false);
-      onCloseDelete();
-    }, 1000);
+      throw error;
+    }
   };
 
   const handleClose = () => {
     setPageIndex(0);
     onCloseCreate();
     onCloseDelete();
-    onCloseCreate();
+    onCloseUpdate();
+    refetchData();
   };
 
   return (
@@ -219,6 +312,14 @@ export default function News() {
         onClose={onCloseCreate}
         handleClose={handleClose}
       />
+      {selectedId && (
+        <UpdateModal
+          id={selectedId}
+          isOpen={isOpenUpdate}
+          onClose={onCloseUpdate}
+          handleClose={handleClose}
+        />
+      )}
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
           title="E-Filling"
@@ -234,7 +335,6 @@ export default function News() {
                     value={searchJudul}
                     onChange={(e) => {
                       setSearchJudul(e.target.value);
-                      setPageIndex(0);
                     }}
                     radius="sm"
                     size="sm"
@@ -263,7 +363,7 @@ export default function News() {
                 </div>
                 <div className="flex items-center justify-end gap-2">
                   <Button
-                    onPress={handleReset}
+                    onPress={handleSearch}
                     variant="solid"
                     radius="sm"
                     size="sm"
@@ -300,7 +400,7 @@ export default function News() {
           <div>
             <div className="py-8">
               <DataTables
-                isLoading={false}
+                isLoading={isFetchingData}
                 columns={columns}
                 data={paginatedData}
               />
@@ -308,7 +408,7 @@ export default function News() {
           </div>
           <div className="pb-4 px-4 flex md:flex-row flex-col items-center justify-between gap-4">
             <span className="sm:text-sm text-xs text-[#8C8C8C]">
-              {startData} - {endData} dari {data.length} data
+              {startData} - {endData} dari {totalData} data
             </span>
             <Pagination
               showControls

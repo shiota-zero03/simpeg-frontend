@@ -12,15 +12,18 @@ import { LuSave, LuX } from "react-icons/lu";
 import { IoFileTrayFullSharp } from "react-icons/io5";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { LucideCalendarDays, LucideUploadCloud } from "lucide-react";
+import { LucideCalendarDays, LucideEye, LucideUploadCloud } from "lucide-react";
 import { convertFileToBase64 } from "@/utils/base64Formater";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
-import { useCreateEFilling } from "@/services/efilling";
+import { useGetDetailEFilling, useUpdateEFilling } from "@/services/efilling";
 import { StoreEFilling } from "@/interface/request/efilling.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
+import { Commet } from "react-loading-indicators";
+import { Link } from "react-router-dom";
 
 interface props {
+  id: string;
   isOpen: boolean;
   onClose: () => void;
   handleClose: () => void;
@@ -40,10 +43,11 @@ interface errorProps {
   lampiran?: string;
 }
 
-const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
+const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [waktuKegiatan, setWaktuKegiatan] = useState<Date | null>(null);
+  const [lampiran, setLampiran] = useState<string>("");
 
   const [formData, setFormData] = useState<formProps>({
     judulDokumen: "",
@@ -54,16 +58,26 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
 
   const [formError, setFormError] = useState<errorProps>({});
 
+  const { data, isFetching, refetch } = useGetDetailEFilling(String(id));
+
   useEffect(() => {
-    setFormData({
-      judulDokumen: "",
-      tanggalDokumen: "",
-      uraian: "",
-      lampiran: "",
-    });
+    if (data) {
+      setFormData({
+        judulDokumen: data.data.title,
+        tanggalDokumen: "",
+        uraian: data.data.description,
+        lampiran: "",
+      });
+
+      setLampiran(data.data.file);
+      setWaktuKegiatan(data.data.tanggal ? new Date(data.data.tanggal) : null);
+    }
+  }, [isOpen, data]);
+
+  useEffect(() => {
     setIsLoading(false);
-    setWaktuKegiatan(null);
     setFormError({});
+    refetch();
   }, [isOpen]);
 
   const validateData = () => {
@@ -73,7 +87,6 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     if (!waktuKegiatan)
       errors.tanggalDokumen = "Tanggal dokumen tidak boleh kosong";
     if (!formData.uraian) errors.uraian = "Uraian tidak boleh kosong";
-    if (!formData.lampiran) errors.lampiran = "Lampiran tidak boleh kosong";
 
     return errors;
   };
@@ -88,7 +101,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     }
   };
 
-  const { mutate: mutatePost } = useCreateEFilling();
+  const { mutate: mutatePost } = useUpdateEFilling();
 
   const handleSubmit = () => {
     setFormError({});
@@ -111,21 +124,27 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     if (formData.lampiran) formToSend.file = formData.lampiran;
 
     try {
-      mutatePost(formToSend, {
-        onSuccess: () => {
-          SuccessToast({ text: "Data berhasil ditambahkan" });
-          handleClose();
+      mutatePost(
+        {
+          id: id,
+          formData: formToSend,
         },
-        onError: (error: AxiosError<BaseErrorRes>) => {
-          ErrorToast({
-            text:
-              (error.response?.data.error as string) ||
-              "Terjadi kesalahan saat mengirim data",
-          });
-          setIsLoading(false);
-          throw error;
+        {
+          onSuccess: () => {
+            SuccessToast({ text: "Data berhasil ditambahkan" });
+            handleClose();
+          },
+          onError: (error: AxiosError<BaseErrorRes>) => {
+            ErrorToast({
+              text:
+                (error.response?.data.error as string) ||
+                "Terjadi kesalahan saat mengirim data",
+            });
+            setIsLoading(false);
+            throw error;
+          },
         },
-      });
+      );
     } catch (error) {
       setIsLoading(false);
       throw error;
@@ -136,10 +155,13 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     <>
       <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="4xl">
         <ModalContent>
+          {isFetching && (
+            <div className="inset-0 flex items-center justify-center absolute">
+              <Commet color="#32cd32" size="medium" text="" textColor="" />
+            </div>
+          )}
           <ModalHeader className="flex items-center justify-between">
-            <span className="text-base font-semibold">
-              Tambah Data E-Filling
-            </span>
+            <span className="text-base font-semibold">Edit Data E-Filling</span>
             <LuX
               className="text-danger border border-danger rounded-full p-2 cursor-pointer"
               onClick={onClose}
@@ -224,8 +246,17 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
             <div className="max-w-80">
               <div className="mb-1">
                 <label htmlFor="content" className="font-semibold text-xs">
-                  Lampiran <span className="text-danger">*</span>
+                  Lampiran
                 </label>
+              </div>
+              <div>
+                <Link
+                  to={lampiran}
+                  target="__blank"
+                  className="bg-accent-primary flex items-center gap-2 text-center rounded-md p-2 text-white mb-2 text-xs"
+                >
+                  <LucideEye size={14} /> File Sebelumnya
+                </Link>
               </div>
               <div className="border p-8 mb-2 flex items-center justify-center">
                 {formData.lampiran ? (
@@ -261,4 +292,4 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   );
 };
 
-export default CreateModal;
+export default UpdateModal;

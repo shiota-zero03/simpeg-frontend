@@ -257,7 +257,6 @@ export default function Unit() {
                     value={search}
                     onChange={(e) => {
                       setSearch(e.target.value);
-                      setPageIndex(0);
                     }}
                     radius="sm"
                     size="sm"
