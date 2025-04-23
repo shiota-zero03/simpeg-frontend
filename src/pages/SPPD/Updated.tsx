@@ -9,7 +9,7 @@ import {
   SelectItem,
   useDisclosure,
 } from "@heroui/react";
-import { LuArchiveRestore, LuArrowLeft,  LuSave } from "react-icons/lu";
+import { LuArchiveRestore, LuArrowLeft, LuSave } from "react-icons/lu";
 import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,7 +18,12 @@ import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { Link } from "react-router-dom";
 import { useGetAllPegawaiOption } from "@/services/pegawai";
-import { LucideEye, LucidePlusCircle, LucideTrash2, LucideUploadCloud } from "lucide-react";
+import {
+  LucideEye,
+  LucidePlusCircle,
+  LucideTrash2,
+  LucideUploadCloud,
+} from "lucide-react";
 import { useGetDetailSPPD, useUpdateSPPD } from "@/services/sppd";
 import { StoreSPPD } from "@/interface/request/sppd.interface";
 import { convertFileToBase64 } from "@/utils/base64Formater";
@@ -26,88 +31,88 @@ import { DateYMDFormat } from "@/utils/dateFormater";
 import { Commet } from "react-loading-indicators";
 
 interface formProps {
-    nomorSurat?: string;
-    type?: string;
-    kodeRekening?: string;
-    activity?: string;
-    reasoning?: string;
-    location?: string;
-    startDate?: string;
-    endDate?: string;
-    file?: string;
-    komitmenid?: string;
-    komitmenName?: string;
-    komitmenJabatan?: string;
-    komitmenNip?: string;
-    bendaharaId?: string;
-    bendaharaName?: string;
-    bendaharaJabatan?: string;
-    bendaharaNip?: string;
-    participantsLeader?: {
-        userId?: string;
-        userName?: string;
-        userJabatan?: string;
-        userNIP?: string;
-        bankAccount?: string;
-        position?: string;
-        role?: string;
-        budgets?: {
-            transport?: number;
-            volTransport?: number;
-            representatif?: number;
-            volRepresentatif?: number;
-            dailyAllowance?: number;
-            volDailyAllowance?: number;
-            bankAccount?: string;
-        }
+  nomorSurat?: string;
+  type?: string;
+  kodeRekening?: string;
+  activity?: string;
+  reasoning?: string;
+  location?: string;
+  startDate?: string;
+  endDate?: string;
+  file?: string;
+  komitmenid?: string;
+  komitmenName?: string;
+  komitmenJabatan?: string;
+  komitmenNip?: string;
+  bendaharaId?: string;
+  bendaharaName?: string;
+  bendaharaJabatan?: string;
+  bendaharaNip?: string;
+  participantsLeader?: {
+    userId?: string;
+    userName?: string;
+    userJabatan?: string;
+    userNIP?: string;
+    bankAccount?: string;
+    position?: string;
+    role?: string;
+    budgets?: {
+      transport?: number;
+      volTransport?: number;
+      representatif?: number;
+      volRepresentatif?: number;
+      dailyAllowance?: number;
+      volDailyAllowance?: number;
+      bankAccount?: string;
     };
-    participants?: {
-        userId?: string;
-        userName?: string;
-        userJabatan?: string;
-        userNIP?: string;
-        bankAccount?: string;
-        position?: string;
-        role?: string;
-        budgets?: {
-            transport?: number;
-            volTransport?: number;
-            representatif?: number;
-            volRepresentatif?: number;
-            dailyAllowance?: number;
-            volDailyAllowance?: number;
-            bankAccount?: string;
-        }
-    }[]
+  };
+  participants?: {
+    userId?: string;
+    userName?: string;
+    userJabatan?: string;
+    userNIP?: string;
+    bankAccount?: string;
+    position?: string;
+    role?: string;
+    budgets?: {
+      transport?: number;
+      volTransport?: number;
+      representatif?: number;
+      volRepresentatif?: number;
+      dailyAllowance?: number;
+      volDailyAllowance?: number;
+      bankAccount?: string;
+    };
+  }[];
 }
 
 interface errorProps {
-    nomorSurat?: string;
-    type?: string;
-    kodeRekening?: string;
-    activity?: string;
-    reasoning?: string;
-    location?: string;
-    startDate?: string;
-    endDate?: string;
-    file?: string;
-    komitmenid?: string;
-    komitmenName?: string;
-    komitmenJabatan?: string;
-    komitmenNip?: string;
-    bendaharaId?: string;
-    bendaharaName?: string;
-    bendaharaJabatan?: string;
-    bendaharaNip?: string;
-    leader?: string;
-    participantsLeader?: string;
-    participants?: string;
+  nomorSurat?: string;
+  type?: string;
+  kodeRekening?: string;
+  activity?: string;
+  reasoning?: string;
+  location?: string;
+  startDate?: string;
+  endDate?: string;
+  file?: string;
+  komitmenid?: string;
+  komitmenName?: string;
+  komitmenJabatan?: string;
+  komitmenNip?: string;
+  bendaharaId?: string;
+  bendaharaName?: string;
+  bendaharaJabatan?: string;
+  bendaharaNip?: string;
+  leader?: string;
+  participantsLeader?: string;
+  participants?: string;
 }
 
 export default function UpdateSPPD() {
   const { id } = useParams();
-  
-  const [ file, setFile ] = useState<string>("")
+
+  const [file, setFile] = useState<string>("");
   const [formData, setFormData] = useState<formProps>({
     nomorSurat: "",
     type: "",
@@ -127,47 +132,24 @@ export default function UpdateSPPD() {
     bendaharaJabatan: "",
     bendaharaNip: "",
     participantsLeader: {
-        userId: "",
-        userName: "",
-        userJabatan: "",
-        userNIP: "",
+      userId: "",
+      userName: "",
+      userJabatan: "",
+      userNIP: "",
+      bankAccount: "",
+      position: "",
+      role: "PEGAWAI",
+      budgets: {
+        transport: 0,
+        volTransport: 0,
+        representatif: 0,
+        volRepresentatif: 0,
+        dailyAllowance: 0,
+        volDailyAllowance: 0,
         bankAccount: "",
-        position: "",
-        role: "PEGAWAI",
-        budgets: {
-            transport: 0,
-            volTransport: 0,
-            representatif: 0,
-            volRepresentatif: 0,
-            dailyAllowance: 0,
-            volDailyAllowance: 0,
-            bankAccount: ""
-        }
+      },
     },
     participants: [
-        {
-            userId: "",
-            userName: "",
-            userJabatan: "",
-            userNIP: "",
-            bankAccount: "",
-            position: "",
-            role: "PENGIKUT",
-            budgets: {
-                transport: 0,
-                volTransport: 0,
-                representatif: 0,
-                volRepresentatif: 0,
-                dailyAllowance: 0,
-                volDailyAllowance: 0,
-                bankAccount: ""
-            }
-        }
-    ]
-  });
-
-  const addPengikut = () => {
-    const updatedTim = [...(formData.participants || []), 
       {
         userId: "",
         userName: "",
@@ -184,8 +166,32 @@ export default function UpdateSPPD() {
           dailyAllowance: 0,
           volDailyAllowance: 0,
           bankAccount: "",
-        }
-      }
+        },
+      },
+    ],
+  });
+
+  const addPengikut = () => {
+    const updatedTim = [
+      ...(formData.participants || []),
+      {
+        userId: "",
+        userName: "",
+        userJabatan: "",
+        userNIP: "",
+        bankAccount: "",
+        position: "",
+        role: "PENGIKUT",
+        budgets: {
+          transport: 0,
+          volTransport: 0,
+          representatif: 0,
+          volRepresentatif: 0,
+          dailyAllowance: 0,
+          volDailyAllowance: 0,
+          bankAccount: "",
+        },
+      },
     ];
     setFormData({ ...formData, participants: updatedTim });
   };
@@ -205,7 +211,7 @@ export default function UpdateSPPD() {
     }
   };
 
-  const { data, isFetching, refetch, error } = useGetDetailSPPD(id as string)
+  const { data, isFetching, refetch, error } = useGetDetailSPPD(id as string);
 
   useEffect(() => {
     if (!isFetching && error) {
@@ -229,34 +235,44 @@ export default function UpdateSPPD() {
 
   const rules = () => {
     const error: errorProps = {};
-    if(!formData.nomorSurat) error.nomorSurat = "Nomor surat tidak boleh kosong";
-    if(!formData.type) error.type = "Tipe tidak boleh kosong";
-    if(!formData.reasoning) error.reasoning = "Maksud perjalanan tidak boleh kosong";
-    if(!formData.activity) error.activity = "Nama kegiatan tidak boleh kosong";
-    if(!formData.location) error.location = "Tujuan kegiatan tidak boleh kosong";
-    if(!formData.startDate) error.startDate = "Tanggal mulai tidak boleh kosong";
-    if(!formData.endDate) error.endDate = "Tanggal selesai tidak boleh kosong";
-    if(!formData.komitmenid) error.komitmenid = "Data komitmen tidak boleh kosong";
-    if(!formData.bendaharaId) error.bendaharaId = "Data bendahara tidak boleh kosong";
-    if(
-        !formData.participantsLeader?.userId || 
-        !formData.participantsLeader?.bankAccount
-    ) error.participantsLeader = "Data pegawai belum lengkap";
+    if (!formData.nomorSurat)
+      error.nomorSurat = "Nomor surat tidak boleh kosong";
+    if (!formData.type) error.type = "Tipe tidak boleh kosong";
+    if (!formData.reasoning)
+      error.reasoning = "Maksud perjalanan tidak boleh kosong";
+    if (!formData.activity) error.activity = "Nama kegiatan tidak boleh kosong";
+    if (!formData.location)
+      error.location = "Tujuan kegiatan tidak boleh kosong";
+    if (!formData.startDate)
+      error.startDate = "Tanggal mulai tidak boleh kosong";
+    if (!formData.endDate) error.endDate = "Tanggal selesai tidak boleh kosong";
+    if (!formData.komitmenid)
+      error.komitmenid = "Data komitmen tidak boleh kosong";
+    if (!formData.bendaharaId)
+      error.bendaharaId = "Data bendahara tidak boleh kosong";
+    if (
+      !formData.participantsLeader?.userId ||
+      !formData.participantsLeader?.bankAccount
+    )
+      error.participantsLeader = "Data pegawai belum lengkap";
 
     return error;
   };
 
   useEffect(() => {
-    if(data) {
-      let dataGet = data.data;
-      setFile(dataGet.file)
+    if (data) {
+      const dataGet = data.data;
+      setFile(dataGet.file);
 
-      const partiLeader = dataGet.participants.find(key => key.role === "PEGAWAI");
+      const partiLeader = dataGet.participants.find(
+        (key) => key.role === "PEGAWAI",
+      );
 
-      const partiMember = dataGet.participants.filter(key => key.role !== "PEGAWAI");
+      const partiMember = dataGet.participants.filter(
+        (key) => key.role !== "PEGAWAI",
+      );
 
-      const dataMember = partiMember.map(item => {
-      
+      const dataMember = partiMember.map((item) => {
         return {
           userId: item?.user.id,
           userName: item?.user?.name ?? "",
@@ -272,48 +288,50 @@ export default function UpdateSPPD() {
             volRepresentatif: item?.budgets[0]?.volRepresentatif,
             dailyAllowance: item?.budgets[0]?.dailyAllowance,
             volDailyAllowance: item?.budgets[0]?.volDailyAllowance,
-            bankAccount: item?.bankAccount
-          }
+            bankAccount: item?.bankAccount,
+          },
         };
       });
 
       setFormData({
-          nomorSurat: dataGet.nomorSurat,
-          type: dataGet.type,
-          kodeRekening: dataGet.kodeRekening,
-          activity: dataGet.activity,
-          reasoning: dataGet.reasoning,
-          location: dataGet.location,
-          startDate: dataGet.startDate ? DateYMDFormat(dataGet.startDate) : "",
-          endDate: dataGet.endDate ? DateYMDFormat(dataGet.endDate) : "",
-          file: "",
-          komitmenid: dataGet.komitmenid,
-          komitmenName: dataGet.komitmenName,
-          komitmenJabatan: dataGet.komitmenJabatan,
-          komitmenNip: dataGet.komitmenNip,
-          bendaharaId: dataGet.bendaharaId,
-          bendaharaName: dataGet.bendaharaName,
-          bendaharaJabatan: dataGet.bendaharaJabatan,
-          bendaharaNip: dataGet.bendaharaNip,
-          participantsLeader: {
-              userId: partiLeader?.userId,
-              userName: partiLeader?.user.name,
-              userJabatan: partiLeader?.user.jabatan ? partiLeader?.user.jabatan.nameJob : "",
-              userNIP: partiLeader?.user.nip,
-              bankAccount: partiLeader?.bankAccount,
-              position: partiLeader?.position,
-              role: "PEGAWAI",
-              budgets: {
-                transport: partiLeader?.budgets[0]?.transport,
-                volTransport: partiLeader?.budgets[0]?.volTransport,
-                representatif: partiLeader?.budgets[0]?.representatif,
-                volRepresentatif: partiLeader?.budgets[0]?.volRepresentatif,
-                dailyAllowance: partiLeader?.budgets[0]?.dailyAllowance,
-                volDailyAllowance: partiLeader?.budgets[0]?.volDailyAllowance,
-                bankAccount: partiLeader?.bankAccount
-              }
+        nomorSurat: dataGet.nomorSurat,
+        type: dataGet.type,
+        kodeRekening: dataGet.kodeRekening,
+        activity: dataGet.activity,
+        reasoning: dataGet.reasoning,
+        location: dataGet.location,
+        startDate: dataGet.startDate ? DateYMDFormat(dataGet.startDate) : "",
+        endDate: dataGet.endDate ? DateYMDFormat(dataGet.endDate) : "",
+        file: "",
+        komitmenid: dataGet.komitmenid,
+        komitmenName: dataGet.komitmenName,
+        komitmenJabatan: dataGet.komitmenJabatan,
+        komitmenNip: dataGet.komitmenNip,
+        bendaharaId: dataGet.bendaharaId,
+        bendaharaName: dataGet.bendaharaName,
+        bendaharaJabatan: dataGet.bendaharaJabatan,
+        bendaharaNip: dataGet.bendaharaNip,
+        participantsLeader: {
+          userId: partiLeader?.userId,
+          userName: partiLeader?.user.name,
+          userJabatan: partiLeader?.user.jabatan
+            ? partiLeader?.user.jabatan.nameJob
+            : "",
+          userNIP: partiLeader?.user.nip,
+          bankAccount: partiLeader?.bankAccount,
+          position: partiLeader?.position,
+          role: "PEGAWAI",
+          budgets: {
+            transport: partiLeader?.budgets[0]?.transport,
+            volTransport: partiLeader?.budgets[0]?.volTransport,
+            representatif: partiLeader?.budgets[0]?.representatif,
+            volRepresentatif: partiLeader?.budgets[0]?.volRepresentatif,
+            dailyAllowance: partiLeader?.budgets[0]?.dailyAllowance,
+            volDailyAllowance: partiLeader?.budgets[0]?.volDailyAllowance,
+            bankAccount: partiLeader?.bankAccount,
           },
-          participants: dataMember
+        },
+        participants: dataMember,
       });
     }
   }, [id, data]);
@@ -325,90 +343,123 @@ export default function UpdateSPPD() {
     refetch();
   }, [id]);
 
-  const onChangeLeader = (
-    value: any,
-    field: keyof NonNullable<typeof formData.participantsLeader> | `budgets.${keyof NonNullable<NonNullable<typeof formData.participantsLeader>["budgets"]>}`
-  ) => {
+  type BudgetsKey = keyof NonNullable<
+    NonNullable<typeof formData.participantsLeader>["budgets"]
+  >;
+  type LeaderField = keyof NonNullable<typeof formData.participantsLeader>;
+
+  // ✅ Function Overloads
+  function onChangeLeader(value: string, field: LeaderField): void;
+  function onChangeLeader(value: number, field: `budgets.${BudgetsKey}`): void;
+
+  // ✅ Implementation
+  function onChangeLeader(
+    value: string | number,
+    field: LeaderField | `budgets.${BudgetsKey}`,
+  ) {
     setFormData((prev) => {
       const updated = { ...prev.participantsLeader };
-  
-      if(field === "userId") {
+
+      if (field === "userId") {
         const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
-        updated["userId"] = checkPegawai?.id || "";
-        updated["userName"] = checkPegawai?.name || "";
-        updated["userJabatan"] = checkPegawai?.jabatan ? checkPegawai?.jabatan.nameJob : "";
-        updated["userNIP"] = checkPegawai?.nip || "";
-        updated["position"] = checkPegawai?.jabatan ? checkPegawai?.jabatan.nameJob : "";
+
+        updated.userId = checkPegawai?.id || "";
+        updated.userName = checkPegawai?.name || "";
+        updated.userJabatan = checkPegawai?.jabatan?.nameJob || "";
+        updated.userNIP = checkPegawai?.nip || "";
+        updated.position = checkPegawai?.jabatan?.nameJob || "";
       } else if (field.startsWith("budgets.")) {
-        const budgetKey = field.split(".")[1] as keyof NonNullable<NonNullable<typeof formData.participantsLeader>["budgets"]>;
+        const budgetKey = field.split(".")[1] as BudgetsKey;
+
         updated.budgets = {
           ...updated.budgets,
-          [budgetKey]: value,
+          [budgetKey]: value as number, // karena ini pasti number
         };
       } else {
-        updated[field as keyof typeof updated] = value;
+        updated[field as LeaderField] = value as string; // field biasa pasti string
       }
-  
+
       return {
         ...prev,
         participantsLeader: updated,
       };
     });
-  };
+  }
 
-  const onChangeParticipant = (
+  type ParticipantField = keyof NonNullable<typeof formData.participantsLeader>;
+
+  // ✅ Function Overloads
+  function onChangeParticipant(
     index: number,
-    value: any,
-    field: keyof NonNullable<typeof formData.participantsLeader> | `budgets.${keyof NonNullable<NonNullable<typeof formData.participantsLeader>["budgets"]>}`
-  ) => {
+    value: string,
+    field: ParticipantField,
+  ): void;
+  function onChangeParticipant(
+    index: number,
+    value: number,
+    field: `budgets.${BudgetsKey}`,
+  ): void;
+
+  // ✅ Implementation
+  function onChangeParticipant(
+    index: number,
+    value: string | number,
+    field: ParticipantField | `budgets.${BudgetsKey}`,
+  ) {
     setFormData((prev) => {
       const participants = [...(prev.participants || [])];
       const updated = { ...participants[index] };
-  
-      if(field === "userId") {
+
+      if (field === "userId") {
         const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
-        updated["userId"] = checkPegawai?.id || "";
-        updated["userName"] = checkPegawai?.name || "";
-        updated["userJabatan"] = checkPegawai?.jabatan ? checkPegawai?.jabatan.nameJob : "";
-        updated["userNIP"] = checkPegawai?.nip || "";
-        updated["position"] = checkPegawai?.jabatan ? checkPegawai?.jabatan.nameJob : "";
+
+        updated.userId = checkPegawai?.id || "";
+        updated.userName = checkPegawai?.name || "";
+        updated.userJabatan = checkPegawai?.jabatan?.nameJob || "";
+        updated.userNIP = checkPegawai?.nip || "";
+        updated.position = checkPegawai?.jabatan?.nameJob || "";
       } else if (field.startsWith("budgets.")) {
-        const budgetKey = field.split(".")[1] as keyof NonNullable<NonNullable<typeof formData.participantsLeader>["budgets"]>;
+        const budgetKey = field.split(".")[1] as BudgetsKey;
+
         updated.budgets = {
           ...updated.budgets,
-          [budgetKey]: value,
+          [budgetKey]: value as number, // ⛳️ Pastikan hanya number di sini
         };
       } else {
-        updated[field as keyof typeof updated] = value;
+        updated[field as ParticipantField] = value as string; // ⛳️ Hanya string di field biasa
       }
 
       participants[index] = updated;
-  
+
       return {
         ...prev,
-        participants
+        participants,
       };
     });
-  };
+  }
 
   const onChangePegawai = (value: string, type: string) => {
-    if(type === "komitmen") {
+    if (type === "komitmen") {
       const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
       setFormData({
         ...formData,
         komitmenid: value as string,
-        komitmenJabatan: checkPegawai?.jabatan ? checkPegawai?.jabatan.nameJob : "",
+        komitmenJabatan: checkPegawai?.jabatan
+          ? checkPegawai?.jabatan.nameJob
+          : "",
         komitmenName: checkPegawai?.name,
-        komitmenNip: checkPegawai?.nip
+        komitmenNip: checkPegawai?.nip,
       });
-    } else if(type === "bendahara") {
+    } else if (type === "bendahara") {
       const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
       setFormData({
         ...formData,
         bendaharaId: value as string,
-        bendaharaJabatan: checkPegawai?.jabatan ? checkPegawai?.jabatan.nameJob : "",
+        bendaharaJabatan: checkPegawai?.jabatan
+          ? checkPegawai?.jabatan.nameJob
+          : "",
         bendaharaName: checkPegawai?.name,
-        bendaharaNip: checkPegawai?.nip
+        bendaharaNip: checkPegawai?.nip,
       });
     }
   };
@@ -450,18 +501,18 @@ export default function UpdateSPPD() {
       position?: string;
       role?: string;
       budgets?: {
-          transport?: number;
-          volTransport?: number;
-          representatif?: number;
-          volRepresentatif?: number;
-          dailyAllowance?: number;
-          volDailyAllowance?: number;
-          bankAccount?: string;
-      }[]
+        transport?: number;
+        volTransport?: number;
+        representatif?: number;
+        volRepresentatif?: number;
+        dailyAllowance?: number;
+        volDailyAllowance?: number;
+        bankAccount?: string;
+      }[];
     }[] = [];
 
-    if(formData.participantsLeader) {
-      let partiLead = formData.participantsLeader;
+    if (formData.participantsLeader) {
+      const partiLead = formData.participantsLeader;
       participantData.push({
         userId: partiLead.userId,
         bankAccount: partiLead.bankAccount,
@@ -469,82 +520,110 @@ export default function UpdateSPPD() {
         role: partiLead.role,
         budgets: [
           {
-            transport: partiLead.budgets ? (partiLead.budgets.transport || 0) : 0,
-            volTransport: partiLead.budgets ? (partiLead.budgets.volTransport || 0) : 0,
-            representatif: partiLead.budgets ? (partiLead.budgets.representatif || 0) : 0,
-            volRepresentatif: partiLead.budgets ? (partiLead.budgets.volRepresentatif || 0) : 0,
-            dailyAllowance: partiLead.budgets ? (partiLead.budgets.dailyAllowance || 0) : 0,
-            volDailyAllowance: partiLead.budgets ? (partiLead.budgets.volDailyAllowance || 0) : 0,
+            transport: partiLead.budgets ? partiLead.budgets.transport || 0 : 0,
+            volTransport: partiLead.budgets
+              ? partiLead.budgets.volTransport || 0
+              : 0,
+            representatif: partiLead.budgets
+              ? partiLead.budgets.representatif || 0
+              : 0,
+            volRepresentatif: partiLead.budgets
+              ? partiLead.budgets.volRepresentatif || 0
+              : 0,
+            dailyAllowance: partiLead.budgets
+              ? partiLead.budgets.dailyAllowance || 0
+              : 0,
+            volDailyAllowance: partiLead.budgets
+              ? partiLead.budgets.volDailyAllowance || 0
+              : 0,
             bankAccount: partiLead.bankAccount,
-        }]
+          },
+        ],
       });
     }
-    formData.participants && formData.participants.forEach((item) => {
-      participantData.push({
-        userId: item.userId,
-        bankAccount: item.bankAccount,
-        position: item.position,
-        role: item.role,
-        budgets: [
-          {
-            transport: item.budgets ? (item.budgets.transport || 0) : 0,
-            volTransport: item.budgets ? (item.budgets.volTransport || 0) : 0,
-            representatif: item.budgets ? (item.budgets.representatif || 0) : 0,
-            volRepresentatif: item.budgets ? (item.budgets.volRepresentatif || 0) : 0,
-            dailyAllowance: item.budgets ? (item.budgets.dailyAllowance || 0) : 0,
-            volDailyAllowance: item.budgets ? (item.budgets.volDailyAllowance || 0) : 0,
-            bankAccount: item.bankAccount,
-        }]
+    if (formData.participants) {
+      formData.participants.forEach((item) => {
+        participantData.push({
+          userId: item.userId,
+          bankAccount: item.bankAccount,
+          position: item.position,
+          role: item.role,
+          budgets: [
+            {
+              transport: item.budgets ? item.budgets.transport || 0 : 0,
+              volTransport: item.budgets ? item.budgets.volTransport || 0 : 0,
+              representatif: item.budgets ? item.budgets.representatif || 0 : 0,
+              volRepresentatif: item.budgets
+                ? item.budgets.volRepresentatif || 0
+                : 0,
+              dailyAllowance: item.budgets
+                ? item.budgets.dailyAllowance || 0
+                : 0,
+              volDailyAllowance: item.budgets
+                ? item.budgets.volDailyAllowance || 0
+                : 0,
+              bankAccount: item.bankAccount,
+            },
+          ],
+        });
       });
-    });
+    }
 
-
-    console.log(participantData)
-    if(formData.nomorSurat) formToSendData.nomorSurat = formData.nomorSurat;
-    if(formData.type) formToSendData.type = formData.type;
-    if(formData.type === "PERJALANAN_BIASA") {
+    console.log(participantData);
+    if (formData.nomorSurat) formToSendData.nomorSurat = formData.nomorSurat;
+    if (formData.type) formToSendData.type = formData.type;
+    if (formData.type === "PERJALANAN_BIASA") {
       formToSendData.kodeRekening = "5.1.02.04.01.0001";
     } else {
       formToSendData.kodeRekening = "5.1.02.04.01.0003";
     }
-    if(formData.activity) formToSendData.activity = formData.activity;
-    if(formData.reasoning) formToSendData.reasoning = formData.reasoning;
-    if(formData.location) formToSendData.location = formData.location;
-    if(formData.startDate) formToSendData.startDate = formData.startDate;
-    if(formData.endDate) formToSendData.endDate = formData.endDate;
-    if(formData.file) formToSendData.file = formData.file;
-    if(formData.komitmenid) formToSendData.komitmenid = formData.komitmenid;
-    if(formData.komitmenName) formToSendData.komitmenName = formData.komitmenName;
-    if(formData.komitmenJabatan) formToSendData.komitmenJabatan = formData.komitmenJabatan;
-    if(formData.komitmenNip) formToSendData.komitmenNip = formData.komitmenNip;
-    if(formData.bendaharaId) formToSendData.bendaharaId = formData.bendaharaId;
-    if(formData.bendaharaName) formToSendData.bendaharaName = formData.bendaharaName;
-    if(formData.bendaharaJabatan) formToSendData.bendaharaJabatan = formData.bendaharaJabatan;
-    if(formData.bendaharaNip) formToSendData.bendaharaNip = formData.bendaharaNip;
+    if (formData.activity) formToSendData.activity = formData.activity;
+    if (formData.reasoning) formToSendData.reasoning = formData.reasoning;
+    if (formData.location) formToSendData.location = formData.location;
+    if (formData.startDate) formToSendData.startDate = formData.startDate;
+    if (formData.endDate) formToSendData.endDate = formData.endDate;
+    if (formData.file) formToSendData.file = formData.file;
+    if (formData.komitmenid) formToSendData.komitmenid = formData.komitmenid;
+    if (formData.komitmenName)
+      formToSendData.komitmenName = formData.komitmenName;
+    if (formData.komitmenJabatan)
+      formToSendData.komitmenJabatan = formData.komitmenJabatan;
+    if (formData.komitmenNip) formToSendData.komitmenNip = formData.komitmenNip;
+    if (formData.bendaharaId) formToSendData.bendaharaId = formData.bendaharaId;
+    if (formData.bendaharaName)
+      formToSendData.bendaharaName = formData.bendaharaName;
+    if (formData.bendaharaJabatan)
+      formToSendData.bendaharaJabatan = formData.bendaharaJabatan;
+    if (formData.bendaharaNip)
+      formToSendData.bendaharaNip = formData.bendaharaNip;
 
-    formToSendData.participants = participantData
+    formToSendData.participants = participantData;
 
     try {
-      mutatePost({
-        id: id as string, formData: formToSendData
-      }, {
-        onSuccess: () => {
-          SuccessToast({ text: "Data berhasil disimpan" });
-          setLoadingConfirm(false);
-          onCloseConfirm();
-          navigate("/sppd");
+      mutatePost(
+        {
+          id: id as string,
+          formData: formToSendData,
         },
-        onError: (error: AxiosError<BaseErrorRes>) => {
-          setLoadingConfirm(false);
-          onCloseConfirm();
-          ErrorToast({
-            text:
-              (error.response?.data.message as string) ||
-              "Terjadi kesalahan saat menambah data",
-          });
-          throw error;
+        {
+          onSuccess: () => {
+            SuccessToast({ text: "Data berhasil disimpan" });
+            setLoadingConfirm(false);
+            onCloseConfirm();
+            navigate("/sppd");
+          },
+          onError: (error: AxiosError<BaseErrorRes>) => {
+            setLoadingConfirm(false);
+            onCloseConfirm();
+            ErrorToast({
+              text:
+                (error.response?.data.message as string) ||
+                "Terjadi kesalahan saat menambah data",
+            });
+            throw error;
+          },
         },
-      });
+      );
     } catch (error) {
       setLoadingConfirm(false);
       onCloseConfirm();
@@ -562,10 +641,10 @@ export default function UpdateSPPD() {
         handleSubmit={handleConfirm}
       />
       {isFetching && (
-          <div className="inset-0 fixed flex items-center justify-center z-20">
-            <Commet color="#32cd32" size="medium" text="" textColor="" />
-          </div>
-        )}
+        <div className="inset-0 fixed flex items-center justify-center z-20">
+          <Commet color="#32cd32" size="medium" text="" textColor="" />
+        </div>
+      )}
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <div className="flex">
           <Link
@@ -575,7 +654,10 @@ export default function UpdateSPPD() {
             <LuArrowLeft /> Kembali
           </Link>
         </div>
-        <TitleCase title="Tambah Data SPPD" text="Digunakan Untuk Menambah Perjalanan Dinas yang Terbaru" />
+        <TitleCase
+          title="Tambah Data SPPD"
+          text="Digunakan Untuk Menambah Perjalanan Dinas yang Terbaru"
+        />
 
         <div className="bg-white shadow-md rounded-xl border p-4">
           <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
@@ -588,7 +670,9 @@ export default function UpdateSPPD() {
                 </div>
                 <Input
                   value={formData.nomorSurat}
-                  onChange={(e) => setFormData({ ...formData, nomorSurat: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nomorSurat: e.target.value })
+                  }
                   aria-label="Judul"
                   labelPlacement="outside"
                   placeholder="Masukkan disini"
@@ -611,7 +695,9 @@ export default function UpdateSPPD() {
                 </div>
                 <Select
                   selectedKeys={[formData.type || ""]}
-                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, type: e.target.value })
+                  }
                   aria-label="Judul"
                   labelPlacement="outside"
                   placeholder="Masukkan disini"
@@ -622,8 +708,12 @@ export default function UpdateSPPD() {
                     value: "text-xs",
                   }}
                 >
-                  <SelectItem key={"PERJALANAN_BIASA"}>Perjalanan Biasa</SelectItem>
-                  <SelectItem key={"PERJALANAN_DALAM_KOTA"}>Perjalanan Dalam Kota</SelectItem>
+                  <SelectItem key={"PERJALANAN_BIASA"}>
+                    Perjalanan Biasa
+                  </SelectItem>
+                  <SelectItem key={"PERJALANAN_DALAM_KOTA"}>
+                    Perjalanan Dalam Kota
+                  </SelectItem>
                 </Select>
                 <div className="text-danger text-[0.7rem] mt-1">
                   {formError.type}
@@ -637,7 +727,9 @@ export default function UpdateSPPD() {
                 </div>
                 <Input
                   value={formData.activity}
-                  onChange={(e) => setFormData({ ...formData, activity: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, activity: e.target.value })
+                  }
                   aria-label="Judul"
                   labelPlacement="outside"
                   placeholder="Masukkan disini"
@@ -660,7 +752,9 @@ export default function UpdateSPPD() {
                 </div>
                 <Input
                   value={formData.reasoning}
-                  onChange={(e) => setFormData({ ...formData, reasoning: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, reasoning: e.target.value })
+                  }
                   aria-label="Judul"
                   labelPlacement="outside"
                   placeholder="Masukkan disini"
@@ -683,7 +777,9 @@ export default function UpdateSPPD() {
                 </div>
                 <Input
                   value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, location: e.target.value })
+                  }
                   aria-label="Judul"
                   labelPlacement="outside"
                   placeholder="Masukkan disini"
@@ -708,7 +804,9 @@ export default function UpdateSPPD() {
                   <Input
                     type="date"
                     value={formData.startDate}
-                    onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, startDate: e.target.value })
+                    }
                     aria-label="Judul"
                     labelPlacement="outside"
                     placeholder="Masukkan disini"
@@ -732,7 +830,9 @@ export default function UpdateSPPD() {
                   <Input
                     type="date"
                     value={formData.endDate}
-                    onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, endDate: e.target.value })
+                    }
                     aria-label="Judul"
                     labelPlacement="outside"
                     placeholder="Masukkan disini"
@@ -791,13 +891,24 @@ export default function UpdateSPPD() {
                       </div>
                       <div>
                         <div className="mb-1">
-                          <label htmlFor="content" className="font-semibold text-xs">
+                          <label
+                            htmlFor="content"
+                            className="font-semibold text-xs"
+                          >
                             Jumlah Anggaran
                           </label>
                         </div>
                         <Input
-                          value={String(formData.participantsLeader.budgets.dailyAllowance || "")}
-                          onChange={(e) => onChangeLeader(Number(e.target.value), "budgets.dailyAllowance")}
+                          value={String(
+                            formData.participantsLeader.budgets
+                              .dailyAllowance || "",
+                          )}
+                          onChange={(e) =>
+                            onChangeLeader(
+                              Number(e.target.value),
+                              "budgets.dailyAllowance",
+                            )
+                          }
                           aria-label="Judul"
                           startContent={"Rp"}
                           labelPlacement="outside"
@@ -813,13 +924,24 @@ export default function UpdateSPPD() {
                       <div className="grid grid-cols-3 gap-2">
                         <div>
                           <div className="mb-1">
-                            <label htmlFor="content" className="font-semibold text-xs">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
                               Vol
                             </label>
                           </div>
                           <Input
-                            value={String(formData.participantsLeader.budgets.volDailyAllowance || "")}
-                            onChange={(e) => onChangeLeader(Number(e.target.value), "budgets.volDailyAllowance")}
+                            value={String(
+                              formData.participantsLeader.budgets
+                                .volDailyAllowance || "",
+                            )}
+                            onChange={(e) =>
+                              onChangeLeader(
+                                Number(e.target.value),
+                                "budgets.volDailyAllowance",
+                              )
+                            }
                             aria-label="Judul"
                             labelPlacement="outside"
                             placeholder="Masukkan disini"
@@ -833,13 +955,21 @@ export default function UpdateSPPD() {
                         </div>
                         <div className="col-span-2">
                           <div className="mb-1">
-                            <label htmlFor="content" className="font-semibold text-xs">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
                               Total
                             </label>
                           </div>
                           <Input
                             isDisabled
-                            value={((formData.participantsLeader.budgets.dailyAllowance || 0) * (formData.participantsLeader.budgets.volDailyAllowance || 0)).toLocaleString('id-ID')}
+                            value={(
+                              (formData.participantsLeader.budgets
+                                .dailyAllowance || 0) *
+                              (formData.participantsLeader.budgets
+                                .volDailyAllowance || 0)
+                            ).toLocaleString("id-ID")}
                             aria-label="Judul"
                             startContent={"Rp"}
                             labelPlacement="outside"
@@ -856,17 +986,29 @@ export default function UpdateSPPD() {
                     </div>
                     <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                       <div className="md:col-span-2 col-span-1">
-                        <h1 className="font-medium text-sm">2. Uang Transport</h1>
+                        <h1 className="font-medium text-sm">
+                          2. Uang Transport
+                        </h1>
                       </div>
                       <div>
                         <div className="mb-1">
-                          <label htmlFor="content" className="font-semibold text-xs">
+                          <label
+                            htmlFor="content"
+                            className="font-semibold text-xs"
+                          >
                             Jumlah Anggaran
                           </label>
                         </div>
                         <Input
-                          value={String(formData.participantsLeader.budgets.transport || "")}
-                          onChange={(e) => onChangeLeader(Number(e.target.value), "budgets.transport")}
+                          value={String(
+                            formData.participantsLeader.budgets.transport || "",
+                          )}
+                          onChange={(e) =>
+                            onChangeLeader(
+                              Number(e.target.value),
+                              "budgets.transport",
+                            )
+                          }
                           aria-label="Judul"
                           startContent={"Rp"}
                           labelPlacement="outside"
@@ -882,13 +1024,24 @@ export default function UpdateSPPD() {
                       <div className="grid grid-cols-3 gap-2">
                         <div>
                           <div className="mb-1">
-                            <label htmlFor="content" className="font-semibold text-xs">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
                               Vol
                             </label>
                           </div>
                           <Input
-                            value={String(formData.participantsLeader.budgets.volTransport || "")}
-                            onChange={(e) => onChangeLeader(Number(e.target.value), "budgets.volTransport")}
+                            value={String(
+                              formData.participantsLeader.budgets
+                                .volTransport || "",
+                            )}
+                            onChange={(e) =>
+                              onChangeLeader(
+                                Number(e.target.value),
+                                "budgets.volTransport",
+                              )
+                            }
                             aria-label="Judul"
                             labelPlacement="outside"
                             placeholder="Masukkan disini"
@@ -902,13 +1055,21 @@ export default function UpdateSPPD() {
                         </div>
                         <div className="col-span-2">
                           <div className="mb-1">
-                            <label htmlFor="content" className="font-semibold text-xs">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
                               Total
                             </label>
                           </div>
                           <Input
                             isDisabled
-                            value={((formData.participantsLeader.budgets.transport || 0) * (formData.participantsLeader.budgets.volTransport || 0)).toLocaleString('id-ID')}
+                            value={(
+                              (formData.participantsLeader.budgets.transport ||
+                                0) *
+                              (formData.participantsLeader.budgets
+                                .volTransport || 0)
+                            ).toLocaleString("id-ID")}
                             aria-label="Judul"
                             startContent={"Rp"}
                             labelPlacement="outside"
@@ -925,17 +1086,30 @@ export default function UpdateSPPD() {
                     </div>
                     <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                       <div className="md:col-span-2 col-span-1">
-                        <h1 className="font-medium text-sm">3. Uang Representatif</h1>
+                        <h1 className="font-medium text-sm">
+                          3. Uang Representatif
+                        </h1>
                       </div>
                       <div>
                         <div className="mb-1">
-                          <label htmlFor="content" className="font-semibold text-xs">
+                          <label
+                            htmlFor="content"
+                            className="font-semibold text-xs"
+                          >
                             Jumlah Anggaran
                           </label>
                         </div>
                         <Input
-                          value={String(formData.participantsLeader.budgets.representatif || "")}
-                          onChange={(e) => onChangeLeader(Number(e.target.value), "budgets.representatif")}
+                          value={String(
+                            formData.participantsLeader.budgets.representatif ||
+                              "",
+                          )}
+                          onChange={(e) =>
+                            onChangeLeader(
+                              Number(e.target.value),
+                              "budgets.representatif",
+                            )
+                          }
                           aria-label="Judul"
                           startContent={"Rp"}
                           labelPlacement="outside"
@@ -951,13 +1125,24 @@ export default function UpdateSPPD() {
                       <div className="grid grid-cols-3 gap-2">
                         <div>
                           <div className="mb-1">
-                            <label htmlFor="content" className="font-semibold text-xs">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
                               Vol
                             </label>
                           </div>
                           <Input
-                            value={String(formData.participantsLeader.budgets.volRepresentatif || "")}
-                            onChange={(e) => onChangeLeader(Number(e.target.value), "budgets.volRepresentatif")}
+                            value={String(
+                              formData.participantsLeader.budgets
+                                .volRepresentatif || "",
+                            )}
+                            onChange={(e) =>
+                              onChangeLeader(
+                                Number(e.target.value),
+                                "budgets.volRepresentatif",
+                              )
+                            }
                             aria-label="Judul"
                             labelPlacement="outside"
                             placeholder="Masukkan disini"
@@ -971,13 +1156,21 @@ export default function UpdateSPPD() {
                         </div>
                         <div className="col-span-2">
                           <div className="mb-1">
-                            <label htmlFor="content" className="font-semibold text-xs">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
                               Total
                             </label>
                           </div>
                           <Input
                             isDisabled
-                            value={((formData.participantsLeader.budgets.representatif || 0) * (formData.participantsLeader.budgets.volRepresentatif || 0)).toLocaleString('id-ID')}
+                            value={(
+                              (formData.participantsLeader.budgets
+                                .representatif || 0) *
+                              (formData.participantsLeader.budgets
+                                .volRepresentatif || 0)
+                            ).toLocaleString("id-ID")}
                             aria-label="Judul"
                             startContent={"Rp"}
                             labelPlacement="outside"
@@ -1002,7 +1195,9 @@ export default function UpdateSPPD() {
                   </div>
                   <Input
                     value={formData.participantsLeader?.bankAccount || ""}
-                    onChange={(e) => onChangeLeader(e.target.value, "bankAccount")}
+                    onChange={(e) =>
+                      onChangeLeader(e.target.value, "bankAccount")
+                    }
                     aria-label="Judul"
                     labelPlacement="outside"
                     placeholder="Masukkan disini"
@@ -1018,278 +1213,386 @@ export default function UpdateSPPD() {
                   {formError.participantsLeader}
                 </div>
               </div>
-              {formData.participants && formData.participants.length > 0 && formData.participants.map((item, index) => (
-                <div className="md:col-span-2 my-2" key={index}>
-                  <div className="flex gap-2 items-center">
-                    <div className="px-3 py-2 rounded-md text-xs bg-alert-success text-success">{index + 1}</div><h1 className="font-semibold">Data Pengikut</h1>
-                  </div>
-                  <div className="mb-2">
-                    <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
-                        Nama Pegawai <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                    <Autocomplete
-                      defaultItems={PEGAWAI_SELECT}
-                      isLoading={isFetchingJabatan}
-                      aria-label="pegawai"
-                      placeholder="Cari pegawai"
-                      variant="bordered"
-                      radius="sm"
-                      selectedKey={String(item.userId)}
-                      onSelectionChange={(value) =>
-                        onChangeParticipant(index, value as string, "userId")
-                      }
-                      inputProps={{
-                        classNames: {
-                          input: "text-xs",
-                          inputWrapper: "border-[0.8px]",
-                        },
-                      }}
-                    >
-                      {(peg) => (
-                        <AutocompleteItem key={peg.id} textValue={peg.name}>
-                          {peg.name}
-                        </AutocompleteItem>
-                      )}
-                    </Autocomplete>
-                  </div>
-                  {item.budgets && (
-                    <div className="flex flex-col gap-3">
-                      <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
-                        <div className="md:col-span-2 col-span-1">
-                          <h1 className="font-medium text-sm">1. Uang Harian</h1>
-                        </div>
-                        <div>
-                          <div className="mb-1">
-                            <label htmlFor="content" className="font-semibold text-xs">
-                              Jumlah Anggaran
-                            </label>
-                          </div>
-                          <Input
-                            value={String(item.budgets.dailyAllowance || "")}
-                            onChange={(e) => onChangeParticipant(index, Number(e.target.value), "budgets.dailyAllowance")}
-                            aria-label="Judul"
-                            startContent={"Rp"}
-                            labelPlacement="outside"
-                            placeholder="Masukkan disini"
-                            variant="bordered"
-                            radius="sm"
-                            classNames={{
-                              inputWrapper: "border-[0.8px]",
-                              input: "text-xs",
-                            }}
-                          />
-                        </div>
-                        <div className="grid grid-cols-3 gap-2">
-                          <div>
-                            <div className="mb-1">
-                              <label htmlFor="content" className="font-semibold text-xs">
-                                Vol
-                              </label>
-                            </div>
-                            <Input
-                              value={String(item.budgets.volDailyAllowance || "")}
-                              onChange={(e) => onChangeParticipant(index, Number(e.target.value), "budgets.volDailyAllowance")}
-                              aria-label="Judul"
-                              labelPlacement="outside"
-                              placeholder="Masukkan disini"
-                              variant="bordered"
-                              radius="sm"
-                              classNames={{
-                                inputWrapper: "border-[0.8px]",
-                                input: "text-xs",
-                              }}
-                            />
-                          </div>
-                          <div className="col-span-2">
-                            <div className="mb-1">
-                              <label htmlFor="content" className="font-semibold text-xs">
-                                Total
-                              </label>
-                            </div>
-                            <Input
-                              isDisabled
-                              value={((item.budgets.dailyAllowance || 0) * (item.budgets.volDailyAllowance || 0)).toLocaleString('id-ID')}
-                              aria-label="Judul"
-                              startContent={"Rp"}
-                              labelPlacement="outside"
-                              placeholder="AUTO_FILLED"
-                              variant="bordered"
-                              radius="sm"
-                              classNames={{
-                                inputWrapper: "border-[0.8px]",
-                                input: "text-xs",
-                              }}
-                            />
-                          </div>
-                        </div>
+              {formData.participants &&
+                formData.participants.length > 0 &&
+                formData.participants.map((item, index) => (
+                  <div className="md:col-span-2 my-2" key={index}>
+                    <div className="flex gap-2 items-center">
+                      <div className="px-3 py-2 rounded-md text-xs bg-alert-success text-success">
+                        {index + 1}
                       </div>
-                      <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
-                        <div className="md:col-span-2 col-span-1">
-                          <h1 className="font-medium text-sm">2. Uang Transport</h1>
-                        </div>
-                        <div>
-                          <div className="mb-1">
-                            <label htmlFor="content" className="font-semibold text-xs">
-                              Jumlah Anggaran
-                            </label>
-                          </div>
-                          <Input
-                            value={String(item.budgets.transport || "")}
-                            onChange={(e) => onChangeParticipant(index, Number(e.target.value), "budgets.transport")}
-                            aria-label="Judul"
-                            startContent={"Rp"}
-                            labelPlacement="outside"
-                            placeholder="Masukkan disini"
-                            variant="bordered"
-                            radius="sm"
-                            classNames={{
-                              inputWrapper: "border-[0.8px]",
-                              input: "text-xs",
-                            }}
-                          />
-                        </div>
-                        <div className="grid grid-cols-3 gap-2">
-                          <div>
-                            <div className="mb-1">
-                              <label htmlFor="content" className="font-semibold text-xs">
-                                Vol
-                              </label>
-                            </div>
-                            <Input
-                              value={String(item.budgets.volTransport || "")}
-                              onChange={(e) => onChangeParticipant(index, Number(e.target.value), "budgets.volTransport")}
-                              aria-label="Judul"
-                              labelPlacement="outside"
-                              placeholder="Masukkan disini"
-                              variant="bordered"
-                              radius="sm"
-                              classNames={{
-                                inputWrapper: "border-[0.8px]",
-                                input: "text-xs",
-                              }}
-                            />
-                          </div>
-                          <div className="col-span-2">
-                            <div className="mb-1">
-                              <label htmlFor="content" className="font-semibold text-xs">
-                                Total
-                              </label>
-                            </div>
-                            <Input
-                              isDisabled
-                              value={((item.budgets.transport || 0) * (item.budgets.volTransport || 0)).toLocaleString('id-ID')}
-                              aria-label="Judul"
-                              startContent={"Rp"}
-                              labelPlacement="outside"
-                              placeholder="AUTO_FILLED"
-                              variant="bordered"
-                              radius="sm"
-                              classNames={{
-                                inputWrapper: "border-[0.8px]",
-                                input: "text-xs",
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
-                        <div className="md:col-span-2 col-span-1">
-                          <h1 className="font-medium text-sm">3. Uang Representatif</h1>
-                        </div>
-                        <div>
-                          <div className="mb-1">
-                            <label htmlFor="content" className="font-semibold text-xs">
-                              Jumlah Anggaran
-                            </label>
-                          </div>
-                          <Input
-                            value={String(item.budgets.representatif || "")}
-                            onChange={(e) => onChangeParticipant(index, Number(e.target.value), "budgets.representatif")}
-                            aria-label="Judul"
-                            startContent={"Rp"}
-                            labelPlacement="outside"
-                            placeholder="Masukkan disini"
-                            variant="bordered"
-                            radius="sm"
-                            classNames={{
-                              inputWrapper: "border-[0.8px]",
-                              input: "text-xs",
-                            }}
-                          />
-                        </div>
-                        <div className="grid grid-cols-3 gap-2">
-                          <div>
-                            <div className="mb-1">
-                              <label htmlFor="content" className="font-semibold text-xs">
-                                Vol
-                              </label>
-                            </div>
-                            <Input
-                              value={String(item.budgets.volRepresentatif || "")}
-                              onChange={(e) => onChangeParticipant(index, Number(e.target.value), "budgets.volRepresentatif")}
-                              aria-label="Judul"
-                              labelPlacement="outside"
-                              placeholder="Masukkan disini"
-                              variant="bordered"
-                              radius="sm"
-                              classNames={{
-                                inputWrapper: "border-[0.8px]",
-                                input: "text-xs",
-                              }}
-                            />
-                          </div>
-                          <div className="col-span-2">
-                            <div className="mb-1">
-                              <label htmlFor="content" className="font-semibold text-xs">
-                                Total
-                              </label>
-                            </div>
-                            <Input
-                              isDisabled
-                              value={((item.budgets.representatif || 0) * (item.budgets.volRepresentatif || 0)).toLocaleString('id-ID')}
-                              aria-label="Judul"
-                              startContent={"Rp"}
-                              labelPlacement="outside"
-                              placeholder="AUTO_FILLED"
-                              variant="bordered"
-                              radius="sm"
-                              classNames={{
-                                inputWrapper: "border-[0.8px]",
-                                input: "text-xs",
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </div>
+                      <h1 className="font-semibold">Data Pengikut</h1>
                     </div>
-                  )}
-                  <div className="mt-2">
-                    <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
-                        Nomor Rekening BJB <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                    <div className="flex gap-2">
-                      <Input
-                        value={item.bankAccount || ""}
-                        onChange={(e) => onChangeParticipant(index, e.target.value, "bankAccount")}
-                        aria-label="Judul"
-                        labelPlacement="outside"
-                        placeholder="Masukkan disini"
+                    <div className="mb-2">
+                      <div className="mb-1">
+                        <label
+                          htmlFor="content"
+                          className="font-semibold text-xs"
+                        >
+                          Nama Pegawai <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      <Autocomplete
+                        defaultItems={PEGAWAI_SELECT}
+                        isLoading={isFetchingJabatan}
+                        aria-label="pegawai"
+                        placeholder="Cari pegawai"
                         variant="bordered"
                         radius="sm"
-                        classNames={{
-                          inputWrapper: "border-[0.8px]",
-                          input: "text-xs",
+                        selectedKey={String(item.userId)}
+                        onSelectionChange={(value) =>
+                          onChangeParticipant(index, value as string, "userId")
+                        }
+                        inputProps={{
+                          classNames: {
+                            input: "text-xs",
+                            inputWrapper: "border-[0.8px]",
+                          },
                         }}
-                      />
-                      <Button onPress={() => removePengikut(index)} isIconOnly variant="bordered" color="danger" radius="sm"><LucideTrash2 size={14} /></Button>
+                      >
+                        {(peg) => (
+                          <AutocompleteItem key={peg.id} textValue={peg.name}>
+                            {peg.name}
+                          </AutocompleteItem>
+                        )}
+                      </Autocomplete>
+                    </div>
+                    {item.budgets && (
+                      <div className="flex flex-col gap-3">
+                        <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
+                          <div className="md:col-span-2 col-span-1">
+                            <h1 className="font-medium text-sm">
+                              1. Uang Harian
+                            </h1>
+                          </div>
+                          <div>
+                            <div className="mb-1">
+                              <label
+                                htmlFor="content"
+                                className="font-semibold text-xs"
+                              >
+                                Jumlah Anggaran
+                              </label>
+                            </div>
+                            <Input
+                              value={String(item.budgets.dailyAllowance || "")}
+                              onChange={(e) =>
+                                onChangeParticipant(
+                                  index,
+                                  Number(e.target.value),
+                                  "budgets.dailyAllowance",
+                                )
+                              }
+                              aria-label="Judul"
+                              startContent={"Rp"}
+                              labelPlacement="outside"
+                              placeholder="Masukkan disini"
+                              variant="bordered"
+                              radius="sm"
+                              classNames={{
+                                inputWrapper: "border-[0.8px]",
+                                input: "text-xs",
+                              }}
+                            />
+                          </div>
+                          <div className="grid grid-cols-3 gap-2">
+                            <div>
+                              <div className="mb-1">
+                                <label
+                                  htmlFor="content"
+                                  className="font-semibold text-xs"
+                                >
+                                  Vol
+                                </label>
+                              </div>
+                              <Input
+                                value={String(
+                                  item.budgets.volDailyAllowance || "",
+                                )}
+                                onChange={(e) =>
+                                  onChangeParticipant(
+                                    index,
+                                    Number(e.target.value),
+                                    "budgets.volDailyAllowance",
+                                  )
+                                }
+                                aria-label="Judul"
+                                labelPlacement="outside"
+                                placeholder="Masukkan disini"
+                                variant="bordered"
+                                radius="sm"
+                                classNames={{
+                                  inputWrapper: "border-[0.8px]",
+                                  input: "text-xs",
+                                }}
+                              />
+                            </div>
+                            <div className="col-span-2">
+                              <div className="mb-1">
+                                <label
+                                  htmlFor="content"
+                                  className="font-semibold text-xs"
+                                >
+                                  Total
+                                </label>
+                              </div>
+                              <Input
+                                isDisabled
+                                value={(
+                                  (item.budgets.dailyAllowance || 0) *
+                                  (item.budgets.volDailyAllowance || 0)
+                                ).toLocaleString("id-ID")}
+                                aria-label="Judul"
+                                startContent={"Rp"}
+                                labelPlacement="outside"
+                                placeholder="AUTO_FILLED"
+                                variant="bordered"
+                                radius="sm"
+                                classNames={{
+                                  inputWrapper: "border-[0.8px]",
+                                  input: "text-xs",
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
+                          <div className="md:col-span-2 col-span-1">
+                            <h1 className="font-medium text-sm">
+                              2. Uang Transport
+                            </h1>
+                          </div>
+                          <div>
+                            <div className="mb-1">
+                              <label
+                                htmlFor="content"
+                                className="font-semibold text-xs"
+                              >
+                                Jumlah Anggaran
+                              </label>
+                            </div>
+                            <Input
+                              value={String(item.budgets.transport || "")}
+                              onChange={(e) =>
+                                onChangeParticipant(
+                                  index,
+                                  Number(e.target.value),
+                                  "budgets.transport",
+                                )
+                              }
+                              aria-label="Judul"
+                              startContent={"Rp"}
+                              labelPlacement="outside"
+                              placeholder="Masukkan disini"
+                              variant="bordered"
+                              radius="sm"
+                              classNames={{
+                                inputWrapper: "border-[0.8px]",
+                                input: "text-xs",
+                              }}
+                            />
+                          </div>
+                          <div className="grid grid-cols-3 gap-2">
+                            <div>
+                              <div className="mb-1">
+                                <label
+                                  htmlFor="content"
+                                  className="font-semibold text-xs"
+                                >
+                                  Vol
+                                </label>
+                              </div>
+                              <Input
+                                value={String(item.budgets.volTransport || "")}
+                                onChange={(e) =>
+                                  onChangeParticipant(
+                                    index,
+                                    Number(e.target.value),
+                                    "budgets.volTransport",
+                                  )
+                                }
+                                aria-label="Judul"
+                                labelPlacement="outside"
+                                placeholder="Masukkan disini"
+                                variant="bordered"
+                                radius="sm"
+                                classNames={{
+                                  inputWrapper: "border-[0.8px]",
+                                  input: "text-xs",
+                                }}
+                              />
+                            </div>
+                            <div className="col-span-2">
+                              <div className="mb-1">
+                                <label
+                                  htmlFor="content"
+                                  className="font-semibold text-xs"
+                                >
+                                  Total
+                                </label>
+                              </div>
+                              <Input
+                                isDisabled
+                                value={(
+                                  (item.budgets.transport || 0) *
+                                  (item.budgets.volTransport || 0)
+                                ).toLocaleString("id-ID")}
+                                aria-label="Judul"
+                                startContent={"Rp"}
+                                labelPlacement="outside"
+                                placeholder="AUTO_FILLED"
+                                variant="bordered"
+                                radius="sm"
+                                classNames={{
+                                  inputWrapper: "border-[0.8px]",
+                                  input: "text-xs",
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
+                          <div className="md:col-span-2 col-span-1">
+                            <h1 className="font-medium text-sm">
+                              3. Uang Representatif
+                            </h1>
+                          </div>
+                          <div>
+                            <div className="mb-1">
+                              <label
+                                htmlFor="content"
+                                className="font-semibold text-xs"
+                              >
+                                Jumlah Anggaran
+                              </label>
+                            </div>
+                            <Input
+                              value={String(item.budgets.representatif || "")}
+                              onChange={(e) =>
+                                onChangeParticipant(
+                                  index,
+                                  Number(e.target.value),
+                                  "budgets.representatif",
+                                )
+                              }
+                              aria-label="Judul"
+                              startContent={"Rp"}
+                              labelPlacement="outside"
+                              placeholder="Masukkan disini"
+                              variant="bordered"
+                              radius="sm"
+                              classNames={{
+                                inputWrapper: "border-[0.8px]",
+                                input: "text-xs",
+                              }}
+                            />
+                          </div>
+                          <div className="grid grid-cols-3 gap-2">
+                            <div>
+                              <div className="mb-1">
+                                <label
+                                  htmlFor="content"
+                                  className="font-semibold text-xs"
+                                >
+                                  Vol
+                                </label>
+                              </div>
+                              <Input
+                                value={String(
+                                  item.budgets.volRepresentatif || "",
+                                )}
+                                onChange={(e) =>
+                                  onChangeParticipant(
+                                    index,
+                                    Number(e.target.value),
+                                    "budgets.volRepresentatif",
+                                  )
+                                }
+                                aria-label="Judul"
+                                labelPlacement="outside"
+                                placeholder="Masukkan disini"
+                                variant="bordered"
+                                radius="sm"
+                                classNames={{
+                                  inputWrapper: "border-[0.8px]",
+                                  input: "text-xs",
+                                }}
+                              />
+                            </div>
+                            <div className="col-span-2">
+                              <div className="mb-1">
+                                <label
+                                  htmlFor="content"
+                                  className="font-semibold text-xs"
+                                >
+                                  Total
+                                </label>
+                              </div>
+                              <Input
+                                isDisabled
+                                value={(
+                                  (item.budgets.representatif || 0) *
+                                  (item.budgets.volRepresentatif || 0)
+                                ).toLocaleString("id-ID")}
+                                aria-label="Judul"
+                                startContent={"Rp"}
+                                labelPlacement="outside"
+                                placeholder="AUTO_FILLED"
+                                variant="bordered"
+                                radius="sm"
+                                classNames={{
+                                  inputWrapper: "border-[0.8px]",
+                                  input: "text-xs",
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    <div className="mt-2">
+                      <div className="mb-1">
+                        <label
+                          htmlFor="content"
+                          className="font-semibold text-xs"
+                        >
+                          Nomor Rekening BJB{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      <div className="flex gap-2">
+                        <Input
+                          value={item.bankAccount || ""}
+                          onChange={(e) =>
+                            onChangeParticipant(
+                              index,
+                              e.target.value,
+                              "bankAccount",
+                            )
+                          }
+                          aria-label="Judul"
+                          labelPlacement="outside"
+                          placeholder="Masukkan disini"
+                          variant="bordered"
+                          radius="sm"
+                          classNames={{
+                            inputWrapper: "border-[0.8px]",
+                            input: "text-xs",
+                          }}
+                        />
+                        <Button
+                          onPress={() => removePengikut(index)}
+                          isIconOnly
+                          variant="bordered"
+                          color="danger"
+                          radius="sm"
+                        >
+                          <LucideTrash2 size={14} />
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
               <div className="md:col-span-2 col-span-1">
                 <Button
                   onPress={addPengikut}
@@ -1304,7 +1607,8 @@ export default function UpdateSPPD() {
                 <div>
                   <div className="mb-1">
                     <label htmlFor="content" className="font-semibold text-xs">
-                      Pejabat Pembuat Komitmen <span className="text-danger">*</span>
+                      Pejabat Pembuat Komitmen{" "}
+                      <span className="text-danger">*</span>
                     </label>
                   </div>
                   <Autocomplete
@@ -1334,7 +1638,7 @@ export default function UpdateSPPD() {
                   <div className="text-danger text-[0.7rem] mt-1">
                     {formError.komitmenid}
                   </div>
-                </div>  
+                </div>
                 <div>
                   <div className="mb-1">
                     <label htmlFor="content" className="font-semibold text-xs">
@@ -1379,13 +1683,13 @@ export default function UpdateSPPD() {
                     />
                   </div>
                 </div>
-
               </div>
               <div className="md:col-span-2 col-span-1 grid md:grid-cols-3 grid-cols-1 gap-2">
                 <div>
                   <div className="mb-1">
                     <label htmlFor="content" className="font-semibold text-xs">
-                      Bendahara Pengeluaran <span className="text-danger">*</span>
+                      Bendahara Pengeluaran{" "}
+                      <span className="text-danger">*</span>
                     </label>
                   </div>
                   <Autocomplete
@@ -1415,7 +1719,7 @@ export default function UpdateSPPD() {
                   <div className="text-danger text-[0.7rem] mt-1">
                     {formError.bendaharaId}
                   </div>
-                </div>  
+                </div>
                 <div>
                   <div className="mb-1">
                     <label htmlFor="content" className="font-semibold text-xs">
@@ -1460,7 +1764,6 @@ export default function UpdateSPPD() {
                     />
                   </div>
                 </div>
-
               </div>
               <div className="md:col-span-2 col-span-1">
                 <div className="max-w-80">

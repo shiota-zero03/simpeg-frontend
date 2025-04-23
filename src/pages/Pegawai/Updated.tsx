@@ -342,24 +342,28 @@ export default function CreatePegawai() {
     formToSend.isPimpinan = formData.isPimpinan;
 
     try {
-      mutatePost({
-        id: id as string, formData: formToSend
-      }, {
-        onSuccess: () => {
-          SuccessToast({ text: "Data berhasil ditambahkan" });
-          navigate("/pegawai");
+      mutatePost(
+        {
+          id: id as string,
+          formData: formToSend,
         },
-        onError: (error: AxiosError<BaseErrorRes>) => {
-          ErrorToast({
-            text:
-              (error.response?.data.message as string) ||
-              "Terjadi kesalahan saat mengirim data",
-          });
-          onCloseConfirm();
-          setLoadingConfirm(false);
-          throw error;
+        {
+          onSuccess: () => {
+            SuccessToast({ text: "Data berhasil ditambahkan" });
+            navigate("/pegawai");
+          },
+          onError: (error: AxiosError<BaseErrorRes>) => {
+            ErrorToast({
+              text:
+                (error.response?.data.message as string) ||
+                "Terjadi kesalahan saat mengirim data",
+            });
+            onCloseConfirm();
+            setLoadingConfirm(false);
+            throw error;
+          },
         },
-      });
+      );
     } catch (error) {
       setLoadingConfirm(false);
       onCloseConfirm();

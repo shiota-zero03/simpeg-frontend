@@ -58,7 +58,8 @@ const UpdatePassword = ({ isOpen, onClose, handleClose }: props) => {
   const rules = () => {
     const error: errorProps = {};
 
-    if (!formData.oldPassword) error.oldPassword = "Password lama tidak boleh kosong";
+    if (!formData.oldPassword)
+      error.oldPassword = "Password lama tidak boleh kosong";
     if (!formData.password) error.password = "Password tidak boleh kosong";
     else if (formData.password.length < 8)
       error.password = "Password minimal 8 karakter";
@@ -71,46 +72,46 @@ const UpdatePassword = ({ isOpen, onClose, handleClose }: props) => {
   };
 
   const { mutate: mutatePost } = useUpdatePassword();
-  
-    const handleSubmit = () => {
-        setIsLoading(true);
-  
-      const errorRules = rules();
-      setFormError(errorRules);
-  
-      if (Object.keys(errorRules).length > 0) {
-        setIsLoading(false);
-        ErrorToast({ text: "Validasi gagal, cek kembali form anda" });
-        return true;
-      }
-  
-      const formToSend: StorePegawai = {};
-      if (formData.password) formToSend.password = formData.password;
-      if (formData.oldPassword) formToSend.oldPassword = formData.oldPassword;
-  
-      try {
-        mutatePost(formToSend, {
-          onSuccess: () => {
-            SuccessToast({ text: "Password berhasil diperbarui" });
-            handleClose()
-          },
-          onError: (error: AxiosError<BaseErrorRes>) => {
-            ErrorToast({
-              text:
-                (error.response?.data.message as string) ||
-                "Terjadi kesalahan saat mengirim data",
-            });
-            setIsLoading(false);
-            throw error;
-          },
-        });
-      } catch (error) {
-        setIsLoading(false);
-        throw error;
-      }
-    };
 
-    const [ showPassword, setShowPassword ] = useState<boolean>(false)
+  const handleSubmit = () => {
+    setIsLoading(true);
+
+    const errorRules = rules();
+    setFormError(errorRules);
+
+    if (Object.keys(errorRules).length > 0) {
+      setIsLoading(false);
+      ErrorToast({ text: "Validasi gagal, cek kembali form anda" });
+      return true;
+    }
+
+    const formToSend: StorePegawai = {};
+    if (formData.password) formToSend.password = formData.password;
+    if (formData.oldPassword) formToSend.oldPassword = formData.oldPassword;
+
+    try {
+      mutatePost(formToSend, {
+        onSuccess: () => {
+          SuccessToast({ text: "Password berhasil diperbarui" });
+          handleClose();
+        },
+        onError: (error: AxiosError<BaseErrorRes>) => {
+          ErrorToast({
+            text:
+              (error.response?.data.message as string) ||
+              "Terjadi kesalahan saat mengirim data",
+          });
+          setIsLoading(false);
+          throw error;
+        },
+      });
+    } catch (error) {
+      setIsLoading(false);
+      throw error;
+    }
+  };
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
     <>
       <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="4xl">
@@ -127,10 +128,7 @@ const UpdatePassword = ({ isOpen, onClose, handleClose }: props) => {
             <div className="grid grid-cols-1 gap-2">
               <div>
                 <div className="mb-1">
-                  <label
-                    htmlFor="content"
-                    className="font-semibold text-xs"
-                  >
+                  <label htmlFor="content" className="font-semibold text-xs">
                     Password Lama<span className="text-danger">*</span>
                   </label>
                 </div>
@@ -169,10 +167,7 @@ const UpdatePassword = ({ isOpen, onClose, handleClose }: props) => {
               </div>
               <div>
                 <div className="mb-1">
-                  <label
-                    htmlFor="content"
-                    className="font-semibold text-xs"
-                  >
+                  <label htmlFor="content" className="font-semibold text-xs">
                     Password <span className="text-danger">*</span>
                   </label>
                 </div>
@@ -211,10 +206,7 @@ const UpdatePassword = ({ isOpen, onClose, handleClose }: props) => {
               </div>
               <div>
                 <div className="mb-1">
-                  <label
-                    htmlFor="content"
-                    className="font-semibold text-xs"
-                  >
+                  <label htmlFor="content" className="font-semibold text-xs">
                     Confirm Password <span className="text-danger">*</span>
                   </label>
                 </div>

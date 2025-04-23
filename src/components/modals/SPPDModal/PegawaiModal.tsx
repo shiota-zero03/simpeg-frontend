@@ -12,23 +12,23 @@ interface PegawaiProps {
   createdAt: string;
   updatedAt: string;
   user: {
-      id: string;
-      name: string;
-      nip: string;
-      jabatan: {
-          nameJob: string;
-      } | null;
-  },
+    id: string;
+    name: string;
+    nip: string;
+    jabatan: {
+      nameJob: string;
+    } | null;
+  };
   budgets: {
-      id: number;
-      transport: number;
-      volTransport: number;
-      representatif: number;
-      volRepresentatif: number;
-      dailyAllowance: number;
-      volDailyAllowance: number;
-      bankAccount: string;
-  }[]
+    id: number;
+    transport: number;
+    volTransport: number;
+    representatif: number;
+    volRepresentatif: number;
+    dailyAllowance: number;
+    volDailyAllowance: number;
+    bankAccount: string;
+  }[];
 }
 
 interface props {
@@ -38,7 +38,6 @@ interface props {
 }
 
 const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
-
   let totalAnggaran = 0;
   return (
     <>
@@ -69,7 +68,10 @@ const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
                     <th className="text-left border-b-2 min-w-40 border-accent-gray p-2 text-sm bg-primary text-white">
                       Jabatan
                     </th>
-                    <th colSpan={2} className="text-left border-b-2 min-w-96 border-accent-gray p-2 text-sm bg-primary text-white">
+                    <th
+                      colSpan={2}
+                      className="text-left border-b-2 min-w-96 border-accent-gray p-2 text-sm bg-primary text-white"
+                    >
                       Rincian Anggaran
                     </th>
                     <th className="text-left border-b-2 min-w-20 border-accent-gray p-2 text-sm bg-primary text-white">
@@ -84,107 +86,148 @@ const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
                   </tr>
                 </thead>
                 <tbody>
-                {pegawai && pegawai.length > 0 ? (
-                  pegawai.map((item, index) => {
-                    const user = item.user ?? {};
+                  {pegawai && pegawai.length > 0 ? (
+                    pegawai.map((item, index) => {
+                      const user = item.user ?? {};
 
-                    let dailyAllowance = {
-                      harga: item.budgets[0] ? Number(item.budgets[0].dailyAllowance || 0) : 0,
-                      vol: item.budgets[0] ? Number(item.budgets[0].volDailyAllowance || 0) : 0,
-                      total: item.budgets[0] ? Number(item.budgets[0].dailyAllowance || 0) * Number(item.budgets[0].volDailyAllowance || 0) : 0,
-                    }
-                    let transport = {
-                      harga: item.budgets[0] ? Number(item.budgets[0].transport || 0) : 0,
-                      vol: item.budgets[0] ? Number(item.budgets[0].volTransport || 0) : 0,
-                      total: item.budgets[0] ? Number(item.budgets[0].transport || 0) * Number(item.budgets[0].volTransport || 0) : 0,
-                    }
-                    let representatif = {
-                      harga: item.budgets[0] ? Number(item.budgets[0].representatif || 0) : 0,
-                      vol: item.budgets[0] ? Number(item.budgets[0].volRepresentatif || 0) : 0,
-                      total: item.budgets[0] ? Number(item.budgets[0].representatif || 0) * Number(item.budgets[0].volRepresentatif || 0) : 0,
-                    }
+                      const dailyAllowance = {
+                        harga: item.budgets[0]
+                          ? Number(item.budgets[0].dailyAllowance || 0)
+                          : 0,
+                        vol: item.budgets[0]
+                          ? Number(item.budgets[0].volDailyAllowance || 0)
+                          : 0,
+                        total: item.budgets[0]
+                          ? Number(item.budgets[0].dailyAllowance || 0) *
+                            Number(item.budgets[0].volDailyAllowance || 0)
+                          : 0,
+                      };
+                      const transport = {
+                        harga: item.budgets[0]
+                          ? Number(item.budgets[0].transport || 0)
+                          : 0,
+                        vol: item.budgets[0]
+                          ? Number(item.budgets[0].volTransport || 0)
+                          : 0,
+                        total: item.budgets[0]
+                          ? Number(item.budgets[0].transport || 0) *
+                            Number(item.budgets[0].volTransport || 0)
+                          : 0,
+                      };
+                      const representatif = {
+                        harga: item.budgets[0]
+                          ? Number(item.budgets[0].representatif || 0)
+                          : 0,
+                        vol: item.budgets[0]
+                          ? Number(item.budgets[0].volRepresentatif || 0)
+                          : 0,
+                        total: item.budgets[0]
+                          ? Number(item.budgets[0].representatif || 0) *
+                            Number(item.budgets[0].volRepresentatif || 0)
+                          : 0,
+                      };
 
+                      const totalKeseluruhan =
+                        dailyAllowance.total +
+                        transport.total +
+                        representatif.total;
 
-                    let totalKeseluruhan = dailyAllowance.total + transport.total + representatif.total
+                      totalAnggaran += totalKeseluruhan;
 
-                    totalAnggaran += totalKeseluruhan;
-
-                    return (
-                      <React.Fragment key={index}>
-                        <tr>
-                          <td rowSpan={3} className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10 text-center">
-                            {index + 1}
-                          </td>
-                          <td rowSpan={3} className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            {user.name ?? "-"}
-                          </td>
-                          <td rowSpan={3} className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            {user.nip ?? "-"}
-                          </td>
-                          <td rowSpan={3} className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                            {user.jabatan?.nameJob ?? "-"}
-                          </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                            Uang Harian
-                          </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                          Rp {dailyAllowance.harga.toLocaleString('id-ID')}
-                          </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                          {dailyAllowance.total.toLocaleString('id-ID')}
-                          </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                          Rp {dailyAllowance.total.toLocaleString('id-ID')}
-                          </td>
-                          <td rowSpan={3} className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                          Rp {totalKeseluruhan.toLocaleString('id-ID')}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                            Uang Transport
-                          </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                          Rp {transport.harga.toLocaleString('id-ID')}
-                          </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                          {transport.vol.toLocaleString('id-ID')}
-                          </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                          Rp {transport.total.toLocaleString('id-ID')}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                            Representatif
-                          </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                          Rp {representatif.harga.toLocaleString('id-ID')}
-                          </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                          {representatif.vol.toLocaleString('id-ID')}
-                          </td>
-                          <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                          Rp {representatif.total.toLocaleString('id-ID')}
-                          </td>
-                        </tr>
-                      </React.Fragment>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan={9} className="text-center p-2 text-sm">
-                      Tidak ada data
-                    </td>
-                  </tr>
-                )}
+                      return (
+                        <React.Fragment key={index}>
+                          <tr>
+                            <td
+                              rowSpan={3}
+                              className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10 text-center"
+                            >
+                              {index + 1}
+                            </td>
+                            <td
+                              rowSpan={3}
+                              className="border-b-2 border-accent-gray p-2 text-sm font-semibold"
+                            >
+                              {user.name ?? "-"}
+                            </td>
+                            <td
+                              rowSpan={3}
+                              className="border-b-2 border-accent-gray p-2 text-sm font-semibold"
+                            >
+                              {user.nip ?? "-"}
+                            </td>
+                            <td
+                              rowSpan={3}
+                              className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold"
+                            >
+                              {user.jabatan?.nameJob ?? "-"}
+                            </td>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
+                              Uang Harian
+                            </td>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
+                              Rp {dailyAllowance.harga.toLocaleString("id-ID")}
+                            </td>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
+                              {dailyAllowance.total.toLocaleString("id-ID")}
+                            </td>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
+                              Rp {dailyAllowance.total.toLocaleString("id-ID")}
+                            </td>
+                            <td
+                              rowSpan={3}
+                              className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold"
+                            >
+                              Rp {totalKeseluruhan.toLocaleString("id-ID")}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
+                              Uang Transport
+                            </td>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
+                              Rp {transport.harga.toLocaleString("id-ID")}
+                            </td>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
+                              {transport.vol.toLocaleString("id-ID")}
+                            </td>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
+                              Rp {transport.total.toLocaleString("id-ID")}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
+                              Representatif
+                            </td>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
+                              Rp {representatif.harga.toLocaleString("id-ID")}
+                            </td>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
+                              {representatif.vol.toLocaleString("id-ID")}
+                            </td>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
+                              Rp {representatif.total.toLocaleString("id-ID")}
+                            </td>
+                          </tr>
+                        </React.Fragment>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan={9} className="text-center p-2 text-sm">
+                        Tidak ada data
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
                 <tfoot>
-                  <th colSpan={8} className="text-left border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-lg">
+                  <th
+                    colSpan={8}
+                    className="text-left border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-lg"
+                  >
                     Total Anggaran
                   </th>
                   <th className="text-left border-b-2 min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-lg">
-                    Rp{totalAnggaran.toLocaleString('id-ID')}
+                    Rp{totalAnggaran.toLocaleString("id-ID")}
                   </th>
                 </tfoot>
               </table>

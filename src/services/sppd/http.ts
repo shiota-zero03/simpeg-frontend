@@ -1,9 +1,6 @@
 import instance from "@/api/axios";
 import { StoreSPPD } from "@/interface/request/sppd.interface";
-import {
-  ISPPDRes,
-  ISPPDDetailRes,
-} from "@/interface/responses/sppd.interface";
+import { ISPPDRes, ISPPDDetailRes } from "@/interface/responses/sppd.interface";
 
 export const getAllSPPD = async (
   page: number,
@@ -30,9 +27,7 @@ export const createSPPD = async (
   const response = await instance.post(`/admin/sppd/create`, formData);
   return response.data;
 };
-export const getDetailSPPD = async (
-  id: string,
-): Promise<ISPPDDetailRes> => {
+export const getDetailSPPD = async (id: string): Promise<ISPPDDetailRes> => {
   const response = await instance.get(`/admin/sppd/${id}`);
   return response.data;
 };
@@ -43,9 +38,7 @@ export const updateSPPD = async (
   const response = await instance.put(`/admin/sppd/update/${id}`, formData);
   return response.data;
 };
-export const deleteSPPD = async (
-  id: string,
-): Promise<ISPPDDetailRes> => {
+export const deleteSPPD = async (id: string): Promise<ISPPDDetailRes> => {
   const response = await instance.delete(`/admin/sppd/delete/${id}`);
   return response.data;
 };

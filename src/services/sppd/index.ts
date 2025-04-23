@@ -27,11 +27,7 @@ export const useGetAllSPPD = (
 };
 export const useCreateSPPD = () => {
   const queryClient = useQueryClient();
-  return useMutation<
-    ISPPDDetailRes,
-    AxiosError<BaseErrorRes>,
-    StoreSPPD
-  >({
+  return useMutation<ISPPDDetailRes, AxiosError<BaseErrorRes>, StoreSPPD>({
     mutationFn: (formData) => createSPPD(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["createSPPD"] });
@@ -66,11 +62,7 @@ export const useUpdateSPPD = () => {
 };
 export const useDeleteSPPD = () => {
   const queryClient = useQueryClient();
-  return useMutation<
-    ISPPDDetailRes,
-    AxiosError<BaseErrorRes>,
-    { id: string }
-  >({
+  return useMutation<ISPPDDetailRes, AxiosError<BaseErrorRes>, { id: string }>({
     mutationFn: ({ id }) => deleteSPPD(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["deleteSPPD"] });

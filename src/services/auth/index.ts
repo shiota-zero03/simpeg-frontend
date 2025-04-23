@@ -30,11 +30,7 @@ export const useGetProfile = () => {
 
 export const useUpdateProfil = () => {
   const queryClient = useQueryClient();
-  return useMutation<
-    IPegawaiRes,
-    AxiosError<BaseErrorRes>,
-    StorePegawai
-  >({
+  return useMutation<IPegawaiRes, AxiosError<BaseErrorRes>, StorePegawai>({
     mutationFn: (formData) => updateProfil(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["updateProfil"] });
@@ -47,11 +43,7 @@ export const useUpdateProfil = () => {
 
 export const useUpdatePassword = () => {
   const queryClient = useQueryClient();
-  return useMutation<
-    IPegawaiRes,
-    AxiosError<BaseErrorRes>,
-    StorePegawai
-  >({
+  return useMutation<IPegawaiRes, AxiosError<BaseErrorRes>, StorePegawai>({
     mutationFn: (formData) => updatePassword(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["updatePassword"] });

@@ -88,7 +88,8 @@ export default function Login() {
         },
         onError: (error: AxiosError<BaseErrorRes>) => {
           ErrorToast({
-            text: (error.response?.data.message as string) || "User login error",
+            text:
+              (error.response?.data.message as string) || "User login error",
           });
           setIsLoading(false);
           throw error;

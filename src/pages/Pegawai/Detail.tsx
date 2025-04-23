@@ -57,9 +57,7 @@ export default function UpdateNews() {
           <CardBody className="flex flex-col gap-2">
             <Card className="border relative overflow-hidden" shadow="none">
               <div className="absolute top-0 right-0 bg-primary text-white py-2 px-4 text-sm rounded-bl-lg">
-                {DATA_FETCHING?.role === "PEGAWAI"
-                    ? "Pegawai"
-                    : "Admin"}
+                {DATA_FETCHING?.role === "PEGAWAI" ? "Pegawai" : "Admin"}
               </div>
               <CardBody className="p-4 flex items-center md:flex-row flex-col gap-4">
                 <img

@@ -147,7 +147,7 @@ export default function Router() {
           <Route path="/sppd" element={<SPPD />} />
           <Route path="/sppd/tambah-data" element={<CreateSPPD />} />
           <Route path="/sppd/update-data/:id" element={<UpdateSPPD />} />
-          
+
           <Route path="/dialog-kinerja" element={<IKP />} />
           <Route path="/dialog-kinerja/tambah-data" element={<TambahIKP />} />
           <Route

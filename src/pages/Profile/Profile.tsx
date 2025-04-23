@@ -9,7 +9,6 @@ import UpdateProfil from "@/components/modals/Profil/UpdateProfil";
 import UpdatePassword from "@/components/modals/Profil/UpdatePassword";
 
 export default function DataProfile() {
-
   const { data, isFetching, refetch } = useGetProfile();
 
   const DATA_FETCHING = useMemo(() => {
@@ -37,7 +36,7 @@ export default function DataProfile() {
     refetch();
     onCloseUpdate();
     onClosePassword();
-  }
+  };
 
   return (
     <div className="py-8 px-4">
@@ -47,16 +46,14 @@ export default function DataProfile() {
           isOpen={isOpenUpdate}
           onClose={onCloseUpdate}
           handleClose={handleClose}
-          
         />
       )}
 
       <UpdatePassword
-          isOpen={isOpenPassword}
-          onClose={onClosePassword}
-          handleClose={handleClose}
-          
-        />
+        isOpen={isOpenPassword}
+        onClose={onClosePassword}
+        handleClose={handleClose}
+      />
       {isFetching && (
         <div className="inset-0 flex items-center justify-center absolute z-10">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
@@ -65,26 +62,24 @@ export default function DataProfile() {
       <div className="flex items-center justify-between lg:flex-row flex-col">
         <TitleCase title="Profil Akun" />
         <div className="flex items-center gap-2">
-            <Button
-              onPress={onOpenUpdate}
-              className="flex gap-2 items-center text-info bg-alert-info font-semibold p-2 text-sm rounded-md ms-auto"
-            >
-              <LucidePencilLine size={18} /> Ubah Profil
-            </Button>
-            <Button
-              className="flex gap-2 items-center text-warning bg-alert-warning font-semibold p-2 text-sm rounded-md ms-auto"
-              onPress={onOpenPassword}
-            >
-              <LucideKey size={18} /> Ubah Password
-            </Button>
+          <Button
+            onPress={onOpenUpdate}
+            className="flex gap-2 items-center text-info bg-alert-info font-semibold p-2 text-sm rounded-md ms-auto"
+          >
+            <LucidePencilLine size={18} /> Ubah Profil
+          </Button>
+          <Button
+            className="flex gap-2 items-center text-warning bg-alert-warning font-semibold p-2 text-sm rounded-md ms-auto"
+            onPress={onOpenPassword}
+          >
+            <LucideKey size={18} /> Ubah Password
+          </Button>
         </div>
       </div>
       <div className="flex flex-col gap-2 mt-4">
         <Card className="border relative overflow-hidden" shadow="none">
           <div className="absolute top-0 right-0 bg-primary text-white py-2 px-4 text-sm rounded-bl-lg">
-            {DATA_FETCHING?.role === "PEGAWAI"
-                ? "Pegawai"
-                : "Admin"}
+            {DATA_FETCHING?.role === "PEGAWAI" ? "Pegawai" : "Admin"}
           </div>
           <CardBody className="p-4 flex items-center md:flex-row flex-col gap-4">
             <img
@@ -136,15 +131,11 @@ export default function DataProfile() {
             </div>
             <div>
               <p className="text-sm">Eselon</p>
-              <h4 className="font-semibold">
-                {DATA_FETCHING?.eselon ?? "-"}
-              </h4>
+              <h4 className="font-semibold">{DATA_FETCHING?.eselon ?? "-"}</h4>
             </div>
             <div>
               <p className="text-sm">Golongan</p>
-              <h4 className="font-semibold">
-                {DATA_FETCHING?.group ?? "-"}
-              </h4>
+              <h4 className="font-semibold">{DATA_FETCHING?.group ?? "-"}</h4>
             </div>
             <div>
               <p className="text-sm">Status Kepegawaian</p>
@@ -154,9 +145,7 @@ export default function DataProfile() {
             </div>
             <div>
               <p className="text-sm">Email</p>
-              <h4 className="font-semibold">
-                {DATA_FETCHING?.email ?? "-"}
-              </h4>
+              <h4 className="font-semibold">{DATA_FETCHING?.email ?? "-"}</h4>
             </div>
             <div>
               <p className="text-sm">Kontak / No. Whatsapp</p>
@@ -166,9 +155,7 @@ export default function DataProfile() {
             </div>
             <div>
               <p className="text-sm">Jenis Kelamin</p>
-              <h4 className="font-semibold">
-                {DATA_FETCHING?.gender ?? "-"}
-              </h4>
+              <h4 className="font-semibold">{DATA_FETCHING?.gender ?? "-"}</h4>
             </div>
           </CardBody>
         </Card>
@@ -193,9 +180,7 @@ export default function DataProfile() {
             </div>
             <div>
               <p className="text-sm">Pangkat</p>
-              <h4 className="font-semibold">
-                {DATA_FETCHING?.rank ?? "-"}
-              </h4>
+              <h4 className="font-semibold">{DATA_FETCHING?.rank ?? "-"}</h4>
             </div>
             <div>
               <p className="text-sm">Pendidikan Terakhir</p>

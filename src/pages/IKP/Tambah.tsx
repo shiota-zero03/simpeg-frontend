@@ -39,7 +39,7 @@ interface errorProps {
 export default function CreateIKP() {
   const [formUser, setFormUser] = useState<{ nip: string; jabatan: string }>({
     nip: "",
-    jabatan: ""
+    jabatan: "",
   });
 
   const [formData, setFormData] = useState<formProps>({
@@ -136,7 +136,6 @@ export default function CreateIKP() {
     }
   };
 
-
   const onChangePenandaTangan = (value: string) => {
     if (value) {
       const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
@@ -144,8 +143,10 @@ export default function CreateIKP() {
         ...formData,
         ttdId: value as string,
         ttdName: checkPegawai?.name,
-        ttdJabatan: checkPegawai?.jabatan ? checkPegawai?.jabatan.nameJob : "Jabatan tidak diketahui",
-        ttdNIP: checkPegawai?.nip
+        ttdJabatan: checkPegawai?.jabatan
+          ? checkPegawai?.jabatan.nameJob
+          : "Jabatan tidak diketahui",
+        ttdNIP: checkPegawai?.nip,
       });
     } else {
       setFormData({

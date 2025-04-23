@@ -11,10 +11,11 @@ export const getAllPegawaiOption = async (): Promise<IPegawaiOptionRes> => {
   return response.data;
 };
 
-export const getAllPegawaiPimpinanOption = async (): Promise<IPegawaiOptionRes> => {
-  const response = await instance.get(`/admin/pegawai/dropdown/atasan`);
-  return response.data;
-};
+export const getAllPegawaiPimpinanOption =
+  async (): Promise<IPegawaiOptionRes> => {
+    const response = await instance.get(`/admin/pegawai/dropdown/atasan`);
+    return response.data;
+  };
 
 export const getAllPegawai = async (
   page: number,

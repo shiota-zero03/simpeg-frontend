@@ -26,9 +26,9 @@ export default function Header() {
 
   const { data: dataProfile, refetch: refetchProfile } = useGetProfile();
   const getDataProfile = useMemo(() => {
-    if(dataProfile) return dataProfile.data;
+    if (dataProfile) return dataProfile.data;
     return null;
-  }, [dataProfile])
+  }, [dataProfile]);
 
   const [berita, setBerita] = useState<{ title: string }[]>([]);
 
@@ -107,7 +107,7 @@ export default function Header() {
                     as="button"
                     avatarProps={{
                       isBordered: true,
-                      src:  `${getDataProfile?.photo ? getDataProfile?.photo : "https://i.pravatar.cc/150?u=a042581f4e29026024d"}`,
+                      src: `${getDataProfile?.photo ? getDataProfile?.photo : "https://i.pravatar.cc/150?u=a042581f4e29026024d"}`,
                       size: "sm",
                     }}
                     className="transition-transform"

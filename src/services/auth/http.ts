@@ -29,15 +29,18 @@ export const requestRefreshToken = async (
 };
 
 export const updateProfil = async (
-  formData: StorePegawai
+  formData: StorePegawai,
 ): Promise<IPegawaiRes> => {
   const response = await instance.put(`/admin/profile/update`, formData);
   return response.data;
 };
 
 export const updatePassword = async (
-  formData: StorePegawai
+  formData: StorePegawai,
 ): Promise<IPegawaiRes> => {
-  const response = await instance.put(`/admin/profile/update/password`, formData);
+  const response = await instance.put(
+    `/admin/profile/update/password`,
+    formData,
+  );
   return response.data;
 };

@@ -10,22 +10,18 @@ import {
 } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import {
-  LuPencilLine,
-  LuSearch,
-  LuTrash2,
-} from "react-icons/lu";
-import {
-  BiReset,
-  BiSearch,
-  BiSolidPlusSquare,
-} from "react-icons/bi";
+import { LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
+import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { useNavigate } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { CalendarDate, getLocalTimeZone, parseDate } from "@internationalized/date";
+import {
+  CalendarDate,
+  getLocalTimeZone,
+  parseDate,
+} from "@internationalized/date";
 import { useDeleteSPPD, useGetAllSPPD } from "@/services/sppd";
 import { SPPDRes } from "@/interface/responses/sppd.interface";
 import PegawaiModal from "@/components/modals/SPPDModal/PegawaiModal";
@@ -48,23 +44,23 @@ interface SPPDprops {
     createdAt: string;
     updatedAt: string;
     user: {
-        id: string;
-        name: string;
-        nip: string;
-        jabatan: {
-            nameJob: string;
-        } | null;
-    },
+      id: string;
+      name: string;
+      nip: string;
+      jabatan: {
+        nameJob: string;
+      } | null;
+    };
     budgets: {
-        id: number;
-        transport: number;
-        volTransport: number;
-        representatif: number;
-        volRepresentatif: number;
-        dailyAllowance: number;
-        volDailyAllowance: number;
-        bankAccount: string;
-    }[]
+      id: number;
+      transport: number;
+      volTransport: number;
+      representatif: number;
+      volRepresentatif: number;
+      dailyAllowance: number;
+      volDailyAllowance: number;
+      bankAccount: string;
+    }[];
   };
   participants: {
     id: number;
@@ -75,26 +71,25 @@ interface SPPDprops {
     createdAt: string;
     updatedAt: string;
     user: {
-        id: string;
-        name: string;
-        nip: string;
-        jabatan: {
-            nameJob: string;
-        } | null;
-    },
+      id: string;
+      name: string;
+      nip: string;
+      jabatan: {
+        nameJob: string;
+      } | null;
+    };
     budgets: {
-        id: number;
-        transport: number;
-        volTransport: number;
-        representatif: number;
-        volRepresentatif: number;
-        dailyAllowance: number;
-        volDailyAllowance: number;
-        bankAccount: string;
-    }[]
+      id: number;
+      transport: number;
+      volTransport: number;
+      representatif: number;
+      volRepresentatif: number;
+      dailyAllowance: number;
+      volDailyAllowance: number;
+      bankAccount: string;
+    }[];
   }[];
 }
-
 
 interface PegawaiProps {
   id: number;
@@ -105,27 +100,26 @@ interface PegawaiProps {
   createdAt: string;
   updatedAt: string;
   user: {
-      id: string;
-      name: string;
-      nip: string;
-      jabatan: {
-          nameJob: string;
-      } | null;
-  },
+    id: string;
+    name: string;
+    nip: string;
+    jabatan: {
+      nameJob: string;
+    } | null;
+  };
   budgets: {
-      id: number;
-      transport: number;
-      volTransport: number;
-      representatif: number;
-      volRepresentatif: number;
-      dailyAllowance: number;
-      volDailyAllowance: number;
-      bankAccount: string;
-  }[]
+    id: number;
+    transport: number;
+    volTransport: number;
+    representatif: number;
+    volRepresentatif: number;
+    dailyAllowance: number;
+    volDailyAllowance: number;
+    bankAccount: string;
+  }[];
 }
 
 export default function News() {
-
   const navigate = useNavigate();
   const limit = 10;
   const [selectedId, setSelectedId] = useState("");
@@ -141,22 +135,40 @@ export default function News() {
     end: parseDate(today.toISOString().split("T")[0]),
   });
 
-  const formatDateToJakarta = (calendarDate: CalendarDate | null | undefined) => {
-      if (!calendarDate) return null;
-      const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
-      return new Intl.DateTimeFormat("id-ID", { timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit" })
-          .format(date)
-          .split("/")
-          .reverse()
-          .join("-");
-  }
+  const formatDateToJakarta = (
+    calendarDate: CalendarDate | null | undefined,
+  ) => {
+    if (!calendarDate) return null;
+    const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
+    return new Intl.DateTimeFormat("id-ID", {
+      timeZone: "Asia/Jakarta",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+      .format(date)
+      .split("/")
+      .reverse()
+      .join("-");
+  };
 
   const [startData, setStartData] = useState<number>(0);
   const [endData, setEndData] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalData, setTotalData] = useState<number>(0);
 
-  const { data: allData, isFetching: isFetchingData, refetch: refetchData } = useGetAllSPPD(pageIndex + 1, limit, search, searchKegiatan, formatDateToJakarta(rangeDate?.start), formatDateToJakarta(rangeDate?.end),);
+  const {
+    data: allData,
+    isFetching: isFetchingData,
+    refetch: refetchData,
+  } = useGetAllSPPD(
+    pageIndex + 1,
+    limit,
+    search,
+    searchKegiatan,
+    formatDateToJakarta(rangeDate?.start),
+    formatDateToJakarta(rangeDate?.end),
+  );
 
   const paginatedData: SPPDprops[] = useMemo(() => {
     if (allData) {
@@ -174,18 +186,22 @@ export default function News() {
       setEndData(end);
 
       return data.response.map((item: SPPDRes) => {
-
         let anggaran = 0;
-        let participantLeader = item.participants.find(it => it.role === "PEGAWAI");
-        item.participants.map(it => {
-          anggaran += (
-            (it.budgets[0]?.dailyAllowance || 0 * it.budgets[0]?.volDailyAllowance || 0) + 
-            (it.budgets[0]?.transport || 0 * it.budgets[0]?.volTransport || 0) + 
-            (it.budgets[0]?.representatif || 0 * it.budgets[0]?.volRepresentatif || 0)
-          )
-        })
+        const participantLeader = item.participants.find(
+          (it) => it.role === "PEGAWAI",
+        );
+        item.participants.map((it) => {
+          anggaran +=
+            (it.budgets[0]?.dailyAllowance ||
+              0 * it.budgets[0]?.volDailyAllowance ||
+              0) +
+            (it.budgets[0]?.transport || 0 * it.budgets[0]?.volTransport || 0) +
+            (it.budgets[0]?.representatif ||
+              0 * it.budgets[0]?.volRepresentatif ||
+              0);
+        });
 
-        return ({
+        return {
           id: item.id,
           nomorSurat: item.nomorSurat,
           kegiatan: item.activity,
@@ -193,8 +209,8 @@ export default function News() {
           lokasi: item.location,
           anggaran: anggaran,
           participantsLeader: participantLeader,
-          participants: item.participants
-        })
+          participants: item.participants,
+        };
       });
     } else {
       return [];
@@ -219,7 +235,7 @@ export default function News() {
       header: "Nama Pegawai",
       cell: ({ row }) => {
         const { participantsLeader } = row.original;
-        return participantsLeader ? participantsLeader.user.name : "-"
+        return participantsLeader ? participantsLeader.user.name : "-";
       },
     },
     {
@@ -230,7 +246,7 @@ export default function News() {
     {
       accessorKey: "waktu",
       header: "Waktu",
-      cell: (info) => info.getValue()
+      cell: (info) => info.getValue(),
     },
     {
       accessorKey: "lokasi",
@@ -248,13 +264,18 @@ export default function News() {
       cell: ({ row }) => {
         const { participants } = row.original;
         return (
-          <div className="text-info underline cursor-pointer" onClick={() => {
-            setListPegawai(participants)
-            setTimeout(() => {
-              onOpenPegawai()
-            }, 100);
-          }}>{participants.length} Orang</div>
-        )
+          <div
+            className="text-info underline cursor-pointer"
+            onClick={() => {
+              setListPegawai(participants);
+              setTimeout(() => {
+                onOpenPegawai();
+              }, 100);
+            }}
+          >
+            {participants.length} Orang
+          </div>
+        );
       },
     },
     {
@@ -274,11 +295,10 @@ export default function News() {
             </Button>
             <Button
               onPress={() => {
-                setSelectedId(id)
+                setSelectedId(id);
                 setTimeout(() => {
-                  onOpenDelete()
+                  onOpenDelete();
                 }, 100);
-
               }}
               isIconOnly
               radius="sm"
@@ -305,7 +325,7 @@ export default function News() {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
-  
+
   const {
     isOpen: isOpenPegawai,
     onOpen: onOpenPegawai,
@@ -335,7 +355,7 @@ export default function News() {
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
   const { mutate: mutateDelete } = useDeleteSPPD();
-  
+
   const handleDelete = () => {
     if (isLoadingDelete) return;
 
@@ -372,7 +392,6 @@ export default function News() {
       throw error;
     }
   };
-
 
   return (
     <>
@@ -472,7 +491,7 @@ export default function News() {
                     <BiReset size={12} />
                   </Button>
                   <Button
-                    onPress={() => navigate('/sppd/tambah-data')}
+                    onPress={() => navigate("/sppd/tambah-data")}
                     variant="solid"
                     radius="sm"
                     size="sm"
