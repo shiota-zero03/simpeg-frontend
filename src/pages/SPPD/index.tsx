@@ -27,6 +27,7 @@ import { SPPDRes } from "@/interface/responses/sppd.interface";
 import PegawaiModal from "@/components/modals/SPPDModal/PegawaiModal";
 import { Link } from "react-router-dom";
 import { FaFilePdf } from "react-icons/fa";
+import store from "@/redux/store";
 
 interface SPPDprops {
   id: string;
@@ -120,6 +121,8 @@ interface PegawaiProps {
 }
 
 export default function News() {
+  const { role } = store.getState().auth;
+
   const navigate = useNavigate();
   const limit = 10;
   const [selectedId, setSelectedId] = useState("");
@@ -284,35 +287,42 @@ export default function News() {
         const { id } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
-            <Button
-              onPress={() => navigate(`/sppd/update-data/${id}`)}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-info text-info shadow-sm"
-            >
-              <LuPencilLine size={14} />
-            </Button>
-            <Button
-              onPress={() => {
-                setSelectedId(id);
-                setTimeout(() => {
-                  onOpenDelete();
-                }, 100);
-              }}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-danger text-danger shadow-sm"
-            >
-              <LuTrash2 size={14} />
-            </Button>
+            {role === "ADMIN_SPPD" ||
+              (role === "SUPERUSERS" && (
+                <Button
+                  onPress={() => navigate(`/sppd/update-data/${id}`)}
+                  isIconOnly
+                  radius="sm"
+                  size="sm"
+                  className="bg-alert-info text-info shadow-sm"
+                >
+                  <LuPencilLine size={14} />
+                </Button>
+              ))}
             <Link
               to={`/sppd/export-pdf/${id}`}
-              className="bg-alert-success text-success shadow-sm p-2 rounded-md"
+              target="__blank"
+              className="bg-[#FFF3F6] text-danger shadow-sm p-2 rounded-md"
             >
               <FaFilePdf size={14} />
             </Link>
+            {role === "ADMIN_SPPD" ||
+              (role === "SUPERUSERS" && (
+                <Button
+                  onPress={() => {
+                    setSelectedId(id);
+                    setTimeout(() => {
+                      onOpenDelete();
+                    }, 100);
+                  }}
+                  isIconOnly
+                  radius="sm"
+                  size="sm"
+                  className="bg-alert-danger text-danger shadow-sm"
+                >
+                  <LuTrash2 size={14} />
+                </Button>
+              ))}
           </div>
         );
       },
@@ -490,16 +500,19 @@ export default function News() {
                   >
                     <BiReset size={12} />
                   </Button>
-                  <Button
-                    onPress={() => navigate("/sppd/tambah-data")}
-                    variant="solid"
-                    radius="sm"
-                    size="sm"
-                    startContent={<BiSolidPlusSquare size={12} />}
-                    className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                  >
-                    Tambah
-                  </Button>
+                  {role === "ADMIN_SPPD" ||
+                    (role === "SUPERUSERS" && (
+                      <Button
+                        onPress={() => navigate("/sppd/tambah-data")}
+                        variant="solid"
+                        radius="sm"
+                        size="sm"
+                        startContent={<BiSolidPlusSquare size={12} />}
+                        className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                      >
+                        Tambah
+                      </Button>
+                    ))}
                 </div>
               </div>
             </div>

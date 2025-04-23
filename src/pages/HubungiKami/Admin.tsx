@@ -10,6 +10,7 @@ import { useEffect, useMemo } from "react";
 import { LuPencilLine } from "react-icons/lu";
 import Whatsapp from "@/assets/whatsapp.png";
 import { useGetAllHubungiKami } from "@/services/customer-service";
+import { BlinkBlur } from "react-loading-indicators";
 
 export default function HubungikamiAdmin() {
   const { data, isFetching, refetch } = useGetAllHubungiKami(1, 1);
@@ -45,7 +46,11 @@ export default function HubungikamiAdmin() {
               <img width={24} src={Whatsapp} alt="logo-whatsapp" /> Nomor
               Whatsapp
             </CardHeader>
-            {!isFetching && (
+            {isFetching ? (
+              <div className="inset-0 fixed flex items-center justify-center z-20">
+                <BlinkBlur color="#32cd32" size="medium" text="" textColor="" />
+              </div>
+            ) : (
               <CardBody className="md:text-sm text-xs text-justify flex items-center md:flex-row flex-col justify-between gap-3 -mt-2">
                 <h1 className="text-base font-semibold">
                   {dataBuku?.phoneNumber || "----"}
