@@ -5,6 +5,7 @@ import {
   Checkbox,
   Input,
   Textarea,
+  Tooltip,
   useDisclosure,
 } from "@heroui/react";
 import { LuArrowLeft, LuFilePenLine } from "react-icons/lu";
@@ -32,11 +33,14 @@ import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StoreIKPSetuju } from "@/interface/request/ikp.interface";
+import TolakModal from "@/components/modals/ikp/TolakModal.tsx";
+import { FaFilePdf, FaQuestionCircle } from "react-icons/fa";
 
 interface PropsPerubahan {
   id: number;
   sasaran: string;
   indicator: string;
+  count: number;
   target: string;
   description: string;
   dialog: string;
@@ -55,16 +59,11 @@ export default function DetailIKP() {
 
     const hasMenunggu = ikps.some((el) => el.status === "MENUNGGU");
     const allSetujui = ikps.every((el) => el.status === "DISETUJUI");
-    const allDitolak = ikps.every((el) => el.status === "DITOLAK");
 
     if (hasMenunggu) {
       setStatus("MENUNGGU");
     } else if (allSetujui) {
-      setStatus("SETUJUI");
-    } else if (allDitolak) {
-      setStatus("DITOLAK");
-    } else {
-      setStatus("MENUNGGU");
+      setStatus("DISETUJUI");
     }
 
     return data.data;
@@ -96,6 +95,16 @@ export default function DetailIKP() {
     isOpen: isOpenConfirm3,
     onClose: onCloseConfirm3,
     onOpen: onOpenConfirm3,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenConfirm4,
+    onClose: onCloseConfirm4,
+    onOpen: onOpenConfirm4,
+  } = useDisclosure();
+  const {
+    // isOpen: isOpenConfirm5,
+    onClose: onCloseConfirm5,
+    // onOpen: onOpenConfirm5,
   } = useDisclosure();
 
   const [isPengajuaun, setIsPengajuan] = useState<boolean>(false);
@@ -148,6 +157,7 @@ export default function DetailIKP() {
       if (checked) {
         const newItem: PropsPerubahan = {
           id: item.id || 0,
+          count: item.count || 0,
           sasaran: item.sasaran || "",
           indicator: item.indicator || "",
           target: item.target || "",
@@ -166,7 +176,7 @@ export default function DetailIKP() {
   const handleSelectAll = (checked: boolean) => {
     if (checked && DATA_DETAIL?.ikps) {
       const filteredIKPs = DATA_DETAIL.ikps.filter(
-        (item) => item.status !== "DISETUJUI",
+        (item) => item.status === "DITOLAK" || item.status === "MENUNGGU",
       );
       const allIds = filteredIKPs.map((item) => String(item.id));
 
@@ -174,13 +184,14 @@ export default function DetailIKP() {
 
       const allFormData: PropsPerubahan[] = filteredIKPs.map((item) => ({
         id: item.id || 0,
+        count: item.count || 0,
         sasaran: item.sasaran || "",
         indicator: item.indicator || "",
         target: item.target || "",
         description: item.description || "",
         dialog: item.dialog || "",
         ubahTarget: item.ubahTarget || "",
-        status: "KONFIRMASI",
+        status: "DITOLAK",
       }));
       setFormDataPerubahan(allFormData);
     } else {
@@ -215,10 +226,12 @@ export default function DetailIKP() {
       const approvedData: PropsPerubahan[] = DATA_DETAIL.ikps
         .filter(
           (item) =>
-            !existingIds.includes(item.id || 0) && item.status !== "DISETUJUI", // <--- tambahkan ini
+            !existingIds.includes(item.id || 0) &&
+            (item.status === "DITOLAK" || item.status === "MENUNGGU"), // <--- tambahkan ini
         )
         .map((item) => ({
           id: item.id || 0,
+          count: item.count || 0,
           sasaran: item.sasaran || "",
           indicator: item.indicator || "",
           target: item.target || "",
@@ -281,9 +294,8 @@ export default function DetailIKP() {
           onSuccess: () => {
             SuccessToast({ text: "Data berhasil disetujui" });
             setIsLoadingConfirm(false);
-            onCloseConfirm();
             setSelectedid(null);
-            refetch();
+            handleConfirmClose();
           },
           onError: (error: AxiosError<BaseErrorRes>) => {
             setIsLoadingConfirm(false);
@@ -306,6 +318,15 @@ export default function DetailIKP() {
     }
   };
 
+  const handleConfirmClose = () => {
+    refetch();
+    onCloseConfirm5();
+    onCloseConfirm4();
+    onCloseConfirm3();
+    onCloseConfirm2();
+    onCloseConfirm();
+  };
+
   return (
     <>
       <ConfirmModal
@@ -326,6 +347,14 @@ export default function DetailIKP() {
         isLoading={isLoadingConfirm}
         handleSubmit={handleUpdate}
       />
+      {selectedId && (
+        <TolakModal
+          isOpen={isOpenConfirm4}
+          onClose={onCloseConfirm4}
+          id={selectedId}
+          handleSubmit={handleConfirmClose}
+        />
+      )}
       <BreadcrumbAdmin location="/Dialog-Kinerja/Detail-Data" />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <div className="flex">
@@ -340,8 +369,15 @@ export default function DetailIKP() {
 
         {!isPengajuaun ? (
           <div className="bg-white shadow-md rounded-xl border p-4 min-h-[64vh]">
-            {(role === "PEGAWAI") &&
-              status === "MENUNGGU" && (
+            <div className="flex items-center justify-between md:flex-row flex-col">
+              <Link
+                to={`/dialog-kinerja/export-pdf/${id}`}
+                target="__blank"
+                className="bg-[#FFF3F6] text-danger shadow-sm p-2 rounded-md flex items-center gap-3 text-xs font-semibold border border-danger"
+              >
+                <FaFilePdf size={14} /> Export PDF
+              </Link>
+              {role === "PEGAWAI" && status === "MENUNGGU" && (
                 <div className="flex items-center justify-end gap-2">
                   <Button
                     className="bg-alert-info text-info border border-info font-semibold"
@@ -359,6 +395,7 @@ export default function DetailIKP() {
                   </Button>
                 </div>
               )}
+            </div>
             <div className="flex flex-col gap-2">
               <div className="grid lg:grid-cols-4 grid-cols-1 gap-2 border-2 my-4 p-2 rounded-lg shadow-sm">
                 <div>
@@ -484,7 +521,7 @@ export default function DetailIKP() {
                       >
                         Keterangan
                       </th>
-                      {(role === "PEGAWAI") && (
+                      {role === "PEGAWAI" && (
                         <th
                           className={`border-b-2 border-accent-gray p-2 text-left text-sm bg-primary text-white rounded-se-md`}
                         >
@@ -539,11 +576,23 @@ export default function DetailIKP() {
                           <td
                             className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left ${item.status === "DISETUJUI" ? "text-success" : item.status === "DITOLAK" ? "text-danger" : "text-warning"}`}
                           >
-                            {item.status === "DISETUJUI"
-                              ? "Disetujui"
-                              : item.status === "DITOLAK"
-                                ? "Ditolak"
-                                : "Menunggu"}
+                            {item.status === "MENUNGGU" ? (
+                              "Menunggu"
+                            ) : item.status === "DISETUJUI" ? (
+                              "Disetujui"
+                            ) : item.status === "DITOLAK" ? (
+                              <div>
+                                Ditolak
+                                <br />
+                                <span>
+                                  <em className="text-[0.65rem]">
+                                    Catatan admin: {item.reasoning || "-"}
+                                  </em>
+                                </span>
+                              </div>
+                            ) : (
+                              "Menunggu Konfirmasi Admin"
+                            )}
                           </td>
                           <td
                             className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left`}
@@ -593,6 +642,12 @@ export default function DetailIKP() {
                                     size="sm"
                                     isIconOnly
                                     className="bg-alert-danger text-danger"
+                                    onPress={() => {
+                                      setSelectedid(item.id);
+                                      setTimeout(() => {
+                                        onOpenConfirm4();
+                                      }, 100);
+                                    }}
                                   >
                                     <LucideXCircle size={12} />
                                   </Button>
@@ -819,8 +874,20 @@ export default function DetailIKP() {
                 </table>
               </div>
               <div className="mt-2 flex flex-col gap-4">
-                <div className="bg-[#F1FCFA] text-black font-semibold py-3 px-4 text-xs rounded-lg">
+                <div className="bg-[#F1FCFA] text-black font-semibold py-3 px-4 text-xs rounded-lg flex items-center gap-2">
                   Pengajuan Perubahan
+                  <Tooltip
+                    color="primary"
+                    content={
+                      <div className="max-w-60 text-xs">
+                        Anda hanya bisa mengajukan perubahan target dua kali,
+                        selanjutnya status IKP akan berubah menjadi disetujui.
+                      </div>
+                    }
+                    placement="right"
+                  >
+                    <FaQuestionCircle />
+                  </Tooltip>
                 </div>
                 <div>
                   {formDataPerubahan.length > 0 ? (
@@ -830,7 +897,7 @@ export default function DetailIKP() {
                           className="flex items-start gap-2 mb-4 w-full"
                           key={index}
                         >
-                          <div className="w-10 flex items-center justify-center border bg-[#F2F2F7] rounded-md p-2.5 text-sm">
+                          <div className="w-10 flex items-center justify-center border bg-[#F2F2F7] rounded-md p-2.5 text-sm gap-1">
                             {index + 1}
                           </div>
                           <div className="grid md:grid-cols-6 grid-cols-1 gap-1 w-full">

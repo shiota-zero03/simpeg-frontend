@@ -14,7 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
 import { convertFileToBase64 } from "@/utils/base64Formater";
-import { SuccessToast } from "@/utils/ToastMessage";
+import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { LucideChevronDownCircle } from "lucide-react";
 import {
   TooltipAttitudeNilai,
@@ -28,8 +28,15 @@ import {
   TooltipKinerjaNilai,
   TooltipLoyalitasNilai,
 } from "@/pages/PenilaianKinerja/TooltipContent";
+import { useCreatePenilaian } from "@/services/penilaian";
+import { StorePenilaian } from "@/interface/request/penilaian.interface";
+import { AxiosError } from "axios";
+import { BaseErrorRes } from "@/interface/responses/base.response";
+import { PernilaianListRes } from "@/interface/responses/penilaian.interface";
 
 interface props {
+  userData: PernilaianListRes | null;
+  userId: string;
   nama: string;
   jabatan: string;
   nip: string;
@@ -110,6 +117,8 @@ const SelectDataBobot: { name: string; key: string }[] = [
 ];
 
 const EditPenilaian = ({
+  userData,
+  userId,
   nama,
   jabatan,
   nip,
@@ -153,6 +162,36 @@ const EditPenilaian = ({
     setFormBobotError({});
   }, [isOpen]);
 
+  useEffect(() => {
+    if (userData) {
+      setFormData({
+        kinerja: userData.performanceBobot || 0,
+        kinerjaAttach: userData.performanceProofBobot || "",
+        disiplin: userData.disciplineBobot || 0,
+        disiplinAttach: userData.disciplineProofBobot || "",
+        loyalitas: userData.loyaltyBobot || 0,
+        loyalitasAttach: userData.loyaltyProofBobot || "",
+        kerjasama: userData.cooperationBobot || 0,
+        kerjasamaAttach: userData.cooperationProofBobot || "",
+        attitude: userData.attitudeBobot || 0,
+        attitudeAttach: userData.attitudeProofBobot || "",
+      });
+
+      setFormDataBobot({
+        kinerja: String(userData.performanceNilai || ""),
+        kinerjaAttach: userData.performanceProofNilai || "",
+        disiplin: String(userData.disciplineNilai || ""),
+        disiplinAttach: userData.disciplineProofNilai || "",
+        loyalitas: String(userData.loyaltyNilai || ""),
+        loyalitasAttach: userData.loyaltyProofNilai || "",
+        kerjasama: String(userData.cooperationNilai || ""),
+        kerjasamaAttach: userData.cooperationProofNilai || "",
+        attitude: String(userData.attitudeNilai || ""),
+        attitudeAttach: userData.attitudeProofNilai || "",
+      });
+    }
+  }, [isOpen, userData]);
+
   const handleChangeFile = async (
     e: React.ChangeEvent<HTMLInputElement>,
     type:
@@ -188,15 +227,59 @@ const EditPenilaian = ({
       setFormDataBobot({ ...formDataBobot, [type]: "" });
     }
   };
-  const handleSubmit = () => {
+
+  const { mutate: mutateUpdate } = useCreatePenilaian();
+  const handleSubmit = async () => {
     setIsLoading(true);
-    // const formatted = new Date(waktuKegiatan || "").toISOString().slice(0, 10);
-    // console.log(formatted)
-    setTimeout(() => {
-      handleClose();
-      SuccessToast({ text: "Data berhasil disimpan" });
+
+    const dataToSend: StorePenilaian = {};
+    dataToSend.userId = userId;
+    dataToSend.performanceNilai = Number(formDataBobot.kinerja || 0);
+    dataToSend.performanceProofNilai = formDataBobot.kinerjaAttach;
+    dataToSend.disciplineNilai = Number(formDataBobot.disiplin || 0);
+    dataToSend.disciplineProofNilai = formDataBobot.disiplinAttach;
+    dataToSend.loyaltyNilai = Number(formDataBobot.loyalitas || 0);
+    dataToSend.loyaltyProofNilai = formDataBobot.loyalitasAttach;
+    dataToSend.cooperationNilai = Number(formDataBobot.kerjasama || 0);
+    dataToSend.cooperationProofNilai = formDataBobot.kerjasamaAttach;
+    dataToSend.attitudeNilai = Number(formDataBobot.attitude || 0);
+    dataToSend.attitudeProofNilai = formDataBobot.attitudeAttach;
+
+    dataToSend.performanceBobot = formData.kinerja || 0;
+    dataToSend.performanceProofBobot = formData.kinerjaAttach;
+    dataToSend.disciplineBobot = formData.disiplin || 0;
+    dataToSend.disciplineProofBobot = formData.disiplinAttach;
+    dataToSend.loyaltyBobot = formData.loyalitas || 0;
+    dataToSend.loyaltyProofBobot = formData.loyalitasAttach;
+    dataToSend.cooperationBobot = formData.kerjasama || 0;
+    dataToSend.cooperationProofBobot = formData.kerjasamaAttach;
+    dataToSend.attitudeBobot = formData.attitude || 0;
+    dataToSend.attitudeProofBobot = formData.attitudeAttach;
+    dataToSend.bulanTahun = `${month}-01`;
+
+    console.log(dataToSend);
+
+    try {
+      mutateUpdate(dataToSend, {
+        onSuccess: () => {
+          SuccessToast({ text: "Data berhasil disetujui" });
+          setIsLoading(false);
+          handleClose();
+        },
+        onError: (error: AxiosError<BaseErrorRes>) => {
+          setIsLoading(false);
+          ErrorToast({
+            text:
+              (error.response?.data.message as string) ||
+              "Terjadi kesalahan saat menambah data",
+          });
+          throw error;
+        },
+      });
+    } catch (error) {
       setIsLoading(false);
-    }, 1000);
+      throw error;
+    }
   };
 
   const [isBobotOpen, setIsBobotOpen] = useState(true);

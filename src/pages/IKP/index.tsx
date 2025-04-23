@@ -74,7 +74,6 @@ export default function IKP() {
 
         const hasMenunggu = ikps.some((el) => el.status === "MENUNGGU");
         const allSetujui = ikps.every((el) => el.status === "DISETUJUI");
-        const allDitolak = ikps.every((el) => el.status === "DITOLAK");
 
         let status = "MENUNGGU"; // default
 
@@ -82,8 +81,6 @@ export default function IKP() {
           status = "MENUNGGU";
         } else if (allSetujui) {
           status = "SETUJUI";
-        } else if (allDitolak) {
-          status = "DITOLAK";
         }
 
         return {
@@ -167,15 +164,13 @@ export default function IKP() {
             >
               <LuEye size={14} />
             </Button>
-            <Button
-              onPress={() => navigate(`/dialog-kinerja/export-pdf/${id}`)}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-[#FFF3F6] text-danger shadow-sm"
+            <Link
+              to={`/dialog-kinerja/export-pdf/${id}`}
+              target="__blank"
+              className="bg-[#FFF3F6] text-danger shadow-sm p-2 rounded-md"
             >
               <FaFilePdf size={14} />
-            </Button>
+            </Link>
             {(role === "ADMIN" || role === "SUPERUSERS") && (
               <Button
                 onPress={() => {

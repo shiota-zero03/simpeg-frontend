@@ -37,6 +37,18 @@ export const DMYIndoToFormat = (timeStamp: string) => {
   return formattedTimestamp;
 };
 
+export const MYIndoToFormat = (timeStamp: string) => {
+  const date = new Date(timeStamp);
+
+  // Mengubah format menjadi dd-MMMM-yyyy | hh:mm:ss (dengan nama bulan Indonesia)
+  const month = date.toLocaleString("id-ID", { month: "long" }); // Nama bulan dalam bahasa Indonesia
+  const year = date.getFullYear();
+
+  const formattedTimestamp = `${month} ${year}`;
+
+  return formattedTimestamp;
+};
+
 export const timestampIndoToFormat = (format: string, timeStamp: string) => {
   const date = new Date(timeStamp);
 

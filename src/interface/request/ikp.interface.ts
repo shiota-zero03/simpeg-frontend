@@ -20,6 +20,18 @@ export interface StoreIKPSetuju {
   realisasi?: string;
 }
 
+export interface StoreIKPTolak {
+  sasaran?: string;
+  target?: string;
+  indicator?: string;
+  description?: string;
+  dialog?: string;
+  status?: string;
+  ubahTarget?: string;
+  reasoning?: string;
+  realisasi?: string;
+}
+
 export interface StoreIKPPerubahan {
   description?: string;
   dialog?: string;

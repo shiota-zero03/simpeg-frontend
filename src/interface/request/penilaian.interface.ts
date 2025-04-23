@@ -1,0 +1,26 @@
+export interface StorePenilaian {
+  userId?: string | null;
+  performanceBobot?: number | null;
+  performanceProofBobot?: string | null;
+  disciplineBobot?: number | null;
+  disciplineProofBobot?: string | null;
+  loyaltyBobot?: number | null;
+  loyaltyProofBobot?: string | null;
+  cooperationBobot?: number | null;
+  cooperationProofBobot?: string | null;
+  attitudeBobot?: number | null;
+  attitudeProofBobot?: string | null;
+  performanceNilai?: number | null;
+  performanceProofNilai?: string | null;
+  disciplineNilai?: number | null;
+  disciplineProofNilai?: string | null;
+  loyaltyNilai?: number | null;
+  loyaltyProofNilai?: string | null;
+  cooperationNilai?: number | null;
+  cooperationProofNilai?: string | null;
+  attitudeNilai?: number | null;
+  attitudeProofNilai?: string | null;
+  totalBobotNilai?: string | null;
+  totalBobot?: string | null;
+  bulanTahun?: string | null;
+}

@@ -5,6 +5,9 @@ export interface IKPListRes {
   name: string;
   nip: string;
   jabatan: string;
+  ttdNIP: string;
+  ttdName: string;
+  ttdJabatan: string;
   ikps: {
     id: number | null;
     sasaran: string | null;
@@ -15,6 +18,8 @@ export interface IKPListRes {
     status: string | null;
     ubahTarget: string | null;
     realisasi: string | null;
+    reasoning: string | null;
+    count: number | null;
   }[];
   createdAt: string;
 }

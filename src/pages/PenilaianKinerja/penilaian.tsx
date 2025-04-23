@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 import { useGetAllPenilaian } from "@/services/penilaian";
 import { PernilaianListRes } from "@/interface/responses/penilaian.interface";
+import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 interface DataProps {
   id: string;
@@ -22,7 +24,7 @@ export default function ListKaryawan() {
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
-  const [searchMonth, setSearchMonth] = useState("");
+  const [searchMonth, setSearchMonth] = useState(dayjs().format("YYYY-MM"));
 
   const navigate = useNavigate();
 
@@ -35,7 +37,13 @@ export default function ListKaryawan() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllPenilaian(pageIndex + 1, limit, search);
+  } = useGetAllPenilaian(
+    pageIndex + 1,
+    limit,
+    search,
+    searchMonth.split("-")[1],
+    searchMonth.split("-")[0],
+  );
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
@@ -53,12 +61,22 @@ export default function ListKaryawan() {
       setEndData(end);
 
       return data.response.map((item: PernilaianListRes) => ({
-        id: item.id,
+        id: item.user.id,
         nip: item.user.nip || "",
         nama: item.user.name || "",
         jabatan: item.user.jabatan ? item.user.jabatan.nameJob : "-",
-        totalBobot: item.totalBobot || 0,
-        totalNilai: item.totalNilai || 0,
+        totalBobot:
+          (item.attitudeBobot || 0) +
+          (item.loyaltyBobot || 0) +
+          (item.disciplineBobot || 0) +
+          (item.cooperationBobot || 0) +
+          (item.performanceBobot || 0),
+        totalNilai:
+          (item.attitudeNilai || 0) +
+          (item.loyaltyNilai || 0) +
+          (item.disciplineNilai || 0) +
+          (item.cooperationNilai || 0) +
+          (item.performanceNilai || 0),
       }));
     } else {
       return [];
@@ -112,7 +130,9 @@ export default function ListKaryawan() {
           <div className="flex items-center gap-2 justify-center">
             <Button
               onPress={() => {
-                navigate(`/penilaian-kinerja/detail-data/${id}`);
+                navigate(
+                  `/penilaian-kinerja/detail-data/${id}?m=${searchMonth}`,
+                );
               }}
               isIconOnly
               radius="sm"
@@ -121,17 +141,13 @@ export default function ListKaryawan() {
             >
               <LuEye size={14} />
             </Button>
-            <Button
-              onPress={() => {
-                navigate(`/penilaian-kinerja/export-data/${id}`);
-              }}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-danger text-danger shadow-sm"
+            <Link
+              to={`/penilaian-kinerja/export-pdf/${id}?m=${searchMonth}`}
+              target="__blank"
+              className="bg-[#FFF3F6] text-danger shadow-sm p-2 rounded-md"
             >
               <FaFilePdf size={14} />
-            </Button>
+            </Link>
           </div>
         );
       },
@@ -146,7 +162,7 @@ export default function ListKaryawan() {
 
   const handleReset = () => {
     setSearch("");
-    setSearchMonth("");
+    setSearchMonth(dayjs().format("YYYY-MM"));
     setPageIndex(0);
     setTimeout(() => {
       refetchData();
@@ -192,7 +208,11 @@ export default function ListKaryawan() {
                       aria-label="search"
                       value={searchMonth}
                       onChange={(e) => {
-                        setSearchMonth(e.target.value);
+                        if (e.target.value) {
+                          setSearchMonth(e.target.value);
+                        } else {
+                          setSearchMonth(dayjs().format("YYYY-MM"));
+                        }
                       }}
                       radius="sm"
                       size="sm"
