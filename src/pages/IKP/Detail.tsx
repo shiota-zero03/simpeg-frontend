@@ -122,7 +122,7 @@ export default function DetailIKP() {
       const err = error as AxiosError<BaseErrorRes>;
       ErrorToast({
         text:
-          (err.response?.data.error as string) ||
+          (err.response?.data.message as string) ||
           "Terjadi kesalahan saat mengubah data",
       });
     } finally {
@@ -180,7 +180,7 @@ export default function DetailIKP() {
         description: item.description || "",
         dialog: item.dialog || "",
         ubahTarget: item.ubahTarget || "",
-        status: "DITOLAK",
+        status: "KONFIRMASI",
       }));
       setFormDataPerubahan(allFormData);
     } else {
@@ -248,7 +248,7 @@ export default function DetailIKP() {
       const err = error as AxiosError<BaseErrorRes>;
       ErrorToast({
         text:
-          (err.response?.data.error as string) ||
+          (err.response?.data.message as string) ||
           "Terjadi kesalahan saat mengubah data",
       });
     } finally {
@@ -268,7 +268,7 @@ export default function DetailIKP() {
       indicator: item?.indicator || "",
       target: item?.ubahTarget || "",
       status: "DISETUJUI",
-      realisasi: "20",
+      realisasi: "",
     };
 
     try {
@@ -291,7 +291,7 @@ export default function DetailIKP() {
             setSelectedid(null);
             ErrorToast({
               text:
-                (error.response?.data.error as string) ||
+                (error.response?.data.message as string) ||
                 "Terjadi kesalahan saat menambah data",
             });
             throw error;
@@ -340,7 +340,7 @@ export default function DetailIKP() {
 
         {!isPengajuaun ? (
           <div className="bg-white shadow-md rounded-xl border p-4 min-h-[64vh]">
-            {(role === "ADMIN" || role === "SUPERUSERS") &&
+            {(role === "PEGAWAI") &&
               status === "MENUNGGU" && (
                 <div className="flex items-center justify-end gap-2">
                   <Button
@@ -484,7 +484,7 @@ export default function DetailIKP() {
                       >
                         Keterangan
                       </th>
-                      {(role === "ADMIN" || role === "SUPERUSERS") && (
+                      {(role === "PEGAWAI") && (
                         <th
                           className={`border-b-2 border-accent-gray p-2 text-left text-sm bg-primary text-white rounded-se-md`}
                         >
@@ -987,7 +987,7 @@ export default function DetailIKP() {
                 </div>
               </div>
             </div>
-            {(role === "ADMIN" || role === "SUPERUSERS") &&
+            {(role === "PEGAWAI" || role === "SUPERUSERS") &&
               status === "MENUNGGU" && (
                 <div className="flex items-center justify-end gap-2 mt-4">
                   <Button

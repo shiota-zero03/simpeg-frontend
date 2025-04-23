@@ -227,7 +227,7 @@ export default function CreateIKP() {
           onCloseConfirm();
           ErrorToast({
             text:
-              (error.response?.data.error as string) ||
+              (error.response?.data.message as string) ||
               "Terjadi kesalahan saat menambah data",
           });
           throw error;

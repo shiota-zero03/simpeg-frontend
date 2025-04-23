@@ -138,7 +138,7 @@ export default function UpdateNews() {
             onCloseConfirm();
             ErrorToast({
               text:
-                (error.response?.data.error as string) ||
+                (error.response?.data.message as string) ||
                 "Terjadi kesalahan saat mengupdate data",
             });
             throw error;
