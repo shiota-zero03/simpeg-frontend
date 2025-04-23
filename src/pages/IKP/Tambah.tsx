@@ -15,17 +15,25 @@ import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { Link } from "react-router-dom";
-import { useGetAllPegawaiOption } from "@/services/pegawai";
+import { useGetAllPegawaiPimpinanOption } from "@/services/pegawai";
 import { LucidePlusCircle, LucideTrash2 } from "lucide-react";
 import { useCreateIKP } from "@/services/ikp";
 import { StoreIKP } from "@/interface/request/ikp.interface";
 
 interface formProps {
   userId: string;
+  ttdId?: string;
+  ttdName?: string;
+  ttdNIP?: string;
+  ttdJabatan?: string;
 }
 
 interface errorProps {
   userId?: string;
+  ttdId?: string;
+  ttdName?: string;
+  ttdNIP?: string;
+  ttdJabatan?: string;
 }
 
 export default function CreateIKP() {
@@ -36,6 +44,10 @@ export default function CreateIKP() {
 
   const [formData, setFormData] = useState<formProps>({
     userId: "",
+    ttdId: "",
+    ttdName: "",
+    ttdNIP: "",
+    ttdJabatan: "",
   });
 
   const [ikps, setIKPS] = useState<
@@ -76,7 +88,7 @@ export default function CreateIKP() {
     data: allDataJabatan,
     isFetching: isFetchingJabatan,
     refetch: refetchJabatan,
-  } = useGetAllPegawaiOption();
+  } = useGetAllPegawaiPimpinanOption();
 
   const PEGAWAI_SELECT = useMemo(() => {
     if (!allDataJabatan) return [];
@@ -94,6 +106,10 @@ export default function CreateIKP() {
   useEffect(() => {
     setFormData({
       userId: "",
+      ttdId: "",
+      ttdName: "",
+      ttdNIP: "",
+      ttdJabatan: "",
     });
     setFormUser({
       nip: "",
@@ -116,6 +132,29 @@ export default function CreateIKP() {
       setFormUser({
         nip: "",
         jabatan: "",
+      });
+    }
+  };
+
+  const onChangePenandaTangan = (value: string) => {
+    if (value) {
+      const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
+      setFormData({
+        ...formData,
+        ttdId: value as string,
+        ttdName: checkPegawai?.name,
+        ttdJabatan: checkPegawai?.jabatan
+          ? checkPegawai?.jabatan.nameJob
+          : "Jabatan tidak diketahui",
+        ttdNIP: checkPegawai?.nip,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        ttdId: "",
+        ttdName: "",
+        ttdJabatan: "",
+        ttdNIP: "",
       });
     }
   };
@@ -170,6 +209,9 @@ export default function CreateIKP() {
     });
 
     if (formData.userId) formToSendData.userId = formData.userId;
+    if (formData.ttdName) formToSendData.ttdName = formData.ttdName;
+    if (formData.ttdNIP) formToSendData.ttdNIP = formData.ttdNIP;
+    if (formData.ttdJabatan) formToSendData.ttdJabatan = formData.ttdJabatan;
     if (ikpsData.length > 0) formToSendData.ikps = ikpsData;
 
     try {
@@ -397,6 +439,82 @@ export default function CreateIKP() {
                   <LucidePlusCircle size={14} />
                   Tambah Data
                 </Button>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
+              <div>
+                <div className="mb-1">
+                  <label htmlFor="content" className="font-semibold text-xs">
+                    Nama Penandatangan <span className="text-danger">*</span>
+                  </label>
+                </div>
+                <Autocomplete
+                  defaultItems={PEGAWAI_SELECT}
+                  isLoading={isFetchingJabatan}
+                  aria-label="pegawai"
+                  placeholder="Cari pegawai"
+                  variant="bordered"
+                  radius="sm"
+                  selectedKey={String(formData.ttdId)}
+                  onSelectionChange={(value) =>
+                    onChangePenandaTangan(value as string)
+                  }
+                  inputProps={{
+                    classNames: {
+                      input: "text-xs",
+                      inputWrapper: "border-[0.8px]",
+                    },
+                  }}
+                >
+                  {(peg) => (
+                    <AutocompleteItem key={peg.id} textValue={peg.name}>
+                      {peg.name}
+                    </AutocompleteItem>
+                  )}
+                </Autocomplete>
+                <div className="text-danger text-[0.7rem] mt-1">
+                  {formError.userId}
+                </div>
+              </div>
+              <div>
+                <div className="mb-1">
+                  <label htmlFor="content" className="font-semibold text-xs">
+                    NIP
+                  </label>
+                </div>
+                <Input
+                  isDisabled
+                  value={formData.ttdNIP}
+                  aria-label="Judul"
+                  labelPlacement="outside"
+                  placeholder="AUTO_FILLED"
+                  variant="bordered"
+                  radius="sm"
+                  classNames={{
+                    inputWrapper: "border-[0.8px]",
+                    input: "text-xs",
+                  }}
+                />
+              </div>
+              <div>
+                <div className="mb-1">
+                  <label htmlFor="content" className="font-semibold text-xs">
+                    Jabatan
+                  </label>
+                </div>
+                <Input
+                  isDisabled
+                  value={formData.ttdJabatan}
+                  aria-label="Judul"
+                  labelPlacement="outside"
+                  placeholder="AUTO_FILLED"
+                  variant="bordered"
+                  radius="sm"
+                  classNames={{
+                    inputWrapper: "border-[0.8px]",
+                    input: "text-xs",
+                  }}
+                />
               </div>
             </div>
             <div className="ms-auto">

@@ -340,24 +340,25 @@ export default function DetailIKP() {
 
         {!isPengajuaun ? (
           <div className="bg-white shadow-md rounded-xl border p-4 min-h-[64vh]">
-            {role === "PEGAWAI" && status === "MENUNGGU" && (
-              <div className="flex items-center justify-end gap-2">
-                <Button
-                  className="bg-alert-info text-info border border-info font-semibold"
-                  size="sm"
-                  onPress={onOpenConfirm}
-                >
-                  <LucideFileCheck2 size={14} /> Setujui
-                </Button>
-                <Button
-                  className="bg-alert-warning text-warning border border-warning font-semibold"
-                  size="sm"
-                  onPress={() => setIsPengajuan(true)}
-                >
-                  <LucideSend size={14} /> Ajukan Perubahan
-                </Button>
-              </div>
-            )}
+            {(role === "ADMIN" || role === "SUPERUSERS") &&
+              status === "MENUNGGU" && (
+                <div className="flex items-center justify-end gap-2">
+                  <Button
+                    className="bg-alert-info text-info border border-info font-semibold"
+                    size="sm"
+                    onPress={onOpenConfirm}
+                  >
+                    <LucideFileCheck2 size={14} /> Setujui
+                  </Button>
+                  <Button
+                    className="bg-alert-warning text-warning border border-warning font-semibold"
+                    size="sm"
+                    onPress={() => setIsPengajuan(true)}
+                  >
+                    <LucideSend size={14} /> Ajukan Perubahan
+                  </Button>
+                </div>
+              )}
             <div className="flex flex-col gap-2">
               <div className="grid lg:grid-cols-4 grid-cols-1 gap-2 border-2 my-4 p-2 rounded-lg shadow-sm">
                 <div>
@@ -483,7 +484,7 @@ export default function DetailIKP() {
                       >
                         Keterangan
                       </th>
-                      {role === "PEGAWAI" && (
+                      {(role === "ADMIN" || role === "SUPERUSERS") && (
                         <th
                           className={`border-b-2 border-accent-gray p-2 text-left text-sm bg-primary text-white rounded-se-md`}
                         >
@@ -986,24 +987,25 @@ export default function DetailIKP() {
                 </div>
               </div>
             </div>
-            {role === "PEGAWAI" && status === "MENUNGGU" && (
-              <div className="flex items-center justify-end gap-2 mt-4">
-                <Button
-                  className="bg-alert-danger text-danger border border-danger font-semibold"
-                  size="sm"
-                  onPress={() => setIsPengajuan(false)}
-                >
-                  <LucideX size={14} /> Batal
-                </Button>
-                <Button
-                  className="bg-button-primary text-white border border-button-primary font-semibold"
-                  size="sm"
-                  onPress={onOpenConfirm2}
-                >
-                  <LucideSend size={14} /> Kirim Pengajuan
-                </Button>
-              </div>
-            )}
+            {(role === "ADMIN" || role === "SUPERUSERS") &&
+              status === "MENUNGGU" && (
+                <div className="flex items-center justify-end gap-2 mt-4">
+                  <Button
+                    className="bg-alert-danger text-danger border border-danger font-semibold"
+                    size="sm"
+                    onPress={() => setIsPengajuan(false)}
+                  >
+                    <LucideX size={14} /> Batal
+                  </Button>
+                  <Button
+                    className="bg-button-primary text-white border border-button-primary font-semibold"
+                    size="sm"
+                    onPress={onOpenConfirm2}
+                  >
+                    <LucideSend size={14} /> Kirim Pengajuan
+                  </Button>
+                </div>
+              )}
           </div>
         )}
       </div>

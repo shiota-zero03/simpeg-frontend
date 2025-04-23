@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { SidebarTrigger } from "../ui/sidebar";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { GrAnnounce } from "react-icons/gr";
 import { LucideArrowRightCircle } from "lucide-react";
 import store from "@/redux/store";
@@ -17,11 +17,18 @@ import { LuBellDot, LuUserCog } from "react-icons/lu";
 import { FaPowerOff } from "react-icons/fa";
 import LogoutModal from "../modals/LogoutModal";
 import { useGetAllBeritaHome } from "@/services/berita";
+import { useGetProfile } from "@/services/auth";
 
 export default function Header() {
   const { role } = store.getState().auth;
 
   const navigate = useNavigate();
+
+  const { data: dataProfile, refetch: refetchProfile } = useGetProfile();
+  const getDataProfile = useMemo(() => {
+    if (dataProfile) return dataProfile.data;
+    return null;
+  }, [dataProfile]);
 
   const [berita, setBerita] = useState<{ title: string }[]>([]);
 
@@ -45,6 +52,7 @@ export default function Header() {
 
   useEffect(() => {
     refetchAllBerita();
+    refetchProfile();
   }, []);
 
   return (
@@ -99,11 +107,11 @@ export default function Header() {
                     as="button"
                     avatarProps={{
                       isBordered: true,
-                      src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+                      src: `${getDataProfile?.photo ? getDataProfile?.photo : "https://i.pravatar.cc/150?u=a042581f4e29026024d"}`,
                       size: "sm",
                     }}
                     className="transition-transform"
-                    name="Mas Admin"
+                    name={`${getDataProfile?.name ? getDataProfile?.name : "Mas Admin"}`}
                     classNames={{
                       name: "font-semibold text-xs",
                     }}

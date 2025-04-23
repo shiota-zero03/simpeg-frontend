@@ -29,6 +29,8 @@ const Galeri = lazy(() => import("@/pages/Galeri"));
 const GaleriCreated = lazy(() => import("@/pages/Galeri/Created"));
 const GaleriUpdated = lazy(() => import("@/pages/Galeri/Updated"));
 const SPPD = lazy(() => import("@/pages/SPPD"));
+const CreateSPPD = lazy(() => import("@/pages/SPPD/Create"));
+const UpdateSPPD = lazy(() => import("@/pages/SPPD/Updated"));
 const EFilling = lazy(() => import("@/pages/E-FIlling"));
 
 const PenilaianKinerja = lazy(() => import("@/pages/PenilaianKinerja"));
@@ -143,6 +145,9 @@ export default function Router() {
             element={<GaleriUpdated />}
           />
           <Route path="/sppd" element={<SPPD />} />
+          <Route path="/sppd/tambah-data" element={<CreateSPPD />} />
+          <Route path="/sppd/update-data/:id" element={<UpdateSPPD />} />
+
           <Route path="/dialog-kinerja" element={<IKP />} />
           <Route path="/dialog-kinerja/tambah-data" element={<TambahIKP />} />
           <Route

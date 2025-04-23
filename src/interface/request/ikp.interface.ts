@@ -7,6 +7,9 @@ export interface StoreIKP {
     status?: string;
     realisasi?: string;
   }[];
+  ttdName?: string;
+  ttdNIP?: string;
+  ttdJabatan?: string;
 }
 
 export interface StoreIKPSetuju {

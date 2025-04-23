@@ -33,7 +33,7 @@ import { convertFileToBase64 } from "@/utils/base64Formater";
 import { FaCheckCircle } from "react-icons/fa";
 import { useGetAllJabatanOption } from "@/services/jabatan";
 import { useGetAllUnitOption } from "@/services/unit";
-import { useCreatePegawai, useGetDetailPegawai } from "@/services/pegawai";
+import { useGetDetailPegawai, useUpdatePegawai } from "@/services/pegawai";
 import { StorePegawai } from "@/interface/request/pegawai.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
@@ -55,6 +55,7 @@ interface formProps {
   isActive: boolean;
   password: string;
   passwordConfirmation: string;
+  isPimpinan: boolean;
 
   gender?: string | null;
   noTelp?: string | null;
@@ -121,6 +122,7 @@ export default function CreatePegawai() {
     email: "",
     jabatan: "",
     asnStatus: false,
+    isPimpinan: false,
     dinas: "",
     eselon: "",
     golongan: "",
@@ -206,6 +208,7 @@ export default function CreatePegawai() {
     }
     if (formData.isActive === null || formData.isActive === undefined)
       error.isActive = "Status aktif harus dipilih";
+
     if (formData.password) {
       if (formData.password.length < 6)
         error.password = "Password minimal 6 karakter";
@@ -233,6 +236,7 @@ export default function CreatePegawai() {
         nip: data.data.nip,
         email: data.data.email,
         jabatan: data.data.jabatan ? String(data.data.jabatan.id) : "",
+        isPimpinan: data.data.isPimpinan,
         asnStatus: data.data.statusAsn,
         dinas: data.data.unit ? String(data.data.unit.id) : "",
         eselon: data.data.eselon,
@@ -278,7 +282,7 @@ export default function CreatePegawai() {
     onOpenConfirm();
   };
 
-  const { mutate: mutatePost } = useCreatePegawai();
+  const { mutate: mutatePost } = useUpdatePegawai();
 
   const handleConfirm = () => {
     setLoadingConfirm(true);
@@ -335,24 +339,31 @@ export default function CreatePegawai() {
     if (formData.asnStatus) formToSend.statusAsn = formData.asnStatus;
     if (formData.gender) formToSend.gender = formData.gender;
     formToSend.status = formData.isActive;
+    formToSend.isPimpinan = formData.isPimpinan;
 
     try {
-      mutatePost(formToSend, {
-        onSuccess: () => {
-          SuccessToast({ text: "Data berhasil ditambahkan" });
-          navigate("/pegawai");
+      mutatePost(
+        {
+          id: id as string,
+          formData: formToSend,
         },
-        onError: (error: AxiosError<BaseErrorRes>) => {
-          ErrorToast({
-            text:
-              (error.response?.data.error as string) ||
-              "Terjadi kesalahan saat mengirim data",
-          });
-          onCloseConfirm();
-          setLoadingConfirm(false);
-          throw error;
+        {
+          onSuccess: () => {
+            SuccessToast({ text: "Data berhasil ditambahkan" });
+            navigate("/pegawai");
+          },
+          onError: (error: AxiosError<BaseErrorRes>) => {
+            ErrorToast({
+              text:
+                (error.response?.data.message as string) ||
+                "Terjadi kesalahan saat mengirim data",
+            });
+            onCloseConfirm();
+            setLoadingConfirm(false);
+            throw error;
+          },
         },
-      });
+      );
     } catch (error) {
       setLoadingConfirm(false);
       onCloseConfirm();
@@ -559,28 +570,65 @@ export default function CreatePegawai() {
                       {formError.jabatan}
                     </div>
                   </div>
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
+                  <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
+                    <div>
+                      <div className="mb-1">
+                        <label
+                          htmlFor="content"
+                          className="font-semibold text-xs"
+                        >
+                          Status Pimpinan <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      <RadioGroup
+                        size="sm"
+                        value={formData.isPimpinan ? "YA" : "TIDAK"}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            isPimpinan: e.target.value === "YA" ? true : false,
+                          }))
+                        }
+                        orientation="horizontal"
+                        className="ms-4"
                       >
-                        Status ASN <span className="text-danger">*</span>
-                      </label>
+                        <Radio value={"YA"} key={"YA"}>
+                          Ya
+                        </Radio>
+                        <Radio value={"TIDAK"} key={"TIDAK"}>
+                          Tidak
+                        </Radio>
+                      </RadioGroup>
                     </div>
-                    <RadioGroup
-                      size="sm"
-                      value={formData.asnStatus ? "ASN" : "NON-ASN"}
-                      orientation="horizontal"
-                      className="ms-4"
-                    >
-                      <Radio value={"ASN"} key={"ASN"}>
-                        ASN
-                      </Radio>
-                      <Radio value={"NON-ASN"} key={"NON-ASN"}>
-                        Non-ASN
-                      </Radio>
-                    </RadioGroup>
+                    <div>
+                      <div className="mb-1">
+                        <label
+                          htmlFor="content"
+                          className="font-semibold text-xs"
+                        >
+                          Status ASN <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      <RadioGroup
+                        size="sm"
+                        value={formData.asnStatus ? "ASN" : "NON-ASN"}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            asnStatus: e.target.value === "ASN" ? true : false,
+                          }))
+                        }
+                        orientation="horizontal"
+                        className="ms-4"
+                      >
+                        <Radio value={"ASN"} key={"ASN"}>
+                          ASN
+                        </Radio>
+                        <Radio value={"NON-ASN"} key={"NON-ASN"}>
+                          Non-ASN
+                        </Radio>
+                      </RadioGroup>
+                    </div>
                   </div>
                   <div>
                     <div className="mb-1">

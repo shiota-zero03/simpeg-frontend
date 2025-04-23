@@ -304,7 +304,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                 </div>
               </div>
             </div>
-            <div className="grid md:grid-cols-2 col-span-1 gap-2">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
               <div className="flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
                   Lokasi Pelaksanaan <span className="text-danger">*</span>
