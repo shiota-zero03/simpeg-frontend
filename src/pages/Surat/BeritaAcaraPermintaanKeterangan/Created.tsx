@@ -237,7 +237,7 @@ export default function CreateSurat() {
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
           ErrorToast({
             text:
-              (error.response?.data.error as string) ||
+              (error.response?.data.messagegege as string) ||
               "Terjadi kesalahan saat mengirim data",
           });
           onCloseConfirm();

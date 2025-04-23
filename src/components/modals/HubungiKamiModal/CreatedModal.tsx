@@ -85,7 +85,7 @@ const CreateModal = ({
           onError: (error: AxiosError<BaseErrorRes>) => {
             ErrorToast({
               text:
-                (error.response?.data.error as string) ||
+                (error.response?.data.message as string) ||
                 "Terjadi kesalahan saat mengupdate dta",
             });
             setIsLoading(false);

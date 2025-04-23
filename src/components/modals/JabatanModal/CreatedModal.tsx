@@ -139,13 +139,12 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     try {
       mutatePost(formToSend, {
         onSuccess: () => {
-          SuccessToast({ text: "Data berhasil ditambahkan" });
           handleClose();
         },
         onError: (error: AxiosError<BaseErrorRes>) => {
           ErrorToast({
             text:
-              (error.response?.data.error as string) ||
+              (error.response?.data.message as string) ||
               "Terjadi kesalahan saat mengirim data",
           });
           setIsLoading(false);
