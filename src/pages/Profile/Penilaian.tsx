@@ -1,70 +1,46 @@
 import { TitleCase } from "@/components/card/TitleCase";
-import {
-  Button,
-  Card,
-  CardBody,
-  Input,
-  useDisclosure,
-  Tooltip,
-} from "@heroui/react";
+import { Card, CardBody, Input, Tooltip } from "@heroui/react";
 
-import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { LuArrowLeft, LuCalendarDays } from "react-icons/lu";
-import {
-  LucideCalendarDays,
-  LucideFileArchive,
-  LucidePencilLine,
-} from "lucide-react";
+import { Link } from "react-router-dom";
+import { LuCalendarDays } from "react-icons/lu";
+import { LucideCalendarDays, LucideFileArchive } from "lucide-react";
 import { FaFilePdf, FaQuestionCircle } from "react-icons/fa";
 import {
   PenilaianKinerjaDougnhut,
   PenilaianKinerjaLine,
 } from "@/components/Charts/penilaian-kinerja";
-import EditPenilaian from "@/components/modals/Penilaian/EditPenilaian";
 import {
   TooltipAttitudeNilai,
   TooltipDisiplinNilai,
   TooltipKerjasamaNilai,
   TooltipKinerjaNilai,
   TooltipLoyalitasNilai,
-} from "./TooltipContent";
+} from "@/pages/PenilaianKinerja/TooltipContent";
 import { useEffect, useState } from "react";
 import { useGetDetailPenilaian } from "@/services/penilaian";
 import { Commet } from "react-loading-indicators";
-import { ErrorToast } from "@/utils/ToastMessage";
 import { MYIndoToFormat } from "@/utils/dateFormater";
 import { CaseNilai } from "@/utils/nilaiCase";
+import { PegawaiRes } from "@/interface/responses/pegawai.interface";
 
-export default function ViewBobotKinerja() {
-  const { id } = useParams();
-  const queryParams = new URLSearchParams(window.location.search);
-  const m = queryParams.get("m");
-
-  const [searchMonth, setSearchMonth] = useState<string>(m as string);
-
+export default function ViewPenilaian({
+  dataNilaiBobot,
+}: {
+  dataNilaiBobot: PegawaiRes | null;
+}) {
   const getCurrentMonth = () => {
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0"); // tambahkan leading zero kalau perlu
     return `${year}-${month}`;
   };
+  const [searchMonth, setSearchMonth] = useState<string>(getCurrentMonth);
 
-  const { data, isFetching, refetch, error } = useGetDetailPenilaian(
-    id || "",
+  const { data, isFetching, refetch } = useGetDetailPenilaian(
+    dataNilaiBobot?.id || "",
     searchMonth.split("-")[1],
     searchMonth.split("-")[0],
   );
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!isFetching && error && !m) {
-      ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/penilaian-kinerja");
-    }
-  }, [isFetching, refetch]);
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [dataPenilaian, setDataPenilaian] = useState([
     {
@@ -189,11 +165,11 @@ export default function ViewBobotKinerja() {
         },
       ]);
     }
-  }, [id, m, data]);
+  }, [dataNilaiBobot, data]);
 
   useEffect(() => {
     refetch();
-  }, [id, data]);
+  }, [dataNilaiBobot, data]);
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -206,38 +182,14 @@ export default function ViewBobotKinerja() {
 
   return (
     <>
-      <EditPenilaian
-        userData={data?.data || null}
-        userId={data?.data.user.id || "-"}
-        nama={data?.data.user.name || "-"}
-        jabatan={
-          data?.data.user.jabatan ? data?.data.user.jabatan.nameJob : "-"
-        }
-        nip={data?.data.user.nip || "-"}
-        month={searchMonth}
-        isOpen={isOpen}
-        onClose={onClose}
-        handleClose={() => {
-          onClose();
-          refetch();
-        }}
-      />
-      <BreadcrumbAdmin location="/Penilaian Kinerja" />
       {isFetching && (
         <div className="inset-0 fixed flex items-center justify-center z-20">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
         </div>
       )}
-      <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
-        <div className="flex">
-          <Link
-            to={`/penilaian-kinerja`}
-            className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
-          >
-            <LuArrowLeft /> Kembali
-          </Link>
-        </div>
-        <TitleCase title="Detail Penilaian Kinerja" />
+      <div className="py-8 px-4">
+        <TitleCase title="Riwayat Penilaian Kinerja" />
+        <br />
         <div className="bg-white shadow-md rounded-xl border min-h-[64vh] flex flex-col gap-1">
           <div className="md:p-4 p-2 grid grid-cols-1 gap-4">
             <div className="flex flex-col gap-2 md:col-span-2 grid-cols-1 mb-2">
@@ -245,8 +197,8 @@ export default function ViewBobotKinerja() {
                 <CardBody className="p-4 flex items-center md:flex-row flex-col gap-4">
                   <img
                     src={
-                      data?.data.user.photo ??
-                      `https://ui-avatars.com/api/?name=${data?.data.user.name ?? "Dinas Perdagangan"}&background=random`
+                      dataNilaiBobot?.photo ??
+                      `https://ui-avatars.com/api/?name=${dataNilaiBobot?.name ?? "Dinas Perdagangan"}&background=random`
                     }
                     alt="profile"
                     width={80}
@@ -255,14 +207,14 @@ export default function ViewBobotKinerja() {
                   />
                   <div className="text-sm flex flex-col gap-1 md:items-start items-center">
                     <p className="text-sm">
-                      {data?.data.user.jabatan
-                        ? data?.data.user.jabatan.nameJob
+                      {dataNilaiBobot?.jabatan
+                        ? dataNilaiBobot?.jabatan.nameJob
                         : ""}
                     </p>
                     <p className="font-semibold text-lg">
-                      {data?.data.user.name || ""}
+                      {dataNilaiBobot?.name || ""}
                     </p>
-                    <p className="text-sm">{data?.data.user.nip || ""}</p>
+                    <p className="text-sm">{dataNilaiBobot?.nip || ""}</p>
                   </div>
                 </CardBody>
               </Card>
@@ -306,22 +258,12 @@ export default function ViewBobotKinerja() {
                       </div>
                       <div className="flex items-center justify-end gap-2">
                         <Link
-                          to={`/penilaian-kinerja/export-pdf/${id}?m=${searchMonth}`}
+                          to={`/penilaian-kinerja/export-pdf/${dataNilaiBobot?.id}?m=${searchMonth}`}
                           target="__blank"
                           className="border-[0.8px] text-xs flex items-center p-1.5 border-danger text-danger rounded-md w-28 gap-2 justify-center"
                         >
                           <FaFilePdf size={12} /> Export .pdf
                         </Link>
-                        <Button
-                          onPress={onOpen}
-                          variant="solid"
-                          radius="sm"
-                          size="sm"
-                          startContent={<LucidePencilLine size={12} />}
-                          className="border-[0.8px] w-28 text-xs text-info bg-alert-info"
-                        >
-                          Edit Data
-                        </Button>
                       </div>
                     </div>
                   </div>

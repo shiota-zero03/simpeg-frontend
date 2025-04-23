@@ -139,6 +139,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     try {
       mutatePost(formToSend, {
         onSuccess: () => {
+          SuccessToast({ text: "Data berhasil ditambahkan" });
           handleClose();
         },
         onError: (error: AxiosError<BaseErrorRes>) => {

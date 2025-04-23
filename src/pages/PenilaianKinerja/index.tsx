@@ -1,5 +1,5 @@
 import { TitleCase } from "@/components/card/TitleCase";
-import { Button, Card, CardBody, CardHeader, Input } from "@heroui/react";
+import { Card, CardBody } from "@heroui/react";
 
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import ListKaryawan from "./penilaian";
@@ -7,17 +7,17 @@ import {
   PenilaianKinerjaDougnhut,
   PenilaianKinerjaLine,
 } from "@/components/Charts/penilaian-kinerja";
-import { useState } from "react";
-import { BiReset, BiSearch } from "react-icons/bi";
-import { LuCalendarDays } from "react-icons/lu";
+// import { useState } from "react";
+// import { BiReset, BiSearch } from "react-icons/bi";
+// import { LuCalendarDays } from "react-icons/lu";
 
 export default function BobotKinerja() {
-  const [searchMonth, setSearchMonth] = useState("");
-  const handleSearch = () => {};
+  // const [searchMonth, setSearchMonth] = useState("");
+  // const handleSearch = () => {};
 
-  const handleReset = () => {
-    setSearchMonth("");
-  };
+  // const handleReset = () => {
+  //   setSearchMonth("");
+  // };
   return (
     <>
       <BreadcrumbAdmin location="/Penilaian Kinerja" />
@@ -32,7 +32,7 @@ export default function BobotKinerja() {
             <PenilaianKinerjaDougnhut />
           </CardBody>
         </Card>
-        <Card className="py-4">
+        {/* <Card className="py-4">
           <CardHeader className="px-6">
             <div className="flex sm:flex-row flex-col justify-between gap-2 items-center w-full">
               <div>
@@ -163,7 +163,7 @@ export default function BobotKinerja() {
               </tbody>
             </table>
           </CardBody>
-        </Card>
+        </Card> */}
         <div className="bg-white shadow-md rounded-xl border min-h-[64vh]">
           <div>
             <ListKaryawan />

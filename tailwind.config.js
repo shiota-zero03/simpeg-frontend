@@ -30,6 +30,9 @@ export default {
       fontFamily: {
         jakarta: ["Plus Jakarta Sans", "sans-serif"],
       },
+      utilities: {
+        "break-after-page": "break-after: page",
+      },
     },
   },
   plugins: [heroui(), require("tailwindcss-animate")],

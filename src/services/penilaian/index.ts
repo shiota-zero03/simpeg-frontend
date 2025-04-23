@@ -1,5 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { getAllPenilaian, getDetailPenilaian } from "./http";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createPenilaian, getAllPenilaian, getDetailPenilaian } from "./http";
+import { IPenilaianDetailRes } from "@/interface/responses/penilaian.interface";
+import { AxiosError } from "axios";
+import { BaseErrorRes } from "@/interface/responses/base.response";
+import { StorePenilaian } from "@/interface/request/penilaian.interface";
 
 export const useGetAllPenilaian = (
   page: number,
@@ -14,10 +18,31 @@ export const useGetAllPenilaian = (
     staleTime: 300000,
   });
 };
-export const useGetDetailPenilaian = (id: string) => {
+export const useGetDetailPenilaian = (
+  id: string,
+  monthly?: string,
+  yearly?: string,
+) => {
   return useQuery({
-    queryKey: ["getDetailPenilaian"],
-    queryFn: () => getDetailPenilaian(id),
+    queryKey: ["getDetailPenilaian", monthly, yearly],
+    queryFn: () => getDetailPenilaian(id, monthly, yearly),
     staleTime: 300000,
+  });
+};
+
+export const useCreatePenilaian = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IPenilaianDetailRes,
+    AxiosError<BaseErrorRes>,
+    StorePenilaian
+  >({
+    mutationFn: (formData) => createPenilaian(formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["createPenilaian"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
   });
 };

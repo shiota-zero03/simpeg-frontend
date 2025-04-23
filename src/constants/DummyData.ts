@@ -3,12 +3,20 @@ export const RoleAccess: {
   key: string;
 }[] = [
   {
-    name: "Admin",
+    name: "Superadmin",
+    key: "SUPERUSERS",
+  },
+  {
+    name: "Admin kepegawaian",
     key: "ADMIN",
   },
   {
-    name: "Pimpinan",
-    key: "PIMPINAN",
+    name: "Admin SPPD",
+    key: "ADMIN_SPPD",
+  },
+  {
+    name: "Admin Asset",
+    key: "ADMIN_ASSET",
   },
   {
     name: "Pegawai",

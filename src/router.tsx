@@ -37,9 +37,13 @@ const PenilaianKinerja = lazy(() => import("@/pages/PenilaianKinerja"));
 const ViewPenilaianKinerja = lazy(
   () => import("@/pages/PenilaianKinerja/View"),
 );
+const ExportPenilaian = lazy(
+  () => import("@/pages/PenilaianKinerja/ExportPDF"),
+);
 const IKP = lazy(() => import("@/pages/IKP"));
 const TambahIKP = lazy(() => import("@/pages/IKP/Tambah"));
 const DetailIKP = lazy(() => import("@/pages/IKP/Detail"));
+const ExportIKP = lazy(() => import("@/pages/IKP/ExportPDF"));
 
 const ExportPDFSummary = lazy(() => import("@/pages/export/pdf/SummaryPdf"));
 const ExportExcelSummary = lazy(
@@ -266,6 +270,12 @@ export default function Router() {
         <Route
           path="/keputusan-hukuman-disiplin/export-data/:id"
           element={<ExportKeputusan />}
+        />
+
+        <Route path="/dialog-kinerja/export-pdf/:id" element={<ExportIKP />} />
+        <Route
+          path="/penilaian-kinerja/export-pdf/:id"
+          element={<ExportPenilaian />}
         />
 
         <Route path="*" element={<Error404 />} />

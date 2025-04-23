@@ -1,10 +1,19 @@
 import { Button } from "@heroui/react";
 import DataProfile from "./Profile";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
+import ViewPenilaian from "./Penilaian";
+import { useGetProfile } from "@/services/auth";
 
 export default function Profile() {
   const [selectedTab, setSelectedTab] = useState<string>("profile");
+
+  const { data } = useGetProfile();
+
+  const DATA_FETCHING = useMemo(() => {
+    if (!data) return null;
+    return data.data;
+  }, [data]);
 
   return (
     <>
@@ -41,11 +50,14 @@ export default function Profile() {
             onPress={() => setSelectedTab("pemegang-asset")}
             className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "riwayat-perjalanan" ? "bg-[#E1FFDD] text-success" : "bg-white"}`}
           >
-            Riwayat Perjalanan Dinas
+            Aset
           </Button>
         </div>
         <div className="bg-white shadow-md rounded-b-xl border min-h-[70vh]">
           {selectedTab === "profile" && <DataProfile />}
+          {selectedTab === "riwayat-penilaian" && (
+            <ViewPenilaian dataNilaiBobot={DATA_FETCHING || null} />
+          )}
         </div>
       </div>
     </>

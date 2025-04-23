@@ -1,4 +1,5 @@
 import instance from "@/api/axios";
+import { StorePenilaian } from "@/interface/request/penilaian.interface";
 import {
   IPenilaianDetailRes,
   IPenilaianListRes,
@@ -24,7 +25,21 @@ export const getAllPenilaian = async (
 
 export const getDetailPenilaian = async (
   id: string,
+  monthly?: string,
+  yearly?: string,
 ): Promise<IPenilaianDetailRes> => {
-  const response = await instance.get(`/admin/penilaian/${id}`);
+  const params = new URLSearchParams();
+  if (monthly) params.set("monthly", monthly);
+  if (yearly) params.set("yearly", yearly);
+  const response = await instance.get(
+    `/admin/penilaian/${id}?${params.toString()}`,
+  );
+  return response.data;
+};
+
+export const createPenilaian = async (
+  formData: StorePenilaian,
+): Promise<IPenilaianDetailRes> => {
+  const response = await instance.post(`/admin/penilaian/create`, formData);
   return response.data;
 };

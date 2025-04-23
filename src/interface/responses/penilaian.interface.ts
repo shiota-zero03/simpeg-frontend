@@ -3,28 +3,36 @@ import { BaseRes, PaginationRes } from "./base.response";
 export interface PernilaianListRes {
   id: string;
   user: {
+    id: string;
     name: string;
     nip: string;
-    position: number;
+    photo: string;
     jabatan: {
       nameJob: string;
-      id: number;
-      atasan: number;
-    };
+    } | null;
   };
+  userId: string;
   performanceBobot: number | null;
+  performanceProofBobot: string | null;
   disciplineBobot: number | null;
+  disciplineProofBobot: string | null;
   loyaltyBobot: number | null;
+  loyaltyProofBobot: string | null;
   cooperationBobot: number | null;
+  cooperationProofBobot: string | null;
   attitudeBobot: number | null;
-  performanceNilai: number | null;
-  disciplineNilai: number | null;
-  loyaltyNilai: number | null;
-  cooperationNilai: number | null;
-  attitudeNilai: number | null;
+  attitudeProofBobot: string | null;
   totalBobot: number | null;
-  totalNilai: number | null;
-  bulanTahun: string | null;
+  performanceNilai: number | null;
+  performanceProofNilai: string | null;
+  disciplineNilai: number | null;
+  disciplineProofNilai: string | null;
+  loyaltyNilai: number | null;
+  loyaltyProofNilai: string | null;
+  cooperationNilai: number | null;
+  cooperationProofNilai: string | null;
+  attitudeNilai: number | null;
+  attitudeProofNilai: string | null;
   createdAt: string | null;
 }
 
