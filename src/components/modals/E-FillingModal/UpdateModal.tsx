@@ -268,7 +268,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
               <input
                 type="file"
                 onChange={handleChangeFile}
-                accept=".png,.jpg,.jpeg"
+                accept=".png,.jpg,.jpeg,.pdf"
               />
               <div className="text-danger text-[0.7rem] mt-1">
                 {formError.lampiran}

@@ -176,7 +176,7 @@ export default function IKP() {
             >
               <FaFilePdf size={14} />
             </Button>
-            {role === "ADMIN" && (
+            {(role === "ADMIN" || role === "SUPERUSERS") && (
               <Button
                 onPress={() => {
                   setSelectedId(id);
@@ -342,7 +342,7 @@ export default function IKP() {
                   >
                     <BiReset size={12} />
                   </Button>
-                  {role === "ADMIN" && (
+                  {(role === "ADMIN" || role === "SUPERUSERS") && (
                     <Link
                       to={`/dialog-kinerja/export-excel?month=${searchMonth}`}
                       className="border-[0.8px] w-24 text-xs border-success text-success flex items-center gap-2 px-2 py-1.5 rounded-md justify-center"
@@ -350,7 +350,7 @@ export default function IKP() {
                       <FaFileExcel size={12} /> Export
                     </Link>
                   )}
-                  {role === "ADMIN" && (
+                  {(role === "ADMIN" || role === "SUPERUSERS") && (
                     <Button
                       onPress={() => navigate("/dialog-kinerja/tambah-data")}
                       variant="solid"

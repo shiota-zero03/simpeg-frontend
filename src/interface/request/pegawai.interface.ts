@@ -1,12 +1,14 @@
 export interface StorePegawai {
   name?: string | null;
   email?: string | null;
+  oldPassword?: string | null;
   password?: string | null;
   nip?: string | null;
   role?: string | null;
   phoneNumber?: string | null;
   dateOfBirth?: string | null;
   tempatLahir?: string | null;
+  placeOfBirth?: string | null;
   rank?: string | null;
   group?: string | null;
   eselon?: string | null;

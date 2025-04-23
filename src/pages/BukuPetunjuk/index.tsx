@@ -17,7 +17,7 @@ export default function BukuPetunjuk() {
               : "Berikut ini mengelola Buku Petunjuk penggunaan Aplikasi"
           }
         />
-        {!role || role === "PEGAWAI" ? (
+        {!role || role !== "SUPERUSERS" ? (
           <BukuPetunjukGuest />
         ) : (
           <BukuPetunjukAdmin />

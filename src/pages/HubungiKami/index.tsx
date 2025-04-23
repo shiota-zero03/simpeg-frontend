@@ -17,7 +17,7 @@ export default function HubungiKami() {
               : "Berikut ini mengelola Nomor Whatsapp untuk fitur Hubungi Kami"
           }
         />
-        {!role || role === "PEGAWAI" ? (
+        {!role || role !== "SUPERUSERS" ? (
           <HubungiKamiGuest />
         ) : (
           <HubungikamiAdmin />

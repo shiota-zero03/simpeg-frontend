@@ -1,52 +1,138 @@
 import { TitleCase } from "@/components/card/TitleCase";
 import DataTables from "@/components/DataTables";
-import { SPPDDummy } from "@/constants/DummyData";
 import {
   Button,
   DateRangePicker,
   Input,
   Pagination,
   RangeValue,
-  Tooltip,
   useDisclosure,
 } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
-  LuFileArchive,
   LuPencilLine,
   LuSearch,
   LuTrash2,
 } from "react-icons/lu";
 import {
-  BiErrorAlt,
   BiReset,
   BiSearch,
   BiSolidPlusSquare,
 } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
-import { SuccessToast } from "@/utils/ToastMessage";
+import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { CalendarDate, parseDate } from "@internationalized/date";
-import CreateModal from "@/components/modals/SPPDModal/CreatedModal";
+import { CalendarDate, getLocalTimeZone, parseDate } from "@internationalized/date";
+import { useDeleteSPPD, useGetAllSPPD } from "@/services/sppd";
+import { SPPDRes } from "@/interface/responses/sppd.interface";
+import PegawaiModal from "@/components/modals/SPPDModal/PegawaiModal";
+import { Link } from "react-router-dom";
+import { FaFilePdf } from "react-icons/fa";
 
 interface SPPDprops {
-  id: number;
-  pegawai: string;
+  id: string;
+  nomorSurat: string;
   kegiatan: string;
   waktu: string;
   lokasi: string;
   anggaran: number;
-  pengikut: string[];
+  participantsLeader?: {
+    id: number;
+    userId: string;
+    bankAccount: string;
+    position: string;
+    role: string;
+    createdAt: string;
+    updatedAt: string;
+    user: {
+        id: string;
+        name: string;
+        nip: string;
+        jabatan: {
+            nameJob: string;
+        } | null;
+    },
+    budgets: {
+        id: number;
+        transport: number;
+        volTransport: number;
+        representatif: number;
+        volRepresentatif: number;
+        dailyAllowance: number;
+        volDailyAllowance: number;
+        bankAccount: string;
+    }[]
+  };
+  participants: {
+    id: number;
+    userId: string;
+    bankAccount: string;
+    position: string;
+    role: string;
+    createdAt: string;
+    updatedAt: string;
+    user: {
+        id: string;
+        name: string;
+        nip: string;
+        jabatan: {
+            nameJob: string;
+        } | null;
+    },
+    budgets: {
+        id: number;
+        transport: number;
+        volTransport: number;
+        representatif: number;
+        volRepresentatif: number;
+        dailyAllowance: number;
+        volDailyAllowance: number;
+        bankAccount: string;
+    }[]
+  }[];
+}
+
+
+interface PegawaiProps {
+  id: number;
+  userId: string;
+  bankAccount: string;
+  position: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+      id: string;
+      name: string;
+      nip: string;
+      jabatan: {
+          nameJob: string;
+      } | null;
+  },
+  budgets: {
+      id: number;
+      transport: number;
+      volTransport: number;
+      representatif: number;
+      volRepresentatif: number;
+      dailyAllowance: number;
+      volDailyAllowance: number;
+      bankAccount: string;
+  }[]
 }
 
 export default function News() {
-  const limit = 5;
+
+  const navigate = useNavigate();
+  const limit = 10;
+  const [selectedId, setSelectedId] = useState("");
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
   const [searchKegiatan, setSearchKegiatan] = useState("");
+  const [listPegawai, setListPegawai] = useState<PegawaiProps[] | null>(null);
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -55,34 +141,65 @@ export default function News() {
     end: parseDate(today.toISOString().split("T")[0]),
   });
 
-  // const formatDateToJakarta = (calendarDate: CalendarDate | null | undefined) => {
-  //     if (!calendarDate) return null;
-  //     const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
-  //     return new Intl.DateTimeFormat("id-ID", { timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit" })
-  //         .format(date)
-  //         .split("/")
-  //         .reverse()
-  //         .join("-");
-  // }
+  const formatDateToJakarta = (calendarDate: CalendarDate | null | undefined) => {
+      if (!calendarDate) return null;
+      const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
+      return new Intl.DateTimeFormat("id-ID", { timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit" })
+          .format(date)
+          .split("/")
+          .reverse()
+          .join("-");
+  }
 
-  // const { data: allData, isFetching: isFetchingData, refetch: refetchData } = useGetAllRiwayatObat();
-  const allData = SPPDDummy;
+  const [startData, setStartData] = useState<number>(0);
+  const [endData, setEndData] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalData, setTotalData] = useState<number>(0);
 
-  const data: SPPDprops[] = useMemo(() => {
+  const { data: allData, isFetching: isFetchingData, refetch: refetchData } = useGetAllSPPD(pageIndex + 1, limit, search, searchKegiatan, formatDateToJakarta(rangeDate?.start), formatDateToJakarta(rangeDate?.end),);
+
+  const paginatedData: SPPDprops[] = useMemo(() => {
     if (allData) {
-      return allData;
+      const data = allData.data;
+      setTotalData(data.pagination.totalData || 0);
+      setTotalPages(data.pagination.totalPages || 1);
+
+      const start = pageIndex * limit + 1;
+      const end = Math.min(
+        (pageIndex + 1) * limit,
+        data.pagination.totalData || 0,
+      );
+
+      setStartData(start);
+      setEndData(end);
+
+      return data.response.map((item: SPPDRes) => {
+
+        let anggaran = 0;
+        let participantLeader = item.participants.find(it => it.role === "PEGAWAI");
+        item.participants.map(it => {
+          anggaran += (
+            (it.budgets[0]?.dailyAllowance || 0 * it.budgets[0]?.volDailyAllowance || 0) + 
+            (it.budgets[0]?.transport || 0 * it.budgets[0]?.volTransport || 0) + 
+            (it.budgets[0]?.representatif || 0 * it.budgets[0]?.volRepresentatif || 0)
+          )
+        })
+
+        return ({
+          id: item.id,
+          nomorSurat: item.nomorSurat,
+          kegiatan: item.activity,
+          waktu: `${item.startDate ? DMYIndoToFormat(item.startDate) : ""} - ${item.endDate ? DMYIndoToFormat(item.endDate) : ""}`,
+          lokasi: item.location,
+          anggaran: anggaran,
+          participantsLeader: participantLeader,
+          participants: item.participants
+        })
+      });
     } else {
       return [];
     }
   }, [allData]);
-
-  const paginatedData = useMemo(() => {
-    return data.slice(pageIndex * limit, (pageIndex + 1) * limit);
-  }, [data, limit, pageIndex]);
-
-  const startData = paginatedData.length > 0 ? pageIndex * limit + 1 : 0;
-  const endData = Math.min((pageIndex + 1) * limit, data.length);
-  const totalPages = Math.ceil(data.length / limit);
 
   const columns: ColumnDef<SPPDprops>[] = [
     {
@@ -94,9 +211,16 @@ export default function News() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
-      accessorKey: "pegawai",
-      header: "Pegawai",
+      accessorKey: "nomorSurat",
+      header: "Nomor Surat",
       cell: (info) => info.getValue() as string,
+    },
+    {
+      header: "Nama Pegawai",
+      cell: ({ row }) => {
+        const { participantsLeader } = row.original;
+        return participantsLeader ? participantsLeader.user.name : "-"
+      },
     },
     {
       accessorKey: "kegiatan",
@@ -106,8 +230,7 @@ export default function News() {
     {
       accessorKey: "waktu",
       header: "Waktu",
-      cell: (info) =>
-        info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
+      cell: (info) => info.getValue()
     },
     {
       accessorKey: "lokasi",
@@ -116,71 +239,32 @@ export default function News() {
     },
     {
       accessorKey: "anggaran",
-      header: "Anggaran",
+      header: "Total Anggaran",
       cell: (info) =>
         "Rp " + ((info.getValue() as number) || 0).toLocaleString("id-ID"),
     },
     {
-      accessorKey: "pengikut",
-      header: "Pengikut",
-      cell: (info) => {
-        const pengikut = info.getValue() as string[];
+      header: "Total Pegawai",
+      cell: ({ row }) => {
+        const { participants } = row.original;
         return (
-          <ul className="px-6">
-            {pengikut.length > 0 ? (
-              pengikut.map((item, index) => (
-                <li className="list-disc" key={index}>
-                  {item}
-                </li>
-              ))
-            ) : (
-              <li className="list-disc text-danger italic">
-                Tidak ada pengikut
-              </li>
-            )}
-          </ul>
-        );
-      },
-    },
-    {
-      accessorKey: "file",
-      header: "File",
-      cell: (info) => {
-        const file = info.getValue() as string | null;
-        if (file) {
-          return (
-            <Link to={file} target="__blank">
-              <LuFileArchive
-                className="border p-1 rounded-md text-accent-primary border-accent-primary"
-                size={20}
-              />
-            </Link>
-          );
-        } else {
-          return (
-            <Tooltip
-              content="Tidak ada file"
-              radius="sm"
-              color="danger"
-              placement="top-start"
-              size="sm"
-            >
-              <BiErrorAlt
-                className="border p-1 rounded-md text-danger border-danger"
-                size={20}
-              />
-            </Tooltip>
-          );
-        }
+          <div className="text-info underline cursor-pointer" onClick={() => {
+            setListPegawai(participants)
+            setTimeout(() => {
+              onOpenPegawai()
+            }, 100);
+          }}>{participants.length} Orang</div>
+        )
       },
     },
     {
       header: "Aksi",
-      cell: () => {
+      cell: ({ row }) => {
+        const { id } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
-              onPress={onOpenCreate}
+              onPress={() => navigate(`/sppd/update-data/${id}`)}
               isIconOnly
               radius="sm"
               size="sm"
@@ -189,7 +273,13 @@ export default function News() {
               <LuPencilLine size={14} />
             </Button>
             <Button
-              onPress={onOpenDelete}
+              onPress={() => {
+                setSelectedId(id)
+                setTimeout(() => {
+                  onOpenDelete()
+                }, 100);
+
+              }}
               isIconOnly
               radius="sm"
               size="sm"
@@ -197,6 +287,12 @@ export default function News() {
             >
               <LuTrash2 size={14} />
             </Button>
+            <Link
+              to={`/sppd/export-pdf/${id}`}
+              className="bg-alert-success text-success shadow-sm p-2 rounded-md"
+            >
+              <FaFilePdf size={14} />
+            </Link>
           </div>
         );
       },
@@ -209,11 +305,17 @@ export default function News() {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
+  
   const {
-    isOpen: isOpenCreate,
-    onOpen: onOpenCreate,
-    onClose: onCloseCreate,
+    isOpen: isOpenPegawai,
+    onOpen: onOpenPegawai,
+    onClose: onClosePegawai,
   } = useDisclosure();
+
+  const handleSearch = () => {
+    setPageIndex(0);
+    refetchData();
+  };
 
   const handleReset = () => {
     setSearch("");
@@ -222,39 +324,71 @@ export default function News() {
       start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
       end: parseDate(today.toISOString().split("T")[0]),
     });
+    setTimeout(() => {
+      refetchData();
+    }, 100);
   };
+
+  useEffect(() => {
+    refetchData();
+  }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
+  const { mutate: mutateDelete } = useDeleteSPPD();
+  
   const handleDelete = () => {
+    if (isLoadingDelete) return;
+
     setLoadingDelete(true);
-    setTimeout(() => {
-      setPageIndex(0);
-      SuccessToast({ text: "Data berhasil dihapus" });
+
+    try {
+      mutateDelete(
+        { id: String(selectedId) },
+        {
+          onSuccess() {
+            SuccessToast({ text: "Data berhasil dihapus" });
+            setLoadingDelete(false);
+            setSelectedId("");
+            onCloseDelete();
+            setPageIndex(0);
+            setTimeout(() => {
+              refetchData();
+            }, 100);
+          },
+          onError(error) {
+            setLoadingDelete(false);
+            ErrorToast({
+              text:
+                error.response?.data.message ||
+                "Terjadi kesalahan saat mengirim data",
+            });
+            throw error;
+          },
+        },
+      );
+    } catch (error) {
+      ErrorToast({ text: "Terjadi kesalahan di server" });
       setLoadingDelete(false);
-      onCloseDelete();
-    }, 1000);
+      throw error;
+    }
   };
 
-  const handleClose = () => {
-    setPageIndex(0);
-    onCloseCreate();
-    onCloseDelete();
-    onCloseCreate();
-  };
 
   return (
     <>
       <BreadcrumbAdmin location="/SPPD" />
+      {listPegawai && (
+        <PegawaiModal
+          pegawai={listPegawai}
+          onClose={onClosePegawai}
+          isOpen={isOpenPegawai}
+        />
+      )}
       <DeleteModal
         isOpen={isOpenDelete}
         onClose={onCloseDelete}
         isLoading={isLoadingDelete}
         handleSubmit={handleDelete}
-      />
-      <CreateModal
-        isOpen={isOpenCreate}
-        onClose={onCloseCreate}
-        handleClose={handleClose}
       />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
@@ -271,7 +405,6 @@ export default function News() {
                     value={search}
                     onChange={(e) => {
                       setSearch(e.target.value);
-                      setPageIndex(0);
                     }}
                     radius="sm"
                     size="sm"
@@ -290,7 +423,6 @@ export default function News() {
                     value={searchKegiatan}
                     onChange={(e) => {
                       setSearchKegiatan(e.target.value);
-                      setPageIndex(0);
                     }}
                     radius="sm"
                     size="sm"
@@ -319,7 +451,7 @@ export default function News() {
                 </div>
                 <div className="flex items-center justify-end gap-2">
                   <Button
-                    onPress={handleReset}
+                    onPress={handleSearch}
                     variant="solid"
                     radius="sm"
                     size="sm"
@@ -340,7 +472,7 @@ export default function News() {
                     <BiReset size={12} />
                   </Button>
                   <Button
-                    onPress={onOpenCreate}
+                    onPress={() => navigate('/sppd/tambah-data')}
                     variant="solid"
                     radius="sm"
                     size="sm"
@@ -356,7 +488,7 @@ export default function News() {
           <div>
             <div className="py-8">
               <DataTables
-                isLoading={false}
+                isLoading={isFetchingData}
                 columns={columns}
                 data={paginatedData}
               />
@@ -364,7 +496,7 @@ export default function News() {
           </div>
           <div className="pb-4 px-4 flex md:flex-row flex-col items-center justify-between gap-4">
             <span className="sm:text-sm text-xs text-[#8C8C8C]">
-              {startData} - {endData} dari {data.length} data
+              {startData} - {endData} dari {totalData} data
             </span>
             <Pagination
               showControls

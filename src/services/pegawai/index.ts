@@ -4,6 +4,7 @@ import {
   deletePegawai,
   getAllPegawai,
   getAllPegawaiOption,
+  getAllPegawaiPimpinanOption,
   getDetailPegawai,
   updatePegawai,
 } from "./http";
@@ -16,6 +17,14 @@ export const useGetAllPegawaiOption = () => {
   return useQuery({
     queryKey: ["getAllPegawaiOption"],
     queryFn: () => getAllPegawaiOption(),
+    staleTime: 300000,
+  });
+};
+
+export const useGetAllPegawaiPimpinanOption = () => {
+  return useQuery({
+    queryKey: ["getAllPegawaiPimpinanOption"],
+    queryFn: () => getAllPegawaiPimpinanOption(),
     staleTime: 300000,
   });
 };

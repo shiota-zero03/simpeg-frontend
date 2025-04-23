@@ -340,7 +340,7 @@ export default function DetailIKP() {
 
         {!isPengajuaun ? (
           <div className="bg-white shadow-md rounded-xl border p-4 min-h-[64vh]">
-            {role === "PEGAWAI" && status === "MENUNGGU" && (
+            {(role === "ADMIN" || role === "SUPERUSERS") && status === "MENUNGGU" && (
               <div className="flex items-center justify-end gap-2">
                 <Button
                   className="bg-alert-info text-info border border-info font-semibold"
@@ -483,7 +483,7 @@ export default function DetailIKP() {
                       >
                         Keterangan
                       </th>
-                      {role === "PEGAWAI" && (
+                      {(role === "ADMIN" || role === "SUPERUSERS") && (
                         <th
                           className={`border-b-2 border-accent-gray p-2 text-left text-sm bg-primary text-white rounded-se-md`}
                         >
@@ -986,7 +986,7 @@ export default function DetailIKP() {
                 </div>
               </div>
             </div>
-            {role === "PEGAWAI" && status === "MENUNGGU" && (
+            {(role === "ADMIN" || role === "SUPERUSERS") && status === "MENUNGGU" && (
               <div className="flex items-center justify-end gap-2 mt-4">
                 <Button
                   className="bg-alert-danger text-danger border border-danger font-semibold"

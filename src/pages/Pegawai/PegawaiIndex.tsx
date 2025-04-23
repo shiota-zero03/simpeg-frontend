@@ -97,12 +97,10 @@ export default function PegawaiIndex() {
       header: "Role",
       cell: (info) => {
         const role = info.getValue() as string;
-        if (role === "ADMIN") {
-          return "Admin";
-        } else if (role === "PEGAWAI") {
+        if (role === "PEGAWAI") {
           return "Pegawai";
         } else {
-          return "-";
+          return "Admin";
         }
       },
       // meta: { align: "center" },
