@@ -10,6 +10,7 @@ import {
 } from "@heroui/react";
 import { useEffect, useMemo } from "react";
 import { LuEye, LuPencilLine } from "react-icons/lu";
+import { BlinkBlur } from "react-loading-indicators";
 import { Link } from "react-router-dom";
 
 export default function BukuPetunjukAdmin() {
@@ -50,7 +51,11 @@ export default function BukuPetunjukAdmin() {
               memahami fitur, cara penggunaan, dan pengelolaan data kepegawaian
               dengan lebih mudah. Klik tombol di bawah untuk mengunduh sekarang!
             </CardBody>
-            {!isFetching && (
+            {isFetching ? (
+              <div className="inset-0 fixed flex items-center justify-center z-20">
+                <BlinkBlur color="#32cd32" size="medium" text="" textColor="" />
+              </div>
+            ) : (
               <CardFooter className="flex items-center justify-between gap-2 md:flex-row flex-col">
                 <Link
                   to={dataBuku?.files || ""}

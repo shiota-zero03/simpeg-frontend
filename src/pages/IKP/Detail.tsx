@@ -17,6 +17,7 @@ import {
   LucideCheckCircle,
   LucideFileCheck2,
   LucidePencilLine,
+  LucideSave,
   LucideSend,
   LucideX,
   LucideXCircle,
@@ -52,10 +53,40 @@ export default function DetailIKP() {
   const { id } = useParams();
   const { role } = store.getState().auth;
   const [status, setStatus] = useState<string>("MENUNGGU");
+
+  const [isEditAll, setIsEditAll] = useState<boolean>(false);
+  const [formRealisasi, setFormRealisasi] = useState<
+    { isOpenRealisasi: boolean; id: number; realisasi: string }[]
+  >([]);
+
   const { data, isFetching, refetch, error } = useGetDetailIKP(id || "");
   const DATA_DETAIL = useMemo(() => {
     if (!data) return null;
     const ikps = data.data.ikps; // misalnya item.ikps adalah array of object dengan properti "status"
+
+    const newRealisasi = ikps.map(
+      (item: {
+        id: number | null;
+        sasaran: string | null;
+        target: string | null;
+        indicator: string | null;
+        description: string | null;
+        dialog: string | null;
+        status: string | null;
+        ubahTarget: string | null;
+        realisasi: string | null;
+        reasoning: string | null;
+        count: number | null;
+      }) => ({
+        isOpenRealisasi: false,
+        id: Number(item.id),
+        realisasi: String(item.realisasi),
+      }),
+    );
+
+    // Update state satu kali
+    setIsEditAll(false);
+    setFormRealisasi(newRealisasi);
 
     const hasMenunggu = ikps.some((el) => el.status === "MENUNGGU");
     const allSetujui = ikps.every((el) => el.status === "DISETUJUI");
@@ -68,6 +99,43 @@ export default function DetailIKP() {
 
     return data.data;
   }, [data, id]);
+
+  const openEditRealisasi = (index: number) => {
+    setFormRealisasi((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, isOpenRealisasi: true } : item,
+      ),
+    );
+  };
+  const closeEditRealisasi = (index: number) => {
+    setFormRealisasi((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, isOpenRealisasi: false } : item,
+      ),
+    );
+  };
+
+  useEffect(() => {
+    if (formRealisasi.length > 0) {
+      if (isEditAll) {
+        formRealisasi.map((_item, index) => {
+          openEditRealisasi(index);
+        });
+      } else {
+        formRealisasi.map((_item, index) => {
+          closeEditRealisasi(index);
+        });
+      }
+    }
+  }, [isEditAll]);
+
+  const handleChangeRealisasi = (index: number, value: string) => {
+    setFormRealisasi((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, realisasi: value } : item,
+      ),
+    );
+  };
 
   useEffect(() => {
     refetch();
@@ -327,6 +395,73 @@ export default function DetailIKP() {
     onCloseConfirm();
   };
 
+  const handleUpdateById = async (idx: number) => {
+    setIsLoadingConfirm(true);
+
+    const dataToSend: StoreIKPSetuju = {
+      realisasi: formRealisasi[idx].realisasi,
+    };
+
+    try {
+      mutateUpdate(
+        {
+          id: String(formRealisasi[idx].id),
+          formData: dataToSend,
+        },
+        {
+          onSuccess: () => {
+            SuccessToast({ text: "Data berhasil diperbarui" });
+            setIsLoadingConfirm(false);
+            setSelectedid(null);
+            closeEditRealisasi(idx);
+            refetch();
+          },
+          onError: (error: AxiosError<BaseErrorRes>) => {
+            setIsLoadingConfirm(false);
+            setSelectedid(null);
+            ErrorToast({
+              text:
+                (error.response?.data.message as string) ||
+                "Terjadi kesalahan saat menambah data",
+            });
+            throw error;
+          },
+        },
+      );
+    } catch (error) {
+      setIsLoadingConfirm(false);
+      setSelectedid(null);
+      throw error;
+    }
+  };
+
+  const handleUpdateAll = async () => {
+    setIsLoadingConfirm(true);
+
+    try {
+      for (const element of formRealisasi) {
+        mutateUpdate({
+          id: String(element.id),
+          formData: {
+            realisasi: element.realisasi,
+          },
+        });
+      }
+
+      SuccessToast({ text: "Data berhasil diperbarui" });
+      setIsEditAll(false);
+    } catch (error) {
+      const err = error as AxiosError<BaseErrorRes>;
+      ErrorToast({
+        text:
+          (err.response?.data.message as string) ||
+          "Terjadi kesalahan saat mengubah data",
+      });
+    } finally {
+      setIsLoadingConfirm(false);
+    }
+  };
+
   return (
     <>
       <ConfirmModal
@@ -369,7 +504,7 @@ export default function DetailIKP() {
 
         {!isPengajuaun ? (
           <div className="bg-white shadow-md rounded-xl border p-4 min-h-[64vh]">
-            <div className="flex items-center justify-between md:flex-row flex-col">
+            <div className="flex items-center justify-between md:flex-row flex-col gap-2">
               <Link
                 to={`/dialog-kinerja/export-pdf/${id}`}
                 target="__blank"
@@ -377,6 +512,25 @@ export default function DetailIKP() {
               >
                 <FaFilePdf size={14} /> Export PDF
               </Link>
+              {isEditAll ? (
+                <Button
+                  size="sm"
+                  isLoading={isLoadingConfirm}
+                  className="bg-alert-success text-success border border-success"
+                  onPress={() => handleUpdateAll()}
+                >
+                  <LuFilePenLine size={12} /> Simpan
+                </Button>
+              ) : (
+                <Button
+                  size="sm"
+                  isLoading={isLoadingConfirm}
+                  className="bg-alert-warning text-warning border border-warning"
+                  onPress={() => setIsEditAll(true)}
+                >
+                  <LuFilePenLine size={12} /> Edit Realisasi
+                </Button>
+              )}
               {role === "PEGAWAI" && status === "MENUNGGU" && (
                 <div className="flex items-center justify-end gap-2">
                   <Button
@@ -568,11 +722,37 @@ export default function DetailIKP() {
                           >
                             {item.target}
                           </td>
-                          <td
-                            className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left`}
-                          >
-                            {item.realisasi || "-"}
-                          </td>
+                          {role === "SUPERUSERS" || role === "ADMIN" ? (
+                            <td
+                              className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left`}
+                            >
+                              {formRealisasi[index] &&
+                              formRealisasi[index].isOpenRealisasi ? (
+                                <Input
+                                  aria-label="realisasi"
+                                  variant="bordered"
+                                  value={formRealisasi[index]?.realisasi}
+                                  onChange={(e) =>
+                                    handleChangeRealisasi(index, e.target.value)
+                                  }
+                                  placeholder="Masukkan disini"
+                                  radius="sm"
+                                  classNames={{
+                                    inputWrapper: "border-[0.8px]",
+                                    input: "text-xs",
+                                  }}
+                                />
+                              ) : (
+                                item.realisasi || "-"
+                              )}
+                            </td>
+                          ) : (
+                            <td
+                              className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left`}
+                            >
+                              {item.realisasi || "-"}
+                            </td>
+                          )}
                           <td
                             className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left ${item.status === "DISETUJUI" ? "text-success" : item.status === "DITOLAK" ? "text-danger" : "text-warning"}`}
                           >
@@ -609,62 +789,85 @@ export default function DetailIKP() {
                           >
                             {item.dialog || "-"}
                           </td>
-                          {role !== "PEGAWAI" && (
-                            <td
-                              className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left`}
-                            >
-                              {item.status === "DISETUJUI" ? (
-                                <div className="flex items-center justify-center gap-2">
-                                  <Button
-                                    size="sm"
-                                    isIconOnly
-                                    className="bg-alert-warning text-warning"
-                                  >
-                                    <LuFilePenLine size={12} />
-                                  </Button>
-                                </div>
-                              ) : item.status === "DITOLAK" ? (
-                                <div className="flex items-center justify-center gap-2">
-                                  <Button
-                                    size="sm"
-                                    isIconOnly
-                                    onPress={() => {
-                                      setSelectedid(item.id);
-                                      setTimeout(() => {
-                                        onOpenConfirm3();
-                                      }, 100);
-                                    }}
-                                    className="bg-alert-success text-success"
-                                  >
-                                    <LucideCheckCircle size={12} />
-                                  </Button>
-                                  <Button
-                                    size="sm"
-                                    isIconOnly
-                                    className="bg-alert-danger text-danger"
-                                    onPress={() => {
-                                      setSelectedid(item.id);
-                                      setTimeout(() => {
-                                        onOpenConfirm4();
-                                      }, 100);
-                                    }}
-                                  >
-                                    <LucideXCircle size={12} />
-                                  </Button>
-                                </div>
-                              ) : (
-                                <div className="flex items-center justify-center gap-2">
-                                  <Button
-                                    size="sm"
-                                    isIconOnly
-                                    className="bg-alert-info text-info"
-                                  >
-                                    <LucidePencilLine />
-                                  </Button>
-                                </div>
-                              )}
-                            </td>
-                          )}
+                          {role === "SUPERUSERS" ||
+                            (role === "ADMIN" && (
+                              <td
+                                className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left`}
+                              >
+                                {item.status === "DISETUJUI" ? (
+                                  <div className="flex items-center justify-center gap-2">
+                                    {!isEditAll && (
+                                      <>
+                                        {formRealisasi[index] &&
+                                        formRealisasi[index].isOpenRealisasi ? (
+                                          <Button
+                                            size="sm"
+                                            isIconOnly
+                                            className="bg-alert-success text-success"
+                                            onPress={() =>
+                                              handleUpdateById(index)
+                                            }
+                                          >
+                                            <LucideSave size={12} />
+                                          </Button>
+                                        ) : (
+                                          <Button
+                                            size="sm"
+                                            isLoading={isLoadingConfirm}
+                                            isIconOnly
+                                            className="bg-alert-warning text-warning"
+                                            onPress={() =>
+                                              openEditRealisasi(index)
+                                            }
+                                          >
+                                            <LuFilePenLine size={12} />
+                                          </Button>
+                                        )}
+                                      </>
+                                    )}
+                                  </div>
+                                ) : item.status === "DITOLAK" ? (
+                                  <div className="flex items-center justify-center gap-2">
+                                    <Button
+                                      size="sm"
+                                      isIconOnly
+                                      onPress={() => {
+                                        setSelectedid(item.id);
+                                        setTimeout(() => {
+                                          onOpenConfirm3();
+                                        }, 100);
+                                      }}
+                                      className="bg-alert-success text-success"
+                                    >
+                                      <LucideCheckCircle size={12} />
+                                    </Button>
+                                    <Button
+                                      size="sm"
+                                      isIconOnly
+                                      className="bg-alert-danger text-danger"
+                                      onPress={() => {
+                                        setSelectedid(item.id);
+                                        setTimeout(() => {
+                                          onOpenConfirm4();
+                                        }, 100);
+                                      }}
+                                    >
+                                      <LucideXCircle size={12} />
+                                    </Button>
+                                  </div>
+                                ) : (
+                                  <div className="flex items-center justify-center gap-2">
+                                    <Button
+                                      size="sm"
+                                      isIconOnly
+                                      className="bg-alert-info text-info"
+                                    >
+                                      <LucidePencilLine />
+                                    </Button>
+                                  </div>
+                                )}
+                              </td>
+                            ))}
                         </tr>
                       ))
                     ) : (
