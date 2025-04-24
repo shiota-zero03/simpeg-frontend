@@ -145,8 +145,7 @@ export default function PegawaiIndex() {
             >
               <LuEye size={14} />
             </Button>
-            {role === "SUPERUSERS" ||
-              (role === "ADMIN" && (
+            {(role === "SUPERUSERS" || role === "ADMIN") && (
                 <Button
                   onPress={() => {
                     navigate(`/pegawai/edit-data/${id}`);
@@ -158,9 +157,8 @@ export default function PegawaiIndex() {
                 >
                   <LuPencilLine size={14} />
                 </Button>
-              ))}
-            {role === "SUPERUSERS" ||
-              (role === "ADMIN" && (
+              )}
+            {(role === "SUPERUSERS" || role === "ADMIN") && (
                 <Button
                   onPress={() => {
                     setSelectedId(id);
@@ -173,7 +171,7 @@ export default function PegawaiIndex() {
                 >
                   <LuTrash2 size={14} />
                 </Button>
-              ))}
+              )}
           </div>
         );
       },
@@ -307,8 +305,7 @@ export default function PegawaiIndex() {
                 >
                   Export
                 </Button>
-                {role === "SUPERUSERS" ||
-                  (role === "ADMIN" && (
+                {(role === "SUPERUSERS" || role === "ADMIN") && (
                     <Button
                       onPress={() => navigate(`/pegawai/tambah-data`)}
                       variant="solid"
@@ -319,7 +316,7 @@ export default function PegawaiIndex() {
                     >
                       Tambah
                     </Button>
-                  ))}
+                  )}
               </div>
             </div>
           </div>
