@@ -232,7 +232,7 @@ export default function DetailIKP() {
           description: item.description || "",
           dialog: item.dialog || "",
           ubahTarget: item.ubahTarget || "",
-          status: "DITOLAK",
+          status: "KONFIRMASI",
         };
         return [...prev, newItem];
       } else {
@@ -259,7 +259,7 @@ export default function DetailIKP() {
         description: item.description || "",
         dialog: item.dialog || "",
         ubahTarget: item.ubahTarget || "",
-        status: "DITOLAK",
+        status: "KONFIRMASI",
       }));
       setFormDataPerubahan(allFormData);
     } else {
@@ -338,6 +338,7 @@ export default function DetailIKP() {
   };
 
   const [selectedId, setSelectedid] = useState<number | null>(null);
+  const [selectedCount, setSelectedCount] = useState<number | null>(null);
   const { mutate: mutateUpdate } = useUpdateIKP();
   const handleUpdate = async () => {
     setIsLoadingConfirm(true);
@@ -482,11 +483,12 @@ export default function DetailIKP() {
         isLoading={isLoadingConfirm}
         handleSubmit={handleUpdate}
       />
-      {selectedId && (
+      {selectedId && selectedCount && (
         <TolakModal
           isOpen={isOpenConfirm4}
           onClose={onCloseConfirm4}
           id={selectedId}
+          count={selectedCount}
           handleSubmit={handleConfirmClose}
         />
       )}
@@ -512,24 +514,28 @@ export default function DetailIKP() {
               >
                 <FaFilePdf size={14} /> Export PDF
               </Link>
-              {isEditAll ? (
-                <Button
-                  size="sm"
-                  isLoading={isLoadingConfirm}
-                  className="bg-alert-success text-success border border-success"
-                  onPress={() => handleUpdateAll()}
-                >
-                  <LuFilePenLine size={12} /> Simpan
-                </Button>
-              ) : (
-                <Button
-                  size="sm"
-                  isLoading={isLoadingConfirm}
-                  className="bg-alert-warning text-warning border border-warning"
-                  onPress={() => setIsEditAll(true)}
-                >
-                  <LuFilePenLine size={12} /> Edit Realisasi
-                </Button>
+              {(role === "ADMIN" || role === "SUPERUSERS") && status === "DISETUJUI" && (
+                <>
+                  {isEditAll ? (
+                    <Button
+                      size="sm"
+                      isLoading={isLoadingConfirm}
+                      className="bg-alert-success text-success border border-success"
+                      onPress={() => handleUpdateAll()}
+                    >
+                      <LuFilePenLine size={12} /> Simpan
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      isLoading={isLoadingConfirm}
+                      className="bg-alert-warning text-warning border border-warning"
+                      onPress={() => setIsEditAll(true)}
+                    >
+                      <LuFilePenLine size={12} /> Edit Realisasi
+                    </Button>
+                  )}
+                </>
               )}
               {role === "PEGAWAI" && status === "MENUNGGU" && (
                 <div className="flex items-center justify-end gap-2">
@@ -826,7 +832,7 @@ export default function DetailIKP() {
                                       </>
                                     )}
                                   </div>
-                                ) : item.status === "DITOLAK" ? (
+                                ) : item.status === "KONFIRMASI" ? (
                                   <div className="flex items-center justify-center gap-2">
                                     <Button
                                       size="sm"
@@ -847,6 +853,7 @@ export default function DetailIKP() {
                                       className="bg-alert-danger text-danger"
                                       onPress={() => {
                                         setSelectedid(item.id);
+                                        setSelectedCount(item.count);
                                         setTimeout(() => {
                                           onOpenConfirm4();
                                         }, 100);
@@ -855,17 +862,7 @@ export default function DetailIKP() {
                                       <LucideXCircle size={12} />
                                     </Button>
                                   </div>
-                                ) : (
-                                  <div className="flex items-center justify-center gap-2">
-                                    <Button
-                                      size="sm"
-                                      isIconOnly
-                                      className="bg-alert-info text-info"
-                                    >
-                                      <LucidePencilLine />
-                                    </Button>
-                                  </div>
-                                )}
+                                ) : null}
                               </td>
                             ))}
                         </tr>

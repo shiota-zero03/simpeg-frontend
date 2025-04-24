@@ -31,6 +31,7 @@ const GaleriUpdated = lazy(() => import("@/pages/Galeri/Updated"));
 const SPPD = lazy(() => import("@/pages/SPPD"));
 const CreateSPPD = lazy(() => import("@/pages/SPPD/Create"));
 const UpdateSPPD = lazy(() => import("@/pages/SPPD/Updated"));
+const ExportSPPD = lazy(() => import("@/pages/SPPD/ExportPDF"));
 const EFilling = lazy(() => import("@/pages/E-FIlling"));
 
 const PenilaianKinerja = lazy(() => import("@/pages/PenilaianKinerja"));
@@ -276,6 +277,10 @@ export default function Router() {
         <Route
           path="/penilaian-kinerja/export-pdf/:id"
           element={<ExportPenilaian />}
+        />
+        <Route
+          path="/sppd/export-pdf/:id"
+          element={<ExportSPPD />}
         />
 
         <Route path="*" element={<Error404 />} />
