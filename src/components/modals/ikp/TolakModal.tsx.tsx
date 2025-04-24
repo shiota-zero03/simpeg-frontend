@@ -15,11 +15,12 @@ import { useState } from "react";
 interface props {
   isOpen: boolean;
   id: number;
+  count: number;
   onClose: () => void;
   handleSubmit: () => void;
 }
 
-const TolakModal = ({ isOpen, onClose, id, handleSubmit }: props) => {
+const TolakModal = ({ isOpen, onClose, id, count, handleSubmit }: props) => {
   const [isLoadingConfirm, setIsLoadingConfirm] = useState<boolean>(false);
   const [reasoning, setReasoning] = useState<string>("");
   const { mutate: mutateUpdate } = useUpdateIKP();
@@ -31,10 +32,14 @@ const TolakModal = ({ isOpen, onClose, id, handleSubmit }: props) => {
 
     setIsLoadingConfirm(true);
 
-    const dataToSend: StoreIKPTolak = {
-      status: "DITOLAK",
-      reasoning: reasoning,
-    };
+    const dataToSend: StoreIKPTolak = {};
+    if(count === 2) {
+      dataToSend.status = "DISETUJUI";
+      dataToSend.reasoning = reasoning;
+    } else {
+      dataToSend.status = "DITOLAK";
+      dataToSend.reasoning = reasoning;
+    }
 
     try {
       mutateUpdate(
