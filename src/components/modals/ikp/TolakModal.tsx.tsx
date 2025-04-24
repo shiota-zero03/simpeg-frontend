@@ -33,7 +33,7 @@ const TolakModal = ({ isOpen, onClose, id, count, handleSubmit }: props) => {
     setIsLoadingConfirm(true);
 
     const dataToSend: StoreIKPTolak = {};
-    if(count === 2) {
+    if (count === 2) {
       dataToSend.status = "DISETUJUI";
       dataToSend.reasoning = reasoning;
     } else {

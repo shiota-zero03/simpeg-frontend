@@ -198,17 +198,12 @@ export default function CreatePegawai() {
       error.email = "Format email tidak valid";
     }
     if (!formData.jabatan) error.jabatan = "Jabatan tidak boleh kosong";
-    if (formData.asnStatus === null || formData.asnStatus === undefined)
-      error.asnStatus = "Status ASN harus dipilih";
     if (!formData.dinas) error.dinas = "Unit tidak boleh kosong";
     if (!formData.gender) error.gender = "Jenis kelamin tidak boleh kosong";
     if (!formData.noTelp) error.noTelp = "Nomor Telepon tidak boleh kosong";
     else if (!/^08\d{8,11}$/.test(formData.noTelp)) {
       error.noTelp = "Format nomor Telepon tidak valid";
     }
-    if (formData.isActive === null || formData.isActive === undefined)
-      error.isActive = "Status aktif harus dipilih";
-
     if (formData.password) {
       if (formData.password.length < 6)
         error.password = "Password minimal 6 karakter";
@@ -349,7 +344,7 @@ export default function CreatePegawai() {
         },
         {
           onSuccess: () => {
-            SuccessToast({ text: "Data berhasil ditambahkan" });
+            SuccessToast({ text: "Data berhasil diperbarui" });
             navigate("/pegawai");
           },
           onError: (error: AxiosError<BaseErrorRes>) => {

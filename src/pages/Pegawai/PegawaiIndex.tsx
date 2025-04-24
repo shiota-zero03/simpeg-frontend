@@ -146,32 +146,32 @@ export default function PegawaiIndex() {
               <LuEye size={14} />
             </Button>
             {(role === "SUPERUSERS" || role === "ADMIN") && (
-                <Button
-                  onPress={() => {
-                    navigate(`/pegawai/edit-data/${id}`);
-                  }}
-                  isIconOnly
-                  radius="sm"
-                  size="sm"
-                  className="bg-alert-info text-info shadow-sm"
-                >
-                  <LuPencilLine size={14} />
-                </Button>
-              )}
+              <Button
+                onPress={() => {
+                  navigate(`/pegawai/edit-data/${id}`);
+                }}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-info text-info shadow-sm"
+              >
+                <LuPencilLine size={14} />
+              </Button>
+            )}
             {(role === "SUPERUSERS" || role === "ADMIN") && (
-                <Button
-                  onPress={() => {
-                    setSelectedId(id);
-                    onOpenDelete();
-                  }}
-                  isIconOnly
-                  radius="sm"
-                  size="sm"
-                  className="bg-alert-danger text-danger shadow-sm"
-                >
-                  <LuTrash2 size={14} />
-                </Button>
-              )}
+              <Button
+                onPress={() => {
+                  setSelectedId(id);
+                  onOpenDelete();
+                }}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-danger text-danger shadow-sm"
+              >
+                <LuTrash2 size={14} />
+              </Button>
+            )}
           </div>
         );
       },
@@ -306,17 +306,17 @@ export default function PegawaiIndex() {
                   Export
                 </Button>
                 {(role === "SUPERUSERS" || role === "ADMIN") && (
-                    <Button
-                      onPress={() => navigate(`/pegawai/tambah-data`)}
-                      variant="solid"
-                      radius="sm"
-                      size="sm"
-                      startContent={<BiSolidPlusSquare size={12} />}
-                      className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                    >
-                      Tambah
-                    </Button>
-                  )}
+                  <Button
+                    onPress={() => navigate(`/pegawai/tambah-data`)}
+                    variant="solid"
+                    radius="sm"
+                    size="sm"
+                    startContent={<BiSolidPlusSquare size={12} />}
+                    className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                  >
+                    Tambah
+                  </Button>
+                )}
               </div>
             </div>
           </div>
