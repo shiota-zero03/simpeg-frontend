@@ -7,12 +7,12 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=https://api-simpeg.bekasikab.go.id/api/simpeg
+        - VITE_API_URL=https://api-simpeg.zmidevelopment.com/api/simpeg
     ports:
       - "3001:3001"
     environment:
       - NODE_ENV=local
-      - VITE_API_URL=https://api-simpeg.bekasikab.go.id/api/simpeg
+      - VITE_API_URL=https://api-simpeg.zmidevelopment.com/api/simpeg
     env_file:
       - .env
     restart: unless-stopped
