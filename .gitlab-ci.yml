@@ -28,10 +28,12 @@ deploy:
     - docker stop $CONTAINER_NAME || true
     - docker rm $CONTAINER_NAME || true
     - echo "🚀 Running new container"
-    - docker run -d -p $PORT:3001 --name $CONTAINER_NAME $DOCKER_IMAGE
+    - docker run -f docker-compose.dev.yml -d -p $PORT:3001 --name $CONTAINER_NAME $DOCKER_IMAGE
   only:
     - develop
 
+    
+# production 
 build-production:
   stage: build
   tags:
@@ -51,6 +53,6 @@ deploy-production:
     - docker stop $CONTAINER_NAME || true
     - docker rm $CONTAINER_NAME || true
     - echo "🚀 Running new container"
-    - docker run -d -p $PORT:3001 --name $CONTAINER_NAME $DOCKER_IMAGE
+    - docker run -f docker-compose.yml -d -p $PORT:3001 --name $CONTAINER_NAME $DOCKER_IMAGE
   only:
     - production
