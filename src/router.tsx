@@ -278,10 +278,7 @@ export default function Router() {
           path="/penilaian-kinerja/export-pdf/:id"
           element={<ExportPenilaian />}
         />
-        <Route
-          path="/sppd/export-pdf/:id"
-          element={<ExportSPPD />}
-        />
+        <Route path="/sppd/export-pdf/:id" element={<ExportSPPD />} />
 
         <Route path="*" element={<Error404 />} />
       </Routes>
