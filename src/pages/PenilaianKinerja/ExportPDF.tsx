@@ -87,7 +87,8 @@ export default function ExportPenilaianKinerja() {
             @media print {
             @page {
                 size: landscape;
-                margin: 2cm;
+                margin: 0;
+                padding: 1.5cm;
             }
             body {
                 margin: 0;

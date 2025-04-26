@@ -182,6 +182,9 @@ const GaleriComponent = () => {
           setSelectedImage(null);
           setType(null);
         }}
+        classNames={{
+          closeButton: "bg-danger text-white hover:bg-white hover:text-danger duration-300"
+        }}
         size="full"
       >
         <ModalContent className="flex items-center justify-center bg-black bg-opacity-90">

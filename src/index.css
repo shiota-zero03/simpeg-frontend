@@ -25,6 +25,14 @@
   }
 }
 
+.card-map {
+  @apply border py-4 border-button-primary rounded-br-[40px] rounded-tl-[40px] rounded-bl-md rounded-tr-md text-sm flex flex-col items-center justify-center gap-2;
+}
+
+.badge-map {
+  @apply bg-alert-success px-2 py-1 text-xs text-button-primary border border-button-primary;
+}
+
 @media print {
   @page {
     margin: 0;

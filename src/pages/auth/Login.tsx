@@ -131,7 +131,7 @@ export default function Login() {
                 Selamat Datang di Aplikasi
               </h3>
               <h1 className="font-semibold xl:text-3xl text-2xl">
-                Sistem Informasi Manajemen Pegawai Kabupaten Bekasi
+                Sistem Informasi Manajemen Pegawai
               </h1>
               <h5 className="xl:text-base text-sm">
                 Kelola data pegawai, administrasi, dan layanan kepegawaian
@@ -153,13 +153,15 @@ export default function Login() {
                 <div className="flex items-center gap-2">
                   <Link
                     className="border p-1.5 font-semibold rounded-full"
-                    to={"#"}
+                    to={"https://disperdag.bekasikab.go.id/"}
+                    target="__blank"
                   >
                     <LuGlobe />
                   </Link>
                   <Link
                     className="border p-1.5 font-semibold rounded-full"
-                    to={"#"}
+                    to={"https://www.instagram.com/disdagkabbekasi/"}
+                    target="__blank"
                   >
                     <LuInstagram />
                   </Link>
