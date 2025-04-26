@@ -24,12 +24,8 @@ export default function Home() {
               Selamat Datang di Aplikasi
             </p>
             <h1 className="lg:text-3xl sm:text-2xl text-lg font-semibold my-1">
-              Sistem Informasi Manajemen Pegawai Kabupaten Bekasi
+              Sistem Informasi Manajemen Pegawai
             </h1>
-            <p className="lg:text-sm text-xs font-light">
-              Pengelolaan data pegawai, administrasi, dan layanan kepegawaian
-              Dinas Perdagangan{" "}
-            </p>
           </div>
         </div>
         <GaleriComponent />

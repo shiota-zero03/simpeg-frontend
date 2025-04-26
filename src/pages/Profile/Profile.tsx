@@ -72,7 +72,7 @@ export default function DataProfile() {
             className="flex gap-2 items-center text-warning bg-alert-warning font-semibold p-2 text-sm rounded-md ms-auto"
             onPress={onOpenPassword}
           >
-            <LucideKey size={18} /> Ubah Password
+            <LucideKey size={18} /> Ubah Kata Sandi
           </Button>
         </div>
       </div>
