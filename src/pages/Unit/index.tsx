@@ -88,14 +88,8 @@ export default function Unit() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "capacity",
-      header: "Ketersediaan",
-      cell: (info) => (info.getValue() as number) || 0,
-      // meta: { align: "center" },
-    },
-    {
       accessorKey: "description",
-      header: "Keterangan",
+      header: "Tugas dan Fungsi",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },

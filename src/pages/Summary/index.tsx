@@ -7,7 +7,7 @@ import {
   Input,
   useDisclosure,
 } from "@heroui/react";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { LuSearch } from "react-icons/lu";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { FaFileExcel } from "react-icons/fa6";
@@ -15,17 +15,42 @@ import { Link } from "react-router-dom";
 import { FaFilePdf, FaUsers } from "react-icons/fa";
 import { YMToIndoFormat } from "@/utils/dateFormater";
 import PegawaiModal from "@/components/modals/SummaryReportModal/PegawaiModal";
+import { useGetAllPegawaiOption } from "@/services/pegawai";
+import { useGetAllUnitOption } from "@/services/unit";
+import { PegawaiRes } from "@/interface/responses/pegawai.interface";
 
 export default function Jabatan() {
-  const [type, setType] = useState<string>("");
   const dateDefault = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
   const [search, setSearch] = useState(dateDefault);
 
+  const [showData, setShowData] = useState<PegawaiRes[]>([])
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { data, isFetching, refetch } = useGetAllPegawaiOption();
+  const { data: dataUnit, isFetching: isFetchingUnit, refetch: refetchUnit } = useGetAllUnitOption();
+
+  const DATA_FETCHING = useMemo(() => {
+    if(data) return data.data;
+    else return null;
+  }, [data])
+
+  const DATA_FETCHING_UNIT = useMemo(() => {
+    if (dataUnit && dataUnit.data) {
+      return [...dataUnit.data].sort((a, b) => a.id - b.id); // ascending berdasarkan id
+    } else {
+      return null;
+    }
+  }, [dataUnit])
+
+  useEffect(() => {
+    refetch();
+    refetchUnit();
+  })
 
   return (
     <>
-      <PegawaiModal type={type} isOpen={isOpen} onClose={onClose} />
+      <PegawaiModal pegawai={showData} isOpen={isOpen} onClose={onClose} />
       <BreadcrumbAdmin location="/Summary-Report" />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
@@ -82,7 +107,7 @@ export default function Jabatan() {
             <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
               <CardSummary
                 name={"Jumlah Pegawai"}
-                count={100}
+                count={DATA_FETCHING ? DATA_FETCHING.length : 0}
                 iconBackgroundClass={
                   "bg-gradient-to-b from-[#137269] to-[#24D8C7]"
                 }
@@ -90,7 +115,7 @@ export default function Jabatan() {
               />
               <CardSummary
                 name={"Jumlah ASN"}
-                count={100}
+                count={DATA_FETCHING ? DATA_FETCHING.filter(it => it.statusAsn === true).length : 0}
                 iconBackgroundClass={
                   "bg-gradient-to-b from-[#AF52DE] to-[#5F2C78]"
                 }
@@ -98,7 +123,7 @@ export default function Jabatan() {
               />
               <CardSummary
                 name={"Jumlah Non-ASN"}
-                count={100}
+                count={DATA_FETCHING ? DATA_FETCHING.filter(it => it.statusAsn === false).length : 0}
                 iconBackgroundClass={
                   "bg-gradient-to-b from-[#FFBB00] to-[#995900]"
                 }
@@ -106,7 +131,7 @@ export default function Jabatan() {
               />
               <CardSummary
                 name={"Jabatan Fungsional"}
-                count={100}
+                count={DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan.fungsionalJob !== null).length : 0}
                 iconBackgroundClass={
                   "bg-gradient-to-b from-[#007AFF] to-[#004999]"
                 }
@@ -143,193 +168,27 @@ export default function Jabatan() {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            1
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            Dinas
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            32 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            2
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD I (Tambun)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            8 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            3
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD II (Cibitung)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            7 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            4
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD III (Setu)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            5 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            5
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD IV (Cikarang)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            4 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            6
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD V (Kedunggede)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            6 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            7
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD VI (Babelan)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            5 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            8
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD VII (Tarumajaya)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            4 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            9
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD VIII (Serang)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            4 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            10
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD IX (Cibarusah)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            6 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            11
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD Metrologi Legal
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            2 Orang
-                          </td>
-                        </tr>
+                        {DATA_FETCHING_UNIT?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
+                              {index + 1}
+                            </td>
+                            <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
+                              {item.nameUnit}
+                            </td>
+                            <td
+                              className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
+                              onClick={() => {
+                                setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.unit.id === item.id) : [])
+                                setTimeout(() => {
+                                  onOpen();
+                                }, 400);
+                              }}
+                            >
+                              {DATA_FETCHING ? DATA_FETCHING.filter(it => it.unit.id === item.id).length : 0} Orang
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                       <tfoot>
                         <tr>
@@ -340,7 +199,7 @@ export default function Jabatan() {
                             Total
                           </th>
                           <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-lg text-center">
-                            100 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.length : 0} Orang
                           </th>
                         </tr>
                       </tfoot>
@@ -368,193 +227,27 @@ export default function Jabatan() {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            1
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            Dinas
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            32 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            2
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD I (Tambun)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            8 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            3
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD II (Cibitung)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            7 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            4
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD III (Setu)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            5 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            5
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD IV (Cikarang)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            4 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            6
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD V (Kedunggede)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            6 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            7
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD VI (Babelan)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            5 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            8
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD VII (Tarumajaya)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            4 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            9
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD VIII (Serang)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            4 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            10
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD IX (Cibarusah)
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            6 Orang
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
-                            11
-                          </td>
-                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            UPTD Metrologi Legal
-                          </td>
-                          <td
-                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
-                            onClick={() => {
-                              setType("uptd");
-                              onOpen();
-                            }}
-                          >
-                            2 Orang
-                          </td>
-                        </tr>
+                        {DATA_FETCHING_UNIT?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
+                              {index + 1}
+                            </td>
+                            <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
+                              {item.nameUnit}
+                            </td>
+                            <td
+                              className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
+                              onClick={() => {
+                                setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.unit.id === item.id && it.statusAsn === true) : [])
+                                setTimeout(() => {
+                                  onOpen();
+                                }, 400);
+                              }}
+                            >
+                              {DATA_FETCHING ? DATA_FETCHING.filter(it => (it.unit.id === item.id && it.statusAsn === true)).length : 0} Orang
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                       <tfoot>
                         <tr>
@@ -565,7 +258,7 @@ export default function Jabatan() {
                             Total
                           </th>
                           <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-lg text-center">
-                            100 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.statusAsn === true).length : 0} Orang
                           </th>
                         </tr>
                       </tfoot>
@@ -603,11 +296,13 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
-                              onOpen();
+                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN") : [])
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
                             }}
                           >
-                            6 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN").length : 0} Orang
                           </td>
                         </tr>
                         <tr>
@@ -618,11 +313,13 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
-                              onOpen();
+                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MADYA") : [])
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
                             }}
                           >
-                            1 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MADYA").length : 0} Orang
                           </td>
                         </tr>
                         <tr>
@@ -633,11 +330,13 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
-                              onOpen();
+                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MUDA") : [])
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
                             }}
                           >
-                            4 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MUDA").length : 0} Orang
                           </td>
                         </tr>
                         <tr>
@@ -648,11 +347,13 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
-                              onOpen();
+                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "PERTAMA") : [])
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
                             }}
                           >
-                            1 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "PERTAMA").length : 0} Orang
                           </td>
                         </tr>
                       </tbody>
@@ -667,56 +368,64 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
-                              onOpen();
+                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN") : [])
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
                             }}
                           >
-                            6 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN").length : 0} Orang
                           </td>
                         </tr>
                         <tr>
                           <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10" />
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            Pengawas Perdagangan Ahli Madya
+                            Analis Perdagangan Ahli Madya
                           </td>
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
-                              onOpen();
+                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MADYA") : [])
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
                             }}
                           >
-                            1 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MADYA").length : 0} Orang
                           </td>
                         </tr>
                         <tr>
                           <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10" />
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            Pengawas Perdagangan Ahli Muda
+                            Analis Perdagangan Ahli Muda
                           </td>
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
-                              onOpen();
+                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MUDA") : [])
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
                             }}
                           >
-                            4 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MUDA").length : 0} Orang
                           </td>
                         </tr>
                         <tr>
                           <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10" />
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            Pengawas Perdagangan Ahli Pertama
+                            Analis Perdagangan Ahli Pertama
                           </td>
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
-                              onOpen();
+                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "PERTAMA") : [])
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
                             }}
                           >
-                            1 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "PERTAMA").length : 0} Orang
                           </td>
                         </tr>
                       </tbody>
@@ -731,56 +440,64 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
-                              onOpen();
+                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA") : [])
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
                             }}
                           >
-                            6 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA").length : 0} Orang
                           </td>
                         </tr>
                         <tr>
                           <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10" />
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            Penera Ahli Madya
+                            Analis Perdagangan Ahli Madya
                           </td>
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
-                              onOpen();
+                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA" && it.jabatan?.jabatanFungsional === "MADYA") : [])
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
                             }}
                           >
-                            1 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA" && it.jabatan?.jabatanFungsional === "MADYA").length : 0} Orang
                           </td>
                         </tr>
                         <tr>
                           <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10" />
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            Penera Ahli Muda
+                            Analis Perdagangan Ahli Muda
                           </td>
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
-                              onOpen();
+                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA" && it.jabatan?.jabatanFungsional === "MUDA") : [])
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
                             }}
                           >
-                            4 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA" && it.jabatan?.jabatanFungsional === "MUDA").length : 0} Orang
                           </td>
                         </tr>
                         <tr>
                           <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10" />
                           <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            Penera Ahli Pertama
+                            Analis Perdagangan Ahli Pertama
                           </td>
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
-                              onOpen();
+                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA" && it.jabatan?.jabatanFungsional === "PERTAMA") : [])
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
                             }}
                           >
-                            1 Orang
+                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA" && it.jabatan?.jabatanFungsional === "PERTAMA").length : 0} Orang
                           </td>
                         </tr>
                       </tbody>
@@ -819,7 +536,6 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
                               onOpen();
                             }}
                           >
@@ -837,7 +553,6 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
                               onOpen();
                             }}
                           >
@@ -855,7 +570,6 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
                               onOpen();
                             }}
                           >
@@ -873,7 +587,6 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setType("uptd");
                               onOpen();
                             }}
                           >

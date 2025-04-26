@@ -1,18 +1,19 @@
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@heroui/react";
 import { LuX } from "react-icons/lu";
 import "react-datepicker/dist/react-datepicker.css";
-import { PegawaiDummy } from "@/constants/DummyData";
+import { PegawaiRes } from "@/interface/responses/pegawai.interface";
+import { TbFaceIdError } from "react-icons/tb";
 
 interface props {
-  type: string;
+  pegawai: PegawaiRes[];
   isOpen: boolean;
   onClose: () => void;
 }
 
-const PegawaiModal = ({ type, isOpen, onClose }: props) => {
-  console.log(type);
+const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
+  console.log(pegawai);
 
-  const pegawai = PegawaiDummy;
+  // const pegawai = PegawaiDummy;
 
   return (
     <>
@@ -56,15 +57,24 @@ const PegawaiModal = ({ type, isOpen, onClose }: props) => {
                           {item.nip || "-"}
                         </td>
                         <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                          {item.nama}
+                          {item.name}
                         </td>
                         <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                          {item.jabatan}
+                          {item.jabatan ? item.jabatan.nameJob : ""}
                         </td>
                       </tr>
                     ))
                   ) : (
-                    <tr></tr>
+                    <tr>
+                      <td colSpan={4} className="py-4 border-b-2 border-x-2 border-accent-gray text-center">
+                        <div className="w-full flex items-center justify-center flex-col text-primary opacity-20">
+                            <TbFaceIdError size={120} />
+                            <span className="italic text-xl font-semibold">
+                              No Data Found
+                            </span>
+                          </div>
+                      </td>
+                    </tr>
                   )}
                 </tbody>
               </table>
