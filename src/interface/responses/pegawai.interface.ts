@@ -12,6 +12,8 @@ export interface PegawaiRes {
   jabatan: {
     id: number;
     nameJob: string;
+    fungsionalJob: string;
+    jabatanFungsional: string;
   };
   email: string;
   password: string;
