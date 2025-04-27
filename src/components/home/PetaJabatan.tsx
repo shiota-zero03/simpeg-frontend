@@ -83,45 +83,49 @@ export default function BigTable() {
     const umpeg: PetaJabatanData[] = [
         { name: "Penelaah Teknis Kebijakan ", class: 6, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Pengolah Data dan Informasi ", class: 6, b: 0, k: 0, plus: 0, minus: 0 },
-        { name: "Pranata Komputer Keahlian", class: 5, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Pengadministrasi Perkantoran", class: 5, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Pranata Komputer Keahlian", class: 5, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Arsiparis", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
     ]
 
     const ln: PetaJabatanData[] = [
+        { name: "Analis Perdagangan Ahli Pertama", class: 8, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Analis Perdagangan Ahli Muda", class: 10, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Analis Perdagangan Ahli Madya", class: 12, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Penelaah Teknis Kebijakan ", class: 6, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Pengolah Data dan Informasi ", class: 6, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Penelaah Pengembangan Jasa Sertifikasi dan Pengujian", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Fasilitator Perdagangan ", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Surveyor Perdagangan ", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
-        { name: "Penelaah Pengembangan Jasa Sertifikasi dan Pengujian", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Pranata Komputer Keahlian", class: 5, b: 0, k: 0, plus: 0, minus: 0 },
-        { name: "Analis Perdagangan Keahlian", class: 8, b: 0, k: 0, plus: 0, minus: 0 },
-        { name: "Analis Perdagangan Ahli Muda", class: 10, b: 0, k: 0, plus: 0, minus: 0 },
     ]
     const spl: PetaJabatanData[] = [
+        { name: "Analis Perdagangan Ahli Pertama", class: 8, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Analis Perdagangan Ahli Muda", class: 10, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Analis Perdagangan Ahli Madya", class: 12, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Penelaah Teknis Kebijakan", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Pengolah Data dan Informasi ", class: 6, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Pengadministrasi Perkantoran", class: 5, b: 0, k: 0, plus: 0, minus: 0 },
-        { name: "Surveyor Perdagangan ", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Fasilitator Perdagangan ", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Surveyor Perdagangan ", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Pranata Komputer Keahlian", class: 5, b: 0, k: 0, plus: 0, minus: 0 },
-        { name: "Analis Perdagangan Keahlian", class: 8, b: 0, k: 0, plus: 0, minus: 0 },
-        { name: "Analis Perdagangan Ahli Muda", class: 10, b: 0, k: 0, plus: 0, minus: 0 },
     ]
     const kemetrologian: PetaJabatanData[] = [
+        { name: "Pengawas Kemetrologian Ahli Pertama", class: 8, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Pengawas Kemetrologian Ahli Muda", class: 10, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Pengawas Kemetrologian Ahli Madya", class: 12, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Penelaah Teknis Kebijakan", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Pengolah Data dan Informasi ", class: 6, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Pengadministrasi Perkantoran", class: 5, b: 0, k: 0, plus: 0, minus: 0 },
-        { name: "Pengawas Kemetrologian Ahli Pertama", class: 8, b: 0, k: 0, plus: 0, minus: 0 },
-        { name: "Pengawas Kemetrologian Ahli Muda", class: 10, b: 0, k: 0, plus: 0, minus: 0 }
     ]
     const pbpp: PetaJabatanData[] = [
-        { name: "Surveyor Perdagangan ", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Analis Perdagangan Ahli Pertama", class: 8, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Analis Perdagangan Ahli Muda", class: 10, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Analis Perdagangan Ahli Madya", class: 12, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Penelaah Teknis Kebijakan", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Penelaah Pengembangan Jasa Sertifikasi dan Pengujian", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
+        { name: "Surveyor Perdagangan ", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
         { name: "Pranata Komputer Keahlian", class: 5, b: 0, k: 0, plus: 0, minus: 0 },
-        { name: "Analis Perdagangan Keahlian", class: 8, b: 0, k: 0, plus: 0, minus: 0 },
-        { name: "Analis Perdagangan Ahli Muda", class: 10, b: 0, k: 0, plus: 0, minus: 0 },
     ]
 
     const uptd1: PetaJabatanData[] = [

@@ -15,12 +15,16 @@ import UpdateModal from "@/components/modals/JabatanModal/UpdateModal";
 
 interface DataProps {
   id: number;
+  permenpan: string;
+  subPermenpan: string;
+  eselon: string;
+  ketersediaan: string;
   nama: string;
   kelas: string;
-  atasan: string;
-  singkatan: string;
+  unit: string;
+  subUnor: string;
   fungsional: boolean;
-  fungsionalJob: string | null;
+  atasan: string;
 }
 
 export default function Jabatan() {
@@ -58,12 +62,16 @@ export default function Jabatan() {
 
       return data.response.map((item: JabatanRes) => ({
         id: item.id,
-        nama: item.nameJob,
-        kelas: item.class,
-        atasan: String(item.parent ? item.parent.nameJob : "-"),
-        singkatan: item.singkatan,
+        permenpan: item.jabatanPermenpan || "-",
+        subPermenpan: item.subJabatanPermenpan || "-",
+        eselon: item.eselon || "-",
+        ketersediaan: String(item.ketersediaan),
+        nama: item.nameJob || "-",
+        kelas: item.class || "-",
+        unit: item.subUnor || "-",
+        subUnor: item.unit?.nameUnit || "",
         fungsional: item.fungsional,
-        fungsionalJob: item.fungsionalJob,
+        atasan: item.parent?.nameJob || "-"
       }));
     } else {
       return [];
@@ -80,14 +88,32 @@ export default function Jabatan() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
+      accessorKey: "subUnor",
+      header: "Sub Unor",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
       accessorKey: "nama",
       header: "Nama Jabatan",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      accessorKey: "singkatan",
-      header: "Singkatan",
+      accessorKey: "subPermenpan",
+      header: "Jabatan Permenpan",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "eselon",
+      header: "Eselon",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "ketersediaan",
+      header: "Ketersediaan",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
@@ -100,16 +126,8 @@ export default function Jabatan() {
     {
       header: "Jabatan Fungsional ?",
       cell: ({ row }) => {
-        const { fungsional, fungsionalJob } = row.original;
-        return fungsional
-          ? fungsionalJob === "PENERA"
-            ? "Penera"
-            : fungsionalJob === "ANALIS_PERDAGANGAN"
-              ? "Analis Perdagangan"
-              : fungsionalJob === "PENGAWAS_PERDAGANGAN"
-                ? "Pengawas Perdagangan"
-                : "Jabatan tidak ditemukan"
-          : "Tidak";
+        const { fungsional } = row.original;
+        return fungsional ? "Ya" : "Tidak";
       },
       // meta: { align: "center" },
     },
