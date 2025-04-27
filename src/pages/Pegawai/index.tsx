@@ -1,7 +1,7 @@
 import { TitleCase } from "@/components/card/TitleCase";
-import { Button } from "@heroui/react";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import PegawaiIndex from "./PegawaiIndex";
+import Surat from "./Surat";
 import { useState } from "react";
 
 export default function Jabatan() {
@@ -17,25 +17,28 @@ export default function Jabatan() {
         />
         <div>
           <div className="overflow-x-auto flex min-w-full">
-            <Button
-              size="sm"
-              radius="none"
-              onPress={() => setSelectedTab("data-pegawai")}
-              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "data-pegawai" ? "bg-[#E1FFDD] text-success" : "bg-white"}`}
+            <div
+              onClick={() => setSelectedTab("data-pegawai")}
+              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "data-pegawai" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
             >
               Data Pegawai
-            </Button>
-            <Button
-              size="sm"
-              radius="none"
-              onPress={() => setSelectedTab("pelaporan")}
-              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pelaporan" ? "bg-[#E1FFDD] text-success" : "bg-white"}`}
+            </div>
+            <div
+              onClick={() => setSelectedTab("kgp")}
+              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "kgp" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+            >
+              Data Cuti, Kenaikan Gaji & Pangkat
+            </div>
+            <div
+              onClick={() => setSelectedTab("pelaporan")}
+              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pelaporan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
             >
               Pelaporan
-            </Button>
+            </div>
           </div>
           <div className="bg-white shadow-md rounded-b-xl border min-h-[70vh]">
             {selectedTab === "data-pegawai" ? <PegawaiIndex /> : <></>}
+            {selectedTab === "kgp" ? <Surat /> : <></>}
           </div>
         </div>
       </div>

@@ -55,24 +55,52 @@ export const EselonData: {
 
 export const GolonganData: {
   nama: string;
+  key: string;
 }[] = [
-  { nama: "I/a - Juru Muda" },
-  { nama: "I/b - Juru Muda Tingkat I" },
-  { nama: "I/c - Juru" },
-  { nama: "I/d - Juru Tingkat I" },
-  { nama: "II/a - Pengatur Muda" },
-  { nama: "II/b - Pengatur Muda Tingkat I" },
-  { nama: "II/c - Pengatur" },
-  { nama: "II/d - Pengatur Tingkat I" },
-  { nama: "III/a - Penata Muda" },
-  { nama: "III/b - Penata Muda Tingkat I" },
-  { nama: "III/c - Penata" },
-  { nama: "III/d - Penata Tingkat I" },
-  { nama: "IV/a - Pembina" },
-  { nama: "IV/b - Pembina Tingkat I" },
-  { nama: "IV/c - Pembina Utama Muda" },
-  { nama: "IV/d - Pembina Utama Madya" },
-  { nama: "IV/e - Pembina Utama" },
+  { nama: "Golongan I", key: "I" },
+  { nama: "Golongan I/a", key: "I/a" },
+  { nama: "Golongan I/b", key: "I/b" },
+  { nama: "Golongan I/c", key: "I/c" },
+  { nama: "Golongan I/d", key: "I/d" },
+  { nama: "Golongan II", key: "II" },
+  { nama: "Golongan II/a", key: "II/a" },
+  { nama: "Golongan II/b", key: "II/b" },
+  { nama: "Golongan II/c", key: "II/c" },
+  { nama: "Golongan II/d", key: "II/d" },
+  { nama: "Golongan III", key: "III" },
+  { nama: "Golongan III/a", key: "III/a" },
+  { nama: "Golongan III/b", key: "III/b" },
+  { nama: "Golongan III/c", key: "III/c" },
+  { nama: "Golongan III/d", key: "III/d" },
+  { nama: "Golongan IV", key: "IV" },
+  { nama: "Golongan IV/a", key: "IV/a" },
+  { nama: "Golongan IV/b", key: "IV/b" },
+  { nama: "Golongan IV/c", key: "IV/c" },
+  { nama: "Golongan IV/d", key: "IV/d" },
+  { nama: "Golongan IV/e", key: "IV/e" },
+  { nama: "Golongan V", key: "V" },
+  { nama: "Golongan VI", key: "VI" },
+  { nama: "Golongan VII", key: "VII" },
+  { nama: "Golongan VIII", key: "VIII" },
+  { nama: "Golongan IX", key: "IX" },
+];
+
+export const PangkatData: {
+  nama: string;
+}[] = [
+  { nama: "Juru" },
+  { nama: "Juru Tk.I" },
+  { nama: "Pembina" },
+  { nama: "Pembina Tk.I" },
+  { nama: "Penata" },
+  { nama: "Penata Muda" },
+  { nama: "Penata Muda Tk.I" },
+  { nama: "Penata Tk.I" },
+  { nama: "Pengatur" },
+  { nama: "Pengatur Muda" },
+  { nama: "Pengatur Muda Tk.I" },
+  { nama: "Pengatur Tk.I" },
+  { nama: "PPPK" },
 ];
 
 export const GaleryDummy: {
