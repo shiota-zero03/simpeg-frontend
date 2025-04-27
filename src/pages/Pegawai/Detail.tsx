@@ -9,6 +9,7 @@ import { ErrorToast } from "@/utils/ToastMessage";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { Commet } from "react-loading-indicators";
 import store from "@/redux/store";
+import { useGetAllJabatanOption } from "@/services/jabatan";
 
 export default function UpdateNews() {
   const role = store.getState().auth.role as string;
@@ -16,6 +17,16 @@ export default function UpdateNews() {
   const navigate = useNavigate();
 
   const { data, isFetching, refetch, error } = useGetDetailPegawai(id || "");
+  const {
+    data: allDataJabatan,
+    isFetching: isFetchingJabatan,
+    refetch: refetchJabatan,
+  } = useGetAllJabatanOption();
+  const JABATAN_SELECT = useMemo(() => {
+    if (!allDataJabatan) return [];
+    return allDataJabatan.data;
+  }, [allDataJabatan]);
+
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
@@ -30,12 +41,13 @@ export default function UpdateNews() {
 
   useEffect(() => {
     refetch();
+    refetchJabatan();
   }, []);
 
   return (
     <>
       <BreadcrumbAdmin location="/Pegawai/Detail" />
-      {isFetching && (
+      {(isFetching || isFetchingJabatan) && (
         <div className="inset-0 flex items-center justify-center absolute z-10">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
         </div>
@@ -88,7 +100,7 @@ export default function UpdateNews() {
               </CardBody>
             </Card>
             <Card className="border relative overflow-hidden" shadow="none">
-              <CardBody className="p-4 grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
+              <CardBody className="p-4 grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
                 <div>
                   <p className="text-sm">Jabatan</p>
                   <h4 className="font-semibold">
@@ -96,21 +108,27 @@ export default function UpdateNews() {
                   </h4>
                 </div>
                 <div>
-                  <p className="text-sm">Status ASN</p>
+                  <p className="text-sm">Unit Kerja</p>
                   <h4 className="font-semibold">
-                    {DATA_FETCHING?.statusAsn ? "ASN" : "Non-ASN"}
+                    {JABATAN_SELECT.find(it => it.id === DATA_FETCHING?.jabatan.id)?.subUnor === "PEMERINTAH" ? "Pemerintah Kab. Bekasi" : "Dinas Perdagangan Kab. Bekasi"}
                   </h4>
                 </div>
                 <div>
-                  <p className="text-sm">Unit</p>
+                  <p className="text-sm">Sub Unor</p>
                   <h4 className="font-semibold">
-                    {DATA_FETCHING?.unit.nameUnit}
+                    {JABATAN_SELECT.find(it => it.id === DATA_FETCHING?.jabatan.id)?.unit?.nameUnit || "-"}
                   </h4>
                 </div>
                 <div>
                   <p className="text-sm">Eselon</p>
                   <h4 className="font-semibold">
-                    {DATA_FETCHING?.eselon ?? "-"}
+                    {JABATAN_SELECT.find(it => it.id === DATA_FETCHING?.jabatan.id)?.eselon || "-"}
+                  </h4>
+                </div>
+                <div>
+                  <p className="text-sm">Pangkat</p>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.rank ?? "-"}
                   </h4>
                 </div>
                 <div>
@@ -137,18 +155,18 @@ export default function UpdateNews() {
                     {DATA_FETCHING?.phoneNumber ?? "-"}
                   </h4>
                 </div>
-                <div>
-                  <p className="text-sm">Jenis Kelamin</p>
-                  <h4 className="font-semibold">
-                    {DATA_FETCHING?.gender ?? "-"}
-                  </h4>
-                </div>
               </CardBody>
             </Card>
             <Card className="border relative overflow-hidden" shadow="none">
               <CardBody className="px-4 pb-4 grid md:grid-cols-2 grid-cols-1 gap-3">
                 <div className="font-bold md:col-span-2 col-span-1">
                   Detail Lainnya
+                </div>
+                <div>
+                  <p className="text-sm">Jenis Kelamin</p>
+                  <h4 className="font-semibold">
+                    {DATA_FETCHING?.gender === "LAKI_LAKI" ? "Laki - Laki" : "Perempuan"}
+                  </h4>
                 </div>
                 <div>
                   <p className="text-sm">Tempat Lahir</p>
@@ -162,12 +180,6 @@ export default function UpdateNews() {
                     {DATA_FETCHING?.dateOfBirth
                       ? DMYIndoToFormat(DATA_FETCHING.dateOfBirth)
                       : "-"}
-                  </h4>
-                </div>
-                <div>
-                  <p className="text-sm">Pangkat</p>
-                  <h4 className="font-semibold">
-                    {DATA_FETCHING?.rank ?? "-"}
                   </h4>
                 </div>
                 <div>
@@ -187,22 +199,6 @@ export default function UpdateNews() {
                   <h4 className="font-semibold">
                     {DATA_FETCHING?.pensionDate
                       ? DMYIndoToFormat(DATA_FETCHING.pensionDate)
-                      : "-"}
-                  </h4>
-                </div>
-                <div>
-                  <p className="text-sm">Tanggal TMT</p>
-                  <h4 className="font-semibold">
-                    {DATA_FETCHING?.employmentDate
-                      ? DMYIndoToFormat(DATA_FETCHING.employmentDate)
-                      : "-"}
-                  </h4>
-                </div>
-                <div>
-                  <p className="text-sm">Tanggal KGB</p>
-                  <h4 className="font-semibold">
-                    {DATA_FETCHING?.tanggalKGB
-                      ? DMYIndoToFormat(DATA_FETCHING.tanggalKGB)
                       : "-"}
                   </h4>
                 </div>

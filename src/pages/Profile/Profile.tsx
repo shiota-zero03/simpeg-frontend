@@ -7,6 +7,7 @@ import { useGetProfile } from "@/services/auth";
 import { LucideKey, LucidePencilLine } from "lucide-react";
 import UpdateProfil from "@/components/modals/Profil/UpdateProfil";
 import UpdatePassword from "@/components/modals/Profil/UpdatePassword";
+import { useGetAllJabatanOption } from "@/services/jabatan";
 
 export default function DataProfile() {
   const { data, isFetching, refetch } = useGetProfile();
@@ -16,8 +17,19 @@ export default function DataProfile() {
     return data.data;
   }, [data]);
 
+  const {
+    data: allDataJabatan,
+    isFetching: isFetchingJabatan,
+    refetch: refetchJabatan,
+  } = useGetAllJabatanOption();
+  const JABATAN_SELECT = useMemo(() => {
+    if (!allDataJabatan) return [];
+    return allDataJabatan.data;
+  }, [allDataJabatan]);
+
   useEffect(() => {
     refetch();
+    refetchJabatan();
   }, []);
 
   const {
@@ -54,7 +66,7 @@ export default function DataProfile() {
         onClose={onClosePassword}
         handleClose={handleClose}
       />
-      {isFetching && (
+      {(isFetching || isFetchingJabatan) && (
         <div className="inset-0 flex items-center justify-center absolute z-10">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
         </div>
@@ -110,7 +122,7 @@ export default function DataProfile() {
           </CardBody>
         </Card>
         <Card className="border relative overflow-hidden" shadow="none">
-          <CardBody className="p-4 grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
+          <CardBody className="p-4 grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
             <div>
               <p className="text-sm">Jabatan</p>
               <h4 className="font-semibold">
@@ -118,24 +130,34 @@ export default function DataProfile() {
               </h4>
             </div>
             <div>
-              <p className="text-sm">Status ASN</p>
+              <p className="text-sm">Unit Kerja</p>
               <h4 className="font-semibold">
-                {DATA_FETCHING?.statusAsn ? "ASN" : "Non-ASN"}
+                {JABATAN_SELECT.find(it => it.id === DATA_FETCHING?.jabatan.id)?.subUnor === "PEMERINTAH" ? "Pemerintah Kab. Bekasi" : "Dinas Perdagangan Kab. Bekasi"}
               </h4>
             </div>
             <div>
-              <p className="text-sm">Unit</p>
+              <p className="text-sm">Sub Unor</p>
               <h4 className="font-semibold">
-                {DATA_FETCHING?.unit?.nameUnit || "-"}
+                {JABATAN_SELECT.find(it => it.id === DATA_FETCHING?.jabatan.id)?.unit?.nameUnit || "-"}
               </h4>
             </div>
             <div>
               <p className="text-sm">Eselon</p>
-              <h4 className="font-semibold">{DATA_FETCHING?.eselon ?? "-"}</h4>
+              <h4 className="font-semibold">
+                {JABATAN_SELECT.find(it => it.id === DATA_FETCHING?.jabatan.id)?.eselon || "-"}
+              </h4>
+            </div>
+            <div>
+              <p className="text-sm">Pangkat</p>
+              <h4 className="font-semibold">
+                {DATA_FETCHING?.rank ?? "-"}
+              </h4>
             </div>
             <div>
               <p className="text-sm">Golongan</p>
-              <h4 className="font-semibold">{DATA_FETCHING?.group ?? "-"}</h4>
+              <h4 className="font-semibold">
+                {DATA_FETCHING?.group ?? "-"}
+              </h4>
             </div>
             <div>
               <p className="text-sm">Status Kepegawaian</p>
@@ -145,7 +167,9 @@ export default function DataProfile() {
             </div>
             <div>
               <p className="text-sm">Email</p>
-              <h4 className="font-semibold">{DATA_FETCHING?.email ?? "-"}</h4>
+              <h4 className="font-semibold">
+                {DATA_FETCHING?.email ?? "-"}
+              </h4>
             </div>
             <div>
               <p className="text-sm">Kontak / No. Whatsapp</p>
@@ -153,16 +177,18 @@ export default function DataProfile() {
                 {DATA_FETCHING?.phoneNumber ?? "-"}
               </h4>
             </div>
-            <div>
-              <p className="text-sm">Jenis Kelamin</p>
-              <h4 className="font-semibold">{DATA_FETCHING?.gender ?? "-"}</h4>
-            </div>
           </CardBody>
         </Card>
         <Card className="border relative overflow-hidden" shadow="none">
           <CardBody className="px-4 pb-4 grid md:grid-cols-2 grid-cols-1 gap-3">
             <div className="font-bold md:col-span-2 col-span-1">
               Detail Lainnya
+            </div>
+            <div>
+              <p className="text-sm">Jenis Kelamin</p>
+              <h4 className="font-semibold">
+                {DATA_FETCHING?.gender === "LAKI_LAKI" ? "Laki - Laki" : "Perempuan"}
+              </h4>
             </div>
             <div>
               <p className="text-sm">Tempat Lahir</p>
@@ -177,10 +203,6 @@ export default function DataProfile() {
                   ? DMYIndoToFormat(DATA_FETCHING.dateOfBirth)
                   : "-"}
               </h4>
-            </div>
-            <div>
-              <p className="text-sm">Pangkat</p>
-              <h4 className="font-semibold">{DATA_FETCHING?.rank ?? "-"}</h4>
             </div>
             <div>
               <p className="text-sm">Pendidikan Terakhir</p>
@@ -199,22 +221,6 @@ export default function DataProfile() {
               <h4 className="font-semibold">
                 {DATA_FETCHING?.pensionDate
                   ? DMYIndoToFormat(DATA_FETCHING.pensionDate)
-                  : "-"}
-              </h4>
-            </div>
-            <div>
-              <p className="text-sm">Tanggal TMT</p>
-              <h4 className="font-semibold">
-                {DATA_FETCHING?.employmentDate
-                  ? DMYIndoToFormat(DATA_FETCHING.employmentDate)
-                  : "-"}
-              </h4>
-            </div>
-            <div>
-              <p className="text-sm">Tanggal KGB</p>
-              <h4 className="font-semibold">
-                {DATA_FETCHING?.tanggalKGB
-                  ? DMYIndoToFormat(DATA_FETCHING.tanggalKGB)
                   : "-"}
               </h4>
             </div>

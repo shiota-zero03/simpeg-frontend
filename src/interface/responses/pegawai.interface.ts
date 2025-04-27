@@ -52,3 +52,36 @@ export interface IPegawaiRes extends BaseRes {
 export interface IPegawaiOptionRes extends BaseRes {
   data: PegawaiRes[];
 }
+
+
+export interface SuratPegawaiRes {
+  id: number;
+  userId: string;
+  startDate: string;
+  endDate: string;
+  typeForm: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  user: {
+    id: string;
+    nip: string;
+    name: string;
+    jabatan: {
+      id: number;
+      nameJob: string;
+    }
+  }
+}
+
+export interface ISuratPegawaiListRes extends BaseRes {
+  data: {
+    response: SuratPegawaiRes[];
+    data: SuratPegawaiRes[];
+    pagination: PaginationRes;
+  };
+}
+
+export interface ISuratPegawaiRes extends BaseRes {
+  data: SuratPegawaiRes;
+}
