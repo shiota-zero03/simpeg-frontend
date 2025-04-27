@@ -1,9 +1,12 @@
 export interface StoreJabatan {
   nameJob?: string;
-  singkatan?: string;
-  fungsionalJob?: string | null;
   fungsional?: boolean;
   Class?: string;
-  jabatanFungsional?: string | null;
-  atasan?: number | null;
+  jabatanPermenpan?: string;
+  subJabatanPermenpan?: string;
+  atasan?: number;
+  unitId?: number;
+  subUnor?: string;
+  eselon?: string;
+  ketersediaan?: number;
 }

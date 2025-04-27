@@ -2,18 +2,25 @@ import { BaseRes, PaginationRes } from "./base.response";
 
 export interface JabatanRes {
   id: number;
-  nameJob: string;
-  singkatan: string;
-  fungsionalJob: string | null;
-  fungsional: boolean;
   class: string;
-  jabatanFungsional: string | null;
+  createdAt: string;
+  eselon: string;
+  fungsional: boolean;
+  jabatanPermenpan: string | null;
+  ketersediaan: number;
+  nameJob: string;
+  subJabatanPermenpan: string | null;
+  subUnor: string | null;
   atasan: number | null;
+  unitId: number | null;
   parent: {
     nameJob: string;
     id: number;
   } | null;
-  createdAt: string;
+  unit: {
+    nameUnit: string;
+    id: number;
+  } | null;
 }
 
 export interface IJabatanRes extends BaseRes {

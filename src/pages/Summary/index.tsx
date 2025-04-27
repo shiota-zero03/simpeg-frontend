@@ -27,8 +27,8 @@ export default function Jabatan() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { data, isFetching, refetch } = useGetAllPegawaiOption();
-  const { data: dataUnit, isFetching: isFetchingUnit, refetch: refetchUnit } = useGetAllUnitOption();
+  const { data, refetch } = useGetAllPegawaiOption();
+  const { data: dataUnit, refetch: refetchUnit } = useGetAllUnitOption();
 
   const DATA_FETCHING = useMemo(() => {
     if(data) return data.data;
@@ -46,7 +46,7 @@ export default function Jabatan() {
   useEffect(() => {
     refetch();
     refetchUnit();
-  })
+  }, [])
 
   return (
     <>
@@ -168,7 +168,7 @@ export default function Jabatan() {
                         </tr>
                       </thead>
                       <tbody>
-                        {DATA_FETCHING_UNIT?.map((item, index) => (
+                        {DATA_FETCHING_UNIT?.filter(item => item.nameUnit.toLowerCase().includes('dinas') || item.nameUnit.toLowerCase().includes('uptd')).map((item, index) => (
                           <tr key={index}>
                             <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
                               {index + 1}
@@ -227,7 +227,7 @@ export default function Jabatan() {
                         </tr>
                       </thead>
                       <tbody>
-                        {DATA_FETCHING_UNIT?.map((item, index) => (
+                        {DATA_FETCHING_UNIT?.filter(item => item.nameUnit.toLowerCase().includes('dinas') || item.nameUnit.toLowerCase().includes('uptd')).map((item, index) => (
                           <tr key={index}>
                             <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
                               {index + 1}

@@ -22,7 +22,7 @@ interface DataProps {
 }
 
 export default function Unit() {
-  const limit = 10;
+  const limit = 20;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
 
@@ -54,7 +54,7 @@ export default function Unit() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: UnitRes) => ({
+      return data.response.sort((a, b) => a.id - b.id).map((item: UnitRes) => ({
         id: item.id,
         idUnit: item.idUnit,
         capacity: item.ketersediaan || 0,
