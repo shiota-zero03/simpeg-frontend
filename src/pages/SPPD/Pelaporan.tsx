@@ -7,10 +7,10 @@ import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import {
-  useDeletePelaporanPegawai,
-  useGetAllPelaporanPegawai,
-} from "@/services/pegawai";
-import { PelaporanPegawaiRes } from "@/interface/responses/pegawai.interface";
+  useDeletePelaporanSPPD,
+  useGetAllPelaporanSPPD,
+} from "@/services/sppd";
+import { PelaporanSPPDRes } from "@/interface/responses/sppd.interface";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { useNavigate } from "react-router-dom";
 import { FaFilePdf } from "react-icons/fa";
@@ -40,7 +40,7 @@ export default function Unit() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllPelaporanPegawai(pageIndex + 1, limit, search);
+  } = useGetAllPelaporanSPPD(pageIndex + 1, limit, search);
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
@@ -57,7 +57,7 @@ export default function Unit() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: PelaporanPegawaiRes) => ({
+      return data.response.map((item: PelaporanSPPDRes) => ({
         id: item.id,
         tanggal: DMYIndoToFormat(item.createdAt),
         latarBelakang: item.latarBelakang ? `${item.latarBelakang.slice(0, 250)} ...` : '',
@@ -86,21 +86,13 @@ export default function Unit() {
     {
       accessorKey: "latarBelakang",
       header: "Latar Belakang",
-      cell: (info) => {
-        return (
-          <div dangerouslySetInnerHTML={{ __html: info.getValue() as string }} />
-        )
-      },
+      cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
       accessorKey: "isi",
       header: "Isi Laporan",
-      cell: (info) => {
-        return (
-          <div dangerouslySetInnerHTML={{ __html: info.getValue() as string }} />
-        )
-      },
+      cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
@@ -110,7 +102,7 @@ export default function Unit() {
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
-              onPress={() => navigate(`/pegawai/detail-pelaporan/${id}`)}
+              onPress={() => navigate(`/sppd/detail-pelaporan/${id}`)}
               isIconOnly
               radius="sm"
               size="sm"
@@ -119,14 +111,14 @@ export default function Unit() {
               <LuEye size={14} />
             </Button>
             <Link
-              to={`/pegawai/export-pelaporan/${id}`}
+              to={`/sppd/export-pelaporan/${id}`}
               target="__blank"
               className="bg-[#FFF3F6] text-danger shadow-sm p-2 rounded-md"
             >
               <FaFilePdf size={14} />
             </Link>
             <Button
-              onPress={() => navigate(`/pegawai/edit-pelaporan/${id}`)}
+              onPress={() => navigate(`/sppd/edit-pelaporan/${id}`)}
               isIconOnly
               radius="sm"
               size="sm"
@@ -177,7 +169,7 @@ export default function Unit() {
   }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const { mutate: mutateDelete } = useDeletePelaporanPegawai();
+  const { mutate: mutateDelete } = useDeletePelaporanSPPD();
 
   const handleDelete = () => {
     if (isLoadingDelete) return;
@@ -215,7 +207,7 @@ export default function Unit() {
       throw error;
     }
   };
-
+  
   return (
     <>
       {selectedId && (
@@ -240,7 +232,7 @@ export default function Unit() {
                   radius="sm"
                   size="sm"
                   variant="bordered"
-                  placeholder="Cari nama pegawai disini"
+                  placeholder="Cari nama sppd disini"
                   startContent={
                     <LuSearch className="text-accent-gray text-xs" />
                   }
@@ -273,7 +265,7 @@ export default function Unit() {
                   <BiReset size={12} />
                 </Button>
                 <Button
-                  onPress={() => navigate('/pegawai/tambah-pelaporan')}
+                  onPress={() => navigate('/sppd/tambah-pelaporan')}
                   variant="solid"
                   radius="sm"
                   size="sm"

@@ -30,3 +30,21 @@ export interface StoreSuratPegawai {
   typeForm?: string;
   description?: string;
 }
+
+export interface StorePelaporanPegawai {
+  latarBelakang?: string;
+  sasaran?: string;
+  maksud?: string;
+  tujuan?: string;
+  dasarHukum?: string;
+  isiLaporan?: string;
+  jabatanPengelola?: string;
+  pengelola?: string;
+  nipPengelola?: string;
+  subgadin?: string;
+  jabatanSubagin?: string;
+  nipSubagin?: string;
+  sekertaris?: string;
+  jabatanSekertaris?: string;
+  nipSekertaris?: string;
+}

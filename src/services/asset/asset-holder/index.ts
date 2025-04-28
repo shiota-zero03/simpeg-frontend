@@ -29,7 +29,7 @@ export const useGetAllAssetHolder = (page: number, limit: number, title?: string
 };
 export const useCreateAssetHolder = () => {
   const queryClient = useQueryClient();
-  return useMutation<IAssetHolderDetailRes, AxiosError<BaseErrorRes>, StoreAssetHolder>({
+  return useMutation<IAssetHolderDetailRes, AxiosError<BaseErrorRes>, StoreAssetHolder[]>({
     mutationFn: (formData) => createAssetHolder(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["createAssetHolder"] });

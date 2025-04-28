@@ -1,27 +1,34 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createPegawai,
+  createPelaporanPegawai,
   createSuratPegawai,
   deletePegawai,
+  deletePelaporanPegawai,
   deleteSuratPegawai,
   getAllPegawai,
   getAllPegawaiOption,
   getAllPegawaiPimpinanOption,
+  getAllPelaporanPegawai,
   getAllSuratPegawai,
   getAllSuratPegawaiAdmin,
   getDetailPegawai,
+  getDetailPelaporanPegawai,
   getDetailSuratPegawai,
   updatePegawai,
+  updatePelaporanPegawai,
   updateSuratPegawai,
 } from "./http";
 import {
   IPegawaiRes,
+  IPelaporanPegawaiRes,
   ISuratPegawaiRes,
 } from "@/interface/responses/pegawai.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import {
   StorePegawai,
+  StorePelaporanPegawai,
   StoreSuratPegawai,
 } from "@/interface/request/pegawai.interface";
 
@@ -171,6 +178,75 @@ export const useDeleteSuratPegawai = () => {
     mutationFn: ({ id }) => deleteSuratPegawai(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["deleteSuratPegawai"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
+  });
+};
+
+
+
+export const useGetAllPelaporanPegawai = (
+  page: number,
+  limit: number,
+  title?: string,
+) => {
+  return useQuery({
+    queryKey: ["getAllPelaporanPegawai"],
+    queryFn: () => getAllPelaporanPegawai(page, limit, title),
+    staleTime: 300000,
+  });
+};
+export const useCreatePelaporanPegawai = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IPelaporanPegawaiRes,
+    AxiosError<BaseErrorRes>,
+    StorePelaporanPegawai
+  >({
+    mutationFn: (formData) => createPelaporanPegawai(formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["createPelaporanPegawai"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
+  });
+};
+export const useGetDetailPelaporanPegawai = (id: string) => {
+  return useQuery({
+    queryKey: ["getDetailPelaporanPegawai", id],
+    queryFn: () => getDetailPelaporanPegawai(id),
+    staleTime: 300000,
+  });
+};
+export const useUpdatePelaporanPegawai = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IPelaporanPegawaiRes,
+    AxiosError<BaseErrorRes>,
+    { id: string; formData: StorePelaporanPegawai }
+  >({
+    mutationFn: ({ id, formData }) => updatePelaporanPegawai(id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["updatePelaporanPegawai"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
+  });
+};
+export const useDeletePelaporanPegawai = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IPelaporanPegawaiRes,
+    AxiosError<BaseErrorRes>,
+    { id: string }
+  >({
+    mutationFn: ({ id }) => deletePelaporanPegawai(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["deletePelaporanPegawai"] });
     },
     onError: (error) => {
       throw error;
