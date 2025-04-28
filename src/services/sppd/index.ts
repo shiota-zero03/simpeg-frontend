@@ -20,13 +20,14 @@ export const useGetAllSPPD = (
   page: number,
   limit: number,
   title?: string,
-  job?: string,
+  type?: string,
+  nomorSurat?: string,
   start?: string | null,
   end?: string | null,
 ) => {
   return useQuery({
-    queryKey: ["getAllSPPD"],
-    queryFn: () => getAllSPPD(page, limit, title, job, start, end),
+    queryKey: ["getAllSPPD", type],
+    queryFn: () => getAllSPPD(page, limit, title, type, nomorSurat, start, end),
     staleTime: 300000,
   });
 };

@@ -154,7 +154,7 @@ export default function AssetIndex() {
     {
       accessorKey: "kategori",
       header: "Kategori",
-      cell: (info) => info.getValue() as string,
+      cell: (info) => info.getValue() as string ==="PERALATAN" ? "Peralatan Kantor / Mesin" : "Kendaraan",
       // meta: { align: "center" },
     },
     {
