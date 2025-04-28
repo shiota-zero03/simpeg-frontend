@@ -123,6 +123,14 @@ export default function Router() {
     <Suspense fallback={<LoaderPage />}>
       <ScrollToTop />
       <Routes>
+        <Route
+            path="/healthz"
+            element={
+              <div>
+                {JSON.stringify({ status: "oke" })}
+              </div>
+            }
+        />
         <Route path="/login" element={<Login />} />
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
