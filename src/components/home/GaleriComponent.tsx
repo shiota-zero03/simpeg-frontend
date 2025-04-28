@@ -183,7 +183,8 @@ const GaleriComponent = () => {
           setType(null);
         }}
         classNames={{
-          closeButton: "bg-danger text-white hover:bg-white hover:text-danger duration-300"
+          closeButton:
+            "bg-danger text-white hover:bg-white hover:text-danger duration-300",
         }}
         size="full"
       >

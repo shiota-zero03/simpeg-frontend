@@ -119,9 +119,9 @@ export const SidebarMenuData: SidebarProps[] = [
       },
       { name: "SPPD", key: "sppd", link: "/sppd", icon: LuMails },
       {
-        name: "Manajemen Asset",
-        key: "asset",
-        link: "#",
+        name: "Manajemen Aset",
+        key: "manajemen-aset",
+        link: "/manajemen-aset",
         icon: PiSuitcaseSimpleLight,
       },
       {

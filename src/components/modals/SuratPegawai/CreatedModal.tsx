@@ -17,7 +17,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
-import { useCreateSuratPegawai, useGetAllPegawaiOption } from "@/services/pegawai";
+import {
+  useCreateSuratPegawai,
+  useGetAllPegawaiOption,
+} from "@/services/pegawai";
 import { StoreSuratPegawai } from "@/interface/request/pegawai.interface";
 
 interface props {
@@ -66,33 +69,33 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     return allDataPegawai.data;
   }, [allDataPegawai]);
 
-  const changePegawai = ( value: string ) => {
-    if(value) {
-      let pegawaiData = PEGAWAI_SELECT.find(it => it.id === value);
-      if(pegawaiData) {
+  const changePegawai = (value: string) => {
+    if (value) {
+      const pegawaiData = PEGAWAI_SELECT.find((it) => it.id === value);
+      if (pegawaiData) {
         setFormData({
           ...formData,
           userId: pegawaiData.id,
           nip: pegawaiData.nip,
-          jabatan: pegawaiData.jabatan.nameJob
-        })
+          jabatan: pegawaiData.jabatan.nameJob,
+        });
       } else {
         setFormData({
           ...formData,
           userId: "",
           nip: "",
-          jabatan: ""
-        })
+          jabatan: "",
+        });
       }
     } else {
       setFormData({
         ...formData,
         userId: "",
         nip: "",
-        jabatan: ""
-      })
+        jabatan: "",
+      });
     }
-  }
+  };
 
   const [formError, setFormError] = useState<errorProps>({});
 
@@ -112,7 +115,8 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   const validateData = () => {
     const errors: errorProps = {};
     if (!formData.userId) errors.userId = "Pegawai tidak boleh kosong";
-    if (!formData.typeForm) errors.typeForm = "Tipe pengajuan tidak boleh kosong";
+    if (!formData.typeForm)
+      errors.typeForm = "Tipe pengajuan tidak boleh kosong";
     if (!formData.startDate) errors.startDate = "Tanggal tidak boleh kosong";
 
     return errors;
@@ -133,15 +137,15 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
 
     const formToSend: StoreSuratPegawai = {};
 
-    if(formData.userId) formToSend.userId = formData.userId;
-    if(formData.startDate) formToSend.startDate = formData.startDate;
-    if(formData.endDate) {
+    if (formData.userId) formToSend.userId = formData.userId;
+    if (formData.startDate) formToSend.startDate = formData.startDate;
+    if (formData.endDate) {
       formToSend.endDate = formData.endDate;
     } else {
       formToSend.endDate = formData.startDate;
     }
-    if(formData.typeForm) formToSend.typeForm = formData.typeForm;
-    if(formData.description) formToSend.description = formData.description;
+    if (formData.typeForm) formToSend.typeForm = formData.typeForm;
+    if (formData.description) formToSend.description = formData.description;
 
     try {
       mutatePost(formToSend, {
@@ -170,7 +174,9 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
       <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="3xl">
         <ModalContent>
           <ModalHeader className="flex items-center justify-between">
-            <span className="text-base font-semibold">Tambah Data Cuti, Kenaikan Gaji & Pangkat </span>
+            <span className="text-base font-semibold">
+              Tambah Data Cuti, Kenaikan Gaji & Pangkat{" "}
+            </span>
             <LuX
               className="text-danger border border-danger rounded-full p-2 cursor-pointer"
               onClick={onClose}
@@ -193,9 +199,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   variant="bordered"
                   radius="sm"
                   selectedKey={String(formData.userId)}
-                  onSelectionChange={(value) =>
-                    changePegawai(value as string)
-                  }
+                  onSelectionChange={(value) => changePegawai(value as string)}
                   inputProps={{
                     classNames: {
                       input: "text-xs",
@@ -286,7 +290,10 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
               </div>
               <div className="md:col-span-3 col-span-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
-                  {formData.typeForm === "CUTI" ? "Tanggal Mulai" : "Terhitung Mulai Tanggal"} <span className="text-danger">*</span>
+                  {formData.typeForm === "CUTI"
+                    ? "Tanggal Mulai"
+                    : "Terhitung Mulai Tanggal"}{" "}
+                  <span className="text-danger">*</span>
                 </label>
                 <Input
                   aria-label="lokasi"

@@ -71,7 +71,7 @@ export default function Jabatan() {
         unit: item.subUnor || "-",
         subUnor: item.unit?.nameUnit || "",
         fungsional: item.fungsional,
-        atasan: item.parent?.nameJob || "-"
+        atasan: item.parent?.nameJob || "-",
       }));
     } else {
       return [];

@@ -126,7 +126,7 @@ export default function CreatePegawai() {
     usiaPensiun: null,
     tanggalPensiun: null,
     foto: null,
-    isFungsional: false
+    isFungsional: false,
   });
 
   const [formError, setFormError] = useState<errorProps>({});
@@ -335,16 +335,19 @@ export default function CreatePegawai() {
   };
 
   useEffect(() => {
-    if(formData.jabatan) {
-      if(JABATAN_SELECT.find(it => it.id === Number(formData.jabatan))?.fungsional){
-        setFormData({ ...formData, isFungsional: true })
+    if (formData.jabatan) {
+      if (
+        JABATAN_SELECT.find((it) => it.id === Number(formData.jabatan))
+          ?.fungsional
+      ) {
+        setFormData({ ...formData, isFungsional: true });
       } else {
-        setFormData({ ...formData, isFungsional: false })
+        setFormData({ ...formData, isFungsional: false });
       }
     } else {
-      setFormData({ ...formData, isFungsional: false })
+      setFormData({ ...formData, isFungsional: false });
     }
-  }, [formData.jabatan])
+  }, [formData.jabatan]);
 
   return (
     <>
@@ -522,7 +525,7 @@ export default function CreatePegawai() {
                         radius="sm"
                         defaultItems={JABATAN_SELECT}
                         selectedKey={String(formData.jabatan)}
-                        onSelectionChange={(value) => 
+                        onSelectionChange={(value) =>
                           setFormData({ ...formData, jabatan: value as string })
                         }
                         inputProps={{
@@ -533,7 +536,10 @@ export default function CreatePegawai() {
                         }}
                       >
                         {(peg) => (
-                          <AutocompleteItem key={peg.id} textValue={peg.nameJob}>
+                          <AutocompleteItem
+                            key={peg.id}
+                            textValue={peg.nameJob}
+                          >
                             {peg.nameJob}
                           </AutocompleteItem>
                         )}
@@ -853,7 +859,6 @@ export default function CreatePegawai() {
                       {formError.email}
                     </div>
                   </div>
-                  
                 </div>
               </CardBody>
             </Card>
@@ -863,7 +868,6 @@ export default function CreatePegawai() {
               </CardHeader>
               <CardBody>
                 <div className="grid sm:grid-cols-6 grid-cols-1 gap-2">
-                  
                   <div className="sm:col-span-2 col-span-1">
                     <div className="mb-1">
                       <label
