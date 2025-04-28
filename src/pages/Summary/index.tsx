@@ -201,7 +201,7 @@ export default function Jabatan() {
                                 setShowData(
                                   DATA_FETCHING
                                     ? DATA_FETCHING.filter(
-                                        (it) => it.unit.id === item.id,
+                                        (it) => it.unit?.id === item.id,
                                       )
                                     : [],
                                 );
@@ -212,7 +212,7 @@ export default function Jabatan() {
                             >
                               {DATA_FETCHING
                                 ? DATA_FETCHING.filter(
-                                    (it) => it.unit.id === item.id,
+                                    (it) => it.unit?.id === item.id,
                                   ).length
                                 : 0}{" "}
                               Orang
@@ -276,7 +276,7 @@ export default function Jabatan() {
                                   DATA_FETCHING
                                     ? DATA_FETCHING.filter(
                                         (it) =>
-                                          it.unit.id === item.id &&
+                                          it.unit?.id === item.id &&
                                           it.statusAsn === true,
                                       )
                                     : [],
@@ -289,7 +289,7 @@ export default function Jabatan() {
                               {DATA_FETCHING
                                 ? DATA_FETCHING.filter(
                                     (it) =>
-                                      it.unit.id === item.id &&
+                                      it.unit?.id === item.id &&
                                       it.statusAsn === true,
                                   ).length
                                 : 0}{" "}

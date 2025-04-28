@@ -10,28 +10,37 @@ import {
 } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import { LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
+import {LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import store from "@/redux/store";
-import { useDeleteAsset, useGetAllAsset } from "@/services/asset/asset";
-import { AssetRes } from "@/interface/responses/asset.interface";
+import { useDeleteAsset } from "@/services/asset/asset";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { parseDate } from "@internationalized/date";
-import { LucideEye } from "lucide-react";
 import ViewModal from "@/components/modals/Asset/DeetailAsset";
+import { useGetAllAssetHolder } from "@/services/asset/asset-holder";
+import { AssetHolderRes } from "@/interface/responses/assetHolder.interface";
 
 interface DataProps {
-  id: string;
+  userId: string;
+  userName: string;
+  jabatan: string;
+  unit: string;
   tanggal: string;
-  idBarang: string;
-  kodeBarang: string;
-  noRegistrasi: string;
-  kategori: string;
-  harga: string;
-  merk: string;
+  holders: {
+    tanggal: string;
+    assetId: string;
+    kodeBarang: string;
+    nomorRegistrasi: string;
+    kategori: string;
+    assetName: string;
+    merk: string;
+    harga: number;
+    file: string;
+    noBast: string;
+  }[]
 }
 
 export default function AssetIndex() {
@@ -79,7 +88,7 @@ export default function AssetIndex() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllAsset(pageIndex + 1, limit, search);
+  } = useGetAllAssetHolder(pageIndex + 1, limit, search);
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
@@ -96,15 +105,13 @@ export default function AssetIndex() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: AssetRes) => ({
-        id: item.id,
-        tanggal: DMYIndoToFormat(item.createdAt),
-        idBarang: item.idBarang,
-        kodeBarang: item.kodeBarang,
-        noRegistrasi: item.nomorRegistrasi,
-        kategori: item.kategori,
-        harga: `Rp ${item.harga.toLocaleString("id-ID")}`,
-        merk: item.merkTipe,
+      return data.response.map((item: AssetHolderRes) => ({
+        userId: item.userId,
+        userName: item.userName || "",
+        jabatan: item.jabatan || "",
+        unit: item.unit || "",
+        tanggal: DMYIndoToFormat(item.tanggal),
+        holders: item.holders
       }));
     } else {
       return [];
@@ -127,78 +134,33 @@ export default function AssetIndex() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "idBarang",
-      header: "ID Barang",
+      accessorKey: "unit",
+      header: "Unit",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      accessorKey: "kodeBarang",
-      header: "Kode Barang",
+      accessorKey: "userName",
+      header: "Nama",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      accessorKey: "noRegistrasi",
-      header: "No. Registrasi",
-      cell: (info) => info.getValue() as string,
-      // meta: { align: "center" },
-    },
-    {
-      accessorKey: "kategori",
-      header: "Kategori",
-      cell: (info) => info.getValue() as string,
-      // meta: { align: "center" },
-    },
-    {
-      accessorKey: "harga",
-      header: "Harga",
-      cell: (info) => info.getValue() as string,
-      // meta: { align: "center" },
-    },
-    {
-      accessorKey: "merk",
-      header: "Merk/Tipe",
+      accessorKey: "jabatan",
+      header: "Jabatan",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
       header: "Aksi",
       cell: ({ row }) => {
-        const { id } = row.original;
+        const { userId } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
-            <Button
-              onPress={() => {
-                setSelectedId(id)
-                setTimeout(() => {
-                  onOpenView()
-                }, 100);
-              }}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-warning text-warning shadow-sm"
-            >
-              <LucideEye size={14} />
-            </Button>
             {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
               <Button
                 onPress={() => {
-                  navigate(`/manajemen-aset/edit-aset/${id}`);
-                }}
-                isIconOnly
-                radius="sm"
-                size="sm"
-                className="bg-alert-info text-info shadow-sm"
-              >
-                <LuPencilLine size={14} />
-              </Button>
-            )}
-            {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
-              <Button
-                onPress={() => {
-                  setSelectedId(id);
+                  setSelectedId(userId);
                   onOpenDelete();
                 }}
                 isIconOnly
@@ -223,7 +185,7 @@ export default function AssetIndex() {
   } = useDisclosure();
   const {
     isOpen: isOpenView,
-    onOpen: onOpenView,
+    // onOpen: onOpenView,
     onClose: onCloseView,
   } = useDisclosure();
 
@@ -382,7 +344,7 @@ export default function AssetIndex() {
                 </Button>
                 {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
                   <Button
-                    onPress={() => navigate(`/manajemen-aset/tambah-aset`)}
+                    onPress={() => navigate(`/manajemen-aset/tambah-pemegang-aset`)}
                     variant="solid"
                     radius="sm"
                     size="sm"

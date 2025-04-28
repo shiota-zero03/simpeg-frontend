@@ -107,14 +107,16 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
 
   useEffect(() => {
     if (data) {
+      const pegawaiData = PEGAWAI_SELECT.find((it) => it.id === data.data.userId);
       setFormData({
         userId: data.data.userId,
+        nip: pegawaiData?.nip,
+        jabatan: pegawaiData?.jabatan.nameJob,
         startDate: DateYMDFormat(data.data.startDate),
         endDate: DateYMDFormat(data.data.endDate),
         typeForm: data.data.typeForm,
         description: data.data.description,
       });
-      changePegawai(data.data.userId);
     }
   }, [isOpen, data]);
 

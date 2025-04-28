@@ -117,6 +117,7 @@ const ExportKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Export"));
 const Asset = lazy(() => import("@/pages/Asset"));
 const AssetCreated = lazy(() => import("@/pages/Asset/Asset/Created"));
 const AssetUpdated = lazy(() => import("@/pages/Asset/Asset/Updated"));
+const AssetHolderCreated = lazy(() => import("@/pages/Asset/Pemegang/Created"));
 
 export default function Router() {
   return (
@@ -173,6 +174,10 @@ export default function Router() {
           <Route
             path="/manajemen-aset/edit-aset/:id"
             element={<AssetUpdated />}
+          />
+          <Route
+            path="/manajemen-aset/tambah-pemegang-aset"
+            element={<AssetHolderCreated />}
           />
 
           <Route path="/dialog-kinerja" element={<IKP />} />

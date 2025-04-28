@@ -59,7 +59,7 @@ export default function UpdateNews() {
           {role !== "PEGAWAI" && (
             <CardHeader>
               <Link
-                to={"/pegawai/edit-data/1"}
+                to={`/pegawai/edit-data/${id}`}
                 className="flex gap-2 items-center text-info bg-alert-info font-semibold p-2 text-sm rounded-md ms-auto"
               >
                 <LucidePencilLine size={18} /> Edit Data

@@ -8,6 +8,7 @@ import {
   getAllPegawaiOption,
   getAllPegawaiPimpinanOption,
   getAllSuratPegawai,
+  getAllSuratPegawaiAdmin,
   getDetailPegawai,
   getDetailSuratPegawai,
   updatePegawai,
@@ -40,6 +41,17 @@ export const useGetAllPegawaiPimpinanOption = () => {
   });
 };
 
+export const useGetAllPegawaiAdmin = (
+  page: number,
+  limit: number,
+  title?: string,
+) => {
+  return useQuery({
+    queryKey: ["getAllSuratPegawaiAdmin"],
+    queryFn: () => getAllSuratPegawaiAdmin(page, limit, title),
+    staleTime: 300000,
+  });
+};
 export const useGetAllPegawai = (
   page: number,
   limit: number,
