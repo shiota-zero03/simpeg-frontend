@@ -57,6 +57,19 @@ export const deletePegawai = async (id: string): Promise<IPegawaiRes> => {
   return response.data;
 };
 
+export const getAllSuratPegawaiAdmin = async (
+  page: number,
+  limit: number,
+  title?: string,
+): Promise<ISuratPegawaiListRes> => {
+  const params = new URLSearchParams();
+
+  if (page) params.set("page", page.toString());
+  if (limit) params.set("limit", limit.toString());
+  if (title) params.set("name", title);
+  const response = await instance.get(`/admin/type-form/list/admin?${params.toString()}`);
+  return response.data;
+};
 export const getAllSuratPegawai = async (
   page: number,
   limit: number,

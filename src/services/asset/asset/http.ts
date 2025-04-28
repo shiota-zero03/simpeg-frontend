@@ -20,7 +20,7 @@ export const getAllAsset = async (
 
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
-  if (title) params.set("name", title);
+  if (title) params.set("search", title);
   const response = await instance.get(`/admin/asset?${params.toString()}`);
   return response.data;
 };
