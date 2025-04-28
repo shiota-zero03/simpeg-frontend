@@ -23,6 +23,7 @@ export interface AssetRes {
   createdAt: string;
   updatedAt: string;
   images: string;
+  status: boolean | null;
 }
 
 export interface IAssetRes extends BaseRes {

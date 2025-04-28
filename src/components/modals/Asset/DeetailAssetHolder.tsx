@@ -4,8 +4,11 @@ import {
   ModalContent,
   ModalHeader,
 } from "@heroui/react";
+import { LucideInfo } from "lucide-react";
+import { FaFileAlt } from "react-icons/fa";
 import { LuX } from "react-icons/lu";
 import { TbFaceIdError } from "react-icons/tb";
+import { Link } from "react-router-dom";
 
 interface props {
   holder: {
@@ -82,17 +85,21 @@ const ViewModal = ({ holder, isOpen, onClose }: props) => {
                             {item.nomorRegistrasi || "-"}
                             </td>
                             <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            {item.kategori || "-"}
-                            </td>'
-                            <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
                             {item.assetName || "-"}
                             </td>
                             <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
-                            {item.nomorRegistrasi || "-"}
-                            </td>'
-                            {/* <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                            {item.jabatan ? item.jabatan.nameJob : ""}
-                            </td> */}
+                            {item.kategori === "PERALATAN" ? "Peralatan Kantor / Mesin" : "Kendaraan"}
+                            </td>
+                            <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
+                            {item.noBast || "-"}
+                            </td>
+                            <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold text-center">
+                              {item.file ? (
+                                <Link to={item.file} target="__blank"><FaFileAlt className="text-button-primary" /></Link>
+                              ) : (
+                                <LucideInfo className="text-danger" />
+                              )}
+                            </td>
                         </tr>
                         ))
                     ) : (
