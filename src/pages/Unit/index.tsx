@@ -54,13 +54,15 @@ export default function Unit() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.sort((a, b) => a.id - b.id).map((item: UnitRes) => ({
-        id: item.id,
-        idUnit: item.idUnit,
-        capacity: item.ketersediaan || 0,
-        nameUnit: item.nameUnit,
-        description: item.description,
-      }));
+      return data.response
+        .sort((a, b) => a.id - b.id)
+        .map((item: UnitRes) => ({
+          id: item.id,
+          idUnit: item.idUnit,
+          capacity: item.ketersediaan || 0,
+          nameUnit: item.nameUnit,
+          description: item.description,
+        }));
     } else {
       return [];
     }

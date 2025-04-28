@@ -13,10 +13,16 @@ import {
   updatePegawai,
   updateSuratPegawai,
 } from "./http";
-import { IPegawaiRes, ISuratPegawaiRes } from "@/interface/responses/pegawai.interface";
+import {
+  IPegawaiRes,
+  ISuratPegawaiRes,
+} from "@/interface/responses/pegawai.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
-import { StorePegawai, StoreSuratPegawai } from "@/interface/request/pegawai.interface";
+import {
+  StorePegawai,
+  StoreSuratPegawai,
+} from "@/interface/request/pegawai.interface";
 
 export const useGetAllPegawaiOption = () => {
   return useQuery({
@@ -93,8 +99,6 @@ export const useDeletePegawai = () => {
   });
 };
 
-
-
 export const useGetAllSuratPegawai = (
   page: number,
   limit: number,
@@ -108,7 +112,11 @@ export const useGetAllSuratPegawai = (
 };
 export const useCreateSuratPegawai = () => {
   const queryClient = useQueryClient();
-  return useMutation<ISuratPegawaiRes, AxiosError<BaseErrorRes>, StoreSuratPegawai>({
+  return useMutation<
+    ISuratPegawaiRes,
+    AxiosError<BaseErrorRes>,
+    StoreSuratPegawai
+  >({
     mutationFn: (formData) => createSuratPegawai(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["createSuratPegawai"] });
@@ -143,7 +151,11 @@ export const useUpdateSuratPegawai = () => {
 };
 export const useDeleteSuratPegawai = () => {
   const queryClient = useQueryClient();
-  return useMutation<ISuratPegawaiRes, AxiosError<BaseErrorRes>, { id: string }>({
+  return useMutation<
+    ISuratPegawaiRes,
+    AxiosError<BaseErrorRes>,
+    { id: string }
+  >({
     mutationFn: ({ id }) => deleteSuratPegawai(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["deleteSuratPegawai"] });

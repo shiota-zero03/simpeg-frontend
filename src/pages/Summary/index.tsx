@@ -23,7 +23,7 @@ export default function Jabatan() {
   const dateDefault = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
   const [search, setSearch] = useState(dateDefault);
 
-  const [showData, setShowData] = useState<PegawaiRes[]>([])
+  const [showData, setShowData] = useState<PegawaiRes[]>([]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -31,9 +31,9 @@ export default function Jabatan() {
   const { data: dataUnit, refetch: refetchUnit } = useGetAllUnitOption();
 
   const DATA_FETCHING = useMemo(() => {
-    if(data) return data.data;
+    if (data) return data.data;
     else return null;
-  }, [data])
+  }, [data]);
 
   const DATA_FETCHING_UNIT = useMemo(() => {
     if (dataUnit && dataUnit.data) {
@@ -41,12 +41,12 @@ export default function Jabatan() {
     } else {
       return null;
     }
-  }, [dataUnit])
+  }, [dataUnit]);
 
   useEffect(() => {
     refetch();
     refetchUnit();
-  }, [])
+  }, []);
 
   return (
     <>
@@ -115,7 +115,11 @@ export default function Jabatan() {
               />
               <CardSummary
                 name={"Jumlah ASN"}
-                count={DATA_FETCHING ? DATA_FETCHING.filter(it => it.statusAsn === true).length : 0}
+                count={
+                  DATA_FETCHING
+                    ? DATA_FETCHING.filter((it) => it.statusAsn === true).length
+                    : 0
+                }
                 iconBackgroundClass={
                   "bg-gradient-to-b from-[#AF52DE] to-[#5F2C78]"
                 }
@@ -123,7 +127,12 @@ export default function Jabatan() {
               />
               <CardSummary
                 name={"Jumlah Non-ASN"}
-                count={DATA_FETCHING ? DATA_FETCHING.filter(it => it.statusAsn === false).length : 0}
+                count={
+                  DATA_FETCHING
+                    ? DATA_FETCHING.filter((it) => it.statusAsn === false)
+                        .length
+                    : 0
+                }
                 iconBackgroundClass={
                   "bg-gradient-to-b from-[#FFBB00] to-[#995900]"
                 }
@@ -131,7 +140,13 @@ export default function Jabatan() {
               />
               <CardSummary
                 name={"Jabatan Fungsional"}
-                count={DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan.fungsionalJob !== null).length : 0}
+                count={
+                  DATA_FETCHING
+                    ? DATA_FETCHING.filter(
+                        (it) => it.jabatan.fungsionalJob !== null,
+                      ).length
+                    : 0
+                }
                 iconBackgroundClass={
                   "bg-gradient-to-b from-[#007AFF] to-[#004999]"
                 }
@@ -168,7 +183,11 @@ export default function Jabatan() {
                         </tr>
                       </thead>
                       <tbody>
-                        {DATA_FETCHING_UNIT?.filter(item => item.nameUnit.toLowerCase().includes('dinas') || item.nameUnit.toLowerCase().includes('uptd')).map((item, index) => (
+                        {DATA_FETCHING_UNIT?.filter(
+                          (item) =>
+                            item.nameUnit.toLowerCase().includes("dinas") ||
+                            item.nameUnit.toLowerCase().includes("uptd"),
+                        ).map((item, index) => (
                           <tr key={index}>
                             <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
                               {index + 1}
@@ -179,13 +198,24 @@ export default function Jabatan() {
                             <td
                               className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                               onClick={() => {
-                                setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.unit.id === item.id) : [])
+                                setShowData(
+                                  DATA_FETCHING
+                                    ? DATA_FETCHING.filter(
+                                        (it) => it.unit.id === item.id,
+                                      )
+                                    : [],
+                                );
                                 setTimeout(() => {
                                   onOpen();
                                 }, 400);
                               }}
                             >
-                              {DATA_FETCHING ? DATA_FETCHING.filter(it => it.unit.id === item.id).length : 0} Orang
+                              {DATA_FETCHING
+                                ? DATA_FETCHING.filter(
+                                    (it) => it.unit.id === item.id,
+                                  ).length
+                                : 0}{" "}
+                              Orang
                             </td>
                           </tr>
                         ))}
@@ -227,7 +257,11 @@ export default function Jabatan() {
                         </tr>
                       </thead>
                       <tbody>
-                        {DATA_FETCHING_UNIT?.filter(item => item.nameUnit.toLowerCase().includes('dinas') || item.nameUnit.toLowerCase().includes('uptd')).map((item, index) => (
+                        {DATA_FETCHING_UNIT?.filter(
+                          (item) =>
+                            item.nameUnit.toLowerCase().includes("dinas") ||
+                            item.nameUnit.toLowerCase().includes("uptd"),
+                        ).map((item, index) => (
                           <tr key={index}>
                             <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
                               {index + 1}
@@ -238,13 +272,28 @@ export default function Jabatan() {
                             <td
                               className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                               onClick={() => {
-                                setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.unit.id === item.id && it.statusAsn === true) : [])
+                                setShowData(
+                                  DATA_FETCHING
+                                    ? DATA_FETCHING.filter(
+                                        (it) =>
+                                          it.unit.id === item.id &&
+                                          it.statusAsn === true,
+                                      )
+                                    : [],
+                                );
                                 setTimeout(() => {
                                   onOpen();
                                 }, 400);
                               }}
                             >
-                              {DATA_FETCHING ? DATA_FETCHING.filter(it => (it.unit.id === item.id && it.statusAsn === true)).length : 0} Orang
+                              {DATA_FETCHING
+                                ? DATA_FETCHING.filter(
+                                    (it) =>
+                                      it.unit.id === item.id &&
+                                      it.statusAsn === true,
+                                  ).length
+                                : 0}{" "}
+                              Orang
                             </td>
                           </tr>
                         ))}
@@ -258,7 +307,12 @@ export default function Jabatan() {
                             Total
                           </th>
                           <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-lg text-center">
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.statusAsn === true).length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) => it.statusAsn === true,
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </th>
                         </tr>
                       </tfoot>
@@ -296,13 +350,28 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN") : [])
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.jabatan?.fungsionalJob ===
+                                        "ANALIS_PERDAGANGAN",
+                                    )
+                                  : [],
+                              );
                               setTimeout(() => {
                                 onOpen();
                               }, 400);
                             }}
                           >
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN").length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.jabatan?.fungsionalJob ===
+                                    "ANALIS_PERDAGANGAN",
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </td>
                         </tr>
                         <tr>
@@ -313,13 +382,31 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MADYA") : [])
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.jabatan?.fungsionalJob ===
+                                          "ANALIS_PERDAGANGAN" &&
+                                        it.jabatan?.jabatanFungsional ===
+                                          "MADYA",
+                                    )
+                                  : [],
+                              );
                               setTimeout(() => {
                                 onOpen();
                               }, 400);
                             }}
                           >
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MADYA").length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.jabatan?.fungsionalJob ===
+                                      "ANALIS_PERDAGANGAN" &&
+                                    it.jabatan?.jabatanFungsional === "MADYA",
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </td>
                         </tr>
                         <tr>
@@ -330,13 +417,31 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MUDA") : [])
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.jabatan?.fungsionalJob ===
+                                          "ANALIS_PERDAGANGAN" &&
+                                        it.jabatan?.jabatanFungsional ===
+                                          "MUDA",
+                                    )
+                                  : [],
+                              );
                               setTimeout(() => {
                                 onOpen();
                               }, 400);
                             }}
                           >
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MUDA").length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.jabatan?.fungsionalJob ===
+                                      "ANALIS_PERDAGANGAN" &&
+                                    it.jabatan?.jabatanFungsional === "MUDA",
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </td>
                         </tr>
                         <tr>
@@ -347,13 +452,31 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "PERTAMA") : [])
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.jabatan?.fungsionalJob ===
+                                          "ANALIS_PERDAGANGAN" &&
+                                        it.jabatan?.jabatanFungsional ===
+                                          "PERTAMA",
+                                    )
+                                  : [],
+                              );
                               setTimeout(() => {
                                 onOpen();
                               }, 400);
                             }}
                           >
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "ANALIS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "PERTAMA").length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.jabatan?.fungsionalJob ===
+                                      "ANALIS_PERDAGANGAN" &&
+                                    it.jabatan?.jabatanFungsional === "PERTAMA",
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </td>
                         </tr>
                       </tbody>
@@ -368,13 +491,28 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN") : [])
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.jabatan?.fungsionalJob ===
+                                        "PENGAWAS_PERDAGANGAN",
+                                    )
+                                  : [],
+                              );
                               setTimeout(() => {
                                 onOpen();
                               }, 400);
                             }}
                           >
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN").length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.jabatan?.fungsionalJob ===
+                                    "PENGAWAS_PERDAGANGAN",
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </td>
                         </tr>
                         <tr>
@@ -385,13 +523,31 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MADYA") : [])
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.jabatan?.fungsionalJob ===
+                                          "PENGAWAS_PERDAGANGAN" &&
+                                        it.jabatan?.jabatanFungsional ===
+                                          "MADYA",
+                                    )
+                                  : [],
+                              );
                               setTimeout(() => {
                                 onOpen();
                               }, 400);
                             }}
                           >
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MADYA").length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.jabatan?.fungsionalJob ===
+                                      "PENGAWAS_PERDAGANGAN" &&
+                                    it.jabatan?.jabatanFungsional === "MADYA",
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </td>
                         </tr>
                         <tr>
@@ -402,13 +558,31 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MUDA") : [])
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.jabatan?.fungsionalJob ===
+                                          "PENGAWAS_PERDAGANGAN" &&
+                                        it.jabatan?.jabatanFungsional ===
+                                          "MUDA",
+                                    )
+                                  : [],
+                              );
                               setTimeout(() => {
                                 onOpen();
                               }, 400);
                             }}
                           >
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "MUDA").length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.jabatan?.fungsionalJob ===
+                                      "PENGAWAS_PERDAGANGAN" &&
+                                    it.jabatan?.jabatanFungsional === "MUDA",
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </td>
                         </tr>
                         <tr>
@@ -419,13 +593,31 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "PERTAMA") : [])
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.jabatan?.fungsionalJob ===
+                                          "PENGAWAS_PERDAGANGAN" &&
+                                        it.jabatan?.jabatanFungsional ===
+                                          "PERTAMA",
+                                    )
+                                  : [],
+                              );
                               setTimeout(() => {
                                 onOpen();
                               }, 400);
                             }}
                           >
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENGAWAS_PERDAGANGAN" && it.jabatan?.jabatanFungsional === "PERTAMA").length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.jabatan?.fungsionalJob ===
+                                      "PENGAWAS_PERDAGANGAN" &&
+                                    it.jabatan?.jabatanFungsional === "PERTAMA",
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </td>
                         </tr>
                       </tbody>
@@ -440,13 +632,26 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA") : [])
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.jabatan?.fungsionalJob === "PENERA",
+                                    )
+                                  : [],
+                              );
                               setTimeout(() => {
                                 onOpen();
                               }, 400);
                             }}
                           >
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA").length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.jabatan?.fungsionalJob === "PENERA",
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </td>
                         </tr>
                         <tr>
@@ -457,13 +662,30 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA" && it.jabatan?.jabatanFungsional === "MADYA") : [])
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.jabatan?.fungsionalJob ===
+                                          "PENERA" &&
+                                        it.jabatan?.jabatanFungsional ===
+                                          "MADYA",
+                                    )
+                                  : [],
+                              );
                               setTimeout(() => {
                                 onOpen();
                               }, 400);
                             }}
                           >
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA" && it.jabatan?.jabatanFungsional === "MADYA").length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.jabatan?.fungsionalJob === "PENERA" &&
+                                    it.jabatan?.jabatanFungsional === "MADYA",
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </td>
                         </tr>
                         <tr>
@@ -474,13 +696,30 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA" && it.jabatan?.jabatanFungsional === "MUDA") : [])
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.jabatan?.fungsionalJob ===
+                                          "PENERA" &&
+                                        it.jabatan?.jabatanFungsional ===
+                                          "MUDA",
+                                    )
+                                  : [],
+                              );
                               setTimeout(() => {
                                 onOpen();
                               }, 400);
                             }}
                           >
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA" && it.jabatan?.jabatanFungsional === "MUDA").length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.jabatan?.fungsionalJob === "PENERA" &&
+                                    it.jabatan?.jabatanFungsional === "MUDA",
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </td>
                         </tr>
                         <tr>
@@ -491,13 +730,30 @@ export default function Jabatan() {
                           <td
                             className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
                             onClick={() => {
-                              setShowData(DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA" && it.jabatan?.jabatanFungsional === "PERTAMA") : [])
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.jabatan?.fungsionalJob ===
+                                          "PENERA" &&
+                                        it.jabatan?.jabatanFungsional ===
+                                          "PERTAMA",
+                                    )
+                                  : [],
+                              );
                               setTimeout(() => {
                                 onOpen();
                               }, 400);
                             }}
                           >
-                            {DATA_FETCHING ? DATA_FETCHING.filter(it => it.jabatan?.fungsionalJob === "PENERA" && it.jabatan?.jabatanFungsional === "PERTAMA").length : 0} Orang
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.jabatan?.fungsionalJob === "PENERA" &&
+                                    it.jabatan?.jabatanFungsional === "PERTAMA",
+                                ).length
+                              : 0}{" "}
+                            Orang
                           </td>
                         </tr>
                       </tbody>

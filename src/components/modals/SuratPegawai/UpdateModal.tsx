@@ -18,7 +18,11 @@ import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { Commet } from "react-loading-indicators";
-import { useGetAllPegawaiOption, useGetDetailSuratPegawai, useUpdateSuratPegawai } from "@/services/pegawai";
+import {
+  useGetAllPegawaiOption,
+  useGetDetailSuratPegawai,
+  useUpdateSuratPegawai,
+} from "@/services/pegawai";
 import { DateYMDFormat } from "@/utils/dateFormater";
 import { StoreSuratPegawai } from "@/interface/request/pegawai.interface";
 
@@ -73,33 +77,33 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
 
   const { data, isFetching, refetch } = useGetDetailSuratPegawai(String(id));
 
-  const changePegawai = ( value: string ) => {
-    if(value) {
-      let pegawaiData = PEGAWAI_SELECT.find(it => it.id === value);
-      if(pegawaiData) {
+  const changePegawai = (value: string) => {
+    if (value) {
+      const pegawaiData = PEGAWAI_SELECT.find((it) => it.id === value);
+      if (pegawaiData) {
         setFormData({
           ...formData,
           userId: pegawaiData.id,
           nip: pegawaiData.nip,
-          jabatan: pegawaiData.jabatan.nameJob
-        })
+          jabatan: pegawaiData.jabatan.nameJob,
+        });
       } else {
         setFormData({
           ...formData,
           userId: "",
           nip: "",
-          jabatan: ""
-        })
+          jabatan: "",
+        });
       }
     } else {
       setFormData({
         ...formData,
         userId: "",
         nip: "",
-        jabatan: ""
-      })
+        jabatan: "",
+      });
     }
-  }
+  };
 
   useEffect(() => {
     if (data) {
@@ -110,7 +114,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
         typeForm: data.data.typeForm,
         description: data.data.description,
       });
-      changePegawai(data.data.userId)
+      changePegawai(data.data.userId);
     }
   }, [isOpen, data]);
 
@@ -124,7 +128,8 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
   const validateData = () => {
     const errors: errorProps = {};
     if (!formData.userId) errors.userId = "Pegawai tidak boleh kosong";
-    if (!formData.typeForm) errors.typeForm = "Tipe pengajuan tidak boleh kosong";
+    if (!formData.typeForm)
+      errors.typeForm = "Tipe pengajuan tidak boleh kosong";
     if (!formData.startDate) errors.startDate = "Tanggal tidak boleh kosong";
 
     return errors;
@@ -144,15 +149,15 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
     setIsLoading(true);
 
     const formToSend: StoreSuratPegawai = {};
-    if(formData.userId) formToSend.userId = formData.userId;
-    if(formData.startDate) formToSend.startDate = formData.startDate;
-    if(formData.endDate) {
+    if (formData.userId) formToSend.userId = formData.userId;
+    if (formData.startDate) formToSend.startDate = formData.startDate;
+    if (formData.endDate) {
       formToSend.endDate = formData.endDate;
     } else {
       formToSend.endDate = formData.startDate;
     }
-    if(formData.typeForm) formToSend.typeForm = formData.typeForm;
-    if(formData.description) formToSend.description = formData.description;
+    if (formData.typeForm) formToSend.typeForm = formData.typeForm;
+    if (formData.description) formToSend.description = formData.description;
 
     try {
       mutatePost(
@@ -212,9 +217,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   variant="bordered"
                   radius="sm"
                   selectedKey={String(formData.userId)}
-                  onSelectionChange={(value) =>
-                    changePegawai(value as string)
-                  }
+                  onSelectionChange={(value) => changePegawai(value as string)}
                   inputProps={{
                     classNames: {
                       input: "text-xs",
@@ -305,7 +308,10 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
               </div>
               <div className="md:col-span-3 col-span-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
-                  {formData.typeForm === "CUTI" ? "Tanggal Mulai" : "Terhitung Mulai Tanggal"} <span className="text-danger">*</span>
+                  {formData.typeForm === "CUTI"
+                    ? "Tanggal Mulai"
+                    : "Terhitung Mulai Tanggal"}{" "}
+                  <span className="text-danger">*</span>
                 </label>
                 <Input
                   aria-label="lokasi"

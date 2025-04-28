@@ -28,28 +28,28 @@ export const EselonData: {
   nama: string;
 }[] = [
   {
-    nama: "JF"
+    nama: "JF",
   },
   {
-    nama: "II.b"
+    nama: "II.b",
   },
   {
-    nama: "III.a"
+    nama: "III.a",
   },
   {
-    nama: "III.b"
+    nama: "III.b",
   },
   {
-    nama: "IV.a"
+    nama: "IV.a",
   },
   {
-    nama: "IV.b"
+    nama: "IV.b",
   },
   {
-    nama: "IX"
+    nama: "IX",
   },
   {
-    nama: "Pelaksana"
+    nama: "Pelaksana",
   },
 ];
 

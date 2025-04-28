@@ -100,13 +100,15 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
   }, [allDataUnit]);
 
   const SubPermenpan = useMemo(() => {
-    if(formData.jabatanPermenpan) {
-      const subJabatan = JabatanPermenpan.find(it => it.key === formData.jabatanPermenpan);
+    if (formData.jabatanPermenpan) {
+      const subJabatan = JabatanPermenpan.find(
+        (it) => it.key === formData.jabatanPermenpan,
+      );
       return subJabatan?.subPermenpan || [];
     } else {
       return [];
     }
-  }, [formData.jabatanPermenpan])
+  }, [formData.jabatanPermenpan]);
 
   useEffect(() => {
     if (data) {
@@ -137,10 +139,12 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
     const errors: errorProps = {};
     if (!formData.nama) errors.nama = "Nama jabatan tidak boleh kosong";
     if (!formData.kelas) errors.kelas = "Kelas jabatan tidak boleh kosong";
-    if (!formData.jabatanPermenpan) errors.kelas = "Jabatan permenpan tidak boleh kosong";
+    if (!formData.jabatanPermenpan)
+      errors.kelas = "Jabatan permenpan tidak boleh kosong";
     if (!formData.subUnor) errors.kelas = "unit kerja tidak boleh kosong";
     if (!formData.unitId) errors.unitId = "Sub unor tidak boleh kosong";
-    if (!formData.ketersediaan) errors.ketersediaan = "Ketersediaan tidak boleh kosong";
+    if (!formData.ketersediaan)
+      errors.ketersediaan = "Ketersediaan tidak boleh kosong";
     return errors;
   };
 
@@ -158,16 +162,19 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
     setIsLoading(true);
 
     const formToSend: StoreJabatan = {};
-    if(formData.nama) formToSend.nameJob = formData.nama;
+    if (formData.nama) formToSend.nameJob = formData.nama;
     formToSend.fungsional = formData.fungsional;
-    if(formData.kelas) formToSend.Class = String(formData.kelas);
-    if(formData.jabatanPermenpan) formToSend.jabatanPermenpan = formData.jabatanPermenpan
-    if(formData.subJabatanPermenpan) formToSend.subJabatanPermenpan = formData.subJabatanPermenpan
-    if(formData.atasan) formToSend.atasan = Number(formData.atasan)
-    if(formData.unitId) formToSend.unitId = Number(formData.unitId)
-    if(formData.subUnor) formToSend.subUnor = formData.subUnor
-    if(formData.eselon) formToSend.eselon = formData.eselon
-    if(formData.ketersediaan) formToSend.ketersediaan = Number(formData.ketersediaan)
+    if (formData.kelas) formToSend.Class = String(formData.kelas);
+    if (formData.jabatanPermenpan)
+      formToSend.jabatanPermenpan = formData.jabatanPermenpan;
+    if (formData.subJabatanPermenpan)
+      formToSend.subJabatanPermenpan = formData.subJabatanPermenpan;
+    if (formData.atasan) formToSend.atasan = Number(formData.atasan);
+    if (formData.unitId) formToSend.unitId = Number(formData.unitId);
+    if (formData.subUnor) formToSend.subUnor = formData.subUnor;
+    if (formData.eselon) formToSend.eselon = formData.eselon;
+    if (formData.ketersediaan)
+      formToSend.ketersediaan = Number(formData.ketersediaan);
 
     try {
       mutatePost(
@@ -225,7 +232,10 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   defaultItems={JabatanPermenpan}
                   selectedKey={String(formData.jabatanPermenpan)}
                   onSelectionChange={(value) =>
-                    setFormData({ ...formData, jabatanPermenpan: value as string })
+                    setFormData({
+                      ...formData,
+                      jabatanPermenpan: value as string,
+                    })
                   }
                   inputProps={{
                     classNames: {
@@ -255,7 +265,10 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   defaultItems={SubPermenpan}
                   selectedKey={String(formData.subJabatanPermenpan)}
                   onSelectionChange={(value) =>
-                    setFormData({ ...formData, subJabatanPermenpan: value as string })
+                    setFormData({
+                      ...formData,
+                      subJabatanPermenpan: value as string,
+                    })
                   }
                   inputProps={{
                     classNames: {
@@ -299,24 +312,24 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   Eselon
                 </label>
                 <Select
-                    selectedKeys={[formData.eselon || ""]}
-                    onChange={(e) =>
-                      setFormData({ ...formData, eselon: e.target.value })
-                    }
-                    aria-label="Judul"
-                    labelPlacement="outside"
-                    placeholder="Pilih eselon"
-                    variant="bordered"
-                    radius="sm"
-                    classNames={{
-                      trigger: "text-xs border-[0.8px]",
-                      value: "text-xs",
-                    }}
-                  >
-                    {EselonData.map((item) => (
-                      <SelectItem key={item.nama}>{item.nama}</SelectItem>
-                    ))}
-                  </Select>
+                  selectedKeys={[formData.eselon || ""]}
+                  onChange={(e) =>
+                    setFormData({ ...formData, eselon: e.target.value })
+                  }
+                  aria-label="Judul"
+                  labelPlacement="outside"
+                  placeholder="Pilih eselon"
+                  variant="bordered"
+                  radius="sm"
+                  classNames={{
+                    trigger: "text-xs border-[0.8px]",
+                    value: "text-xs",
+                  }}
+                >
+                  {EselonData.map((item) => (
+                    <SelectItem key={item.nama}>{item.nama}</SelectItem>
+                  ))}
+                </Select>
                 <div className="text-xs italic text-danger">
                   {formError.eselon}
                 </div>
@@ -389,10 +402,16 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                     value: "text-xs",
                   }}
                 >
-                  <SelectItem key={"PEMERINTAH"} textValue={"Pemerintah Kab. Bekasi"}>
+                  <SelectItem
+                    key={"PEMERINTAH"}
+                    textValue={"Pemerintah Kab. Bekasi"}
+                  >
                     Pemerintah Kab. Bekasi
                   </SelectItem>
-                  <SelectItem key={"DINAS"} textValue={"Dinas Perdangan Kab. Bekasi"}>
+                  <SelectItem
+                    key={"DINAS"}
+                    textValue={"Dinas Perdangan Kab. Bekasi"}
+                  >
                     Dinas Perdangan Kab. Bekasi
                   </SelectItem>
                 </Select>

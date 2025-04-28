@@ -132,32 +132,36 @@ export default function DataProfile() {
             <div>
               <p className="text-sm">Unit Kerja</p>
               <h4 className="font-semibold">
-                {JABATAN_SELECT.find(it => it.id === DATA_FETCHING?.jabatan.id)?.subUnor === "PEMERINTAH" ? "Pemerintah Kab. Bekasi" : "Dinas Perdagangan Kab. Bekasi"}
+                {JABATAN_SELECT.find(
+                  (it) => it.id === DATA_FETCHING?.jabatan.id,
+                )?.subUnor === "PEMERINTAH"
+                  ? "Pemerintah Kab. Bekasi"
+                  : "Dinas Perdagangan Kab. Bekasi"}
               </h4>
             </div>
             <div>
               <p className="text-sm">Sub Unor</p>
               <h4 className="font-semibold">
-                {JABATAN_SELECT.find(it => it.id === DATA_FETCHING?.jabatan.id)?.unit?.nameUnit || "-"}
+                {JABATAN_SELECT.find(
+                  (it) => it.id === DATA_FETCHING?.jabatan.id,
+                )?.unit?.nameUnit || "-"}
               </h4>
             </div>
             <div>
               <p className="text-sm">Eselon</p>
               <h4 className="font-semibold">
-                {JABATAN_SELECT.find(it => it.id === DATA_FETCHING?.jabatan.id)?.eselon || "-"}
+                {JABATAN_SELECT.find(
+                  (it) => it.id === DATA_FETCHING?.jabatan.id,
+                )?.eselon || "-"}
               </h4>
             </div>
             <div>
               <p className="text-sm">Pangkat</p>
-              <h4 className="font-semibold">
-                {DATA_FETCHING?.rank ?? "-"}
-              </h4>
+              <h4 className="font-semibold">{DATA_FETCHING?.rank ?? "-"}</h4>
             </div>
             <div>
               <p className="text-sm">Golongan</p>
-              <h4 className="font-semibold">
-                {DATA_FETCHING?.group ?? "-"}
-              </h4>
+              <h4 className="font-semibold">{DATA_FETCHING?.group ?? "-"}</h4>
             </div>
             <div>
               <p className="text-sm">Status Kepegawaian</p>
@@ -167,9 +171,7 @@ export default function DataProfile() {
             </div>
             <div>
               <p className="text-sm">Email</p>
-              <h4 className="font-semibold">
-                {DATA_FETCHING?.email ?? "-"}
-              </h4>
+              <h4 className="font-semibold">{DATA_FETCHING?.email ?? "-"}</h4>
             </div>
             <div>
               <p className="text-sm">Kontak / No. Whatsapp</p>
@@ -187,7 +189,9 @@ export default function DataProfile() {
             <div>
               <p className="text-sm">Jenis Kelamin</p>
               <h4 className="font-semibold">
-                {DATA_FETCHING?.gender === "LAKI_LAKI" ? "Laki - Laki" : "Perempuan"}
+                {DATA_FETCHING?.gender === "LAKI_LAKI"
+                  ? "Laki - Laki"
+                  : "Perempuan"}
               </h4>
             </div>
             <div>

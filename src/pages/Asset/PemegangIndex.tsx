@@ -1,50 +1,91 @@
 import DataTables from "@/components/DataTables";
-import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
+import {
+  Button,
+  CalendarDate,
+  DateRangePicker,
+  Input,
+  Pagination,
+  RangeValue,
+  useDisclosure,
+} from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
 import { LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
-import CreateModal from "@/components/modals/SuratPegawai/CreatedModal";
-import UpdateModal from "@/components/modals/SuratPegawai/UpdateModal";
-import {
-  useDeleteSuratPegawai,
-  useGetAllSuratPegawai,
-} from "@/services/pegawai";
-import { SuratPegawaiRes } from "@/interface/responses/pegawai.interface";
+import { useNavigate } from "react-router-dom";
+import store from "@/redux/store";
+import { useDeleteAsset, useGetAllAsset } from "@/services/asset/asset";
+import { AssetRes } from "@/interface/responses/asset.interface";
+import { DMYIndoToFormat } from "@/utils/dateFormater";
+import { parseDate } from "@internationalized/date";
+import { LucideEye } from "lucide-react";
+import ViewModal from "@/components/modals/Asset/DeetailAsset";
 
 interface DataProps {
-  id: number;
-  nama: string;
-  nip: string;
-  jabatan: string;
-  tipe: string | null;
+  id: string;
+  tanggal: string;
+  idBarang: string;
+  kodeBarang: string;
+  noRegistrasi: string;
+  kategori: string;
+  harga: string;
+  merk: string;
 }
 
-export default function Unit() {
+export default function AssetIndex() {
+  const role = store.getState().auth.role as string;
+
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
+  const [searchKode, setSearchKode] = useState("");
+
+  const today = new Date();
+  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>({
+    start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
+    end: parseDate(today.toISOString().split("T")[0]),
+  });
+
+  // const formatDateToJakarta = (
+  //   calendarDate: CalendarDate | null | undefined,
+  // ) => {
+  //   if (!calendarDate) return null;
+  //   const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
+  //   return new Intl.DateTimeFormat("id-ID", {
+  //     timeZone: "Asia/Jakarta",
+  //     year: "numeric",
+  //     month: "2-digit",
+  //     day: "2-digit",
+  //   })
+  //     .format(date)
+  //     .split("/")
+  //     .reverse()
+  //     .join("-");
+  // };
+
+  const navigate = useNavigate();
 
   const [startData, setStartData] = useState<number>(0);
   const [endData, setEndData] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const [totalData, setTotalData] = useState<number>(0);
 
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllSuratPegawai(pageIndex + 1, limit, search);
+  } = useGetAllAsset(pageIndex + 1, limit, search);
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
       const data = allData.data;
       setTotalData(data.pagination.totalData || 0);
-      setTotalPages(data.pagination.totalPages || 1);
+      setTotalPages(data.pagination.totalPages || 0);
 
       const start = pageIndex * limit + 1;
       const end = Math.min(
@@ -55,17 +96,15 @@ export default function Unit() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: SuratPegawaiRes) => ({
+      return data.response.map((item: AssetRes) => ({
         id: item.id,
-        nama: item.user.name,
-        nip: item.user.nip,
-        jabatan: item.user.jabatan.nameJob || "-",
-        tipe:
-          item.typeForm === "CUTI"
-            ? "Cuti"
-            : item.typeForm === "KENAIKAN_GAJI"
-              ? "Kenaikan Gaji"
-              : "Kenaikan Pangkat",
+        tanggal: DMYIndoToFormat(item.createdAt),
+        idBarang: item.idBarang,
+        kodeBarang: item.kodeBarang,
+        noRegistrasi: item.nomorRegistrasi,
+        kategori: item.kategori,
+        harga: `Rp ${item.harga.toLocaleString("id-ID")}`,
+        merk: item.merkTipe,
       }));
     } else {
       return [];
@@ -82,26 +121,44 @@ export default function Unit() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
-      accessorKey: "nama",
-      header: "Nama Jabatan",
+      accessorKey: "tanggal",
+      header: "Tanggal",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      accessorKey: "nip",
-      header: "NIP",
+      accessorKey: "idBarang",
+      header: "ID Barang",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      accessorKey: "jabatan",
-      header: "Jabatan",
+      accessorKey: "kodeBarang",
+      header: "Kode Barang",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      accessorKey: "tipe",
-      header: "Tipe",
+      accessorKey: "noRegistrasi",
+      header: "No. Registrasi",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "kategori",
+      header: "Kategori",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "harga",
+      header: "Harga",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "merk",
+      header: "Merk/Tipe",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
@@ -113,28 +170,45 @@ export default function Unit() {
           <div className="flex items-center gap-2 justify-center">
             <Button
               onPress={() => {
-                setSelectedId(id);
-                onOpenUpdate();
+                setSelectedId(id)
+                setTimeout(() => {
+                  onOpenView()
+                }, 100);
               }}
               isIconOnly
               radius="sm"
               size="sm"
-              className="bg-alert-info text-info shadow-sm"
+              className="bg-alert-warning text-warning shadow-sm"
             >
-              <LuPencilLine size={14} />
+              <LucideEye size={14} />
             </Button>
-            <Button
-              onPress={() => {
-                setSelectedId(id);
-                onOpenDelete();
-              }}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-danger text-danger shadow-sm"
-            >
-              <LuTrash2 size={14} />
-            </Button>
+            {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
+              <Button
+                onPress={() => {
+                  navigate(`/manajemen-aset/edit-aset/${id}`);
+                }}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-info text-info shadow-sm"
+              >
+                <LuPencilLine size={14} />
+              </Button>
+            )}
+            {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
+              <Button
+                onPress={() => {
+                  setSelectedId(id);
+                  onOpenDelete();
+                }}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-danger text-danger shadow-sm"
+              >
+                <LuTrash2 size={14} />
+              </Button>
+            )}
           </div>
         );
       },
@@ -148,14 +222,9 @@ export default function Unit() {
     onClose: onCloseDelete,
   } = useDisclosure();
   const {
-    isOpen: isOpenCreate,
-    onOpen: onOpenCreate,
-    onClose: onCloseCreate,
-  } = useDisclosure();
-  const {
-    isOpen: isOpenUpdate,
-    onOpen: onOpenUpdate,
-    onClose: onCloseUpdate,
+    isOpen: isOpenView,
+    onOpen: onOpenView,
+    onClose: onCloseView,
   } = useDisclosure();
 
   const handleSearch = () => {
@@ -165,6 +234,11 @@ export default function Unit() {
 
   const handleReset = () => {
     setSearch("");
+    setSearchKode("");
+    setRangeDate({
+      start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
+      end: parseDate(today.toISOString().split("T")[0]),
+    });
     setPageIndex(0);
     setTimeout(() => {
       refetchData();
@@ -176,7 +250,7 @@ export default function Unit() {
   }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const { mutate: mutateDelete } = useDeleteSuratPegawai();
+  const { mutate: mutateDelete } = useDeleteAsset();
 
   const handleDelete = () => {
     if (isLoadingDelete) return;
@@ -215,36 +289,19 @@ export default function Unit() {
     }
   };
 
-  const handleClose = () => {
-    setSelectedId(null);
-    setPageIndex(0);
-    onCloseCreate();
-    onCloseDelete();
-    onCloseUpdate();
-    refetchData();
-  };
-
   return (
     <>
-      {selectedId && (
-        <DeleteModal
-          isOpen={isOpenDelete}
-          onClose={onCloseDelete}
-          isLoading={isLoadingDelete}
-          handleSubmit={handleDelete}
-        />
-      )}
-      <CreateModal
-        isOpen={isOpenCreate}
-        onClose={onCloseCreate}
-        handleClose={handleClose}
+      <DeleteModal
+        isOpen={isOpenDelete}
+        onClose={onCloseDelete}
+        isLoading={isLoadingDelete}
+        handleSubmit={handleDelete}
       />
       {selectedId && (
-        <UpdateModal
+        <ViewModal
           id={selectedId}
-          isOpen={isOpenUpdate}
-          onClose={onCloseUpdate}
-          handleClose={handleClose}
+          isOpen={isOpenView}
+          onClose={onCloseView}
         />
       )}
       <div>
@@ -261,10 +318,40 @@ export default function Unit() {
                   radius="sm"
                   size="sm"
                   variant="bordered"
-                  placeholder="Cari nama pegawai disini"
+                  placeholder="Cari nama barang/merk"
                   startContent={
                     <LuSearch className="text-accent-gray text-xs" />
                   }
+                  classNames={{
+                    inputWrapper: "border-[0.8px]",
+                    input: "text-xs",
+                  }}
+                />
+                <Input
+                  aria-label="search"
+                  value={searchKode}
+                  onChange={(e) => {
+                    setSearchKode(e.target.value);
+                  }}
+                  radius="sm"
+                  size="sm"
+                  variant="bordered"
+                  placeholder="Cari id, kode, no. reg"
+                  startContent={
+                    <LuSearch className="text-accent-gray text-xs" />
+                  }
+                  classNames={{
+                    inputWrapper: "border-[0.8px]",
+                    input: "text-xs",
+                  }}
+                />
+                <DateRangePicker
+                  aria-label="range-date"
+                  value={rangeDate}
+                  onChange={setRangeDate}
+                  radius="sm"
+                  size="sm"
+                  variant="bordered"
                   classNames={{
                     inputWrapper: "border-[0.8px]",
                     input: "text-xs",
@@ -293,16 +380,18 @@ export default function Unit() {
                 >
                   <BiReset size={12} />
                 </Button>
-                <Button
-                  onPress={() => onOpenCreate()}
-                  variant="solid"
-                  radius="sm"
-                  size="sm"
-                  startContent={<BiSolidPlusSquare size={12} />}
-                  className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                >
-                  Tambah
-                </Button>
+                {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
+                  <Button
+                    onPress={() => navigate(`/manajemen-aset/tambah-aset`)}
+                    variant="solid"
+                    radius="sm"
+                    size="sm"
+                    startContent={<BiSolidPlusSquare size={12} />}
+                    className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                  >
+                    Tambah
+                  </Button>
+                )}
               </div>
             </div>
           </div>

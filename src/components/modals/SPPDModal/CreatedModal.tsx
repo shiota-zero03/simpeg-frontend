@@ -143,7 +143,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   const handleSubmit = () => {
     setIsLoading(true);
     // const formatted = new Date(waktuKegiatan || "").toISOString().slice(0, 10);
-    // console.log(formatted)
+    // (formatted)
     setTimeout(() => {
       handleClose();
       SuccessToast({ text: "Data berhasil ditambahkan" });

@@ -53,7 +53,6 @@ export interface IPegawaiOptionRes extends BaseRes {
   data: PegawaiRes[];
 }
 
-
 export interface SuratPegawaiRes {
   id: number;
   userId: string;
@@ -70,8 +69,8 @@ export interface SuratPegawaiRes {
     jabatan: {
       id: number;
       nameJob: string;
-    }
-  }
+    };
+  };
 }
 
 export interface ISuratPegawaiListRes extends BaseRes {

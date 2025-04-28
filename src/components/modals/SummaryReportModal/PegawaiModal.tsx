@@ -11,8 +11,6 @@ interface props {
 }
 
 const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
-  console.log(pegawai);
-
   // const pegawai = PegawaiDummy;
 
   return (
@@ -66,13 +64,16 @@ const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={4} className="py-4 border-b-2 border-x-2 border-accent-gray text-center">
+                      <td
+                        colSpan={4}
+                        className="py-4 border-b-2 border-x-2 border-accent-gray text-center"
+                      >
                         <div className="w-full flex items-center justify-center flex-col text-primary opacity-20">
-                            <TbFaceIdError size={120} />
-                            <span className="italic text-xl font-semibold">
-                              No Data Found
-                            </span>
-                          </div>
+                          <TbFaceIdError size={120} />
+                          <span className="italic text-xl font-semibold">
+                            No Data Found
+                          </span>
+                        </div>
                       </td>
                     </tr>
                   )}
