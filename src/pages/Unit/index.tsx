@@ -22,7 +22,7 @@ interface DataProps {
 }
 
 export default function Unit() {
-  const limit = 10;
+  const limit = 20;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
 
@@ -54,13 +54,15 @@ export default function Unit() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: UnitRes) => ({
-        id: item.id,
-        idUnit: item.idUnit,
-        capacity: item.ketersediaan || 0,
-        nameUnit: item.nameUnit,
-        description: item.description,
-      }));
+      return data.response
+        .sort((a, b) => a.id - b.id)
+        .map((item: UnitRes) => ({
+          id: item.id,
+          idUnit: item.idUnit,
+          capacity: item.ketersediaan || 0,
+          nameUnit: item.nameUnit,
+          description: item.description,
+        }));
     } else {
       return [];
     }
@@ -88,14 +90,8 @@ export default function Unit() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "capacity",
-      header: "Ketersediaan",
-      cell: (info) => (info.getValue() as number) || 0,
-      // meta: { align: "center" },
-    },
-    {
       accessorKey: "description",
-      header: "Keterangan",
+      header: "Tugas dan Fungsi",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },

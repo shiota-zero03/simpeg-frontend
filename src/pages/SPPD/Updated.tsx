@@ -568,8 +568,6 @@ export default function UpdateSPPD() {
         });
       });
     }
-
-    console.log(participantData);
     if (formData.nomorSurat) formToSendData.nomorSurat = formData.nomorSurat;
     if (formData.type) formToSendData.type = formData.type;
     if (formData.type === "PERJALANAN_BIASA") {

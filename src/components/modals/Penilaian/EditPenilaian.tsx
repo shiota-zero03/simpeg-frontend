@@ -257,8 +257,6 @@ const EditPenilaian = ({
     dataToSend.attitudeProofBobot = formData.attitudeAttach;
     dataToSend.bulanTahun = `${month}-01`;
 
-    console.log(dataToSend);
-
     try {
       mutateUpdate(dataToSend, {
         onSuccess: () => {

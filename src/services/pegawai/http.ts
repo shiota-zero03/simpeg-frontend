@@ -1,9 +1,14 @@
 import instance from "@/api/axios";
-import { StorePegawai } from "@/interface/request/pegawai.interface";
+import {
+  StorePegawai,
+  StoreSuratPegawai,
+} from "@/interface/request/pegawai.interface";
 import {
   IPegawaiListRes,
   IPegawaiOptionRes,
   IPegawaiRes,
+  ISuratPegawaiListRes,
+  ISuratPegawaiRes,
 } from "@/interface/responses/pegawai.interface";
 
 export const getAllPegawaiOption = async (): Promise<IPegawaiOptionRes> => {
@@ -49,5 +54,47 @@ export const updatePegawai = async (
 };
 export const deletePegawai = async (id: string): Promise<IPegawaiRes> => {
   const response = await instance.delete(`/admin/pegawai/delete/${id}`);
+  return response.data;
+};
+
+export const getAllSuratPegawai = async (
+  page: number,
+  limit: number,
+  title?: string,
+): Promise<ISuratPegawaiListRes> => {
+  const params = new URLSearchParams();
+
+  if (page) params.set("page", page.toString());
+  if (limit) params.set("limit", limit.toString());
+  if (title) params.set("name", title);
+  const response = await instance.get(`/admin/type-form?${params.toString()}`);
+  return response.data;
+};
+export const createSuratPegawai = async (
+  formData: StoreSuratPegawai,
+): Promise<ISuratPegawaiRes> => {
+  const response = await instance.post(`/admin/type-form/create`, formData);
+  return response.data;
+};
+export const getDetailSuratPegawai = async (
+  id: string,
+): Promise<ISuratPegawaiRes> => {
+  const response = await instance.get(`/admin/type-form/${id}`);
+  return response.data;
+};
+export const updateSuratPegawai = async (
+  id: string,
+  formData: StoreSuratPegawai,
+): Promise<ISuratPegawaiRes> => {
+  const response = await instance.put(
+    `/admin/type-form/update/${id}`,
+    formData,
+  );
+  return response.data;
+};
+export const deleteSuratPegawai = async (
+  id: string,
+): Promise<ISuratPegawaiRes> => {
+  const response = await instance.delete(`/admin/type-form/delete/${id}`);
   return response.data;
 };

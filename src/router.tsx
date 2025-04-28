@@ -114,6 +114,10 @@ const CreateKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Created"));
 const ViewKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Detail"));
 const ExportKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Export"));
 
+const Asset = lazy(() => import("@/pages/Asset"));
+const AssetCreated = lazy(() => import("@/pages/Asset/Asset/Created"));
+const AssetUpdated = lazy(() => import("@/pages/Asset/Asset/Updated"));
+
 export default function Router() {
   return (
     <Suspense fallback={<LoaderPage />}>
@@ -152,6 +156,16 @@ export default function Router() {
           <Route path="/sppd" element={<SPPD />} />
           <Route path="/sppd/tambah-data" element={<CreateSPPD />} />
           <Route path="/sppd/update-data/:id" element={<UpdateSPPD />} />
+
+          <Route path="/manajemen-aset" element={<Asset />} />
+          <Route
+            path="/manajemen-aset/tambah-aset"
+            element={<AssetCreated />}
+          />
+          <Route
+            path="/manajemen-aset/edit-aset/:id"
+            element={<AssetUpdated />}
+          />
 
           <Route path="/dialog-kinerja" element={<IKP />} />
           <Route path="/dialog-kinerja/tambah-data" element={<TambahIKP />} />
@@ -278,10 +292,7 @@ export default function Router() {
           path="/penilaian-kinerja/export-pdf/:id"
           element={<ExportPenilaian />}
         />
-        <Route
-          path="/sppd/export-pdf/:id"
-          element={<ExportSPPD />}
-        />
+        <Route path="/sppd/export-pdf/:id" element={<ExportSPPD />} />
 
         <Route path="*" element={<Error404 />} />
       </Routes>

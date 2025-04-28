@@ -26,13 +26,12 @@ import {
   RoleAccess,
   pendidikanTerakhir,
   GolonganData,
-  EselonData,
+  PangkatData,
 } from "@/constants/DummyData";
 import { LucideEye, LucideEyeClosed, LucideXCircle } from "lucide-react";
 import { convertFileToBase64 } from "@/utils/base64Formater";
 import { FaCheckCircle } from "react-icons/fa";
 import { useGetAllJabatanOption } from "@/services/jabatan";
-import { useGetAllUnitOption } from "@/services/unit";
 import { useCreatePegawai } from "@/services/pegawai";
 import { StorePegawai } from "@/interface/request/pegawai.interface";
 import { AxiosError } from "axios";
@@ -42,59 +41,48 @@ interface formProps {
   role: string;
   nama: string;
   nip: string;
-  email: string;
+  gender?: string | null;
   jabatan: string;
+  tingkatanJabatan?: string | null;
   asnStatus: boolean;
-  isPimpinan: boolean;
-  dinas: string;
-  eselon: string;
+  pangkat?: string | null;
   golongan: string;
-  whatsapp: string;
   statusPegawai: string;
-  isActive: boolean;
   password: string;
   passwordConfirmation: string;
-
-  gender?: string | null;
   noTelp?: string | null;
+  email: string;
+  isActive: boolean;
   tempatLahir?: string | null;
   tanggalLahir?: string | null;
-  pangkat?: string | null;
   pendidikanTerakhir?: string | null;
   usiaPensiun?: number | null;
   tanggalPensiun?: string | null;
-  tanggalTMT?: string | null;
-  tanggalKGB?: string | null;
   foto?: string | null;
+  isFungsional: boolean;
 }
 
 interface errorProps {
   role?: string;
   nama?: string;
   nip?: string;
-  email?: string;
+  gender?: string;
   jabatan?: string;
+  tingkatanJabatan?: string;
   asnStatus?: string;
-  isPimpinan?: string;
-  dinas?: string;
-  eselon?: string;
+  pangkat?: string;
   golongan?: string;
-  whatsapp?: string;
   statusPegawai?: string;
-  isActive?: string;
   password?: string;
   passwordConfirmation?: string;
-
-  gender?: string;
   noTelp?: string;
+  email?: string;
+  isActive?: string;
   tempatLahir?: string;
   tanggalLahir?: string;
-  pangkat?: string;
   pendidikanTerakhir?: string;
   usiaPensiun?: string;
   tanggalPensiun?: string;
-  tanggalTMT?: string;
-  tanggalKGB?: string;
   foto?: string;
 }
 
@@ -104,30 +92,25 @@ export default function CreatePegawai() {
     role: "",
     nama: "",
     nip: "",
-    email: "",
+    gender: null,
     jabatan: "",
+    tingkatanJabatan: "",
     asnStatus: false,
-    isPimpinan: false,
-    dinas: "",
-    eselon: "",
+    pangkat: null,
     golongan: "",
-    whatsapp: "",
     statusPegawai: "",
-    isActive: true,
     password: "",
     passwordConfirmation: "",
-
-    gender: null,
     noTelp: null,
+    email: "",
+    isActive: true,
     tempatLahir: null,
     tanggalLahir: null,
-    pangkat: null,
     pendidikanTerakhir: null,
     usiaPensiun: null,
     tanggalPensiun: null,
-    tanggalTMT: null,
-    tanggalKGB: null,
     foto: null,
+    isFungsional: false,
   });
 
   const [formError, setFormError] = useState<errorProps>({});
@@ -147,25 +130,15 @@ export default function CreatePegawai() {
     return allStatusPegawai;
   }, [allStatusPegawai]);
 
-  const allEselon = EselonData;
-  const DATA_ESELON = useMemo(() => {
-    return allEselon;
-  }, [allEselon]);
-
   const allGolongan = GolonganData;
   const DATA_GOLONGAN = useMemo(() => {
     return allGolongan;
   }, [allGolongan]);
 
-  const {
-    data: dinasData,
-    isFetching: isFetchingUnit,
-    refetch: refetchUnit,
-  } = useGetAllUnitOption();
-  const DINAS_SELECT = useMemo(() => {
-    if (!dinasData) return [];
-    return dinasData.data;
-  }, [dinasData]);
+  const allPangkat = PangkatData;
+  const DATA_PANGKAT = useMemo(() => {
+    return allPangkat;
+  }, [allPangkat]);
 
   const pendidikanData = pendidikanTerakhir;
   const PENDIDIKAN_SELECT = useMemo(() => {
@@ -185,7 +158,6 @@ export default function CreatePegawai() {
     if (!formData.jabatan) error.jabatan = "Jabatan tidak boleh kosong";
     if (formData.asnStatus === null || formData.asnStatus === undefined)
       error.asnStatus = "Status ASN harus dipilih";
-    if (!formData.dinas) error.dinas = "Unit tidak boleh kosong";
     if (!formData.gender) error.gender = "Jenis kelamin tidak boleh kosong";
     // if (!formData.foto) error.foto = "Foto pegawai tidak boleh kosong";
     if (!formData.noTelp) error.noTelp = "Nomor Telepon tidak boleh kosong";
@@ -210,34 +182,28 @@ export default function CreatePegawai() {
       role: "",
       nama: "",
       nip: "",
-      email: "",
+      gender: null,
       jabatan: "",
+      tingkatanJabatan: "",
       asnStatus: false,
-      isPimpinan: false,
-      dinas: "",
-      eselon: "",
+      pangkat: null,
       golongan: "",
-      whatsapp: "",
       statusPegawai: "",
-      isActive: true,
       password: "",
       passwordConfirmation: "",
-
-      gender: null,
       noTelp: null,
+      email: "",
+      isActive: true,
       tempatLahir: null,
       tanggalLahir: null,
-      pangkat: null,
       pendidikanTerakhir: null,
       usiaPensiun: null,
       tanggalPensiun: null,
-      tanggalTMT: null,
-      tanggalKGB: null,
       foto: null,
+      isFungsional: false,
     });
     setShowPassword(false);
     refetchJabatan();
-    refetchUnit();
   }, []);
 
   const navigate = useNavigate();
@@ -269,6 +235,7 @@ export default function CreatePegawai() {
     }
 
     const formToSend: StorePegawai = {};
+
     if (formData.nama) formToSend.name = formData.nama;
     if (formData.email) formToSend.email = formData.email;
     if (formData.password) formToSend.password = formData.password;
@@ -283,7 +250,8 @@ export default function CreatePegawai() {
     if (formData.tempatLahir) formToSend.tempatLahir = formData.tempatLahir;
     if (formData.pangkat) formToSend.rank = formData.pangkat;
     if (formData.golongan) formToSend.group = formData.golongan;
-    if (formData.eselon) formToSend.eselon = formData.eselon;
+    if (formData.gender) formToSend.gender = formData.gender;
+
     if (formData.jabatan) formToSend.position = Number(formData.jabatan);
     if (formData.pendidikanTerakhir)
       formToSend.education = formData.pendidikanTerakhir;
@@ -293,30 +261,16 @@ export default function CreatePegawai() {
     } else {
       formToSend.pensionDate = null;
     }
-    if (formData.tanggalTMT) {
-      formToSend.employmentDate = formData.tanggalTMT;
-    } else {
-      formToSend.employmentDate = null;
-    }
     if (formData.foto) formToSend.photo = formData.foto;
     if (formData.statusPegawai)
       formToSend.employmentStatus = formData.statusPegawai;
-    if (formData.dinas) formToSend.unit = Number(formData.dinas);
-    if (formData.tanggalKGB) {
-      formToSend.tanggalKGB = formData.tanggalKGB;
-    } else {
-      formToSend.tanggalKGB = null;
-    }
-
-    if (formData.gender) formToSend.gender = formData.gender;
     formToSend.status = formData.isActive;
-    formToSend.isPimpinan = formData.isPimpinan;
     formToSend.statusAsn = formData.asnStatus;
 
     try {
       mutatePost(formToSend, {
         onSuccess: () => {
-          SuccessToast({ text: "Data berhasil diperbarui" });
+          SuccessToast({ text: "Data berhasil ditambahkan" });
           navigate("/pegawai");
         },
         onError: (error: AxiosError<BaseErrorRes>) => {
@@ -347,6 +301,20 @@ export default function CreatePegawai() {
     }
   };
 
+  useEffect(() => {
+    if (formData.jabatan) {
+      if (
+        JABATAN_SELECT.find((it) => it.id === Number(formData.jabatan))
+          ?.fungsional
+      ) {
+        setFormData({ ...formData, isFungsional: true });
+      } else {
+        setFormData({ ...formData, isFungsional: false });
+      }
+    } else {
+      setFormData({ ...formData, isFungsional: false });
+    }
+  }, [formData.jabatan]);
   return (
     <>
       <BreadcrumbAdmin location="/Pegawai/Tambah-Data" />
@@ -471,179 +439,159 @@ export default function CreatePegawai() {
                         htmlFor="content"
                         className="font-semibold text-xs"
                       >
-                        Email <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                    <Input
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      aria-label="Judul"
-                      labelPlacement="outside"
-                      placeholder="Masukkan disini"
-                      variant="bordered"
-                      radius="sm"
-                      classNames={{
-                        inputWrapper: "border-[0.8px]",
-                        input: "text-xs",
-                      }}
-                    />
-                    <div className="text-danger text-[0.7rem] mt-1">
-                      {formError.email}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
-                      >
-                        Jabatan <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                    <Autocomplete
-                      isLoading={isFetchingJabatan}
-                      aria-label="pegawai"
-                      placeholder="Cari jabatan"
-                      variant="bordered"
-                      radius="sm"
-                      defaultItems={JABATAN_SELECT}
-                      selectedKey={String(formData.jabatan)}
-                      onSelectionChange={(value) =>
-                        setFormData({ ...formData, jabatan: value as string })
-                      }
-                      inputProps={{
-                        classNames: {
-                          input: "text-xs",
-                          inputWrapper: "border-[0.8px]",
-                        },
-                      }}
-                    >
-                      {(peg) => (
-                        <AutocompleteItem key={peg.id} textValue={peg.nameJob}>
-                          {peg.nameJob}
-                        </AutocompleteItem>
-                      )}
-                    </Autocomplete>
-                    <div className="text-xs italic text-danger">
-                      {formError.jabatan}
-                    </div>
-                  </div>
-                  <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
-                    <div>
-                      <div className="mb-1">
-                        <label
-                          htmlFor="content"
-                          className="font-semibold text-xs"
-                        >
-                          Status Pimpinan <span className="text-danger">*</span>
-                        </label>
-                      </div>
-                      <RadioGroup
-                        size="sm"
-                        value={formData.isPimpinan ? "YA" : "TIDAK"}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            isPimpinan: e.target.value === "YA" ? true : false,
-                          }))
-                        }
-                        orientation="horizontal"
-                        className="ms-4"
-                      >
-                        <Radio value={"YA"} key={"YA"}>
-                          Ya
-                        </Radio>
-                        <Radio value={"TIDAK"} key={"TIDAK"}>
-                          Tidak
-                        </Radio>
-                      </RadioGroup>
-                    </div>
-                    <div>
-                      <div className="mb-1">
-                        <label
-                          htmlFor="content"
-                          className="font-semibold text-xs"
-                        >
-                          Status ASN <span className="text-danger">*</span>
-                        </label>
-                      </div>
-                      <RadioGroup
-                        size="sm"
-                        value={formData.asnStatus ? "ASN" : "NON-ASN"}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            asnStatus: e.target.value === "ASN" ? true : false,
-                          }))
-                        }
-                        orientation="horizontal"
-                        className="ms-4"
-                      >
-                        <Radio value={"ASN"} key={"ASN"}>
-                          ASN
-                        </Radio>
-                        <Radio value={"NON-ASN"} key={"NON-ASN"}>
-                          Non-ASN
-                        </Radio>
-                      </RadioGroup>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
-                      >
-                        Unit <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                    <Autocomplete
-                      aria-label="pegawai"
-                      isLoading={isFetchingUnit}
-                      placeholder="Cari unit"
-                      variant="bordered"
-                      radius="sm"
-                      defaultItems={DINAS_SELECT}
-                      selectedKey={String(formData.dinas)}
-                      onSelectionChange={(value) =>
-                        setFormData({ ...formData, dinas: value as string })
-                      }
-                      inputProps={{
-                        classNames: {
-                          input: "text-xs",
-                          inputWrapper: "border-[0.8px]",
-                        },
-                      }}
-                    >
-                      {(peg) => (
-                        <AutocompleteItem key={peg.id} textValue={peg.nameUnit}>
-                          {peg.nameUnit}
-                        </AutocompleteItem>
-                      )}
-                    </Autocomplete>
-                    <div className="text-xs italic text-danger">
-                      {formError.dinas}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
-                      >
-                        Eselon
+                        Jenis Kelamin <span className="text-danger">*</span>
                       </label>
                     </div>
                     <Select
-                      selectedKeys={[formData.eselon]}
+                      selectedKeys={[formData.gender || ""]}
                       onChange={(e) =>
-                        setFormData({ ...formData, eselon: e.target.value })
+                        setFormData({
+                          ...formData,
+                          gender: e.target.value,
+                        })
                       }
                       aria-label="Judul"
                       labelPlacement="outside"
-                      placeholder="Pilih eselon"
+                      placeholder="Pilih disini"
+                      variant="bordered"
+                      radius="sm"
+                      classNames={{
+                        trigger: "border-[0.8px]",
+                        value: "text-xs",
+                      }}
+                    >
+                      <SelectItem key={"LAKI_LAKI"}>Laki - Laki</SelectItem>
+                      <SelectItem key={"PEREMPUAN"}>Perempuan</SelectItem>
+                    </Select>
+                    <div className="text-xs italic text-danger">
+                      {formError.gender}
+                    </div>
+                  </div>
+                  <div className="sm:col-span-2 flex sm:flex-row flex-col gap-2">
+                    <div className="flex-1">
+                      <div className="mb-1">
+                        <label
+                          htmlFor="content"
+                          className="font-semibold text-xs"
+                        >
+                          Jabatan <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      <Autocomplete
+                        isLoading={isFetchingJabatan}
+                        aria-label="pegawai"
+                        placeholder="Cari jabatan"
+                        variant="bordered"
+                        radius="sm"
+                        defaultItems={JABATAN_SELECT}
+                        selectedKey={String(formData.jabatan)}
+                        onSelectionChange={(value) =>
+                          setFormData({ ...formData, jabatan: value as string })
+                        }
+                        inputProps={{
+                          classNames: {
+                            input: "text-xs",
+                            inputWrapper: "border-[0.8px]",
+                          },
+                        }}
+                      >
+                        {(peg) => (
+                          <AutocompleteItem
+                            key={peg.id}
+                            textValue={peg.nameJob}
+                          >
+                            {peg.nameJob}
+                          </AutocompleteItem>
+                        )}
+                      </Autocomplete>
+                      <div className="text-xs italic text-danger">
+                        {formError.jabatan}
+                      </div>
+                    </div>
+                    {formData.isFungsional && (
+                      <div className="flex-1">
+                        <div className="mb-1">
+                          <label
+                            htmlFor="content"
+                            className="font-semibold text-xs"
+                          >
+                            Tingkatan Jabatan
+                          </label>
+                        </div>
+                        <Select
+                          selectedKeys={[formData.tingkatanJabatan || ""]}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              tingkatanJabatan: e.target.value,
+                            })
+                          }
+                          aria-label="Judul"
+                          labelPlacement="outside"
+                          placeholder="Pilih disini"
+                          variant="bordered"
+                          radius="sm"
+                          classNames={{
+                            trigger: "border-[0.8px]",
+                            value: "text-xs",
+                          }}
+                        >
+                          <SelectItem key={"PERTAMA"}>Pertama</SelectItem>
+                          <SelectItem key={"MUDA"}>Muda</SelectItem>
+                          <SelectItem key={"MADYA"}>Madya</SelectItem>
+                        </Select>
+                        <div className="text-xs italic text-danger">
+                          {formError.tingkatanJabatan}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <div className="mb-2">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
+                        Status ASN <span className="text-danger">*</span>
+                      </label>
+                    </div>
+                    <RadioGroup
+                      size="sm"
+                      value={formData.asnStatus ? "ASN" : "NON-ASN"}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          asnStatus: e.target.value === "ASN" ? true : false,
+                        }))
+                      }
+                      orientation="horizontal"
+                      className="ms-4"
+                    >
+                      <Radio value={"ASN"} key={"ASN"}>
+                        ASN
+                      </Radio>
+                      <Radio value={"NON-ASN"} key={"NON-ASN"}>
+                        Non-ASN
+                      </Radio>
+                    </RadioGroup>
+                  </div>
+                  <div>
+                    <div className="mb-1">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
+                        Pangkat
+                      </label>
+                    </div>
+                    <Select
+                      selectedKeys={[formData.pangkat || ""]}
+                      onChange={(e) =>
+                        setFormData({ ...formData, pangkat: e.target.value })
+                      }
+                      aria-label="Judul"
+                      labelPlacement="outside"
+                      placeholder="Pilih pangkat"
                       variant="bordered"
                       radius="sm"
                       classNames={{
@@ -651,12 +599,12 @@ export default function CreatePegawai() {
                         value: "text-xs",
                       }}
                     >
-                      {DATA_ESELON.map((item) => (
+                      {DATA_PANGKAT.map((item) => (
                         <SelectItem key={item.nama}>{item.nama}</SelectItem>
                       ))}
                     </Select>
                     <div className="text-xs italic text-danger">
-                      {formError.eselon}
+                      {formError.pangkat}
                     </div>
                   </div>
                   <div>
@@ -669,7 +617,7 @@ export default function CreatePegawai() {
                       </label>
                     </div>
                     <Select
-                      selectedKeys={[formData.golongan]}
+                      selectedKeys={[formData.golongan || ""]}
                       onChange={(e) =>
                         setFormData({ ...formData, golongan: e.target.value })
                       }
@@ -684,7 +632,7 @@ export default function CreatePegawai() {
                       }}
                     >
                       {DATA_GOLONGAN.map((item) => (
-                        <SelectItem key={item.nama}>{item.nama}</SelectItem>
+                        <SelectItem key={item.key}>{item.nama}</SelectItem>
                       ))}
                     </Select>
                     <div className="text-xs italic text-danger">
@@ -813,15 +761,6 @@ export default function CreatePegawai() {
                       {formError.passwordConfirmation}
                     </div>
                   </div>
-                </div>
-              </CardBody>
-            </Card>
-            <Card shadow="none" className="border p-4">
-              <CardHeader className="text-sm font-semibold">
-                Data Lainnya
-              </CardHeader>
-              <CardBody>
-                <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
                   <div>
                     <div className="mb-1">
                       <label
@@ -858,35 +797,38 @@ export default function CreatePegawai() {
                         htmlFor="content"
                         className="font-semibold text-xs"
                       >
-                        Jenis Kelamin <span className="text-danger">*</span>
+                        Email <span className="text-danger">*</span>
                       </label>
                     </div>
-                    <Select
-                      selectedKeys={[formData.gender || ""]}
+                    <Input
+                      value={formData.email}
                       onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          gender: e.target.value,
-                        })
+                        setFormData({ ...formData, email: e.target.value })
                       }
                       aria-label="Judul"
                       labelPlacement="outside"
-                      placeholder="Pilih disini"
+                      placeholder="Masukkan disini"
                       variant="bordered"
                       radius="sm"
                       classNames={{
-                        trigger: "border-[0.8px]",
-                        value: "text-xs",
+                        inputWrapper: "border-[0.8px]",
+                        input: "text-xs",
                       }}
-                    >
-                      <SelectItem key={"LAKI_LAKI"}>Laki - Laki</SelectItem>
-                      <SelectItem key={"PEREMPUAN"}>Perempuan</SelectItem>
-                    </Select>
-                    <div className="text-xs italic text-danger">
-                      {formError.gender}
+                    />
+                    <div className="text-danger text-[0.7rem] mt-1">
+                      {formError.email}
                     </div>
                   </div>
-                  <div>
+                </div>
+              </CardBody>
+            </Card>
+            <Card shadow="none" className="border p-4">
+              <CardHeader className="text-sm font-semibold">
+                Data Lainnya
+              </CardHeader>
+              <CardBody>
+                <div className="grid sm:grid-cols-6 grid-cols-1 gap-2">
+                  <div className="sm:col-span-2 col-span-1">
                     <div className="mb-1">
                       <label
                         htmlFor="content"
@@ -917,7 +859,7 @@ export default function CreatePegawai() {
                       {formError.tempatLahir}
                     </div>
                   </div>
-                  <div>
+                  <div className="sm:col-span-2 col-span-1">
                     <div className="mb-1">
                       <label
                         htmlFor="content"
@@ -949,35 +891,7 @@ export default function CreatePegawai() {
                       {formError.tanggalLahir}
                     </div>
                   </div>
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
-                      >
-                        Pangkat
-                      </label>
-                    </div>
-                    <Input
-                      value={formData.pangkat || ""}
-                      onChange={(e) =>
-                        setFormData({ ...formData, pangkat: e.target.value })
-                      }
-                      aria-label="Judul"
-                      labelPlacement="outside"
-                      placeholder="Masukkan disini"
-                      variant="bordered"
-                      radius="sm"
-                      classNames={{
-                        inputWrapper: "border-[0.8px]",
-                        input: "text-xs",
-                      }}
-                    />
-                    <div className="text-danger text-[0.7rem] mt-1">
-                      {formError.pangkat}
-                    </div>
-                  </div>
-                  <div>
+                  <div className="sm:col-span-2 col-span-1">
                     <div className="mb-1">
                       <label
                         htmlFor="content"
@@ -1016,7 +930,7 @@ export default function CreatePegawai() {
                       {formError.pendidikanTerakhir}
                     </div>
                   </div>
-                  <div>
+                  <div className="sm:col-span-3 col-span-1">
                     <div className="mb-1">
                       <label
                         htmlFor="content"
@@ -1048,7 +962,7 @@ export default function CreatePegawai() {
                       {formError.usiaPensiun}
                     </div>
                   </div>
-                  <div>
+                  <div className="sm:col-span-3 col-span-1">
                     <div className="mb-1">
                       <label
                         htmlFor="content"
@@ -1080,65 +994,7 @@ export default function CreatePegawai() {
                       {formError.tanggalPensiun}
                     </div>
                   </div>
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
-                      >
-                        Tanggal TMT
-                      </label>
-                    </div>
-                    <Input
-                      type="date"
-                      value={formData.tanggalTMT || ""}
-                      onChange={(e) =>
-                        setFormData({ ...formData, tanggalTMT: e.target.value })
-                      }
-                      aria-label="Judul"
-                      labelPlacement="outside"
-                      placeholder="Masukkan disini"
-                      variant="bordered"
-                      radius="sm"
-                      classNames={{
-                        inputWrapper: "border-[0.8px]",
-                        input: "text-xs",
-                      }}
-                    />
-                    <div className="text-danger text-[0.7rem] mt-1">
-                      {formError.tanggalTMT}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
-                      >
-                        Tanggal KGB
-                      </label>
-                    </div>
-                    <Input
-                      type="date"
-                      value={formData.tanggalKGB || ""}
-                      onChange={(e) =>
-                        setFormData({ ...formData, tanggalKGB: e.target.value })
-                      }
-                      aria-label="Judul"
-                      labelPlacement="outside"
-                      placeholder="Masukkan disini"
-                      variant="bordered"
-                      radius="sm"
-                      classNames={{
-                        inputWrapper: "border-[0.8px]",
-                        input: "text-xs",
-                      }}
-                    />
-                    <div className="text-danger text-[0.7rem] mt-1">
-                      {formError.tanggalKGB}
-                    </div>
-                  </div>
-                  <div className="sm:col-span-2 col-span-1">
+                  <div className="sm:col-span-6 col-span-1">
                     <div className="max-w-80">
                       <div className="mb-1">
                         <label

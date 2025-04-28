@@ -49,7 +49,7 @@ export const SidebarMenuData: SidebarProps[] = [
         icon: PiTreeStructure,
       },
       {
-        name: "Unit Kerja",
+        name: "Unit",
         key: "unit",
         link: "/unit",
         icon: PiBuildingApartment,
@@ -119,9 +119,9 @@ export const SidebarMenuData: SidebarProps[] = [
       },
       { name: "SPPD", key: "sppd", link: "/sppd", icon: LuMails },
       {
-        name: "Manajemen Asset",
-        key: "asset",
-        link: "#",
+        name: "Manajemen Aset",
+        key: "manajemen-aset",
+        link: "/manajemen-aset",
         icon: PiSuitcaseSimpleLight,
       },
       {

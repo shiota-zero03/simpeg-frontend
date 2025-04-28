@@ -20,6 +20,9 @@ import { useCreateJabatan, useGetAllJabatanOption } from "@/services/jabatan";
 import { StoreJabatan } from "@/interface/request/jabatan.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
+import { JabatanPermenpan } from "@/constants/Jabatan";
+import { useGetAllUnitOption } from "@/services/unit";
+import { EselonData } from "@/constants/DummyData";
 
 interface props {
   isOpen: boolean;
@@ -29,22 +32,27 @@ interface props {
 
 interface formProps {
   nama: string;
-  singkatan: string;
-  kelas: number | null;
-  atasan: string | null;
   fungsional: boolean;
-  fungsionalJob: string | null;
-  jabatanFungsional: string | null;
+  kelas: number | null;
+  jabatanPermenpan: string | null;
+  subJabatanPermenpan: string | null;
+  atasan: string | null;
+  unitId: string | null;
+  subUnor: string | null;
+  eselon: string | null;
+  ketersediaan: string | null;
 }
 
 interface errorProps {
   nama?: string;
-  singkatan?: string;
   kelas?: string;
+  jabatanPermenpan?: string;
+  subJabatanPermenpan?: string;
   atasan?: string;
-  fungsional?: string;
-  fungsionalJob?: string;
-  jabatanFungsional?: string;
+  unitId?: string;
+  subUnor?: string;
+  eselon?: string;
+  ketersediaan?: string;
 }
 
 const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
@@ -52,12 +60,15 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
 
   const [formData, setFormData] = useState<formProps>({
     nama: "",
-    singkatan: "",
-    kelas: null,
-    atasan: null,
     fungsional: false,
-    fungsionalJob: null,
-    jabatanFungsional: null,
+    kelas: null,
+    jabatanPermenpan: null,
+    subJabatanPermenpan: null,
+    atasan: null,
+    unitId: null,
+    subUnor: null,
+    eselon: null,
+    ketersediaan: null,
   });
 
   const [formError, setFormError] = useState<errorProps>({});
@@ -71,36 +82,55 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     return allData ? allData.data : [];
   }, [allData]);
 
+  const {
+    data: allDataUnit,
+    isFetching: isFetchingUnitUnit,
+    refetch: refetchUnitUnit,
+  } = useGetAllUnitOption();
+  const UNIT_SELECT = useMemo(() => {
+    return allDataUnit ? allDataUnit.data : [];
+  }, [allDataUnit]);
+
+  const SubPermenpan = useMemo(() => {
+    if (formData.jabatanPermenpan) {
+      const subJabatan = JabatanPermenpan.find(
+        (it) => it.key === formData.jabatanPermenpan,
+      );
+      return subJabatan?.subPermenpan || [];
+    } else {
+      return [];
+    }
+  }, [formData.jabatanPermenpan]);
+
   useEffect(() => {
     setFormData({
       nama: "",
-      singkatan: "",
-      kelas: null,
-      atasan: null,
       fungsional: false,
-      fungsionalJob: null,
-      jabatanFungsional: null,
+      kelas: null,
+      jabatanPermenpan: null,
+      subJabatanPermenpan: null,
+      atasan: null,
+      unitId: null,
+      subUnor: null,
+      eselon: null,
+      ketersediaan: null,
     });
     setIsLoading(false);
     setFormError({});
     refetchJabatan();
+    refetchUnitUnit();
   }, [isOpen]);
 
   const validateData = () => {
     const errors: errorProps = {};
     if (!formData.nama) errors.nama = "Nama jabatan tidak boleh kosong";
-    if (!formData.singkatan)
-      errors.singkatan = "Singkatan jabatan tidak boleh kosong";
     if (!formData.kelas) errors.kelas = "Kelas jabatan tidak boleh kosong";
-
-    if (formData.fungsional) {
-      if (!formData.jabatanFungsional)
-        errors.jabatanFungsional =
-          "Jenis jabatan fungsional tidak boleh kosong";
-      if (!formData.fungsionalJob)
-        errors.fungsionalJob = "Jabatan fungsional tidak boleh kosong";
-    }
-
+    if (!formData.jabatanPermenpan)
+      errors.kelas = "Jabatan permenpan tidak boleh kosong";
+    if (!formData.subUnor) errors.kelas = "unit kerja tidak boleh kosong";
+    if (!formData.unitId) errors.unitId = "Sub unor tidak boleh kosong";
+    if (!formData.ketersediaan)
+      errors.ketersediaan = "Ketersediaan tidak boleh kosong";
     return errors;
   };
 
@@ -119,22 +149,18 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
 
     const formToSend: StoreJabatan = {};
     if (formData.nama) formToSend.nameJob = formData.nama;
-    if (formData.singkatan) formToSend.singkatan = formData.singkatan;
-    if (formData.fungsional) {
-      formToSend.fungsional = true;
-      if (formData.fungsionalJob) {
-        formToSend.fungsionalJob = formData.fungsionalJob;
-      }
-      if (formData.jabatanFungsional) {
-        formToSend.jabatanFungsional = formData.jabatanFungsional;
-      }
-    } else {
-      formToSend.fungsional = false;
-      formToSend.fungsionalJob = null;
-      formToSend.jabatanFungsional = null;
-    }
+    formToSend.fungsional = formData.fungsional;
     if (formData.kelas) formToSend.Class = String(formData.kelas);
+    if (formData.jabatanPermenpan)
+      formToSend.jabatanPermenpan = formData.jabatanPermenpan;
+    if (formData.subJabatanPermenpan)
+      formToSend.subJabatanPermenpan = formData.subJabatanPermenpan;
     if (formData.atasan) formToSend.atasan = Number(formData.atasan);
+    if (formData.unitId) formToSend.unitId = Number(formData.unitId);
+    if (formData.subUnor) formToSend.subUnor = formData.subUnor;
+    if (formData.eselon) formToSend.eselon = formData.eselon;
+    if (formData.ketersediaan)
+      formToSend.ketersediaan = Number(formData.ketersediaan);
 
     try {
       mutatePost(formToSend, {
@@ -174,6 +200,72 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
             <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
               <div className="flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Permenpan <span className="text-danger">*</span>
+                </label>
+                <Autocomplete
+                  aria-label="pegawai"
+                  placeholder="Cari jabatan permenpan"
+                  variant="bordered"
+                  radius="sm"
+                  defaultItems={JabatanPermenpan}
+                  selectedKey={String(formData.jabatanPermenpan)}
+                  onSelectionChange={(value) =>
+                    setFormData({
+                      ...formData,
+                      jabatanPermenpan: value as string,
+                    })
+                  }
+                  inputProps={{
+                    classNames: {
+                      input: "text-xs",
+                    },
+                  }}
+                >
+                  {(peg) => (
+                    <AutocompleteItem key={peg.key} textValue={peg.name}>
+                      {peg.name}
+                    </AutocompleteItem>
+                  )}
+                </Autocomplete>
+                <div className="text-xs italic text-danger">
+                  {formError.atasan}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Sub Permenpan
+                </label>
+                <Autocomplete
+                  aria-label="pegawai"
+                  placeholder="Cari sub jabatan permenpan"
+                  variant="bordered"
+                  radius="sm"
+                  defaultItems={SubPermenpan}
+                  selectedKey={String(formData.subJabatanPermenpan)}
+                  onSelectionChange={(value) =>
+                    setFormData({
+                      ...formData,
+                      subJabatanPermenpan: value as string,
+                    })
+                  }
+                  inputProps={{
+                    classNames: {
+                      input: "text-xs",
+                    },
+                  }}
+                >
+                  {(peg) => (
+                    <AutocompleteItem key={peg.key} textValue={peg.name}>
+                      {peg.name}
+                    </AutocompleteItem>
+                  )}
+                </Autocomplete>
+                <div className="text-xs italic text-danger">
+                  {formError.subJabatanPermenpan}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
                   Nama Jabatan <span className="text-danger">*</span>
                 </label>
                 <Input
@@ -195,15 +287,43 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
-                  Singkatan <span className="text-danger">*</span>
+                  Eselon
+                </label>
+                <Select
+                  selectedKeys={[formData.eselon || ""]}
+                  onChange={(e) =>
+                    setFormData({ ...formData, eselon: e.target.value })
+                  }
+                  aria-label="Judul"
+                  labelPlacement="outside"
+                  placeholder="Pilih eselon"
+                  variant="bordered"
+                  radius="sm"
+                  classNames={{
+                    trigger: "text-xs border-[0.8px]",
+                    value: "text-xs",
+                  }}
+                >
+                  {EselonData.map((item) => (
+                    <SelectItem key={item.nama}>{item.nama}</SelectItem>
+                  ))}
+                </Select>
+                <div className="text-xs italic text-danger">
+                  {formError.eselon}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Ketersediaan <span className="text-danger">*</span>
                 </label>
                 <Input
+                  type="number"
                   aria-label="lokasi"
                   variant="bordered"
                   radius="sm"
-                  value={formData.singkatan}
+                  value={String(formData.ketersediaan || "")}
                   onChange={(e) =>
-                    setFormData({ ...formData, singkatan: e.target.value })
+                    setFormData({ ...formData, ketersediaan: e.target.value })
                   }
                   placeholder="Masukkan disini"
                   classNames={{
@@ -211,117 +331,9 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   }}
                 />
                 <div className="text-xs italic text-danger">
-                  {formError.singkatan}
+                  {formError.ketersediaan}
                 </div>
               </div>
-            </div>
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-              <div className="flex flex-col gap-1 md:col-span-2 col-span-1">
-                <div className="mb-0.5">
-                  <label htmlFor="lokasi" className="text-xs font-semibold">
-                    Jabatan Fungsional ? <span className="text-danger">*</span>
-                  </label>
-                </div>
-                <RadioGroup
-                  aria-label="Jabatan Fungsional"
-                  orientation="horizontal"
-                  size="sm"
-                  value={formData.fungsional ? "true" : "false"}
-                  onValueChange={(value) =>
-                    setFormData({
-                      ...formData,
-                      fungsional: value === "true" ? true : false,
-                    })
-                  }
-                >
-                  <Radio value="true">Ya</Radio>
-                  <Radio value="false">Tidak</Radio>
-                </RadioGroup>
-              </div>
-              {formData.fungsional && (
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="lokasi" className="text-xs font-semibold">
-                    Jenis Jabatan Fungsional{" "}
-                    <span className="text-danger">*</span>
-                  </label>
-                  <Select
-                    aria-label="lokasi"
-                    variant="bordered"
-                    radius="sm"
-                    selectedKeys={[String(formData.fungsionalJob)]}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        fungsionalJob: e.target.value,
-                      })
-                    }
-                    placeholder="Pilih Jabatan Fungsional"
-                    classNames={{
-                      trigger: "text-xs",
-                      value: "text-xs",
-                    }}
-                  >
-                    <SelectItem
-                      key={`ANALIS_PERDAGANGAN`}
-                      textValue={`Analis Perdagangan`}
-                    >
-                      Analis Perdagangan
-                    </SelectItem>
-                    <SelectItem
-                      key={`PENGAWAS_PERDAGANGAN`}
-                      textValue={`Pengawas Perdagangan`}
-                    >
-                      Pengawas Perdagangan
-                    </SelectItem>
-                    <SelectItem key={`PENERA`} textValue={`Penera`}>
-                      Penera
-                    </SelectItem>
-                  </Select>
-                  <div className="text-xs italic text-danger">
-                    {formError.fungsionalJob}
-                  </div>
-                </div>
-              )}
-              {formData.fungsional && (
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="lokasi" className="text-xs font-semibold">
-                    Jenis Jabatan Fungsional{" "}
-                    <span className="text-danger">*</span>
-                  </label>
-                  <Select
-                    aria-label="lokasi"
-                    variant="bordered"
-                    radius="sm"
-                    selectedKeys={[String(formData.jabatanFungsional)]}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        jabatanFungsional: e.target.value,
-                      })
-                    }
-                    placeholder="Pilih Jenis Jabatan Fungsional"
-                    classNames={{
-                      trigger: "text-xs",
-                      value: "text-xs",
-                    }}
-                  >
-                    <SelectItem key={`MUDA`} textValue={`Ahli Muda`}>
-                      Ahli Muda
-                    </SelectItem>
-                    <SelectItem key={`MADYA`} textValue={`Ahli Madya`}>
-                      Ahli Madya
-                    </SelectItem>
-                    <SelectItem key={`PERTAMA`} textValue={`Ahli Pertama`}>
-                      Ahli Pertama
-                    </SelectItem>
-                  </Select>
-                  <div className="text-xs italic text-danger">
-                    {formError.jabatanFungsional}
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
               <div className="flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
                   Kelas <span className="text-danger">*</span>
@@ -350,6 +362,72 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   {formError.kelas}
                 </div>
               </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Unit Kerja <span className="text-danger">*</span>
+                </label>
+                <Select
+                  aria-label="lokasi"
+                  variant="bordered"
+                  radius="sm"
+                  selectedKeys={[String(formData.subUnor)]}
+                  onChange={(e) =>
+                    setFormData({ ...formData, subUnor: e.target.value })
+                  }
+                  placeholder="Pilih unit kerja"
+                  classNames={{
+                    trigger: "text-xs",
+                    value: "text-xs",
+                  }}
+                >
+                  <SelectItem
+                    key={"PEMERINTAH"}
+                    textValue={"Pemerintah Kab. Bekasi"}
+                  >
+                    Pemerintah Kab. Bekasi
+                  </SelectItem>
+                  <SelectItem
+                    key={"DINAS"}
+                    textValue={"Dinas Perdangan Kab. Bekasi"}
+                  >
+                    Dinas Perdangan Kab. Bekasi
+                  </SelectItem>
+                </Select>
+                <div className="text-xs italic text-danger">
+                  {formError.subUnor}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="lokasi" className="text-xs font-semibold">
+                  Sub Unor <span className="text-danger">*</span>
+                </label>
+                <Autocomplete
+                  isLoading={isFetchingUnitUnit}
+                  aria-label="pegawai"
+                  placeholder="Cari sub unor"
+                  variant="bordered"
+                  radius="sm"
+                  defaultItems={UNIT_SELECT}
+                  selectedKey={String(formData.unitId)}
+                  onSelectionChange={(value) =>
+                    setFormData({ ...formData, unitId: value as string })
+                  }
+                  inputProps={{
+                    classNames: {
+                      input: "text-xs",
+                    },
+                  }}
+                >
+                  {(peg) => (
+                    <AutocompleteItem key={peg.id} textValue={peg.nameUnit}>
+                      {peg.nameUnit}
+                    </AutocompleteItem>
+                  )}
+                </Autocomplete>
+                <div className="text-xs italic text-danger">
+                  {formError.unitId}
+                </div>
+              </div>
               <div className="flex flex-col gap-1 md:col-span-2 col-span-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
                   Atasan
@@ -357,7 +435,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                 <Autocomplete
                   isLoading={isFetchingJabatan}
                   aria-label="pegawai"
-                  placeholder="Cari jabatan atasan"
+                  placeholder="Cari atasan"
                   variant="bordered"
                   radius="sm"
                   defaultItems={JABATAN_SELECT}
@@ -380,6 +458,28 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                 <div className="text-xs italic text-danger">
                   {formError.atasan}
                 </div>
+              </div>
+              <div className="flex flex-col gap-1 md:col-span-2 col-span-1">
+                <div className="mb-0.5">
+                  <label htmlFor="lokasi" className="text-xs font-semibold">
+                    Jabatan Fungsional ? <span className="text-danger">*</span>
+                  </label>
+                </div>
+                <RadioGroup
+                  aria-label="Jabatan Fungsional"
+                  orientation="horizontal"
+                  size="sm"
+                  value={formData.fungsional ? "true" : "false"}
+                  onValueChange={(value) =>
+                    setFormData({
+                      ...formData,
+                      fungsional: value === "true" ? true : false,
+                    })
+                  }
+                >
+                  <Radio value="true">Ya</Radio>
+                  <Radio value="false">Tidak</Radio>
+                </RadioGroup>
               </div>
             </div>
             <div className="flex items-center justify-end w-full gap-2">
