@@ -84,3 +84,37 @@ export interface ISuratPegawaiListRes extends BaseRes {
 export interface ISuratPegawaiRes extends BaseRes {
   data: SuratPegawaiRes;
 }
+
+
+export interface PelaporanPegawaiRes {
+  id: number;
+  latarBelakang: string;
+  sasaran: string;
+  maksud: string;
+  tujuan: string;
+  dasarHukum: string;
+  isiLaporan: string;
+  jabatanPengelola: string;
+  pengelola: string;
+  nipPengelola: string;
+  subgadin: string;
+  jabatanSubagin: string;
+  nipSubagin: string;
+  sekertaris: string;
+  jabatanSekertaris: string;
+  nipSekertaris: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPelaporanPegawaiListRes extends BaseRes {
+  data: {
+    response: PelaporanPegawaiRes[];
+    data: PelaporanPegawaiRes[];
+    pagination: PaginationRes;
+  };
+}
+
+export interface IPelaporanPegawaiRes extends BaseRes {
+  data: PelaporanPegawaiRes;
+}

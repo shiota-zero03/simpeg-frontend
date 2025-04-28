@@ -64,3 +64,37 @@ export interface ISPPDDetailRes extends BaseRes {
 export interface ISPPDOptionRes extends BaseRes {
   data: SPPDRes[];
 }
+
+
+export interface PelaporanSPPDRes {
+  id: number;
+  latarBelakang: string;
+  sasaran: string;
+  maksud: string;
+  tujuan: string;
+  dasarHukum: string;
+  isiLaporan: string;
+  jabatanPengelola: string;
+  pengelola: string;
+  nipPengelola: string;
+  subgadin: string;
+  jabatanSubagin: string;
+  nipSubagin: string;
+  sekertaris: string;
+  jabatanSekertaris: string;
+  nipSekertaris: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPelaporanSPPDListRes extends BaseRes {
+  data: {
+    response: PelaporanSPPDRes[];
+    data: PelaporanSPPDRes[];
+    pagination: PaginationRes;
+  };
+}
+
+export interface IPelaporanSPPDRes extends BaseRes {
+  data: PelaporanSPPDRes;
+}

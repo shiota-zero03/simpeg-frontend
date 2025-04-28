@@ -1,15 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  createPelaporanSPPD,
   createSPPD,
+  deletePelaporanSPPD,
   deleteSPPD,
+  getAllPelaporanSPPD,
   getAllSPPD,
+  getDetailPelaporanSPPD,
   getDetailSPPD,
+  updatePelaporanSPPD,
   updateSPPD,
 } from "./http";
-import { ISPPDDetailRes } from "@/interface/responses/sppd.interface";
+import { IPelaporanSPPDRes, ISPPDDetailRes } from "@/interface/responses/sppd.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
-import { StoreSPPD } from "@/interface/request/sppd.interface";
+import { StorePelaporanSPPD, StoreSPPD } from "@/interface/request/sppd.interface";
 
 export const useGetAllSPPD = (
   page: number,
@@ -66,6 +71,74 @@ export const useDeleteSPPD = () => {
     mutationFn: ({ id }) => deleteSPPD(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["deleteSPPD"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
+  });
+};
+
+
+export const useGetAllPelaporanSPPD = (
+  page: number,
+  limit: number,
+  title?: string,
+) => {
+  return useQuery({
+    queryKey: ["getAllPelaporanSPPD"],
+    queryFn: () => getAllPelaporanSPPD(page, limit, title),
+    staleTime: 300000,
+  });
+};
+export const useCreatePelaporanSPPD = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IPelaporanSPPDRes,
+    AxiosError<BaseErrorRes>,
+    StorePelaporanSPPD
+  >({
+    mutationFn: (formData) => createPelaporanSPPD(formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["createPelaporanSPPD"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
+  });
+};
+export const useGetDetailPelaporanSPPD = (id: string) => {
+  return useQuery({
+    queryKey: ["getDetailPelaporanSPPD", id],
+    queryFn: () => getDetailPelaporanSPPD(id),
+    staleTime: 300000,
+  });
+};
+export const useUpdatePelaporanSPPD = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IPelaporanSPPDRes,
+    AxiosError<BaseErrorRes>,
+    { id: string; formData: StorePelaporanSPPD }
+  >({
+    mutationFn: ({ id, formData }) => updatePelaporanSPPD(id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["updatePelaporanSPPD"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
+  });
+};
+export const useDeletePelaporanSPPD = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IPelaporanSPPDRes,
+    AxiosError<BaseErrorRes>,
+    { id: string }
+  >({
+    mutationFn: ({ id }) => deletePelaporanSPPD(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["deletePelaporanSPPD"] });
     },
     onError: (error) => {
       throw error;

@@ -25,7 +25,7 @@ export const getAllAssetHolder = async (
   return response.data;
 };
 export const createAssetHolder = async (
-  formData: StoreAssetHolder,
+  formData: StoreAssetHolder[],
 ): Promise<IAssetHolderDetailRes> => {
   const response = await instance.post(`/admin/asset-holder/create`, formData);
   return response.data;
