@@ -6,7 +6,8 @@ export const getAllSPPD = async (
   page: number,
   limit: number,
   title?: string,
-  job?: string,
+  type?: string,
+  nomorSurat?: string,
   startDate?: string | null,
   endDate?: string | null,
 ): Promise<ISPPDRes> => {
@@ -14,11 +15,12 @@ export const getAllSPPD = async (
 
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
-  if (title) params.set("title", title);
-  if (job) params.set("job", job);
   if (startDate) params.set("startDate", startDate);
   if (endDate) params.set("endDate", endDate);
-  const response = await instance.get(`/admin/sppd?${params.toString()}`);
+  if (title) params.set("title", title);
+  if (type) params.set("type", type);
+  if (nomorSurat) params.set("nomorSurat", nomorSurat);
+  const response = await instance.get(`/admin/sppd/data/admin?${params.toString()}`);
   return response.data;
 };
 export const createSPPD = async (
@@ -47,7 +49,7 @@ export const deleteSPPD = async (id: string): Promise<ISPPDDetailRes> => {
 export const getAllPelaporanSPPD = async (
   page: number,
   limit: number,
-  title?: string,
+  title?: string
 ): Promise<IPelaporanSPPDListRes> => {
   const params = new URLSearchParams();
 

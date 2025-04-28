@@ -64,6 +64,7 @@ interface DataProps {
   kategori: string;
   harga: string;
   merk: string;
+  status: boolean | null;
 }
 
 export default function CreatePegawai() {
@@ -236,6 +237,7 @@ export default function CreatePegawai() {
         kategori: item.kategori,
         harga: `Rp ${item.harga.toLocaleString("id-ID")}`,
         merk: item.merkTipe,
+        status: item.status,
       }));
     } else {
       return [];
@@ -273,12 +275,18 @@ export default function CreatePegawai() {
     {
       header: "✓",
       cell: ({ row }) => {
-        const { id } = row.original;
+        const { id, status } = row.original;
+
+        let stat = false;
+        if(status && status === true) {
+          stat = true;
+        }
+
         return (
           <Checkbox
             isSelected={selectedIds.includes(String(id))}
-            // isDisabled={item.status === "DISETUJUI"}
-            // isIndeterminate={item.status === "DISETUJUI"}
+            isDisabled={stat}
+            isIndeterminate={stat}
             onChange={(e) =>
               handleCheckboxChange(
                 String(id),

@@ -345,18 +345,16 @@ export default function IKP() {
                       <FaFileExcel size={12} /> Export
                     </Link>
                   )}
-                  {(role === "ADMIN" || role === "SUPERUSERS") && (
-                    <Button
-                      onPress={() => navigate("/dialog-kinerja/tambah-data")}
-                      variant="solid"
-                      radius="sm"
-                      size="sm"
-                      startContent={<BiSolidPlusSquare size={12} />}
-                      className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                    >
-                      Tambah
-                    </Button>
-                  )}
+                  <Button
+                    onPress={() => navigate("/dialog-kinerja/tambah-data")}
+                    variant="solid"
+                    radius="sm"
+                    size="sm"
+                    startContent={<BiSolidPlusSquare size={12} />}
+                    className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                  >
+                    Tambah
+                  </Button>
                 </div>
               </div>
             </div>
