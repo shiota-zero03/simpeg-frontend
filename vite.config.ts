@@ -13,6 +13,12 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     port: 3001,
-    allowedHosts: ["bo-simpeg.zmidevelopment.com", "simpeg.bekasikab.go.id"],
+    allowedHosts: [
+      "bo-simpeg.zmidevelopment.com",
+      "simpeg.bekasikab.go.id",
+      "minio-simpeg.bekasikab.go.id",
+      "storage-simpeg.bekasikab.go.id",
+      "api-simpeg.bekasikab.go.id",
+],
   },
 });
