@@ -19,7 +19,7 @@ import store from "@/redux/store";
 import { useDeleteAsset } from "@/services/asset/asset";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { parseDate } from "@internationalized/date";
-import ViewModal from "@/components/modals/Asset/DeetailAsset";
+import ViewModal from "@/components/modals/Asset/DeetailAssetHolder";
 import { useGetAllAssetHolder } from "@/services/asset/asset-holder";
 import { AssetHolderRes } from "@/interface/responses/assetHolder.interface";
 
@@ -49,7 +49,19 @@ export default function AssetIndex() {
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
-  const [searchKode, setSearchKode] = useState("");
+
+  const [dataHolder, setDataHolder] = useState<{
+    tanggal: string;
+    assetId: string;
+    kodeBarang: string;
+    nomorRegistrasi: string;
+    kategori: string;
+    assetName: string;
+    merk: string;
+    harga: number;
+    file: string;
+    noBast: string;
+  }[]>([])
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -152,6 +164,26 @@ export default function AssetIndex() {
       // meta: { align: "center" },
     },
     {
+      header: "Barang/Kendaraan",
+      cell: ({ row }) => {
+        const { holders } = row.original;
+
+        return (
+          <div 
+            onClick={() => {
+              setDataHolder(holders)
+              setTimeout(() => {
+                onOpenView()
+              }, 100);
+            }}
+            className="text-info font-semibold underline cursor-pointer">
+            {holders.length} Data
+          </div>
+        )
+      },
+      // meta: { align: "center" },
+    },
+    {
       header: "Aksi",
       cell: ({ row }) => {
         const { userId } = row.original;
@@ -185,7 +217,7 @@ export default function AssetIndex() {
   } = useDisclosure();
   const {
     isOpen: isOpenView,
-    // onOpen: onOpenView,
+    onOpen: onOpenView,
     onClose: onCloseView,
   } = useDisclosure();
 
@@ -196,7 +228,6 @@ export default function AssetIndex() {
 
   const handleReset = () => {
     setSearch("");
-    setSearchKode("");
     setRangeDate({
       start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
       end: parseDate(today.toISOString().split("T")[0]),
@@ -259,13 +290,11 @@ export default function AssetIndex() {
         isLoading={isLoadingDelete}
         handleSubmit={handleDelete}
       />
-      {selectedId && (
-        <ViewModal
-          id={selectedId}
-          isOpen={isOpenView}
-          onClose={onCloseView}
-        />
-      )}
+      <ViewModal
+        holder={dataHolder}
+        isOpen={isOpenView}
+        onClose={onCloseView}
+      />
       <div>
         <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
           <div className="pt-8 px-4 w-full text-primary shadow-sm">
@@ -281,24 +310,6 @@ export default function AssetIndex() {
                   size="sm"
                   variant="bordered"
                   placeholder="Cari nama barang/merk"
-                  startContent={
-                    <LuSearch className="text-accent-gray text-xs" />
-                  }
-                  classNames={{
-                    inputWrapper: "border-[0.8px]",
-                    input: "text-xs",
-                  }}
-                />
-                <Input
-                  aria-label="search"
-                  value={searchKode}
-                  onChange={(e) => {
-                    setSearchKode(e.target.value);
-                  }}
-                  radius="sm"
-                  size="sm"
-                  variant="bordered"
-                  placeholder="Cari id, kode, no. reg"
                   startContent={
                     <LuSearch className="text-accent-gray text-xs" />
                   }

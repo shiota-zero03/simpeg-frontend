@@ -1,12 +1,15 @@
 import instance from "@/api/axios";
 import {
   StorePegawai,
+  StorePelaporanPegawai,
   StoreSuratPegawai,
 } from "@/interface/request/pegawai.interface";
 import {
   IPegawaiListRes,
   IPegawaiOptionRes,
   IPegawaiRes,
+  IPelaporanPegawaiListRes,
+  IPelaporanPegawaiRes,
   ISuratPegawaiListRes,
   ISuratPegawaiRes,
 } from "@/interface/responses/pegawai.interface";
@@ -109,5 +112,49 @@ export const deleteSuratPegawai = async (
   id: string,
 ): Promise<ISuratPegawaiRes> => {
   const response = await instance.delete(`/admin/type-form/delete/${id}`);
+  return response.data;
+};
+
+
+
+export const getAllPelaporanPegawai = async (
+  page: number,
+  limit: number,
+  title?: string,
+): Promise<IPelaporanPegawaiListRes> => {
+  const params = new URLSearchParams();
+
+  if (page) params.set("page", page.toString());
+  if (limit) params.set("limit", limit.toString());
+  if (title) params.set("name", title);
+  const response = await instance.get(`/admin/laporan-pegawai?${params.toString()}`);
+  return response.data;
+};
+export const createPelaporanPegawai = async (
+  formData: StorePelaporanPegawai,
+): Promise<IPelaporanPegawaiRes> => {
+  const response = await instance.post(`/admin/laporan-pegawai/create`, formData);
+  return response.data;
+};
+export const getDetailPelaporanPegawai = async (
+  id: string,
+): Promise<IPelaporanPegawaiRes> => {
+  const response = await instance.get(`/admin/laporan-pegawai/${id}`);
+  return response.data;
+};
+export const updatePelaporanPegawai = async (
+  id: string,
+  formData: StorePelaporanPegawai,
+): Promise<IPelaporanPegawaiRes> => {
+  const response = await instance.put(
+    `/admin/laporan-pegawai/update/${id}`,
+    formData,
+  );
+  return response.data;
+};
+export const deletePelaporanPegawai = async (
+  id: string,
+): Promise<IPelaporanPegawaiRes> => {
+  const response = await instance.delete(`/admin/laporan-pegawai/delete/${id}`);
   return response.data;
 };

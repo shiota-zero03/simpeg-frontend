@@ -10,8 +10,10 @@ import {
   AutocompleteItem,
   Checkbox,
   Pagination,
+  Select,
+  SelectItem,
 } from "@heroui/react";
-import { LuArrowLeft, LuSave, LuSearch } from "react-icons/lu";
+import { LuArchiveRestore, LuArrowLeft, LuSave, LuSearch } from "react-icons/lu";
 import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
@@ -28,6 +30,8 @@ import { AssetRes } from "@/interface/responses/asset.interface";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import DataTables from "@/components/DataTables";
 import { BiReset, BiSearch } from "react-icons/bi";
+import { convertFileToBase64 } from "@/utils/base64Formater";
+import { LucideUploadCloud } from "lucide-react";
 
 interface formProps {
   userId?: string;
@@ -156,7 +160,17 @@ export default function CreatePegawai() {
       return true;
     }
 
-    const formToSend: StoreAssetHolder = {};
+    const formToSend: StoreAssetHolder[] = [];
+
+    formAsset.forEach(item => (
+      formToSend.push({
+        userId: formData.userId,
+        assetId: item.assetId,
+        noBast: item.noBast || "",
+        dokumenPendukung: item.dokumenPendukung || "",
+        file: item.file || ""
+      })
+    ))
 
     try {
       mutatePost(formToSend, {
@@ -182,7 +196,7 @@ export default function CreatePegawai() {
     }
   };
 
-  const limit = 1;
+  const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
 
@@ -355,30 +369,46 @@ export default function CreatePegawai() {
     refetchData();
   }, [pageIndex, refetchData]);
 
-  // const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files?.[0];
-    // if (file) {
-    //   const fileToShow = await convertFileToBase64(file);
-    //   setFormData({ ...formData, dokumen: fileToShow });
-    // } else {
-    //   setFormData({ ...formData, dokumen: "" });
-    // }
-  // };
+  const handleUbahTargetChange = async (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    type: "dokumenPendukung" | "noBast" | "file",
+  ) => {
 
-  // const handleUbahTargetChange = (
-  //   index: number,
-  //   value: string,
-  //   type: "ubahTarget" | "dialog" | "description",
-  // ) => {
-  //   setFormAsset((prev) => {
-  //     const updated = [...prev];
-  //     updated[index] = {
-  //       ...updated[index],
-  //       [type]: value,
-  //     };
-  //     return updated;
-  //   });
-  // };
+    if(type === "file") {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const fileToShow = await convertFileToBase64(file);
+        setFormAsset((prev) => {
+          const updated = [...prev];
+          updated[index] = {
+            ...updated[index],
+            file: fileToShow,
+          };
+          return updated;
+        });
+      } else {
+        setFormAsset((prev) => {
+          const updated = [...prev];
+          updated[index] = {
+            ...updated[index],
+            file: "",
+          };
+          return updated;
+        });
+      }
+    } else {
+      let value = e.target.value;
+      setFormAsset((prev) => {
+        const updated = [...prev];
+        updated[index] = {
+          ...updated[index],
+          [type]: value,
+        };
+        return updated;
+      });
+    }
+  };
 
   return (
     <>
@@ -581,97 +611,104 @@ export default function CreatePegawai() {
                           <div className="font-semibold">
                             {index + 1}.&nbsp;&nbsp;{item.assetName}
                           </div>
-                          <div className="grid md:grid-cols-6 grid-cols-1 gap-1 w-full">
-                            {/* <div className="md:col-span-6">
+                          <div className="grid md:grid-cols-3 grid-cols-1 gap-1 w-full">
+                            <div className="md:col-span-1 col-span-1">
                               <div className="mb-1">
                                 <label
                                   className="text-xs font-medium"
                                   htmlFor="ubah-target"
                                 >
-                                  Ubah Target
+                                    Dokumen Pendukung
                                 </label>
                               </div>
-                              <Input
-                                value={item.ubahTarget}
+                              <Select
+                                value={item.dokumenPendukung}
                                 onChange={(e) =>
                                   handleUbahTargetChange(
                                     index,
-                                    e.target.value,
-                                    "ubahTarget",
+                                    e,
+                                    "dokumenPendukung",
                                   )
                                 }
                                 aria-label="Judul"
                                 labelPlacement="outside"
-                                placeholder="Masukkan disini"
+                                placeholder="Pilih jenis dokumen pendukung"
                                 variant="bordered"
                                 radius="sm"
                                 className="w-full"
                                 classNames={{
-                                  inputWrapper: "border-[0.8px]",
-                                  input: "text-xs",
+                                  trigger: "border-[0.8px]",
+                                  value: "text-xs",
                                 }}
-                              />
+                              >
+                                <SelectItem key={"BAST"}>Dokumen BAST</SelectItem>
+                                <SelectItem key={"PAKTA_INTEGRITAS"}>Fakta Integritas</SelectItem>
+                                <SelectItem key={"SURAT_PINJAM"}>Surat Izin Pinjam Pakai</SelectItem>
+                                <SelectItem key={"SURAT_PEMEGANG_ASET"}>Surat Izin Pemegang Aset Kendaraan</SelectItem>
+                                <SelectItem key={"DOKUMEN_LAIN"}>Lainnya</SelectItem>
+                              </Select>
                             </div>
-                            <div className="md:col-span-3">
-                              <div className="mb-1">
-                                <label
-                                  className="text-xs font-medium"
-                                  htmlFor="ubah-target"
-                                >
-                                  Keterangan
-                                </label>
-                              </div>
-                              <Textarea
-                                value={item.description}
-                                onChange={(e) =>
-                                  handleUbahTargetChange(
-                                    index,
-                                    e.target.value,
-                                    "description",
-                                  )
-                                }
-                                aria-label="Judul"
-                                labelPlacement="outside"
-                                placeholder="Masukkan disini"
-                                variant="bordered"
-                                radius="sm"
-                                className="w-full"
-                                classNames={{
-                                  inputWrapper: "border-[0.8px]",
-                                  input: "text-xs",
-                                }}
-                              />
+                            <div className="md:col-span-2 col-span-1">
+                              {item.dokumenPendukung === "BAST" && (
+                                <div>
+                                  <div className="mb-1">
+                                    <label
+                                      className="text-xs font-medium"
+                                      htmlFor="ubah-target"
+                                    >
+                                      No. BAST (Berita Acara Serah Terima)
+                                    </label>
+                                  </div>
+                                  <Input
+                                    value={item.noBast}
+                                    onChange={(e) =>
+                                      handleUbahTargetChange(
+                                        index,
+                                        e,
+                                        "noBast",
+                                      )
+                                    }
+                                    aria-label="Judul"
+                                    labelPlacement="outside"
+                                    placeholder="Masukkan disini"
+                                    variant="bordered"
+                                    radius="sm"
+                                    className="w-full"
+                                    classNames={{
+                                      inputWrapper: "border-[0.8px]",
+                                      input: "text-xs",
+                                    }}
+                                  />
+                                </div>
+                              )}
                             </div>
-                            <div className="md:col-span-3">
-                              <div className="mb-1">
-                                <label
-                                  className="text-xs font-medium"
-                                  htmlFor="ubah-target"
-                                >
-                                  Dialog Kinerja
-                                </label>
+                            <div className="md:col-span-3 col-span-1">
+                              <div className="max-w-80">
+                                <div className="mb-1">
+                                  <label htmlFor="content" className="font-semibold text-xs">
+                                    File Pendukung
+                                  </label>
+                                </div>
+                                <div className="border p-8 mb-2 flex items-center justify-center">
+                                  {item.file ? (
+                                    <LuArchiveRestore size={32} />
+                                  ) : (
+                                    <LucideUploadCloud size={32} />
+                                  )}
+                                </div>
+                                <input
+                                  type="file"
+                                  onChange={(e) => {
+                                    handleUbahTargetChange(
+                                      index,
+                                      e,
+                                      "file",
+                                    )
+                                  }}
+                                  accept=".png,.jpg,.jpeg,.pdf"
+                                />
                               </div>
-                              <Textarea
-                                value={item.dialog}
-                                onChange={(e) =>
-                                  handleUbahTargetChange(
-                                    index,
-                                    e.target.value,
-                                    "dialog",
-                                  )
-                                }
-                                aria-label="Judul"
-                                labelPlacement="outside"
-                                placeholder="Masukkan disini"
-                                variant="bordered"
-                                radius="sm"
-                                className="w-full"
-                                classNames={{
-                                  inputWrapper: "border-[0.8px]",
-                                  input: "text-xs",
-                                }}
-                              />
-                            </div> */}
+                            </div>
                           </div>
                         </div>
                       ))}
