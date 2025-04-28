@@ -28,6 +28,7 @@ interface DataProps {
   tanggal: string;
   idBarang: string;
   kodeBarang: string;
+  nama: string;
   noRegistrasi: string;
   kategori: string;
   harga: string;
@@ -40,7 +41,6 @@ export default function AssetIndex() {
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
-  const [searchKode, setSearchKode] = useState("");
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -70,7 +70,7 @@ export default function AssetIndex() {
 
   const [startData, setStartData] = useState<number>(0);
   const [endData, setEndData] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const [totalData, setTotalData] = useState<number>(0);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -99,6 +99,7 @@ export default function AssetIndex() {
       return data.response.map((item: AssetRes) => ({
         id: item.id,
         tanggal: DMYIndoToFormat(item.createdAt),
+        nama: item.namaBarang,
         idBarang: item.idBarang,
         kodeBarang: item.kodeBarang,
         noRegistrasi: item.nomorRegistrasi,
@@ -123,6 +124,12 @@ export default function AssetIndex() {
     {
       accessorKey: "tanggal",
       header: "Tanggal",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "nama",
+      header: "Nama Barang",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
@@ -234,7 +241,6 @@ export default function AssetIndex() {
 
   const handleReset = () => {
     setSearch("");
-    setSearchKode("");
     setRangeDate({
       start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
       end: parseDate(today.toISOString().split("T")[0]),
@@ -319,24 +325,6 @@ export default function AssetIndex() {
                   size="sm"
                   variant="bordered"
                   placeholder="Cari nama barang/merk"
-                  startContent={
-                    <LuSearch className="text-accent-gray text-xs" />
-                  }
-                  classNames={{
-                    inputWrapper: "border-[0.8px]",
-                    input: "text-xs",
-                  }}
-                />
-                <Input
-                  aria-label="search"
-                  value={searchKode}
-                  onChange={(e) => {
-                    setSearchKode(e.target.value);
-                  }}
-                  radius="sm"
-                  size="sm"
-                  variant="bordered"
-                  placeholder="Cari id, kode, no. reg"
                   startContent={
                     <LuSearch className="text-accent-gray text-xs" />
                   }

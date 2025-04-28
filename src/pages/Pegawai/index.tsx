@@ -2,6 +2,7 @@ import { TitleCase } from "@/components/card/TitleCase";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import PegawaiIndex from "./PegawaiIndex";
 import Surat from "./Surat";
+import Pelaporan from "./Pelaporan";
 import { useState } from "react";
 
 export default function Jabatan() {
@@ -39,6 +40,7 @@ export default function Jabatan() {
           <div className="bg-white shadow-md rounded-b-xl border min-h-[70vh]">
             {selectedTab === "data-pegawai" ? <PegawaiIndex /> : <></>}
             {selectedTab === "kgp" ? <Surat /> : <></>}
+            {selectedTab === "pelaporan" ? <Pelaporan /> : <></>}
           </div>
         </div>
       </div>
