@@ -24,11 +24,12 @@ export const useGetAllIKP = (
   title?: string,
   month?: string,
   year?: string,
+  type?: string,
 ) => {
   const { role } = store.getState().auth;
   return useQuery({
-    queryKey: ["getAllIKP", role],
-    queryFn: () => getAllIKP(page, limit, title, month, year),
+    queryKey: ["getAllIKP", role, type],
+    queryFn: () => getAllIKP(page, limit, title, month, year, type),
     staleTime: 300000,
   });
 };

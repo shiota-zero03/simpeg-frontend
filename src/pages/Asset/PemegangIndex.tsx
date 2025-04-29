@@ -10,7 +10,7 @@ import {
 } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import {LuSearch, LuTrash2 } from "react-icons/lu";
+import { LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
@@ -40,7 +40,7 @@ interface DataProps {
     harga: number;
     file: string;
     noBast: string;
-  }[]
+  }[];
 }
 
 export default function AssetIndex() {
@@ -50,18 +50,20 @@ export default function AssetIndex() {
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
 
-  const [dataHolder, setDataHolder] = useState<{
-    tanggal: string;
-    assetId: string;
-    kodeBarang: string;
-    nomorRegistrasi: string;
-    kategori: string;
-    assetName: string;
-    merk: string;
-    harga: number;
-    file: string;
-    noBast: string;
-  }[]>([])
+  const [dataHolder, setDataHolder] = useState<
+    {
+      tanggal: string;
+      assetId: string;
+      kodeBarang: string;
+      nomorRegistrasi: string;
+      kategori: string;
+      assetName: string;
+      merk: string;
+      harga: number;
+      file: string;
+      noBast: string;
+    }[]
+  >([]);
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -123,7 +125,7 @@ export default function AssetIndex() {
         jabatan: item.jabatan || "",
         unit: item.unit || "",
         tanggal: DMYIndoToFormat(item.tanggal),
-        holders: item.holders
+        holders: item.holders,
       }));
     } else {
       return [];
@@ -169,17 +171,18 @@ export default function AssetIndex() {
         const { holders } = row.original;
 
         return (
-          <div 
+          <div
             onClick={() => {
-              setDataHolder(holders)
+              setDataHolder(holders);
               setTimeout(() => {
-                onOpenView()
+                onOpenView();
               }, 100);
             }}
-            className="text-info font-semibold underline cursor-pointer">
+            className="text-info font-semibold underline cursor-pointer"
+          >
             {holders.length} Data
           </div>
-        )
+        );
       },
       // meta: { align: "center" },
     },
@@ -355,7 +358,9 @@ export default function AssetIndex() {
                 </Button>
                 {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
                   <Button
-                    onPress={() => navigate(`/manajemen-aset/tambah-pemegang-aset`)}
+                    onPress={() =>
+                      navigate(`/manajemen-aset/tambah-pemegang-aset`)
+                    }
                     variant="solid"
                     radius="sm"
                     size="sm"

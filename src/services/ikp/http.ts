@@ -16,6 +16,7 @@ export const getAllIKP = async (
   title?: string,
   monthly?: string,
   yearly?: string,
+  type?: string,
 ): Promise<IIKPListRes> => {
   const params = new URLSearchParams();
 
@@ -28,7 +29,11 @@ export const getAllIKP = async (
   const { role } = store.getState().auth;
   let link = `/admin/ikp?${params.toString()}`;
   if (role === "PEGAWAI") {
-    link = `/admin/ikp/users/pegawai?${params.toString()}`;
+    if (type && type === "penerima") {
+      link = `/admin/ikp/users/pegawai?${params.toString()}`;
+    } else {
+      link = `/admin/ikp/users/pegawai/penerima?${params.toString()}`;
+    }
   }
   const response = await instance.get(link);
   return response.data;

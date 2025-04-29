@@ -513,30 +513,29 @@ export default function DetailIKP() {
               >
                 <FaFilePdf size={14} /> Export PDF
               </Link>
-              {(role === "ADMIN" || role === "SUPERUSERS") &&
-                status === "DISETUJUI" && (
-                  <>
-                    {isEditAll ? (
-                      <Button
-                        size="sm"
-                        isLoading={isLoadingConfirm}
-                        className="bg-alert-success text-success border border-success"
-                        onPress={() => handleUpdateAll()}
-                      >
-                        <LuFilePenLine size={12} /> Simpan
-                      </Button>
-                    ) : (
-                      <Button
-                        size="sm"
-                        isLoading={isLoadingConfirm}
-                        className="bg-alert-warning text-warning border border-warning"
-                        onPress={() => setIsEditAll(true)}
-                      >
-                        <LuFilePenLine size={12} /> Edit Realisasi
-                      </Button>
-                    )}
-                  </>
-                )}
+              {role === "PEGAWAI" && status === "DISETUJUI" && (
+                <>
+                  {isEditAll ? (
+                    <Button
+                      size="sm"
+                      isLoading={isLoadingConfirm}
+                      className="bg-alert-success text-success border border-success"
+                      onPress={() => handleUpdateAll()}
+                    >
+                      <LuFilePenLine size={12} /> Simpan
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      isLoading={isLoadingConfirm}
+                      className="bg-alert-warning text-warning border border-warning"
+                      onPress={() => setIsEditAll(true)}
+                    >
+                      <LuFilePenLine size={12} /> Edit Realisasi
+                    </Button>
+                  )}
+                </>
+              )}
               {role === "PEGAWAI" && status === "MENUNGGU" && (
                 <div className="flex items-center justify-end gap-2">
                   <Button

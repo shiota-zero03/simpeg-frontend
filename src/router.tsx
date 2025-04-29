@@ -126,8 +126,12 @@ const Asset = lazy(() => import("@/pages/Asset"));
 const AssetCreated = lazy(() => import("@/pages/Asset/Asset/Created"));
 const AssetUpdated = lazy(() => import("@/pages/Asset/Asset/Updated"));
 const AssetHolderCreated = lazy(() => import("@/pages/Asset/Pemegang/Created"));
-const AssetServiceCreated = lazy(() => import("@/pages/Asset/ServisPajakData/Created"));
-const AssetServiceUpdated = lazy(() => import("@/pages/Asset/ServisPajakData/Updated"));
+const AssetServiceCreated = lazy(
+  () => import("@/pages/Asset/ServisPajakData/Created"),
+);
+const AssetServiceUpdated = lazy(
+  () => import("@/pages/Asset/ServisPajakData/Updated"),
+);
 
 export default function Router() {
   return (
@@ -135,12 +139,8 @@ export default function Router() {
       <ScrollToTop />
       <Routes>
         <Route
-            path="/healthz"
-            element={
-              <div>
-                {JSON.stringify({ status: "oke" })}
-              </div>
-            }
+          path="/healthz"
+          element={<div>{JSON.stringify({ status: "oke" })}</div>}
         />
         <Route path="/login" element={<Login />} />
         <Route element={<Layout />}>
@@ -160,13 +160,31 @@ export default function Router() {
           <Route path="/pegawai/edit-data/:id" element={<UpdatePegawai />} />
           <Route path="/pegawai/detail-data/:id" element={<ViewPegawai />} />
 
-          <Route path="/pegawai/tambah-pelaporan" element={<CreatePelaporan />} />
-          <Route path="/pegawai/edit-pelaporan/:id" element={<UpdatePelaporan />} />
-          <Route path="/pegawai/detail-pelaporan/:id" element={<DetailPelaporan />} />
+          <Route
+            path="/pegawai/tambah-pelaporan"
+            element={<CreatePelaporan />}
+          />
+          <Route
+            path="/pegawai/edit-pelaporan/:id"
+            element={<UpdatePelaporan />}
+          />
+          <Route
+            path="/pegawai/detail-pelaporan/:id"
+            element={<DetailPelaporan />}
+          />
 
-          <Route path="/sppd/tambah-pelaporan" element={<CreatePelaporanSPPD />} />
-          <Route path="/sppd/edit-pelaporan/:id" element={<UpdatePelaporanSPPD />} />
-          <Route path="/sppd/detail-pelaporan/:id" element={<DetailPelaporanSPPD />} />
+          <Route
+            path="/sppd/tambah-pelaporan"
+            element={<CreatePelaporanSPPD />}
+          />
+          <Route
+            path="/sppd/edit-pelaporan/:id"
+            element={<UpdatePelaporanSPPD />}
+          />
+          <Route
+            path="/sppd/detail-pelaporan/:id"
+            element={<DetailPelaporanSPPD />}
+          />
 
           <Route path="/summary-report" element={<Summary />} />
           <Route path="/news" element={<News />} />
@@ -335,8 +353,14 @@ export default function Router() {
         />
         <Route path="/sppd/export-pdf/:id" element={<ExportSPPD />} />
 
-        <Route path="/pegawai/export-pelaporan/:id" element={<ExportPelaporan />} />
-        <Route path="/sppd/export-pelaporan/:id" element={<ExportPelaporanSPPD />} />
+        <Route
+          path="/pegawai/export-pelaporan/:id"
+          element={<ExportPelaporan />}
+        />
+        <Route
+          path="/sppd/export-pelaporan/:id"
+          element={<ExportPelaporanSPPD />}
+        />
 
         <Route path="*" element={<Error404 />} />
       </Routes>

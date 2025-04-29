@@ -4,7 +4,7 @@ import {
   Modal,
   ModalBody,
   ModalContent,
-  ModalHeader
+  ModalHeader,
 } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { LuSave, LuX } from "react-icons/lu";
@@ -23,12 +23,12 @@ interface props {
 
 interface formProps {
   name?: string;
-  accountBank?: string
+  accountBank?: string;
 }
 
 interface errorProps {
   name?: string;
-  accountBank?: string
+  accountBank?: string;
 }
 
 const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
@@ -53,7 +53,8 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   const validateData = () => {
     const errors: errorProps = {};
     if (!formData.name) errors.name = "Nama kegiatan tidak boleh kosong";
-    if (!formData.accountBank) errors.accountBank = "Nomor rekening tidak boleh kosong";
+    if (!formData.accountBank)
+      errors.accountBank = "Nomor rekening tidak boleh kosong";
 
     return errors;
   };
@@ -102,7 +103,9 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
       <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="3xl">
         <ModalContent>
           <ModalHeader className="flex items-center justify-between">
-            <span className="text-base font-semibold">Tambah Data Kegiatan</span>
+            <span className="text-base font-semibold">
+              Tambah Data Kegiatan
+            </span>
             <LuX
               className="text-danger border border-danger rounded-full p-2 cursor-pointer"
               onClick={onClose}

@@ -20,7 +20,11 @@ export const useGetAllAssetServiceOption = () => {
   });
 };
 
-export const useGetAllAssetService = (page: number, limit: number, title?: string) => {
+export const useGetAllAssetService = (
+  page: number,
+  limit: number,
+  title?: string,
+) => {
   return useQuery({
     queryKey: ["getAllAssetService"],
     queryFn: () => getAllAssetService(page, limit, title),
@@ -29,7 +33,11 @@ export const useGetAllAssetService = (page: number, limit: number, title?: strin
 };
 export const useCreateAssetService = () => {
   const queryClient = useQueryClient();
-  return useMutation<IAssetServiceDetailRes, AxiosError<BaseErrorRes>, StoreAssetService>({
+  return useMutation<
+    IAssetServiceDetailRes,
+    AxiosError<BaseErrorRes>,
+    StoreAssetService
+  >({
     mutationFn: (formData) => createAssetService(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["createAssetService"] });
@@ -64,15 +72,17 @@ export const useUpdateAssetService = () => {
 };
 export const useDeleteAssetService = () => {
   const queryClient = useQueryClient();
-  return useMutation<IAssetServiceDetailRes, AxiosError<BaseErrorRes>, { id: string }>(
-    {
-      mutationFn: ({ id }) => deleteAssetService(id),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["deleteAssetService"] });
-      },
-      onError: (error) => {
-        throw error;
-      },
+  return useMutation<
+    IAssetServiceDetailRes,
+    AxiosError<BaseErrorRes>,
+    { id: string }
+  >({
+    mutationFn: ({ id }) => deleteAssetService(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["deleteAssetService"] });
     },
-  );
+    onError: (error) => {
+      throw error;
+    },
+  });
 };

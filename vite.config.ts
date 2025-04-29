@@ -19,6 +19,6 @@ export default defineConfig({
       "minio-simpeg.bekasikab.go.id",
       "storage-simpeg.bekasikab.go.id",
       "api-simpeg.bekasikab.go.id",
-],
+    ],
   },
 });

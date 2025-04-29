@@ -1,6 +1,15 @@
 import instance from "@/api/axios";
-import { StorePelaporanSPPD, StoreSPPD } from "@/interface/request/sppd.interface";
-import { ISPPDRes, ISPPDDetailRes, IPelaporanSPPDRes, IPelaporanSPPDListRes, ISPPDRekapRes } from "@/interface/responses/sppd.interface";
+import {
+  StorePelaporanSPPD,
+  StoreSPPD,
+} from "@/interface/request/sppd.interface";
+import {
+  ISPPDRes,
+  ISPPDDetailRes,
+  IPelaporanSPPDRes,
+  IPelaporanSPPDListRes,
+  ISPPDRekapRes,
+} from "@/interface/responses/sppd.interface";
 
 export const getAllSPPDUser = async (
   page: number,
@@ -20,7 +29,9 @@ export const getAllSPPDUser = async (
   if (title) params.set("title", title);
   if (type) params.set("type", type);
   if (nomorSurat) params.set("nomorSurat", nomorSurat);
-  const response = await instance.get(`/admin/sppd/rekap/usersid?${params.toString()}`);
+  const response = await instance.get(
+    `/admin/sppd/rekap/usersid?${params.toString()}`,
+  );
   return response.data;
 };
 
@@ -42,7 +53,9 @@ export const getAllSPPDRekap = async (
   if (title) params.set("title", title);
   if (type) params.set("type", type);
   if (nomorSurat) params.set("nomorSurat", nomorSurat);
-  const response = await instance.get(`/admin/sppd/rekap/users?${params.toString()}`);
+  const response = await instance.get(
+    `/admin/sppd/rekap/users?${params.toString()}`,
+  );
   return response.data;
 };
 
@@ -64,7 +77,9 @@ export const getAllSPPD = async (
   if (title) params.set("title", title);
   if (type) params.set("type", type);
   if (nomorSurat) params.set("nomorSurat", nomorSurat);
-  const response = await instance.get(`/admin/sppd/data/admin?${params.toString()}`);
+  const response = await instance.get(
+    `/admin/sppd/data/admin?${params.toString()}`,
+  );
   return response.data;
 };
 export const createSPPD = async (
@@ -89,18 +104,19 @@ export const deleteSPPD = async (id: string): Promise<ISPPDDetailRes> => {
   return response.data;
 };
 
-
 export const getAllPelaporanSPPD = async (
   page: number,
   limit: number,
-  title?: string
+  title?: string,
 ): Promise<IPelaporanSPPDListRes> => {
   const params = new URLSearchParams();
 
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
   if (title) params.set("name", title);
-  const response = await instance.get(`/admin/laporan-sppd?${params.toString()}`);
+  const response = await instance.get(
+    `/admin/laporan-sppd?${params.toString()}`,
+  );
   return response.data;
 };
 export const createPelaporanSPPD = async (

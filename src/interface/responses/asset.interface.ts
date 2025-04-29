@@ -40,3 +40,19 @@ export interface IAssetDetailRes extends BaseRes {
 export interface IAssetOptionRes extends BaseRes {
   data: AssetRes[];
 }
+
+export interface IAssetWithHolderRes extends BaseRes {
+  data: {
+    id: string;
+    namaBarang: string;
+    holders: [
+      {
+        id: number;
+        user: {
+          id: string;
+          name: string;
+        };
+      },
+    ];
+  }[];
+}

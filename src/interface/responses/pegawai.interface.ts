@@ -62,7 +62,7 @@ export interface PegawaiOptionRes {
       id: number;
       nameJob: string;
     };
-  }[]
+  }[];
 }
 export interface IPegawaiOptionRes extends BaseRes {
   data: PegawaiOptionRes;
@@ -102,7 +102,6 @@ export interface ISuratPegawaiListRes extends BaseRes {
 export interface ISuratPegawaiRes extends BaseRes {
   data: SuratPegawaiRes;
 }
-
 
 export interface PelaporanPegawaiRes {
   id: number;

@@ -69,7 +69,7 @@ export interface SPPDRekapRes {
     endDate: string;
     location: string;
     activity: string;
-  }
+  };
 }
 
 export interface ISPPDRekapRes extends BaseRes {
@@ -93,7 +93,6 @@ export interface ISPPDDetailRes extends BaseRes {
 export interface ISPPDOptionRes extends BaseRes {
   data: SPPDRes[];
 }
-
 
 export interface PelaporanSPPDRes {
   id: number;

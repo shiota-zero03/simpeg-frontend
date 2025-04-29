@@ -74,10 +74,7 @@ export default function ExportSurat() {
   return (
     <>
       {DATA_DETAIL && (
-        <DetailExport
-            DATA_DETAIL={DATA_DETAIL}
-            isFetching={isFetching}
-        />
+        <DetailExport DATA_DETAIL={DATA_DETAIL} isFetching={isFetching} />
       )}
     </>
   );

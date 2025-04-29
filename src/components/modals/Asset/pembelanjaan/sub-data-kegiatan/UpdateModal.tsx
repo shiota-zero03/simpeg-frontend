@@ -13,7 +13,10 @@ import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { Commet } from "react-loading-indicators";
-import { useGetDetailSubDataKegiatan, useUpdateSubDataKegiatan } from "@/services/asset/asset-pembelanjaan/sub-data-kegiatan";
+import {
+  useGetDetailSubDataKegiatan,
+  useUpdateSubDataKegiatan,
+} from "@/services/asset/asset-pembelanjaan/sub-data-kegiatan";
 import { StoreSubDataKegiatan } from "@/interface/request/assetPembelanjaan";
 
 interface props {
@@ -25,12 +28,12 @@ interface props {
 
 interface formProps {
   name?: string;
-  accountBank?: string
+  accountBank?: string;
 }
 
 interface errorProps {
   name?: string;
-  accountBank?: string
+  accountBank?: string;
 }
 
 const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
@@ -63,7 +66,8 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
   const validateData = () => {
     const errors: errorProps = {};
     if (!formData.name) errors.name = "Nama kegiatan tidak boleh kosong";
-    if (!formData.accountBank) errors.accountBank = "Nomor rekening tidak boleh kosong";
+    if (!formData.accountBank)
+      errors.accountBank = "Nomor rekening tidak boleh kosong";
 
     return errors;
   };
@@ -120,7 +124,9 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
             </div>
           )}
           <ModalHeader className="flex items-center justify-between">
-            <span className="text-base font-semibold">Update Data Sub-Kegiatan</span>
+            <span className="text-base font-semibold">
+              Update Data Sub-Kegiatan
+            </span>
             <LuX
               className="text-danger border border-danger rounded-full p-2 cursor-pointer"
               onClick={onClose}

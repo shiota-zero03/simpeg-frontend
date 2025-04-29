@@ -13,10 +13,16 @@ import {
   updatePelaporanSPPD,
   updateSPPD,
 } from "./http";
-import { IPelaporanSPPDRes, ISPPDDetailRes } from "@/interface/responses/sppd.interface";
+import {
+  IPelaporanSPPDRes,
+  ISPPDDetailRes,
+} from "@/interface/responses/sppd.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
-import { StorePelaporanSPPD, StoreSPPD } from "@/interface/request/sppd.interface";
+import {
+  StorePelaporanSPPD,
+  StoreSPPD,
+} from "@/interface/request/sppd.interface";
 
 export const useGetAllSPPDUser = (
   page: number,
@@ -29,7 +35,8 @@ export const useGetAllSPPDUser = (
 ) => {
   return useQuery({
     queryKey: ["getAllSPPDUser", type],
-    queryFn: () => getAllSPPDUser(page, limit, title, type, nomorSurat, start, end),
+    queryFn: () =>
+      getAllSPPDUser(page, limit, title, type, nomorSurat, start, end),
     staleTime: 300000,
   });
 };
@@ -44,7 +51,8 @@ export const useGetAllSPPDRekap = (
 ) => {
   return useQuery({
     queryKey: ["getAllSPPDRekap", type],
-    queryFn: () => getAllSPPDRekap(page, limit, title, type, nomorSurat, start, end),
+    queryFn: () =>
+      getAllSPPDRekap(page, limit, title, type, nomorSurat, start, end),
     staleTime: 300000,
   });
 };
@@ -110,7 +118,6 @@ export const useDeleteSPPD = () => {
     },
   });
 };
-
 
 export const useGetAllPelaporanSPPD = (
   page: number,

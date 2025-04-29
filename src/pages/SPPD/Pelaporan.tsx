@@ -60,8 +60,10 @@ export default function Unit() {
       return data.response.map((item: PelaporanSPPDRes) => ({
         id: item.id,
         tanggal: DMYIndoToFormat(item.createdAt),
-        latarBelakang: item.latarBelakang ? `${item.latarBelakang.slice(0, 250)} ...` : '',
-        isi: item.isiLaporan ? `${item.isiLaporan.slice(0, 250)} ...` : '',
+        latarBelakang: item.latarBelakang
+          ? `${item.latarBelakang.slice(0, 250)} ...`
+          : "",
+        isi: item.isiLaporan ? `${item.isiLaporan.slice(0, 250)} ...` : "",
       }));
     } else {
       return [];
@@ -207,7 +209,7 @@ export default function Unit() {
       throw error;
     }
   };
-  
+
   return (
     <>
       {selectedId && (
@@ -265,7 +267,7 @@ export default function Unit() {
                   <BiReset size={12} />
                 </Button>
                 <Button
-                  onPress={() => navigate('/sppd/tambah-pelaporan')}
+                  onPress={() => navigate("/sppd/tambah-pelaporan")}
                   variant="solid"
                   radius="sm"
                   size="sm"
