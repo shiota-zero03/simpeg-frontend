@@ -3,6 +3,7 @@ import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import AssetIndex from "./AssetIndex";
 import PemegangIndex from "./PemegangIndex";
 import BelanjaIndex from "./Belanja";
+import ServisPajak from "./ServisPajak";
 import { useEffect, useState } from "react";
 
 export default function Asset() {
@@ -54,6 +55,7 @@ export default function Asset() {
             {selectedTab === "barang-kendaraan" ? <AssetIndex /> : <></>}
             {selectedTab === "pemegang" ? <PemegangIndex /> : <></>}
             {selectedTab === "pembelanjaan" ? <BelanjaIndex /> : <></>}
+            {selectedTab === "servis" ? <ServisPajak /> : <></>}
           </div>
         </div>
       </div>
