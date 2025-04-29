@@ -49,8 +49,23 @@ export interface IPegawaiRes extends BaseRes {
   data: PegawaiRes;
 }
 
+export interface PegawaiOptionRes {
+  userId: string;
+  userName: string;
+  jabatan: string;
+  bawahan: {
+    id: string;
+    nip: string;
+    name: string;
+    email: string;
+    jabatan: {
+      id: number;
+      nameJob: string;
+    };
+  }[]
+}
 export interface IPegawaiOptionRes extends BaseRes {
-  data: PegawaiRes[];
+  data: PegawaiOptionRes;
 }
 
 export interface SuratPegawaiRes {

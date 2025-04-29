@@ -2,6 +2,7 @@ import { TitleCase } from "@/components/card/TitleCase";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import AssetIndex from "./AssetIndex";
 import PemegangIndex from "./PemegangIndex";
+import BelanjaIndex from "./Belanja";
 import { useEffect, useState } from "react";
 
 export default function Asset() {
@@ -52,6 +53,7 @@ export default function Asset() {
           <div className="bg-white shadow-md rounded-b-xl border min-h-[70vh]">
             {selectedTab === "barang-kendaraan" ? <AssetIndex /> : <></>}
             {selectedTab === "pemegang" ? <PemegangIndex /> : <></>}
+            {selectedTab === "pembelanjaan" ? <BelanjaIndex /> : <></>}
           </div>
         </div>
       </div>
