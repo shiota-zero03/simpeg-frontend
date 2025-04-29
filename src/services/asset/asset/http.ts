@@ -4,7 +4,14 @@ import {
   IAssetRes,
   IAssetOptionRes,
   IAssetDetailRes,
+  IAssetWithHolderRes,
 } from "@/interface/responses/asset.interface";
+
+export const getAllAssetOptionWithHolder =
+  async (): Promise<IAssetWithHolderRes> => {
+    const response = await instance.get(`/admin/asset/dropdown/listholder`);
+    return response.data;
+  };
 
 export const getAllAssetOption = async (): Promise<IAssetOptionRes> => {
   const response = await instance.get(`/admin/asset/dropdown/list`);

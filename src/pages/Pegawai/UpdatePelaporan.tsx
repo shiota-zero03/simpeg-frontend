@@ -14,7 +14,10 @@ import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate, useParams } from "react-router-dom";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
-import { useGetDetailPelaporanPegawai, useUpdatePelaporanPegawai } from "@/services/pegawai";
+import {
+  useGetDetailPelaporanPegawai,
+  useUpdatePelaporanPegawai,
+} from "@/services/pegawai";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -24,44 +27,43 @@ import { StorePelaporanPegawai } from "@/interface/request/pegawai.interface";
 import { Commet } from "react-loading-indicators";
 
 interface formProps {
-    latarBelakang?: string;
-    sasaran?: string;
-    maksud?: string;
-    tujuan?: string;
-    dasarHukum?: string;
-    isiLaporan?: string;
-    jabatanPengelola?: string;
-    pengelola?: string;
-    nipPengelola?: string;
-    subgadin?: string;
-    jabatanSubagin?: string;
-    nipSubagin?: string;
-    sekertaris?: string;
-    jabatanSekertaris?: string;
-    nipSekertaris?: string;
+  latarBelakang?: string;
+  sasaran?: string;
+  maksud?: string;
+  tujuan?: string;
+  dasarHukum?: string;
+  isiLaporan?: string;
+  jabatanPengelola?: string;
+  pengelola?: string;
+  nipPengelola?: string;
+  subgadin?: string;
+  jabatanSubagin?: string;
+  nipSubagin?: string;
+  sekertaris?: string;
+  jabatanSekertaris?: string;
+  nipSekertaris?: string;
 }
 
 interface errorProps {
-    latarBelakang?: string;
-    sasaran?: string;
-    maksud?: string;
-    tujuan?: string;
-    dasarHukum?: string;
-    isiLaporan?: string;
-    jabatanPengelola?: string;
-    pengelola?: string;
-    nipPengelola?: string;
-    subgadin?: string;
-    jabatanSubagin?: string;
-    nipSubagin?: string;
-    sekertaris?: string;
-    jabatanSekertaris?: string;
-    nipSekertaris?: string;
+  latarBelakang?: string;
+  sasaran?: string;
+  maksud?: string;
+  tujuan?: string;
+  dasarHukum?: string;
+  isiLaporan?: string;
+  jabatanPengelola?: string;
+  pengelola?: string;
+  nipPengelola?: string;
+  subgadin?: string;
+  jabatanSubagin?: string;
+  nipSubagin?: string;
+  sekertaris?: string;
+  jabatanSekertaris?: string;
+  nipSekertaris?: string;
 }
 
 export default function UpdatePelaporan() {
-
-    const { id } = useParams();
+  const { id } = useParams();
 
   const [formData, setFormData] = useState<formProps>({
     latarBelakang: "",
@@ -85,29 +87,35 @@ export default function UpdatePelaporan() {
 
   const rules = () => {
     const error: errorProps = {};
-    if(!formData.latarBelakang) error.latarBelakang = "Latar Belakang tidak boleh kosong"
-    if(!formData.sasaran) error.sasaran = "Sasaran tidak boleh kosong"
-    if(!formData.maksud) error.maksud = "Maksud tidak boleh kosong"
-    if(!formData.tujuan) error.tujuan = "Tujuan tidak boleh kosong"
-    if(!formData.dasarHukum) error.dasarHukum = "Dasar hukum tidak boleh kosong"
-    if(!formData.isiLaporan) error.isiLaporan = "Isi laporan tidak boleh kosong"
+    if (!formData.latarBelakang)
+      error.latarBelakang = "Latar Belakang tidak boleh kosong";
+    if (!formData.sasaran) error.sasaran = "Sasaran tidak boleh kosong";
+    if (!formData.maksud) error.maksud = "Maksud tidak boleh kosong";
+    if (!formData.tujuan) error.tujuan = "Tujuan tidak boleh kosong";
+    if (!formData.dasarHukum)
+      error.dasarHukum = "Dasar hukum tidak boleh kosong";
+    if (!formData.isiLaporan)
+      error.isiLaporan = "Isi laporan tidak boleh kosong";
 
-    if(
-        !formData.jabatanPengelola ||
-        !formData.pengelola || 
-        !formData.nipPengelola ||
-        !formData.subgadin || 
-        !formData.jabatanSubagin ||
-        !formData.nipSubagin ||
-        !formData.sekertaris ||
-        !formData.jabatanSekertaris ||
-        !formData.nipSekertaris
-    ) error.jabatanPengelola = "Pendanda tangan harus terisi semua"
-    
+    if (
+      !formData.jabatanPengelola ||
+      !formData.pengelola ||
+      !formData.nipPengelola ||
+      !formData.subgadin ||
+      !formData.jabatanSubagin ||
+      !formData.nipSubagin ||
+      !formData.sekertaris ||
+      !formData.jabatanSekertaris ||
+      !formData.nipSekertaris
+    )
+      error.jabatanPengelola = "Pendanda tangan harus terisi semua";
+
     return error;
   };
 
-  const { data, isFetching, refetch, error } = useGetDetailPelaporanPegawai(id as string)
+  const { data, isFetching, refetch, error } = useGetDetailPelaporanPegawai(
+    id as string,
+  );
 
   useEffect(() => {
     if (!isFetching && error) {
@@ -122,26 +130,26 @@ export default function UpdatePelaporan() {
   }, []);
 
   useEffect(() => {
-    if(data) {
-        setFormData({
-            latarBelakang: data.data.latarBelakang,
-            sasaran: data.data.sasaran,
-            maksud: data.data.maksud,
-            tujuan: data.data.tujuan,
-            dasarHukum: data.data.dasarHukum,
-            isiLaporan: data.data.isiLaporan,
-            jabatanPengelola: data.data.jabatanPengelola,
-            pengelola: data.data.pengelola,
-            nipPengelola: data.data.nipPengelola,
-            subgadin: data.data.subgadin,
-            jabatanSubagin: data.data.jabatanSubagin,
-            nipSubagin: data.data.nipSubagin,
-            sekertaris: data.data.sekertaris,
-            jabatanSekertaris: data.data.jabatanSekertaris,
-            nipSekertaris: data.data.nipSekertaris,
-        });
+    if (data) {
+      setFormData({
+        latarBelakang: data.data.latarBelakang,
+        sasaran: data.data.sasaran,
+        maksud: data.data.maksud,
+        tujuan: data.data.tujuan,
+        dasarHukum: data.data.dasarHukum,
+        isiLaporan: data.data.isiLaporan,
+        jabatanPengelola: data.data.jabatanPengelola,
+        pengelola: data.data.pengelola,
+        nipPengelola: data.data.nipPengelola,
+        subgadin: data.data.subgadin,
+        jabatanSubagin: data.data.jabatanSubagin,
+        nipSubagin: data.data.nipSubagin,
+        sekertaris: data.data.sekertaris,
+        jabatanSekertaris: data.data.jabatanSekertaris,
+        nipSekertaris: data.data.nipSekertaris,
+      });
     }
-  }, [data, id])
+  }, [data, id]);
 
   const navigate = useNavigate();
 
@@ -174,42 +182,51 @@ export default function UpdatePelaporan() {
 
     const formToSend: StorePelaporanPegawai = {};
 
-    if(formData.latarBelakang) formToSend.latarBelakang = formData.latarBelakang;
-    if(formData.sasaran) formToSend.sasaran = formData.sasaran;
-    if(formData.maksud) formToSend.maksud = formData.maksud;
-    if(formData.tujuan) formToSend.tujuan = formData.tujuan;
-    if(formData.dasarHukum) formToSend.dasarHukum = formData.dasarHukum;
-    if(formData.isiLaporan) formToSend.isiLaporan = formData.isiLaporan;
-    if(formData.jabatanPengelola) formToSend.jabatanPengelola = formData.jabatanPengelola;
-    if(formData.pengelola) formToSend.pengelola = formData.pengelola;
-    if(formData.nipPengelola) formToSend.nipPengelola = formData.nipPengelola;
-    if(formData.subgadin) formToSend.subgadin = formData.subgadin;
-    if(formData.jabatanSubagin) formToSend.jabatanSubagin = formData.jabatanSubagin;
-    if(formData.nipSubagin) formToSend.nipSubagin = formData.nipSubagin;
-    if(formData.sekertaris) formToSend.sekertaris = formData.sekertaris;
-    if(formData.jabatanSekertaris) formToSend.jabatanSekertaris = formData.jabatanSekertaris;
-    if(formData.nipSekertaris) formToSend.nipSekertaris = formData.nipSekertaris;
+    if (formData.latarBelakang)
+      formToSend.latarBelakang = formData.latarBelakang;
+    if (formData.sasaran) formToSend.sasaran = formData.sasaran;
+    if (formData.maksud) formToSend.maksud = formData.maksud;
+    if (formData.tujuan) formToSend.tujuan = formData.tujuan;
+    if (formData.dasarHukum) formToSend.dasarHukum = formData.dasarHukum;
+    if (formData.isiLaporan) formToSend.isiLaporan = formData.isiLaporan;
+    if (formData.jabatanPengelola)
+      formToSend.jabatanPengelola = formData.jabatanPengelola;
+    if (formData.pengelola) formToSend.pengelola = formData.pengelola;
+    if (formData.nipPengelola) formToSend.nipPengelola = formData.nipPengelola;
+    if (formData.subgadin) formToSend.subgadin = formData.subgadin;
+    if (formData.jabatanSubagin)
+      formToSend.jabatanSubagin = formData.jabatanSubagin;
+    if (formData.nipSubagin) formToSend.nipSubagin = formData.nipSubagin;
+    if (formData.sekertaris) formToSend.sekertaris = formData.sekertaris;
+    if (formData.jabatanSekertaris)
+      formToSend.jabatanSekertaris = formData.jabatanSekertaris;
+    if (formData.nipSekertaris)
+      formToSend.nipSekertaris = formData.nipSekertaris;
 
     try {
-      mutatePost({
-        id: id as string, formData: formToSend
-      }, {
-        onSuccess: () => {
-          SuccessToast({ text: "Data berhasil ditambahkan" });
-          navigate("/pegawai");
+      mutatePost(
+        {
+          id: id as string,
+          formData: formToSend,
         },
-        onError: (error: AxiosError<BaseErrorRes>) => {
-          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-          ErrorToast({
-            text:
-              (error.response?.data.message as string) ||
-              "Terjadi kesalahan saat mengirim data",
-          });
-          onCloseConfirm();
-          setLoadingConfirm(false);
-          throw error;
+        {
+          onSuccess: () => {
+            SuccessToast({ text: "Data berhasil ditambahkan" });
+            navigate("/pegawai");
+          },
+          onError: (error: AxiosError<BaseErrorRes>) => {
+            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+            ErrorToast({
+              text:
+                (error.response?.data.message as string) ||
+                "Terjadi kesalahan saat mengirim data",
+            });
+            onCloseConfirm();
+            setLoadingConfirm(false);
+            throw error;
+          },
         },
-      });
+      );
     } catch (error) {
       setLoadingConfirm(false);
       onCloseConfirm();
@@ -273,7 +290,12 @@ export default function UpdatePelaporan() {
                 <div className="flex flex-col gap-2 text-sm">
                   <div>
                     <div className="mb-1">
-                        <label htmlFor="pelaporan" className="font-semibold text-lg">I. Latar Belakang</label>
+                      <label
+                        htmlFor="pelaporan"
+                        className="font-semibold text-lg"
+                      >
+                        I. Latar Belakang
+                      </label>
                     </div>
                     <CKEditor
                       editor={ClassicEditor}
@@ -305,7 +327,12 @@ export default function UpdatePelaporan() {
                   </div>
                   <div>
                     <div className="mb-1">
-                        <label htmlFor="pelaporan" className="font-semibold text-lg">II. Sasaran</label>
+                      <label
+                        htmlFor="pelaporan"
+                        className="font-semibold text-lg"
+                      >
+                        II. Sasaran
+                      </label>
                     </div>
                     <CKEditor
                       editor={ClassicEditor}
@@ -335,78 +362,98 @@ export default function UpdatePelaporan() {
                       }}
                     />
                   </div>
-                <div>
+                  <div>
                     <div className="mb-1">
-                        <label htmlFor="pelaporan" className="font-semibold text-lg">III. Maksud dan Tujuan</label>
+                      <label
+                        htmlFor="pelaporan"
+                        className="font-semibold text-lg"
+                      >
+                        III. Maksud dan Tujuan
+                      </label>
                     </div>
                     <div>
-                        <div className="mb-1">
-                            <label htmlFor="pelaporan" className="font-semibold text-lg">Maksud</label>
-                        </div>
-                        <CKEditor
+                      <div className="mb-1">
+                        <label
+                          htmlFor="pelaporan"
+                          className="font-semibold text-lg"
+                        >
+                          Maksud
+                        </label>
+                      </div>
+                      <CKEditor
                         editor={ClassicEditor}
                         data={formData.maksud}
                         config={{
-                            extraPlugins: [SimpleUploadAdapter],
-                            toolbar: ckToolbar,
-                            plugins: ckPlugins,
-                            image: {
+                          extraPlugins: [SimpleUploadAdapter],
+                          toolbar: ckToolbar,
+                          plugins: ckPlugins,
+                          image: {
                             toolbar: [
-                                "imageTextAlternative",
-                                "imageStyle:full",
-                                "imageStyle:side",
+                              "imageTextAlternative",
+                              "imageStyle:full",
+                              "imageStyle:side",
                             ],
                             upload: {
-                                types: ["jpeg", "png", "gif", "bmp", "webp"],
+                              types: ["jpeg", "png", "gif", "bmp", "webp"],
                             },
-                            },
-                            // simpleUpload: {
-                            //     uploadUrl: `${BASE_URL}/upload-image`,
-                            // }
+                          },
+                          // simpleUpload: {
+                          //     uploadUrl: `${BASE_URL}/upload-image`,
+                          // }
                         }}
                         onChange={(_event, editor) => {
-                            setFormData((prev) => {
+                          setFormData((prev) => {
                             return { ...prev, maksud: editor.getData() };
-                            });
+                          });
                         }}
-                        />
+                      />
                     </div>
                     <div>
-                        <div className="mb-1">
-                            <label htmlFor="pelaporan" className="font-semibold text-lg">Tujuan</label>
-                        </div>
-                        <CKEditor
+                      <div className="mb-1">
+                        <label
+                          htmlFor="pelaporan"
+                          className="font-semibold text-lg"
+                        >
+                          Tujuan
+                        </label>
+                      </div>
+                      <CKEditor
                         editor={ClassicEditor}
                         data={formData.tujuan}
                         config={{
-                            extraPlugins: [SimpleUploadAdapter],
-                            toolbar: ckToolbar,
-                            plugins: ckPlugins,
-                            image: {
+                          extraPlugins: [SimpleUploadAdapter],
+                          toolbar: ckToolbar,
+                          plugins: ckPlugins,
+                          image: {
                             toolbar: [
-                                "imageTextAlternative",
-                                "imageStyle:full",
-                                "imageStyle:side",
+                              "imageTextAlternative",
+                              "imageStyle:full",
+                              "imageStyle:side",
                             ],
                             upload: {
-                                types: ["jpeg", "png", "gif", "bmp", "webp"],
+                              types: ["jpeg", "png", "gif", "bmp", "webp"],
                             },
-                            },
-                            // simpleUpload: {
-                            //     uploadUrl: `${BASE_URL}/upload-image`,
-                            // }
+                          },
+                          // simpleUpload: {
+                          //     uploadUrl: `${BASE_URL}/upload-image`,
+                          // }
                         }}
                         onChange={(_event, editor) => {
-                            setFormData((prev) => {
+                          setFormData((prev) => {
                             return { ...prev, tujuan: editor.getData() };
-                            });
+                          });
                         }}
-                        />
+                      />
                     </div>
-                </div>
+                  </div>
                   <div>
                     <div className="mb-1">
-                        <label htmlFor="pelaporan" className="font-semibold text-lg">IV. Dasar Hukum</label>
+                      <label
+                        htmlFor="pelaporan"
+                        className="font-semibold text-lg"
+                      >
+                        IV. Dasar Hukum
+                      </label>
                     </div>
                     <CKEditor
                       editor={ClassicEditor}
@@ -438,7 +485,12 @@ export default function UpdatePelaporan() {
                   </div>
                   <div>
                     <div className="mb-1">
-                        <label htmlFor="pelaporan" className="font-semibold text-lg">V. Isi Laporan</label>
+                      <label
+                        htmlFor="pelaporan"
+                        className="font-semibold text-lg"
+                      >
+                        V. Isi Laporan
+                      </label>
                     </div>
                     <CKEditor
                       editor={ClassicEditor}
@@ -471,205 +523,205 @@ export default function UpdatePelaporan() {
                   <br />
                   <div className="flex sm:flex-row flex-col items-center justify-between w-full gap-4">
                     <div className="flex flex-col items-center justify-center w-full gap-2">
-                        <Input
-                            variant="bordered"
-                            aria-label="nomorSurat"
-                            size="sm"
-                            radius="sm"
-                            className="max-w-96"
-                            classNames={{
-                            inputWrapper:
-                                "border-[0.8px] border-button-primary rounded-md",
-                            input: "text-xs",
-                            }}
-                            placeholder="Masukkan jabatan"
-                            value={formData.jabatanPengelola}
-                            onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                jabatanPengelola: e.target.value,
-                            })
-                            }
-                        />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <Input
-                            variant="bordered"
-                            aria-label="nomorSurat"
-                            size="sm"
-                            radius="sm"
-                            className="max-w-96"
-                            classNames={{
-                            inputWrapper:
-                                "border-[0.8px] border-button-primary rounded-md",
-                            input: "text-xs",
-                            }}
-                            placeholder="Masukkan nama"
-                            value={formData.pengelola}
-                            onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                pengelola: e.target.value,
-                            })
-                            }
-                        />
-                        <Input
-                            variant="bordered"
-                            aria-label="nomorSurat"
-                            size="sm"
-                            radius="sm"
-                            className="max-w-96"
-                            classNames={{
-                            inputWrapper:
-                                "border-[0.8px] border-button-primary rounded-md",
-                            input: "text-xs",
-                            }}
-                            placeholder="Masukkan nip"
-                            value={formData.nipPengelola}
-                            onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                nipPengelola: e.target.value,
-                            })
-                            }
-                        />
+                      <Input
+                        variant="bordered"
+                        aria-label="nomorSurat"
+                        size="sm"
+                        radius="sm"
+                        className="max-w-96"
+                        classNames={{
+                          inputWrapper:
+                            "border-[0.8px] border-button-primary rounded-md",
+                          input: "text-xs",
+                        }}
+                        placeholder="Masukkan jabatan"
+                        value={formData.jabatanPengelola}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            jabatanPengelola: e.target.value,
+                          })
+                        }
+                      />
+                      <br />
+                      <br />
+                      <br />
+                      <br />
+                      <Input
+                        variant="bordered"
+                        aria-label="nomorSurat"
+                        size="sm"
+                        radius="sm"
+                        className="max-w-96"
+                        classNames={{
+                          inputWrapper:
+                            "border-[0.8px] border-button-primary rounded-md",
+                          input: "text-xs",
+                        }}
+                        placeholder="Masukkan nama"
+                        value={formData.pengelola}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            pengelola: e.target.value,
+                          })
+                        }
+                      />
+                      <Input
+                        variant="bordered"
+                        aria-label="nomorSurat"
+                        size="sm"
+                        radius="sm"
+                        className="max-w-96"
+                        classNames={{
+                          inputWrapper:
+                            "border-[0.8px] border-button-primary rounded-md",
+                          input: "text-xs",
+                        }}
+                        placeholder="Masukkan nip"
+                        value={formData.nipPengelola}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            nipPengelola: e.target.value,
+                          })
+                        }
+                      />
                     </div>
                     <div className="flex flex-col items-center justify-center w-full gap-2">
-                        <Input
-                            variant="bordered"
-                            aria-label="nomorSurat"
-                            size="sm"
-                            radius="sm"
-                            className="max-w-96"
-                            classNames={{
-                            inputWrapper:
-                                "border-[0.8px] border-button-primary rounded-md",
-                            input: "text-xs",
-                            }}
-                            placeholder="Masukkan jabatan"
-                            value={formData.jabatanSekertaris}
-                            onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                jabatanSekertaris: e.target.value,
-                            })
-                            }
-                        />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <Input
-                            variant="bordered"
-                            aria-label="nomorSurat"
-                            size="sm"
-                            radius="sm"
-                            className="max-w-96"
-                            classNames={{
-                            inputWrapper:
-                                "border-[0.8px] border-button-primary rounded-md",
-                            input: "text-xs",
-                            }}
-                            placeholder="Masukkan nama"
-                            value={formData.sekertaris}
-                            onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                sekertaris: e.target.value,
-                            })
-                            }
-                        />
-                        <Input
-                            variant="bordered"
-                            aria-label="nomorSurat"
-                            size="sm"
-                            radius="sm"
-                            className="max-w-96"
-                            classNames={{
-                            inputWrapper:
-                                "border-[0.8px] border-button-primary rounded-md",
-                            input: "text-xs",
-                            }}
-                            placeholder="Masukkan nip"
-                            value={formData.nipSekertaris}
-                            onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                nipSekertaris: e.target.value,
-                            })
-                            }
-                        />
+                      <Input
+                        variant="bordered"
+                        aria-label="nomorSurat"
+                        size="sm"
+                        radius="sm"
+                        className="max-w-96"
+                        classNames={{
+                          inputWrapper:
+                            "border-[0.8px] border-button-primary rounded-md",
+                          input: "text-xs",
+                        }}
+                        placeholder="Masukkan jabatan"
+                        value={formData.jabatanSekertaris}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            jabatanSekertaris: e.target.value,
+                          })
+                        }
+                      />
+                      <br />
+                      <br />
+                      <br />
+                      <br />
+                      <Input
+                        variant="bordered"
+                        aria-label="nomorSurat"
+                        size="sm"
+                        radius="sm"
+                        className="max-w-96"
+                        classNames={{
+                          inputWrapper:
+                            "border-[0.8px] border-button-primary rounded-md",
+                          input: "text-xs",
+                        }}
+                        placeholder="Masukkan nama"
+                        value={formData.sekertaris}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            sekertaris: e.target.value,
+                          })
+                        }
+                      />
+                      <Input
+                        variant="bordered"
+                        aria-label="nomorSurat"
+                        size="sm"
+                        radius="sm"
+                        className="max-w-96"
+                        classNames={{
+                          inputWrapper:
+                            "border-[0.8px] border-button-primary rounded-md",
+                          input: "text-xs",
+                        }}
+                        placeholder="Masukkan nip"
+                        value={formData.nipSekertaris}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            nipSekertaris: e.target.value,
+                          })
+                        }
+                      />
                     </div>
                   </div>
                   <br />
                   <div className="flex flex-col items-center justify-center w-full gap-2">
-                        <Input
-                            variant="bordered"
-                            aria-label="nomorSurat"
-                            size="sm"
-                            radius="sm"
-                            className="max-w-96"
-                            classNames={{
-                            inputWrapper:
-                                "border-[0.8px] border-button-primary rounded-md",
-                            input: "text-xs",
-                            }}
-                            placeholder="Masukkan jabatan"
-                            value={formData.jabatanSubagin}
-                            onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                jabatanSubagin: e.target.value,
-                            })
-                            }
-                        />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <Input
-                            variant="bordered"
-                            aria-label="nomorSurat"
-                            size="sm"
-                            radius="sm"
-                            className="max-w-96"
-                            classNames={{
-                            inputWrapper:
-                                "border-[0.8px] border-button-primary rounded-md",
-                            input: "text-xs",
-                            }}
-                            placeholder="Masukkan nama"
-                            value={formData.subgadin}
-                            onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                subgadin: e.target.value,
-                            })
-                            }
-                        />
-                        <Input
-                            variant="bordered"
-                            aria-label="nomorSurat"
-                            size="sm"
-                            radius="sm"
-                            className="max-w-96"
-                            classNames={{
-                            inputWrapper:
-                                "border-[0.8px] border-button-primary rounded-md",
-                            input: "text-xs",
-                            }}
-                            placeholder="Masukkan nip"
-                            value={formData.nipSubagin}
-                            onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                nipSubagin: e.target.value,
-                            })
-                            }
-                        />
-                    </div>
+                    <Input
+                      variant="bordered"
+                      aria-label="nomorSurat"
+                      size="sm"
+                      radius="sm"
+                      className="max-w-96"
+                      classNames={{
+                        inputWrapper:
+                          "border-[0.8px] border-button-primary rounded-md",
+                        input: "text-xs",
+                      }}
+                      placeholder="Masukkan jabatan"
+                      value={formData.jabatanSubagin}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          jabatanSubagin: e.target.value,
+                        })
+                      }
+                    />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <Input
+                      variant="bordered"
+                      aria-label="nomorSurat"
+                      size="sm"
+                      radius="sm"
+                      className="max-w-96"
+                      classNames={{
+                        inputWrapper:
+                          "border-[0.8px] border-button-primary rounded-md",
+                        input: "text-xs",
+                      }}
+                      placeholder="Masukkan nama"
+                      value={formData.subgadin}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          subgadin: e.target.value,
+                        })
+                      }
+                    />
+                    <Input
+                      variant="bordered"
+                      aria-label="nomorSurat"
+                      size="sm"
+                      radius="sm"
+                      className="max-w-96"
+                      classNames={{
+                        inputWrapper:
+                          "border-[0.8px] border-button-primary rounded-md",
+                        input: "text-xs",
+                      }}
+                      placeholder="Masukkan nip"
+                      value={formData.nipSubagin}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          nipSubagin: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </CardBody>
             </Card>

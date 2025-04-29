@@ -20,7 +20,11 @@ export const useGetAllSubDataKegiatanOption = () => {
   });
 };
 
-export const useGetAllSubDataKegiatan = (page: number, limit: number, title?: string) => {
+export const useGetAllSubDataKegiatan = (
+  page: number,
+  limit: number,
+  title?: string,
+) => {
   return useQuery({
     queryKey: ["getAllSubDataKegiatan"],
     queryFn: () => getAllSubDataKegiatan(page, limit, title),
@@ -29,7 +33,11 @@ export const useGetAllSubDataKegiatan = (page: number, limit: number, title?: st
 };
 export const useCreateSubDataKegiatan = () => {
   const queryClient = useQueryClient();
-  return useMutation<ISubDataKegiatanDetailRes, AxiosError<BaseErrorRes>, StoreSubDataKegiatan>({
+  return useMutation<
+    ISubDataKegiatanDetailRes,
+    AxiosError<BaseErrorRes>,
+    StoreSubDataKegiatan
+  >({
     mutationFn: (formData) => createSubDataKegiatan(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["createSubDataKegiatan"] });
@@ -64,15 +72,17 @@ export const useUpdateSubDataKegiatan = () => {
 };
 export const useDeleteSubDataKegiatan = () => {
   const queryClient = useQueryClient();
-  return useMutation<ISubDataKegiatanDetailRes, AxiosError<BaseErrorRes>, { id: string }>(
-    {
-      mutationFn: ({ id }) => deleteSubDataKegiatan(id),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["deleteSubDataKegiatan"] });
-      },
-      onError: (error) => {
-        throw error;
-      },
+  return useMutation<
+    ISubDataKegiatanDetailRes,
+    AxiosError<BaseErrorRes>,
+    { id: string }
+  >({
+    mutationFn: ({ id }) => deleteSubDataKegiatan(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["deleteSubDataKegiatan"] });
     },
-  );
+    onError: (error) => {
+      throw error;
+    },
+  });
 };

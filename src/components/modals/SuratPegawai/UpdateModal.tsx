@@ -107,7 +107,9 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
 
   useEffect(() => {
     if (data) {
-      const pegawaiData = PEGAWAI_SELECT.find((it) => it.id === data.data.userId);
+      const pegawaiData = PEGAWAI_SELECT.find(
+        (it) => it.id === data.data.userId,
+      );
       setFormData({
         userId: data.data.userId,
         nip: pegawaiData?.nip,

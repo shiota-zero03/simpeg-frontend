@@ -154,7 +154,10 @@ export default function AssetIndex() {
     {
       accessorKey: "kategori",
       header: "Kategori",
-      cell: (info) => info.getValue() as string ==="PERALATAN" ? "Peralatan Kantor / Mesin" : "Kendaraan",
+      cell: (info) =>
+        (info.getValue() as string) === "PERALATAN"
+          ? "Peralatan Kantor / Mesin"
+          : "Kendaraan",
       // meta: { align: "center" },
     },
     {
@@ -177,9 +180,9 @@ export default function AssetIndex() {
           <div className="flex items-center gap-2 justify-center">
             <Button
               onPress={() => {
-                setSelectedId(id)
+                setSelectedId(id);
                 setTimeout(() => {
-                  onOpenView()
+                  onOpenView();
                 }, 100);
               }}
               isIconOnly
@@ -304,11 +307,7 @@ export default function AssetIndex() {
         handleSubmit={handleDelete}
       />
       {selectedId && (
-        <ViewModal
-          id={selectedId}
-          isOpen={isOpenView}
-          onClose={onCloseView}
-        />
+        <ViewModal id={selectedId} isOpen={isOpenView} onClose={onCloseView} />
       )}
       <div>
         <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">

@@ -20,7 +20,11 @@ export const useGetAllAssetHolderOption = () => {
   });
 };
 
-export const useGetAllAssetHolder = (page: number, limit: number, title?: string) => {
+export const useGetAllAssetHolder = (
+  page: number,
+  limit: number,
+  title?: string,
+) => {
   return useQuery({
     queryKey: ["getAllAssetHolder"],
     queryFn: () => getAllAssetHolder(page, limit, title),
@@ -29,7 +33,11 @@ export const useGetAllAssetHolder = (page: number, limit: number, title?: string
 };
 export const useCreateAssetHolder = () => {
   const queryClient = useQueryClient();
-  return useMutation<IAssetHolderDetailRes, AxiosError<BaseErrorRes>, StoreAssetHolder[]>({
+  return useMutation<
+    IAssetHolderDetailRes,
+    AxiosError<BaseErrorRes>,
+    StoreAssetHolder[]
+  >({
     mutationFn: (formData) => createAssetHolder(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["createAssetHolder"] });
@@ -64,15 +72,17 @@ export const useUpdateAssetHolder = () => {
 };
 export const useDeleteAssetHolder = () => {
   const queryClient = useQueryClient();
-  return useMutation<IAssetHolderDetailRes, AxiosError<BaseErrorRes>, { id: string }>(
-    {
-      mutationFn: ({ id }) => deleteAssetHolder(id),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["deleteAssetHolder"] });
-      },
-      onError: (error) => {
-        throw error;
-      },
+  return useMutation<
+    IAssetHolderDetailRes,
+    AxiosError<BaseErrorRes>,
+    { id: string }
+  >({
+    mutationFn: ({ id }) => deleteAssetHolder(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["deleteAssetHolder"] });
     },
-  );
+    onError: (error) => {
+      throw error;
+    },
+  });
 };

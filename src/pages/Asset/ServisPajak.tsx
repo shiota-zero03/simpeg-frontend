@@ -10,14 +10,17 @@ import {
 } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import {LuSearch, LuTrash2 } from "react-icons/lu";
+import { LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import store from "@/redux/store";
 import { parseDate } from "@internationalized/date";
-import { useDeleteAssetService, useGetAllAssetService } from "@/services/asset/asset-service";
+import {
+  useDeleteAssetService,
+  useGetAllAssetService,
+} from "@/services/asset/asset-service";
 import { LucidePencilLine } from "lucide-react";
 
 interface DataProps {
@@ -40,11 +43,11 @@ interface DataProps {
       id: string;
       name: string;
       jabatan: {
-        id: number
+        id: number;
         nameJob: string;
-      }
-    }
-  }
+      };
+    };
+  };
 }
 
 export default function AssetIndex() {
@@ -168,12 +171,12 @@ export default function AssetIndex() {
             {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
               <Button
                 onPress={() => {
-                  navigate(`/manajemen-aset/edit-service/${id}`)
+                  navigate(`/manajemen-aset/edit-service/${id}`);
                 }}
                 isIconOnly
                 radius="sm"
                 size="sm"
-                className="bg-alert-danger text-danger shadow-sm"
+                className="bg-alert-info text-info shadow-sm"
               >
                 <LucidePencilLine size={14} />
               </Button>

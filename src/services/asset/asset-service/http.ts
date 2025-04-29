@@ -6,10 +6,11 @@ import {
   IAssetServiceDetailRes,
 } from "@/interface/responses/assetService.interface";
 
-export const getAllAssetServiceOption = async (): Promise<IAssetServiceOptionRes> => {
-  const response = await instance.get(`/admin/pajak-services/dropdown/list`);
-  return response.data;
-};
+export const getAllAssetServiceOption =
+  async (): Promise<IAssetServiceOptionRes> => {
+    const response = await instance.get(`/admin/pajak-services/dropdown/list`);
+    return response.data;
+  };
 
 export const getAllAssetService = async (
   page: number,
@@ -21,16 +22,23 @@ export const getAllAssetService = async (
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
   if (title) params.set("search", title);
-  const response = await instance.get(`/admin/pajak-services?${params.toString()}`);
+  const response = await instance.get(
+    `/admin/pajak-services?${params.toString()}`,
+  );
   return response.data;
 };
 export const createAssetService = async (
   formData: StoreAssetService,
 ): Promise<IAssetServiceDetailRes> => {
-  const response = await instance.post(`/admin/pajak-services/create`, formData);
+  const response = await instance.post(
+    `/admin/pajak-services/create`,
+    formData,
+  );
   return response.data;
 };
-export const getDetailAssetService = async (id: string): Promise<IAssetServiceDetailRes> => {
+export const getDetailAssetService = async (
+  id: string,
+): Promise<IAssetServiceDetailRes> => {
   const response = await instance.get(`/admin/pajak-services/${id}`);
   return response.data;
 };
@@ -38,10 +46,15 @@ export const updateAssetService = async (
   id: string,
   formData: StoreAssetService,
 ): Promise<IAssetServiceDetailRes> => {
-  const response = await instance.put(`/admin/pajak-services/update/${id}`, formData);
+  const response = await instance.put(
+    `/admin/pajak-services/update/${id}`,
+    formData,
+  );
   return response.data;
 };
-export const deleteAssetService = async (id: string): Promise<IAssetServiceDetailRes> => {
+export const deleteAssetService = async (
+  id: string,
+): Promise<IAssetServiceDetailRes> => {
   const response = await instance.delete(`/admin/pajak-services/delete/${id}`);
   return response.data;
 };

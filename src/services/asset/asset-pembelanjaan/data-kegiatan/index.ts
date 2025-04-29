@@ -20,7 +20,11 @@ export const useGetAllDataKegiatanOption = () => {
   });
 };
 
-export const useGetAllDataKegiatan = (page: number, limit: number, title?: string) => {
+export const useGetAllDataKegiatan = (
+  page: number,
+  limit: number,
+  title?: string,
+) => {
   return useQuery({
     queryKey: ["getAllDataKegiatan"],
     queryFn: () => getAllDataKegiatan(page, limit, title),
@@ -29,7 +33,11 @@ export const useGetAllDataKegiatan = (page: number, limit: number, title?: strin
 };
 export const useCreateDataKegiatan = () => {
   const queryClient = useQueryClient();
-  return useMutation<IDataKegiatanDetailRes, AxiosError<BaseErrorRes>, StoreDataKegiatan>({
+  return useMutation<
+    IDataKegiatanDetailRes,
+    AxiosError<BaseErrorRes>,
+    StoreDataKegiatan
+  >({
     mutationFn: (formData) => createDataKegiatan(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["createDataKegiatan"] });
@@ -64,15 +72,17 @@ export const useUpdateDataKegiatan = () => {
 };
 export const useDeleteDataKegiatan = () => {
   const queryClient = useQueryClient();
-  return useMutation<IDataKegiatanDetailRes, AxiosError<BaseErrorRes>, { id: string }>(
-    {
-      mutationFn: ({ id }) => deleteDataKegiatan(id),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["deleteDataKegiatan"] });
-      },
-      onError: (error) => {
-        throw error;
-      },
+  return useMutation<
+    IDataKegiatanDetailRes,
+    AxiosError<BaseErrorRes>,
+    { id: string }
+  >({
+    mutationFn: ({ id }) => deleteDataKegiatan(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["deleteDataKegiatan"] });
     },
-  );
+    onError: (error) => {
+      throw error;
+    },
+  });
 };

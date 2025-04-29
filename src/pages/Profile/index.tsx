@@ -50,9 +50,7 @@ export default function Profile() {
           {selectedTab === "riwayat-penilaian" && (
             <ViewPenilaian dataNilaiBobot={DATA_FETCHING || null} />
           )}
-          {selectedTab === "riwayat-perjalanan" && (
-            <SPPD />
-          )}
+          {selectedTab === "riwayat-perjalanan" && <SPPD />}
         </div>
       </div>
     </>

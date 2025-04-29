@@ -13,7 +13,12 @@ import {
   Select,
   SelectItem,
 } from "@heroui/react";
-import { LuArchiveRestore, LuArrowLeft, LuSave, LuSearch } from "react-icons/lu";
+import {
+  LuArchiveRestore,
+  LuArrowLeft,
+  LuSave,
+  LuSearch,
+} from "react-icons/lu";
 import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
@@ -118,7 +123,8 @@ export default function CreatePegawai() {
 
   const rules = () => {
     const error: errorProps = {};
-    if (!formData.userId) error.userId = "Pilih pemegang barang terlebih dahulu";
+    if (!formData.userId)
+      error.userId = "Pilih pemegang barang terlebih dahulu";
     if (formAsset.length === 0) error.formAsset = "Pilih minimal satu aset";
     return error;
   };
@@ -131,7 +137,6 @@ export default function CreatePegawai() {
     });
     refetchPegawai();
   }, []);
-  
 
   const navigate = useNavigate();
 
@@ -163,15 +168,15 @@ export default function CreatePegawai() {
 
     const formToSend: StoreAssetHolder[] = [];
 
-    formAsset.forEach(item => (
+    formAsset.forEach((item) =>
       formToSend.push({
         userId: formData.userId,
         assetId: item.assetId,
         noBast: item.noBast || "",
         dokumenPendukung: item.dokumenPendukung || "",
-        file: item.file || ""
-      })
-    ))
+        file: item.file || "",
+      }),
+    );
 
     try {
       mutatePost(formToSend, {
@@ -244,12 +249,11 @@ export default function CreatePegawai() {
     }
   }, [search, limit, pageIndex, allData]);
 
-  const [ selectedIds, setSelectedIds ] = useState<string[]>([])
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const handleCheckboxChange = (id: string, checked: boolean) => {
-
-    let checkData = paginatedData.find(it => it.id === id);
-    if(!checkData) return null;
+    const checkData = paginatedData.find((it) => it.id === id);
+    if (!checkData) return null;
 
     setSelectedIds((prev) =>
       checked ? [...prev, id] : prev.filter((itemId) => itemId !== id),
@@ -262,7 +266,7 @@ export default function CreatePegawai() {
           assetId: id,
           noBast: "",
           dokumenPendukung: "",
-          file: ""
+          file: "",
         };
         return [...prev, newItem];
       } else {
@@ -278,7 +282,7 @@ export default function CreatePegawai() {
         const { id, status } = row.original;
 
         let stat = false;
-        if(status && status === true) {
+        if (status && status === true) {
           stat = true;
         }
 
@@ -287,12 +291,7 @@ export default function CreatePegawai() {
             isSelected={selectedIds.includes(String(id))}
             isDisabled={stat}
             isIndeterminate={stat}
-            onChange={(e) =>
-              handleCheckboxChange(
-                String(id),
-                e.target.checked,
-              )
-            }
+            onChange={(e) => handleCheckboxChange(String(id), e.target.checked)}
           />
         );
       },
@@ -371,7 +370,7 @@ export default function CreatePegawai() {
 
   useEffect(() => {
     refetchData();
-  }, [])
+  }, []);
 
   useEffect(() => {
     refetchData();
@@ -382,8 +381,7 @@ export default function CreatePegawai() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     type: "dokumenPendukung" | "noBast" | "file",
   ) => {
-
-    if(type === "file") {
+    if (type === "file") {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (file) {
         const fileToShow = await convertFileToBase64(file);
@@ -406,7 +404,7 @@ export default function CreatePegawai() {
         });
       }
     } else {
-      let value = e.target.value;
+      const value = e.target.value;
       setFormAsset((prev) => {
         const updated = [...prev];
         updated[index] = {
@@ -449,7 +447,10 @@ export default function CreatePegawai() {
                 <div className="grid sm:grid-cols-3 grid-cols-1 gap-2">
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Nama Pegawai <span className="text-danger">*</span>
                       </label>
                     </div>
@@ -461,7 +462,9 @@ export default function CreatePegawai() {
                       variant="bordered"
                       radius="sm"
                       selectedKey={String(formData.userId)}
-                      onSelectionChange={(value) => changePegawai(value as string)}
+                      onSelectionChange={(value) =>
+                        changePegawai(value as string)
+                      }
                       inputProps={{
                         classNames: {
                           input: "text-xs",
@@ -481,7 +484,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         NIP
                       </label>
                     </div>
@@ -501,7 +507,10 @@ export default function CreatePegawai() {
                   </div>
                   <div>
                     <div className="mb-1">
-                      <label htmlFor="content" className="font-semibold text-xs">
+                      <label
+                        htmlFor="content"
+                        className="font-semibold text-xs"
+                      >
                         Jabatan
                       </label>
                     </div>
@@ -612,114 +621,117 @@ export default function CreatePegawai() {
                       </div>
                     </div>
                     {formAsset.map((item, index) => (
-                        <div
-                          className="flex flex-col gap-2 mb-4 w-full"
-                          key={index}
-                        >
-                          <div className="font-semibold">
-                            {index + 1}.&nbsp;&nbsp;{item.assetName}
-                          </div>
-                          <div className="grid md:grid-cols-3 grid-cols-1 gap-1 w-full">
-                            <div className="md:col-span-1 col-span-1">
-                              <div className="mb-1">
-                                <label
-                                  className="text-xs font-medium"
-                                  htmlFor="ubah-target"
-                                >
-                                    Dokumen Pendukung
-                                </label>
-                              </div>
-                              <Select
-                                value={item.dokumenPendukung}
-                                onChange={(e) =>
-                                  handleUbahTargetChange(
-                                    index,
-                                    e,
-                                    "dokumenPendukung",
-                                  )
-                                }
-                                aria-label="Judul"
-                                labelPlacement="outside"
-                                placeholder="Pilih jenis dokumen pendukung"
-                                variant="bordered"
-                                radius="sm"
-                                className="w-full"
-                                classNames={{
-                                  trigger: "border-[0.8px]",
-                                  value: "text-xs",
-                                }}
+                      <div
+                        className="flex flex-col gap-2 mb-4 w-full"
+                        key={index}
+                      >
+                        <div className="font-semibold">
+                          {index + 1}.&nbsp;&nbsp;{item.assetName}
+                        </div>
+                        <div className="grid md:grid-cols-3 grid-cols-1 gap-1 w-full">
+                          <div className="md:col-span-1 col-span-1">
+                            <div className="mb-1">
+                              <label
+                                className="text-xs font-medium"
+                                htmlFor="ubah-target"
                               >
-                                <SelectItem key={"BAST"}>Dokumen BAST</SelectItem>
-                                <SelectItem key={"PAKTA_INTEGRITAS"}>Fakta Integritas</SelectItem>
-                                <SelectItem key={"SURAT_PINJAM"}>Surat Izin Pinjam Pakai</SelectItem>
-                                <SelectItem key={"SURAT_PEMEGANG_ASET"}>Surat Izin Pemegang Aset Kendaraan</SelectItem>
-                                <SelectItem key={"DOKUMEN_LAIN"}>Lainnya</SelectItem>
-                              </Select>
+                                Dokumen Pendukung
+                              </label>
                             </div>
-                            <div className="md:col-span-2 col-span-1">
-                              {item.dokumenPendukung === "BAST" && (
-                                <div>
-                                  <div className="mb-1">
-                                    <label
-                                      className="text-xs font-medium"
-                                      htmlFor="ubah-target"
-                                    >
-                                      No. BAST (Berita Acara Serah Terima)
-                                    </label>
-                                  </div>
-                                  <Input
-                                    value={item.noBast}
-                                    onChange={(e) =>
-                                      handleUbahTargetChange(
-                                        index,
-                                        e,
-                                        "noBast",
-                                      )
-                                    }
-                                    aria-label="Judul"
-                                    labelPlacement="outside"
-                                    placeholder="Masukkan disini"
-                                    variant="bordered"
-                                    radius="sm"
-                                    className="w-full"
-                                    classNames={{
-                                      inputWrapper: "border-[0.8px]",
-                                      input: "text-xs",
-                                    }}
-                                  />
-                                </div>
-                              )}
-                            </div>
-                            <div className="md:col-span-3 col-span-1">
-                              <div className="max-w-80">
+                            <Select
+                              value={item.dokumenPendukung}
+                              onChange={(e) =>
+                                handleUbahTargetChange(
+                                  index,
+                                  e,
+                                  "dokumenPendukung",
+                                )
+                              }
+                              aria-label="Judul"
+                              labelPlacement="outside"
+                              placeholder="Pilih jenis dokumen pendukung"
+                              variant="bordered"
+                              radius="sm"
+                              className="w-full"
+                              classNames={{
+                                trigger: "border-[0.8px]",
+                                value: "text-xs",
+                              }}
+                            >
+                              <SelectItem key={"BAST"}>Dokumen BAST</SelectItem>
+                              <SelectItem key={"PAKTA_INTEGRITAS"}>
+                                Fakta Integritas
+                              </SelectItem>
+                              <SelectItem key={"SURAT_PINJAM"}>
+                                Surat Izin Pinjam Pakai
+                              </SelectItem>
+                              <SelectItem key={"SURAT_PEMEGANG_ASET"}>
+                                Surat Izin Pemegang Aset Kendaraan
+                              </SelectItem>
+                              <SelectItem key={"DOKUMEN_LAIN"}>
+                                Lainnya
+                              </SelectItem>
+                            </Select>
+                          </div>
+                          <div className="md:col-span-2 col-span-1">
+                            {item.dokumenPendukung === "BAST" && (
+                              <div>
                                 <div className="mb-1">
-                                  <label htmlFor="content" className="font-semibold text-xs">
-                                    File Pendukung
+                                  <label
+                                    className="text-xs font-medium"
+                                    htmlFor="ubah-target"
+                                  >
+                                    No. BAST (Berita Acara Serah Terima)
                                   </label>
                                 </div>
-                                <div className="border p-8 mb-2 flex items-center justify-center">
-                                  {item.file ? (
-                                    <LuArchiveRestore size={32} />
-                                  ) : (
-                                    <LucideUploadCloud size={32} />
-                                  )}
-                                </div>
-                                <input
-                                  type="file"
-                                  onChange={(e) => {
-                                    handleUbahTargetChange(
-                                      index,
-                                      e,
-                                      "file",
-                                    )
+                                <Input
+                                  value={item.noBast}
+                                  onChange={(e) =>
+                                    handleUbahTargetChange(index, e, "noBast")
+                                  }
+                                  aria-label="Judul"
+                                  labelPlacement="outside"
+                                  placeholder="Masukkan disini"
+                                  variant="bordered"
+                                  radius="sm"
+                                  className="w-full"
+                                  classNames={{
+                                    inputWrapper: "border-[0.8px]",
+                                    input: "text-xs",
                                   }}
-                                  accept=".png,.jpg,.jpeg,.pdf"
                                 />
                               </div>
+                            )}
+                          </div>
+                          <div className="md:col-span-3 col-span-1">
+                            <div className="max-w-80">
+                              <div className="mb-1">
+                                <label
+                                  htmlFor="content"
+                                  className="font-semibold text-xs"
+                                >
+                                  File Pendukung
+                                </label>
+                              </div>
+                              <div className="border p-8 mb-2 flex items-center justify-center">
+                                {item.file ? (
+                                  <LuArchiveRestore size={32} />
+                                ) : (
+                                  <LucideUploadCloud size={32} />
+                                )}
+                              </div>
+                              <input
+                                type="file"
+                                onChange={(e) => {
+                                  handleUbahTargetChange(index, e, "file");
+                                }}
+                                accept=".png,.jpg,.jpeg,.pdf"
+                              />
                             </div>
                           </div>
                         </div>
-                      ))}
+                      </div>
+                    ))}
                   </div>
                 )}
               </CardBody>

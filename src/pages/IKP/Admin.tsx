@@ -1,48 +1,52 @@
 import DataTables from "@/components/DataTables";
-import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
+import { Button, Input, Pagination } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import { LuEye, LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
-import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
-import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
-import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
-import {
-  useDeletePelaporanPegawai,
-  useGetAllPelaporanPegawai,
-} from "@/services/pegawai";
-import { PelaporanPegawaiRes } from "@/interface/responses/pegawai.interface";
-import { DMYIndoToFormat } from "@/utils/dateFormater";
+import { LuEye, LuSearch } from "react-icons/lu";
+import { BiReset, BiSearch } from "react-icons/bi";
+import { YMToIndoFormat } from "@/utils/dateFormater";
 import { useNavigate } from "react-router-dom";
 import { FaFilePdf } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useGetAllIKP } from "@/services/ikp";
+import { IKPListRes } from "@/interface/responses/ikp.interface";
 
-interface DataProps {
-  id: number;
-  tanggal: string;
-  latarBelakang: string;
-  isi: string;
+interface IKPProps {
+  id: string;
+  namaPegawai: string;
+  nip: string;
+  jabatan: string;
+  waktu: string;
+  status: string;
 }
 
-export default function Unit() {
-  const navigate = useNavigate();
+export default function IKP() {
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
+
   const [search, setSearch] = useState("");
+  const [searchMonth, setSearchMonth] = useState("");
 
   const [startData, setStartData] = useState<number>(0);
   const [endData, setEndData] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalData, setTotalData] = useState<number>(0);
 
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   const {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllPelaporanPegawai(pageIndex + 1, limit, search);
+  } = useGetAllIKP(
+    pageIndex + 1,
+    limit,
+    search,
+    searchMonth.split("-")[1] || "",
+    searchMonth.split("-")[0] || "",
+  );
 
-  const paginatedData: DataProps[] = useMemo(() => {
+  const paginatedData: IKPProps[] = useMemo(() => {
     if (allData) {
       const data = allData.data;
       setTotalData(data.pagination.totalData || 0);
@@ -57,20 +61,35 @@ export default function Unit() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: PelaporanPegawaiRes) => ({
-        id: item.id,
-        tanggal: DMYIndoToFormat(item.createdAt),
-        latarBelakang: item.latarBelakang
-          ? `${item.latarBelakang.slice(0, 250)} ...`
-          : "",
-        isi: item.isiLaporan ? `${item.isiLaporan.slice(0, 250)} ...` : "",
-      }));
+      return data.response.map((item: IKPListRes) => {
+        const ikps = item.ikps; // misalnya item.ikps adalah array of object dengan properti "status"
+
+        const hasMenunggu = ikps.some((el) => el.status === "MENUNGGU");
+        const allSetujui = ikps.every((el) => el.status === "DISETUJUI");
+
+        let status = "MENUNGGU"; // default
+
+        if (hasMenunggu) {
+          status = "MENUNGGU";
+        } else if (allSetujui) {
+          status = "SETUJUI";
+        }
+
+        return {
+          id: item.id,
+          namaPegawai: item.name,
+          nip: item.nip,
+          jabatan: item.jabatan,
+          waktu: item.createdAt,
+          status: status,
+        };
+      });
     } else {
       return [];
     }
   }, [search, limit, pageIndex, allData]);
 
-  const columns: ColumnDef<DataProps>[] = [
+  const columns: ColumnDef<IKPProps>[] = [
     {
       header: "No",
       cell: ({ row }) => {
@@ -80,34 +99,47 @@ export default function Unit() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
-      accessorKey: "tanggal",
-      header: "Tanggal",
+      accessorKey: "namaPegawai",
+      header: "Nama Pegawai",
       cell: (info) => info.getValue() as string,
-      // meta: { align: "center" },
     },
     {
-      accessorKey: "latarBelakang",
-      header: "Latar Belakang",
-      cell: (info) => {
-        return (
-          <div
-            dangerouslySetInnerHTML={{ __html: info.getValue() as string }}
-          />
-        );
-      },
-      // meta: { align: "center" },
+      accessorKey: "nip",
+      header: "NIP",
+      cell: (info) => info.getValue() as string,
     },
     {
-      accessorKey: "isi",
-      header: "Isi Laporan",
+      accessorKey: "jabatan",
+      header: "Jabatan",
+      cell: (info) => info.getValue() as string,
+    },
+    {
+      accessorKey: "waktu",
+      header: "Bulan",
       cell: (info) => {
+        const bulan = info.getValue() as string;
+        return bulan ? YMToIndoFormat(bulan) : "-";
+      },
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: (info) => {
+        const status = info.getValue() as string;
         return (
-          <div
-            dangerouslySetInnerHTML={{ __html: info.getValue() as string }}
-          />
+          <ul className="px-6">
+            {status === "MENUNGGU" ? (
+              <li className="list-disc font-semibold text-warning">Menunggu</li>
+            ) : status === "DITOLAK" ? (
+              <li className="list-disc font-semibold text-danger">Ditolak</li>
+            ) : (
+              <li className="list-disc font-semibold text-success">
+                Disetujui
+              </li>
+            )}
+          </ul>
         );
       },
-      // meta: { align: "center" },
     },
     {
       header: "Aksi",
@@ -116,7 +148,7 @@ export default function Unit() {
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
-              onPress={() => navigate(`/pegawai/detail-pelaporan/${id}`)}
+              onPress={() => navigate(`/dialog-kinerja/detail-data/${id}`)}
               isIconOnly
               radius="sm"
               size="sm"
@@ -125,33 +157,12 @@ export default function Unit() {
               <LuEye size={14} />
             </Button>
             <Link
-              to={`/pegawai/export-pelaporan/${id}`}
+              to={`/dialog-kinerja/export-pdf/${id}`}
               target="__blank"
               className="bg-[#FFF3F6] text-danger shadow-sm p-2 rounded-md"
             >
               <FaFilePdf size={14} />
             </Link>
-            <Button
-              onPress={() => navigate(`/pegawai/edit-pelaporan/${id}`)}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-info text-info shadow-sm"
-            >
-              <LuPencilLine size={14} />
-            </Button>
-            <Button
-              onPress={() => {
-                setSelectedId(id);
-                onOpenDelete();
-              }}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-danger text-danger shadow-sm"
-            >
-              <LuTrash2 size={14} />
-            </Button>
           </div>
         );
       },
@@ -159,89 +170,37 @@ export default function Unit() {
     },
   ];
 
-  const {
-    isOpen: isOpenDelete,
-    onOpen: onOpenDelete,
-    onClose: onCloseDelete,
-  } = useDisclosure();
-
   const handleSearch = () => {
     setPageIndex(0);
     refetchData();
-  };
-
-  const handleReset = () => {
-    setSearch("");
-    setPageIndex(0);
-    setTimeout(() => {
-      refetchData();
-    }, 100);
   };
 
   useEffect(() => {
     refetchData();
   }, [pageIndex, refetchData]);
 
-  const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const { mutate: mutateDelete } = useDeletePelaporanPegawai();
-
-  const handleDelete = () => {
-    if (isLoadingDelete) return;
-
-    setLoadingDelete(true);
-
-    try {
-      mutateDelete(
-        { id: String(selectedId) },
-        {
-          onSuccess() {
-            SuccessToast({ text: "Data berhasil dihapus" });
-            setLoadingDelete(false);
-            setSelectedId(null);
-            onCloseDelete();
-            setPageIndex(0);
-            setTimeout(() => {
-              refetchData();
-            }, 100);
-          },
-          onError(error) {
-            setLoadingDelete(false);
-            ErrorToast({
-              text:
-                error.response?.data.message ||
-                "Terjadi kesalahan saat mengirim data",
-            });
-            throw error;
-          },
-        },
-      );
-    } catch (error) {
-      ErrorToast({ text: "Terjadi kesalahan di server" });
-      setLoadingDelete(false);
-      throw error;
-    }
+  const handleReset = () => {
+    setSearch("");
+    setSearchMonth("");
+    setPageIndex(0);
+    setTimeout(() => {
+      refetchData();
+    }, 100);
   };
 
   return (
     <>
-      {selectedId && (
-        <DeleteModal
-          isOpen={isOpenDelete}
-          onClose={onCloseDelete}
-          isLoading={isLoadingDelete}
-          handleSubmit={handleDelete}
-        />
-      )}
-      <div>
+      <div className="bg-white shadow-md rounded-xl border">
         <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
           <div className="pt-8 px-4 w-full text-primary shadow-sm">
-            <div className="flex sm:flex-row flex-col justify-between gap-2 sm:items-end">
-              <div className="flex sm:flex-row flex-col gap-2 items-end w-full">
+            <div className="flex lg:flex-row flex-col justify-between gap-2 sm:items-end">
+              <div className="flex lg:flex-row flex-col gap-2 items-end w-full">
                 <Input
                   aria-label="search"
                   value={search}
                   onChange={(e) => {
                     setSearch(e.target.value);
+                    setPageIndex(0);
                   }}
                   radius="sm"
                   size="sm"
@@ -255,8 +214,28 @@ export default function Unit() {
                     input: "text-xs",
                   }}
                 />
+                <Input
+                  aria-label="searchMonth"
+                  value={searchMonth}
+                  onChange={(e) => {
+                    setSearchMonth(e.target.value);
+                    setPageIndex(0);
+                  }}
+                  type="month"
+                  radius="sm"
+                  size="sm"
+                  variant="bordered"
+                  placeholder="Cari berdasarkan bulan disini"
+                  startContent={
+                    <LuSearch className="text-accent-gray text-xs" />
+                  }
+                  classNames={{
+                    inputWrapper: "border-[0.8px]",
+                    input: "text-xs",
+                  }}
+                />
               </div>
-              <div className="flex items-center justify-end gap-2">
+              <div className="flex items-center sm:flex-nowrap flex-wrap justify-end gap-2">
                 <Button
                   onPress={handleSearch}
                   variant="solid"
@@ -277,16 +256,6 @@ export default function Unit() {
                   className="border-[0.8px] text-xs"
                 >
                   <BiReset size={12} />
-                </Button>
-                <Button
-                  onPress={() => navigate("/pegawai/tambah-pelaporan")}
-                  variant="solid"
-                  radius="sm"
-                  size="sm"
-                  startContent={<BiSolidPlusSquare size={12} />}
-                  className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                >
-                  Tambah
                 </Button>
               </div>
             </div>
@@ -313,7 +282,6 @@ export default function Unit() {
             radius="sm"
             total={totalPages}
             page={pageIndex + 1}
-            initialPage={pageIndex + 1}
             onChange={(page) => setPageIndex(page - 1)}
             classNames={{
               item: "border-[0.8px] text-primary border-accent-gray",

@@ -22,14 +22,14 @@ import { SPPDRekapRes } from "@/interface/responses/sppd.interface";
 import store from "@/redux/store";
 
 interface SPPDprops {
-    id: number;
-    nomorSurat: string;
-    nomorRek: string;
-    kegiatan: string;
-    waktu: string;
-    tipe: string;
-    lokasi: string;
-    anggaran: number;
+  id: number;
+  nomorSurat: string;
+  nomorRek: string;
+  kegiatan: string;
+  waktu: string;
+  tipe: string;
+  lokasi: string;
+  anggaran: number;
 }
 
 export default function News() {
@@ -100,7 +100,6 @@ export default function News() {
       setEndData(end);
 
       return data.response.map((item: SPPDRekapRes) => {
-
         return {
           id: item.id,
           nomorSurat: item.sppd.nomorSurat,
@@ -158,7 +157,7 @@ export default function News() {
       header: "Total Anggaran",
       cell: (info) =>
         "Rp " + ((info.getValue() as number) || 0).toLocaleString("id-ID"),
-    }
+    },
   ];
 
   const handleSearch = () => {
@@ -181,7 +180,6 @@ export default function News() {
   useEffect(() => {
     refetchData();
   }, [pageIndex, refetchData]);
-
 
   return (
     <>

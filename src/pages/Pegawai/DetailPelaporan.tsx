@@ -26,7 +26,6 @@ export default function DetailPemeriksaan() {
     }
   }, [isFetching, refetch]);
 
-
   useEffect(() => {
     refetch();
   }, []);
