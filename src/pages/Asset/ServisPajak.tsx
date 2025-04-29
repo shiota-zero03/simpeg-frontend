@@ -16,31 +16,35 @@ import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import store from "@/redux/store";
-import { useDeleteAsset } from "@/services/asset/asset";
-import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { parseDate } from "@internationalized/date";
-import ViewModal from "@/components/modals/Asset/DeetailAssetHolder";
-import { useGetAllAssetHolder } from "@/services/asset/asset-holder";
-import { AssetHolderRes } from "@/interface/responses/assetHolder.interface";
+import { useDeleteAssetService, useGetAllAssetService } from "@/services/asset/asset-service";
+import { LucidePencilLine } from "lucide-react";
 
 interface DataProps {
-  userId: string;
-  userName: string;
-  jabatan: string;
-  unit: string;
-  tanggal: string;
-  holders: {
-    tanggal: string;
-    assetId: string;
-    kodeBarang: string;
-    nomorRegistrasi: string;
-    kategori: string;
-    assetName: string;
-    merk: string;
-    harga: number;
-    file: string;
-    noBast: string;
-  }[]
+  id: number;
+  tanggalSurat: string;
+  type: string;
+  itemBelanjaRel: {
+    id: number;
+    name: string;
+    namaBarang: string;
+  };
+  asset: {
+    id: string;
+    namaBarang: string;
+    merkTipe: string;
+  };
+  assetHolder: {
+    id: number;
+    user: {
+      id: string;
+      name: string;
+      jabatan: {
+        id: number
+        nameJob: string;
+      }
+    }
+  }
 }
 
 export default function AssetIndex() {
@@ -49,19 +53,6 @@ export default function AssetIndex() {
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
-
-  const [dataHolder, setDataHolder] = useState<{
-    tanggal: string;
-    assetId: string;
-    kodeBarang: string;
-    nomorRegistrasi: string;
-    kategori: string;
-    assetName: string;
-    merk: string;
-    harga: number;
-    file: string;
-    noBast: string;
-  }[]>([])
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -100,7 +91,7 @@ export default function AssetIndex() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllAssetHolder(pageIndex + 1, limit, search);
+  } = useGetAllAssetService(pageIndex + 1, limit, search);
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
@@ -117,14 +108,7 @@ export default function AssetIndex() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: AssetHolderRes) => ({
-        userId: item.userId,
-        userName: item.userName || "",
-        jabatan: item.jabatan || "",
-        unit: item.unit || "",
-        tanggal: DMYIndoToFormat(item.tanggal),
-        holders: item.holders
-      }));
+      return data.response;
     } else {
       return [];
     }
@@ -146,53 +130,58 @@ export default function AssetIndex() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "unit",
-      header: "Unit",
+      accessorKey: "itemBelanjaRel.namaBarang",
+      header: "Nama Item Belanja",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      accessorKey: "userName",
+      accessorKey: "asset.merkTipe",
+      header: "Merk/Tipe",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "assetHolder.user.name",
       header: "Nama",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      accessorKey: "jabatan",
+      accessorKey: "assetHolder.user.jabatan.nameJob",
       header: "Jabatan",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      header: "Barang/Kendaraan",
-      cell: ({ row }) => {
-        const { holders } = row.original;
-
-        return (
-          <div 
-            onClick={() => {
-              setDataHolder(holders)
-              setTimeout(() => {
-                onOpenView()
-              }, 100);
-            }}
-            className="text-info font-semibold underline cursor-pointer">
-            {holders.length} Data
-          </div>
-        )
-      },
+      accessorKey: "type",
+      header: "Tipe",
+      cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
       header: "Aksi",
       cell: ({ row }) => {
-        const { userId } = row.original;
+        const { id } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
             {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
               <Button
                 onPress={() => {
-                  setSelectedId(userId);
+                  navigate(`/manajemen-aset/edit-service/${id}`)
+                }}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-danger text-danger shadow-sm"
+              >
+                <LucidePencilLine size={14} />
+              </Button>
+            )}
+            {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
+              <Button
+                onPress={() => {
+                  setSelectedId(String(id));
                   onOpenDelete();
                 }}
                 isIconOnly
@@ -214,11 +203,6 @@ export default function AssetIndex() {
     isOpen: isOpenDelete,
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
-  } = useDisclosure();
-  const {
-    isOpen: isOpenView,
-    onOpen: onOpenView,
-    onClose: onCloseView,
   } = useDisclosure();
 
   const handleSearch = () => {
@@ -243,7 +227,7 @@ export default function AssetIndex() {
   }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const { mutate: mutateDelete } = useDeleteAsset();
+  const { mutate: mutateDelete } = useDeleteAssetService();
 
   const handleDelete = () => {
     if (isLoadingDelete) return;
@@ -289,11 +273,6 @@ export default function AssetIndex() {
         onClose={onCloseDelete}
         isLoading={isLoadingDelete}
         handleSubmit={handleDelete}
-      />
-      <ViewModal
-        holder={dataHolder}
-        isOpen={isOpenView}
-        onClose={onCloseView}
       />
       <div>
         <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
@@ -355,7 +334,7 @@ export default function AssetIndex() {
                 </Button>
                 {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
                   <Button
-                    onPress={() => navigate(`/manajemen-aset/tambah-pemegang-aset`)}
+                    onPress={() => navigate(`/manajemen-aset/tambah-service`)}
                     variant="solid"
                     radius="sm"
                     size="sm"
