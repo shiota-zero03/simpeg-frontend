@@ -1,26 +1,24 @@
-# Gunakan Node.js 20 sebagai base image
-FROM node:20
+# Stage 1: Build Vite App
+FROM node:20 AS build
 
-# Set direktori kerja dalam container
 WORKDIR /app
 
-# Copy file package.json dan package-lock.json terlebih dahulu untuk caching
-COPY package.json ./
-
-# Install dependencies React
+# Install dependencies and build the Vite app
+COPY package.json package-lock.json ./
 RUN npm install
-
-# Copy semua file ke dalam container
 COPY . .
+RUN npm run build
 
-# Build aplikasi React
-# RUN npm run build
+# Stage 2: Serve with NGINX
+FROM nginx:alpine
 
-# Install "serve" untuk menjalankan React
-# RUN npm install -g serve
+# Copy built files from Stage 1
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expose port 3001
+# Optional: Configure NGINX settings
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
 EXPOSE 3001
 
-# Jalankan aplikasi React
-CMD ["npm", "run", "dev"]
+CMD ["nginx", "-g", "daemon off;"]
