@@ -2,8 +2,16 @@ import { BaseRes, PaginationRes } from "./base.response";
 
 export interface AssetServiceRes {
   id: number;
-  tanggalSurat: string;
   type: string;
+  pajak5Tahun: string;
+  pembayaranPajak: string;
+  nominalBayar: number;
+  startServis: string;
+  endServis: string;
+  nominalServis: number;
+  servicesKe: number;
+  nomorSurat: string;
+  tanggalSurat: string;
   itemBelanjaRel: {
     id: number;
     name: string;
@@ -20,11 +28,11 @@ export interface AssetServiceRes {
       id: string;
       name: string;
       jabatan: {
-        id: number
+        id: number;
         nameJob: string;
-      }
-    }
-  }
+      };
+    };
+  };
 }
 
 export interface IAssetServiceRes extends BaseRes {

@@ -14,10 +14,10 @@ export default function Asset() {
   const tabData = tab as string;
 
   useEffect(() => {
-    if(tabData) {
-      setSelectedTab(tabData)
+    if (tabData) {
+      setSelectedTab(tabData);
     }
-  }, [tabData])
+  }, [tabData]);
 
   return (
     <>

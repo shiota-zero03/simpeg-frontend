@@ -34,7 +34,6 @@ export interface StoreSPPD {
   }[];
 }
 
-
 export interface StorePelaporanSPPD {
   latarBelakang?: string;
   sasaran?: string;

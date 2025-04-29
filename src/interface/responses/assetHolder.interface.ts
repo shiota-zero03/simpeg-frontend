@@ -17,7 +17,7 @@ export interface AssetHolderRes {
     harga: number;
     file: string;
     noBast: string;
-  }[]
+  }[];
 }
 
 export interface IAssetHolderRes extends BaseRes {

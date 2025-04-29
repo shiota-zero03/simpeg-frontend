@@ -1,10 +1,5 @@
 import DataTables from "@/components/DataTables";
-import {
-  Button,
-  Input,
-  Pagination,
-  useDisclosure,
-} from "@heroui/react";
+import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
 import { LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
@@ -14,7 +9,10 @@ import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import store from "@/redux/store";
 import CreateModal from "@/components/modals/Asset/pembelanjaan/item-belanja/CreatedModal";
 import UpdateModal from "@/components/modals/Asset/pembelanjaan/item-belanja/UpdateModal";
-import { useDeleteDataBelanja, useGetAllDataBelanja } from "@/services/asset/asset-pembelanjaan/data-pembelanjaan";
+import {
+  useDeleteDataBelanja,
+  useGetAllDataBelanja,
+} from "@/services/asset/asset-pembelanjaan/data-pembelanjaan";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 
 interface DataProps {
@@ -32,12 +30,12 @@ interface DataProps {
     kegiatan: {
       id: number;
       name: string;
-    },
+    };
     subKegiatan: {
       id: number;
       name: string;
-    }
-  }
+    };
+  };
 }
 
 export default function AssetIndex() {
@@ -125,7 +123,7 @@ export default function AssetIndex() {
                 onPress={() => {
                   setSelectedId(String(id));
                   setTimeout(() => {
-                    onOpenUpdate()
+                    onOpenUpdate();
                   }, 100);
                 }}
                 isIconOnly
@@ -261,7 +259,7 @@ export default function AssetIndex() {
           handleClose={handleClose}
         />
       )}
-      
+
       <div>
         <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
           <div className="pt-8 px-4 w-full text-primary shadow-sm">

@@ -7,7 +7,7 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
-  Textarea
+  Textarea,
 } from "@heroui/react";
 import { useEffect, useMemo, useState } from "react";
 import { LuSave, LuX } from "react-icons/lu";
@@ -76,23 +76,23 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     if (!formData.namaBelanja) {
       errors.namaBelanja = "Nama belanja tidak boleh kosong";
     }
-    
+
     if (!formData.kegiatanId) {
       errors.kegiatanId = "Kegiatan harus dipilih";
     }
-    
+
     if (!formData.subKegiatanId) {
       errors.subKegiatanId = "Sub kegiatan harus dipilih";
     }
-    
+
     if (!formData.uraian) {
       errors.uraian = "Uraian tidak boleh kosong";
     }
-    
+
     if (!formData.paguBelanja || formData.paguBelanja <= 0) {
       errors.paguBelanja = "Pagu belanja harus lebih dari 0";
     }
-    
+
     if (!formData.accountBank) {
       errors.accountBank = "Account bank tidak boleh kosong";
     }
@@ -121,7 +121,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   useEffect(() => {
     refetchKegiatan();
     refetchSubKegiatan();
-  }, [])
+  }, []);
 
   const { mutate: mutatePost } = useCreateKegiatanBelanja();
 
@@ -140,23 +140,23 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     if (formData.namaBelanja) {
       formToSend.namaBelanja = formData.namaBelanja;
     }
-    
+
     if (formData.kegiatanId) {
       formToSend.kegiatanId = Number(formData.kegiatanId);
     }
-    
+
     if (formData.subKegiatanId) {
       formToSend.subKegiatanId = Number(formData.subKegiatanId);
     }
-    
+
     if (formData.uraian) {
       formToSend.uraian = formData.uraian;
     }
-    
+
     if (formData.paguBelanja) {
       formToSend.paguBelanja = Number(formData.paguBelanja);
     }
-    
+
     if (formData.accountBank) {
       formToSend.accountBank = formData.accountBank;
     }
@@ -188,7 +188,9 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
       <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="3xl">
         <ModalContent>
           <ModalHeader className="flex items-center justify-between">
-            <span className="text-base font-semibold">Tambah Data Belanja / Pekerjaan</span>
+            <span className="text-base font-semibold">
+              Tambah Data Belanja / Pekerjaan
+            </span>
             <LuX
               className="text-danger border border-danger rounded-full p-2 cursor-pointer"
               onClick={onClose}
@@ -340,7 +342,10 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   type="number"
                   value={String(formData.paguBelanja)}
                   onChange={(e) =>
-                    setFormData({ ...formData, paguBelanja: Number(e.target.value) })
+                    setFormData({
+                      ...formData,
+                      paguBelanja: Number(e.target.value),
+                    })
                   }
                   placeholder="Masukkan disini"
                   classNames={{

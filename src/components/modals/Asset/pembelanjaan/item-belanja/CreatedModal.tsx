@@ -6,7 +6,7 @@ import {
   Modal,
   ModalBody,
   ModalContent,
-  ModalHeader
+  ModalHeader,
 } from "@heroui/react";
 import { useEffect, useMemo, useState } from "react";
 import { LuSave, LuX } from "react-icons/lu";
@@ -82,23 +82,23 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     if (!formData.namaBarang) {
       errors.name = "Nama tidak boleh kosong";
     }
-    
+
     if (!formData.idDataBelanja) {
       errors.idDataBelanja = "Data belanja harus dipilih";
     }
-    
+
     if (!formData.tanggal) {
       errors.tanggal = "Tanggal tidak boleh kosong";
     }
-    
+
     if (!formData.jumlah || formData.jumlah <= 0) {
       errors.jumlah = "Jumlah harus lebih dari 0";
     }
-    
+
     if (!formData.satuan) {
       errors.satuan = "Satuan tidak boleh kosong";
     }
-    
+
     if (!formData.hargaPerItem || formData.hargaPerItem <= 0) {
       errors.hargaPerItem = "Harga per item harus lebih dari 0";
     }
@@ -117,7 +117,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
 
   useEffect(() => {
     refetchBelanja();
-  }, [])
+  }, []);
 
   const { mutate: mutatePost } = useCreateDataBelanja();
 
@@ -134,31 +134,31 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
 
     const formToSend: StoreDataBelanja = {};
     if (formData.name) {
-      formToSend.name = formData.name
+      formToSend.name = formData.name;
     }
-    
+
     if (formData.idDataBelanja) {
-      formToSend.idDataBelanja = Number(formData.idDataBelanja)
+      formToSend.idDataBelanja = Number(formData.idDataBelanja);
     }
-    
+
     if (formData.namaBarang) {
-      formToSend.namaBarang = formData.namaBarang
+      formToSend.namaBarang = formData.namaBarang;
     }
-    
+
     if (formData.tanggal) {
-      formToSend.tanggal = formData.tanggal
+      formToSend.tanggal = formData.tanggal;
     }
-    
+
     if (formData.jumlah) {
-      formToSend.jumlah = formData.jumlah
+      formToSend.jumlah = formData.jumlah;
     }
-    
+
     if (formData.satuan) {
-      formToSend.satuan = formData.satuan
+      formToSend.satuan = formData.satuan;
     }
-    
+
     if (formData.hargaPerItem) {
-      formToSend.hargaPerItem = formData.hargaPerItem
+      formToSend.hargaPerItem = formData.hargaPerItem;
     }
 
     try {
@@ -184,7 +184,9 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   };
 
   const selectedItem = useMemo(() => {
-    return BELANJA_SELECT.find(it => it.id === formData.idDataBelanja) || null;
+    return (
+      BELANJA_SELECT.find((it) => it.id === formData.idDataBelanja) || null
+    );
   }, [BELANJA_SELECT, formData.idDataBelanja]);
 
   return (
@@ -192,7 +194,9 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
       <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="3xl">
         <ModalContent>
           <ModalHeader className="flex items-center justify-between">
-            <span className="text-base font-semibold">Tambah Data Item Belanja</span>
+            <span className="text-base font-semibold">
+              Tambah Data Item Belanja
+            </span>
             <LuX
               className="text-danger border border-danger rounded-full p-2 cursor-pointer"
               onClick={onClose}
@@ -203,7 +207,8 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
             <div className="grid md:grid-cols-3 grid-cols-1 gap-2">
               <div className="flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
-                  Nama Belanja (Pekerjaan) <span className="text-danger">*</span>
+                  Nama Belanja (Pekerjaan){" "}
+                  <span className="text-danger">*</span>
                 </label>
                 <Autocomplete
                   isLoading={isFetchingBelanja}
@@ -343,7 +348,10 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   startContent="Rp"
                   value={String(formData.hargaPerItem)}
                   onChange={(e) =>
-                    setFormData({ ...formData, hargaPerItem: Number(e.target.value) })
+                    setFormData({
+                      ...formData,
+                      hargaPerItem: Number(e.target.value),
+                    })
                   }
                   placeholder="Masukkan disini"
                   classNames={{
@@ -356,7 +364,8 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
               </div>
               <div className="flex flex-col gap-1 sm:col-span-2 col-span-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
-                  Jumlah Pagu (Harga * Jumlah Item) <span className="text-danger">*</span>
+                  Jumlah Pagu (Harga * Jumlah Item){" "}
+                  <span className="text-danger">*</span>
                 </label>
                 <Input
                   aria-label="lokasi"
@@ -364,7 +373,11 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   radius="sm"
                   isDisabled
                   startContent="Rp"
-                  value={String(((formData.hargaPerItem || 0) * (formData.jumlah || 0)).toLocaleString('id-ID'))}
+                  value={String(
+                    (
+                      (formData.hargaPerItem || 0) * (formData.jumlah || 0)
+                    ).toLocaleString("id-ID"),
+                  )}
                   placeholder="Masukkan disini"
                   classNames={{
                     input: "text-xs",

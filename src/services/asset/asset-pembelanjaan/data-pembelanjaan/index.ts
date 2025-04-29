@@ -20,7 +20,11 @@ export const useGetAllDataBelanjaOption = () => {
   });
 };
 
-export const useGetAllDataBelanja = (page: number, limit: number, title?: string) => {
+export const useGetAllDataBelanja = (
+  page: number,
+  limit: number,
+  title?: string,
+) => {
   return useQuery({
     queryKey: ["getAllDataBelanja"],
     queryFn: () => getAllDataBelanja(page, limit, title),
@@ -29,7 +33,11 @@ export const useGetAllDataBelanja = (page: number, limit: number, title?: string
 };
 export const useCreateDataBelanja = () => {
   const queryClient = useQueryClient();
-  return useMutation<IDataBelanjaDetailRes, AxiosError<BaseErrorRes>, StoreDataBelanja>({
+  return useMutation<
+    IDataBelanjaDetailRes,
+    AxiosError<BaseErrorRes>,
+    StoreDataBelanja
+  >({
     mutationFn: (formData) => createDataBelanja(formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["createDataBelanja"] });
@@ -64,15 +72,17 @@ export const useUpdateDataBelanja = () => {
 };
 export const useDeleteDataBelanja = () => {
   const queryClient = useQueryClient();
-  return useMutation<IDataBelanjaDetailRes, AxiosError<BaseErrorRes>, { id: string }>(
-    {
-      mutationFn: ({ id }) => deleteDataBelanja(id),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["deleteDataBelanja"] });
-      },
-      onError: (error) => {
-        throw error;
-      },
+  return useMutation<
+    IDataBelanjaDetailRes,
+    AxiosError<BaseErrorRes>,
+    { id: string }
+  >({
+    mutationFn: ({ id }) => deleteDataBelanja(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["deleteDataBelanja"] });
     },
-  );
+    onError: (error) => {
+      throw error;
+    },
+  });
 };

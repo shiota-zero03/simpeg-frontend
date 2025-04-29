@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TitleCase } from "@/components/card/TitleCase";
 import {
   Button,
@@ -7,123 +7,135 @@ import {
   Input,
   Radio,
   RadioGroup,
-  Select,
-  SelectItem,
   useDisclosure,
+  Autocomplete,
+  AutocompleteItem,
   Divider,
 } from "@heroui/react";
-import { LuArchiveRestore, LuArrowLeft, LuImage, LuSave } from "react-icons/lu";
+import { LuArrowLeft, LuSave } from "react-icons/lu";
 import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
-import { convertFileToBase64 } from "@/utils/base64Formater";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
-import { useCreateAsset } from "@/services/asset/asset";
-import { StoreAsset } from "@/interface/request/asset.interface";
+import { useGetAllAssetOptionWithHolder } from "@/services/asset/asset";
+import { useCreateAssetService } from "@/services/asset/asset-service";
+import { StoreAssetService } from "@/interface/request/assetService.interface";
+import { useGetAllDataBelanjaOption } from "@/services/asset/asset-pembelanjaan/data-pembelanjaan";
 
 interface formProps {
-  idBarang?: string;
-  kodeBarang?: string;
-  namaBarang?: string;
-  nomorRegistrasi?: string;
-  harga?: number;
-  merkTipe?: string;
-  ukuranCC?: string;
-  jenisBahan?: string;
-  nomorPabrik?: string;
-  nomorRangka?: string;
-  nomorMesin?: string;
-  nomorPolisi?: string;
-  dokumenTipe?: string;
-  dokumenNomor?: string;
-  keterangan?: string;
-  tahunPerolehan?: string;
-  kategori?: string;
-  dokumen?: string;
+  itemBelanjaId?: number | null;
+  assetId?: string;
+  assetHolderId?: number | null;
+  type?: string;
+  pajak5Tahun?: string;
+  pembayaranPajak?: string;
+  nominalBayar?: number;
+  startServis?: string;
+  endServis?: string;
+  nominalServis?: number;
+  servicesKe?: number;
+  nomorSurat?: string;
+  tanggalSurat?: string;
 }
 
 interface errorProps {
-  idBarang?: string;
-  kodeBarang?: string;
-  namaBarang?: string;
-  nomorRegistrasi?: string;
-  harga?: string;
-  merkTipe?: string;
-  ukuranCC?: string;
-  jenisBahan?: string;
-  nomorPabrik?: string;
-  nomorRangka?: string;
-  nomorMesin?: string;
-  nomorPolisi?: string;
-  dokumenTipe?: string;
-  dokumenNomor?: string;
-  keterangan?: string;
-  tahunPerolehan?: string;
-  kategori?: string;
-  dokumen?: string;
+  itemBelanjaId?: string;
+  assetId?: string;
+  assetHolderId?: string;
+  type?: string;
+  pajak5Tahun?: string;
+  pembayaranPajak?: string;
+  nominalBayar?: string;
+  startServis?: string;
+  endServis?: string;
+  nominalServis?: string;
+  servicesKe?: string;
+  nomorSurat?: string;
+  tanggalSurat?: string;
 }
 
 export default function CreatePegawai() {
   const [formData, setFormData] = useState<formProps>({
-    idBarang: "",
-    kodeBarang: "",
-    namaBarang: "",
-    nomorRegistrasi: "",
-    harga: 0,
-    merkTipe: "",
-    ukuranCC: "",
-    jenisBahan: "",
-    nomorPabrik: "",
-    nomorRangka: "",
-    nomorMesin: "",
-    nomorPolisi: "",
-    dokumenTipe: "",
-    dokumenNomor: "",
-    keterangan: "",
-    tahunPerolehan: "",
-    kategori: "",
-    dokumen: "",
+    itemBelanjaId: null,
+    assetId: "",
+    assetHolderId: null,
+    type: "",
+    pajak5Tahun: "",
+    pembayaranPajak: "",
+    nominalBayar: 0,
+    startServis: "",
+    endServis: "",
+    nominalServis: 0,
+    servicesKe: 0,
+    nomorSurat: "",
+    tanggalSurat: "",
   });
 
   const [formError, setFormError] = useState<errorProps>({});
 
   const rules = () => {
-    const error: errorProps = {};
-    if (!formData.idBarang) error.idBarang = "ID Barang tidak boleh kosong";
-    if (!formData.kodeBarang)
-      error.kodeBarang = "Kode Barang tidak boleh kosong";
-    if (!formData.nomorRegistrasi)
-      error.nomorRegistrasi = "Nomor registrasi tidak boleh kosong";
-    if (!formData.kategori) error.kategori = "Kategori tidak boleh kosong";
-    if (!formData.namaBarang)
-      error.namaBarang = "Nama Barang tidak boleh kosong";
-    if (!formData.merkTipe) error.merkTipe = "Merk/Tipe tidak boleh kosong";
-    return error;
+    const errors: errorProps = {};
+    if (!formData.itemBelanjaId) {
+      errors.itemBelanjaId = "Item belanja tidak boleh kosong";
+    }
+    if (!formData.assetId) {
+      errors.assetId = "ID aset tidak boleh kosong";
+    }
+    if (!formData.type) {
+      errors.type = "Jenis layanan tidak boleh kosong";
+    }
+
+    if (formData.type === "PAJAK") {
+      if (!formData.pajak5Tahun) {
+        errors.pajak5Tahun = "Status pajak 5 tahun tidak boleh kosong";
+      }
+      if (!formData.pembayaranPajak) {
+        errors.pembayaranPajak = "Jenis pembayaran pajak harus diisi";
+      }
+      if (!formData.nominalBayar || formData.nominalBayar <= 0) {
+        errors.nominalBayar = "Nominal bayar harus lebih dari 0";
+      }
+    } else if (formData.type === "SERVIS") {
+      if (!formData.startServis) {
+        errors.startServis = "Tanggal mulai servis tidak boleh kosong";
+      }
+      if (!formData.endServis) {
+        errors.endServis = "Tanggal selesai servis tidak boleh kosong";
+      }
+      if (!formData.nominalServis || formData.nominalServis <= 0) {
+        errors.nominalServis = "Nominal servis harus lebih dari 0";
+      }
+      if (!formData.servicesKe || formData.servicesKe <= 0) {
+        errors.servicesKe = "Service ke-berapa harus diisi";
+      }
+      if (!formData.nomorSurat) {
+        errors.nomorSurat = "Nomor surat tidak boleh kosong";
+      }
+      if (!formData.tanggalSurat) {
+        errors.tanggalSurat = "Tanggal surat tidak boleh kosong";
+      }
+    }
+    return errors;
   };
 
   useEffect(() => {
     setFormData({
-      idBarang: "",
-      kodeBarang: "",
-      namaBarang: "",
-      nomorRegistrasi: "",
-      harga: 0,
-      merkTipe: "",
-      ukuranCC: "",
-      jenisBahan: "",
-      nomorPabrik: "",
-      nomorRangka: "",
-      nomorMesin: "",
-      nomorPolisi: "",
-      dokumenTipe: "",
-      dokumenNomor: "",
-      keterangan: "",
-      tahunPerolehan: "",
-      kategori: "",
-      dokumen: "",
+      itemBelanjaId: null,
+      assetId: "",
+      assetHolderId: null,
+      type: "",
+      pajak5Tahun: "",
+      pembayaranPajak: "",
+      nominalBayar: 0,
+      startServis: "",
+      endServis: "",
+      nominalServis: 0,
+      servicesKe: 0,
+      nomorSurat: "",
+      tanggalSurat: "",
     });
   }, []);
 
@@ -140,7 +152,7 @@ export default function CreatePegawai() {
     onOpenConfirm();
   };
 
-  const { mutate: mutatePost } = useCreateAsset();
+  const { mutate: mutatePost } = useCreateAssetService();
 
   const handleConfirm = () => {
     setLoadingConfirm(true);
@@ -155,28 +167,27 @@ export default function CreatePegawai() {
       return true;
     }
 
-    const formToSend: StoreAsset = {};
-
-    if (formData.idBarang) formToSend.idBarang = formData.idBarang;
-    if (formData.kodeBarang) formToSend.kodeBarang = formData.kodeBarang;
-    if (formData.namaBarang) formToSend.namaBarang = formData.namaBarang;
-    if (formData.nomorRegistrasi)
-      formToSend.nomorRegistrasi = formData.nomorRegistrasi;
-    if (formData.harga) formToSend.harga = formData.harga;
-    if (formData.merkTipe) formToSend.merkTipe = formData.merkTipe;
-    if (formData.ukuranCC) formToSend.ukuranCC = formData.ukuranCC;
-    if (formData.jenisBahan) formToSend.jenisBahan = formData.jenisBahan;
-    if (formData.nomorPabrik) formToSend.nomorPabrik = formData.nomorPabrik;
-    if (formData.nomorRangka) formToSend.nomorRangka = formData.nomorRangka;
-    if (formData.nomorMesin) formToSend.nomorMesin = formData.nomorMesin;
-    if (formData.nomorPolisi) formToSend.nomorPolisi = formData.nomorPolisi;
-    if (formData.dokumenTipe) formToSend.dokumenTipe = formData.dokumenTipe;
-    if (formData.dokumenNomor) formToSend.dokumenNomor = formData.dokumenNomor;
-    if (formData.keterangan) formToSend.keterangan = formData.keterangan;
-    if (formData.tahunPerolehan)
-      formToSend.tahunPerolehan = formData.tahunPerolehan;
-    if (formData.kategori) formToSend.kategori = formData.kategori;
-    if (formData.dokumen) formToSend.dokumen = formData.dokumen;
+    const formToSend: StoreAssetService = {};
+    if (formData.itemBelanjaId)
+      formToSend.itemBelanjaId = Number(formData.itemBelanjaId);
+    if (formData.assetId) {
+      formToSend.assetId = formData.assetId;
+      if (selectedItem?.holders[0]) {
+        formToSend.assetHolderId = Number(selectedItem?.holders[0].id);
+      }
+    }
+    if (formData.type) formToSend.type = formData.type;
+    if (formData.pajak5Tahun) formToSend.pajak5Tahun = formData.pajak5Tahun;
+    if (formData.pembayaranPajak)
+      formToSend.pembayaranPajak = formData.pembayaranPajak;
+    if (formData.nominalBayar) formToSend.nominalBayar = formData.nominalBayar;
+    if (formData.startServis) formToSend.startServis = formData.startServis;
+    if (formData.endServis) formToSend.endServis = formData.endServis;
+    if (formData.nominalServis)
+      formToSend.nominalServis = formData.nominalServis;
+    if (formData.servicesKe) formToSend.servicesKe = formData.servicesKe;
+    if (formData.nomorSurat) formToSend.nomorSurat = formData.nomorSurat;
+    if (formData.tanggalSurat) formToSend.tanggalSurat = formData.tanggalSurat;
 
     try {
       mutatePost(formToSend, {
@@ -202,15 +213,32 @@ export default function CreatePegawai() {
     }
   };
 
-  const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const fileToShow = await convertFileToBase64(file);
-      setFormData({ ...formData, dokumen: fileToShow });
-    } else {
-      setFormData({ ...formData, dokumen: "" });
-    }
-  };
+  const {
+    data: allDataBelanja,
+    isFetching: isFetchingBelanja,
+    refetch: refetchBelanja,
+  } = useGetAllDataBelanjaOption();
+  const BELANJA_SELECT = useMemo(() => {
+    return allDataBelanja ? allDataBelanja.data : [];
+  }, [allDataBelanja]);
+
+  const {
+    data: allDataAsset,
+    isFetching: isFetchingAsset,
+    refetch: refetchAsset,
+  } = useGetAllAssetOptionWithHolder();
+  const ASSET_SELECT = useMemo(() => {
+    return allDataAsset ? allDataAsset.data : [];
+  }, [allDataAsset]);
+
+  useEffect(() => {
+    refetchBelanja();
+    refetchAsset();
+  }, []);
+
+  const selectedItem = useMemo(() => {
+    return ASSET_SELECT.find((it) => it.id === formData.assetId) || null;
+  }, [ASSET_SELECT, formData.assetId]);
 
   return (
     <>
@@ -240,148 +268,96 @@ export default function CreatePegawai() {
           <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
             <Card shadow="none" className="border p-4">
               <CardBody className="flex flex-col gap-2">
-                <div className="grid sm:grid-cols-3 grid-cols-1 gap-2">
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
-                      >
-                        ID Barang / Kendaraan{" "}
-                        <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                    <Input
-                      value={formData.idBarang}
-                      onChange={(e) =>
-                        setFormData({ ...formData, idBarang: e.target.value })
-                      }
-                      aria-label="Judul"
-                      labelPlacement="outside"
-                      placeholder="Masukkan disini"
+                <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
+                  <div className="flex flex-col gap-1 sm:col-span-2 col-span-1">
+                    <label htmlFor="lokasi" className="text-xs font-semibold">
+                      Nama Item Belanja <span className="text-danger">*</span>
+                    </label>
+                    <Autocomplete
+                      isLoading={isFetchingBelanja}
+                      aria-label="pegawai"
+                      placeholder="Cari item"
                       variant="bordered"
                       radius="sm"
-                      classNames={{
-                        inputWrapper: "border-[0.8px]",
-                        input: "text-xs",
-                      }}
-                    />
-                    <div className="text-danger text-[0.7rem] mt-1">
-                      {formError.idBarang}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
-                      >
-                        Kode Barang / Kendaraan{" "}
-                        <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                    <Input
-                      value={formData.kodeBarang}
-                      onChange={(e) =>
-                        setFormData({ ...formData, kodeBarang: e.target.value })
-                      }
-                      aria-label="Judul"
-                      labelPlacement="outside"
-                      placeholder="Masukkan disini"
-                      variant="bordered"
-                      radius="sm"
-                      classNames={{
-                        inputWrapper: "border-[0.8px]",
-                        input: "text-xs",
-                      }}
-                    />
-                    <div className="text-danger text-[0.7rem] mt-1">
-                      {formError.kodeBarang}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
-                      >
-                        Nomor Registrasi <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                    <Input
-                      value={formData.nomorRegistrasi}
-                      onChange={(e) =>
+                      defaultItems={BELANJA_SELECT}
+                      selectedKey={String(formData.itemBelanjaId)}
+                      onSelectionChange={(value) =>
                         setFormData({
                           ...formData,
-                          nomorRegistrasi: e.target.value,
+                          itemBelanjaId: value as number,
                         })
                       }
-                      aria-label="Judul"
-                      labelPlacement="outside"
-                      placeholder="Masukkan disini"
-                      variant="bordered"
-                      radius="sm"
-                      classNames={{
-                        inputWrapper: "border-[0.8px]",
-                        input: "text-xs",
-                      }}
-                    />
-                    <div className="text-danger text-[0.7rem] mt-1">
-                      {formError.nomorRegistrasi}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
-                      >
-                        Kategori / Jenis Aset{" "}
-                        <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                    <Select
-                      selectedKeys={[formData.kategori || ""]}
-                      onChange={(e) =>
-                        setFormData({ ...formData, kategori: e.target.value })
-                      }
-                      aria-label="Judul"
-                      labelPlacement="outside"
-                      placeholder="Masukkan disini"
-                      variant="bordered"
-                      radius="sm"
-                      classNames={{
-                        trigger: "border-[0.8px]",
-                        value: "text-xs",
+                      inputProps={{
+                        classNames: {
+                          input: "text-xs",
+                        },
                       }}
                     >
-                      <SelectItem key={"PERALATAN"}>
-                        Peralatan Kantor/Mesin
-                      </SelectItem>
-                      <SelectItem key={"KENDARAAN"}>Kendaraan</SelectItem>
-                    </Select>
-                    <div className="text-danger text-[0.7rem] mt-1">
-                      {formError.kategori}
+                      {(peg) => (
+                        <AutocompleteItem
+                          key={peg.id}
+                          textValue={peg.namaBarang}
+                        >
+                          {peg.namaBarang} - {peg.dataBelanja.namaBelanja}
+                        </AutocompleteItem>
+                      )}
+                    </Autocomplete>
+                    <div className="text-xs italic text-danger">
+                      {formError.itemBelanjaId}
                     </div>
                   </div>
-                  <div>
-                    <div className="mb-1">
-                      <label
-                        htmlFor="content"
-                        className="font-semibold text-xs"
-                      >
-                        Nama Barang / Kendaraan{" "}
-                        <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                    <Input
-                      value={formData.namaBarang}
-                      onChange={(e) =>
-                        setFormData({ ...formData, namaBarang: e.target.value })
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="lokasi" className="text-xs font-semibold">
+                      Nama Aset <span className="text-danger">*</span>
+                    </label>
+                    <Autocomplete
+                      isLoading={isFetchingAsset}
+                      aria-label="pegawai"
+                      placeholder="Cari data aset"
+                      variant="bordered"
+                      radius="sm"
+                      defaultItems={ASSET_SELECT}
+                      selectedKey={String(formData.assetId)}
+                      onSelectionChange={(value) =>
+                        setFormData({
+                          ...formData,
+                          assetId: value as string,
+                        })
                       }
+                      inputProps={{
+                        classNames: {
+                          input: "text-xs",
+                        },
+                      }}
+                    >
+                      {(peg) => (
+                        <AutocompleteItem
+                          key={peg.id}
+                          textValue={peg.namaBarang}
+                        >
+                          {peg.namaBarang}
+                        </AutocompleteItem>
+                      )}
+                    </Autocomplete>
+                    <div className="text-xs italic text-danger">
+                      {formError.assetId}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label htmlFor="content" className="font-semibold text-xs">
+                      Nama Pemegang Barang{" "}
+                      <span className="text-danger">*</span>
+                    </label>
+                    <Input
+                      value={
+                        selectedItem?.holders[0]
+                          ? selectedItem?.holders[0].user.name
+                          : ""
+                      }
+                      isDisabled
                       aria-label="Judul"
                       labelPlacement="outside"
-                      placeholder="Masukkan disini"
+                      placeholder="AUTOFILLED"
                       variant="bordered"
                       radius="sm"
                       classNames={{
@@ -389,347 +365,57 @@ export default function CreatePegawai() {
                         input: "text-xs",
                       }}
                     />
-                    <div className="text-danger text-[0.7rem] mt-1">
-                      {formError.namaBarang}
-                    </div>
                   </div>
-                  <div>
+                  <div className="sm:col-span-2 col-span-1">
                     <div className="mb-1">
                       <label
                         htmlFor="content"
                         className="font-semibold text-xs"
                       >
-                        Merk/Tipe <span className="text-danger">*</span>
+                        Tipe <span className="text-danger">*</span>
                       </label>
                     </div>
-                    <Input
-                      value={formData.merkTipe}
-                      onChange={(e) =>
-                        setFormData({ ...formData, merkTipe: e.target.value })
+                    <RadioGroup
+                      aria-label="Jabatan Fungsional"
+                      orientation="horizontal"
+                      size="sm"
+                      value={formData.type}
+                      onValueChange={(value) =>
+                        setFormData({
+                          ...formData,
+                          type: value,
+                        })
                       }
-                      aria-label="Judul"
-                      labelPlacement="outside"
-                      placeholder="Masukkan disini"
-                      variant="bordered"
-                      radius="sm"
-                      classNames={{
-                        inputWrapper: "border-[0.8px]",
-                        input: "text-xs",
-                      }}
-                    />
+                    >
+                      <Radio value="PAJAK">Bayar Pajak</Radio>
+                      <Radio value="SERVIS">Servis</Radio>
+                    </RadioGroup>
                     <div className="text-danger text-[0.7rem] mt-1">
-                      {formError.merkTipe}
+                      {formError.type}
                     </div>
                   </div>
                 </div>
                 <Divider className="my-2" />
-                {formData.kategori && (
-                  <div className="grid sm:grid-cols-6 grid-cols-1 gap-2">
-                    <div className="sm:col-span-3 col-span-1">
-                      <div className="mb-1">
-                        <label
-                          htmlFor="content"
-                          className="font-semibold text-xs"
-                        >
-                          Harga
-                        </label>
-                      </div>
-                      <Input
-                        type="number"
-                        value={String(formData.harga)}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            harga: Number(e.target.value),
-                          })
-                        }
-                        startContent={"Rp"}
-                        aria-label="Judul"
-                        labelPlacement="outside"
-                        placeholder="Masukkan disini"
-                        variant="bordered"
-                        radius="sm"
-                        classNames={{
-                          inputWrapper: "border-[0.8px]",
-                          input: "text-xs",
-                        }}
-                      />
-                      <div className="text-danger text-[0.7rem] mt-1">
-                        {formError.harga}
-                      </div>
-                    </div>
-                    <div className="sm:col-span-3 col-span-1">
-                      <div className="mb-1">
-                        <label
-                          htmlFor="content"
-                          className="font-semibold text-xs"
-                        >
-                          Tahun Perolehan
-                        </label>
-                      </div>
-                      <Input
-                        type="number"
-                        value={formData.tahunPerolehan}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            tahunPerolehan: e.target.value,
-                          })
-                        }
-                        aria-label="Judul"
-                        labelPlacement="outside"
-                        placeholder="Masukkan disini"
-                        variant="bordered"
-                        radius="sm"
-                        classNames={{
-                          inputWrapper: "border-[0.8px]",
-                          input: "text-xs",
-                        }}
-                      />
-                      <div className="text-danger text-[0.7rem] mt-1">
-                        {formError.tahunPerolehan}
-                      </div>
-                    </div>
-                    <div className="sm:col-span-2 col-span-1">
-                      <div className="mb-1">
-                        <label
-                          htmlFor="content"
-                          className="font-semibold text-xs"
-                        >
-                          Jenis Bahan
-                        </label>
-                      </div>
-                      <Input
-                        value={formData.jenisBahan}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            jenisBahan: e.target.value,
-                          })
-                        }
-                        aria-label="Judul"
-                        labelPlacement="outside"
-                        placeholder="Masukkan disini"
-                        variant="bordered"
-                        radius="sm"
-                        classNames={{
-                          inputWrapper: "border-[0.8px]",
-                          input: "text-xs",
-                        }}
-                      />
-                      <div className="text-danger text-[0.7rem] mt-1">
-                        {formError.jenisBahan}
-                      </div>
-                    </div>
-                    <div className="sm:col-span-2 col-span-1">
-                      <div className="mb-1">
-                        <label
-                          htmlFor="content"
-                          className="font-semibold text-xs"
-                        >
-                          Nomor Pabrik
-                        </label>
-                      </div>
-                      <Input
-                        value={formData.nomorPabrik}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            nomorPabrik: e.target.value,
-                          })
-                        }
-                        aria-label="Judul"
-                        labelPlacement="outside"
-                        placeholder="Masukkan disini"
-                        variant="bordered"
-                        radius="sm"
-                        classNames={{
-                          inputWrapper: "border-[0.8px]",
-                          input: "text-xs",
-                        }}
-                      />
-                      <div className="text-danger text-[0.7rem] mt-1">
-                        {formError.nomorPabrik}
-                      </div>
-                    </div>
-                    <div className="sm:col-span-2 col-span-1">
-                      <div className="mb-1">
-                        <label
-                          htmlFor="content"
-                          className="font-semibold text-xs"
-                        >
-                          Nomor Mesin / Barang
-                        </label>
-                      </div>
-                      <Input
-                        value={formData.nomorMesin}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            nomorMesin: e.target.value,
-                          })
-                        }
-                        aria-label="Judul"
-                        labelPlacement="outside"
-                        placeholder="Masukkan disini"
-                        variant="bordered"
-                        radius="sm"
-                        classNames={{
-                          inputWrapper: "border-[0.8px]",
-                          input: "text-xs",
-                        }}
-                      />
-                      <div className="text-danger text-[0.7rem] mt-1">
-                        {formError.nomorMesin}
-                      </div>
-                    </div>
-                    {formData.kategori === "KENDARAAN" && (
-                      <div className="sm:col-span-2 col-span-1">
-                        <div className="mb-1">
-                          <label
-                            htmlFor="content"
-                            className="font-semibold text-xs"
-                          >
-                            Ukuran / CC
-                          </label>
-                        </div>
-                        <Input
-                          value={formData.ukuranCC}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              ukuranCC: e.target.value,
-                            })
-                          }
-                          aria-label="Judul"
-                          labelPlacement="outside"
-                          placeholder="Masukkan disini"
-                          variant="bordered"
-                          radius="sm"
-                          classNames={{
-                            inputWrapper: "border-[0.8px]",
-                            input: "text-xs",
-                          }}
-                        />
-                        <div className="text-danger text-[0.7rem] mt-1">
-                          {formError.ukuranCC}
-                        </div>
-                      </div>
-                    )}
-                    {formData.kategori === "KENDARAAN" && (
-                      <div className="sm:col-span-2 col-span-1">
-                        <div className="mb-1">
-                          <label
-                            htmlFor="content"
-                            className="font-semibold text-xs"
-                          >
-                            Nomor Rangka
-                          </label>
-                        </div>
-                        <Input
-                          value={formData.nomorRangka}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              nomorRangka: e.target.value,
-                            })
-                          }
-                          aria-label="Judul"
-                          labelPlacement="outside"
-                          placeholder="Masukkan disini"
-                          variant="bordered"
-                          radius="sm"
-                          classNames={{
-                            inputWrapper: "border-[0.8px]",
-                            input: "text-xs",
-                          }}
-                        />
-                        <div className="text-danger text-[0.7rem] mt-1">
-                          {formError.nomorRangka}
-                        </div>
-                      </div>
-                    )}
-                    {formData.kategori === "KENDARAAN" && (
-                      <div className="sm:col-span-2 col-span-1">
-                        <div className="mb-1">
-                          <label
-                            htmlFor="content"
-                            className="font-semibold text-xs"
-                          >
-                            Nomor Polisi
-                          </label>
-                        </div>
-                        <Input
-                          value={formData.nomorPolisi}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              nomorPolisi: e.target.value,
-                            })
-                          }
-                          aria-label="Judul"
-                          labelPlacement="outside"
-                          placeholder="Masukkan disini"
-                          variant="bordered"
-                          radius="sm"
-                          classNames={{
-                            inputWrapper: "border-[0.8px]",
-                            input: "text-xs",
-                          }}
-                        />
-                        <div className="text-danger text-[0.7rem] mt-1">
-                          {formError.nomorPolisi}
-                        </div>
-                      </div>
-                    )}
-                    {formData.kategori === "KENDARAAN" && (
-                      <div className="sm:col-span-6 col-span-1 flex sm:flex-row flex-col w-full gap-2">
-                        <div className="min-w-40">
-                          <div className="mb-2">
-                            <label
-                              htmlFor="content"
-                              className="font-semibold text-xs"
-                            >
-                              Pilih BPKB/STNK
-                            </label>
-                          </div>
-                          <RadioGroup
-                            size="sm"
-                            value={formData.dokumenTipe}
-                            onChange={(e) =>
-                              setFormData((prev) => ({
-                                ...prev,
-                                dokumenTipe: e.target.value,
-                              }))
-                            }
-                            orientation="horizontal"
-                          >
-                            <Radio value={"BPKB"} key={"BPKB"}>
-                              BPKB
-                            </Radio>
-                            <Radio value={"STNK"} key={"STNK"}>
-                              STNK
-                            </Radio>
-                          </RadioGroup>
-                          <div className="text-xs italic text-danger">
-                            {formError.dokumenTipe}
-                          </div>
-                        </div>
-                        <div className="w-full">
+                {formData.type && (
+                  <div>
+                    {formData.type === "PAJAK" ? (
+                      <div className="grid sm:grid-cols-3 grid-cols-1 gap-2">
+                        <div>
                           <div className="mb-1">
                             <label
                               htmlFor="content"
                               className="font-semibold text-xs"
                             >
-                              Nomor BPKB/STNK
+                              Tanggal Pajak 5 Tahunan
                             </label>
                           </div>
                           <Input
-                            value={formData.dokumenNomor}
+                            type="date"
+                            value={String(formData.pajak5Tahun)}
                             onChange={(e) =>
                               setFormData({
                                 ...formData,
-                                dokumenNomor: e.target.value,
+                                pajak5Tahun: e.target.value,
                               })
                             }
                             aria-label="Judul"
@@ -743,69 +429,272 @@ export default function CreatePegawai() {
                             }}
                           />
                           <div className="text-danger text-[0.7rem] mt-1">
-                            {formError.dokumenNomor}
+                            {formError.pajak5Tahun}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="mb-1">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
+                              Tanggal Pembayaran Pajak
+                            </label>
+                          </div>
+                          <Input
+                            type="date"
+                            value={String(formData.pembayaranPajak)}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                pembayaranPajak: e.target.value,
+                              })
+                            }
+                            aria-label="Judul"
+                            labelPlacement="outside"
+                            placeholder="Masukkan disini"
+                            variant="bordered"
+                            radius="sm"
+                            classNames={{
+                              inputWrapper: "border-[0.8px]",
+                              input: "text-xs",
+                            }}
+                          />
+                          <div className="text-danger text-[0.7rem] mt-1">
+                            {formError.pembayaranPajak}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="mb-1">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
+                              Nominal Pajak yang Dibayarkan
+                            </label>
+                          </div>
+                          <Input
+                            type="number"
+                            startContent="Rp"
+                            value={String(formData.nominalBayar)}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                nominalBayar: Number(e.target.value),
+                              })
+                            }
+                            aria-label="Judul"
+                            labelPlacement="outside"
+                            placeholder="Masukkan disini"
+                            variant="bordered"
+                            radius="sm"
+                            classNames={{
+                              inputWrapper: "border-[0.8px]",
+                              input: "text-xs",
+                            }}
+                          />
+                          <div className="text-danger text-[0.7rem] mt-1">
+                            {formError.nominalBayar}
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="grid sm:grid-cols-3 grid-cols-1 gap-2">
+                        <div>
+                          <div className="mb-1">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
+                              Tanggal Mulai Servis
+                            </label>
+                          </div>
+                          <Input
+                            type="date"
+                            value={String(formData.startServis)}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                startServis: e.target.value,
+                              })
+                            }
+                            aria-label="Judul"
+                            labelPlacement="outside"
+                            placeholder="Masukkan disini"
+                            variant="bordered"
+                            radius="sm"
+                            classNames={{
+                              inputWrapper: "border-[0.8px]",
+                              input: "text-xs",
+                            }}
+                          />
+                          <div className="text-danger text-[0.7rem] mt-1">
+                            {formError.startServis}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="mb-1">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
+                              Tanggal Selesai Servis
+                            </label>
+                          </div>
+                          <Input
+                            type="date"
+                            value={String(formData.endServis)}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                endServis: e.target.value,
+                              })
+                            }
+                            aria-label="Judul"
+                            labelPlacement="outside"
+                            placeholder="Masukkan disini"
+                            variant="bordered"
+                            radius="sm"
+                            classNames={{
+                              inputWrapper: "border-[0.8px]",
+                              input: "text-xs",
+                            }}
+                          />
+                          <div className="text-danger text-[0.7rem] mt-1">
+                            {formError.endServis}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="mb-1">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
+                              Nominal Servis
+                            </label>
+                          </div>
+                          <Input
+                            type="number"
+                            startContent="Rp"
+                            value={String(formData.nominalServis)}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                nominalServis: Number(e.target.value),
+                              })
+                            }
+                            aria-label="Judul"
+                            labelPlacement="outside"
+                            placeholder="Masukkan disini"
+                            variant="bordered"
+                            radius="sm"
+                            classNames={{
+                              inputWrapper: "border-[0.8px]",
+                              input: "text-xs",
+                            }}
+                          />
+                          <div className="text-danger text-[0.7rem] mt-1">
+                            {formError.nominalServis}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="mb-1">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
+                              Servis Ke-
+                            </label>
+                          </div>
+                          <Input
+                            startContent="Rp"
+                            value={String(formData.servicesKe)}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                servicesKe: Number(e.target.value),
+                              })
+                            }
+                            aria-label="Judul"
+                            labelPlacement="outside"
+                            placeholder="Masukkan disini"
+                            variant="bordered"
+                            radius="sm"
+                            classNames={{
+                              inputWrapper: "border-[0.8px]",
+                              input: "text-xs",
+                            }}
+                          />
+                          <div className="text-danger text-[0.7rem] mt-1">
+                            {formError.servicesKe}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="mb-1">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
+                              No. Surat Pesanan
+                            </label>
+                          </div>
+                          <Input
+                            value={String(formData.nomorSurat)}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                nomorSurat: e.target.value,
+                              })
+                            }
+                            aria-label="Judul"
+                            labelPlacement="outside"
+                            placeholder="Masukkan disini"
+                            variant="bordered"
+                            radius="sm"
+                            classNames={{
+                              inputWrapper: "border-[0.8px]",
+                              input: "text-xs",
+                            }}
+                          />
+                          <div className="text-danger text-[0.7rem] mt-1">
+                            {formError.nomorSurat}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="mb-1">
+                            <label
+                              htmlFor="content"
+                              className="font-semibold text-xs"
+                            >
+                              Tanggal Surat Pesanan
+                            </label>
+                          </div>
+                          <Input
+                            type="date"
+                            startContent="Rp"
+                            value={String(formData.tanggalSurat)}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                tanggalSurat: e.target.value,
+                              })
+                            }
+                            aria-label="Judul"
+                            labelPlacement="outside"
+                            placeholder="Masukkan disini"
+                            variant="bordered"
+                            radius="sm"
+                            classNames={{
+                              inputWrapper: "border-[0.8px]",
+                              input: "text-xs",
+                            }}
+                          />
+                          <div className="text-danger text-[0.7rem] mt-1">
+                            {formError.tanggalSurat}
                           </div>
                         </div>
                       </div>
                     )}
-                    <div className="sm:col-span-6 col-span-1">
-                      <div className="mb-1">
-                        <label
-                          htmlFor="content"
-                          className="font-semibold text-xs"
-                        >
-                          Keterangan Aset
-                        </label>
-                      </div>
-                      <Input
-                        value={formData.keterangan}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            keterangan: e.target.value,
-                          })
-                        }
-                        aria-label="Judul"
-                        labelPlacement="outside"
-                        placeholder="Masukkan disini"
-                        variant="bordered"
-                        radius="sm"
-                        classNames={{
-                          inputWrapper: "border-[0.8px]",
-                          input: "text-xs",
-                        }}
-                      />
-                      <div className="text-danger text-[0.7rem] mt-1">
-                        {formError.keterangan}
-                      </div>
-                    </div>
-                    <div className="sm:col-span-6 col-span-1">
-                      <div className="max-w-80">
-                        <div className="mb-1">
-                          <label
-                            htmlFor="content"
-                            className="font-semibold text-xs"
-                          >
-                            Dokumen Aset
-                          </label>
-                        </div>
-                        <div className="border p-8 mb-2 flex items-center justify-center">
-                          {formData.dokumen ? (
-                            <LuArchiveRestore size={32} />
-                          ) : (
-                            <LuImage size={32} />
-                          )}
-                        </div>
-                        <input
-                          type="file"
-                          onChange={handleChangeFile}
-                          accept=".png,.jpg,.jpeg,.pdf"
-                        />
-                        <div className="text-danger text-[0.7rem] mt-1">
-                          {formError.dokumen}
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 )}
               </CardBody>

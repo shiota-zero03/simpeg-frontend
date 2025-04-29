@@ -15,10 +15,11 @@ import {
   ISuratPegawaiRes,
 } from "@/interface/responses/pegawai.interface";
 
-export const getAllPegawaiOption = async (): Promise<IPegawaiOptionDetailRes> => {
-  const response = await instance.get(`/admin/pegawai/dropdown/list`);
-  return response.data;
-};
+export const getAllPegawaiOption =
+  async (): Promise<IPegawaiOptionDetailRes> => {
+    const response = await instance.get(`/admin/pegawai/dropdown/list`);
+    return response.data;
+  };
 
 export const getAllPegawaiPimpinanOption =
   async (): Promise<IPegawaiOptionRes> => {
@@ -71,7 +72,9 @@ export const getAllSuratPegawaiAdmin = async (
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
   if (title) params.set("name", title);
-  const response = await instance.get(`/admin/type-form/list/admin?${params.toString()}`);
+  const response = await instance.get(
+    `/admin/type-form/list/admin?${params.toString()}`,
+  );
   return response.data;
 };
 export const getAllSuratPegawai = async (
@@ -116,8 +119,6 @@ export const deleteSuratPegawai = async (
   return response.data;
 };
 
-
-
 export const getAllPelaporanPegawai = async (
   page: number,
   limit: number,
@@ -128,13 +129,18 @@ export const getAllPelaporanPegawai = async (
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
   if (title) params.set("name", title);
-  const response = await instance.get(`/admin/laporan-pegawai?${params.toString()}`);
+  const response = await instance.get(
+    `/admin/laporan-pegawai?${params.toString()}`,
+  );
   return response.data;
 };
 export const createPelaporanPegawai = async (
   formData: StorePelaporanPegawai,
 ): Promise<IPelaporanPegawaiRes> => {
-  const response = await instance.post(`/admin/laporan-pegawai/create`, formData);
+  const response = await instance.post(
+    `/admin/laporan-pegawai/create`,
+    formData,
+  );
   return response.data;
 };
 export const getDetailPelaporanPegawai = async (

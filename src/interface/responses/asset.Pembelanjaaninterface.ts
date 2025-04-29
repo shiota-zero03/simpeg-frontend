@@ -23,7 +23,6 @@ export interface IDataKegiatanOptionRes extends BaseRes {
   data: DataKegiatanRes[];
 }
 
-
 export interface SubDataKegiatanRes {
   id: number;
   name: string;
@@ -47,8 +46,6 @@ export interface ISubDataKegiatanOptionRes extends BaseRes {
   data: SubDataKegiatanRes[];
 }
 
-
-
 export interface KegiatanBelanjaRes {
   id: number;
   namaBelanja: string;
@@ -62,11 +59,11 @@ export interface KegiatanBelanjaRes {
   kegiatan: {
     id: number;
     name: string;
-  },
+  };
   subKegiatan: {
     id: number;
     name: string;
-  }
+  };
 }
 
 export interface IKegiatanBelanjaRes extends BaseRes {
@@ -84,9 +81,6 @@ export interface IKegiatanBelanjaOptionRes extends BaseRes {
   data: KegiatanBelanjaRes[];
 }
 
-
-
-
 export interface DataBelanjaRes {
   id: number;
   name: string;
@@ -102,12 +96,12 @@ export interface DataBelanjaRes {
     kegiatan: {
       id: number;
       name: string;
-    },
+    };
     subKegiatan: {
       id: number;
       name: string;
-    }
-  }
+    };
+  };
 }
 
 export interface IDataBelanjaRes extends BaseRes {

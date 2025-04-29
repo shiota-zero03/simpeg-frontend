@@ -4,6 +4,7 @@ import {
   deleteAsset,
   getAllAsset,
   getAllAssetOption,
+  getAllAssetOptionWithHolder,
   getDetailAsset,
   updateAsset,
 } from "./http";
@@ -11,6 +12,14 @@ import { IAssetDetailRes } from "@/interface/responses/asset.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StoreAsset } from "@/interface/request/asset.interface";
+
+export const useGetAllAssetOptionWithHolder = () => {
+  return useQuery({
+    queryKey: ["getAllAssetOptionWithHolder"],
+    queryFn: () => getAllAssetOptionWithHolder(),
+    staleTime: 300000,
+  });
+};
 
 export const useGetAllAssetOption = () => {
   return useQuery({
