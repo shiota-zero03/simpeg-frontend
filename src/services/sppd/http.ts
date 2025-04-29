@@ -1,6 +1,50 @@
 import instance from "@/api/axios";
 import { StorePelaporanSPPD, StoreSPPD } from "@/interface/request/sppd.interface";
-import { ISPPDRes, ISPPDDetailRes, IPelaporanSPPDRes, IPelaporanSPPDListRes } from "@/interface/responses/sppd.interface";
+import { ISPPDRes, ISPPDDetailRes, IPelaporanSPPDRes, IPelaporanSPPDListRes, ISPPDRekapRes } from "@/interface/responses/sppd.interface";
+
+export const getAllSPPDUser = async (
+  page: number,
+  limit: number,
+  title?: string,
+  type?: string,
+  nomorSurat?: string,
+  startDate?: string | null,
+  endDate?: string | null,
+): Promise<ISPPDRekapRes> => {
+  const params = new URLSearchParams();
+
+  if (page) params.set("page", page.toString());
+  if (limit) params.set("limit", limit.toString());
+  if (startDate) params.set("startDate", startDate);
+  if (endDate) params.set("endDate", endDate);
+  if (title) params.set("title", title);
+  if (type) params.set("type", type);
+  if (nomorSurat) params.set("nomorSurat", nomorSurat);
+  const response = await instance.get(`/admin/sppd/rekap/usersid?${params.toString()}`);
+  return response.data;
+};
+
+export const getAllSPPDRekap = async (
+  page: number,
+  limit: number,
+  title?: string,
+  type?: string,
+  nomorSurat?: string,
+  startDate?: string | null,
+  endDate?: string | null,
+): Promise<ISPPDRekapRes> => {
+  const params = new URLSearchParams();
+
+  if (page) params.set("page", page.toString());
+  if (limit) params.set("limit", limit.toString());
+  if (startDate) params.set("startDate", startDate);
+  if (endDate) params.set("endDate", endDate);
+  if (title) params.set("title", title);
+  if (type) params.set("type", type);
+  if (nomorSurat) params.set("nomorSurat", nomorSurat);
+  const response = await instance.get(`/admin/sppd/rekap/users?${params.toString()}`);
+  return response.data;
+};
 
 export const getAllSPPD = async (
   page: number,
