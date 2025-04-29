@@ -6,6 +6,7 @@ import {
 } from "@/interface/request/pegawai.interface";
 import {
   IPegawaiListRes,
+  IPegawaiOptionDetailRes,
   IPegawaiOptionRes,
   IPegawaiRes,
   IPelaporanPegawaiListRes,
@@ -14,7 +15,7 @@ import {
   ISuratPegawaiRes,
 } from "@/interface/responses/pegawai.interface";
 
-export const getAllPegawaiOption = async (): Promise<IPegawaiOptionRes> => {
+export const getAllPegawaiOption = async (): Promise<IPegawaiOptionDetailRes> => {
   const response = await instance.get(`/admin/pegawai/dropdown/list`);
   return response.data;
 };

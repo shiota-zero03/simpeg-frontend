@@ -67,6 +67,9 @@ export interface PegawaiOptionRes {
 export interface IPegawaiOptionRes extends BaseRes {
   data: PegawaiOptionRes;
 }
+export interface IPegawaiOptionDetailRes extends BaseRes {
+  data: PegawaiRes[];
+}
 
 export interface SuratPegawaiRes {
   id: number;
