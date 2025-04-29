@@ -92,7 +92,7 @@ export default function CreateIKP() {
 
   const PEGAWAI_SELECT = useMemo(() => {
     if (!allDataJabatan) return [];
-    return allDataJabatan.data;
+    return allDataJabatan.data.bawahan;
   }, [allDataJabatan]);
 
   const [formError, setFormError] = useState<errorProps>({});
