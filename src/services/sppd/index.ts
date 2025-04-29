@@ -6,6 +6,8 @@ import {
   deleteSPPD,
   getAllPelaporanSPPD,
   getAllSPPD,
+  getAllSPPDRekap,
+  getAllSPPDUser,
   getDetailPelaporanSPPD,
   getDetailSPPD,
   updatePelaporanSPPD,
@@ -16,6 +18,36 @@ import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StorePelaporanSPPD, StoreSPPD } from "@/interface/request/sppd.interface";
 
+export const useGetAllSPPDUser = (
+  page: number,
+  limit: number,
+  title?: string,
+  type?: string,
+  nomorSurat?: string,
+  start?: string | null,
+  end?: string | null,
+) => {
+  return useQuery({
+    queryKey: ["getAllSPPDUser", type],
+    queryFn: () => getAllSPPDUser(page, limit, title, type, nomorSurat, start, end),
+    staleTime: 300000,
+  });
+};
+export const useGetAllSPPDRekap = (
+  page: number,
+  limit: number,
+  title?: string,
+  type?: string,
+  nomorSurat?: string,
+  start?: string | null,
+  end?: string | null,
+) => {
+  return useQuery({
+    queryKey: ["getAllSPPDRekap", type],
+    queryFn: () => getAllSPPDRekap(page, limit, title, type, nomorSurat, start, end),
+    staleTime: 300000,
+  });
+};
 export const useGetAllSPPD = (
   page: number,
   limit: number,

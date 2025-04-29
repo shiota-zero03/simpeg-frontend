@@ -50,6 +50,35 @@ export interface SPPDRes {
   }[];
 }
 
+export interface SPPDRekapRes {
+  id: number;
+  bankAccount: string;
+  position: string;
+  role: string;
+  user: {
+    id: string;
+    nip: string;
+    name: string;
+  };
+  sppd: {
+    id: string;
+    nomorSurat: string;
+    type: string;
+    kodeRekening: string;
+    startDate: string;
+    endDate: string;
+    location: string;
+    activity: string;
+  }
+}
+
+export interface ISPPDRekapRes extends BaseRes {
+  data: {
+    response: SPPDRekapRes[];
+    pagination: PaginationRes;
+  };
+}
+
 export interface ISPPDRes extends BaseRes {
   data: {
     response: SPPDRes[];

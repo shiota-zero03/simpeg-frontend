@@ -1,4 +1,5 @@
 import DataProfile from "./Profile";
+import SPPD from "./SPPD";
 import { useMemo, useState } from "react";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import ViewPenilaian from "./Penilaian";
@@ -39,7 +40,7 @@ export default function Profile() {
           </div>
           <div
             onClick={() => setSelectedTab("pemegang-asset")}
-            className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "riwayat-perjalanan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+            className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pemegang-asset" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
           >
             Aset
           </div>
@@ -48,6 +49,9 @@ export default function Profile() {
           {selectedTab === "profile" && <DataProfile />}
           {selectedTab === "riwayat-penilaian" && (
             <ViewPenilaian dataNilaiBobot={DATA_FETCHING || null} />
+          )}
+          {selectedTab === "riwayat-perjalanan" && (
+            <SPPD />
           )}
         </div>
       </div>

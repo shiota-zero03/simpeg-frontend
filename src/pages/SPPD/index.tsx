@@ -2,6 +2,7 @@ import { TitleCase } from "@/components/card/TitleCase";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import SPPDIndex from "./SPPD";
 import Pelaporan from "./Pelaporan";
+import SPPDRekap from "./SPPDRekap";
 import { useState } from "react";
 
 export default function Jabatan() {
@@ -38,7 +39,7 @@ export default function Jabatan() {
           </div>
           <div className="bg-white shadow-md rounded-b-xl border min-h-[70vh]">
             {selectedTab === "data-sppd" ? <SPPDIndex /> : <></>}
-            {/* {selectedTab === "rekap" ? <Surat /> : <></>} */}
+            {selectedTab === "rekap" ? <SPPDRekap /> : <></>}
             {selectedTab === "pelaporan" ? <Pelaporan /> : <></>}
           </div>
         </div>
