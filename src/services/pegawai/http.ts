@@ -21,7 +21,7 @@ export const getAllPegawaiOption = async (): Promise<IPegawaiOptionRes> => {
 
 export const getAllPegawaiPimpinanOption =
   async (): Promise<IPegawaiOptionRes> => {
-    const response = await instance.get(`/admin/pegawai/hirarki/bawahan`);
+    const response = await instance.get(`/admin/pegawai/dropdown/byusers`);
     return response.data;
   };
 
