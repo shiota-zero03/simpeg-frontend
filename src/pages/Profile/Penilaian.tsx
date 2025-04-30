@@ -219,7 +219,7 @@ export default function ViewPenilaian({
                 </CardBody>
               </Card>
               <Card className="border relative w-full" shadow="none">
-                <CardBody className="grid md:grid-cols-2 grid-cols-1">
+                <CardBody className="grid lg:grid-cols-2 grid-cols-1">
                   <PenilaianKinerjaLine />
                   <PenilaianKinerjaDougnhut />
                 </CardBody>

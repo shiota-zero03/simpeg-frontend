@@ -122,6 +122,7 @@ export default function Header() {
                     key="profile"
                     className="text-xs text-center mb-2"
                     onPress={() => navigate("/profile")}
+                    textValue="profile"
                   >
                     <div className="flex items-center justify-center text-xs gap-2">
                       <LuUserCog /> Profil Saya
@@ -129,6 +130,7 @@ export default function Header() {
                   </DropdownItem>
                   <DropdownItem
                     key="logout"
+                    textValue="logout"
                     className="bg-danger text-white flex items-center justify-center gap-2 text-center"
                     onPress={onOpenLogout}
                   >

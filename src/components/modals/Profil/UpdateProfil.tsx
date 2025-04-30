@@ -12,7 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { convertFileToBase64 } from "@/utils/base64Formater";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { PegawaiRes } from "@/interface/responses/pegawai.interface";
-import { YMToIndoFormat } from "@/utils/dateFormater";
+import { DateYMDFormat } from "@/utils/dateFormater";
 import { useUpdateProfil } from "@/services/auth";
 import { StorePegawai } from "@/interface/request/pegawai.interface";
 import { AxiosError } from "axios";
@@ -66,7 +66,7 @@ const UpdateProfil = ({ isOpen, onClose, data, handleClose }: props) => {
       email: data.email,
       whatsapp: data.phoneNumber,
       tempatLahir: data.placeOfBirth,
-      tanggalLahir: data.dateOfBirth ? YMToIndoFormat(data.dateOfBirth) : "",
+      tanggalLahir: data.dateOfBirth ? DateYMDFormat(data.dateOfBirth) : "",
       foto: "",
       fotoUrl: data.photo,
     });

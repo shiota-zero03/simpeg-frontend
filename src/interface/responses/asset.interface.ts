@@ -44,12 +44,19 @@ export interface IAssetOptionRes extends BaseRes {
 export interface IAssetByHolderRes extends BaseRes {
   data: {
     response : {
+      id: string;
       createdAt: string;
       idBarang: string;
       kodeBarang: string;
       nomorRegistrasi: string;
       namaBarang: string;
       merkTipe: string;
+      holders: {
+        id: number;
+        dokumenPendukung: string;
+        noBast: string;
+        file: string;
+      }[]
     }[];
     pagination: PaginationRes;
   }
