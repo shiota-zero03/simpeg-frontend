@@ -12,7 +12,7 @@ import { FaPlayCircle } from "react-icons/fa";
 import { LuRefreshCcw } from "react-icons/lu";
 import { TbFaceIdError } from "react-icons/tb";
 import ReactPlayer from "react-player";
-import ImageHome from "@/assets/gambar-home.jpg";
+// import ImageHome from "@/assets/gambar-home.jpg";
 
 interface GaleryDataProps {
   image: string;
@@ -34,8 +34,8 @@ const GaleriComponent = () => {
     if (data) {
       setPageTotal(data.data.pagination.totalPages || 0);
       return data.data.response.map((item) => ({
-        // image: item.images,
-        image: ImageHome,
+        image: item.images,
+        // image: ImageHome,
         title: item.title,
         type: item.type,
         video: item.video,

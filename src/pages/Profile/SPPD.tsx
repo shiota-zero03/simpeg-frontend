@@ -100,6 +100,13 @@ export default function News() {
       setEndData(end);
 
       return data.response.map((item: SPPDRekapRes) => {
+
+        const anggaran = item.budgets[0] ? (
+                          ((item.budgets[0].dailyAllowance || 0) * (item.budgets[0].volDailyAllowance || 0)) + 
+                          ((item.budgets[0].representatif || 0) * (item.budgets[0].volRepresentatif || 0)) + 
+                          ((item.budgets[0].transport || 0) * (item.budgets[0].volTransport || 0))
+                        ) : 0;
+
         return {
           id: item.id,
           nomorSurat: item.sppd.nomorSurat,
@@ -108,7 +115,7 @@ export default function News() {
           waktu: `${item.sppd.startDate ? DMYIndoToFormat(item.sppd.startDate) : ""} - ${item.sppd.endDate ? DMYIndoToFormat(item.sppd.endDate) : ""}`,
           tipe: item.sppd.type,
           lokasi: item.sppd.location,
-          anggaran: 0,
+          anggaran: anggaran,
         };
       });
     } else {

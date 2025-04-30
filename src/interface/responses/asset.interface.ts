@@ -41,6 +41,20 @@ export interface IAssetOptionRes extends BaseRes {
   data: AssetRes[];
 }
 
+export interface IAssetByHolderRes extends BaseRes {
+  data: {
+    response : {
+      createdAt: string;
+      idBarang: string;
+      kodeBarang: string;
+      nomorRegistrasi: string;
+      namaBarang: string;
+      merkTipe: string;
+    }[];
+    pagination: PaginationRes;
+  }
+}
+
 export interface IAssetWithHolderRes extends BaseRes {
   data: {
     id: string;

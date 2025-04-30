@@ -5,6 +5,7 @@ import {
   IAssetOptionRes,
   IAssetDetailRes,
   IAssetWithHolderRes,
+  IAssetByHolderRes,
 } from "@/interface/responses/asset.interface";
 
 export const getAllAssetOptionWithHolder =
@@ -29,6 +30,19 @@ export const getAllAsset = async (
   if (limit) params.set("limit", limit.toString());
   if (title) params.set("search", title);
   const response = await instance.get(`/admin/asset?${params.toString()}`);
+  return response.data;
+};
+export const getAllAssetByHolder = async (
+  page: number,
+  limit: number,
+  title?: string,
+): Promise<IAssetByHolderRes> => {
+  const params = new URLSearchParams();
+
+  if (page) params.set("page", page.toString());
+  if (limit) params.set("limit", limit.toString());
+  if (title) params.set("search", title);
+  const response = await instance.get(`/admin/asset/list/holder?${params.toString()}`);
   return response.data;
 };
 export const createAsset = async (
