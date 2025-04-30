@@ -120,7 +120,7 @@ export default function UpdatePelaporan() {
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/pegawai");
+      navigate("/pegawai?tab=pelaporan");
     }
   }, [isFetching, refetch]);
 
@@ -212,7 +212,7 @@ export default function UpdatePelaporan() {
         {
           onSuccess: () => {
             SuccessToast({ text: "Data berhasil ditambahkan" });
-            navigate("/pegawai");
+            navigate("/pegawai?tab=pelaporan");
           },
           onError: (error: AxiosError<BaseErrorRes>) => {
             window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -252,7 +252,7 @@ export default function UpdatePelaporan() {
         )}
         <div className="flex">
           <Link
-            to={`/pegawai`}
+            to={`/pegawai?tab=pelaporan`}
             className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
           >
             <LuArrowLeft /> Kembali

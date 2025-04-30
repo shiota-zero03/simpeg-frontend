@@ -35,13 +35,21 @@ export const getAllAsset = async (
 export const getAllAssetByHolder = async (
   page: number,
   limit: number,
-  title?: string,
+  idBarang?: string,
+  kodeBarang?: string,
+  nomorRegistrasi?: string,
+  startDate?: string | null,
+  endDate?: string | null,
 ): Promise<IAssetByHolderRes> => {
   const params = new URLSearchParams();
 
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
-  if (title) params.set("search", title);
+  if (idBarang) params.set("idBarang", idBarang)
+  if (kodeBarang) params.set("kodeBarang", kodeBarang)
+  if (nomorRegistrasi) params.set("nomorRegistrasi", nomorRegistrasi)
+  if (startDate) params.set("startDate", startDate)
+  if (endDate) params.set("endDate", endDate)
   const response = await instance.get(
     `/admin/asset/list/holder?${params.toString()}`,
   );

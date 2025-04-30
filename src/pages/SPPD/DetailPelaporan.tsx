@@ -22,7 +22,7 @@ export default function DetailPemeriksaan() {
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/sppd");
+      navigate("/sppd?tab=pelaporan");
     }
   }, [isFetching, refetch]);
 
@@ -59,7 +59,7 @@ export default function DetailPemeriksaan() {
 
   return (
     <>
-      <BreadcrumbAdmin location="/Laporan-Hasil-Pemeriksaan/Detail" />
+      <BreadcrumbAdmin location="/SPPD/Detail-Pelaporan" />
       {isFetching ? (
         <div className="inset-0 fixed flex items-center justify-center z-20">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
@@ -68,7 +68,7 @@ export default function DetailPemeriksaan() {
         <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
           <div className="flex">
             <Link
-              to={`/sppd`}
+              to={`/sppd?tab=pelaporan`}
               className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
             >
               <LuArrowLeft /> Kembali
@@ -85,7 +85,7 @@ export default function DetailPemeriksaan() {
                 <FaFilePdf size={18} /> Export .pdf
               </Link>
             </CardHeader>
-            <CardBody className="flex flex-col">
+            <CardBody className="flex flex-col md:px-20 px-4">
               {DATA_DETAIL && (
                 <DetailExport
                   DATA_DETAIL={DATA_DETAIL}

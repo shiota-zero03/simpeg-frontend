@@ -184,7 +184,7 @@ export default function CreatePelaporan() {
       mutatePost(formToSend, {
         onSuccess: () => {
           SuccessToast({ text: "Data berhasil ditambahkan" });
-          navigate("/sppd");
+          navigate("/sppd?tab=pelaporan");
         },
         onError: (error: AxiosError<BaseErrorRes>) => {
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -218,7 +218,7 @@ export default function CreatePelaporan() {
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <div className="flex">
           <Link
-            to={`/sppd`}
+            to={`/sppd?tab=pelaporan`}
             className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
           >
             <LuArrowLeft /> Kembali

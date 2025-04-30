@@ -12,7 +12,7 @@ import { LuSearch } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { CalendarDate, parseDate } from "@internationalized/date";
+import { CalendarDate, getLocalTimeZone, parseDate } from "@internationalized/date";
 import store from "@/redux/store";
 import { useGetAllAssetbyHolder } from "@/services/asset/asset";
 import { Link } from "react-router-dom";
@@ -44,6 +44,7 @@ export default function News() {
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
   const [searchKegiatan, setSearchKegiatan] = useState("");
+  const [searchNomorRegistrasi, setSearchNomorRegistrasi] = useState("");
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -52,22 +53,22 @@ export default function News() {
     end: parseDate(today.toISOString().split("T")[0]),
   });
 
-  //   const formatDateToJakarta = (
-  //     calendarDate: CalendarDate | null | undefined,
-  //   ) => {
-  //     if (!calendarDate) return null;
-  //     const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
-  //     return new Intl.DateTimeFormat("id-ID", {
-  //       timeZone: "Asia/Jakarta",
-  //       year: "numeric",
-  //       month: "2-digit",
-  //       day: "2-digit",
-  //     })
-  //       .format(date)
-  //       .split("/")
-  //       .reverse()
-  //       .join("-");
-  //   };
+  const formatDateToJakarta = (
+    calendarDate: CalendarDate | null | undefined,
+  ) => {
+    if (!calendarDate) return null;
+    const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
+    return new Intl.DateTimeFormat("id-ID", {
+      timeZone: "Asia/Jakarta",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+      .format(date)
+      .split("/")
+      .reverse()
+      .join("-");
+  };
 
   const [startData, setStartData] = useState<number>(0);
   const [endData, setEndData] = useState<number>(0);
@@ -78,7 +79,7 @@ export default function News() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllAssetbyHolder(pageIndex + 1, limit, search);
+  } = useGetAllAssetbyHolder(pageIndex + 1, limit, search, searchKegiatan, searchNomorRegistrasi, formatDateToJakarta(rangeDate?.start), formatDateToJakarta(rangeDate?.end));
 
   const paginatedData: AssetProps[] = useMemo(() => {
     if (allData) {
@@ -162,6 +163,14 @@ export default function News() {
       cell: ({ row }) => {
         const { holders } = row.original;
         return holders.length > 0
+          ? (holders[0].noBast || "-") : "-";
+      },
+    },
+    {
+      header: "File Dokumen",
+      cell: ({ row }) => {
+        const { holders } = row.original;
+        return holders.length > 0
           ? (
             holders[0].file ? (
               <Link to={holders[0].file} target="__blank">
@@ -171,14 +180,6 @@ export default function News() {
               <LucideInfo className="text-danger" />
             )
           ) : "-";
-      },
-    },
-    {
-      header: "Nomor BAST",
-      cell: ({ row }) => {
-        const { holders } = row.original;
-        return holders.length > 0
-          ? (holders[0].noBast || "-") : "-";
       },
     },
   ];
@@ -191,6 +192,7 @@ export default function News() {
   const handleReset = () => {
     setSearch("");
     setSearchKegiatan("");
+    setSearchNomorRegistrasi("");
     setRangeDate({
       start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
       end: parseDate(today.toISOString().split("T")[0]),
@@ -214,6 +216,24 @@ export default function News() {
                 <div className="flex lg:flex-row flex-col gap-2 items-end w-full">
                   <Input
                     aria-label="searchKegiatan"
+                    value={search}
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                    }}
+                    radius="sm"
+                    size="sm"
+                    variant="bordered"
+                    placeholder="Cari id barang disini"
+                    startContent={
+                      <LuSearch className="text-accent-gray text-xs" />
+                    }
+                    classNames={{
+                      inputWrapper: "border-[0.8px]",
+                      input: "text-xs",
+                    }}
+                  />
+                  <Input
+                    aria-label="searchKegiatan"
                     value={searchKegiatan}
                     onChange={(e) => {
                       setSearchKegiatan(e.target.value);
@@ -221,7 +241,25 @@ export default function News() {
                     radius="sm"
                     size="sm"
                     variant="bordered"
-                    placeholder="Cari nama kegiatan disini"
+                    placeholder="Cari kode barang disini"
+                    startContent={
+                      <LuSearch className="text-accent-gray text-xs" />
+                    }
+                    classNames={{
+                      inputWrapper: "border-[0.8px]",
+                      input: "text-xs",
+                    }}
+                  />
+                  <Input
+                    aria-label="searchKegiatan"
+                    value={searchNomorRegistrasi}
+                    onChange={(e) => {
+                      setSearchNomorRegistrasi(e.target.value);
+                    }}
+                    radius="sm"
+                    size="sm"
+                    variant="bordered"
+                    placeholder="Cari nomor registrasi disini"
                     startContent={
                       <LuSearch className="text-accent-gray text-xs" />
                     }

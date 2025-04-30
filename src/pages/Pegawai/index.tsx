@@ -3,10 +3,20 @@ import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import PegawaiIndex from "./PegawaiIndex";
 import Surat from "./Surat";
 import Pelaporan from "./Pelaporan";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Jabatan() {
   const [selectedTab, setSelectedTab] = useState<string>("data-pegawai");
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const tab = queryParams.get("tab");
+  const tabData = tab as string;
+
+  useEffect(() => {
+    if (tabData) {
+      setSelectedTab(tabData);
+    }
+  }, [tabData]);
 
   return (
     <>
