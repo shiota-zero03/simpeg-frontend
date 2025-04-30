@@ -3,14 +3,24 @@ import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import SPPDIndex from "./SPPD";
 import Pelaporan from "./Pelaporan";
 import SPPDRekap from "./SPPDRekap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Jabatan() {
   const [selectedTab, setSelectedTab] = useState<string>("data-sppd");
 
+  const queryParams = new URLSearchParams(window.location.search);
+  const tab = queryParams.get("tab");
+  const tabData = tab as string;
+
+  useEffect(() => {
+    if (tabData) {
+      setSelectedTab(tabData);
+    }
+  }, [tabData]);
+
   return (
     <>
-      <BreadcrumbAdmin location="/Pegawai" />
+      <BreadcrumbAdmin location="/SPPD" />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
           title="SPPD"
