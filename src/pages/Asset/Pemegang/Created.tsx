@@ -658,9 +658,7 @@ export default function CreatePegawai() {
                                 value: "text-xs",
                               }}
                             >
-                              <SelectItem key={"BAST"}>
-                                Dokumen BAST
-                              </SelectItem>
+                              <SelectItem key={"BAST"}>Dokumen BAST</SelectItem>
                               <SelectItem key={"PAKTA_INTEGRITAS"}>
                                 Fakta Integritas
                               </SelectItem>

@@ -88,13 +88,25 @@ export default function Unit() {
     {
       accessorKey: "latarBelakang",
       header: "Latar Belakang",
-      cell: (info) => info.getValue() as string,
+      cell: (info) => {
+        return (
+          <div
+            dangerouslySetInnerHTML={{ __html: info.getValue() as string }}
+          />
+        );
+      },
       // meta: { align: "center" },
     },
     {
       accessorKey: "isi",
       header: "Isi Laporan",
-      cell: (info) => info.getValue() as string,
+      cell: (info) => {
+        return (
+          <div
+            dangerouslySetInnerHTML={{ __html: info.getValue() as string }}
+          />
+        );
+      },
       // meta: { align: "center" },
     },
     {

@@ -15,15 +15,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
 import {
-  useGetDetailPelaporanPegawai,
-  useUpdatePelaporanPegawai,
-} from "@/services/pegawai";
+  useGetDetailPelaporanSPPD,
+  useUpdatePelaporanSPPD,
+} from "@/services/sppd";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { ClassicEditor, SimpleUploadAdapter } from "ckeditor5";
 import { ckPlugins, ckToolbar } from "@/constants/CkEditorPlugin";
-import { StorePelaporanPegawai } from "@/interface/request/pegawai.interface";
+import { StorePelaporanSPPD } from "@/interface/request/sppd.interface";
 
 interface formProps {
   latarBelakang?: string;
@@ -112,14 +112,14 @@ export default function UpdatePelaporan() {
     return error;
   };
 
-  const { data, isFetching, refetch, error } = useGetDetailPelaporanPegawai(
+  const { data, isFetching, refetch, error } = useGetDetailPelaporanSPPD(
     id as string,
   );
 
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/pegawai");
+      navigate("/sppd");
     }
   }, [isFetching, refetch]);
 
@@ -163,7 +163,7 @@ export default function UpdatePelaporan() {
     onOpenConfirm();
   };
 
-  const { mutate: mutatePost } = useUpdatePelaporanPegawai();
+  const { mutate: mutatePost } = useUpdatePelaporanSPPD();
 
   const handleConfirm = () => {
     setLoadingConfirm(true);
@@ -179,7 +179,7 @@ export default function UpdatePelaporan() {
       return true;
     }
 
-    const formToSend: StorePelaporanPegawai = {};
+    const formToSend: StorePelaporanSPPD = {};
 
     if (formData.latarBelakang)
       formToSend.latarBelakang = formData.latarBelakang;
@@ -211,7 +211,7 @@ export default function UpdatePelaporan() {
         {
           onSuccess: () => {
             SuccessToast({ text: "Data berhasil ditambahkan" });
-            navigate("/pegawai");
+            navigate("/sppd");
           },
           onError: (error: AxiosError<BaseErrorRes>) => {
             window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -235,7 +235,7 @@ export default function UpdatePelaporan() {
 
   return (
     <>
-      <BreadcrumbAdmin location="/Pegawai/Update-Pelaporan" />
+      <BreadcrumbAdmin location="/SPPD/Update-Pelaporan" />
       <ConfirmModal
         isOpen={isOpenConfirm}
         onClose={onCloseConfirm}
@@ -246,15 +246,15 @@ export default function UpdatePelaporan() {
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <div className="flex">
           <Link
-            to={`/pegawai`}
+            to={`/sppd`}
             className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
           >
             <LuArrowLeft /> Kembali
           </Link>
         </div>
         <TitleCase
-          title="Edit Laporan Pegawai"
-          text="Digunakan Untuk Mengedit Laporan Pegawai"
+          title="Edit Laporan SPPD"
+          text="Digunakan Untuk Mengedit Laporan SPPD"
         />
 
         <div>

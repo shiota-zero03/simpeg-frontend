@@ -43,7 +43,7 @@ export interface IAssetOptionRes extends BaseRes {
 
 export interface IAssetByHolderRes extends BaseRes {
   data: {
-    response : {
+    response: {
       id: string;
       createdAt: string;
       idBarang: string;
@@ -56,10 +56,10 @@ export interface IAssetByHolderRes extends BaseRes {
         dokumenPendukung: string;
         noBast: string;
         file: string;
-      }[]
+      }[];
     }[];
     pagination: PaginationRes;
-  }
+  };
 }
 
 export interface IAssetWithHolderRes extends BaseRes {

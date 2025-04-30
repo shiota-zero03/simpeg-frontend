@@ -30,7 +30,11 @@ export const useGetAllAssetOption = () => {
   });
 };
 
-export const useGetAllAssetbyHolder = (page: number, limit: number, title?: string) => {
+export const useGetAllAssetbyHolder = (
+  page: number,
+  limit: number,
+  title?: string,
+) => {
   return useQuery({
     queryKey: ["getAllAssetbyHolder"],
     queryFn: () => getAllAssetByHolder(page, limit, title),

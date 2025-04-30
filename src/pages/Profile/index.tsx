@@ -8,7 +8,6 @@ import { useGetProfile } from "@/services/auth";
 import store from "@/redux/store";
 
 export default function Profile() {
-
   const { role } = store.getState().auth;
 
   const [selectedTab, setSelectedTab] = useState<string>("profile");
