@@ -6,7 +6,7 @@ import { useEffect, useMemo } from "react";
 import { LuArrowRight, LuArrowUpRight } from "react-icons/lu";
 import { TbFaceIdError } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
-import ImageHome from "@/assets/gambar-home.jpg";
+// import ImageHome from "@/assets/gambar-home.jpg";
 
 interface BeritaDataProps {
   thumbnail: string;
@@ -22,8 +22,8 @@ const BeritaComponent = () => {
   const BeritaData: BeritaDataProps[] = useMemo(() => {
     if (data) {
       return data.data.response.map((item) => ({
-        // thumbnail: item.images,
-        thumbnail: ImageHome,
+        thumbnail: item.images,
+        // thumbnail: ImageHome,
         title: item.title,
         slug: item.id,
         createdAt: item.createdAt,
