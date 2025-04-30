@@ -3,6 +3,7 @@ import SPPD from "./SPPD";
 import { useMemo, useState } from "react";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import ViewPenilaian from "./Penilaian";
+import Asset from "./Asset";
 import { useGetProfile } from "@/services/auth";
 import store from "@/redux/store";
 
@@ -61,6 +62,7 @@ export default function Profile() {
             <ViewPenilaian dataNilaiBobot={DATA_FETCHING || null} />
           )}
           {selectedTab === "riwayat-perjalanan" && <SPPD />}
+          {selectedTab === "pemegang-asset" && <Asset />}
         </div>
       </div>
     </>

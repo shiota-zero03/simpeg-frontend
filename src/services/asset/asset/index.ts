@@ -3,6 +3,7 @@ import {
   createAsset,
   deleteAsset,
   getAllAsset,
+  getAllAssetByHolder,
   getAllAssetOption,
   getAllAssetOptionWithHolder,
   getDetailAsset,
@@ -25,6 +26,14 @@ export const useGetAllAssetOption = () => {
   return useQuery({
     queryKey: ["getAllAssetOption"],
     queryFn: () => getAllAssetOption(),
+    staleTime: 300000,
+  });
+};
+
+export const useGetAllAssetbyHolder = (page: number, limit: number, title?: string) => {
+  return useQuery({
+    queryKey: ["getAllAssetbyHolder"],
+    queryFn: () => getAllAssetByHolder(page, limit, title),
     staleTime: 300000,
   });
 };

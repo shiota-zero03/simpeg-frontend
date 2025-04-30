@@ -14,13 +14,13 @@ import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
-import { useCreatePelaporanSPPD } from "@/services/sppd";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { ClassicEditor, SimpleUploadAdapter } from "ckeditor5";
 import { ckPlugins, ckToolbar } from "@/constants/CkEditorPlugin";
-import { StorePelaporanSPPD } from "@/interface/request/sppd.interface";
+import { StorePelaporanPegawai } from "@/interface/request/pegawai.interface";
+import { useCreatePelaporanPegawai } from "@/services/pegawai";
 
 interface formProps {
   latarBelakang?: string;
@@ -141,7 +141,7 @@ export default function CreatePelaporan() {
     onOpenConfirm();
   };
 
-  const { mutate: mutatePost } = useCreatePelaporanSPPD();
+  const { mutate: mutatePost } = useCreatePelaporanPegawai();
 
   const handleConfirm = () => {
     setLoadingConfirm(true);
@@ -157,7 +157,7 @@ export default function CreatePelaporan() {
       return true;
     }
 
-    const formToSend: StorePelaporanSPPD = {};
+    const formToSend: StorePelaporanPegawai = {};
 
     if (formData.latarBelakang)
       formToSend.latarBelakang = formData.latarBelakang;
@@ -184,7 +184,7 @@ export default function CreatePelaporan() {
       mutatePost(formToSend, {
         onSuccess: () => {
           SuccessToast({ text: "Data berhasil ditambahkan" });
-          navigate("/sppd");
+          navigate("/pegawai");
         },
         onError: (error: AxiosError<BaseErrorRes>) => {
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -207,7 +207,7 @@ export default function CreatePelaporan() {
 
   return (
     <>
-      <BreadcrumbAdmin location="/SPPD/Tambah-Pelaporan" />
+      <BreadcrumbAdmin location="/Pegawai/Tambah-Pelaporan" />
       <ConfirmModal
         isOpen={isOpenConfirm}
         onClose={onCloseConfirm}
@@ -218,15 +218,15 @@ export default function CreatePelaporan() {
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <div className="flex">
           <Link
-            to={`/sppd`}
+            to={`/pegawai`}
             className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
           >
             <LuArrowLeft /> Kembali
           </Link>
         </div>
         <TitleCase
-          title="Tambah Laporan SPPD"
-          text="Digunakan Untuk Menambah Laporan SPPD"
+          title="Tambah Laporan Pegawai"
+          text="Digunakan Untuk Menambah Laporan Pegawai"
         />
 
         <div>
