@@ -55,6 +55,16 @@ export interface SPPDRekapRes {
   bankAccount: string;
   position: string;
   role: string;
+  budgets: {
+    id: number;
+    bankAccount: string;
+    transport: number;
+    volTransport: number;
+    representatif: number;
+    volRepresentatif: number;
+    dailyAllowance: number;
+    volDailyAllowance: number;
+  }[]
   user: {
     id: string;
     nip: string;

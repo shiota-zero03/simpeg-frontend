@@ -4,8 +4,12 @@ import { useMemo, useState } from "react";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import ViewPenilaian from "./Penilaian";
 import { useGetProfile } from "@/services/auth";
+import store from "@/redux/store";
 
 export default function Profile() {
+
+  const { role } = store.getState().auth;
+
   const [selectedTab, setSelectedTab] = useState<string>("profile");
 
   const { data } = useGetProfile();
@@ -26,24 +30,30 @@ export default function Profile() {
           >
             Profil Akun
           </div>
-          <div
-            onClick={() => setSelectedTab("riwayat-penilaian")}
-            className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "riwayat-penilaian" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
-          >
-            Riwayat Penilaian Kinerja
-          </div>
-          <div
-            onClick={() => setSelectedTab("riwayat-perjalanan")}
-            className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "riwayat-perjalanan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
-          >
-            Riwayat Perjalanan Dinas
-          </div>
-          <div
-            onClick={() => setSelectedTab("pemegang-asset")}
-            className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pemegang-asset" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
-          >
-            Aset
-          </div>
+          {role === "PEGAWAI" && (
+            <div
+              onClick={() => setSelectedTab("riwayat-penilaian")}
+              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "riwayat-penilaian" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+            >
+              Riwayat Penilaian Kinerja
+            </div>
+          )}
+          {role === "PEGAWAI" && (
+            <div
+              onClick={() => setSelectedTab("riwayat-perjalanan")}
+              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "riwayat-perjalanan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+            >
+              Riwayat Perjalanan Dinas
+            </div>
+          )}
+          {role === "PEGAWAI" && (
+            <div
+              onClick={() => setSelectedTab("pemegang-asset")}
+              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pemegang-asset" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+            >
+              Aset
+            </div>
+          )}
         </div>
         <div className="bg-white shadow-md rounded-b-xl border min-h-[70vh]">
           {selectedTab === "profile" && <DataProfile />}
