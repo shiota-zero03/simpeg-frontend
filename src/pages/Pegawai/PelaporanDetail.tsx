@@ -79,7 +79,7 @@ export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
             <div>
               <div className="font-semibold text-[12pt] mb-2">II. Sasaran</div>
               <div
-                dangerouslySetInnerHTML={{ __html: DATA_DETAIL.latarBelakang }}
+                dangerouslySetInnerHTML={{ __html: DATA_DETAIL.sasaran }}
               />
             </div>
             <div>
