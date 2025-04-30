@@ -64,7 +64,7 @@ export interface SPPDRekapRes {
     volRepresentatif: number;
     dailyAllowance: number;
     volDailyAllowance: number;
-  }[]
+  }[];
   user: {
     id: string;
     nip: string;

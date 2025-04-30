@@ -100,12 +100,14 @@ export default function News() {
       setEndData(end);
 
       return data.response.map((item: SPPDRekapRes) => {
-
-        const anggaran = item.budgets[0] ? (
-                          ((item.budgets[0].dailyAllowance || 0) * (item.budgets[0].volDailyAllowance || 0)) + 
-                          ((item.budgets[0].representatif || 0) * (item.budgets[0].volRepresentatif || 0)) + 
-                          ((item.budgets[0].transport || 0) * (item.budgets[0].volTransport || 0))
-                        ) : 0;
+        const anggaran = item.budgets[0]
+          ? (item.budgets[0].dailyAllowance || 0) *
+              (item.budgets[0].volDailyAllowance || 0) +
+            (item.budgets[0].representatif || 0) *
+              (item.budgets[0].volRepresentatif || 0) +
+            (item.budgets[0].transport || 0) *
+              (item.budgets[0].volTransport || 0)
+          : 0;
 
         return {
           id: item.id,

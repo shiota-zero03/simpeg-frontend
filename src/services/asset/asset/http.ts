@@ -42,7 +42,9 @@ export const getAllAssetByHolder = async (
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
   if (title) params.set("search", title);
-  const response = await instance.get(`/admin/asset/list/holder?${params.toString()}`);
+  const response = await instance.get(
+    `/admin/asset/list/holder?${params.toString()}`,
+  );
   return response.data;
 };
 export const createAsset = async (

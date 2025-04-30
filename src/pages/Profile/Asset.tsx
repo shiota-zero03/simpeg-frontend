@@ -12,28 +12,28 @@ import { LuSearch } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import {
-  CalendarDate,
-  parseDate,
-} from "@internationalized/date";
+import { CalendarDate, parseDate } from "@internationalized/date";
 import store from "@/redux/store";
 import { useGetAllAssetbyHolder } from "@/services/asset/asset";
+import { Link } from "react-router-dom";
+import { FaFileAlt } from "react-icons/fa";
+import { LucideInfo } from "lucide-react";
 
 interface AssetProps {
-    id: string;
-    createdAt: string;
-    idBarang: string;
-    kodeBarang: string;
-    nomorRegistrasi: string;
-    namaBarang: string;
-    merkTipe: string;
+  id: string;
+  createdAt: string;
+  idBarang: string;
+  kodeBarang: string;
+  nomorRegistrasi: string;
+  namaBarang: string;
+  merkTipe: string;
 
-    holders: {
-        id: number;
-        dokumenPendukung: string;
-        noBast: string;
-        file: string;
-    }[];
+  holders: {
+    id: number;
+    dokumenPendukung: string;
+    noBast: string;
+    file: string;
+  }[];
 }
 
 export default function News() {
@@ -52,22 +52,22 @@ export default function News() {
     end: parseDate(today.toISOString().split("T")[0]),
   });
 
-//   const formatDateToJakarta = (
-//     calendarDate: CalendarDate | null | undefined,
-//   ) => {
-//     if (!calendarDate) return null;
-//     const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
-//     return new Intl.DateTimeFormat("id-ID", {
-//       timeZone: "Asia/Jakarta",
-//       year: "numeric",
-//       month: "2-digit",
-//       day: "2-digit",
-//     })
-//       .format(date)
-//       .split("/")
-//       .reverse()
-//       .join("-");
-//   };
+  //   const formatDateToJakarta = (
+  //     calendarDate: CalendarDate | null | undefined,
+  //   ) => {
+  //     if (!calendarDate) return null;
+  //     const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
+  //     return new Intl.DateTimeFormat("id-ID", {
+  //       timeZone: "Asia/Jakarta",
+  //       year: "numeric",
+  //       month: "2-digit",
+  //       day: "2-digit",
+  //     })
+  //       .format(date)
+  //       .split("/")
+  //       .reverse()
+  //       .join("-");
+  //   };
 
   const [startData, setStartData] = useState<number>(0);
   const [endData, setEndData] = useState<number>(0);
@@ -78,11 +78,7 @@ export default function News() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllAssetbyHolder(
-    pageIndex + 1,
-    limit,
-    search,
-  );
+  } = useGetAllAssetbyHolder(pageIndex + 1, limit, search);
 
   const paginatedData: AssetProps[] = useMemo(() => {
     if (allData) {
@@ -147,13 +143,42 @@ export default function News() {
     {
       header: "Dokumen Pendukung",
       cell: ({ row }) => {
-        let { holders } = row.original;
-        return holders.length > 0 ? (
-            holders[0].dokumenPendukung === "BAST" ? "Dokumen BAST" :
-            holders[0].dokumenPendukung === "PAKTA_INTEGRITAS" ? "Fakta Integritas" :
-            holders[0].dokumenPendukung === "SURAT_PINJAM" ? "Surat Izin Pinjam Pakai" :
-            holders[0].dokumenPendukung === "SURAT_PEMEGANG_ASET" ? "Surat Izin Pemegang Aset Kendaraan" : "Lainnya"
-        ) : "-"
+        const { holders } = row.original;
+        return holders.length > 0
+          ? holders[0].dokumenPendukung === "BAST"
+            ? "Dokumen BAST"
+            : holders[0].dokumenPendukung === "PAKTA_INTEGRITAS"
+              ? "Fakta Integritas"
+              : holders[0].dokumenPendukung === "SURAT_PINJAM"
+                ? "Surat Izin Pinjam Pakai"
+                : holders[0].dokumenPendukung === "SURAT_PEMEGANG_ASET"
+                  ? "Surat Izin Pemegang Aset Kendaraan"
+                  : "Lainnya"
+          : "-";
+      },
+    },
+    {
+      header: "Nomor BAST",
+      cell: ({ row }) => {
+        const { holders } = row.original;
+        return holders.length > 0
+          ? (
+            holders[0].file ? (
+              <Link to={holders[0].file} target="__blank">
+                <FaFileAlt className="text-button-primary" />
+              </Link>
+            ) : (
+              <LucideInfo className="text-danger" />
+            )
+          ) : "-";
+      },
+    },
+    {
+      header: "Nomor BAST",
+      cell: ({ row }) => {
+        const { holders } = row.original;
+        return holders.length > 0
+          ? (holders[0].noBast || "-") : "-";
       },
     },
   ];
