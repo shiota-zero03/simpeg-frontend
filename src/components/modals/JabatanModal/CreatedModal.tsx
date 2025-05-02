@@ -20,7 +20,6 @@ import { useCreateJabatan, useGetAllJabatanOption } from "@/services/jabatan";
 import { StoreJabatan } from "@/interface/request/jabatan.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
-import { JabatanPermenpan } from "@/constants/Jabatan";
 import { useGetAllUnitOption } from "@/services/unit";
 import { EselonData } from "@/constants/DummyData";
 
@@ -91,17 +90,6 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     return allDataUnit ? allDataUnit.data : [];
   }, [allDataUnit]);
 
-  const SubPermenpan = useMemo(() => {
-    if (formData.jabatanPermenpan) {
-      const subJabatan = JabatanPermenpan.find(
-        (it) => it.key === formData.jabatanPermenpan,
-      );
-      return subJabatan?.subPermenpan || [];
-    } else {
-      return [];
-    }
-  }, [formData.jabatanPermenpan]);
-
   useEffect(() => {
     setFormData({
       nama: "",
@@ -125,8 +113,6 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     const errors: errorProps = {};
     if (!formData.nama) errors.nama = "Nama jabatan tidak boleh kosong";
     if (!formData.kelas) errors.kelas = "Kelas jabatan tidak boleh kosong";
-    if (!formData.jabatanPermenpan)
-      errors.kelas = "Jabatan permenpan tidak boleh kosong";
     if (!formData.subUnor) errors.kelas = "unit kerja tidak boleh kosong";
     if (!formData.unitId) errors.unitId = "Sub unor tidak boleh kosong";
     if (!formData.ketersediaan)
@@ -151,10 +137,6 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     if (formData.nama) formToSend.nameJob = formData.nama;
     formToSend.fungsional = formData.fungsional;
     if (formData.kelas) formToSend.Class = String(formData.kelas);
-    if (formData.jabatanPermenpan)
-      formToSend.jabatanPermenpan = formData.jabatanPermenpan;
-    if (formData.subJabatanPermenpan)
-      formToSend.subJabatanPermenpan = formData.subJabatanPermenpan;
     if (formData.atasan) formToSend.atasan = Number(formData.atasan);
     if (formData.unitId) formToSend.unitId = Number(formData.unitId);
     if (formData.subUnor) formToSend.subUnor = formData.subUnor;
@@ -198,72 +180,6 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
           </ModalHeader>
           <ModalBody className="max-h-[72vh] overflow-y-auto overflow-y-custom flex flex-col gap-4 pb-8">
             <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
-              <div className="flex flex-col gap-1">
-                <label htmlFor="lokasi" className="text-xs font-semibold">
-                  Permenpan <span className="text-danger">*</span>
-                </label>
-                <Autocomplete
-                  aria-label="pegawai"
-                  placeholder="Cari jabatan permenpan"
-                  variant="bordered"
-                  radius="sm"
-                  defaultItems={JabatanPermenpan}
-                  selectedKey={String(formData.jabatanPermenpan)}
-                  onSelectionChange={(value) =>
-                    setFormData({
-                      ...formData,
-                      jabatanPermenpan: value as string,
-                    })
-                  }
-                  inputProps={{
-                    classNames: {
-                      input: "text-xs",
-                    },
-                  }}
-                >
-                  {(peg) => (
-                    <AutocompleteItem key={peg.key} textValue={peg.name}>
-                      {peg.name}
-                    </AutocompleteItem>
-                  )}
-                </Autocomplete>
-                <div className="text-xs italic text-danger">
-                  {formError.atasan}
-                </div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <label htmlFor="lokasi" className="text-xs font-semibold">
-                  Sub Permenpan
-                </label>
-                <Autocomplete
-                  aria-label="pegawai"
-                  placeholder="Cari sub jabatan permenpan"
-                  variant="bordered"
-                  radius="sm"
-                  defaultItems={SubPermenpan}
-                  selectedKey={String(formData.subJabatanPermenpan)}
-                  onSelectionChange={(value) =>
-                    setFormData({
-                      ...formData,
-                      subJabatanPermenpan: value as string,
-                    })
-                  }
-                  inputProps={{
-                    classNames: {
-                      input: "text-xs",
-                    },
-                  }}
-                >
-                  {(peg) => (
-                    <AutocompleteItem key={peg.key} textValue={peg.name}>
-                      {peg.name}
-                    </AutocompleteItem>
-                  )}
-                </Autocomplete>
-                <div className="text-xs italic text-danger">
-                  {formError.subJabatanPermenpan}
-                </div>
-              </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
                   Nama Jabatan <span className="text-danger">*</span>

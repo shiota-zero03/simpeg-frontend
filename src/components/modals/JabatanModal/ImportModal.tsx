@@ -50,8 +50,6 @@ const ImportModal = ({ isOpen, onClose, handleClose }: props) => {
           nameJob: item["NAMA JABATAN"]?.trim(),
           fungsional: item["JABATAN FUNGSIONAL"],
           Class: String(item["KELAS"]),
-          jabatanPermenpan: item["PERMENPAN"]?.trim(),
-          subJabatanPermenpan: item["SUB PERMENPAN"]?.trim(),
           atasan: Number(item["ATASAN"]),
           unitId: Number(item["SUB UNOR"]),
           subUnor:

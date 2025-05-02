@@ -1,9 +1,19 @@
 import SPPDIndex from "./SPPDBiasa";
 import SPPDDalamKota from "./SPPDDalamKota";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Jabatan() {
   const [selectedTab, setSelectedTab] = useState<string>("biasa");
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const tab = queryParams.get("tabs");
+  const tabData = tab as string;
+
+  useEffect(() => {
+    if (tabData) {
+      setSelectedTab(tabData);
+    }
+  }, [tabData]);
 
   return (
     <>

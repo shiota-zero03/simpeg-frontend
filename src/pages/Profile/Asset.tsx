@@ -12,7 +12,11 @@ import { LuSearch } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { CalendarDate, getLocalTimeZone, parseDate } from "@internationalized/date";
+import {
+  CalendarDate,
+  getLocalTimeZone,
+  parseDate,
+} from "@internationalized/date";
 import store from "@/redux/store";
 import { useGetAllAssetbyHolder } from "@/services/asset/asset";
 import { Link } from "react-router-dom";
@@ -79,7 +83,15 @@ export default function News() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllAssetbyHolder(pageIndex + 1, limit, search, searchKegiatan, searchNomorRegistrasi, formatDateToJakarta(rangeDate?.start), formatDateToJakarta(rangeDate?.end));
+  } = useGetAllAssetbyHolder(
+    pageIndex + 1,
+    limit,
+    search,
+    searchKegiatan,
+    searchNomorRegistrasi,
+    formatDateToJakarta(rangeDate?.start),
+    formatDateToJakarta(rangeDate?.end),
+  );
 
   const paginatedData: AssetProps[] = useMemo(() => {
     if (allData) {
@@ -162,24 +174,24 @@ export default function News() {
       header: "Nomor BAST",
       cell: ({ row }) => {
         const { holders } = row.original;
-        return holders.length > 0
-          ? (holders[0].noBast || "-") : "-";
+        return holders.length > 0 ? holders[0].noBast || "-" : "-";
       },
     },
     {
       header: "File Dokumen",
       cell: ({ row }) => {
         const { holders } = row.original;
-        return holders.length > 0
-          ? (
-            holders[0].file ? (
-              <Link to={holders[0].file} target="__blank">
-                <FaFileAlt className="text-button-primary" />
-              </Link>
-            ) : (
-              <LucideInfo className="text-danger" />
-            )
-          ) : "-";
+        return holders.length > 0 ? (
+          holders[0].file ? (
+            <Link to={holders[0].file} target="__blank">
+              <FaFileAlt className="text-button-primary" />
+            </Link>
+          ) : (
+            <LucideInfo className="text-danger" />
+          )
+        ) : (
+          "-"
+        );
       },
     },
   ];

@@ -497,7 +497,11 @@ export default function News() {
                   {role === "ADMIN_SPPD" ||
                     (role === "SUPERUSERS" && (
                       <Button
-                        onPress={() => navigate("/sppd/tambah-data")}
+                        onPress={() =>
+                          navigate(
+                            "/sppd/tambah-data?type=PERJALANAN_DALAM_KOTA",
+                          )
+                        }
                         variant="solid"
                         radius="sm"
                         size="sm"
