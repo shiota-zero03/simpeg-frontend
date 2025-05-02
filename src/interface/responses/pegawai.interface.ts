@@ -13,7 +13,12 @@ export interface PegawaiRes {
     id: number;
     nameJob: string;
     fungsionalJob: string;
+    eselon: string;
     jabatanFungsional: string;
+    unit: {
+      id: number;
+      nameUnit: string;
+    };
   };
   email: string;
   password: string;

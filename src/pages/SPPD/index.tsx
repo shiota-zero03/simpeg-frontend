@@ -4,8 +4,12 @@ import SPPDIndex from "./SPPD";
 import Pelaporan from "./Pelaporan";
 import SPPDRekap from "./SPPDRekap";
 import { useEffect, useState } from "react";
+import store from "@/redux/store";
 
 export default function Jabatan() {
+
+  const { role } = store.getState().auth;
+
   const [selectedTab, setSelectedTab] = useState<string>("data-sppd");
 
   const queryParams = new URLSearchParams(window.location.search);
@@ -13,10 +17,14 @@ export default function Jabatan() {
   const tabData = tab as string;
 
   useEffect(() => {
-    if (tabData) {
-      setSelectedTab(tabData);
+    if(role === "SUPERUSERS" || role === "ADMIN_SPPD"){
+      if (tabData) {
+        setSelectedTab(tabData);
+      }
+    } else {
+      setSelectedTab('rekap');
     }
-  }, [tabData]);
+  }, [tabData, role]);
 
   return (
     <>
@@ -28,24 +36,28 @@ export default function Jabatan() {
         />
         <div>
           <div className="overflow-x-auto flex min-w-full">
-            <div
-              onClick={() => setSelectedTab("data-sppd")}
-              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "data-sppd" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
-            >
-              Data SPPD
-            </div>
+            {role === "SUPERUSERS" || role === "ADMIN_SPPD" && (
+              <div
+                onClick={() => setSelectedTab("data-sppd")}
+                className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "data-sppd" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+              >
+                Data SPPD
+              </div>
+            )}
             <div
               onClick={() => setSelectedTab("rekap")}
               className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "rekap" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
             >
               Rekap Bulanan Perjalanan Dinas
             </div>
-            <div
-              onClick={() => setSelectedTab("pelaporan")}
-              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pelaporan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
-            >
-              Pelaporan
-            </div>
+            {role === "SUPERUSERS" || role === "ADMIN_SPPD" && (
+              <div
+                onClick={() => setSelectedTab("pelaporan")}
+                className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pelaporan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+              >
+                Pelaporan
+              </div>
+            )}
           </div>
           <div className="bg-white shadow-md rounded-b-xl border min-h-[70vh]">
             {selectedTab === "data-sppd" ? <SPPDIndex /> : <></>}

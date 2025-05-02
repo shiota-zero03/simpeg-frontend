@@ -7,11 +7,14 @@ import {
   PenilaianKinerjaDougnhut,
   PenilaianKinerjaLine,
 } from "@/components/Charts/penilaian-kinerja";
+import store from "@/redux/store";
 // import { useState } from "react";
 // import { BiReset, BiSearch } from "react-icons/bi";
 // import { LuCalendarDays } from "react-icons/lu";
 
 export default function BobotKinerja() {
+
+  const { role } = store.getState().auth;
   // const [searchMonth, setSearchMonth] = useState("");
   // const handleSearch = () => {};
 
@@ -164,11 +167,13 @@ export default function BobotKinerja() {
             </table>
           </CardBody>
         </Card> */}
-        <div className="bg-white shadow-md rounded-xl border min-h-[64vh]">
-          <div>
-            <ListKaryawan />
+        {role === "PEGAWAI" && (
+          <div className="bg-white shadow-md rounded-xl border min-h-[64vh]">
+            <div>
+              <ListKaryawan />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );
