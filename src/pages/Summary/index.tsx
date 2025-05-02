@@ -18,7 +18,11 @@ import PegawaiModal from "@/components/modals/SummaryReportModal/PegawaiModal";
 import { useGetAllPegawaiOption } from "@/services/pegawai";
 import { useGetAllUnitOption } from "@/services/unit";
 import { PegawaiRes } from "@/interface/responses/pegawai.interface";
-import { EselonData, GolonganData, pendidikanTerakhir } from "@/constants/DummyData";
+import {
+  EselonData,
+  GolonganData,
+  pendidikanTerakhir,
+} from "@/constants/DummyData";
 
 export default function Jabatan() {
   const dateDefault = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
@@ -202,7 +206,8 @@ export default function Jabatan() {
                                 setShowData(
                                   DATA_FETCHING
                                     ? DATA_FETCHING.filter(
-                                        (it) => it.jabatan?.unit?.id === item.id,
+                                        (it) =>
+                                          it.jabatan?.unit?.id === item.id,
                                       )
                                     : [],
                                 );
@@ -797,7 +802,7 @@ export default function Jabatan() {
                                   DATA_FETCHING
                                     ? DATA_FETCHING.filter(
                                         (it) =>
-                                          it.jabatan?.eselon === item.nama
+                                          it.jabatan?.eselon === item.nama,
                                       )
                                     : [],
                                 );
@@ -808,8 +813,7 @@ export default function Jabatan() {
                             >
                               {DATA_FETCHING
                                 ? DATA_FETCHING.filter(
-                                    (it) =>
-                                      it.jabatan?.eselon === item.nama
+                                    (it) => it.jabatan?.eselon === item.nama,
                                   ).length
                                 : 0}{" "}
                               Orang
@@ -873,8 +877,7 @@ export default function Jabatan() {
                                 setShowData(
                                   DATA_FETCHING
                                     ? DATA_FETCHING.filter(
-                                        (it) =>
-                                          it.group === item.key
+                                        (it) => it.group === item.key,
                                       )
                                     : [],
                                 );
@@ -885,8 +888,7 @@ export default function Jabatan() {
                             >
                               {DATA_FETCHING
                                 ? DATA_FETCHING.filter(
-                                    (it) =>
-                                      it.group === item.key
+                                    (it) => it.group === item.key,
                                   ).length
                                 : 0}{" "}
                               Orang
@@ -950,8 +952,7 @@ export default function Jabatan() {
                                 setShowData(
                                   DATA_FETCHING
                                     ? DATA_FETCHING.filter(
-                                        (it) =>
-                                          it.education === item.key
+                                        (it) => it.education === item.key,
                                       )
                                     : [],
                                 );
@@ -962,8 +963,7 @@ export default function Jabatan() {
                             >
                               {DATA_FETCHING
                                 ? DATA_FETCHING.filter(
-                                    (it) =>
-                                      it.education === item.key
+                                    (it) => it.education === item.key,
                                   ).length
                                 : 0}{" "}
                               Orang
@@ -1026,8 +1026,7 @@ export default function Jabatan() {
                               setShowData(
                                 DATA_FETCHING
                                   ? DATA_FETCHING.filter(
-                                      (it) =>
-                                        it.gender === "LAKI_LAKI"
+                                      (it) => it.gender === "LAKI_LAKI",
                                     )
                                   : [],
                               );
@@ -1038,8 +1037,7 @@ export default function Jabatan() {
                           >
                             {DATA_FETCHING
                               ? DATA_FETCHING.filter(
-                                  (it) =>
-                                    it.gender === "LAKI_LAKI"
+                                  (it) => it.gender === "LAKI_LAKI",
                                 ).length
                               : 0}{" "}
                             Orang
@@ -1058,8 +1056,7 @@ export default function Jabatan() {
                               setShowData(
                                 DATA_FETCHING
                                   ? DATA_FETCHING.filter(
-                                      (it) =>
-                                        it.gender === "PEREMPUAN"
+                                      (it) => it.gender === "PEREMPUAN",
                                     )
                                   : [],
                               );
@@ -1070,8 +1067,7 @@ export default function Jabatan() {
                           >
                             {DATA_FETCHING
                               ? DATA_FETCHING.filter(
-                                  (it) =>
-                                    it.gender === "PEREMPUAN"
+                                  (it) => it.gender === "PEREMPUAN",
                                 ).length
                               : 0}{" "}
                             Orang

@@ -36,7 +36,7 @@ export default function Jabatan() {
             >
               Data Pegawai
             </div>
-            {role === "SUPERUSERS" || role === "ADMIN" && (
+            {(role === "SUPERUSERS" || role === "ADMIN") && (
               <div
                 onClick={() => setSelectedTab("kgp")}
                 className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "kgp" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
@@ -44,7 +44,7 @@ export default function Jabatan() {
                 Data Cuti, Kenaikan Gaji & Pangkat
               </div>
             )}
-            {role === "SUPERUSERS" || role === "ADMIN" && (
+            {(role === "SUPERUSERS" || role === "ADMIN") && (
               <div
                 onClick={() => setSelectedTab("pelaporan")}
                 className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pelaporan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}

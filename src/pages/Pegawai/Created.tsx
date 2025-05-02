@@ -499,7 +499,7 @@ export default function CreatePegawai() {
                         {(peg) => (
                           <AutocompleteItem
                             key={peg.id}
-                            textValue={`${peg.nameJob} - (Sub Unor: ${peg.unit?.nameUnit ?? ''})`}
+                            textValue={`${peg.nameJob} - (Sub Unor: ${peg.unit?.nameUnit ?? ""})`}
                           >
                             {peg.nameJob} - (Sub Unor: {peg.unit?.nameUnit})
                           </AutocompleteItem>

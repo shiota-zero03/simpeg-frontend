@@ -16,7 +16,7 @@ interface PetaJabatanData {
 
 export default function BigTable() {
   const { data } = useGetAllJabatanHirarki();
-  console.log(data)
+  console.log(data);
 
   const tableRef = useRef<HTMLTableElement>(null);
 

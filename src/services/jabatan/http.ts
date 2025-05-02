@@ -11,7 +11,6 @@ export const getAllJabatanHirarki = async (): Promise<IJabatanOptionRes> => {
   return response.data;
 };
 
-
 export const getAllJabatanOption = async (): Promise<IJabatanOptionRes> => {
   const response = await instance.get(`/admin/jabatan/dropdown/list`);
   return response.data;
