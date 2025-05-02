@@ -56,7 +56,7 @@ export default function UpdateNews() {
         <TitleCase title="Detail Pegawai" />
 
         <Card className="border" shadow="none">
-          {role === "ADMIN" || role === "SUPERUSERS"  && (
+          {(role === "ADMIN" || role === "SUPERUSERS") && (
             <CardHeader>
               <Link
                 to={`/pegawai/edit-data/${id}`}

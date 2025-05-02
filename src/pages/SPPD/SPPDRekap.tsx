@@ -240,18 +240,17 @@ export default function News() {
                   >
                     <BiReset size={12} />
                   </Button>
-                  {role === "ADMIN_SPPD" ||
-                    (role === "SUPERUSERS" && (
-                      <Button
-                        variant="solid"
-                        radius="sm"
-                        size="sm"
-                        startContent={<FaFileExcel size={12} />}
-                        className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                      >
-                        Export
-                      </Button>
-                    ))}
+                  {(role === "ADMIN_SPPD" || role === "SUPERUSERS") && (
+                    <Button
+                      variant="solid"
+                      radius="sm"
+                      size="sm"
+                      startContent={<FaFileExcel size={12} />}
+                      className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                    >
+                      Export
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

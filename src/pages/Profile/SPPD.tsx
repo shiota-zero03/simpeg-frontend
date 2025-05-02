@@ -251,19 +251,18 @@ export default function News() {
                   >
                     <BiReset size={12} />
                   </Button>
-                  {role === "ADMIN_SPPD" ||
-                    (role === "SUPERUSERS" && (
-                      <Button
-                        onPress={() => navigate("/sppd/tambah-data")}
-                        variant="solid"
-                        radius="sm"
-                        size="sm"
-                        startContent={<BiSolidPlusSquare size={12} />}
-                        className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                      >
-                        Tambah
-                      </Button>
-                    ))}
+                  {(role === "ADMIN_SPPD" || role === "SUPERUSERS") && (
+                    <Button
+                      onPress={() => navigate("/sppd/tambah-data")}
+                      variant="solid"
+                      radius="sm"
+                      size="sm"
+                      startContent={<BiSolidPlusSquare size={12} />}
+                      className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                    >
+                      Tambah
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

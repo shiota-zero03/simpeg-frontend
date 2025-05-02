@@ -286,18 +286,17 @@ export default function News() {
         const { id } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
-            {role === "ADMIN_SPPD" ||
-              (role === "SUPERUSERS" && (
-                <Button
-                  onPress={() => navigate(`/sppd/update-data/${id}`)}
-                  isIconOnly
-                  radius="sm"
-                  size="sm"
-                  className="bg-alert-info text-info shadow-sm"
-                >
-                  <LuPencilLine size={14} />
-                </Button>
-              ))}
+            {(role === "ADMIN_SPPD" || role === "SUPERUSERS") && (
+              <Button
+                onPress={() => navigate(`/sppd/update-data/${id}`)}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-info text-info shadow-sm"
+              >
+                <LuPencilLine size={14} />
+              </Button>
+            )}
             <Link
               to={`/sppd/export-pdf/${id}`}
               target="__blank"
@@ -305,23 +304,22 @@ export default function News() {
             >
               <FaFilePdf size={14} />
             </Link>
-            {role === "ADMIN_SPPD" ||
-              (role === "SUPERUSERS" && (
-                <Button
-                  onPress={() => {
-                    setSelectedId(id);
-                    setTimeout(() => {
-                      onOpenDelete();
-                    }, 100);
-                  }}
-                  isIconOnly
-                  radius="sm"
-                  size="sm"
-                  className="bg-alert-danger text-danger shadow-sm"
-                >
-                  <LuTrash2 size={14} />
-                </Button>
-              ))}
+            {(role === "ADMIN_SPPD" || role === "SUPERUSERS") && (
+              <Button
+                onPress={() => {
+                  setSelectedId(id);
+                  setTimeout(() => {
+                    onOpenDelete();
+                  }, 100);
+                }}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-danger text-danger shadow-sm"
+              >
+                <LuTrash2 size={14} />
+              </Button>
+            )}
           </div>
         );
       },
@@ -494,21 +492,20 @@ export default function News() {
                   >
                     <BiReset size={12} />
                   </Button>
-                  {role === "ADMIN_SPPD" ||
-                    (role === "SUPERUSERS" && (
-                      <Button
-                        onPress={() =>
-                          navigate("/sppd/tambah-data?type=PERJALANAN_BIASA")
-                        }
-                        variant="solid"
-                        radius="sm"
-                        size="sm"
-                        startContent={<BiSolidPlusSquare size={12} />}
-                        className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                      >
-                        Tambah
-                      </Button>
-                    ))}
+                  {(role === "ADMIN_SPPD" || role === "SUPERUSERS") && (
+                    <Button
+                      onPress={() =>
+                        navigate("/sppd/tambah-data?type=PERJALANAN_BIASA")
+                      }
+                      variant="solid"
+                      radius="sm"
+                      size="sm"
+                      startContent={<BiSolidPlusSquare size={12} />}
+                      className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                    >
+                      Tambah
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

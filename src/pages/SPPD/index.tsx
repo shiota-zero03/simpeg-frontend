@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import store from "@/redux/store";
 
 export default function Jabatan() {
-
   const { role } = store.getState().auth;
 
   const [selectedTab, setSelectedTab] = useState<string>("data-sppd");
@@ -17,12 +16,12 @@ export default function Jabatan() {
   const tabData = tab as string;
 
   useEffect(() => {
-    if(role === "SUPERUSERS" || role === "ADMIN_SPPD"){
+    if (role === "SUPERUSERS" || role === "ADMIN_SPPD") {
       if (tabData) {
         setSelectedTab(tabData);
       }
     } else {
-      setSelectedTab('rekap');
+      setSelectedTab("rekap");
     }
   }, [tabData, role]);
 
@@ -36,7 +35,7 @@ export default function Jabatan() {
         />
         <div>
           <div className="overflow-x-auto flex min-w-full">
-            {role === "SUPERUSERS" || role === "ADMIN_SPPD" && (
+            {(role === "SUPERUSERS" || role === "ADMIN_SPPD") && (
               <div
                 onClick={() => setSelectedTab("data-sppd")}
                 className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "data-sppd" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
@@ -50,7 +49,7 @@ export default function Jabatan() {
             >
               Rekap Bulanan Perjalanan Dinas
             </div>
-            {role === "SUPERUSERS" || role === "ADMIN_SPPD" && (
+            {(role === "SUPERUSERS" || role === "ADMIN_SPPD") && (
               <div
                 onClick={() => setSelectedTab("pelaporan")}
                 className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pelaporan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
