@@ -454,6 +454,7 @@ export default function CreatePegawai() {
                       </label>
                     </div>
                     <Input
+                      isDisabled
                       value={formData.nip}
                       onChange={(e) =>
                         setFormData({ ...formData, nip: e.target.value })
@@ -538,9 +539,9 @@ export default function CreatePegawai() {
                         {(peg) => (
                           <AutocompleteItem
                             key={peg.id}
-                            textValue={peg.nameJob}
+                            textValue={`${peg.nameJob} - (Sub Unor: ${peg.unit?.nameUnit ?? ''})`}
                           >
-                            {peg.nameJob}
+                            {peg.nameJob} - (Sub Unor: {peg.unit?.nameUnit})
                           </AutocompleteItem>
                         )}
                       </Autocomplete>
@@ -548,43 +549,6 @@ export default function CreatePegawai() {
                         {formError.jabatan}
                       </div>
                     </div>
-                    {formData.isFungsional && (
-                      <div className="flex-1">
-                        <div className="mb-1">
-                          <label
-                            htmlFor="content"
-                            className="font-semibold text-xs"
-                          >
-                            Tingkatan Jabatan
-                          </label>
-                        </div>
-                        <Select
-                          selectedKeys={[formData.tingkatanJabatan || ""]}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              tingkatanJabatan: e.target.value,
-                            })
-                          }
-                          aria-label="Judul"
-                          labelPlacement="outside"
-                          placeholder="Pilih disini"
-                          variant="bordered"
-                          radius="sm"
-                          classNames={{
-                            trigger: "border-[0.8px]",
-                            value: "text-xs",
-                          }}
-                        >
-                          <SelectItem key={"PERTAMA"}>Pertama</SelectItem>
-                          <SelectItem key={"MUDA"}>Muda</SelectItem>
-                          <SelectItem key={"MADYA"}>Madya</SelectItem>
-                        </Select>
-                        <div className="text-xs italic text-danger">
-                          {formError.tingkatanJabatan}
-                        </div>
-                      </div>
-                    )}
                   </div>
                   <div>
                     <div className="mb-2">
