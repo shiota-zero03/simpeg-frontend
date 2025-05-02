@@ -3,6 +3,7 @@ import html2canvas from "html2canvas";
 import { Button } from "@heroui/react";
 import { LucideDownloadCloud } from "lucide-react";
 import { LuFullscreen } from "react-icons/lu";
+import { useGetAllJabatanHirarki } from "@/services/jabatan";
 
 interface PetaJabatanData {
   name: string;
@@ -14,6 +15,9 @@ interface PetaJabatanData {
 }
 
 export default function BigTable() {
+  const { data } = useGetAllJabatanHirarki();
+  console.log(data)
+
   const tableRef = useRef<HTMLTableElement>(null);
 
   const generateColumns = () => {
