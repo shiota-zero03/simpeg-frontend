@@ -84,9 +84,9 @@ export default function IKP() {
 
         return {
           id: item.id,
-          namaPegawai: item.name,
-          nip: item.nip,
-          jabatan: item.jabatan,
+          namaPegawai: item.ttdName,
+          nip: item.ttdNIP,
+          jabatan: item.ttdJabatan,
           waktu: item.createdAt,
           status: status,
         };
@@ -107,7 +107,7 @@ export default function IKP() {
     },
     {
       accessorKey: "namaPegawai",
-      header: "Nama Pegawai",
+      header: "Nama Pengirim",
       cell: (info) => info.getValue() as string,
     },
     {

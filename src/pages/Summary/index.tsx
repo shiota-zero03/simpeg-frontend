@@ -18,6 +18,7 @@ import PegawaiModal from "@/components/modals/SummaryReportModal/PegawaiModal";
 import { useGetAllPegawaiOption } from "@/services/pegawai";
 import { useGetAllUnitOption } from "@/services/unit";
 import { PegawaiRes } from "@/interface/responses/pegawai.interface";
+import { EselonData, GolonganData, pendidikanTerakhir } from "@/constants/DummyData";
 
 export default function Jabatan() {
   const dateDefault = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
@@ -164,7 +165,7 @@ export default function Jabatan() {
               <CardBody className="flex flex-col gap-8">
                 <div className="flex flex-col gap-2">
                   <h3 className="text-button-primary font-medium text-sm">
-                    Data Pegawai
+                    Data Pegawai ASN
                   </h3>
                   <Divider className="w-24 bg-button-primary" />
                   <div className="overflow-x-auto">
@@ -175,7 +176,7 @@ export default function Jabatan() {
                             No
                           </th>
                           <th className="border-b-2 min-w-60 border-accent-gray p-2 text-sm bg-primary text-white">
-                            Pegawai
+                            Unit
                           </th>
                           <th className="border-b-2 min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-lg text-center">
                             Jumlah Orang
@@ -201,7 +202,7 @@ export default function Jabatan() {
                                 setShowData(
                                   DATA_FETCHING
                                     ? DATA_FETCHING.filter(
-                                        (it) => it.unit?.id === item.id,
+                                        (it) => it.jabatan?.unit?.id === item.id,
                                       )
                                     : [],
                                 );
@@ -212,7 +213,7 @@ export default function Jabatan() {
                             >
                               {DATA_FETCHING
                                 ? DATA_FETCHING.filter(
-                                    (it) => it.unit?.id === item.id,
+                                    (it) => it.jabatan?.unit?.id === item.id,
                                   ).length
                                 : 0}{" "}
                               Orang
@@ -238,7 +239,7 @@ export default function Jabatan() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-button-primary font-medium text-sm">
-                    Data Non-ASN
+                    Data Pegawai Non-ASN
                   </h3>
                   <Divider className="w-24 bg-button-primary" />
                   <div className="overflow-x-auto">
@@ -249,7 +250,7 @@ export default function Jabatan() {
                             No
                           </th>
                           <th className="border-b-2 min-w-60 border-accent-gray p-2 text-sm bg-primary text-white">
-                            Pegawai
+                            Unit
                           </th>
                           <th className="border-b-2 min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-lg text-center">
                             Jumlah Orang
@@ -276,8 +277,8 @@ export default function Jabatan() {
                                   DATA_FETCHING
                                     ? DATA_FETCHING.filter(
                                         (it) =>
-                                          it.unit?.id === item.id &&
-                                          it.statusAsn === true,
+                                          it.jabatan?.unit?.id === item.id &&
+                                          it.statusAsn === false,
                                       )
                                     : [],
                                 );
@@ -289,8 +290,8 @@ export default function Jabatan() {
                               {DATA_FETCHING
                                 ? DATA_FETCHING.filter(
                                     (it) =>
-                                      it.unit?.id === item.id &&
-                                      it.statusAsn === true,
+                                      it.jabatan?.unit?.id === item.id &&
+                                      it.statusAsn === false,
                                   ).length
                                 : 0}{" "}
                               Orang
@@ -309,7 +310,7 @@ export default function Jabatan() {
                           <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-lg text-center">
                             {DATA_FETCHING
                               ? DATA_FETCHING.filter(
-                                  (it) => it.statusAsn === true,
+                                  (it) => it.statusAsn === false,
                                 ).length
                               : 0}{" "}
                             Orang
@@ -757,6 +758,344 @@ export default function Jabatan() {
                           </td>
                         </tr>
                       </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-button-primary font-medium text-sm">
+                    Total Pegawai Berdasarkan Eselon
+                  </h3>
+                  <Divider className="w-24 bg-button-primary" />
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr>
+                          <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-lg">
+                            No
+                          </th>
+                          <th className="border-b-2 min-w-60 border-accent-gray p-2 text-sm bg-primary text-white">
+                            Eselon
+                          </th>
+                          <th className="border-b-2 min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-lg text-center">
+                            Jumlah Orang
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {EselonData.map((item, index) => (
+                          <tr key={index}>
+                            <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
+                              {index + 1}
+                            </td>
+                            <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
+                              {item.nama}
+                            </td>
+                            <td
+                              className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
+                              onClick={() => {
+                                setShowData(
+                                  DATA_FETCHING
+                                    ? DATA_FETCHING.filter(
+                                        (it) =>
+                                          it.jabatan?.eselon === item.nama
+                                      )
+                                    : [],
+                                );
+                                setTimeout(() => {
+                                  onOpen();
+                                }, 400);
+                              }}
+                            >
+                              {DATA_FETCHING
+                                ? DATA_FETCHING.filter(
+                                    (it) =>
+                                      it.jabatan?.eselon === item.nama
+                                  ).length
+                                : 0}{" "}
+                              Orang
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th
+                            colSpan={2}
+                            className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-lg"
+                          >
+                            Total
+                          </th>
+                          <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-lg text-center">
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) => it.statusAsn === true,
+                                ).length
+                              : 0}{" "}
+                            Orang
+                          </th>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-button-primary font-medium text-sm">
+                    Total Pegawai Berdasarkan Golongan
+                  </h3>
+                  <Divider className="w-24 bg-button-primary" />
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr>
+                          <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-lg">
+                            No
+                          </th>
+                          <th className="border-b-2 min-w-60 border-accent-gray p-2 text-sm bg-primary text-white">
+                            Golongan
+                          </th>
+                          <th className="border-b-2 min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-lg text-center">
+                            Jumlah Orang
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {GolonganData.map((item, index) => (
+                          <tr key={index}>
+                            <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
+                              {index + 1}
+                            </td>
+                            <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
+                              {item.nama}
+                            </td>
+                            <td
+                              className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
+                              onClick={() => {
+                                setShowData(
+                                  DATA_FETCHING
+                                    ? DATA_FETCHING.filter(
+                                        (it) =>
+                                          it.group === item.key
+                                      )
+                                    : [],
+                                );
+                                setTimeout(() => {
+                                  onOpen();
+                                }, 400);
+                              }}
+                            >
+                              {DATA_FETCHING
+                                ? DATA_FETCHING.filter(
+                                    (it) =>
+                                      it.group === item.key
+                                  ).length
+                                : 0}{" "}
+                              Orang
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th
+                            colSpan={2}
+                            className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-lg"
+                          >
+                            Total
+                          </th>
+                          <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-lg text-center">
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) => it.statusAsn === true,
+                                ).length
+                              : 0}{" "}
+                            Orang
+                          </th>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-button-primary font-medium text-sm">
+                    Total Pegawai Berdasarkan Pendidikan
+                  </h3>
+                  <Divider className="w-24 bg-button-primary" />
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr>
+                          <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-lg">
+                            No
+                          </th>
+                          <th className="border-b-2 min-w-60 border-accent-gray p-2 text-sm bg-primary text-white">
+                            Pendidikan
+                          </th>
+                          <th className="border-b-2 min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-lg text-center">
+                            Jumlah Orang
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {pendidikanTerakhir.map((item, index) => (
+                          <tr key={index}>
+                            <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
+                              {index + 1}
+                            </td>
+                            <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
+                              {item.name}
+                            </td>
+                            <td
+                              className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
+                              onClick={() => {
+                                setShowData(
+                                  DATA_FETCHING
+                                    ? DATA_FETCHING.filter(
+                                        (it) =>
+                                          it.education === item.key
+                                      )
+                                    : [],
+                                );
+                                setTimeout(() => {
+                                  onOpen();
+                                }, 400);
+                              }}
+                            >
+                              {DATA_FETCHING
+                                ? DATA_FETCHING.filter(
+                                    (it) =>
+                                      it.education === item.key
+                                  ).length
+                                : 0}{" "}
+                              Orang
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th
+                            colSpan={2}
+                            className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-lg"
+                          >
+                            Total
+                          </th>
+                          <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-lg text-center">
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) => it.statusAsn === true,
+                                ).length
+                              : 0}{" "}
+                            Orang
+                          </th>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-button-primary font-medium text-sm">
+                    Total Pegawai Berdasarkan Jenis Kelamin
+                  </h3>
+                  <Divider className="w-24 bg-button-primary" />
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr>
+                          <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-lg">
+                            No
+                          </th>
+                          <th className="border-b-2 min-w-60 border-accent-gray p-2 text-sm bg-primary text-white">
+                            Jenis Kelamin
+                          </th>
+                          <th className="border-b-2 min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-lg text-center">
+                            Jumlah Orang
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
+                            1
+                          </td>
+                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
+                            Laki - Laki
+                          </td>
+                          <td
+                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
+                            onClick={() => {
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.gender === "LAKI_LAKI"
+                                    )
+                                  : [],
+                              );
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
+                            }}
+                          >
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.gender === "LAKI_LAKI"
+                                ).length
+                              : 0}{" "}
+                            Orang
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border-b-2 border-s-2 border-accent-gray p-2 text-sm w-10">
+                            2
+                          </td>
+                          <td className="border-b-2 border-accent-gray p-2 text-sm font-semibold">
+                            Perempuan
+                          </td>
+                          <td
+                            className="border-b-2 border-e-2 border-accent-gray p-2 text-sm text-[#33CEB7] underline text-center cursor-pointer"
+                            onClick={() => {
+                              setShowData(
+                                DATA_FETCHING
+                                  ? DATA_FETCHING.filter(
+                                      (it) =>
+                                        it.gender === "PEREMPUAN"
+                                    )
+                                  : [],
+                              );
+                              setTimeout(() => {
+                                onOpen();
+                              }, 400);
+                            }}
+                          >
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) =>
+                                    it.gender === "PEREMPUAN"
+                                ).length
+                              : 0}{" "}
+                            Orang
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th
+                            colSpan={2}
+                            className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-lg"
+                          >
+                            Total
+                          </th>
+                          <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-lg text-center">
+                            {DATA_FETCHING
+                              ? DATA_FETCHING.filter(
+                                  (it) => it.statusAsn === true,
+                                ).length
+                              : 0}{" "}
+                            Orang
+                          </th>
+                        </tr>
+                      </tfoot>
                     </table>
                   </div>
                 </div>

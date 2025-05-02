@@ -4,8 +4,10 @@ import PegawaiIndex from "./PegawaiIndex";
 import Surat from "./Surat";
 import Pelaporan from "./Pelaporan";
 import { useEffect, useState } from "react";
+import store from "@/redux/store";
 
 export default function Jabatan() {
+  const { role } = store.getState().auth;
   const [selectedTab, setSelectedTab] = useState<string>("data-pegawai");
 
   const queryParams = new URLSearchParams(window.location.search);
@@ -34,18 +36,22 @@ export default function Jabatan() {
             >
               Data Pegawai
             </div>
-            <div
-              onClick={() => setSelectedTab("kgp")}
-              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "kgp" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
-            >
-              Data Cuti, Kenaikan Gaji & Pangkat
-            </div>
-            <div
-              onClick={() => setSelectedTab("pelaporan")}
-              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pelaporan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
-            >
-              Pelaporan
-            </div>
+            {role === "SUPERUSERS" || role === "ADMIN" && (
+              <div
+                onClick={() => setSelectedTab("kgp")}
+                className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "kgp" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+              >
+                Data Cuti, Kenaikan Gaji & Pangkat
+              </div>
+            )}
+            {role === "SUPERUSERS" || role === "ADMIN" && (
+              <div
+                onClick={() => setSelectedTab("pelaporan")}
+                className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pelaporan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+              >
+                Pelaporan
+              </div>
+            )}
           </div>
           <div className="bg-white shadow-md rounded-b-xl border min-h-[70vh]">
             {selectedTab === "data-pegawai" ? <PegawaiIndex /> : <></>}

@@ -480,6 +480,7 @@ export default function CreatePegawai() {
                       <Autocomplete
                         isLoading={isFetchingJabatan}
                         aria-label="pegawai"
+                        id="pegawai"
                         placeholder="Cari jabatan"
                         variant="bordered"
                         radius="sm"
@@ -865,7 +866,8 @@ export default function CreatePegawai() {
                       </label>
                     </div>
                     <Autocomplete
-                      aria-label="pegawai"
+                      aria-label="pendidikan"
+                      id="pendidikan"
                       placeholder="Pilih disini"
                       variant="bordered"
                       radius="sm"
