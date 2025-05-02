@@ -6,6 +6,12 @@ import {
   IJabatanDetailRes,
 } from "@/interface/responses/jabatan.interface";
 
+export const getAllJabatanHirarki = async (): Promise<IJabatanOptionRes> => {
+  const response = await instance.get(`/admin/jabatan/dropdown/hirarki`);
+  return response.data;
+};
+
+
 export const getAllJabatanOption = async (): Promise<IJabatanOptionRes> => {
   const response = await instance.get(`/admin/jabatan/dropdown/list`);
   return response.data;

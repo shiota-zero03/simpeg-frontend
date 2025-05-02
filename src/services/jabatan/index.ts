@@ -3,6 +3,7 @@ import {
   createJabatan,
   deleteJabatan,
   getAllJabatan,
+  getAllJabatanHirarki,
   getAllJabatanOption,
   getDetailJabatan,
   updateJabatan,
@@ -11,6 +12,14 @@ import { IJabatanDetailRes } from "@/interface/responses/jabatan.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StoreJabatan } from "@/interface/request/jabatan.interface";
+
+export const useGetAllJabatanHirarki = () => {
+  return useQuery({
+    queryKey: ["getAllJabatanHirarki"],
+    queryFn: () => getAllJabatanHirarki(),
+    staleTime: 300000,
+  });
+};
 
 export const useGetAllJabatanOption = () => {
   return useQuery({
