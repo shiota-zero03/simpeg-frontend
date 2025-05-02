@@ -45,11 +45,11 @@ export const getAllAssetByHolder = async (
 
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
-  if (idBarang) params.set("idBarang", idBarang)
-  if (kodeBarang) params.set("kodeBarang", kodeBarang)
-  if (nomorRegistrasi) params.set("nomorRegistrasi", nomorRegistrasi)
-  if (startDate) params.set("startDate", startDate)
-  if (endDate) params.set("endDate", endDate)
+  if (idBarang) params.set("idBarang", idBarang);
+  if (kodeBarang) params.set("kodeBarang", kodeBarang);
+  if (nomorRegistrasi) params.set("nomorRegistrasi", nomorRegistrasi);
+  if (startDate) params.set("startDate", startDate);
+  if (endDate) params.set("endDate", endDate);
   const response = await instance.get(
     `/admin/asset/list/holder?${params.toString()}`,
   );

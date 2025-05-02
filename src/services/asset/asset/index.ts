@@ -41,7 +41,16 @@ export const useGetAllAssetbyHolder = (
 ) => {
   return useQuery({
     queryKey: ["getAllAssetbyHolder"],
-    queryFn: () => getAllAssetByHolder(page, limit, idBarang, kodeBarang, nomorRegistrasi, startDate, endDate),
+    queryFn: () =>
+      getAllAssetByHolder(
+        page,
+        limit,
+        idBarang,
+        kodeBarang,
+        nomorRegistrasi,
+        startDate,
+        endDate,
+      ),
     staleTime: 300000,
   });
 };

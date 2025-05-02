@@ -208,9 +208,9 @@ export default function Unit() {
   const handleClose = () => {
     setSelectedId(null);
     setPageIndex(0);
-    onCloseCreate();
-    onCloseDelete();
-    onCloseUpdate();
+    // onCloseCreate();
+    // onCloseDelete();
+    // onCloseUpdate();
     refetchData();
   };
 

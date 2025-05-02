@@ -90,6 +90,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
       mutatePost(formToSend, {
         onSuccess: () => {
           SuccessToast({ text: "Data berhasil ditambahkan" });
+          setIsLoading(false);
           handleClose();
         },
         onError: (error: AxiosError<BaseErrorRes>) => {

@@ -585,6 +585,19 @@ export default function CreateSPPD() {
     }
   };
 
+  const queryParams = new URLSearchParams(window.location.search);
+  const tab = queryParams.get("type");
+  const tabData = tab as string;
+
+  useEffect(() => {
+    if (tabData) {
+      setFormData({
+        ...formData,
+        type: tabData,
+      });
+    }
+  }, [tabData]);
+
   return (
     <>
       <BreadcrumbAdmin location="/SPPD/Tambah-Data" />

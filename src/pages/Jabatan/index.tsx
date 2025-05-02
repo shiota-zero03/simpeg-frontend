@@ -12,6 +12,7 @@ import CreateModal from "@/components/modals/JabatanModal/CreatedModal";
 import { useDeleteJabatan, useGetAllJabatan } from "@/services/jabatan";
 import { JabatanRes } from "@/interface/responses/jabatan.interface";
 import UpdateModal from "@/components/modals/JabatanModal/UpdateModal";
+import ImportModal from "@/components/modals/JabatanModal/ImportModal";
 
 interface DataProps {
   id: number;
@@ -67,7 +68,11 @@ export default function Jabatan() {
         eselon: item.eselon || "-",
         ketersediaan: String(item.ketersediaan),
         nama: item.nameJob || "-",
-        kelas: item.class || "-",
+        kelas: item.class
+          ? item.class === "undefined"
+            ? "-"
+            : item.class
+          : "",
         unit: item.subUnor || "-",
         subUnor: item.unit?.nameUnit || "",
         fungsional: item.fungsional,
@@ -77,6 +82,8 @@ export default function Jabatan() {
       return [];
     }
   }, [search, limit, pageIndex, allData]);
+
+  console.log(paginatedData);
 
   const columns: ColumnDef<DataProps>[] = [
     {
@@ -96,12 +103,6 @@ export default function Jabatan() {
     {
       accessorKey: "nama",
       header: "Nama Jabatan",
-      cell: (info) => info.getValue() as string,
-      // meta: { align: "center" },
-    },
-    {
-      accessorKey: "subPermenpan",
-      header: "Jabatan Permenpan",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
@@ -189,6 +190,11 @@ export default function Jabatan() {
     onOpen: onOpenUpdate,
     onClose: onCloseUpdate,
   } = useDisclosure();
+  const {
+    isOpen: isOpenImport,
+    // onOpen: onOpenImport,
+    onClose: onCloseImport,
+  } = useDisclosure();
 
   const handleSearch = () => {
     setPageIndex(0);
@@ -253,6 +259,7 @@ export default function Jabatan() {
     onCloseCreate();
     onCloseDelete();
     onCloseUpdate();
+    onCloseImport();
     refetchData();
   };
 
@@ -280,6 +287,12 @@ export default function Jabatan() {
           handleClose={handleClose}
         />
       )}
+
+      <ImportModal
+        isOpen={isOpenImport}
+        onClose={onCloseImport}
+        handleClose={handleClose}
+      />
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
           title="Data Jabatan"
@@ -341,6 +354,16 @@ export default function Jabatan() {
                   >
                     Tambah
                   </Button>
+                  {/* <Button
+                    onPress={() => onOpenImport()}
+                    variant="solid"
+                    radius="sm"
+                    size="sm"
+                    startContent={<BiCloudUpload size={12} />}
+                    className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                  >
+                    Import
+                  </Button> */}
                 </div>
               </div>
             </div>
