@@ -23,12 +23,16 @@ export const getAllAsset = async (
   page: number,
   limit: number,
   title?: string,
+  startDate?: string | null,
+  endDate?: string | null,
 ): Promise<IAssetRes> => {
   const params = new URLSearchParams();
 
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
   if (title) params.set("search", title);
+  if (startDate) params.set("startDate", startDate);
+  if (endDate) params.set("endDate", endDate);
   const response = await instance.get(`/admin/asset?${params.toString()}`);
   return response.data;
 };

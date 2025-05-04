@@ -16,12 +16,16 @@ export const getAllAssetHolder = async (
   page: number,
   limit: number,
   title?: string,
+  startDate?: string | null,
+  endDate?: string | null,
 ): Promise<IAssetHolderRes> => {
   const params = new URLSearchParams();
 
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
   if (title) params.set("name", title);
+  if (startDate) params.set("startDate", startDate);
+  if (endDate) params.set("endDate", endDate);
   const response = await instance.get(
     `/admin/asset-holder?${params.toString()}`,
   );
@@ -53,5 +57,11 @@ export const deleteAssetHolder = async (
   id: string,
 ): Promise<IAssetHolderDetailRes> => {
   const response = await instance.delete(`/admin/asset-holder/delete/${id}`);
+  return response.data;
+};
+export const deleteAssetHolderAll = async (
+  id: string,
+): Promise<IAssetHolderDetailRes> => {
+  const response = await instance.delete(`/admin/asset-holder/delete/all/${id}`);
   return response.data;
 };

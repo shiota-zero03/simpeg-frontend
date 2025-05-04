@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createAssetHolder,
   deleteAssetHolder,
+  deleteAssetHolderAll,
   getAllAssetHolder,
   getAllAssetHolderOption,
   getDetailAssetHolder,
@@ -24,10 +25,12 @@ export const useGetAllAssetHolder = (
   page: number,
   limit: number,
   title?: string,
+  startDate?: string | null,
+  endDate?: string | null,
 ) => {
   return useQuery({
     queryKey: ["getAllAssetHolder"],
-    queryFn: () => getAllAssetHolder(page, limit, title),
+    queryFn: () => getAllAssetHolder(page, limit, title, startDate, endDate),
     staleTime: 300000,
   });
 };
@@ -80,6 +83,22 @@ export const useDeleteAssetHolder = () => {
     mutationFn: ({ id }) => deleteAssetHolder(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["deleteAssetHolder"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
+  });
+};
+export const useDeleteAssetHolderAll = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IAssetHolderDetailRes,
+    AxiosError<BaseErrorRes>,
+    { id: string }
+  >({
+    mutationFn: ({ id }) => deleteAssetHolderAll(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["deleteAssetHolderAll"] });
     },
     onError: (error) => {
       throw error;

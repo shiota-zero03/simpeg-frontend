@@ -19,7 +19,7 @@ import store from "@/redux/store";
 import { useDeleteAsset, useGetAllAsset } from "@/services/asset/asset";
 import { AssetRes } from "@/interface/responses/asset.interface";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { parseDate } from "@internationalized/date";
+import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import { LucideEye } from "lucide-react";
 import ViewModal from "@/components/modals/Asset/DeetailAsset";
 
@@ -49,22 +49,22 @@ export default function AssetIndex() {
     end: parseDate(today.toISOString().split("T")[0]),
   });
 
-  // const formatDateToJakarta = (
-  //   calendarDate: CalendarDate | null | undefined,
-  // ) => {
-  //   if (!calendarDate) return null;
-  //   const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
-  //   return new Intl.DateTimeFormat("id-ID", {
-  //     timeZone: "Asia/Jakarta",
-  //     year: "numeric",
-  //     month: "2-digit",
-  //     day: "2-digit",
-  //   })
-  //     .format(date)
-  //     .split("/")
-  //     .reverse()
-  //     .join("-");
-  // };
+  const formatDateToJakarta = (
+    calendarDate: CalendarDate | null | undefined,
+  ) => {
+    if (!calendarDate) return null;
+    const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
+    return new Intl.DateTimeFormat("id-ID", {
+      timeZone: "Asia/Jakarta",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+      .format(date)
+      .split("/")
+      .reverse()
+      .join("-");
+  };
 
   const navigate = useNavigate();
 
@@ -79,7 +79,7 @@ export default function AssetIndex() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllAsset(pageIndex + 1, limit, search);
+  } = useGetAllAsset(pageIndex + 1, limit, search, rangeDate && formatDateToJakarta(rangeDate.start), rangeDate && formatDateToJakarta(rangeDate.end));
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
