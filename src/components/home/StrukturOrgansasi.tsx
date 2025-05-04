@@ -13,27 +13,28 @@ interface StrukturDataProps {
 }
 
 export default function BigTable() {
+  const [kadin, setKadin] = useState<StrukturDataProps>();
+  const [sekdin, setSekdin] = useState<StrukturDataProps>();
+  const [kasuang, setKasuang] = useState<StrukturDataProps>();
+  const [kasumum, setKasumum] = useState<StrukturDataProps>();
 
-  const [ kadin, setKadin ] = useState<StrukturDataProps>()
-  const [ sekdin, setSekdin ] = useState<StrukturDataProps>()
-  const [ kasuang, setKasuang ] = useState<StrukturDataProps>()
-  const [ kasumum, setKasumum ] = useState<StrukturDataProps>()
+  const [kabidpln, setKabidpln] = useState<StrukturDataProps>();
+  const [kabidDistribsu, setKabiddistribusi] = useState<StrukturDataProps>();
+  const [kabidmetrologi, setKabidmetrologi] = useState<StrukturDataProps>();
+  const [kabidpengendalian, setKabidpengendalian] =
+    useState<StrukturDataProps>();
 
-  const [ kabidpln, setKabidpln ] = useState<StrukturDataProps>()
-  const [ kabidDistribsu, setKabiddistribusi ] = useState<StrukturDataProps>()
-  const [ kabidmetrologi, setKabidmetrologi ] = useState<StrukturDataProps>()
-  const [ kabidpengendalian, setKabidpengendalian ] = useState<StrukturDataProps>()
-
-  const [ kepalaUptd1, setKepalaUptd1 ] = useState<StrukturDataProps>()
-  const [ kepalaUptd2, setKepalaUptd2 ] = useState<StrukturDataProps>()
-  const [ kepalaUptd3, setKepalaUptd3 ] = useState<StrukturDataProps>()
-  const [ kepalaUptd4, setKepalaUptd4 ] = useState<StrukturDataProps>()
-  const [ kepalaUptd5, setKepalaUptd5 ] = useState<StrukturDataProps>()
-  const [ kepalaUptd6, setKepalaUptd6 ] = useState<StrukturDataProps>()
-  const [ kepalaUptd7, setKepalaUptd7 ] = useState<StrukturDataProps>()
-  const [ kepalaUptd8, setKepalaUptd8 ] = useState<StrukturDataProps>()
-  const [ kepalaUptd9, setKepalaUptd9 ] = useState<StrukturDataProps>()
-  const [ kepalaUptdMetrologi, setKepalaUptdMetrologi ] = useState<StrukturDataProps>()
+  const [kepalaUptd1, setKepalaUptd1] = useState<StrukturDataProps>();
+  const [kepalaUptd2, setKepalaUptd2] = useState<StrukturDataProps>();
+  const [kepalaUptd3, setKepalaUptd3] = useState<StrukturDataProps>();
+  const [kepalaUptd4, setKepalaUptd4] = useState<StrukturDataProps>();
+  const [kepalaUptd5, setKepalaUptd5] = useState<StrukturDataProps>();
+  const [kepalaUptd6, setKepalaUptd6] = useState<StrukturDataProps>();
+  const [kepalaUptd7, setKepalaUptd7] = useState<StrukturDataProps>();
+  const [kepalaUptd8, setKepalaUptd8] = useState<StrukturDataProps>();
+  const [kepalaUptd9, setKepalaUptd9] = useState<StrukturDataProps>();
+  const [kepalaUptdMetrologi, setKepalaUptdMetrologi] =
+    useState<StrukturDataProps>();
 
   const { data, refetch, isFetching } = useGetAllJabatanHirarki();
   const DATA_FETCHING = useMemo(() => {
@@ -47,156 +48,184 @@ export default function BigTable() {
 
   useEffect(() => {
     if (!isFetching && DATA_FETCHING) {
-
-      const newItemsKadin = DATA_FETCHING.find((it) => it.nameJob.toUpperCase().includes("KEPALA DINAS"));
+      const newItemsKadin = DATA_FETCHING.find((it) =>
+        it.nameJob.toUpperCase().includes("KEPALA DINAS"),
+      );
       const userKadin = newItemsKadin?.user?.[0];
       setKadin(
         userKadin
           ? {
               name: userKadin.name,
               jabatan: userKadin.jabatan.nameJob,
-              picture: userKadin.photo ?? `https://ui-avatars.com/api/?name=${userKadin.name ?? "Kepala Dinas"}&background=random`,
+              picture:
+                userKadin.photo ??
+                `https://ui-avatars.com/api/?name=${userKadin.name ?? "Kepala Dinas"}&background=random`,
             }
           : {
               name: "Kepala Dinas",
               jabatan: "Kepala Dinas",
               picture: `https://ui-avatars.com/api/?name=Kepala Dinas&background=random`,
-            }
+            },
       );
 
-
-      const newItemsSekdin = DATA_FETCHING.find((it) => it.nameJob.toUpperCase().includes("SEKRETARIS"));
+      const newItemsSekdin = DATA_FETCHING.find((it) =>
+        it.nameJob.toUpperCase().includes("SEKRETARIS"),
+      );
       const userSekdin = newItemsSekdin?.user?.[0];
       setSekdin(
         userSekdin
           ? {
               name: userSekdin.name,
               jabatan: userSekdin.jabatan.nameJob,
-              picture: userSekdin.photo ?? `https://ui-avatars.com/api/?name=${userSekdin.name ?? "Sekretaris"}&background=random`,
+              picture:
+                userSekdin.photo ??
+                `https://ui-avatars.com/api/?name=${userSekdin.name ?? "Sekretaris"}&background=random`,
             }
           : {
               name: "Sekretaris",
               jabatan: "Sekretaris",
               picture: `https://ui-avatars.com/api/?name=Sekretaris&background=random`,
-            }
+            },
       );
 
-
-      const newItemsKasuang = DATA_FETCHING.find((it) => it.nameJob.toUpperCase().includes("KEUANGAN"));
+      const newItemsKasuang = DATA_FETCHING.find((it) =>
+        it.nameJob.toUpperCase().includes("KEUANGAN"),
+      );
       const userKasuang = newItemsKasuang?.user?.[0];
       setKasuang(
         userKasuang
           ? {
               name: userKasuang.name,
               jabatan: userKasuang.jabatan.nameJob,
-              picture: userKasuang.photo ?? `https://ui-avatars.com/api/?name=${userKasuang.name ?? "Kepala Subbagian Keuangan"}&background=random`,
+              picture:
+                userKasuang.photo ??
+                `https://ui-avatars.com/api/?name=${userKasuang.name ?? "Kepala Subbagian Keuangan"}&background=random`,
             }
           : {
               name: "Kepala Subbagian Keuangan",
               jabatan: "Kepala Subbagian Keuangan",
               picture: `https://ui-avatars.com/api/?name=Kepala Subbagian Keuangan&background=random`,
-            }
+            },
       );
 
-
-      const newItemsKasumum = DATA_FETCHING.find((it) => it.nameJob.toUpperCase().includes("UMUM DAN KEPEGAWAIAN"));
+      const newItemsKasumum = DATA_FETCHING.find((it) =>
+        it.nameJob.toUpperCase().includes("UMUM DAN KEPEGAWAIAN"),
+      );
       const userKasumum = newItemsKasumum?.user?.[0];
       setKasumum(
         userKasumum
           ? {
               name: userKasumum.name,
               jabatan: userKasumum.jabatan.nameJob,
-              picture: userKasumum.photo ?? `https://ui-avatars.com/api/?name=${userKasumum.name ?? "Kepala Subbagian Umum dan Kepegawaian"}&background=random`,
+              picture:
+                userKasumum.photo ??
+                `https://ui-avatars.com/api/?name=${userKasumum.name ?? "Kepala Subbagian Umum dan Kepegawaian"}&background=random`,
             }
           : {
               name: "Kepala Subbagian Umum dan Kepegawaian",
               jabatan: "Kepala Subbagian Umum dan Kepegawaian",
               picture: `https://ui-avatars.com/api/?name=Kepala Subbagian Umum dan Kepegawaian&background=random`,
-            }
+            },
       );
 
-
-      const newItemsKabidPLN = DATA_FETCHING.find((it) => it.nameJob.toUpperCase().includes("LUAR NEGERI"));
+      const newItemsKabidPLN = DATA_FETCHING.find((it) =>
+        it.nameJob.toUpperCase().includes("LUAR NEGERI"),
+      );
       const userKabidPLN = newItemsKabidPLN?.user?.[0];
       setKabidpln(
         userKabidPLN
           ? {
               name: userKabidPLN.name,
               jabatan: userKabidPLN.jabatan.nameJob,
-              picture: userKabidPLN.photo ?? `https://ui-avatars.com/api/?name=${userKabidPLN.name ?? "	Kepala Bidang Pengembangan Perdagangan Luar Negeri"}&background=random`,
+              picture:
+                userKabidPLN.photo ??
+                `https://ui-avatars.com/api/?name=${userKabidPLN.name ?? "	Kepala Bidang Pengembangan Perdagangan Luar Negeri"}&background=random`,
             }
           : {
               name: "	Kepala Bidang Pengembangan Perdagangan Luar Negeri",
               jabatan: "	Kepala Bidang Pengembangan Perdagangan Luar Negeri",
               picture: `https://ui-avatars.com/api/?name=	Kepala Bidang Pengembangan Perdagangan Luar Negeri&background=random`,
-            }
+            },
       );
 
-
-      const newItemsKabidDistribisi = DATA_FETCHING.find((it) => it.nameJob.toUpperCase().includes("PELAKU DISTRIBUSI"));
+      const newItemsKabidDistribisi = DATA_FETCHING.find((it) =>
+        it.nameJob.toUpperCase().includes("PELAKU DISTRIBUSI"),
+      );
       const userKabidDistribisi = newItemsKabidDistribisi?.user?.[0];
       setKabiddistribusi(
         userKabidDistribisi
           ? {
               name: userKabidDistribisi.name,
               jabatan: userKabidDistribisi.jabatan.nameJob,
-              picture: userKabidDistribisi.photo ?? `https://ui-avatars.com/api/?name=${userKabidDistribisi.name ?? "Kepala Bidang Sarana dan Pelaku Distribusi"}&background=random`,
+              picture:
+                userKabidDistribisi.photo ??
+                `https://ui-avatars.com/api/?name=${userKabidDistribisi.name ?? "Kepala Bidang Sarana dan Pelaku Distribusi"}&background=random`,
             }
           : {
               name: "Kepala Bidang Sarana dan Pelaku Distribusi",
               jabatan: "Kepala Bidang Sarana dan Pelaku Distribusi",
               picture: `https://ui-avatars.com/api/?name=Kepala Bidang Sarana dan Pelaku Distribusi&background=random`,
-            }
+            },
       );
 
-
-      const newItemsKemetrologian = DATA_FETCHING.find((it) => it.nameJob.toUpperCase().includes("KEMETROLOGIAN"));
+      const newItemsKemetrologian = DATA_FETCHING.find((it) =>
+        it.nameJob.toUpperCase().includes("KEMETROLOGIAN"),
+      );
       const userKemetrologian = newItemsKemetrologian?.user?.[0];
       setKabidmetrologi(
         userKemetrologian
           ? {
               name: userKemetrologian.name,
               jabatan: userKemetrologian.jabatan.nameJob,
-              picture: userKemetrologian.photo ?? `https://ui-avatars.com/api/?name=${userKemetrologian.name ?? "Kepala Bidang Kemetrologian"}&background=random`,
+              picture:
+                userKemetrologian.photo ??
+                `https://ui-avatars.com/api/?name=${userKemetrologian.name ?? "Kepala Bidang Kemetrologian"}&background=random`,
             }
           : {
               name: "Kepala Bidang Kemetrologian",
               jabatan: "Kepala Bidang Kemetrologian",
               picture: `https://ui-avatars.com/api/?name=Kepala Bidang Kemetrologian&background=random`,
-            }
+            },
       );
 
-
-      const newItemsKabidpengendalian = DATA_FETCHING.find((it) => it.nameJob.toUpperCase().includes("BARANG POKOK"));
+      const newItemsKabidpengendalian = DATA_FETCHING.find((it) =>
+        it.nameJob.toUpperCase().includes("BARANG POKOK"),
+      );
       const userKabidpengendalian = newItemsKabidpengendalian?.user?.[0];
       setKabidpengendalian(
         userKabidpengendalian
           ? {
               name: userKabidpengendalian.name,
               jabatan: userKabidpengendalian.jabatan.nameJob,
-              picture: userKabidpengendalian.photo ?? `https://ui-avatars.com/api/?name=${userKabidpengendalian.name ?? "Kepala Bidang Pengendalian Barang Pokok dan Penting"}&background=random`,
+              picture:
+                userKabidpengendalian.photo ??
+                `https://ui-avatars.com/api/?name=${userKabidpengendalian.name ?? "Kepala Bidang Pengendalian Barang Pokok dan Penting"}&background=random`,
             }
           : {
               name: "Kepala Bidang Pengendalian Barang Pokok dan Penting",
               jabatan: "Kepala Bidang Pengendalian Barang Pokok dan Penting",
               picture: `https://ui-avatars.com/api/?name=Kepala Bidang Pengendalian Barang Pokok dan Penting&background=random`,
-            }
+            },
       );
 
-      const newItemsUptdMetrologi = DATA_FETCHING.find((it) => it.nameJob.toUpperCase().includes("KEPALA UPTD METROLOGI LEGAL"));
+      const newItemsUptdMetrologi = DATA_FETCHING.find((it) =>
+        it.nameJob.toUpperCase().includes("KEPALA UPTD METROLOGI LEGAL"),
+      );
       const userUptdMetrologi = newItemsUptdMetrologi?.user?.[0];
       setKepalaUptdMetrologi(
         userUptdMetrologi
           ? {
               name: userUptdMetrologi.name,
               jabatan: userUptdMetrologi.jabatan.nameJob,
-              picture: userUptdMetrologi.photo ?? `https://ui-avatars.com/api/?name=${userUptdMetrologi.name ?? "Kepala UPTD Metrologi Legal"}&background=random`,
+              picture:
+                userUptdMetrologi.photo ??
+                `https://ui-avatars.com/api/?name=${userUptdMetrologi.name ?? "Kepala UPTD Metrologi Legal"}&background=random`,
             }
           : {
               name: "Kepala UPTD Metrologi Legal",
               jabatan: "KEPALA UPTD METROLOGI LEGAL",
               picture: `https://ui-avatars.com/api/?name=Kepala UPTD Metrologi Legal&background=random`,
-            }
+            },
       );
 
       const setters = [
@@ -224,20 +253,28 @@ export default function BigTable() {
       ];
 
       for (let i = 1; i <= 9; i++) {
-        const newItemsUptd = DATA_FETCHING.find((it) => it.nameJob.toUpperCase().includes(`KEPALA UPTD PENGELOLAAN DAN PEMBINAAN PASAR WILAYAH ${romanNumerals[i - 1]} (`));
+        const newItemsUptd = DATA_FETCHING.find((it) =>
+          it.nameJob
+            .toUpperCase()
+            .includes(
+              `KEPALA UPTD PENGELOLAAN DAN PEMBINAAN PASAR WILAYAH ${romanNumerals[i - 1]} (`,
+            ),
+        );
         const userKabiduptd = newItemsUptd?.user?.[0];
 
-        let uptdData = userKabiduptd
+        const uptdData = userKabiduptd
           ? {
               name: userKabiduptd.name,
               jabatan: `KEPALA UPTD WILAYAH ${romanNumerals[i - 1]}`,
-              picture: userKabiduptd.photo ?? `https://ui-avatars.com/api/?name=${userKabiduptd.name ?? `KEPALA UPTD WILAYAH ${romanNumerals[i - 1]}`}&background=random`,
+              picture:
+                userKabiduptd.photo ??
+                `https://ui-avatars.com/api/?name=${userKabiduptd.name ?? `KEPALA UPTD WILAYAH ${romanNumerals[i - 1]}`}&background=random`,
             }
           : {
               name: `KEPALA UPTD WILAYAH ${romanNumerals[i - 1]}`,
               jabatan: `KEPALA UPTD WILAYAH ${romanNumerals[i - 1]}`,
               picture: `https://ui-avatars.com/api/?name=KEPALA UPTD WILAYAH ${romanNumerals[i - 1]}&background=random`,
-            }
+            };
 
         setters[i - 1](uptdData);
       }
@@ -354,11 +391,13 @@ export default function BigTable() {
               {/* kadin */}
               <tr>
                 <th className="py-2" colSpan={71}></th>
-                <th
-                  colSpan={18}
-                >
+                <th colSpan={18}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl">
-                    <img src={kadin?.picture} alt="Kepala Dinas" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kadin?.picture}
+                      alt="Kepala Dinas"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kadin?.jabatan}</h1>
                       <p className="font-normal text-xs">{kadin?.name}</p>
@@ -368,7 +407,7 @@ export default function BigTable() {
                 <th className="py-2" colSpan={71}></th>
               </tr>
               {/* end kadin */}
-              
+
               <tr>
                 <td
                   className="py-2 border-e border-button-primary"
@@ -390,36 +429,28 @@ export default function BigTable() {
                   className="py-2 border-s border-button-primary border-b"
                   colSpan={18}
                 ></td>
-                <th
-                  colSpan={18}
-                  rowSpan={2}
-                >
+                <th colSpan={18} rowSpan={2}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl">
-                    <img src={sekdin?.picture} alt="Sekretaris" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={sekdin?.picture}
+                      alt="Sekretaris"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{sekdin?.jabatan}</h1>
                       <p className="font-normal text-xs">{sekdin?.name}</p>
                     </div>
                   </div>
                 </th>
-                <td
-                  className="py-2"
-                  colSpan={42}
-                ></td>
+                <td className="py-2" colSpan={42}></td>
               </tr>
               <tr>
                 <td
                   className="py-2 border-e border-button-primary"
                   colSpan={80}
                 ></td>
-                <td
-                  className="py-2"
-                  colSpan={18}
-                ></td>
-                <td
-                  className="py-2"
-                  colSpan={42}
-                ></td>
+                <td className="py-2" colSpan={18}></td>
+                <td className="py-2" colSpan={42}></td>
               </tr>
               {/* end sekre */}
 
@@ -466,11 +497,13 @@ export default function BigTable() {
                   className="py-2 text-center text-xs border-s border-button-primary"
                   colSpan={8}
                 ></th>
-                <th
-                  colSpan={18}
-                >
+                <th colSpan={18}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
-                    <img src={kasuang?.picture} alt="Kepala Subbagian Keuangan" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kasuang?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kasuang?.jabatan}</h1>
                       <p className="font-normal text-xs">{kasuang?.name}</p>
@@ -479,11 +512,13 @@ export default function BigTable() {
                 </th>
                 <th className="py-2 text-center text-xs"></th>
                 <th className="py-2 text-center text-xs"></th>
-                <th
-                  colSpan={18}
-                >
+                <th colSpan={18}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
-                    <img src={kasumum?.picture} alt="Kepala Subbagian Umum dan Kepegawaian" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kasumum?.picture}
+                      alt="Kepala Subbagian Umum dan Kepegawaian"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kasumum?.jabatan}</h1>
                       <p className="font-normal text-xs">{kasumum?.name}</p>
@@ -552,11 +587,13 @@ export default function BigTable() {
               {/* kabid */}
               <tr>
                 <th className="py-2" colSpan={41}></th>
-                <th
-                  colSpan={18}
-                >
+                <th colSpan={18}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-32">
-                    <img src={kabidpln?.picture} alt="Kepala Bidang Pengembangan Perdagangan Luar Negeri" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kabidpln?.picture}
+                      alt="Kepala Bidang Pengembangan Perdagangan Luar Negeri"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kabidpln?.jabatan}</h1>
                       <p className="font-normal text-xs">{kabidpln?.name}</p>
@@ -565,40 +602,52 @@ export default function BigTable() {
                 </th>
                 <th className="py-2"></th>
                 <th className="py-2"></th>
-                <th
-                  colSpan={18}
-                >
+                <th colSpan={18}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-32">
-                    <img src={kabidDistribsu?.picture} alt="Kepala Bidang Sarana dan Pelaku Distribusi" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kabidDistribsu?.picture}
+                      alt="Kepala Bidang Sarana dan Pelaku Distribusi"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kabidDistribsu?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kabidDistribsu?.name}</p>
+                      <p className="font-normal text-xs">
+                        {kabidDistribsu?.name}
+                      </p>
                     </div>
                   </div>
                 </th>
                 <th className="py-2 border-e border-button-primary"></th>
                 <th className="py-2 border-s border-button-primary"></th>
-                <th
-                  colSpan={18}
-                >
+                <th colSpan={18}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-32">
-                    <img src={kabidmetrologi?.picture} alt="Kepala Bidang Kemetrologian" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kabidmetrologi?.picture}
+                      alt="Kepala Bidang Kemetrologian"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kabidmetrologi?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kabidmetrologi?.name}</p>
+                      <p className="font-normal text-xs">
+                        {kabidmetrologi?.name}
+                      </p>
                     </div>
                   </div>
                 </th>
                 <th className="py-2"></th>
                 <th className="py-2"></th>
-                <th
-                  colSpan={18}
-                >
+                <th colSpan={18}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-32">
-                    <img src={kabidpengendalian?.picture} alt="Kepala Bidang Pengendalian Barang Pokok dan Penting" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kabidpengendalian?.picture}
+                      alt="Kepala Bidang Pengendalian Barang Pokok dan Penting"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kabidpengendalian?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kabidpengendalian?.name}</p>
+                      <p className="font-normal text-xs">
+                        {kabidpengendalian?.name}
+                      </p>
                     </div>
                   </div>
                 </th>
@@ -646,11 +695,13 @@ export default function BigTable() {
               {/* kepala uptd */}
               <tr>
                 <th className="px-2 py-2 text-center text-xs"></th>
-                <th
-                  colSpan={14}
-                >
+                <th colSpan={14}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
-                    <img src={kepalaUptd1?.picture} alt="Kepala Subbagian Keuangan" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kepalaUptd1?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaUptd1?.jabatan}</h1>
                       <p className="font-normal text-xs">{kepalaUptd1?.name}</p>
@@ -659,11 +710,13 @@ export default function BigTable() {
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
-                <th
-                  colSpan={14}
-                >
+                <th colSpan={14}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
-                    <img src={kepalaUptd2?.picture} alt="Kepala Subbagian Keuangan" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kepalaUptd2?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaUptd2?.jabatan}</h1>
                       <p className="font-normal text-xs">{kepalaUptd2?.name}</p>
@@ -672,11 +725,13 @@ export default function BigTable() {
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
-                <th
-                  colSpan={14}
-                >
+                <th colSpan={14}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
-                    <img src={kepalaUptd3?.picture} alt="Kepala Subbagian Keuangan" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kepalaUptd3?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaUptd3?.jabatan}</h1>
                       <p className="font-normal text-xs">{kepalaUptd3?.name}</p>
@@ -685,11 +740,13 @@ export default function BigTable() {
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
-                <th
-                  colSpan={14}
-                >
+                <th colSpan={14}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
-                    <img src={kepalaUptd4?.picture} alt="Kepala Subbagian Keuangan" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kepalaUptd4?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaUptd4?.jabatan}</h1>
                       <p className="font-normal text-xs">{kepalaUptd4?.name}</p>
@@ -698,11 +755,13 @@ export default function BigTable() {
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
-                <th
-                  colSpan={14}
-                >
+                <th colSpan={14}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
-                    <img src={kepalaUptd5?.picture} alt="Kepala Subbagian Keuangan" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kepalaUptd5?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaUptd5?.jabatan}</h1>
                       <p className="font-normal text-xs">{kepalaUptd5?.name}</p>
@@ -711,11 +770,13 @@ export default function BigTable() {
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
-                <th
-                  colSpan={14}
-                >
+                <th colSpan={14}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
-                    <img src={kepalaUptd6?.picture} alt="Kepala Subbagian Keuangan" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kepalaUptd6?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaUptd6?.jabatan}</h1>
                       <p className="font-normal text-xs">{kepalaUptd6?.name}</p>
@@ -724,11 +785,13 @@ export default function BigTable() {
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
-                <th
-                  colSpan={14}
-                >
+                <th colSpan={14}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
-                    <img src={kepalaUptd7?.picture} alt="Kepala Subbagian Keuangan" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kepalaUptd7?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaUptd7?.jabatan}</h1>
                       <p className="font-normal text-xs">{kepalaUptd7?.name}</p>
@@ -737,11 +800,13 @@ export default function BigTable() {
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
-                <th
-                  colSpan={14}
-                >
+                <th colSpan={14}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
-                    <img src={kepalaUptd8?.picture} alt="Kepala Subbagian Keuangan" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kepalaUptd8?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaUptd8?.jabatan}</h1>
                       <p className="font-normal text-xs">{kepalaUptd8?.name}</p>
@@ -750,11 +815,13 @@ export default function BigTable() {
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
-                <th
-                  colSpan={14}
-                >
+                <th colSpan={14}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
-                    <img src={kepalaUptd9?.picture} alt="Kepala Subbagian Keuangan" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kepalaUptd9?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaUptd9?.jabatan}</h1>
                       <p className="font-normal text-xs">{kepalaUptd9?.name}</p>
@@ -763,14 +830,20 @@ export default function BigTable() {
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
-                <th
-                  colSpan={14}
-                >
+                <th colSpan={14}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
-                    <img src={kepalaUptdMetrologi?.picture} alt="Kepala Subbagian Keuangan" className="w-12 h-12 rounded-full border border-accent-primary" />
+                    <img
+                      src={kepalaUptdMetrologi?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
                     <div className="text-start flex flex-col gap-1">
-                      <h1 className="text-sm">{kepalaUptdMetrologi?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kepalaUptdMetrologi?.name}</p>
+                      <h1 className="text-sm">
+                        {kepalaUptdMetrologi?.jabatan}
+                      </h1>
+                      <p className="font-normal text-xs">
+                        {kepalaUptdMetrologi?.name}
+                      </p>
                     </div>
                   </div>
                 </th>

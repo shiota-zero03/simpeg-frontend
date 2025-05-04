@@ -10,7 +10,7 @@ import {
 } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import { LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
+import { LuEye, LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
@@ -21,17 +21,26 @@ import {
   getLocalTimeZone,
   parseDate,
 } from "@internationalized/date";
-import CreateModal from "@/components/modals/E-FillingModal/CreatedModal";
-import { useDeleteEFilling } from "@/services/efilling";
-import UpdateModal from "@/components/modals/E-FillingModal/UpdateModal";
+import CreateModal from "@/components/modals/E-DisposisiModal/CreatedModal";
+import UpdateModal from "@/components/modals/E-DisposisiModal/UpdateModal";
 import { EDisposisiRes } from "@/interface/responses/e-disposisi.interface";
-import { useGetAllEDisposisi } from "@/services/e-disposisi";
+import {
+  useDeleteEDisposisi,
+  useGetAllEDisposisi,
+} from "@/services/e-disposisi";
+import store from "@/redux/store";
+import { useNavigate } from "react-router-dom";
+import { useGetProfile } from "@/services/auth";
+import { LucideChevronRightCircle } from "lucide-react";
 
-export default function EFilling() {
+export default function EDisposisi() {
+  const { role } = store.getState().auth;
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [searchJudul, setSearchJudul] = useState("");
   const [selectedId, setSelectedId] = useState("");
+
+  const navigate = useNavigate();
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -95,77 +104,290 @@ export default function EFilling() {
     }
   }, [searchJudul, rangeDate, limit, pageIndex, allData]);
 
-  const columns: ColumnDef<EDisposisiRes>[] = [
-    {
-      header: "No",
-      cell: ({ row }) => {
-        const number = pageIndex * limit + row.index + 1;
-        return <div>{number}</div>;
+  let columns: ColumnDef<EDisposisiRes>[] = [];
+
+  const { data: dataProfile, refetch: refetchProfile } = useGetProfile(!!role);
+  const getDataProfile = useMemo(() => {
+    if (dataProfile) return dataProfile.data;
+    return null;
+  }, [dataProfile]);
+
+  if (role === "ADMIN_SPPD" || role === "SUPERUSERS") {
+    columns = [
+      {
+        header: "No",
+        cell: ({ row }) => {
+          const number = pageIndex * limit + row.index + 1;
+          return <div>{number}</div>;
+        },
+        meta: { align: "center", cellWidth: "10" },
       },
-      meta: { align: "center", cellWidth: "10" },
-    },
-    {
-      accessorKey: "nomorSurat",
-      header: "Nomor Surat",
-      cell: (info) => info.getValue() as string,
-    },
-    {
-      accessorKey: "suratDari",
-      header: "Surat Dari",
-      cell: (info) => info.getValue() as string,
-    },
-    {
-      accessorKey: "tanggalSurat",
-      header: "Tanggal Surat",
-      cell: (info) =>
-        info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
-    },
-    {
-      accessorKey: "tanggalDiterima",
-      header: "Diterima Tanggal",
-      cell: (info) => info.getValue() as string,
-    },
-    {
-      accessorKey: "sifat",
-      header: "Sifat",
-      cell: (info) => info.getValue() as string,
-    },
-    {
-      header: "Aksi",
-      cell: ({ row }) => {
-        const { id } = row.original;
-        return (
-          <div className="flex items-center gap-2 justify-center">
-            <Button
-              onPress={() => {
-                setSelectedId(String(id));
-                onOpenUpdate();
-              }}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-info text-info shadow-sm"
-            >
-              <LuPencilLine size={14} />
-            </Button>
-            <Button
-              onPress={() => {
-                setSelectedId(String(id));
-                onOpenDelete();
-              }}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-danger text-danger shadow-sm"
-            >
-              <LuTrash2 size={14} />
-            </Button>
-          </div>
-        );
+      {
+        accessorKey: "nomorSurat",
+        header: "Nomor Surat",
+        cell: (info) => info.getValue() as string,
       },
-      meta: { align: "center" },
-    },
-  ];
+      {
+        accessorKey: "suratDari",
+        header: "Surat Dari",
+        cell: (info) => info.getValue() as string,
+      },
+      {
+        accessorKey: "tanggalSurat",
+        header: "Tanggal Surat",
+        cell: (info) =>
+          info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
+      },
+      {
+        accessorKey: "tanggalDiterima",
+        header: "Diterima Tanggal",
+        cell: (info) =>
+          info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
+      },
+      {
+        accessorKey: "sifat",
+        header: "Sifat",
+        cell: (info) => {
+          const sifat = info.getValue() as string;
+          return sifat === "SANGAT_SEGERA"
+            ? "Sangat Segera"
+            : sifat === "SEGERA"
+              ? "Segera"
+              : "Rahasia";
+        },
+      },
+      {
+        header: "Aksi",
+        cell: ({ row }) => {
+          const { id } = row.original;
+          return (
+            <div className="flex items-center gap-2 justify-center">
+              <Button
+                onPress={() => {
+                  navigate(`/e-disposisi/detail-data/${id}`);
+                }}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-warning text-warning shadow-sm"
+              >
+                <LuEye size={14} />
+              </Button>
+              <Button
+                onPress={() => {
+                  setSelectedId(String(id));
+                  onOpenDelete();
+                }}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-danger text-danger shadow-sm"
+              >
+                <LuTrash2 size={14} />
+              </Button>
+            </div>
+          );
+        },
+        meta: { align: "center" },
+      },
+    ];
+  } else {
+    columns = [
+      {
+        header: "No",
+        cell: ({ row }) => {
+          const number = pageIndex * limit + row.index + 1;
+          return <div>{number}</div>;
+        },
+        meta: { align: "center", cellWidth: "10" },
+      },
+      {
+        accessorKey: "nomorSurat",
+        header: "Nomor Surat",
+        cell: (info) => info.getValue() as string,
+      },
+      {
+        accessorKey: "suratDari",
+        header: "Surat Dari",
+        cell: (info) => info.getValue() as string,
+      },
+      {
+        accessorKey: "tanggalSurat",
+        header: "Tanggal Surat",
+        cell: (info) =>
+          info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
+      },
+      {
+        accessorKey: "tanggalDiterima",
+        header: "Diterima Tanggal",
+        cell: (info) =>
+          info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
+      },
+      {
+        accessorKey: "sifat",
+        header: "Sifat",
+        cell: (info) => {
+          const sifat = info.getValue() as string;
+          return sifat === "SANGAT_SEGERA"
+            ? "Sangat Segera"
+            : sifat === "SEGERA"
+              ? "Segera"
+              : "Rahasia";
+        },
+      },
+      {
+        header: "Posisi Disposisi",
+        cell: ({ row }) => {
+          const { instruksi, paraf } = row.original;
+          if (instruksi && instruksi.length > 0) {
+            return instruksi[1]
+              ? instruksi[1].diteruskan || "-"
+              : instruksi[0].diteruskan || "-";
+          } else {
+            if (!paraf) {
+              return "Sekretaris Dinas";
+            } else {
+              return "Kepala Dinas";
+            }
+          }
+        },
+      },
+      {
+        header: "Status",
+        cell: ({ row }) => {
+          const { paraf, instruksi } = row.original;
+          if (getDataProfile?.jabatan.nameJob === "SEKRETARIS") {
+            return paraf ? (
+              <div className="text-success">Sudah Diteruskan</div>
+            ) : (
+              <div className="text-danger">Belum Diteruskan</div>
+            );
+          } else if (getDataProfile?.jabatan.nameJob === "KEPALA DINAS") {
+            return !paraf ? (
+              <div className="text-danger">Belum Diteruskan</div>
+            ) : instruksi && instruksi.length > 0 ? (
+              <div className="text-success">Sudah Diverifikasi</div>
+            ) : (
+              <div className="text-danger">Belum Diverifikasi</div>
+            );
+          } else {
+            return "-";
+          }
+        },
+      },
+      {
+        header: "Aksi",
+        cell: ({ row }) => {
+          const { id, paraf, instruksi } = row.original;
+          if (getDataProfile?.jabatan.nameJob === "SEKRETARIS") {
+            return (
+              <div className="flex items-center gap-2 justify-center">
+                {paraf ? (
+                  instruksi &&
+                  instruksi[0] &&
+                  instruksi[0].diteruskan === "Sekretariat" ? (
+                    instruksi[1] ? (
+                      <Button
+                        onPress={() => {
+                          navigate(`/e-disposisi/detail-data/${id}`);
+                        }}
+                        isIconOnly
+                        radius="sm"
+                        size="sm"
+                        className="bg-alert-warning text-warning shadow-sm"
+                      >
+                        <LuEye size={14} />
+                      </Button>
+                    ) : (
+                      <Button
+                        onPress={() => {
+                          navigate(`/e-disposisi/verifikasi-data/${id}`);
+                        }}
+                        isIconOnly
+                        radius="sm"
+                        size="sm"
+                        className="bg-alert-success text-primary shadow-sm"
+                      >
+                        <LucideChevronRightCircle size={14} />
+                      </Button>
+                    )
+                  ) : (
+                    <Button
+                      onPress={() => {
+                        navigate(`/e-disposisi/detail-data/${id}`);
+                      }}
+                      isIconOnly
+                      radius="sm"
+                      size="sm"
+                      className="bg-alert-warning text-warning shadow-sm"
+                    >
+                      <LuEye size={14} />
+                    </Button>
+                  )
+                ) : (
+                  <Button
+                    onPress={() => {
+                      setSelectedId(String(id));
+                      onOpenUpdate();
+                    }}
+                    isIconOnly
+                    radius="sm"
+                    size="sm"
+                    className="bg-alert-success text-primary shadow-sm"
+                  >
+                    <LucideChevronRightCircle size={14} />
+                  </Button>
+                )}
+              </div>
+            );
+          } else if (getDataProfile?.jabatan.nameJob === "KEPALA DINAS") {
+            return (
+              <div className="flex items-center gap-2 justify-center">
+                {!paraf ? (
+                  <Button
+                    onPress={() => {
+                      navigate(`/e-disposisi/detail-data/${id}`);
+                    }}
+                    isIconOnly
+                    radius="sm"
+                    size="sm"
+                    className="bg-alert-warning text-warning shadow-sm"
+                  >
+                    <LuEye size={14} />
+                  </Button>
+                ) : instruksi && instruksi.length > 0 ? (
+                  <Button
+                    onPress={() => {
+                      navigate(`/e-disposisi/detail-data/${id}`);
+                    }}
+                    isIconOnly
+                    radius="sm"
+                    size="sm"
+                    className="bg-alert-warning text-warning shadow-sm"
+                  >
+                    <LuEye size={14} />
+                  </Button>
+                ) : (
+                  <Button
+                    onPress={() => {
+                      navigate(`/e-disposisi/verifikasi-data/${id}`);
+                    }}
+                    isIconOnly
+                    radius="sm"
+                    size="sm"
+                    className="bg-alert-success text-primary shadow-sm"
+                  >
+                    <LucideChevronRightCircle size={14} />
+                  </Button>
+                )}
+              </div>
+            );
+          }
+        },
+        meta: { align: "center" },
+      },
+    ];
+  }
 
   const {
     isOpen: isOpenDelete,
@@ -204,7 +426,7 @@ export default function EFilling() {
   }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const { mutate: mutateDelete } = useDeleteEFilling();
+  const { mutate: mutateDelete } = useDeleteEDisposisi();
 
   const handleDelete = () => {
     if (isLoadingDelete) return;
@@ -250,6 +472,10 @@ export default function EFilling() {
     onCloseUpdate();
     refetchData();
   };
+
+  useEffect(() => {
+    refetchProfile();
+  }, []);
 
   return (
     <>
@@ -336,16 +562,18 @@ export default function EFilling() {
                   >
                     <BiReset size={12} />
                   </Button>
-                  <Button
-                    onPress={onOpenCreate}
-                    variant="solid"
-                    radius="sm"
-                    size="sm"
-                    startContent={<BiSolidPlusSquare size={12} />}
-                    className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                  >
-                    Tambah
-                  </Button>
+                  {(role === "SUPERUSERS" || role === "ADMIN_SPPD") && (
+                    <Button
+                      onPress={onOpenCreate}
+                      variant="solid"
+                      radius="sm"
+                      size="sm"
+                      startContent={<BiSolidPlusSquare size={12} />}
+                      className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                    >
+                      Tambah
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

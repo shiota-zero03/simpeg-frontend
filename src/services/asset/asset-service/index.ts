@@ -24,10 +24,12 @@ export const useGetAllAssetService = (
   page: number,
   limit: number,
   title?: string,
+  startDate?: string | null,
+  endDate?: string | null,
 ) => {
   return useQuery({
     queryKey: ["getAllAssetService"],
-    queryFn: () => getAllAssetService(page, limit, title),
+    queryFn: () => getAllAssetService(page, limit, title, startDate, endDate),
     staleTime: 300000,
   });
 };

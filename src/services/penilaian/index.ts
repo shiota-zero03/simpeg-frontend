@@ -3,16 +3,26 @@ import {
   createPenilaian,
   getAllPenilaian,
   getAllPenilaianCount,
+  getAllPenilaianCountUser,
   getDetailPenilaian,
 } from "./http";
 import { IPenilaianDetailRes } from "@/interface/responses/penilaian.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StorePenilaian } from "@/interface/request/penilaian.interface";
+import store from "@/redux/store";
 
-export const useGetAllPenilaianGrafik = (yearly?: string) => {
+export const useGetAllPenilaianGrafikUser = (id: string, yearly?: string) => {
   return useQuery({
-    queryKey: ["getAllPenilaianCount"],
+    queryKey: ["getAllPenilaianCountUser", id, yearly],
+    queryFn: () => getAllPenilaianCountUser(id, yearly),
+    staleTime: 300000,
+  });
+};
+export const useGetAllPenilaianGrafik = (yearly?: string) => {
+  const { role } = store.getState().auth;
+  return useQuery({
+    queryKey: ["getAllPenilaianCount", role, yearly],
     queryFn: () => getAllPenilaianCount(yearly),
     staleTime: 300000,
   });
