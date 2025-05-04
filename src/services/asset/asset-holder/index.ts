@@ -25,10 +25,12 @@ export const useGetAllAssetHolder = (
   page: number,
   limit: number,
   title?: string,
+  startDate?: string | null,
+  endDate?: string | null,
 ) => {
   return useQuery({
     queryKey: ["getAllAssetHolder"],
-    queryFn: () => getAllAssetHolder(page, limit, title),
+    queryFn: () => getAllAssetHolder(page, limit, title, startDate, endDate),
     staleTime: 300000,
   });
 };

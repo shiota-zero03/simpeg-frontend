@@ -17,7 +17,7 @@ import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import store from "@/redux/store";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { parseDate } from "@internationalized/date";
+import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import ViewModal from "@/components/modals/Asset/DeetailAssetHolder";
 import { useDeleteAssetHolderAll, useGetAllAssetHolder } from "@/services/asset/asset-holder";
 import { AssetHolderRes } from "@/interface/responses/assetHolder.interface";
@@ -73,22 +73,22 @@ export default function AssetIndex() {
     end: parseDate(today.toISOString().split("T")[0]),
   });
 
-  // const formatDateToJakarta = (
-  //   calendarDate: CalendarDate | null | undefined,
-  // ) => {
-  //   if (!calendarDate) return null;
-  //   const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
-  //   return new Intl.DateTimeFormat("id-ID", {
-  //     timeZone: "Asia/Jakarta",
-  //     year: "numeric",
-  //     month: "2-digit",
-  //     day: "2-digit",
-  //   })
-  //     .format(date)
-  //     .split("/")
-  //     .reverse()
-  //     .join("-");
-  // };
+  const formatDateToJakarta = (
+    calendarDate: CalendarDate | null | undefined,
+  ) => {
+    if (!calendarDate) return null;
+    const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
+    return new Intl.DateTimeFormat("id-ID", {
+      timeZone: "Asia/Jakarta",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+      .format(date)
+      .split("/")
+      .reverse()
+      .join("-");
+  };
 
   const navigate = useNavigate();
 
@@ -103,7 +103,7 @@ export default function AssetIndex() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllAssetHolder(pageIndex + 1, limit, search);
+  } = useGetAllAssetHolder(pageIndex + 1, limit, search, rangeDate && formatDateToJakarta(rangeDate.start), rangeDate && formatDateToJakarta(rangeDate.end));
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
