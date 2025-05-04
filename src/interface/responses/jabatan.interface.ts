@@ -23,6 +23,57 @@ export interface JabatanRes {
   } | null;
 }
 
+export interface HirarkiRes {
+  id: number;
+  nameJob: string;
+  class: string | null;
+  ketersediaan: number;
+  subUnor: string;
+  eselon: string | null;
+  unit: {
+    id: number;
+    nameUnit: string;
+  };
+  user: {
+    id: string;
+    name: string;
+    nip: string;
+    photo: string | null;
+    jabatan: {
+      id: number;
+      nameJob: string;
+      class: string;
+      ketersediaan: number;
+      eselon: string | null;
+      unit: {
+        id: number;
+        nameUnit: string;
+      };
+    };
+  }[];
+  parent: {
+    nameJob: string;
+    class: string;
+    ketersediaan: number;
+    eselon: string | null;
+    unit: {
+      id: number;
+      nameUnit: string;
+    };
+  } | null;
+  children: {
+    id: number;
+    nameJob: string;
+    class: string;
+    ketersediaan: number;
+    eselon: string | null;
+    unit: {
+      id: number;
+      nameUnit: string;
+    };
+  }[];
+}
+
 export interface IJabatanRes extends BaseRes {
   data: {
     response: JabatanRes[];
@@ -36,4 +87,7 @@ export interface IJabatanDetailRes extends BaseRes {
 
 export interface IJabatanOptionRes extends BaseRes {
   data: JabatanRes[];
+}
+export interface IJabatanHirarkiRes extends BaseRes {
+  data: HirarkiRes[];
 }

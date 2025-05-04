@@ -73,6 +73,7 @@ export interface SPPDRekapRes {
   sppd: {
     id: string;
     nomorSurat: string;
+    reasoning: string;
     type: string;
     kodeRekening: string;
     startDate: string;

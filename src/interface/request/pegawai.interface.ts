@@ -4,6 +4,7 @@ export interface StorePegawai {
   oldPassword?: string | null;
   password?: string | null;
   nip?: string | null;
+  username?: string | null;
   role?: string | null;
   phoneNumber?: string | null;
   dateOfBirth?: string | null;

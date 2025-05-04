@@ -36,6 +36,7 @@ import { useCreatePegawai } from "@/services/pegawai";
 import { StorePegawai } from "@/interface/request/pegawai.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
+import { capitalizeWords } from "@/utils/formatBreadcrumbsTitle";
 
 interface formProps {
   role: string;
@@ -495,13 +496,23 @@ export default function CreatePegawai() {
                             inputWrapper: "border-[0.8px]",
                           },
                         }}
+                        menuTrigger="focus"
+                        itemHeight={40}
+                        listboxProps={{
+                          itemClasses: {
+                            base: "min-h-[56px] py-2 text-sm leading-snug", // Atur tinggi item
+                            title: "text-xs font-medium",
+                          },
+                        }}
                       >
                         {(peg) => (
                           <AutocompleteItem
                             key={peg.id}
-                            textValue={`${peg.nameJob} - (Sub Unor: ${peg.unit?.nameUnit ?? ""})`}
+                            textValue={`${peg.nameJob}${peg.parent && ` - (ATASAN: ${peg.parent.nameJob ?? ""}`})`}
                           >
-                            {peg.nameJob} - (Sub Unor: {peg.unit?.nameUnit})
+                            {capitalizeWords(peg.nameJob)}
+                            {peg.parent &&
+                              ` - (Atasan: ${capitalizeWords(peg.parent.nameJob ?? "")})`}
                           </AutocompleteItem>
                         )}
                       </Autocomplete>

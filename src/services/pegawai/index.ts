@@ -52,10 +52,13 @@ export const useGetAllPegawaiAdmin = (
   page: number,
   limit: number,
   title?: string,
+  startDate?: string,
+  endDate?: string,
 ) => {
   return useQuery({
     queryKey: ["getAllSuratPegawaiAdmin"],
-    queryFn: () => getAllSuratPegawaiAdmin(page, limit, title),
+    queryFn: () =>
+      getAllSuratPegawaiAdmin(page, limit, title, startDate, endDate),
     staleTime: 300000,
   });
 };

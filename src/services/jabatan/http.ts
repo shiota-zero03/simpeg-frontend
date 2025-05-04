@@ -4,9 +4,10 @@ import {
   IJabatanRes,
   IJabatanOptionRes,
   IJabatanDetailRes,
+  IJabatanHirarkiRes,
 } from "@/interface/responses/jabatan.interface";
 
-export const getAllJabatanHirarki = async (): Promise<IJabatanOptionRes> => {
+export const getAllJabatanHirarki = async (): Promise<IJabatanHirarkiRes> => {
   const response = await instance.get(`/admin/jabatan/dropdown/hirarki`);
   return response.data;
 };

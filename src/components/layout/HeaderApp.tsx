@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { SidebarTrigger } from "../ui/sidebar";
+import { SidebarTrigger, useSidebar } from "../ui/sidebar";
 import { useEffect, useMemo, useState } from "react";
 import { GrAnnounce } from "react-icons/gr";
 import { LucideArrowRightCircle } from "lucide-react";
@@ -55,8 +55,12 @@ export default function Header() {
     refetchProfile();
   }, []);
 
+  const { open } = useSidebar();
+
   return (
-    <div className="md:w-[calc(100%-16rem)] w-full md:h-[72px] h-[72px] fixed bg-white shadow-sm duration-300 ms-auto md:me-2 !z-40 flex flex-col items-center justify-center">
+    <div
+      className={`${open ? "md:w-[calc(100%-16rem)]" : "md:w-[calc(100%-3rem)]"} w-full md:h-[72px] h-[72px] fixed bg-white shadow-sm duration-300 ms-auto md:me-2 !z-40 flex flex-col items-center justify-center`}
+    >
       <LogoutModal isOpen={isOpenLogout} onClose={onCloseLogout} />
       <div className="md:px-6 px-4 flex justify-between w-full">
         <div className="flex items-center gap-2 w-[60%] overflow-hidden">

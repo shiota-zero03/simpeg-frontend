@@ -20,10 +20,12 @@ import { useGetAllSPPDRekap } from "@/services/sppd";
 import { SPPDRekapRes } from "@/interface/responses/sppd.interface";
 import store from "@/redux/store";
 import { FaFileExcel } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 interface SPPDprops {
   id: number;
   nomorSurat: string;
+  nama: string;
   nomorRek: string;
   kegiatan: string;
   waktu: string;
@@ -98,15 +100,28 @@ export default function News() {
       setEndData(end);
 
       return data.response.map((item: SPPDRekapRes) => {
+        let anggaran = 0;
+        anggaran +=
+          (item.budgets[0]?.dailyAllowance ||
+            0 * item.budgets[0]?.volDailyAllowance ||
+            0) +
+          (item.budgets[0]?.transport ||
+            0 * item.budgets[0]?.volTransport ||
+            0) +
+          (item.budgets[0]?.representatif ||
+            0 * item.budgets[0]?.volRepresentatif ||
+            0);
+
         return {
           id: item.id,
           nomorSurat: item.sppd.nomorSurat,
+          nama: item.user.name,
           nomorRek: item.sppd.kodeRekening,
           kegiatan: item.sppd.activity,
           waktu: `${item.sppd.startDate ? DMYIndoToFormat(item.sppd.startDate) : ""} - ${item.sppd.endDate ? DMYIndoToFormat(item.sppd.endDate) : ""}`,
           tipe: item.sppd.type,
           lokasi: item.sppd.location,
-          anggaran: 0,
+          anggaran: anggaran,
         };
       });
     } else {
@@ -129,7 +144,14 @@ export default function News() {
       cell: (info) => info.getValue() as string,
     },
     {
-      header: "Nama Rekening",
+      header: "Nama",
+      cell: ({ row }) => {
+        const { nama } = row.original;
+        return nama;
+      },
+    },
+    {
+      header: "Nomor Rekening",
       cell: ({ row }) => {
         const { nomorRek } = row.original;
         return nomorRek;
@@ -196,7 +218,7 @@ export default function News() {
                     radius="sm"
                     size="sm"
                     variant="bordered"
-                    placeholder="Cari nama kegiatan disini"
+                    placeholder="Cari nomor surat disini"
                     startContent={
                       <LuSearch className="text-accent-gray text-xs" />
                     }
@@ -241,15 +263,13 @@ export default function News() {
                     <BiReset size={12} />
                   </Button>
                   {(role === "ADMIN_SPPD" || role === "SUPERUSERS") && (
-                    <Button
-                      variant="solid"
-                      radius="sm"
-                      size="sm"
-                      startContent={<FaFileExcel size={12} />}
-                      className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                    <Link
+                      to={`/sppd/export-data?sd=${rangeDate && formatDateToJakarta(rangeDate.start)}&ed=${rangeDate && formatDateToJakarta(rangeDate.end)}`}
+                      target="__blank"
+                      className="border-[0.8px] w-24 text-xs border-button-primary text-button-primary flex items-center justify-center gap-2 py-1.5 rounded-md"
                     >
-                      Export
-                    </Button>
+                      <FaFileExcel size={12} /> Export
+                    </Link>
                   )}
                 </div>
               </div>

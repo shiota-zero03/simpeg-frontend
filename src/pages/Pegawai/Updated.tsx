@@ -38,6 +38,7 @@ import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { DateYMDFormat } from "@/utils/dateFormater";
 import { Commet } from "react-loading-indicators";
+import { capitalizeWords } from "@/utils/formatBreadcrumbsTitle";
 
 interface formProps {
   role: string;
@@ -266,7 +267,10 @@ export default function CreatePegawai() {
     if (formData.nama) formToSend.name = formData.nama;
     if (formData.email) formToSend.email = formData.email;
     if (formData.password) formToSend.password = formData.password;
-    if (formData.nip) formToSend.nip = formData.nip;
+    if (formData.nip) {
+      formToSend.nip = formData.nip;
+      formToSend.username = formData.nip;
+    }
     if (formData.role) formToSend.role = formData.role;
     if (formData.noTelp) formToSend.phoneNumber = formData.noTelp;
     if (formData.tanggalLahir) {
@@ -535,13 +539,23 @@ export default function CreatePegawai() {
                             inputWrapper: "border-[0.8px]",
                           },
                         }}
+                        menuTrigger="focus"
+                        itemHeight={40}
+                        listboxProps={{
+                          itemClasses: {
+                            base: "min-h-[56px] py-2 text-sm leading-snug", // Atur tinggi item
+                            title: "text-xs font-medium",
+                          },
+                        }}
                       >
                         {(peg) => (
                           <AutocompleteItem
                             key={peg.id}
-                            textValue={`${peg.nameJob} - (Sub Unor: ${peg.unit?.nameUnit ?? ""})`}
+                            textValue={`${peg.nameJob}${peg.parent && ` - (ATASAN: ${peg.parent.nameJob ?? ""}`})`}
                           >
-                            {peg.nameJob} - (Sub Unor: {peg.unit?.nameUnit})
+                            {capitalizeWords(peg.nameJob)}
+                            {peg.parent &&
+                              ` - (Atasan: ${capitalizeWords(peg.parent.nameJob ?? "")})`}
                           </AutocompleteItem>
                         )}
                       </Autocomplete>

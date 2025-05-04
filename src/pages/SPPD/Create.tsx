@@ -107,6 +107,10 @@ interface errorProps {
 }
 
 export default function CreateSPPD() {
+  const queryParams = new URLSearchParams(window.location.search);
+  const tab = queryParams.get("type");
+  const tabData = tab as string;
+
   const [formData, setFormData] = useState<formProps>({
     nomorSurat: "",
     type: "",
@@ -506,27 +510,29 @@ export default function CreateSPPD() {
     }
     if (formData.participants) {
       formData.participants.forEach((item) => {
-        participantData.push({
-          userId: item.userId,
-          bankAccount: item.bankAccount,
-          position: item.position,
-          role: item.role,
-          budgets: [
-            {
-              transport: item.budgets ? item.budgets.transport : 0,
-              volTransport: item.budgets ? item.budgets.volTransport : 0,
-              representatif: item.budgets ? item.budgets.representatif : 0,
-              volRepresentatif: item.budgets
-                ? item.budgets.volRepresentatif
-                : 0,
-              dailyAllowance: item.budgets ? item.budgets.dailyAllowance : 0,
-              volDailyAllowance: item.budgets
-                ? item.budgets.volDailyAllowance
-                : 0,
-              bankAccount: item.bankAccount,
-            },
-          ],
-        });
+        if (item.userId && item.bankAccount && item.position && item.role) {
+          participantData.push({
+            userId: item.userId,
+            bankAccount: item.bankAccount,
+            position: item.position,
+            role: item.role,
+            budgets: [
+              {
+                transport: item.budgets ? item.budgets.transport : 0,
+                volTransport: item.budgets ? item.budgets.volTransport : 0,
+                representatif: item.budgets ? item.budgets.representatif : 0,
+                volRepresentatif: item.budgets
+                  ? item.budgets.volRepresentatif
+                  : 0,
+                dailyAllowance: item.budgets ? item.budgets.dailyAllowance : 0,
+                volDailyAllowance: item.budgets
+                  ? item.budgets.volDailyAllowance
+                  : 0,
+                bankAccount: item.bankAccount,
+              },
+            ],
+          });
+        }
       });
     }
 
@@ -565,7 +571,9 @@ export default function CreateSPPD() {
           SuccessToast({ text: "Data berhasil disimpan" });
           setLoadingConfirm(false);
           onCloseConfirm();
-          navigate("/sppd");
+          navigate(
+            `/sppd?tabs=${tabData === "PERJALANAN_DALAM_KOTA" ? "dalamkota" : "biasa"}`,
+          );
         },
         onError: (error: AxiosError<BaseErrorRes>) => {
           setLoadingConfirm(false);
@@ -584,10 +592,6 @@ export default function CreateSPPD() {
       throw error;
     }
   };
-
-  const queryParams = new URLSearchParams(window.location.search);
-  const tab = queryParams.get("type");
-  const tabData = tab as string;
 
   useEffect(() => {
     if (tabData) {
@@ -610,7 +614,7 @@ export default function CreateSPPD() {
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <div className="flex">
           <Link
-            to={`/sppd`}
+            to={`/sppd?tabs=${tabData === "PERJALANAN_DALAM_KOTA" ? "dalamkota" : "biasa"}`}
             className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
           >
             <LuArrowLeft /> Kembali

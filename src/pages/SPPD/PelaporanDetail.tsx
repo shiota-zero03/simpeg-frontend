@@ -2,13 +2,39 @@ import Logo from "@/assets/logo.png";
 import { Commet } from "react-loading-indicators";
 import { PelaporanSPPDRes } from "@/interface/responses/sppd.interface";
 import { MYIndoToFormat } from "@/utils/dateFormater";
+import GrafikSPPD from "@/components/Charts/GrafikLaporanSppd";
 
 interface props {
   DATA_DETAIL: PelaporanSPPDRes;
   isFetching: boolean;
+  data: {
+    no: number;
+    nama: string;
+    norek: string;
+    nosp: string;
+    tgl: string;
+    tujuan: string;
+    uraian: string;
+    transport: number;
+    xtransport: number;
+    jumlahtransport: number;
+    representatif: number;
+    xrepresentatif: number;
+    jumlahrepresentatif: number;
+    daily: number;
+    xdaily: number;
+    jumlahdaily: number;
+    total: number;
+    type: string;
+    issame: boolean;
+  }[];
 }
 
-export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
+export default function DetailExportSurat({
+  DATA_DETAIL,
+  isFetching,
+  data,
+}: props) {
   return (
     <>
       <style>{`
@@ -19,7 +45,12 @@ export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
                 padding: 1.5cm;
             }
             body {
-                margin: 0;
+              margin: 0;
+              font-family: "Arial", serif;
+            }
+
+            * {
+              font-family: "Arial", serif !important;
             }
             }
         `}</style>
@@ -40,7 +71,7 @@ export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
             <br />
             <h1 className="text-[14pt] text-center">
               DAFTAR PERJALANAN DINAS APARATUR SIPIL NEGARA DINAS PERDAGANGAN{" "}
-              {MYIndoToFormat(DATA_DETAIL.createdAt)}{" "}
+              {MYIndoToFormat(DATA_DETAIL.createdAt).toUpperCase()}{" "}
             </h1>
             <br />
             <br />
@@ -55,15 +86,17 @@ export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
             <br />
             <br />
             <br />
-            <h1 className="text-[16pt] font-semibold text-center">
-              PEMRINTAH KABUPATEN BEKASI
+            <h1 className="text-[17pt] font-semibold text-center">
+              PEMERINTAH KABUPATEN BEKASI
             </h1>
-            <h1 className="text-[16pt] font-semibold text-center">
+            <h1 className="text-[17pt] font-semibold text-center">
               DINAS PERDAGANGAN
             </h1>
-            <h1 className="text-[16pt] font-semibold text-center">
-              Komplek Perkantoran Pemerintah Kabupaten Bekasi Desa Sukamahi
-              Kecamatan Cikarang Pusal Telp 021-8997
+            <h1 className="text-[17pt] font-semibold text-center">
+              Komplek Perkantoran Pemerintah Kabupaten Bekasi
+            </h1>
+            <h1 className="text-[17pt] font-semibold text-center">
+              Desa Sukamahi Kecamatan Cikarang Pusal Telp 021-8997
             </h1>
             <br />
           </div>
@@ -106,7 +139,7 @@ export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
                 dangerouslySetInnerHTML={{ __html: DATA_DETAIL.isiLaporan }}
               />
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 print:break-after-page">
               <div className="flex flex-col gap-2 items-center justify-center font-semibold">
                 <div>{DATA_DETAIL.jabatanPengelola}</div>
                 <br />
@@ -135,6 +168,13 @@ export default function DetailExportSurat({ DATA_DETAIL, isFetching }: props) {
                 <div>{DATA_DETAIL.subgadin}</div>
                 <div>NIP.{DATA_DETAIL.nipSubagin}</div>
               </div>
+            </div>
+            <div>
+              <div className="font-semibold text-[12pt] mb-2">
+                Berikut lampiran data perjalanan dinas yang disajikan dalam
+                bentuk grafik
+              </div>
+              <GrafikSPPD data={data} />
             </div>
           </div>
         </div>

@@ -110,6 +110,10 @@ interface errorProps {
 }
 
 export default function UpdateSPPD() {
+  const queryParams = new URLSearchParams(window.location.search);
+  const tab = queryParams.get("type");
+  const tabData = tab as string;
+
   const { id } = useParams();
 
   const [file, setFile] = useState<string>("");
@@ -216,7 +220,9 @@ export default function UpdateSPPD() {
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/sppd");
+      navigate(
+        `/sppd?tabs=${tabData === "PERJALANAN_DALAM_KOTA" ? "dalamkota" : "biasa"}`,
+      );
     }
   }, [isFetching, refetch]);
 
@@ -543,29 +549,33 @@ export default function UpdateSPPD() {
     }
     if (formData.participants) {
       formData.participants.forEach((item) => {
-        participantData.push({
-          userId: item.userId,
-          bankAccount: item.bankAccount,
-          position: item.position,
-          role: item.role,
-          budgets: [
-            {
-              transport: item.budgets ? item.budgets.transport || 0 : 0,
-              volTransport: item.budgets ? item.budgets.volTransport || 0 : 0,
-              representatif: item.budgets ? item.budgets.representatif || 0 : 0,
-              volRepresentatif: item.budgets
-                ? item.budgets.volRepresentatif || 0
-                : 0,
-              dailyAllowance: item.budgets
-                ? item.budgets.dailyAllowance || 0
-                : 0,
-              volDailyAllowance: item.budgets
-                ? item.budgets.volDailyAllowance || 0
-                : 0,
-              bankAccount: item.bankAccount,
-            },
-          ],
-        });
+        if (item.userId && item.bankAccount && item.position && item.role) {
+          participantData.push({
+            userId: item.userId,
+            bankAccount: item.bankAccount,
+            position: item.position,
+            role: item.role,
+            budgets: [
+              {
+                transport: item.budgets ? item.budgets.transport || 0 : 0,
+                volTransport: item.budgets ? item.budgets.volTransport || 0 : 0,
+                representatif: item.budgets
+                  ? item.budgets.representatif || 0
+                  : 0,
+                volRepresentatif: item.budgets
+                  ? item.budgets.volRepresentatif || 0
+                  : 0,
+                dailyAllowance: item.budgets
+                  ? item.budgets.dailyAllowance || 0
+                  : 0,
+                volDailyAllowance: item.budgets
+                  ? item.budgets.volDailyAllowance || 0
+                  : 0,
+                bankAccount: item.bankAccount,
+              },
+            ],
+          });
+        }
       });
     }
     if (formData.nomorSurat) formToSendData.nomorSurat = formData.nomorSurat;
@@ -608,7 +618,9 @@ export default function UpdateSPPD() {
             SuccessToast({ text: "Data berhasil disimpan" });
             setLoadingConfirm(false);
             onCloseConfirm();
-            navigate("/sppd");
+            navigate(
+              `/sppd?tabs=${tabData === "PERJALANAN_DALAM_KOTA" ? "dalamkota" : "biasa"}`,
+            );
           },
           onError: (error: AxiosError<BaseErrorRes>) => {
             setLoadingConfirm(false);
@@ -646,7 +658,7 @@ export default function UpdateSPPD() {
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <div className="flex">
           <Link
-            to={`/sppd`}
+            to={`/sppd?tabs=${tabData === "PERJALANAN_DALAM_KOTA" ? "dalamkota" : "biasa"}`}
             className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
           >
             <LuArrowLeft /> Kembali

@@ -83,8 +83,6 @@ export default function Jabatan() {
     }
   }, [search, limit, pageIndex, allData]);
 
-  console.log(paginatedData);
-
   const columns: ColumnDef<DataProps>[] = [
     {
       header: "No",

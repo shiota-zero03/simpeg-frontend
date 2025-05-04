@@ -21,6 +21,9 @@ const Pegawai = lazy(() => import("@/pages/Pegawai"));
 const CreatePegawai = lazy(() => import("@/pages/Pegawai/Created"));
 const ViewPegawai = lazy(() => import("@/pages/Pegawai/Detail"));
 const UpdatePegawai = lazy(() => import("@/pages/Pegawai/Updated"));
+const ExportExcelPegawai = lazy(
+  () => import("@/pages/export/excel/PegawaiExport"),
+);
 const CreatePelaporan = lazy(() => import("@/pages/Pegawai/CreatePelaporan"));
 const UpdatePelaporan = lazy(() => import("@/pages/Pegawai/UpdatePelaporan"));
 const DetailPelaporan = lazy(() => import("@/pages/Pegawai/DetailPelaporan"));
@@ -36,6 +39,7 @@ const SPPD = lazy(() => import("@/pages/SPPD"));
 const CreateSPPD = lazy(() => import("@/pages/SPPD/Create"));
 const UpdateSPPD = lazy(() => import("@/pages/SPPD/Updated"));
 const ExportSPPD = lazy(() => import("@/pages/SPPD/ExportPDF"));
+const ExportExcelSPPD = lazy(() => import("@/pages/export/excel/SPPDExport"));
 const CreatePelaporanSPPD = lazy(() => import("@/pages/SPPD/CreatePelaporan"));
 const UpdatePelaporanSPPD = lazy(() => import("@/pages/SPPD/UpdatePelaporan"));
 const DetailPelaporanSPPD = lazy(() => import("@/pages/SPPD/DetailPelaporan"));
@@ -54,7 +58,7 @@ const TambahIKP = lazy(() => import("@/pages/IKP/Tambah"));
 const DetailIKP = lazy(() => import("@/pages/IKP/Detail"));
 const ExportIKP = lazy(() => import("@/pages/IKP/ExportPDF"));
 
-const ExportPDFSummary = lazy(() => import("@/pages/export/pdf/SummaryPdf"));
+const ExportPDFSummary = lazy(() => import("@/pages/Summary/SummaryExport"));
 const ExportExcelSummary = lazy(
   () => import("@/pages/export/excel/SummaryExcel"),
 );
@@ -314,12 +318,15 @@ export default function Router() {
 
         {/* export */}
         <Route
-          path="/summary-report/export/pdf"
-          element={<ExportPDFSummary />}
-        />
-        <Route
           path="/summary-report/export/excel"
           element={<ExportExcelSummary />}
+        />
+        <Route path="/pegawai/export-data" element={<ExportExcelPegawai />} />
+        <Route path="/sppd/export-data" element={<ExportExcelSPPD />} />
+
+        <Route
+          path="/summary-report/export/pdf"
+          element={<ExportPDFSummary />}
         />
         <Route
           path="/surat-perintah-pemeriksaan/export-data/:id"

@@ -8,7 +8,10 @@ import { LuArrowLeft } from "react-icons/lu";
 import { FaFilePdf } from "react-icons/fa";
 import DetailExport from "./PelaporanDetail";
 import { Commet } from "react-loading-indicators";
-import { useGetDetailPelaporanPegawai } from "@/services/pegawai";
+import {
+  useGetAllPegawaiOption,
+  useGetDetailPelaporanPegawai,
+} from "@/services/pegawai";
 import { PelaporanPegawaiRes } from "@/interface/responses/pegawai.interface";
 
 export default function DetailPemeriksaan() {
@@ -16,6 +19,11 @@ export default function DetailPemeriksaan() {
 
   const navigate = useNavigate();
 
+  const {
+    data: dataPegawai,
+    refetch: refetchPegawai,
+    isFetching: isFetchingPegawai,
+  } = useGetAllPegawaiOption();
   const { data, isFetching, refetch, error } = useGetDetailPelaporanPegawai(
     id || "",
   );
@@ -26,8 +34,14 @@ export default function DetailPemeriksaan() {
     }
   }, [isFetching, refetch]);
 
+  const DATA_FETCHING = useMemo(() => {
+    if (dataPegawai) return dataPegawai.data;
+    else return [];
+  }, [dataPegawai]);
+
   useEffect(() => {
     refetch();
+    refetchPegawai();
   }, []);
 
   const DATA_DETAIL: PelaporanPegawaiRes | null = useMemo(() => {
@@ -60,7 +74,7 @@ export default function DetailPemeriksaan() {
   return (
     <>
       <BreadcrumbAdmin location="/Pegawai/Detail" />
-      {isFetching ? (
+      {isFetching || isFetchingPegawai ? (
         <div className="inset-0 fixed flex items-center justify-center z-20">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
         </div>
@@ -85,11 +99,12 @@ export default function DetailPemeriksaan() {
                 <FaFilePdf size={18} /> Export .pdf
               </Link>
             </CardHeader>
-            <CardBody className="flex flex-col">
+            <CardBody className="flex flex-col md:px-12">
               {DATA_DETAIL && (
                 <DetailExport
                   DATA_DETAIL={DATA_DETAIL}
                   isFetching={isFetching}
+                  user={DATA_FETCHING}
                 />
               )}
             </CardBody>
