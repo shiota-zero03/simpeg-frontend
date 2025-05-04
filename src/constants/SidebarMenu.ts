@@ -7,6 +7,7 @@ import {
   LuLayoutGrid,
   LuMails,
   LuPictureInPicture,
+  LuTextQuote,
 } from "react-icons/lu";
 import {
   PiTreeStructure,
@@ -118,6 +119,12 @@ export const SidebarMenuData: SidebarProps[] = [
         icon: RiFileList3Line,
       },
       { name: "SPPD", key: "sppd", link: "/sppd", icon: LuMails },
+      {
+        name: "E-Disposisi",
+        key: "e-disposisi",
+        link: "/e-disposisi",
+        icon: LuTextQuote,
+      },
       {
         name: "Manajemen Aset",
         key: "manajemen-aset",

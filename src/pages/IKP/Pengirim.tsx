@@ -162,7 +162,9 @@ export default function IKP() {
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
-              onPress={() => navigate(`/dialog-kinerja/detail-data/pengirim/${id}`)}
+              onPress={() =>
+                navigate(`/dialog-kinerja/detail-data/pengirim/${id}`)
+              }
               isIconOnly
               radius="sm"
               size="sm"

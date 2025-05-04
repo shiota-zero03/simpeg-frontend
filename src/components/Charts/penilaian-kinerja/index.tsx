@@ -4,21 +4,22 @@ import { useEffect, useMemo } from "react";
 import { Commet } from "react-loading-indicators";
 
 const PenilaianKinerjaLine = () => {
-
-  const { data, isFetching, refetch } = useGetAllPenilaianGrafik(String(new Date().getFullYear()));
+  const { data, isFetching, refetch } = useGetAllPenilaianGrafik(
+    String(new Date().getFullYear()),
+  );
 
   const DATA_FETCHING = useMemo(() => {
-    if(data) return data.data;
+    if (data) return data.data;
     return null;
-  }, [data])
+  }, [data]);
 
   useEffect(() => {
-    refetch()
-  }, [])
+    refetch();
+  }, []);
 
   return (
     <div className="p-6 grid grid-cols-1 gap-6 relative">
-      {(isFetching) && (
+      {isFetching && (
         <div className="inset-0 flex items-center justify-center absolute z-10">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
         </div>
@@ -133,19 +134,21 @@ const PenilaianKinerjaLine = () => {
 };
 
 const PenilaianKinerjaDougnhut = () => {
-  const { data, isFetching, refetch } = useGetAllPenilaianGrafik(String(new Date().getFullYear()));
+  const { data, isFetching, refetch } = useGetAllPenilaianGrafik(
+    String(new Date().getFullYear()),
+  );
 
   const DATA_FETCHING = useMemo(() => {
-    if(data) return data.data;
+    if (data) return data.data;
     return null;
-  }, [data])
+  }, [data]);
 
   useEffect(() => {
-    refetch()
-  }, [])
+    refetch();
+  }, []);
   return (
     <div className="p-6 grid grid-cols-1 gap-6 relative">
-      {(isFetching) && (
+      {isFetching && (
         <div className="inset-0 flex items-center justify-center absolute z-10">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
         </div>
@@ -157,11 +160,44 @@ const PenilaianKinerjaDougnhut = () => {
         type="doughnut"
         dataKeys={["value"]}
         data={[
-          { name: "Kinerja", value: DATA_FETCHING?.nilai.performance.reduce((sum, val) => sum + val, 0) || 0, },
-          { name: "Disiplin", value: DATA_FETCHING?.nilai.discipline.reduce((sum, val) => sum + val, 0) || 0, },
-          { name: "Loyalitas", value: DATA_FETCHING?.nilai.loyalty.reduce((sum, val) => sum + val, 0) || 0, },
-          { name: "Kerjasama", value: DATA_FETCHING?.nilai.cooperation.reduce((sum, val) => sum + val, 0) || 0, },
-          { name: "Attitude", value: DATA_FETCHING?.nilai.attitude.reduce((sum, val) => sum + val, 0) || 0, },
+          {
+            name: "Kinerja",
+            value:
+              DATA_FETCHING?.nilai.performance.reduce(
+                (sum, val) => sum + val,
+                0,
+              ) || 0,
+          },
+          {
+            name: "Disiplin",
+            value:
+              DATA_FETCHING?.nilai.discipline.reduce(
+                (sum, val) => sum + val,
+                0,
+              ) || 0,
+          },
+          {
+            name: "Loyalitas",
+            value:
+              DATA_FETCHING?.nilai.loyalty.reduce((sum, val) => sum + val, 0) ||
+              0,
+          },
+          {
+            name: "Kerjasama",
+            value:
+              DATA_FETCHING?.nilai.cooperation.reduce(
+                (sum, val) => sum + val,
+                0,
+              ) || 0,
+          },
+          {
+            name: "Attitude",
+            value:
+              DATA_FETCHING?.nilai.attitude.reduce(
+                (sum, val) => sum + val,
+                0,
+              ) || 0,
+          },
         ]}
       />
     </div>

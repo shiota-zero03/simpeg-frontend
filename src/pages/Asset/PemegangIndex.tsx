@@ -19,7 +19,10 @@ import store from "@/redux/store";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import ViewModal from "@/components/modals/Asset/DeetailAssetHolder";
-import { useDeleteAssetHolderAll, useGetAllAssetHolder } from "@/services/asset/asset-holder";
+import {
+  useDeleteAssetHolderAll,
+  useGetAllAssetHolder,
+} from "@/services/asset/asset-holder";
 import { AssetHolderRes } from "@/interface/responses/assetHolder.interface";
 
 interface DataProps {
@@ -103,7 +106,13 @@ export default function AssetIndex() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllAssetHolder(pageIndex + 1, limit, search, rangeDate && formatDateToJakarta(rangeDate.start), rangeDate && formatDateToJakarta(rangeDate.end));
+  } = useGetAllAssetHolder(
+    pageIndex + 1,
+    limit,
+    search,
+    rangeDate && formatDateToJakarta(rangeDate.start),
+    rangeDate && formatDateToJakarta(rangeDate.end),
+  );
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
@@ -299,7 +308,7 @@ export default function AssetIndex() {
         isOpen={isOpenView}
         onClose={onCloseView}
         handleClose={() => {
-          refetchData()
+          refetchData();
         }}
       />
       <div>

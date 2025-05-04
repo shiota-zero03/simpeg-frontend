@@ -27,6 +27,8 @@ import {
 } from "@/components/ui/collapsible";
 import { FaCircle } from "react-icons/fa";
 import store from "@/redux/store";
+import { useEffect, useMemo } from "react";
+import { useGetProfile } from "@/services/auth";
 
 type SubMenu = {
   name: string;
@@ -57,6 +59,7 @@ const roleAccessMap: Record<string, string[]> = {
     "laporan-hasil-pemeriksaan",
     "keputusan-hukuman-disiplin",
     "sppd",
+    "e-disposisi",
     "manajemen-aset",
     "buku-petunjuk",
     "hubungi-kami",
@@ -91,6 +94,7 @@ const roleAccessMap: Record<string, string[]> = {
     "summary-report",
     "penilaian-kinerja",
     "sppd",
+    "e-disposisi",
     "manajemen-aset",
     "buku-petunjuk",
     "hubungi-kami",
@@ -113,6 +117,7 @@ const roleAccessMap: Record<string, string[]> = {
     "peta-jabatan",
     "summary-report",
     "penilaian-kinerja",
+    "e-disposisi",
     "dialog-kinerja",
     "buku-petunjuk",
     "hubungi-kami",
@@ -126,6 +131,12 @@ export function AppSidebar() {
   const location = useLocation();
 
   const { open } = useSidebar();
+
+  const { data: dataProfile, refetch: refetchProfile } = useGetProfile();
+  const getDataProfile = useMemo(() => {
+    if (dataProfile) return dataProfile.data;
+    return null;
+  }, [dataProfile]);
 
   const currentRole: keyof typeof roleAccessMap | "GUEST" =
     role && roleAccessMap[role] ? role : "GUEST";
@@ -159,6 +170,34 @@ export function AppSidebar() {
       )
     );
   };
+
+  const filteredSubMenus = useMemo(() => {
+    if (!getDataProfile) return allowedSubMenus;
+
+    if (currentRole === "PEGAWAI") {
+      const jabatan = getDataProfile?.jabatan?.nameJob?.toUpperCase();
+
+      // Cek apakah jabatan adalah KEPALA DINAS atau SEKRETARIS
+      const isAuthorized =
+        jabatan === "KEPALA DINAS" || jabatan === "SEKRETARIS";
+
+      // Buat salinan array PEGAWAI
+      const menuList = [...roleAccessMap.PEGAWAI];
+
+      // Jika tidak berhak, hapus "e-disposisi"
+      if (!isAuthorized) {
+        return menuList.filter((item) => item !== "e-disposisi");
+      }
+
+      return menuList;
+    }
+
+    return allowedSubMenus;
+  }, [allowedSubMenus, getDataProfile, currentRole]);
+
+  useEffect(() => {
+    refetchProfile();
+  }, []);
   return (
     <Sidebar
       collapsible="icon"
@@ -179,7 +218,7 @@ export function AppSidebar() {
       <Divider className="bg-[#FFF1005A] h-[0.1px] w-[80%] mx-auto" />
       <SidebarContent className="relative m-0 py-4 z-20 overflow-y-hidden hover:overflow-y-auto duration-300">
         {SidebarMenuData.map((item, index) => {
-          if (isMenuTrue(item, allowedSubMenus)) {
+          if (isMenuTrue(item, filteredSubMenus)) {
             return (
               <SidebarGroup className="!p-0" key={index}>
                 <SidebarGroupLabel className="uppercase text-white text-[10px] px-4">
@@ -202,7 +241,7 @@ export function AppSidebar() {
                               location.pathname.includes(subItem.key),
                           ));
 
-                      if (isMenuActive([itemM], allowedSubMenus)) {
+                      if (isMenuActive([itemM], filteredSubMenus)) {
                         return (
                           <SidebarMenuItem key={itemM.key}>
                             {itemM.subMenu ? (
@@ -230,7 +269,7 @@ export function AppSidebar() {
                                   <SidebarMenuSub className="!border-none">
                                     {itemM.subMenu.map((subItem) => {
                                       if (
-                                        allowedSubMenus.includes(subItem.key)
+                                        filteredSubMenus.includes(subItem.key)
                                       ) {
                                         return (
                                           <SidebarMenuSubItem

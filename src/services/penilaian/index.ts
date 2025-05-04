@@ -1,13 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createPenilaian, getAllPenilaian, getAllPenilaianCount, getDetailPenilaian } from "./http";
+import {
+  createPenilaian,
+  getAllPenilaian,
+  getAllPenilaianCount,
+  getDetailPenilaian,
+} from "./http";
 import { IPenilaianDetailRes } from "@/interface/responses/penilaian.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StorePenilaian } from "@/interface/request/penilaian.interface";
 
-export const useGetAllPenilaianGrafik = (
-  yearly?: string,
-) => {
+export const useGetAllPenilaianGrafik = (yearly?: string) => {
   return useQuery({
     queryKey: ["getAllPenilaianCount"],
     queryFn: () => getAllPenilaianCount(yearly),

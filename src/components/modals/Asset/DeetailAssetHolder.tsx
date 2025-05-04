@@ -1,4 +1,11 @@
-import { Button, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from "@heroui/react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  useDisclosure,
+} from "@heroui/react";
 import { LucideInfo } from "lucide-react";
 import { useState } from "react";
 import { FaFileAlt } from "react-icons/fa";
@@ -29,13 +36,17 @@ interface props {
 }
 
 const ViewModal = ({ holder, isOpen, onClose, handleClose }: props) => {
-  const [ selectedId, setSelectedId ] = useState<number | null>(null)
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
-  const [ isLoading, setIsLoading ] = useState<boolean>(false)
-  const { onOpen: onOpenDelete, onClose: onCloseDelete, isOpen: isOpenDelete } = useDisclosure();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {
+    onOpen: onOpenDelete,
+    onClose: onCloseDelete,
+    isOpen: isOpenDelete,
+  } = useDisclosure();
 
   const { mutate: mutateDelete } = useDeleteAssetHolder();
-  
+
   const handleDelete = () => {
     if (isLoading) return;
 
@@ -51,7 +62,7 @@ const ViewModal = ({ holder, isOpen, onClose, handleClose }: props) => {
             setSelectedId(null);
             onCloseDelete();
             onClose();
-            handleClose()
+            handleClose();
           },
           onError(error) {
             setIsLoading(false);
@@ -73,10 +84,10 @@ const ViewModal = ({ holder, isOpen, onClose, handleClose }: props) => {
 
   return (
     <>
-      <DeleteModal 
-        isOpen={isOpenDelete} 
-        isLoading={isLoading} 
-        onClose={onCloseDelete} 
+      <DeleteModal
+        isOpen={isOpenDelete}
+        isLoading={isLoading}
+        onClose={onCloseDelete}
         handleSubmit={handleDelete}
       />
       <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="5xl">

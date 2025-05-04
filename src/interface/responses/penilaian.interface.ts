@@ -47,7 +47,6 @@ export interface IPenilaianDetailRes extends BaseRes {
   data: PernilaianListRes;
 }
 
-
 export interface IPenilaianGrafikRes extends BaseRes {
   data: {
     x: string[];
@@ -68,5 +67,5 @@ export interface IPenilaianGrafikRes extends BaseRes {
       attitude: number[];
       total: number[];
     };
-  }
+  };
 }

@@ -12,10 +12,11 @@ export const getAllPenilaianCount = async (
   const params = new URLSearchParams();
 
   if (yearly) params.set("yearly", yearly);
-  const response = await instance.get(`/admin/penilaian/count/data?${params.toString()}`);
+  const response = await instance.get(
+    `/admin/penilaian/count/data?${params.toString()}`,
+  );
   return response.data;
 };
-
 
 export const getAllPenilaian = async (
   page: number,

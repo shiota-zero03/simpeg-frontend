@@ -24,7 +24,7 @@ export default function Header() {
 
   const navigate = useNavigate();
 
-  const { data: dataProfile, refetch: refetchProfile } = useGetProfile();
+  const { data: dataProfile, refetch: refetchProfile } = useGetProfile(!!role);
   const getDataProfile = useMemo(() => {
     if (dataProfile) return dataProfile.data;
     return null;
@@ -52,7 +52,9 @@ export default function Header() {
 
   useEffect(() => {
     refetchAllBerita();
-    refetchProfile();
+    if (role) {
+      refetchProfile();
+    }
   }, []);
 
   const { open } = useSidebar();

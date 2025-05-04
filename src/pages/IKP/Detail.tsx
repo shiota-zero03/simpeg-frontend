@@ -140,7 +140,7 @@ export default function DetailIKP() {
 
   const navigate = useNavigate();
   useEffect(() => {
-    if(type !== "pengirim" && type !== "penerima" ) {
+    if (type !== "pengirim" && type !== "penerima") {
       ErrorToast({ text: "Data tidak ditemukan" });
       navigate(`/dialog-kinerja?tab=${type}`);
     }
@@ -789,7 +789,8 @@ export default function DetailIKP() {
                           <td
                             className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left`}
                           >
-                            {item.status === "DISETUJUI" && type === "penerima" ? (
+                            {item.status === "DISETUJUI" &&
+                            type === "penerima" ? (
                               <div className="flex items-center justify-center gap-2">
                                 {!isEditAll && (
                                   <>
@@ -799,9 +800,7 @@ export default function DetailIKP() {
                                         size="sm"
                                         isIconOnly
                                         className="bg-alert-success text-success"
-                                        onPress={() =>
-                                          handleUpdateById(index)
-                                        }
+                                        onPress={() => handleUpdateById(index)}
                                       >
                                         <LucideSave size={12} />
                                       </Button>
@@ -811,9 +810,7 @@ export default function DetailIKP() {
                                         isLoading={isLoadingConfirm}
                                         isIconOnly
                                         className="bg-alert-warning text-warning"
-                                        onPress={() =>
-                                          openEditRealisasi(index)
-                                        }
+                                        onPress={() => openEditRealisasi(index)}
                                       >
                                         <LuFilePenLine size={12} />
                                       </Button>
@@ -821,7 +818,8 @@ export default function DetailIKP() {
                                   </>
                                 )}
                               </div>
-                            ) : (item.status === "KONFIRMASI" && type === "pengirim") ? (
+                            ) : item.status === "KONFIRMASI" &&
+                              type === "pengirim" ? (
                               <div className="flex items-center justify-center gap-2">
                                 <Button
                                   size="sm"
@@ -1242,25 +1240,24 @@ export default function DetailIKP() {
                 </div>
               </div>
             </div>
-            {(type === "penerima") &&
-              status === "MENUNGGU" && (
-                <div className="flex items-center justify-end gap-2 mt-4">
-                  <Button
-                    className="bg-alert-danger text-danger border border-danger font-semibold"
-                    size="sm"
-                    onPress={() => setIsPengajuan(false)}
-                  >
-                    <LucideX size={14} /> Batal
-                  </Button>
-                  <Button
-                    className="bg-button-primary text-white border border-button-primary font-semibold"
-                    size="sm"
-                    onPress={onOpenConfirm2}
-                  >
-                    <LucideSend size={14} /> Kirim Pengajuan
-                  </Button>
-                </div>
-              )}
+            {type === "penerima" && status === "MENUNGGU" && (
+              <div className="flex items-center justify-end gap-2 mt-4">
+                <Button
+                  className="bg-alert-danger text-danger border border-danger font-semibold"
+                  size="sm"
+                  onPress={() => setIsPengajuan(false)}
+                >
+                  <LucideX size={14} /> Batal
+                </Button>
+                <Button
+                  className="bg-button-primary text-white border border-button-primary font-semibold"
+                  size="sm"
+                  onPress={onOpenConfirm2}
+                >
+                  <LucideSend size={14} /> Kirim Pengajuan
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </div>
