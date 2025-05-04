@@ -1,5 +1,5 @@
 export interface StoreEDisposisi {
-  userId?: string;
+  suratDari?: string;
   nomorSurat?: string;
   tanggalSurat?: string;
   tanggalDiterima?: string;

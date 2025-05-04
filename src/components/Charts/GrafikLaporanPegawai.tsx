@@ -454,7 +454,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
           </CardBody>
         </Card>
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
         <Card shadow="sm" radius="sm">
           <CardHeader className="font-semibold text-12">
             Pegawai Berdasarkan Jabatan Fungsional
