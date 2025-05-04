@@ -126,6 +126,10 @@ const CreateKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Created"));
 const ViewKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Detail"));
 const ExportKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Export"));
 
+const Disposisi = lazy(() => import("@/pages/E-Disposisi"));
+const ViewDisposisi = lazy(() => import("@/pages/E-Disposisi"));
+const VerifyDisposisi = lazy(() => import("@/pages/E-Disposisi"));
+
 const Asset = lazy(() => import("@/pages/Asset"));
 const AssetCreated = lazy(() => import("@/pages/Asset/Asset/Created"));
 const AssetUpdated = lazy(() => import("@/pages/Asset/Asset/Updated"));
@@ -241,6 +245,16 @@ export default function Router() {
           <Route
             path="/penilaian-kinerja/detail-data/:id"
             element={<ViewPenilaianKinerja />}
+          />
+
+          <Route path="/e-disposisi" element={<Disposisi />} />
+          <Route
+            path="/e-disposisi/verifikasi-data"
+            element={<VerifyDisposisi />}
+          />
+          <Route
+            path="/e-disposisi/detail-data/:id"
+            element={<ViewDisposisi />}
           />
 
           <Route

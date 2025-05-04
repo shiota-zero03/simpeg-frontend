@@ -2,8 +2,9 @@ import { BaseRes, PaginationRes } from "./base.response";
 
 export interface EDisposisiRes {
   id: number;
-  nomorSurat: string;
   tanggalSurat: string;
+  nomorSurat: string;
+  suratDari: string;
   tanggalDiterima: string;
   sifat: string;
   description: string;

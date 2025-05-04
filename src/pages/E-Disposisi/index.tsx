@@ -6,27 +6,15 @@ import {
   Input,
   Pagination,
   RangeValue,
-  Tooltip,
   useDisclosure,
 } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import {
-  LuFileArchive,
-  LuPencilLine,
-  LuSearch,
-  LuTrash2,
-} from "react-icons/lu";
-import {
-  BiErrorAlt,
-  BiReset,
-  BiSearch,
-  BiSolidPlusSquare,
-} from "react-icons/bi";
+import { LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
+import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-import { Link } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import {
   CalendarDate,
@@ -34,17 +22,10 @@ import {
   parseDate,
 } from "@internationalized/date";
 import CreateModal from "@/components/modals/E-FillingModal/CreatedModal";
-import { useDeleteEFilling, useGetAllEFilling } from "@/services/efilling";
-import { EFillingRes } from "@/interface/responses/efilling.interface";
+import { useDeleteEFilling } from "@/services/efilling";
 import UpdateModal from "@/components/modals/E-FillingModal/UpdateModal";
-
-interface EFillingprops {
-  id: string;
-  judulDokumen: string;
-  tanggalDokumen: string;
-  uraian: string;
-  lampiran: string;
-}
+import { EDisposisiRes } from "@/interface/responses/e-disposisi.interface";
+import { useGetAllEDisposisi } from "@/services/e-disposisi";
 
 export default function EFilling() {
   const limit = 10;
@@ -85,7 +66,7 @@ export default function EFilling() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllEFilling(
+  } = useGetAllEDisposisi(
     pageIndex + 1,
     limit,
     searchJudul,
@@ -93,7 +74,7 @@ export default function EFilling() {
     formatDateToJakarta(rangeDate?.end),
   );
 
-  const paginatedData: EFillingprops[] = useMemo(() => {
+  const paginatedData: EDisposisiRes[] = useMemo(() => {
     if (allData) {
       const data = allData.data;
       setTotalData(data.pagination.totalData || 0);
@@ -108,19 +89,13 @@ export default function EFilling() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: EFillingRes) => ({
-        id: item.id,
-        judulDokumen: item.title,
-        tanggalDokumen: item.tanggal || "",
-        uraian: item.description,
-        lampiran: item.file,
-      }));
+      return data.response;
     } else {
       return [];
     }
   }, [searchJudul, rangeDate, limit, pageIndex, allData]);
 
-  const columns: ColumnDef<EFillingprops>[] = [
+  const columns: ColumnDef<EDisposisiRes>[] = [
     {
       header: "No",
       cell: ({ row }) => {
@@ -130,52 +105,30 @@ export default function EFilling() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
-      accessorKey: "judulDokumen",
-      header: "Judul Dokumen",
+      accessorKey: "nomorSurat",
+      header: "Nomor Surat",
       cell: (info) => info.getValue() as string,
     },
     {
-      accessorKey: "tanggalDokumen",
-      header: "Tanggal",
+      accessorKey: "suratDari",
+      header: "Surat Dari",
+      cell: (info) => info.getValue() as string,
+    },
+    {
+      accessorKey: "tanggalSurat",
+      header: "Tanggal Surat",
       cell: (info) =>
         info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-",
     },
     {
-      accessorKey: "uraian",
-      header: "Uraian",
+      accessorKey: "tanggalDiterima",
+      header: "Diterima Tanggal",
       cell: (info) => info.getValue() as string,
     },
     {
-      accessorKey: "lampiran",
-      header: "Lampiran",
-      cell: (info) => {
-        const file = info.getValue() as string | null;
-        if (file) {
-          return (
-            <Link to={file} target="__blank">
-              <LuFileArchive
-                className="border p-1 rounded-md text-accent-primary border-accent-primary"
-                size={20}
-              />
-            </Link>
-          );
-        } else {
-          return (
-            <Tooltip
-              content="Tidak ada file"
-              radius="sm"
-              color="danger"
-              placement="top-start"
-              size="sm"
-            >
-              <BiErrorAlt
-                className="border p-1 rounded-md text-danger border-danger"
-                size={20}
-              />
-            </Tooltip>
-          );
-        }
-      },
+      accessorKey: "sifat",
+      header: "Sifat",
+      cell: (info) => info.getValue() as string,
     },
     {
       header: "Aksi",
@@ -185,7 +138,7 @@ export default function EFilling() {
           <div className="flex items-center gap-2 justify-center">
             <Button
               onPress={() => {
-                setSelectedId(id);
+                setSelectedId(String(id));
                 onOpenUpdate();
               }}
               isIconOnly
@@ -197,7 +150,7 @@ export default function EFilling() {
             </Button>
             <Button
               onPress={() => {
-                setSelectedId(id);
+                setSelectedId(String(id));
                 onOpenDelete();
               }}
               isIconOnly
@@ -300,7 +253,7 @@ export default function EFilling() {
 
   return (
     <>
-      <BreadcrumbAdmin location="/E-Filling" />
+      <BreadcrumbAdmin location="/E-Disposisi" />
       <DeleteModal
         isOpen={isOpenDelete}
         onClose={onCloseDelete}
@@ -322,8 +275,8 @@ export default function EFilling() {
       )}
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
-          title="E-Filling"
-          text="Berikut ini menampilkan Daftar E-Filling "
+          title="E-Disposisi"
+          text="Berikut ini menampilkan E-Disposisi "
         />
         <div className="bg-white shadow-md rounded-xl border">
           <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
@@ -339,7 +292,7 @@ export default function EFilling() {
                     radius="sm"
                     size="sm"
                     variant="bordered"
-                    placeholder="Cari judul dokumen disini"
+                    placeholder="Cari nomor surat disini"
                     startContent={
                       <LuSearch className="text-accent-gray text-xs" />
                     }
