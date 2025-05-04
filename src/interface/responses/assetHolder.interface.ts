@@ -7,6 +7,7 @@ export interface AssetHolderRes {
   unit: string;
   tanggal: string;
   holders: {
+    id: number;
     tanggal: string;
     assetId: string;
     kodeBarang: string;

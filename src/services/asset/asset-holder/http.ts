@@ -55,3 +55,9 @@ export const deleteAssetHolder = async (
   const response = await instance.delete(`/admin/asset-holder/delete/${id}`);
   return response.data;
 };
+export const deleteAssetHolderAll = async (
+  id: string,
+): Promise<IAssetHolderDetailRes> => {
+  const response = await instance.delete(`/admin/asset-holder/delete/all/${id}`);
+  return response.data;
+};

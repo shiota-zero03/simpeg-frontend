@@ -16,11 +16,10 @@ import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import store from "@/redux/store";
-import { useDeleteAsset } from "@/services/asset/asset";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { parseDate } from "@internationalized/date";
 import ViewModal from "@/components/modals/Asset/DeetailAssetHolder";
-import { useGetAllAssetHolder } from "@/services/asset/asset-holder";
+import { useDeleteAssetHolderAll, useGetAllAssetHolder } from "@/services/asset/asset-holder";
 import { AssetHolderRes } from "@/interface/responses/assetHolder.interface";
 
 interface DataProps {
@@ -30,6 +29,7 @@ interface DataProps {
   unit: string;
   tanggal: string;
   holders: {
+    id: number;
     tanggal: string;
     assetId: string;
     kodeBarang: string;
@@ -52,6 +52,7 @@ export default function AssetIndex() {
 
   const [dataHolder, setDataHolder] = useState<
     {
+      id: number;
       tanggal: string;
       assetId: string;
       kodeBarang: string;
@@ -246,7 +247,7 @@ export default function AssetIndex() {
   }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const { mutate: mutateDelete } = useDeleteAsset();
+  const { mutate: mutateDelete } = useDeleteAssetHolderAll();
 
   const handleDelete = () => {
     if (isLoadingDelete) return;
@@ -297,6 +298,9 @@ export default function AssetIndex() {
         holder={dataHolder}
         isOpen={isOpenView}
         onClose={onCloseView}
+        handleClose={() => {
+          refetchData()
+        }}
       />
       <div>
         <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
