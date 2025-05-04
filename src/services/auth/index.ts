@@ -20,11 +20,12 @@ export const useAuthSignIn = () => {
   });
 };
 
-export const useGetProfile = () => {
+export const useGetProfile = (enabled = true) => {
   return useQuery({
     queryKey: ["getProfile"],
     queryFn: () => getProfile(),
     staleTime: 300000,
+    enabled,
   });
 };
 

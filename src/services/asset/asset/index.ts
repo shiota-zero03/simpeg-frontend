@@ -55,7 +55,13 @@ export const useGetAllAssetbyHolder = (
   });
 };
 
-export const useGetAllAsset = (page: number, limit: number, title?: string, startDate?: string | null, endDate?: string | null,) => {
+export const useGetAllAsset = (
+  page: number,
+  limit: number,
+  title?: string,
+  startDate?: string | null,
+  endDate?: string | null,
+) => {
   return useQuery({
     queryKey: ["getAllAsset"],
     queryFn: () => getAllAsset(page, limit, title, startDate, endDate),

@@ -79,7 +79,13 @@ export default function AssetIndex() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllAsset(pageIndex + 1, limit, search, rangeDate && formatDateToJakarta(rangeDate.start), rangeDate && formatDateToJakarta(rangeDate.end));
+  } = useGetAllAsset(
+    pageIndex + 1,
+    limit,
+    search,
+    rangeDate && formatDateToJakarta(rangeDate.start),
+    rangeDate && formatDateToJakarta(rangeDate.end),
+  );
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {

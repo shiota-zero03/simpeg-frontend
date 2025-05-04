@@ -3,13 +3,22 @@ import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import Admin from "./Admin";
 import Penerima from "./Penerima";
 import Pengirim from "./Pengirim";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import store from "@/redux/store";
 
 export default function Jabatan() {
   const [selectedTab, setSelectedTab] = useState<string>("pengirim");
 
   const { role } = store.getState().auth;
+  const queryParams = new URLSearchParams(window.location.search);
+  const tab = queryParams.get("tab");
+  const tabData = tab as string;
+
+  useEffect(() => {
+    if (tabData) {
+      setSelectedTab(tabData);
+    }
+  }, [tabData]);
 
   return (
     <>

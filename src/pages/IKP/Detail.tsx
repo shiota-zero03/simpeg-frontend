@@ -27,7 +27,6 @@ import {
   useUpdateStatusIKP,
   useUpdateStatusPerubahanIKP,
 } from "@/services/ikp";
-import store from "@/redux/store";
 import { TbFaceIdError } from "react-icons/tb";
 import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { AxiosError } from "axios";
@@ -49,8 +48,7 @@ interface PropsPerubahan {
 }
 
 export default function DetailIKP() {
-  const { id } = useParams();
-  const { role } = store.getState().auth;
+  const { id, type } = useParams();
   const [status, setStatus] = useState<string>("MENUNGGU");
 
   const [isEditAll, setIsEditAll] = useState<boolean>(false);
@@ -142,9 +140,13 @@ export default function DetailIKP() {
 
   const navigate = useNavigate();
   useEffect(() => {
+    if (type !== "pengirim" && type !== "penerima") {
+      ErrorToast({ text: "Data tidak ditemukan" });
+      navigate(`/dialog-kinerja?tab=${type}`);
+    }
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/dialog-kinerja");
+      navigate(`/dialog-kinerja?tab=${type}`);
     }
   }, [isFetching, refetch]);
 
@@ -193,7 +195,7 @@ export default function DetailIKP() {
 
       SuccessToast({ text: "Data berhasil diperbarui" });
       onCloseConfirm();
-      navigate("/dialog-kinerja");
+      navigate(`/dialog-kinerja?tab=${type}`);
     } catch (error) {
       const err = error as AxiosError<BaseErrorRes>;
       ErrorToast({
@@ -323,7 +325,7 @@ export default function DetailIKP() {
 
       SuccessToast({ text: "Data berhasil diperbarui" });
       onCloseConfirm();
-      navigate("/dialog-kinerja");
+      navigate(`/dialog-kinerja?tab=${type}`);
     } catch (error) {
       const err = error as AxiosError<BaseErrorRes>;
       ErrorToast({
@@ -459,6 +461,7 @@ export default function DetailIKP() {
       });
     } finally {
       setIsLoadingConfirm(false);
+      refetch();
     }
   };
 
@@ -495,7 +498,7 @@ export default function DetailIKP() {
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <div className="flex">
           <Link
-            to={`/dialog-kinerja`}
+            to={`/dialog-kinerja?tab=${type}`}
             className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
           >
             <LuArrowLeft /> Kembali
@@ -513,7 +516,7 @@ export default function DetailIKP() {
               >
                 <FaFilePdf size={14} /> Export PDF
               </Link>
-              {role === "PEGAWAI" && status === "DISETUJUI" && (
+              {type === "penerima" && status === "DISETUJUI" && (
                 <>
                   {isEditAll ? (
                     <Button
@@ -536,7 +539,7 @@ export default function DetailIKP() {
                   )}
                 </>
               )}
-              {role === "PEGAWAI" && status === "MENUNGGU" && (
+              {type === "penerima" && status === "MENUNGGU" && (
                 <div className="flex items-center justify-end gap-2">
                   <Button
                     className="bg-alert-info text-info border border-info font-semibold"
@@ -680,27 +683,16 @@ export default function DetailIKP() {
                       >
                         Keterangan
                       </th>
-                      {role === "PEGAWAI" && (
-                        <th
-                          className={`border-b-2 border-accent-gray p-2 text-left text-sm bg-primary text-white rounded-se-md`}
-                        >
-                          Dialog
-                        </th>
-                      )}
-                      {role !== "PEGAWAI" && (
-                        <th
-                          className={`border-b-2 border-accent-gray p-2 text-left text-sm bg-primary text-white`}
-                        >
-                          Dialog
-                        </th>
-                      )}
-                      {role !== "PEGAWAI" && (
-                        <th
-                          className={`border-b-2 border-accent-gray p-2 text-center text-sm bg-primary text-white rounded-se-md`}
-                        >
-                          Aksi
-                        </th>
-                      )}
+                      <th
+                        className={`border-b-2 border-accent-gray p-2 text-left text-sm bg-primary text-white`}
+                      >
+                        Dialog
+                      </th>
+                      <th
+                        className={`border-b-2 border-accent-gray p-2 text-center text-sm bg-primary text-white rounded-se-md`}
+                      >
+                        Aksi
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -727,7 +719,7 @@ export default function DetailIKP() {
                           >
                             {item.target}
                           </td>
-                          {role === "SUPERUSERS" || role === "ADMIN" ? (
+                          {type === "penerima" ? (
                             <td
                               className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left`}
                             >
@@ -776,7 +768,7 @@ export default function DetailIKP() {
                                 </span>
                               </div>
                             ) : (
-                              "Menunggu Konfirmasi Admin"
+                              "Menunggu Konfirmasi"
                             )}
                           </td>
                           <td
@@ -794,76 +786,71 @@ export default function DetailIKP() {
                           >
                             {item.dialog || "-"}
                           </td>
-                          {role === "SUPERUSERS" ||
-                            (role === "ADMIN" && (
-                              <td
-                                className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left`}
-                              >
-                                {item.status === "DISETUJUI" ? (
-                                  <div className="flex items-center justify-center gap-2">
-                                    {!isEditAll && (
-                                      <>
-                                        {formRealisasi[index] &&
-                                        formRealisasi[index].isOpenRealisasi ? (
-                                          <Button
-                                            size="sm"
-                                            isIconOnly
-                                            className="bg-alert-success text-success"
-                                            onPress={() =>
-                                              handleUpdateById(index)
-                                            }
-                                          >
-                                            <LucideSave size={12} />
-                                          </Button>
-                                        ) : (
-                                          <Button
-                                            size="sm"
-                                            isLoading={isLoadingConfirm}
-                                            isIconOnly
-                                            className="bg-alert-warning text-warning"
-                                            onPress={() =>
-                                              openEditRealisasi(index)
-                                            }
-                                          >
-                                            <LuFilePenLine size={12} />
-                                          </Button>
-                                        )}
-                                      </>
+                          <td
+                            className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left`}
+                          >
+                            {item.status === "DISETUJUI" &&
+                            type === "penerima" ? (
+                              <div className="flex items-center justify-center gap-2">
+                                {!isEditAll && (
+                                  <>
+                                    {formRealisasi[index] &&
+                                    formRealisasi[index].isOpenRealisasi ? (
+                                      <Button
+                                        size="sm"
+                                        isIconOnly
+                                        className="bg-alert-success text-success"
+                                        onPress={() => handleUpdateById(index)}
+                                      >
+                                        <LucideSave size={12} />
+                                      </Button>
+                                    ) : (
+                                      <Button
+                                        size="sm"
+                                        isLoading={isLoadingConfirm}
+                                        isIconOnly
+                                        className="bg-alert-warning text-warning"
+                                        onPress={() => openEditRealisasi(index)}
+                                      >
+                                        <LuFilePenLine size={12} />
+                                      </Button>
                                     )}
-                                  </div>
-                                ) : item.status === "KONFIRMASI" ? (
-                                  <div className="flex items-center justify-center gap-2">
-                                    <Button
-                                      size="sm"
-                                      isIconOnly
-                                      onPress={() => {
-                                        setSelectedid(item.id);
-                                        setTimeout(() => {
-                                          onOpenConfirm3();
-                                        }, 100);
-                                      }}
-                                      className="bg-alert-success text-success"
-                                    >
-                                      <LucideCheckCircle size={12} />
-                                    </Button>
-                                    <Button
-                                      size="sm"
-                                      isIconOnly
-                                      className="bg-alert-danger text-danger"
-                                      onPress={() => {
-                                        setSelectedid(item.id);
-                                        setSelectedCount(item.count);
-                                        setTimeout(() => {
-                                          onOpenConfirm4();
-                                        }, 100);
-                                      }}
-                                    >
-                                      <LucideXCircle size={12} />
-                                    </Button>
-                                  </div>
-                                ) : null}
-                              </td>
-                            ))}
+                                  </>
+                                )}
+                              </div>
+                            ) : item.status === "KONFIRMASI" &&
+                              type === "pengirim" ? (
+                              <div className="flex items-center justify-center gap-2">
+                                <Button
+                                  size="sm"
+                                  isIconOnly
+                                  onPress={() => {
+                                    setSelectedid(item.id);
+                                    setTimeout(() => {
+                                      onOpenConfirm3();
+                                    }, 100);
+                                  }}
+                                  className="bg-alert-success text-success"
+                                >
+                                  <LucideCheckCircle size={12} />
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  isIconOnly
+                                  className="bg-alert-danger text-danger"
+                                  onPress={() => {
+                                    setSelectedid(item.id);
+                                    setSelectedCount(item.count);
+                                    setTimeout(() => {
+                                      onOpenConfirm4();
+                                    }, 100);
+                                  }}
+                                >
+                                  <LucideXCircle size={12} />
+                                </Button>
+                              </div>
+                            ) : null}
+                          </td>
                         </tr>
                       ))
                     ) : (
@@ -1253,25 +1240,24 @@ export default function DetailIKP() {
                 </div>
               </div>
             </div>
-            {(role === "PEGAWAI" || role === "SUPERUSERS") &&
-              status === "MENUNGGU" && (
-                <div className="flex items-center justify-end gap-2 mt-4">
-                  <Button
-                    className="bg-alert-danger text-danger border border-danger font-semibold"
-                    size="sm"
-                    onPress={() => setIsPengajuan(false)}
-                  >
-                    <LucideX size={14} /> Batal
-                  </Button>
-                  <Button
-                    className="bg-button-primary text-white border border-button-primary font-semibold"
-                    size="sm"
-                    onPress={onOpenConfirm2}
-                  >
-                    <LucideSend size={14} /> Kirim Pengajuan
-                  </Button>
-                </div>
-              )}
+            {type === "penerima" && status === "MENUNGGU" && (
+              <div className="flex items-center justify-end gap-2 mt-4">
+                <Button
+                  className="bg-alert-danger text-danger border border-danger font-semibold"
+                  size="sm"
+                  onPress={() => setIsPengajuan(false)}
+                >
+                  <LucideX size={14} /> Batal
+                </Button>
+                <Button
+                  className="bg-button-primary text-white border border-button-primary font-semibold"
+                  size="sm"
+                  onPress={onOpenConfirm2}
+                >
+                  <LucideSend size={14} /> Kirim Pengajuan
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </div>

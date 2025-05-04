@@ -46,3 +46,26 @@ export interface IPenilaianListRes extends BaseRes {
 export interface IPenilaianDetailRes extends BaseRes {
   data: PernilaianListRes;
 }
+
+export interface IPenilaianGrafikRes extends BaseRes {
+  data: {
+    x: string[];
+    count: number[];
+    bobot: {
+      performance: number[];
+      discipline: number[];
+      loyalty: number[];
+      cooperation: number[];
+      attitude: number[];
+      total: number[];
+    };
+    nilai: {
+      performance: number[];
+      discipline: number[];
+      loyalty: number[];
+      cooperation: number[];
+      attitude: number[];
+      total: number[];
+    };
+  };
+}

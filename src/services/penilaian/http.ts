@@ -2,8 +2,21 @@ import instance from "@/api/axios";
 import { StorePenilaian } from "@/interface/request/penilaian.interface";
 import {
   IPenilaianDetailRes,
+  IPenilaianGrafikRes,
   IPenilaianListRes,
 } from "@/interface/responses/penilaian.interface";
+
+export const getAllPenilaianCount = async (
+  yearly?: string,
+): Promise<IPenilaianGrafikRes> => {
+  const params = new URLSearchParams();
+
+  if (yearly) params.set("yearly", yearly);
+  const response = await instance.get(
+    `/admin/penilaian/count/data?${params.toString()}`,
+  );
+  return response.data;
+};
 
 export const getAllPenilaian = async (
   page: number,

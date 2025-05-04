@@ -1158,28 +1158,26 @@ export default function ExportPenilaianKinerja() {
                       className="text-[10pt] border border-black align-top p-2 text-center"
                       rowSpan={5}
                     >
-                      {DATA_DETAIL.performanceProofNilai ? 1 : 0}
+                      {DATA_DETAIL.loyaltyProofNilai ? 1 : 0}
                     </td>
                     <td
                       className="text-[10pt] border border-black align-top p-2 text-center"
                       rowSpan={5}
                     >
-                      {DATA_DETAIL.performanceNilai || 0}
+                      {DATA_DETAIL.loyaltyNilai || 0}
                     </td>
                     <td
                       className="text-[10pt] border border-black align-top p-2"
                       rowSpan={5}
                     >
-                      {CaseNilai(DATA_DETAIL.performanceNilai || 0)}
+                      {CaseNilai(DATA_DETAIL.loyaltyNilai || 0)}
                     </td>
                     <td
                       className="text-[10pt] border border-black align-top p-2"
                       rowSpan={5}
                     >
-                      {DATA_DETAIL.performanceProofNilai ? (
-                        <a href={DATA_DETAIL.performanceProofNilai}>
-                          File Bukti
-                        </a>
+                      {DATA_DETAIL.loyaltyProofNilai ? (
+                        <a href={DATA_DETAIL.loyaltyProofNilai}>File Bukti</a>
                       ) : (
                         ""
                       )}
@@ -1298,26 +1296,26 @@ export default function ExportPenilaianKinerja() {
                       className="text-[10pt] border border-black align-top p-2 text-center"
                       rowSpan={5}
                     >
-                      {DATA_DETAIL.performanceProofNilai ? 1 : 0}
+                      {DATA_DETAIL.cooperationProofNilai ? 1 : 0}
                     </td>
                     <td
                       className="text-[10pt] border border-black align-top p-2 text-center"
                       rowSpan={5}
                     >
-                      {DATA_DETAIL.performanceNilai || 0}
+                      {DATA_DETAIL.cooperationNilai || 0}
                     </td>
                     <td
                       className="text-[10pt] border border-black align-top p-2"
                       rowSpan={5}
                     >
-                      {CaseNilai(DATA_DETAIL.performanceNilai || 0)}
+                      {CaseNilai(DATA_DETAIL.cooperationNilai || 0)}
                     </td>
                     <td
                       className="text-[10pt] border border-black align-top p-2"
                       rowSpan={5}
                     >
-                      {DATA_DETAIL.performanceProofNilai ? (
-                        <a href={DATA_DETAIL.performanceProofNilai}>
+                      {DATA_DETAIL.cooperationProofNilai ? (
+                        <a href={DATA_DETAIL.cooperationProofNilai}>
                           File Bukti
                         </a>
                       ) : (
@@ -1430,28 +1428,26 @@ export default function ExportPenilaianKinerja() {
                       className="text-[10pt] border border-black align-top p-2 text-center"
                       rowSpan={5}
                     >
-                      {DATA_DETAIL.performanceProofNilai ? 1 : 0}
+                      {DATA_DETAIL.attitudeProofNilai ? 1 : 0}
                     </td>
                     <td
                       className="text-[10pt] border border-black align-top p-2 text-center"
                       rowSpan={5}
                     >
-                      {DATA_DETAIL.performanceNilai || 0}
+                      {DATA_DETAIL.attitudeNilai || 0}
                     </td>
                     <td
                       className="text-[10pt] border border-black align-top p-2"
                       rowSpan={5}
                     >
-                      {CaseNilai(DATA_DETAIL.performanceNilai || 0)}
+                      {CaseNilai(DATA_DETAIL.attitudeNilai || 0)}
                     </td>
                     <td
                       className="text-[10pt] border border-black align-top p-2"
                       rowSpan={5}
                     >
-                      {DATA_DETAIL.performanceProofNilai ? (
-                        <a href={DATA_DETAIL.performanceProofNilai}>
-                          File Bukti
-                        </a>
+                      {DATA_DETAIL.attitudeProofNilai ? (
+                        <a href={DATA_DETAIL.attitudeProofNilai}>File Bukti</a>
                       ) : (
                         ""
                       )}
