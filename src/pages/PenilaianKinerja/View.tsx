@@ -268,8 +268,8 @@ export default function ViewBobotKinerja() {
               </Card>
               <Card className="border relative w-full" shadow="none">
                 <CardBody className="grid md:grid-cols-2 grid-cols-1">
-                  <PenilaianKinerjaLine />
-                  <PenilaianKinerjaDougnhut />
+                  <PenilaianKinerjaLine id={id || ""} />
+                  <PenilaianKinerjaDougnhut id={id || ""} />
                 </CardBody>
               </Card>
             </div>

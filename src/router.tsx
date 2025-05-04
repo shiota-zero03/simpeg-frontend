@@ -127,8 +127,8 @@ const ViewKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Detail"));
 const ExportKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Export"));
 
 const Disposisi = lazy(() => import("@/pages/E-Disposisi"));
-const ViewDisposisi = lazy(() => import("@/pages/E-Disposisi"));
-const VerifyDisposisi = lazy(() => import("@/pages/E-Disposisi"));
+const ViewDisposisi = lazy(() => import("@/pages/E-Disposisi/DetailData"));
+const VerifyDisposisi = lazy(() => import("@/pages/E-Disposisi/Verifikasi"));
 
 const Asset = lazy(() => import("@/pages/Asset"));
 const AssetCreated = lazy(() => import("@/pages/Asset/Asset/Created"));
@@ -249,7 +249,7 @@ export default function Router() {
 
           <Route path="/e-disposisi" element={<Disposisi />} />
           <Route
-            path="/e-disposisi/verifikasi-data"
+            path="/e-disposisi/verifikasi-data/:id"
             element={<VerifyDisposisi />}
           />
           <Route

@@ -15,7 +15,15 @@ export interface EDisposisiRes {
     id: string;
     name: string;
   };
-  instruksi: string | null;
+  instruksi:
+    | {
+        id: number;
+        disposisiId: number;
+        denganHormat: string;
+        instruksi: string;
+        diteruskan: string;
+      }[]
+    | null;
   riwayat: {
     id: number;
     description: string;

@@ -48,7 +48,7 @@ const BreadcrumbAdmin = ({ location }: { location: string }) => {
       >
         {dataBreadcrumbs.map((item, index) => (
           <BreadcrumbItem
-            href={item.link}
+            href={item.link.toLowerCase()}
             key={index}
             className="md:text-base text-sm font-medium"
           >

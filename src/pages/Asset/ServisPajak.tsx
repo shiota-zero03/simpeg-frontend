@@ -16,7 +16,7 @@ import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import store from "@/redux/store";
-import { parseDate } from "@internationalized/date";
+import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import {
   useDeleteAssetService,
   useGetAllAssetService,
@@ -64,22 +64,22 @@ export default function AssetIndex() {
     end: parseDate(today.toISOString().split("T")[0]),
   });
 
-  // const formatDateToJakarta = (
-  //   calendarDate: CalendarDate | null | undefined,
-  // ) => {
-  //   if (!calendarDate) return null;
-  //   const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
-  //   return new Intl.DateTimeFormat("id-ID", {
-  //     timeZone: "Asia/Jakarta",
-  //     year: "numeric",
-  //     month: "2-digit",
-  //     day: "2-digit",
-  //   })
-  //     .format(date)
-  //     .split("/")
-  //     .reverse()
-  //     .join("-");
-  // };
+  const formatDateToJakarta = (
+    calendarDate: CalendarDate | null | undefined,
+  ) => {
+    if (!calendarDate) return null;
+    const date = calendarDate.toDate(getLocalTimeZone()); // Konversi ke zona waktu lokal
+    return new Intl.DateTimeFormat("id-ID", {
+      timeZone: "Asia/Jakarta",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+      .format(date)
+      .split("/")
+      .reverse()
+      .join("-");
+  };
 
   const navigate = useNavigate();
 
@@ -94,7 +94,13 @@ export default function AssetIndex() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllAssetService(pageIndex + 1, limit, search);
+  } = useGetAllAssetService(
+    pageIndex + 1,
+    limit,
+    search,
+    rangeDate && formatDateToJakarta(rangeDate.start),
+    rangeDate && formatDateToJakarta(rangeDate.end),
+  );
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {

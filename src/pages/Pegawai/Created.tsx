@@ -508,7 +508,7 @@ export default function CreatePegawai() {
                         {(peg) => (
                           <AutocompleteItem
                             key={peg.id}
-                            textValue={`${peg.nameJob}${peg.parent && ` - (ATASAN: ${peg.parent.nameJob ?? ""}`})`}
+                            textValue={`${peg.nameJob}${peg.parent ? ` - (ATASAN: ${peg.parent.nameJob ?? ""})` : ""}`}
                           >
                             {capitalizeWords(peg.nameJob)}
                             {peg.parent &&

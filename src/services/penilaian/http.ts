@@ -5,16 +5,34 @@ import {
   IPenilaianGrafikRes,
   IPenilaianListRes,
 } from "@/interface/responses/penilaian.interface";
+import store from "@/redux/store";
 
-export const getAllPenilaianCount = async (
+export const getAllPenilaianCountUser = async (
+  id: string,
   yearly?: string,
 ): Promise<IPenilaianGrafikRes> => {
   const params = new URLSearchParams();
 
   if (yearly) params.set("yearly", yearly);
-  const response = await instance.get(
-    `/admin/penilaian/count/data?${params.toString()}`,
-  );
+  const link = `/admin/penilaian/count/users/${id}${params.toString()}`;
+  const response = await instance.get(link);
+  return response.data;
+};
+export const getAllPenilaianCount = async (
+  yearly?: string,
+): Promise<IPenilaianGrafikRes> => {
+  const { role } = store.getState().auth;
+  const params = new URLSearchParams();
+
+  if (yearly) params.set("yearly", yearly);
+
+  let link = "";
+  if (role === "PEGAWAI") {
+    link = `/admin/penilaian/count/hirarki?${params.toString()}`;
+  } else {
+    link = `/admin/penilaian/count/admin?${params.toString()}`;
+  }
+  const response = await instance.get(link);
   return response.data;
 };
 

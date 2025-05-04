@@ -458,7 +458,6 @@ export default function CreatePegawai() {
                       </label>
                     </div>
                     <Input
-                      isDisabled
                       value={formData.nip}
                       onChange={(e) =>
                         setFormData({ ...formData, nip: e.target.value })
@@ -551,7 +550,7 @@ export default function CreatePegawai() {
                         {(peg) => (
                           <AutocompleteItem
                             key={peg.id}
-                            textValue={`${peg.nameJob}${peg.parent && ` - (ATASAN: ${peg.parent.nameJob ?? ""}`})`}
+                            textValue={`${peg.nameJob}${peg.parent ? ` - (ATASAN: ${peg.parent.nameJob ?? ""})` : ""}`}
                           >
                             {capitalizeWords(peg.nameJob)}
                             {peg.parent &&

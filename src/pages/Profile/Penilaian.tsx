@@ -220,8 +220,8 @@ export default function ViewPenilaian({
               </Card>
               <Card className="border relative w-full" shadow="none">
                 <CardBody className="grid lg:grid-cols-2 grid-cols-1">
-                  <PenilaianKinerjaLine />
-                  <PenilaianKinerjaDougnhut />
+                  <PenilaianKinerjaLine id={dataNilaiBobot?.id || ""} />
+                  <PenilaianKinerjaDougnhut id={dataNilaiBobot?.id || ""} />
                 </CardBody>
               </Card>
             </div>
