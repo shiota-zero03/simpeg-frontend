@@ -233,7 +233,7 @@ export default function Router() {
           <Route path="/dialog-kinerja" element={<IKP />} />
           <Route path="/dialog-kinerja/tambah-data" element={<TambahIKP />} />
           <Route
-            path="/dialog-kinerja/detail-data/:id"
+            path="/dialog-kinerja/detail-data/:type/:id"
             element={<DetailIKP />}
           />
           <Route path="/e-filling" element={<EFilling />} />

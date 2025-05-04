@@ -3,12 +3,12 @@ import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
 import { LuEye, LuSearch, LuTrash2 } from "react-icons/lu";
-import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
+import { BiReset, BiSearch } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { YMToIndoFormat } from "@/utils/dateFormater";
 import { useNavigate } from "react-router-dom";
-import { FaFileExcel, FaFilePdf } from "react-icons/fa";
+import { FaFilePdf } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useDeleteIKP, useGetAllIKP } from "@/services/ikp";
 import { IKPListRes } from "@/interface/responses/ikp.interface";
@@ -17,6 +17,7 @@ import store from "@/redux/store";
 interface IKPProps {
   id: string;
   namaPegawai: string;
+  namaPengirim: string;
   nip: string;
   jabatan: string;
   waktu: string;
@@ -84,7 +85,8 @@ export default function IKP() {
 
         return {
           id: item.id,
-          namaPegawai: item.ttdName,
+          namaPegawai: item.name,
+          namaPengirim: item.ttdName,
           nip: item.ttdNIP,
           jabatan: item.ttdJabatan,
           waktu: item.createdAt,
@@ -107,17 +109,22 @@ export default function IKP() {
     },
     {
       accessorKey: "namaPegawai",
+      header: "Nama Penerima",
+      cell: (info) => info.getValue() as string,
+    },
+    {
+      accessorKey: "namaPengirim",
       header: "Nama Pengirim",
       cell: (info) => info.getValue() as string,
     },
     {
       accessorKey: "nip",
-      header: "NIP",
+      header: "NIP Pengirim",
       cell: (info) => info.getValue() as string,
     },
     {
       accessorKey: "jabatan",
-      header: "Jabatan",
+      header: "Jabatan Pengirim",
       cell: (info) => info.getValue() as string,
     },
     {
@@ -155,7 +162,7 @@ export default function IKP() {
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
-              onPress={() => navigate(`/dialog-kinerja/detail-data/${id}`)}
+              onPress={() => navigate(`/dialog-kinerja/detail-data/penerima/${id}`)}
               isIconOnly
               radius="sm"
               size="sm"
@@ -329,24 +336,6 @@ export default function IKP() {
                   className="border-[0.8px] text-xs"
                 >
                   <BiReset size={12} />
-                </Button>
-                {(role === "ADMIN" || role === "SUPERUSERS") && (
-                  <Link
-                    to={`/dialog-kinerja/export-excel?month=${searchMonth}`}
-                    className="border-[0.8px] w-24 text-xs border-success text-success flex items-center gap-2 px-2 py-1.5 rounded-md justify-center"
-                  >
-                    <FaFileExcel size={12} /> Export
-                  </Link>
-                )}
-                <Button
-                  onPress={() => navigate("/dialog-kinerja/tambah-data")}
-                  variant="solid"
-                  radius="sm"
-                  size="sm"
-                  startContent={<BiSolidPlusSquare size={12} />}
-                  className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                >
-                  Tambah
                 </Button>
               </div>
             </div>

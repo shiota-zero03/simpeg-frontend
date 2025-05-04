@@ -16,7 +16,8 @@ import store from "@/redux/store";
 
 interface IKPProps {
   id: string;
-  namaPegawai: string;
+  namaPenerima: string;
+  namaPengirim: string;
   nip: string;
   jabatan: string;
   waktu: string;
@@ -84,7 +85,8 @@ export default function IKP() {
 
         return {
           id: item.id,
-          namaPegawai: item.name,
+          namaPenerima: item.name,
+          namaPengirim: item.ttdName,
           nip: item.nip,
           jabatan: item.jabatan,
           waktu: item.createdAt,
@@ -106,18 +108,23 @@ export default function IKP() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
-      accessorKey: "namaPegawai",
-      header: "Nama Pegawai",
+      accessorKey: "namaPengirim",
+      header: "Nama Pengirim",
+      cell: (info) => info.getValue() as string,
+    },
+    {
+      accessorKey: "namaPenerima",
+      header: "Nama Penerima",
       cell: (info) => info.getValue() as string,
     },
     {
       accessorKey: "nip",
-      header: "NIP",
+      header: "NIP Penerima",
       cell: (info) => info.getValue() as string,
     },
     {
       accessorKey: "jabatan",
-      header: "Jabatan",
+      header: "Jabatan Penerima",
       cell: (info) => info.getValue() as string,
     },
     {
@@ -155,7 +162,7 @@ export default function IKP() {
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
-              onPress={() => navigate(`/dialog-kinerja/detail-data/${id}`)}
+              onPress={() => navigate(`/dialog-kinerja/detail-data/pengirim/${id}`)}
               isIconOnly
               radius="sm"
               size="sm"

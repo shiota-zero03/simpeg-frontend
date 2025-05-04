@@ -8,7 +8,7 @@ import { FaFilePdf, FaQuestionCircle } from "react-icons/fa";
 import {
   PenilaianKinerjaDougnhut,
   PenilaianKinerjaLine,
-} from "@/components/Charts/penilaian-kinerja";
+} from "@/components/Charts/penilaian-kinerja/indexProfile";
 import {
   TooltipAttitudeNilai,
   TooltipDisiplinNilai,
