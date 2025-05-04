@@ -2,7 +2,7 @@ import DataTables from "@/components/DataTables";
 import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import { LuEye, LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
+import { LuEye, LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
@@ -131,15 +131,6 @@ export default function Unit() {
             >
               <FaFilePdf size={14} />
             </Link>
-            <Button
-              onPress={() => navigate(`/pegawai/edit-pelaporan/${id}`)}
-              isIconOnly
-              radius="sm"
-              size="sm"
-              className="bg-alert-info text-info shadow-sm"
-            >
-              <LuPencilLine size={14} />
-            </Button>
             <Button
               onPress={() => {
                 setSelectedId(id);

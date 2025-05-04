@@ -659,24 +659,35 @@ export const statusKepegawaianData: { name: string; key: string }[] = [
   { key: "DIBERHENTIKAN", name: "Diberhentikan Karena Hukuman Disiplin" },
 ];
 
-export const pendidikanTerakhir: { name: string; key: string }[] = [
-  { name: "Sekolah Dasar (SD)", key: "Sekolah Dasar (SD)" },
+export const pendidikanTerakhir: {
+  name: string;
+  key: string;
+  singkatan?: string;
+}[] = [
+  { name: "Sekolah Dasar (SD)", key: "Sekolah Dasar (SD)", singkatan: "SD" },
   {
     name: "Sekolah Menengah Pertama (SMP)",
     key: "Sekolah Menengah Pertama (SMP)",
+    singkatan: "SMP",
   },
-  { name: "Sekolah Menengah Atas (SMA)", key: "Sekolah Menengah Atas (SMA)" },
+  {
+    name: "Sekolah Menengah Atas (SMA)",
+    key: "Sekolah Menengah Atas (SMA)",
+    singkatan: "SMA",
+  },
   {
     name: "Sekolah Menengah Kejuruan (SMK)",
     key: "Sekolah Menengah Kejuruan (SMK)",
+    singkatan: "SMK",
   },
   {
     name: "Diploma (D1, D2, D3, D4/Sarjana Terapan)",
     key: "Diploma (D1, D2, D3, D4/Sarjana Terapan)",
+    singkatan: "DIPLOMA",
   },
-  { name: "Sarjana (S1)", key: "Sarjana (S1)" },
-  { name: "Magister (S2)", key: "Magister (S2)" },
-  { name: "Doktor (S3)", key: "Doktor (S3)" },
+  { name: "Sarjana (S1)", key: "Sarjana (S1)", singkatan: "S1" },
+  { name: "Magister (S2)", key: "Magister (S2)", singkatan: "S2" },
+  { name: "Doktor (S3)", key: "Doktor (S3)", singkatan: "S3" },
 ];
 
 export const penilaianBobotDummy: {

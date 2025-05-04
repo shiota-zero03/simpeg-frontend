@@ -1,13 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import { Button } from "@heroui/react";
 import { LucideDownloadCloud } from "lucide-react";
 import { LuFullscreen } from "react-icons/lu";
 import { useGetAllJabatanHirarki } from "@/services/jabatan";
+import { Commet } from "react-loading-indicators";
 
 interface PetaJabatanData {
   name: string;
-  class: number;
+  class: number | string;
   b: number;
   k: number;
   plus: number;
@@ -15,8 +16,222 @@ interface PetaJabatanData {
 }
 
 export default function BigTable() {
-  const { data } = useGetAllJabatanHirarki();
-  console.log(data);
+  const [perencanaanKeuangan, setPerencanaanKeuangan] = useState<
+    PetaJabatanData[]
+  >([]);
+  const [umpeg, setUmpeg] = useState<PetaJabatanData[]>([]);
+  const [ln, setLN] = useState<PetaJabatanData[]>([]);
+  const [spl, setSpl] = useState<PetaJabatanData[]>([]);
+  const [kemetrologian, setKemetrologian] = useState<PetaJabatanData[]>([]);
+  const [pbpp, setPbpp] = useState<PetaJabatanData[]>([]);
+
+  const [uptd1, setUptd1] = useState<PetaJabatanData[]>([]);
+  const [uptd2, setUptd2] = useState<PetaJabatanData[]>([]);
+  const [uptd3, setUptd3] = useState<PetaJabatanData[]>([]);
+  const [uptd4, setUptd4] = useState<PetaJabatanData[]>([]);
+  const [uptd5, setUptd5] = useState<PetaJabatanData[]>([]);
+  const [uptd6, setUptd6] = useState<PetaJabatanData[]>([]);
+  const [uptd7, setUptd7] = useState<PetaJabatanData[]>([]);
+  const [uptd8, setUptd8] = useState<PetaJabatanData[]>([]);
+  const [uptd9, setUptd9] = useState<PetaJabatanData[]>([]);
+  const [uptdMetrologiLegal, setUptdMetrologiLegal] = useState<
+    PetaJabatanData[]
+  >([]);
+
+  const { data, refetch, isFetching } = useGetAllJabatanHirarki();
+  const DATA_FETCHING = useMemo(() => {
+    if (data) return data.data;
+    return [];
+  }, [data]);
+
+  useEffect(() => {
+    setPerencanaanKeuangan([]);
+    setUmpeg([]);
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    if (!isFetching && DATA_FETCHING) {
+      const newItemsKeuangan = DATA_FETCHING.filter((it) =>
+        it.parent?.nameJob.toUpperCase().includes("KEUANGAN"),
+      ).map((item) => ({
+        name: item.nameJob,
+        class: item.class === "undefined" ? "" : item.class || "",
+        b: item.user.length,
+        k: item.ketersediaan,
+        plus:
+          item.user.length > item.ketersediaan
+            ? item.user.length - item.ketersediaan
+            : 0,
+        minus:
+          item.user.length <= item.ketersediaan
+            ? item.ketersediaan - item.user.length
+            : 0,
+      }));
+      setPerencanaanKeuangan(newItemsKeuangan);
+
+      const newItemsUmpeg = DATA_FETCHING.filter((it) =>
+        it.parent?.nameJob.toUpperCase().includes("UMUM"),
+      ).map((item) => ({
+        name: item.nameJob,
+        class: item.class === "undefined" ? "" : item.class || "",
+        b: item.user.length,
+        k: item.ketersediaan,
+        plus:
+          item.user.length > item.ketersediaan
+            ? item.user.length - item.ketersediaan
+            : 0,
+        minus:
+          item.user.length <= item.ketersediaan
+            ? item.ketersediaan - item.user.length
+            : 0,
+      }));
+      setUmpeg(newItemsUmpeg);
+
+      const newLN = DATA_FETCHING.filter((it) =>
+        it.parent?.nameJob.toUpperCase().includes("LUAR NEGERI"),
+      ).map((item) => ({
+        name: item.nameJob,
+        class: item.class === "undefined" ? "" : item.class || "",
+        b: item.user.length,
+        k: item.ketersediaan,
+        plus:
+          item.user.length > item.ketersediaan
+            ? item.user.length - item.ketersediaan
+            : 0,
+        minus:
+          item.user.length <= item.ketersediaan
+            ? item.ketersediaan - item.user.length
+            : 0,
+      }));
+      setLN(newLN);
+
+      const newItemsSPL = DATA_FETCHING.filter((it) =>
+        it.parent?.nameJob.toUpperCase().includes("DISTRIBUSI"),
+      ).map((item) => ({
+        name: item.nameJob,
+        class: item.class === "undefined" ? "" : item.class || "",
+        b: item.user.length,
+        k: item.ketersediaan,
+        plus:
+          item.user.length > item.ketersediaan
+            ? item.user.length - item.ketersediaan
+            : 0,
+        minus:
+          item.user.length <= item.ketersediaan
+            ? item.ketersediaan - item.user.length
+            : 0,
+      }));
+      setSpl(newItemsSPL);
+
+      const newItemsKemetrologian = DATA_FETCHING.filter((it) =>
+        it.parent?.nameJob.toUpperCase().includes("BIDANG KEMETROLOGIAN"),
+      ).map((item) => ({
+        name: item.nameJob,
+        class: item.class === "undefined" ? "" : item.class || "",
+        b: item.user.length,
+        k: item.ketersediaan,
+        plus:
+          item.user.length > item.ketersediaan
+            ? item.user.length - item.ketersediaan
+            : 0,
+        minus:
+          item.user.length <= item.ketersediaan
+            ? item.ketersediaan - item.user.length
+            : 0,
+      }));
+      setKemetrologian(newItemsKemetrologian);
+
+      const newItemsPbpp = DATA_FETCHING.filter((it) =>
+        it.parent?.nameJob.toUpperCase().includes("PENGENDALIAN BARANG"),
+      ).map((item) => ({
+        name: item.nameJob,
+        class: item.class === "undefined" ? "" : item.class || "",
+        b: item.user.length,
+        k: item.ketersediaan,
+        plus:
+          item.user.length > item.ketersediaan
+            ? item.user.length - item.ketersediaan
+            : 0,
+        minus:
+          item.user.length <= item.ketersediaan
+            ? item.ketersediaan - item.user.length
+            : 0,
+      }));
+      setPbpp(newItemsPbpp);
+
+      const setters = [
+        setUptd1,
+        setUptd2,
+        setUptd3,
+        setUptd4,
+        setUptd5,
+        setUptd6,
+        setUptd7,
+        setUptd8,
+        setUptd9,
+      ];
+
+      const romanNumerals = [
+        "I",
+        "II",
+        "III",
+        "IV",
+        "V",
+        "VI",
+        "VII",
+        "VIII",
+        "IX",
+      ];
+
+      for (let i = 1; i <= 9; i++) {
+        const filtered = DATA_FETCHING.filter(
+          (it) =>
+            it.parent?.nameJob
+              .toUpperCase()
+              .includes(
+                `KEPALA UPTD PENGELOLAAN DAN PEMBINAAN PASAR WILAYAH ${romanNumerals[i - 1]} (`,
+              ) && !it.nameJob.toUpperCase().includes("SUBBAGIAN"),
+        ).map((item) => ({
+          name: item.nameJob,
+          class: item.class === "undefined" ? "" : item.class || "",
+          b: item.user.length,
+          k: item.ketersediaan,
+          plus:
+            item.user.length > item.ketersediaan
+              ? item.user.length - item.ketersediaan
+              : 0,
+          minus:
+            item.user.length <= item.ketersediaan
+              ? item.ketersediaan - item.user.length
+              : 0,
+        }));
+        setters[i - 1](filtered); // panggil setUptdX sesuai urutan
+      }
+
+      const newItemsDinasMetrologi = DATA_FETCHING.filter(
+        (it) =>
+          it.parent?.nameJob
+            .toUpperCase()
+            .includes("KEPALA UPTD METROLOGI LEGAL") &&
+          !it.nameJob.toUpperCase().includes("SUBBAGIAN"),
+      ).map((item) => ({
+        name: item.nameJob,
+        class: item.class === "undefined" ? "" : item.class || "",
+        b: item.user.length,
+        k: item.ketersediaan,
+        plus:
+          item.user.length > item.ketersediaan
+            ? item.user.length - item.ketersediaan
+            : 0,
+        minus:
+          item.user.length <= item.ketersediaan
+            ? item.ketersediaan - item.user.length
+            : 0,
+      }));
+      setUptdMetrologiLegal(newItemsDinasMetrologi);
+    }
+  }, [isFetching, DATA_FETCHING]);
 
   const tableRef = useRef<HTMLTableElement>(null);
 
@@ -76,594 +291,36 @@ export default function BigTable() {
     }
   };
 
-  const perencanaanKeuangan: PetaJabatanData[] = [
-    {
-      name: "Penelaah Teknis Kebijakan ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pranata Komputer Keahlian",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const umpeg: PetaJabatanData[] = [
-    {
-      name: "Penelaah Teknis Kebijakan ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengadministrasi Perkantoran",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pranata Komputer Keahlian",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    { name: "Arsiparis", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
-  ];
+  const dataToRenderPKUmpeg =
+    perencanaanKeuangan.length >= umpeg.length ? perencanaanKeuangan : umpeg;
 
-  const ln: PetaJabatanData[] = [
-    {
-      name: "Analis Perdagangan Ahli Pertama",
-      class: 8,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Analis Perdagangan Ahli Muda",
-      class: 10,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Analis Perdagangan Ahli Madya",
-      class: 12,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penelaah Teknis Kebijakan ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penelaah Pengembangan Jasa Sertifikasi dan Pengujian",
-      class: 7,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Fasilitator Perdagangan ",
-      class: 7,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    { name: "Surveyor Perdagangan ", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
-    {
-      name: "Pranata Komputer Keahlian",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const spl: PetaJabatanData[] = [
-    {
-      name: "Analis Perdagangan Ahli Pertama",
-      class: 8,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Analis Perdagangan Ahli Muda",
-      class: 10,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Analis Perdagangan Ahli Madya",
-      class: 12,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penelaah Teknis Kebijakan",
-      class: 7,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengadministrasi Perkantoran",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Fasilitator Perdagangan ",
-      class: 7,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    { name: "Surveyor Perdagangan ", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
-    {
-      name: "Pranata Komputer Keahlian",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const kemetrologian: PetaJabatanData[] = [
-    {
-      name: "Pengawas Kemetrologian Ahli Pertama",
-      class: 8,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengawas Kemetrologian Ahli Muda",
-      class: 10,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengawas Kemetrologian Ahli Madya",
-      class: 12,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penelaah Teknis Kebijakan",
-      class: 7,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengadministrasi Perkantoran",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const pbpp: PetaJabatanData[] = [
-    {
-      name: "Analis Perdagangan Ahli Pertama",
-      class: 8,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Analis Perdagangan Ahli Muda",
-      class: 10,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Analis Perdagangan Ahli Madya",
-      class: 12,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penelaah Teknis Kebijakan",
-      class: 7,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penelaah Pengembangan Jasa Sertifikasi dan Pengujian",
-      class: 7,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    { name: "Surveyor Perdagangan ", class: 7, b: 0, k: 0, plus: 0, minus: 0 },
-    {
-      name: "Pranata Komputer Keahlian",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
+  const dataToRenderKabid = [
+    { name: "ln", data: ln },
+    { name: "spl", data: spl },
+    { name: "kemetrologian", data: kemetrologian },
+    { name: "pbpp", data: pbpp },
+  ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
-  const uptd1: PetaJabatanData[] = [
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengadministrasi Perkantoran",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penata Layanan Operasional",
-      class: 3,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const uptd2: PetaJabatanData[] = [
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengadministrasi Perkantoran",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penata Layanan Operasional",
-      class: 3,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const uptd3: PetaJabatanData[] = [
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengadministrasi Perkantoran",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penata Layanan Operasional",
-      class: 3,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const uptd4: PetaJabatanData[] = [
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengadministrasi Perkantoran",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penata Layanan Operasional",
-      class: 3,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const uptd5: PetaJabatanData[] = [
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengadministrasi Perkantoran",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penata Layanan Operasional",
-      class: 3,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const uptd6: PetaJabatanData[] = [
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengadministrasi Perkantoran",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penata Layanan Operasional",
-      class: 3,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const uptd7: PetaJabatanData[] = [
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengadministrasi Perkantoran",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penata Layanan Operasional",
-      class: 3,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const uptd8: PetaJabatanData[] = [
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengadministrasi Perkantoran",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penata Layanan Operasional",
-      class: 3,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const uptd9: PetaJabatanData[] = [
-    {
-      name: "Pengolah Data dan Informasi ",
-      class: 6,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengadministrasi Perkantoran",
-      class: 5,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Penata Layanan Operasional",
-      class: 3,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
-  const uptdMetrologiLegal: PetaJabatanData[] = [
-    { name: "Penera Ahli Pertama", class: 8, b: 0, k: 0, plus: 0, minus: 0 },
-    { name: "Penera Ahli Muda", class: 9, b: 0, k: 0, plus: 0, minus: 0 },
-    { name: "Penera Ahli Madya", class: 11, b: 0, k: 0, plus: 0, minus: 0 },
-    {
-      name: "Pengawas Perdagangan Pertama",
-      class: 8,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengawas Perdagangan Muda",
-      class: 9,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Pengawas Perdagangan Madya",
-      class: 11,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Analis Perdagangan Pertama",
-      class: 8,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Analis Perdagangan Muda",
-      class: 9,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-    {
-      name: "Analis Perdagangan Madya",
-      class: 11,
-      b: 0,
-      k: 0,
-      plus: 0,
-      minus: 0,
-    },
-  ];
+  const dataToRenderUPTD = [
+    { name: "uptd1", data: uptd1 },
+    { name: "uptd2", data: uptd2 },
+    { name: "uptd3", data: uptd3 },
+    { name: "uptd4", data: uptd4 },
+    { name: "uptd5", data: uptd5 },
+    { name: "uptd6", data: uptd6 },
+    { name: "uptd7", data: uptd7 },
+    { name: "uptd8", data: uptd8 },
+    { name: "uptd9", data: uptd9 },
+    { name: "uptdMetrologiLegal", data: uptdMetrologiLegal },
+  ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
   return (
     <div className="bg-white">
+      {isFetching && (
+        <div className="inset-0 fixed flex items-center justify-center z-20">
+          <Commet color="#32cd32" size="medium" text="" textColor="" />
+        </div>
+      )}
       <div className="flex gap-4 mb-4 p-4">
         <Button
           onPress={handleDownload}
@@ -814,7 +471,7 @@ export default function BigTable() {
                   className="px-2 py-2 text-center border border-button-primary text-xs"
                   colSpan={14}
                 >
-                  Kasubbag Perencanaan dan Keuangan{" "}
+                  Kepala Subbagian Keuangan{" "}
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
@@ -908,8 +565,9 @@ export default function BigTable() {
                 ))}
                 <th className="px-2 py-2 text-center text-xs" colSpan={48}></th>
               </tr>
-              {umpeg.map((itemUmpeg, index) => {
+              {dataToRenderPKUmpeg.map((_, index) => {
                 const itemPK = perencanaanKeuangan[index] || {};
+                const itemUmpeg = umpeg[index] || {};
                 return (
                   <React.Fragment key={index}>
                     <tr>
@@ -944,7 +602,7 @@ export default function BigTable() {
                           colSpan={6}
                           rowSpan={2}
                         >
-                          {itemUmpeg.name}
+                          {itemPK.name}
                         </td>
                       ) : (
                         <td colSpan={6} rowSpan={2}></td>
@@ -955,7 +613,7 @@ export default function BigTable() {
                           colSpan={2}
                           rowSpan={2}
                         >
-                          {itemUmpeg.class}
+                          {itemPK.class}
                         </td>
                       ) : (
                         <td colSpan={2} rowSpan={2}></td>
@@ -965,7 +623,7 @@ export default function BigTable() {
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
                         >
-                          {itemUmpeg.b}
+                          {itemPK.b}
                         </td>
                       ) : (
                         <td rowSpan={2}></td>
@@ -975,7 +633,7 @@ export default function BigTable() {
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
                         >
-                          {itemUmpeg.k}
+                          {itemPK.k}
                         </td>
                       ) : (
                         <td rowSpan={2}></td>
@@ -985,7 +643,7 @@ export default function BigTable() {
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
                         >
-                          {itemUmpeg.plus}
+                          {itemPK.plus}
                         </td>
                       ) : (
                         <td rowSpan={2}></td>
@@ -995,7 +653,7 @@ export default function BigTable() {
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
                         >
-                          {itemUmpeg.minus}
+                          {itemPK.minus}
                         </td>
                       ) : (
                         <td rowSpan={2}></td>
@@ -1009,50 +667,82 @@ export default function BigTable() {
                         <th rowSpan={2}></th>
                       )}
 
-                      <th
-                        className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                        colSpan={2}
-                        rowSpan={2}
-                      ></th>
-                      <th className="px-2 py-2 text-center text-xs"></th>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        colSpan={6}
-                        rowSpan={2}
-                      >
-                        {itemUmpeg.name}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        colSpan={2}
-                        rowSpan={2}
-                      >
-                        {itemUmpeg.class}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        rowSpan={2}
-                      >
-                        {itemUmpeg.b}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        rowSpan={2}
-                      >
-                        {itemUmpeg.k}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        rowSpan={2}
-                      >
-                        {itemUmpeg.plus}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        rowSpan={2}
-                      >
-                        {itemUmpeg.minus}
-                      </td>
+                      {itemUmpeg.name ? (
+                        <th
+                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
+                          colSpan={2}
+                          rowSpan={2}
+                        ></th>
+                      ) : (
+                        <td colSpan={2} rowSpan={2}></td>
+                      )}
+                      {itemUmpeg.name ? (
+                        <th className="px-2 py-2 text-center text-xs"></th>
+                      ) : (
+                        <th></th>
+                      )}
+                      {itemUmpeg.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          colSpan={6}
+                          rowSpan={2}
+                        >
+                          {itemUmpeg.name}
+                        </td>
+                      ) : (
+                        <th colSpan={6} rowSpan={2}></th>
+                      )}
+                      {itemUmpeg.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          colSpan={2}
+                          rowSpan={2}
+                        >
+                          {itemUmpeg.class}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+                      {itemUmpeg.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemUmpeg.b}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+                      {itemUmpeg.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemUmpeg.k}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+                      {itemUmpeg.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemUmpeg.plus}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+                      {itemUmpeg.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemUmpeg.minus}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
                       <th
                         className="px-2 py-2 text-center text-xs"
                         rowSpan={2}
@@ -1258,7 +948,8 @@ export default function BigTable() {
                 ))}
                 <th className="px-2 py-2 text-center text-xs" colSpan={48}></th>
               </tr>
-              {ln.map((itemLN, index) => {
+              {dataToRenderKabid.map((_, index) => {
+                const itemLN = ln[index] || {};
                 const itemSPL = spl[index] || {};
                 const itemKemetrologian = kemetrologian[index] || {};
                 const itemPBPP = pbpp[index] || {};
@@ -1271,50 +962,82 @@ export default function BigTable() {
                         rowSpan={2}
                       ></th>
 
-                      <th
-                        className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                        colSpan={2}
-                        rowSpan={2}
-                      ></th>
-                      <th className="px-2 py-2 text-center text-xs"></th>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        colSpan={6}
-                        rowSpan={2}
-                      >
-                        {itemLN.name}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        colSpan={2}
-                        rowSpan={2}
-                      >
-                        {itemLN.class}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        rowSpan={2}
-                      >
-                        {itemLN.b}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        rowSpan={2}
-                      >
-                        {itemLN.k}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        rowSpan={2}
-                      >
-                        {itemLN.plus}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        rowSpan={2}
-                      >
-                        {itemLN.minus}
-                      </td>
+                      {itemLN.name ? (
+                        <th
+                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
+                          colSpan={2}
+                          rowSpan={2}
+                        ></th>
+                      ) : (
+                        <th colSpan={2} rowSpan={2}></th>
+                      )}
+                      {itemLN.name ? (
+                        <th className="px-2 py-2 text-center text-xs"></th>
+                      ) : (
+                        <th></th>
+                      )}
+                      {itemLN.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          colSpan={6}
+                          rowSpan={2}
+                        >
+                          {itemLN.name}
+                        </td>
+                      ) : (
+                        <td colSpan={6} rowSpan={2}></td>
+                      )}
+                      {itemLN.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          colSpan={2}
+                          rowSpan={2}
+                        >
+                          {itemLN.class}
+                        </td>
+                      ) : (
+                        <td colSpan={2} rowSpan={2}></td>
+                      )}
+                      {itemLN.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemLN.b}
+                        </td>
+                      ) : (
+                        <td rowSpan={2}></td>
+                      )}
+                      {itemLN.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemLN.k}
+                        </td>
+                      ) : (
+                        <td rowSpan={2}></td>
+                      )}
+                      {itemLN.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemLN.plus}
+                        </td>
+                      ) : (
+                        <td rowSpan={2}></td>
+                      )}
+                      {itemLN.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemLN.minus}
+                        </td>
+                      ) : (
+                        <td rowSpan={2}></td>
+                      )}
                       <th
                         className="px-2 py-2 text-center text-xs"
                         rowSpan={2}
@@ -1823,7 +1546,7 @@ export default function BigTable() {
                   </React.Fragment>
                 ))}
               </tr>
-              {uptdMetrologiLegal.map((itemMetrologi, index) => {
+              {dataToRenderUPTD.map((_, index) => {
                 const itemUptd1 = uptd1[index] || {};
                 const itemUptd2 = uptd2[index] || {};
                 const itemUptd3 = uptd3[index] || {};
@@ -1833,6 +1556,7 @@ export default function BigTable() {
                 const itemUptd7 = uptd7[index] || {};
                 const itemUptd8 = uptd8[index] || {};
                 const itemUptd9 = uptd9[index] || {};
+                const itemMetrologi = uptdMetrologiLegal[index] || {};
                 return (
                   <React.Fragment key={index}>
                     <tr>
@@ -2844,54 +2568,90 @@ export default function BigTable() {
                         ></th>
                       )}
 
-                      <th
-                        className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                        colSpan={2}
-                        rowSpan={2}
-                      ></th>
-                      <th className="px-2 py-2 text-center text-xs"></th>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        colSpan={6}
-                        rowSpan={2}
-                      >
-                        {itemMetrologi.name}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        colSpan={2}
-                        rowSpan={2}
-                      >
-                        {itemMetrologi.class}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        rowSpan={2}
-                      >
-                        {itemMetrologi.b}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        rowSpan={2}
-                      >
-                        {itemMetrologi.k}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        rowSpan={2}
-                      >
-                        {itemMetrologi.plus}
-                      </td>
-                      <td
-                        className="px-2 py-2 border border-button-primary text-center text-xs"
-                        rowSpan={2}
-                      >
-                        {itemMetrologi.minus}
-                      </td>
-                      <th
-                        className="px-2 py-2 text-center text-xs"
-                        rowSpan={2}
-                      ></th>
+                      {itemMetrologi.name ? (
+                        <th
+                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
+                          colSpan={2}
+                          rowSpan={2}
+                        ></th>
+                      ) : (
+                        <th colSpan={2} rowSpan={2}></th>
+                      )}
+                      {itemMetrologi.name ? (
+                        <th className="px-2 py-2 text-center text-xs"></th>
+                      ) : (
+                        <th></th>
+                      )}
+                      {itemMetrologi.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          colSpan={6}
+                          rowSpan={2}
+                        >
+                          {itemMetrologi.name}
+                        </td>
+                      ) : (
+                        <th colSpan={6} rowSpan={2}></th>
+                      )}
+                      {itemMetrologi.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          colSpan={2}
+                          rowSpan={2}
+                        >
+                          {itemMetrologi.class}
+                        </td>
+                      ) : (
+                        <th colSpan={2} rowSpan={2}></th>
+                      )}
+                      {itemMetrologi.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemMetrologi.b}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+                      {itemMetrologi.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemMetrologi.k}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+                      {itemMetrologi.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemMetrologi.plus}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+                      {itemMetrologi.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemMetrologi.minus}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+                      {itemMetrologi.name ? (
+                        <th
+                          className="px-2 py-2 text-center text-xs"
+                          rowSpan={2}
+                        ></th>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
                     </tr>
                     <tr>
                       {itemUptd1.name ? (
@@ -2939,7 +2699,11 @@ export default function BigTable() {
                       ) : (
                         <th></th>
                       )}
-                      <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                      {itemMetrologi.name ? (
+                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                      ) : (
+                        <th></th>
+                      )}
                     </tr>
                   </React.Fragment>
                 );

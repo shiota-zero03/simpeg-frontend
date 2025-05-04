@@ -3,16 +3,30 @@ import { ErrorToast } from "@/utils/ToastMessage";
 import { useNavigate, useParams } from "react-router-dom";
 import DetailExport from "./PelaporanDetail";
 import { PelaporanPegawaiRes } from "@/interface/responses/pegawai.interface";
-import { useGetDetailPelaporanPegawai } from "@/services/pegawai";
+import {
+  useGetAllPegawaiOption,
+  useGetDetailPelaporanPegawai,
+} from "@/services/pegawai";
 
 export default function ExportSurat() {
   const { id } = useParams();
 
   const navigate = useNavigate();
 
+  const {
+    data: dataPegawai,
+    refetch: refetchPegawai,
+    isFetching: isFetchingPegawai,
+  } = useGetAllPegawaiOption();
   const { data, isFetching, refetch, error } = useGetDetailPelaporanPegawai(
     id || "",
   );
+
+  const DATA_FETCHING = useMemo(() => {
+    if (dataPegawai) return dataPegawai.data;
+    else return [];
+  }, [dataPegawai]);
+
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
@@ -22,6 +36,7 @@ export default function ExportSurat() {
 
   useEffect(() => {
     refetch();
+    refetchPegawai();
   }, []);
 
   const DATA_DETAIL: PelaporanPegawaiRes | null = useMemo(() => {
@@ -52,7 +67,8 @@ export default function ExportSurat() {
   }, [id, data]);
 
   useEffect(() => {
-    if (!isFetching && DATA_DETAIL) {
+    if (!isFetching && !isFetchingPegawai && DATA_DETAIL && DATA_FETCHING) {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
       // Tunggu render selesai dulu baru trigger print
       setTimeout(() => {
         window.print();
@@ -69,12 +85,16 @@ export default function ExportSurat() {
         window.removeEventListener("afterprint", handleAfterPrint);
       };
     }
-  }, [isFetching, DATA_DETAIL]);
+  }, [isFetching, isFetchingPegawai, DATA_FETCHING, DATA_DETAIL]);
 
   return (
     <>
       {DATA_DETAIL && (
-        <DetailExport DATA_DETAIL={DATA_DETAIL} isFetching={isFetching} />
+        <DetailExport
+          DATA_DETAIL={DATA_DETAIL}
+          isFetching={isFetching}
+          user={DATA_FETCHING}
+        />
       )}
     </>
   );

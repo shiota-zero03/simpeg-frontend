@@ -66,12 +66,16 @@ export const getAllSuratPegawaiAdmin = async (
   page: number,
   limit: number,
   title?: string,
+  startDate?: string,
+  endDate?: string,
 ): Promise<ISuratPegawaiListRes> => {
   const params = new URLSearchParams();
 
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
   if (title) params.set("name", title);
+  if (startDate) params.set("startDate", startDate);
+  if (endDate) params.set("endDate", endDate);
   const response = await instance.get(
     `/admin/type-form/list/admin?${params.toString()}`,
   );

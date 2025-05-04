@@ -288,7 +288,9 @@ export default function News() {
           <div className="flex items-center gap-2 justify-center">
             {(role === "ADMIN_SPPD" || role === "SUPERUSERS") && (
               <Button
-                onPress={() => navigate(`/sppd/update-data/${id}`)}
+                onPress={() =>
+                  navigate(`/sppd/update-data/${id}?type=PERJALANAN_BIASA`)
+                }
                 isIconOnly
                 radius="sm"
                 size="sm"

@@ -35,6 +35,19 @@ export const getAllSPPDUser = async (
   return response.data;
 };
 
+export const getAllSPPDRekapAll = async (
+  startDate?: string | null,
+  endDate?: string | null,
+): Promise<ISPPDRekapRes> => {
+  const params = new URLSearchParams();
+  if (startDate) params.set("startDate", startDate);
+  if (endDate) params.set("endDate", endDate);
+  const response = await instance.get(
+    `/admin/sppd/rekap/all/type?${params.toString()}`,
+  );
+  return response.data;
+};
+
 export const getAllSPPDRekap = async (
   page: number,
   limit: number,

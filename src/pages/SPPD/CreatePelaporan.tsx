@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TitleCase } from "@/components/card/TitleCase";
 import {
   Button,
@@ -7,6 +7,7 @@ import {
   CardHeader,
   Input,
   useDisclosure,
+  Tooltip,
 } from "@heroui/react";
 import { LuArrowLeft, LuSave } from "react-icons/lu";
 import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
@@ -14,13 +15,15 @@ import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
-import { useCreatePelaporanSPPD } from "@/services/sppd";
+import { useCreatePelaporanSPPD, useGetAllSPPDUserAll } from "@/services/sppd";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { ClassicEditor, SimpleUploadAdapter } from "ckeditor5";
 import { ckPlugins, ckToolbar } from "@/constants/CkEditorPlugin";
 import { StorePelaporanSPPD } from "@/interface/request/sppd.interface";
+import { DMYIndoToFormat } from "@/utils/dateFormater";
+import { FaInfoCircle } from "react-icons/fa";
 
 interface formProps {
   latarBelakang?: string;
@@ -88,8 +91,6 @@ export default function CreatePelaporan() {
     if (!formData.tujuan) error.tujuan = "Tujuan tidak boleh kosong";
     if (!formData.dasarHukum)
       error.dasarHukum = "Dasar hukum tidak boleh kosong";
-    if (!formData.isiLaporan)
-      error.isiLaporan = "Isi laporan tidak boleh kosong";
 
     if (
       !formData.jabatanPengelola ||
@@ -141,6 +142,154 @@ export default function CreatePelaporan() {
     onOpenConfirm();
   };
 
+  const formatDate = (date: Date) => {
+    return date.toISOString().split("T")[0]; // ambil yyyy-mm-dd saja
+  };
+
+  const now = new Date();
+  const start = new Date(now.getFullYear(), now.getMonth(), 1);
+  const end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+  const startDate = formatDate(start);
+  const endDate = formatDate(end);
+
+  const { data, isFetching, refetch } = useGetAllSPPDUserAll(
+    startDate,
+    endDate,
+  );
+
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  const DATA_FETCHING = useMemo(() => {
+    if (data) {
+      const parsedData = data.data.response.map((item, index) => {
+        const startDate = new Date(item.sppd.startDate);
+        const endDate = new Date(item.sppd.endDate);
+
+        return {
+          no: index + 1,
+          nama: item.user.name || "-",
+          norek: item.sppd.kodeRekening || "-",
+          nosp: item.sppd.nomorSurat || "-",
+          tgl: `${item.sppd.startDate ? DMYIndoToFormat(item.sppd.startDate) : ""} - ${item.sppd.endDate ? DMYIndoToFormat(item.sppd.endDate) : ""}`,
+          tujuan: item.sppd.location || "-",
+          uraian: item.sppd.reasoning || "-",
+          transport: item.budgets[0] ? item.budgets[0].transport || 0 : 0,
+          xtransport: item.budgets[0] ? item.budgets[0].volTransport || 0 : 0,
+          jumlahtransport: item.budgets[0]
+            ? (item.budgets[0].transport || 0) *
+              (item.budgets[0].volTransport || 0)
+            : 0,
+          representatif: item.budgets[0]
+            ? item.budgets[0].representatif || 0
+            : 0,
+          xrepresentatif: item.budgets[0]
+            ? item.budgets[0].volRepresentatif || 0
+            : 0,
+          jumlahrepresentatif: item.budgets[0]
+            ? (item.budgets[0].representatif || 0) *
+              (item.budgets[0].volRepresentatif || 0)
+            : 0,
+          daily: item.budgets[0] ? item.budgets[0].dailyAllowance || 0 : 0,
+          xdaily: item.budgets[0] ? item.budgets[0].volDailyAllowance || 0 : 0,
+          jumlahdaily: item.budgets[0]
+            ? (item.budgets[0].dailyAllowance || 0) *
+              (item.budgets[0].volDailyAllowance || 0)
+            : 0,
+          total: item.budgets[0]
+            ? (item.budgets[0].transport || 0) *
+                (item.budgets[0].volTransport || 0) +
+              (item.budgets[0].representatif || 0) *
+                (item.budgets[0].volRepresentatif || 0) +
+              (item.budgets[0].dailyAllowance || 0) *
+                (item.budgets[0].volDailyAllowance || 0)
+            : 0,
+          type: item.sppd.type,
+          startDate,
+          endDate,
+          issame: false,
+        };
+      });
+
+      for (let i = 0; i < parsedData.length; i++) {
+        for (let j = 0; j < parsedData.length; j++) {
+          if (
+            i !== j &&
+            parsedData[i].nama === parsedData[j].nama &&
+            parsedData[i].startDate <= parsedData[j].endDate &&
+            parsedData[i].endDate >= parsedData[j].startDate
+          ) {
+            parsedData[i].issame = true;
+            break;
+          }
+        }
+      }
+
+      return parsedData.map(({ startDate, endDate, ...rest }) => rest);
+    } else return [];
+  }, [data]);
+  /* eslint-enable @typescript-eslint/no-unused-vars */
+
+  const generateKesimpulan = (data: typeof DATA_FETCHING) => {
+    const totalPerjalanan = data.length;
+
+    // Menghitung jumlah perjalanan dinas berdasarkan jenis
+    const typeMap: { [key: string]: number } = {};
+    data.forEach((item) => {
+      const type = item.type || "Tidak Diketahui";
+      if (typeMap[type]) {
+        typeMap[type]++;
+      } else {
+        typeMap[type] = 1;
+      }
+    });
+
+    // Mengurutkan pegawai berdasarkan jumlah perjalanan terbanyak
+    const pegawaiCount: { [key: string]: number } = {};
+    data.forEach((item) => {
+      const nama = item.nama || "-";
+      if (pegawaiCount[nama]) {
+        pegawaiCount[nama]++;
+      } else {
+        pegawaiCount[nama] = 1;
+      }
+    });
+
+    const topNama = Object.entries(pegawaiCount)
+      .sort((a, b) => b[1] - a[1]) // Mengurutkan berdasarkan jumlah perjalanan terbanyak
+      .slice(0, 10); // Ambil 10 pegawai terbanyak (atau kurang dari itu)
+
+    const typeDescriptions = Object.entries(typeMap)
+      .map(
+        ([type, count]) =>
+          `${count} perjalanan dinas berjenis ${type === "PERJALANAN_BIASA" ? "Perjalanan Dinas Biasa" : "Perjalanan Dinas Dalam Kota"}`,
+      )
+      .join(", ");
+
+    const namaList = topNama
+      .map(([name, count], index) => `${index + 1}. ${name} (${count} kali)`)
+      .join("; ");
+
+    const jumlahPegawai = topNama.length;
+    const pengantarNama =
+      jumlahPegawai === 1
+        ? "pegawai yang paling sering melakukan perjalanan dinas adalah"
+        : jumlahPegawai < 10
+          ? `berikut ${jumlahPegawai} pegawai yang paling sering melakukan perjalanan dinas`
+          : "sepuluh pegawai yang paling sering melakukan perjalanan dinas adalah";
+
+    return `
+      <div>
+        <div>Selama periode pelaporan, tercatat sebanyak ${totalPerjalanan} perjalanan dinas telah dilaksanakan. Perjalanan tersebut terdiri dari ${typeDescriptions}.</div>
+        <div>Adapun ${pengantarNama}: ${namaList}</div>
+        <div>Data ini dapat menjadi dasar evaluasi terhadap intensitas pelaksanaan tugas luar kantor oleh masing-masing pegawai, serta menjadi acuan dalam pemerataan penugasan di masa mendatang.</div>
+      </div>
+    `;
+  };
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
   const { mutate: mutatePost } = useCreatePelaporanSPPD();
 
   const handleConfirm = () => {
@@ -165,7 +314,11 @@ export default function CreatePelaporan() {
     if (formData.maksud) formToSend.maksud = formData.maksud;
     if (formData.tujuan) formToSend.tujuan = formData.tujuan;
     if (formData.dasarHukum) formToSend.dasarHukum = formData.dasarHukum;
-    if (formData.isiLaporan) formToSend.isiLaporan = formData.isiLaporan;
+    if (formData.isiLaporan) {
+      formToSend.isiLaporan = `${formData.isiLaporan}${generateKesimpulan(DATA_FETCHING)}`;
+    } else {
+      formToSend.isiLaporan = `${generateKesimpulan(DATA_FETCHING)}`;
+    }
     if (formData.jabatanPengelola)
       formToSend.jabatanPengelola = formData.jabatanPengelola;
     if (formData.pengelola) formToSend.pengelola = formData.pengelola;
@@ -235,7 +388,7 @@ export default function CreatePelaporan() {
               <CardHeader className="text-sm font-semibold">
                 <div className="ms-auto">
                   <Button
-                    isLoading={isLoadingConfirm}
+                    isLoading={isFetching || isLoadingConfirm}
                     className="bg-button-primary text-white"
                     size="sm"
                     radius="sm"
@@ -453,9 +606,17 @@ export default function CreatePelaporan() {
                     <div className="mb-1">
                       <label
                         htmlFor="pelaporan"
-                        className="font-semibold text-lg"
+                        className="font-semibold text-lg flex items-center gap-2"
                       >
                         V. Isi Laporan
+                        <Tooltip
+                          content="Optional, akan ditambahkan keterangan secara otomatis"
+                          color="primary"
+                          radius="sm"
+                          className="border border-white"
+                        >
+                          <FaInfoCircle size={12} className="text-warning" />
+                        </Tooltip>
                       </label>
                     </div>
                     <CKEditor

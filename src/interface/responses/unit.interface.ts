@@ -6,6 +6,11 @@ export interface UnitRes {
   ketersediaan: number;
   nameUnit: string;
   description: string | null;
+  jabatan: {
+    id: number;
+    nameJob: string;
+    ketersediaan: number;
+  }[];
 }
 
 export interface IUnitRes extends BaseRes {

@@ -15,6 +15,7 @@ export interface PegawaiRes {
     fungsionalJob: string;
     eselon: string;
     jabatanFungsional: string;
+    fungsional: boolean;
     unit: {
       id: number;
       nameUnit: string;

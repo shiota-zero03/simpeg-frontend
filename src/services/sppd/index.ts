@@ -7,6 +7,7 @@ import {
   getAllPelaporanSPPD,
   getAllSPPD,
   getAllSPPDRekap,
+  getAllSPPDRekapAll,
   getAllSPPDUser,
   getDetailPelaporanSPPD,
   getDetailSPPD,
@@ -24,6 +25,16 @@ import {
   StoreSPPD,
 } from "@/interface/request/sppd.interface";
 
+export const useGetAllSPPDUserAll = (
+  start?: string | null,
+  end?: string | null,
+) => {
+  return useQuery({
+    queryKey: ["getAllSPPDRekapAll", start, end],
+    queryFn: () => getAllSPPDRekapAll(start, end),
+    staleTime: 300000,
+  });
+};
 export const useGetAllSPPDUser = (
   page: number,
   limit: number,

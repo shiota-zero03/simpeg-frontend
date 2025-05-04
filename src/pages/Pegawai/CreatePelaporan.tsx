@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TitleCase } from "@/components/card/TitleCase";
 import {
   Button,
@@ -6,6 +6,7 @@ import {
   CardBody,
   CardHeader,
   Input,
+  Tooltip,
   useDisclosure,
 } from "@heroui/react";
 import { LuArrowLeft, LuSave } from "react-icons/lu";
@@ -20,7 +21,14 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { ClassicEditor, SimpleUploadAdapter } from "ckeditor5";
 import { ckPlugins, ckToolbar } from "@/constants/CkEditorPlugin";
 import { StorePelaporanPegawai } from "@/interface/request/pegawai.interface";
-import { useCreatePelaporanPegawai } from "@/services/pegawai";
+import {
+  useCreatePelaporanPegawai,
+  useGetAllPegawaiAdmin,
+  useGetAllPegawaiOption,
+} from "@/services/pegawai";
+import { YMToIndoFormat } from "@/utils/dateFormater";
+import dayjs from "dayjs";
+import { FaInfoCircle } from "react-icons/fa";
 
 interface formProps {
   latarBelakang?: string;
@@ -88,8 +96,6 @@ export default function CreatePelaporan() {
     if (!formData.tujuan) error.tujuan = "Tujuan tidak boleh kosong";
     if (!formData.dasarHukum)
       error.dasarHukum = "Dasar hukum tidak boleh kosong";
-    if (!formData.isiLaporan)
-      error.isiLaporan = "Isi laporan tidak boleh kosong";
 
     if (
       !formData.jabatanPengelola ||
@@ -143,6 +149,65 @@ export default function CreatePelaporan() {
 
   const { mutate: mutatePost } = useCreatePelaporanPegawai();
 
+  const dateDefault = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
+  const getStartAndEndDate = (month: string) => {
+    const [year, mon] = month.split("-").map(Number);
+    const startDate = `${year}-${String(mon).padStart(2, "0")}-01`;
+    const endDate = new Date(year, mon, 0); // tanggal terakhir bulan tsb
+    const formattedEndDate = `${year}-${String(mon).padStart(2, "0")}-${String(endDate.getDate()).padStart(2, "0")}`;
+
+    return { startDate, endDate: formattedEndDate };
+  };
+
+  const { data, isFetching, refetch } = useGetAllPegawaiOption();
+  const {
+    data: allDataSurat,
+    isFetching: isFetchingDataSurat,
+    refetch: refetchDataSurat,
+  } = useGetAllPegawaiAdmin(
+    1,
+    500,
+    "",
+    getStartAndEndDate(dateDefault).startDate,
+    getStartAndEndDate(dateDefault).endDate,
+  );
+
+  const DATA_FETCHING = useMemo(() => {
+    if (data) return data.data;
+    else return [];
+  }, [data]);
+
+  const dataSurat = useMemo(() => {
+    if (allDataSurat) {
+      const dataForSurat = allDataSurat.data.response;
+      return {
+        cuti: dataForSurat.filter((it) => it.typeForm === "CUTI"),
+        pangkat: dataForSurat.filter(
+          (it) => it.typeForm === "KENAIKAN_PANGKAT",
+        ),
+        gaji: dataForSurat.filter((it) => it.typeForm === "KENAIKAN_GAJI"),
+      };
+    } else {
+      return {
+        cuti: [],
+        pangkat: [],
+        gaji: [],
+      };
+    }
+  }, [dateDefault, allDataSurat]);
+
+  useEffect(() => {
+    refetch();
+    refetchDataSurat();
+  }, []);
+
+  const formatNames = (arr: string[]) => {
+    if (arr.length === 0) return "";
+    if (arr.length === 1) return arr[0];
+    if (arr.length === 2) return `${arr[0]} dan ${arr[1]}`;
+    return `${arr.slice(0, -1).join(", ")}, dan ${arr[arr.length - 1]}`;
+  };
+
   const handleConfirm = () => {
     setLoadingConfirm(true);
 
@@ -159,13 +224,51 @@ export default function CreatePelaporan() {
 
     const formToSend: StorePelaporanPegawai = {};
 
+    const namesGaji = dataSurat.gaji.map((d) => d.user.name);
+    const namesPangkat = dataSurat.pangkat.map((d) => d.user.name);
+    const namesCuti = dataSurat.cuti.map((d) => d.user.name);
+    const namePensiun = DATA_FETCHING.filter((it) => {
+      if (!it.pensionDate) return false;
+      return dayjs(it.pensionDate).format("YYYY-MM") === dateDefault;
+    }).map((d) => d.name);
+
+    const textLaporan = `
+      <p>
+        Berdasarkan data kepegawaian yang dihimpun hingga bulan ${YMToIndoFormat(dateDefault)}, 
+        tercatat sebanyak ${DATA_FETCHING.length} Pegawai yang terdaftar secara aktif dalam sistem informasi kepegawaian. 
+        ${
+          namesGaji.length > 0
+            ? `Dari jumlah tersebut, sebanyak ${namesGaji.length} pegawai, atas nama ${formatNames(namesGaji)}, telah memperoleh kenaikan gaji berkala sesuai dengan ketentuan yang berlaku.`
+            : "Tidak ada pegawai yang memperoleh kenaikan gaji berkala pada bulan ini."
+        }
+        ${
+          namesPangkat.length > 0
+            ? ` Selanjutnya, ${namesPangkat.length} pegawai, yakni ${formatNames(namesPangkat)}, telah memenuhi syarat dan ditetapkan mendapatkan kenaikan pangkat.`
+            : " Selanjutnya, pada bulan ini tidak ada pegawai yang ditetapkan mendapatkan kenaikan pangkat."
+        }
+        ${
+          namesCuti.length > 0
+            ? ` Selain itu, terdapat ${namesCuti.length} pegawai yang telah mengajukan usulan terkait hak cuti kepegawaiannya, yaitu ${formatNames(namesCuti)}.`
+            : " Selain itu, tidak ada pengajuan cuti pegawai yang dilakukan pada bulan ini."
+        }
+        ${
+          namePensiun.length > 0
+            ? ` Terakhir, terdapat ${namePensiun.length} pegawai yang tercatat memasuki masa pensiun pada bulan ini, yaitu ${formatNames(namePensiun)}.`
+            : " Terakhir, tidak ada pegawai yang pensiun pada bulan ini."
+        }
+      </p>
+    `;
     if (formData.latarBelakang)
       formToSend.latarBelakang = formData.latarBelakang;
     if (formData.sasaran) formToSend.sasaran = formData.sasaran;
     if (formData.maksud) formToSend.maksud = formData.maksud;
     if (formData.tujuan) formToSend.tujuan = formData.tujuan;
     if (formData.dasarHukum) formToSend.dasarHukum = formData.dasarHukum;
-    if (formData.isiLaporan) formToSend.isiLaporan = formData.isiLaporan;
+    if (formData.isiLaporan) {
+      formToSend.isiLaporan = `${formData.isiLaporan}${textLaporan}`;
+    } else {
+      formToSend.isiLaporan = `${textLaporan}`;
+    }
     if (formData.jabatanPengelola)
       formToSend.jabatanPengelola = formData.jabatanPengelola;
     if (formData.pengelola) formToSend.pengelola = formData.pengelola;
@@ -235,7 +338,9 @@ export default function CreatePelaporan() {
               <CardHeader className="text-sm font-semibold">
                 <div className="ms-auto">
                   <Button
-                    isLoading={isLoadingConfirm}
+                    isLoading={
+                      isFetching || isFetchingDataSurat || isLoadingConfirm
+                    }
                     className="bg-button-primary text-white"
                     size="sm"
                     radius="sm"
@@ -453,9 +558,17 @@ export default function CreatePelaporan() {
                     <div className="mb-1">
                       <label
                         htmlFor="pelaporan"
-                        className="font-semibold text-lg"
+                        className="font-semibold text-lg flex items-center gap-2"
                       >
                         V. Isi Laporan
+                        <Tooltip
+                          content="Optional, akan ditambahkan keterangan secara otomatis"
+                          color="primary"
+                          radius="sm"
+                          className="border border-white"
+                        >
+                          <FaInfoCircle size={12} className="text-warning" />
+                        </Tooltip>
                       </label>
                     </div>
                     <CKEditor

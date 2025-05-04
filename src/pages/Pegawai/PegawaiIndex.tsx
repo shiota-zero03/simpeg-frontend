@@ -11,6 +11,7 @@ import { useDeletePegawai, useGetAllPegawai } from "@/services/pegawai";
 import { PegawaiRes } from "@/interface/responses/pegawai.interface";
 import store from "@/redux/store";
 import { FaFileExcel } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 interface DataProps {
   id: string;
@@ -295,16 +296,13 @@ export default function PegawaiIndex() {
                 >
                   <BiReset size={12} />
                 </Button>
-                <Button
-                  onPress={() => navigate(`/pegawai/export-data`)}
-                  variant="bordered"
-                  radius="sm"
-                  size="sm"
-                  startContent={<FaFileExcel size={12} />}
-                  className="border-[0.8px] w-24 text-xs border-button-primary text-button-primary"
+                <Link
+                  to={`/pegawai/export-data`}
+                  target="__blank"
+                  className="border-[0.8px] w-24 text-xs border-button-primary text-button-primary flex items-center justify-center gap-2 py-1.5 rounded-md"
                 >
-                  Export
-                </Button>
+                  <FaFileExcel size={12} /> Export
+                </Link>
                 {(role === "SUPERUSERS" || role === "ADMIN") && (
                   <Button
                     onPress={() => navigate(`/pegawai/tambah-data`)}
