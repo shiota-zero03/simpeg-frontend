@@ -168,7 +168,7 @@ const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
                               Rp {dailyAllowance.harga.toLocaleString("id-ID")}
                             </td>
                             <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
-                              {dailyAllowance.total.toLocaleString("id-ID")}
+                              {dailyAllowance.vol.toLocaleString("id-ID")}
                             </td>
                             <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
                               Rp {dailyAllowance.total.toLocaleString("id-ID")}
