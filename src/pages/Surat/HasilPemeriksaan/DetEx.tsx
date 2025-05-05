@@ -77,22 +77,22 @@ export default function DetailExportSurat({
             <table className="w-full">
               <thead>
                 <tr>
-                  <td className="p-2 leading-6 border-b border-gray-300 font-medium">
+                  <td className="p-2 leading-6 border border-gray-300 font-medium">
                     Bentuk Pelanggaran
                   </td>
-                  <td className="p-2 leading-6 border-b border-gray-300 font-medium">
+                  <td className="p-2 leading-6 border border-gray-300 font-medium">
                     Waktu
                   </td>
-                  <td className="p-2 leading-6 border-b border-gray-300 font-medium">
+                  <td className="p-2 leading-6 border border-gray-300 font-medium">
                     Tempat
                   </td>
-                  <td className="p-2 leading-6 border-b border-gray-300 font-medium">
+                  <td className="p-2 leading-6 border border-gray-300 font-medium">
                     Faktor Memberatkan
                   </td>
-                  <td className="p-2 leading-6 border-b border-gray-300 font-medium">
+                  <td className="p-2 leading-6 border border-gray-300 font-medium">
                     Faktor Meringankan
                   </td>
-                  <td className="p-2 leading-6 border-b border-gray-300 font-medium">
+                  <td className="p-2 leading-6 border border-gray-300 font-medium">
                     Dampak Perbuatan
                   </td>
                 </tr>
