@@ -229,13 +229,13 @@ export default function CreateSurat() {
           ...formData,
           idpemeriksa: checkPegawai?.id,
           pemeriksa: checkPegawai?.name,
-          nipPemeriksa: checkPegawai?.nip,
+          nipPemeriksa: checkPegawai?.nip || "-",
           jabatanPemeriksa: checkPegawai?.jabatan
             ? checkPegawai?.jabatan.nameJob
             : "Jabatan tidak diketahui",
-          pangkatPemeriksa: checkPegawai?.rank,
-          golonganPemeriksa: checkPegawai?.group,
-          unitPemeriksa: checkPegawai?.unit ? checkPegawai?.unit.nameUnit : "",
+          pangkatPemeriksa: checkPegawai?.rank || "-",
+          golonganPemeriksa: checkPegawai?.group || "-",
+          unitPemeriksa: checkPegawai.jabatan.unit ? checkPegawai.jabatan.unit.nameUnit : "-"
         });
       } else {
         setFormData({
@@ -255,13 +255,13 @@ export default function CreateSurat() {
           ...formData,
           iddiPeriksa: checkPegawai?.id,
           diPeriksa: checkPegawai?.name,
-          nipDiPeriksa: checkPegawai?.nip,
+          nipDiPeriksa: checkPegawai?.nip || "-",
           jabatanDiPeriksa: checkPegawai?.jabatan
             ? checkPegawai?.jabatan.nameJob
             : "Jabatan tidak diketahui",
-          pangkatDiPeriksa: checkPegawai?.rank,
-          golonganDiPeriksa: checkPegawai?.group,
-          unitDiPeriksa: checkPegawai?.unit ? checkPegawai?.unit.nameUnit : "",
+          pangkatDiPeriksa: checkPegawai?.rank || "-",
+          golonganDiPeriksa: checkPegawai?.group || "-",
+          unitDiPeriksa: checkPegawai.jabatan.unit ? checkPegawai.jabatan.unit.nameUnit : "-"
         });
       } else {
         setFormData({

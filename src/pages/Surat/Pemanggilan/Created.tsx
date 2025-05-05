@@ -253,8 +253,8 @@ export default function CreateSurat() {
         setFormData({
           ...formData,
           idTtd: checkPegawai.id,
-          namaTtd: checkPegawai.name,
-          nipTtd: checkPegawai.nip,
+          namaTtd: checkPegawai.name || "-",
+          nipTtd: checkPegawai.nip || "-",
           jabatanTtd:
             checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
         });
@@ -273,9 +273,9 @@ export default function CreateSurat() {
         setFormData({
           ...formData,
           idPemanggil: checkPegawai.id,
-          pemanggil: checkPegawai.name,
-          nipPemanggil: checkPegawai.nip,
-          unitPemanggil: checkPegawai.unit?.nameUnit || "Unit tidak diketahui",
+          pemanggil: checkPegawai.name || "-",
+          nipPemanggil: checkPegawai.nip || "-",
+          unitPemanggil: checkPegawai.jabatan.unit?.nameUnit || "Unit tidak diketahui",
           jabatanPemanggil:
             checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
         });
@@ -295,9 +295,9 @@ export default function CreateSurat() {
         setFormData({
           ...formData,
           idDipanggil: checkPegawai.id,
-          diPanggil: checkPegawai.name,
-          nipDiPanggil: checkPegawai.nip,
-          unitDiPanggil: checkPegawai.unit?.nameUnit || "Unit tidak diketahui",
+          diPanggil: checkPegawai.name || "-",
+          nipDiPanggil: checkPegawai.nip || "-",
+          unitDiPanggil: checkPegawai.jabatan.unit?.nameUnit || "Unit tidak diketahui",
           jabatanDiPanggil:
             checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
         });

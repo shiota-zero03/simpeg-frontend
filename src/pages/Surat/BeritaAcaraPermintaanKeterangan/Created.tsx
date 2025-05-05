@@ -264,7 +264,7 @@ export default function CreateSurat() {
     const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
     const updatedTim = [...(formData.pihakDiminta || [])];
     updatedTim[index].id = value;
-    updatedTim[index].name = checkPegawai?.name;
+    updatedTim[index].name = checkPegawai?.name || "-";
     updatedTim[index].jabatan = checkPegawai?.jabatan
       ? checkPegawai?.jabatan.nameJob
       : "Jabatan tidak diketahui";
