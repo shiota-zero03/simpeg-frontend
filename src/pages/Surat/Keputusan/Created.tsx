@@ -296,11 +296,9 @@ export default function CreateSurat() {
           ...formData,
           idYangDitetapkan: checkPegawai.id,
           nameYangDitetapkan: checkPegawai.name,
-          nipYangDitetapkan: checkPegawai.nip,
-          golonganYangDitetapkan: checkPegawai.group,
-          unitYangDitetapkan: checkPegawai.unit
-            ? checkPegawai.unit.nameUnit
-            : "",
+          nipYangDitetapkan: checkPegawai.nip || "-",
+          golonganYangDitetapkan: checkPegawai.group || "-",
+          unitYangDitetapkan: checkPegawai.jabatan.unit ? checkPegawai.jabatan.unit.nameUnit : "-",
           jabatanYangDitetapkan:
             checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
         });
@@ -324,7 +322,7 @@ export default function CreateSurat() {
           nameJabatan:
             checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
           ttdJabatan: checkPegawai.name,
-          nipJabatan: checkPegawai.nip,
+          nipJabatan: checkPegawai.nip || "-",
         });
       } else {
         setFormData({
