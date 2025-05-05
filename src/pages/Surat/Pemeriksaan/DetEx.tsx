@@ -66,11 +66,11 @@ export default function DetailExportSurat({
             </div>
           </div>
           <br />
-          <div className="flex gap-4">
-            <div className="me-28">Untuk</div>
+          <div className="flex gap-2">
+            <div className="me-32">Untuk</div>
             <span>:</span>
             <div
-              className="ck-editor-keterangan ms-4"
+              className="ck-editor-keterangan"
               dangerouslySetInnerHTML={{
                 __html: DATA_DETAIL?.keterangan || "",
               }}

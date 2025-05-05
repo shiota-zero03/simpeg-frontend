@@ -235,7 +235,7 @@ export default function CreatePegawai() {
       });
       setFoto(data.data.photo ?? "");
     }
-  }, [id, data]);
+  }, [id, isFetching, data]);
 
   const {
     isOpen: isOpenConfirm,

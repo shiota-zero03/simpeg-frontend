@@ -15,7 +15,13 @@ const ExportExcel: React.FC = () => {
     date = YMToIndoFormat(`${m}-01`).toUpperCase();
   }
 
+  const [readyToExport, setReadyToExport] = useState(false);
+
   const [UnitKerjaPegawai, setUnitKerjaPegawai] = useState<{ nameUnit: string, ketersediaan: number, terisi: number }[]>([]);
+  const [UnitKerjaASN, setUnitKerjaASN] = useState<{ nameUnit: string, terisi: number }[]>([]);
+  const [AnalisPerdagangan, setAnalisPerdagangan] = useState<{ nameUnit: string, terisi: number, name: string[] }[]>([]);
+  const [PengawasPerdagangan, setPengawasPerdagangan] = useState<{ nameUnit: string, terisi: number, name: string[] }[]>([]);
+  const [Penera, setPenera] = useState<{ nameUnit: string, terisi: number, name: string[] }[]>([]);
 
   const { data, refetch, isFetching } = useGetAllPegawaiOption();
 
@@ -70,7 +76,7 @@ const ExportExcel: React.FC = () => {
   }, [DATA_FETCHING_UNIT, DATA_FETCHING]);
 
   useEffect(() => {
-    if(DATA_FETCHING_UNIT) {
+    if(DATA_FETCHING_UNIT && DATA_FETCHING) {
       const newData = DATA_FETCHING_UNIT.map((unit) => {
         const ketersediaan = unit.jabatan.reduce(
           (total: number, jabatan: any) => total + (jabatan.ketersediaan || 0),
@@ -87,9 +93,175 @@ const ExportExcel: React.FC = () => {
           terisi,
         };
       });
-      console.log(newData)
-
       setUnitKerjaPegawai(newData)
+
+      const newData2 = DATA_FETCHING_UNIT.map((unit) => {    
+        const terisi = DATA_FETCHING.filter(
+          (pegawai) => ((pegawai.jabatan?.unit?.id === unit.id) && pegawai.statusAsn === false),
+        ).length;
+    
+        return {
+          nameUnit: unit.nameUnit,
+          terisi,
+        };
+      });
+      console.log(newData2)
+      setUnitKerjaASN(newData2)
+
+      let nameAnalisMadya = DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "analis perdagangan ahli madya",
+      ).length > 0 ? DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "analis perdagangan ahli madya",
+      ).map(item => {
+        return item.name;
+      }) : [];
+      let nameAnalisMuda = DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "analis perdagangan ahli muda",
+      ).length > 0 ? DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "analis perdagangan ahli muda",
+      ).map(item => {
+        return item.name;
+      }) : []
+      let nameAnalisPertama = DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "analis perdagangan ahli pertama",
+      ).length > 0 ? DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "analis perdagangan ahli pertama",
+      ).map(item => {
+        return item.name;
+      }) : []
+      setAnalisPerdagangan([
+        {
+          nameUnit: "Analis Perdagangan Ahli Madya",
+          terisi: nameAnalisMadya.length,
+          name: nameAnalisMadya,
+        },
+        {
+          nameUnit: "Analis Perdagangan Ahli Muda",
+          terisi: nameAnalisMuda.length,
+          name: nameAnalisMuda,
+        },
+        {
+          nameUnit: "Analis Perdagangan Ahli Pertama",
+          terisi: nameAnalisPertama.length,
+          name: nameAnalisPertama,
+        },
+      ])
+
+
+      let namePengawasMadya = DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "pengawas perdagangan ahli madya",
+      ).length > 0 ? DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "pengawas perdagangan ahli madya",
+      ).map(item => {
+        return item.name;
+      }) : [];
+      let namePengawasMuda = DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "pengawas perdagangan ahli muda",
+      ).length > 0 ? DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "pengawas perdagangan ahli muda",
+      ).map(item => {
+        return item.name;
+      }) : []
+      let namePengawasPertama = DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "pengawas perdagangan ahli pertama",
+      ).length > 0 ? DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "pengawas perdagangan ahli pertama",
+      ).map(item => {
+        return item.name;
+      }) : []
+      setPengawasPerdagangan([
+        {
+          nameUnit: "Pengawas Perdagangan Ahli Madya",
+          terisi: namePengawasMadya.length,
+          name: namePengawasMadya,
+        },
+        {
+          nameUnit: "Pengawas Perdagangan Ahli Muda",
+          terisi: namePengawasMuda.length,
+          name: namePengawasMuda,
+        },
+        {
+          nameUnit: "Pengawas Perdagangan Ahli Pertama",
+          terisi: namePengawasPertama.length,
+          name: namePengawasPertama,
+        },
+      ])
+
+
+      let namePeneraMadya = DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "penera ahli madya",
+      ).length > 0 ? DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "penera ahli madya",
+      ).map(item => {
+        return item.name;
+      }) : [];
+      let namePeneraMuda = DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "penera ahli muda",
+      ).length > 0 ? DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "penera ahli muda",
+      ).map(item => {
+        return item.name;
+      }) : []
+      let namePeneraPertama = DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "penera ahli pertama",
+      ).length > 0 ? DATA_FETCHING.filter(
+        (it) =>
+          it.jabatan?.nameJob.toLowerCase() ===
+          "penera ahli pertama",
+      ).map(item => {
+        return item.name;
+      }) : []
+      setPenera([
+        {
+          nameUnit: "Penera Ahli Madya",
+          terisi: namePeneraMadya.length,
+          name: namePeneraMadya,
+        },
+        {
+          nameUnit: "Penera Ahli Muda",
+          terisi: namePeneraMuda.length,
+          name: namePeneraMuda,
+        },
+        {
+          nameUnit: "Penera Ahli Pertama",
+          terisi: namePeneraPertama.length,
+          name: namePeneraPertama,
+        },
+      ])
     }
   }, [DATA_FETCHING_UNIT, DATA_FETCHING])
 
@@ -98,55 +270,10 @@ const ExportExcel: React.FC = () => {
     refetch();
   }, [])
 
-  // const UnitKerjaPegawai = [
-  //   { nameUnit: "Dinas", ketersediaan: 20, terisi: 20 },
-  //   { nameUnit: "UPTD I (Tambun)", ketersediaan: 20, terisi: 20 },
-  //   { nameUnit: "UPTD II (Cibitung)", ketersediaan: 20, terisi: 20 },
-  //   { nameUnit: "UPTD III (Setu)", ketersediaan: 20, terisi: 20 },
-  //   { nameUnit: "UPTD IV (Cikarang)", ketersediaan: 20, terisi: 20 },
-  //   { nameUnit: "UPTD V (Kedunggede)", ketersediaan: 20, terisi: 20 },
-  //   { nameUnit: "UPTD VI (Babelan)", ketersediaan: 20, terisi: 20 },
-  //   { nameUnit: "UPTD VII (Tarumajaya)", ketersediaan: 20, terisi: 20 },
-  //   { nameUnit: "UPTD VIII (Serang)", ketersediaan: 20, terisi: 20 },
-  //   { nameUnit: "UPTD IX (Cibarusah)", ketersediaan: 20, terisi: 20 },
-  //   { nameUnit: "UPTD Metrologi Legal", ketersediaan: 20, terisi: 20 },
-  // ];
 
-  const PNS = 21;
-  const PPTK = 10;
+  // const PNS = 21;
+  // const PPTK = 10;
 
-  const UnitKerjaASN = [
-    { nameUnit: "Dinas", terisi: 20 },
-    { nameUnit: "UPTD I (Tambun)", terisi: 20 },
-    { nameUnit: "UPTD II (Cibitung)", terisi: 20 },
-    { nameUnit: "UPTD III (Setu)", terisi: 20 },
-    { nameUnit: "UPTD IV (Cikarang)", terisi: 20 },
-    { nameUnit: "UPTD V (Kedunggede)", terisi: 20 },
-    { nameUnit: "UPTD VI (Babelan)", terisi: 20 },
-    { nameUnit: "UPTD VII (Tarumajaya)", terisi: 20 },
-    { nameUnit: "UPTD VIII (Serang)", terisi: 20 },
-    { nameUnit: "UPTD IX (Cibarusah)", terisi: 20 },
-    { nameUnit: "UPTD Metrologi Legal", terisi: 20 },
-  ];
-
-
-  const AnalisPerdagangan = [
-    {
-      nameUnit: "Analis Perdagangan Ahli Madya",
-      terisi: 1,
-      name: ["Agus Burhan"],
-    },
-    {
-      nameUnit: "Analis Perdagangan Ahli Muda",
-      terisi: 4,
-      name: ["Galuh", "Ratna", "Soleh", "Rudi"],
-    },
-    {
-      nameUnit: "Analis Perdagangan Ahli Pertama",
-      terisi: 1,
-      name: ["Suhuri"],
-    },
-  ];
   const totalAnalisPerdagangan = AnalisPerdagangan.reduce(
     (acc, curr) => {
       acc.terisi += curr.terisi;
@@ -154,15 +281,6 @@ const ExportExcel: React.FC = () => {
     },
     { terisi: 0 },
   );
-  const PengawasPerdagangan = [
-    { nameUnit: "Pengawas Perdagangan Ahli Madya", terisi: 0, name: [] },
-    { nameUnit: "Pengawas Perdagangan Ahli Muda", terisi: 1, name: ["Iwan"] },
-    {
-      nameUnit: "Pengawas Perdagangan Ahli Pertama",
-      terisi: 1,
-      name: ["Arisma"],
-    },
-  ];
   const totalPengawasPerdagangan = PengawasPerdagangan.reduce(
     (acc, curr) => {
       acc.terisi += curr.terisi;
@@ -170,29 +288,7 @@ const ExportExcel: React.FC = () => {
     },
     { terisi: 0 },
   );
-  const Penera = [
-    { nameUnit: "Penera Ahli Madya", terisi: 0, name: [] },
-    {
-      nameUnit: "Penera Ahli Muda",
-      terisi: 3,
-      name: ["Sunarto", "Agus Ruhyat", "Ahmad"],
-    },
-    {
-      nameUnit: "Penera Ahli Pertama",
-      terisi: 9,
-      name: [
-        "Teguh",
-        "Atika",
-        "Amaina",
-        "Ilmi",
-        "Yohanes",
-        "Sinta",
-        "Mardiyah",
-        "Iqbal",
-        "Chandra",
-      ],
-    },
-  ];
+
   const totalPenera = Penera.reduce(
     (acc, curr) => {
       acc.terisi += curr.terisi;
@@ -321,11 +417,11 @@ const ExportExcel: React.FC = () => {
     subHeaders1.forEach(({ cell, value, alignment }) => {
       const c = sheet.getCell(cell);
       c.value = value;
-      c.font = { bold: true };
+      c.font = { bold: true, color: { argb: "FFFFFF" } };
       c.fill = {
         type: "pattern",
         pattern: "solid",
-        fgColor: { argb: "FFC000" },
+        fgColor: { argb: "137269" },
       };
       c.border = {
         top: { style: "thin", color: { argb: "000000" } },
@@ -397,10 +493,10 @@ const ExportExcel: React.FC = () => {
         right: { style: "thin", color: { argb: "000000" } },
       };
 
-      if (index === 0) {
-        pnsCell.value = `${PNS} PNS`;
-        pptkCell.value = `${PPTK} PPTK`;
-      }
+      // if (index === 0) {
+      //   pnsCell.value = `${PNS} PNS`;
+      //   pptkCell.value = `${PPTK} PPTK`;
+      // }
     });
     // end summary report pegawai
 
@@ -460,11 +556,11 @@ const ExportExcel: React.FC = () => {
     subHeaders2.forEach(({ cell, value, alignment }) => {
       const c = sheet.getCell(cell);
       c.value = value;
-      c.font = { bold: true };
+      c.font = { bold: true, color: { argb: "FFFFFF" } };
       c.fill = {
         type: "pattern",
         pattern: "solid",
-        fgColor: { argb: "FFC000" },
+        fgColor: { argb: "137269" },
       };
       c.border = {
         top: { style: "thin", color: { argb: "000000" } },
@@ -524,12 +620,12 @@ const ExportExcel: React.FC = () => {
       horizontal: "left",
       vertical: "middle",
     };
-    JabatanFungsionalCell.font = { bold: true };
+    JabatanFungsionalCell.font = { bold: true, color: { argb: "FFFFFF" } };
     JabatanFungsionalCell.value = `Jabatan Fungsional ( ${totalAnalisPerdagangan.terisi + totalPengawasPerdagangan.terisi + totalPenera.terisi} Orang)`;
     JabatanFungsionalCell.fill = {
       type: "pattern",
       pattern: "solid",
-      fgColor: { argb: "FFC000" },
+      fgColor: { argb: "137269" },
     };
     JabatanFungsionalCell.border = {
       bottom: { style: "thin", color: { argb: "000000" } },
@@ -769,10 +865,23 @@ const ExportExcel: React.FC = () => {
   };
 
   useEffect(() => {
-    if(!isFetchingUnit && DATA_FETCHING_UNIT && !isFetching && DATA_FETCHING) {
+    if (
+      UnitKerjaPegawai.length > 0 &&
+      UnitKerjaASN.length > 0 &&
+      AnalisPerdagangan.length > 0 &&
+      PengawasPerdagangan.length > 0 &&
+      Penera.length > 0
+    ) {
+      setReadyToExport(true);
+    }
+  }, [UnitKerjaPegawai, UnitKerjaASN, AnalisPerdagangan, PengawasPerdagangan, Penera]);
+
+  
+  useEffect(() => {
+    if(!isFetchingUnit && DATA_FETCHING_UNIT && !isFetching && DATA_FETCHING && readyToExport) {
       handleExport();
     }
-  }, [isFetchingUnit, DATA_FETCHING_UNIT, isFetching, DATA_FETCHING]);
+  }, [isFetchingUnit, DATA_FETCHING_UNIT, isFetching, DATA_FETCHING, readyToExport]);
 
   return <LoaderPage />;
 };

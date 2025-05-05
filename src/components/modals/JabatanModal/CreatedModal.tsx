@@ -328,15 +328,31 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   onSelectionChange={(value) =>
                     setFormData({ ...formData, unitId: value as string })
                   }
+                  classNames={{
+                    listbox: "max-w-full",
+                    popoverContent: "max-w-full",
+                  }}
+                
                   inputProps={{
                     classNames: {
                       input: "text-xs",
                     },
                   }}
+
+                  menuTrigger="focus"
+                  itemHeight={40}
+                  listboxProps={{
+                    itemClasses: {
+                      base: "min-h-[56px] py-2 text-sm leading-snug", // Atur tinggi item
+                      title: "text-xs font-medium",
+                    },
+                  }}
                 >
                   {(peg) => (
-                    <AutocompleteItem key={peg.id} textValue={peg.nameUnit}>
-                      {peg.nameUnit}
+                    <AutocompleteItem key={peg.id} textValue={peg.nameUnit} className="whitespace-normal break-words text-xs">
+                      <div className="text-wrap">
+                        {peg.nameUnit}
+                      </div>
                     </AutocompleteItem>
                   )}
                 </Autocomplete>
