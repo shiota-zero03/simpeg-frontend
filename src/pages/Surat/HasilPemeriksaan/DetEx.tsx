@@ -77,22 +77,22 @@ export default function DetailExportSurat({
             <table className="w-full">
               <thead>
                 <tr>
-                  <td className="p-2 leading-6 border border-gray-300 font-medium">
+                  <td className="p-2 leading-6 border border-black font-semibold  uppercase text-center align-middle">
                     Bentuk Pelanggaran
                   </td>
-                  <td className="p-2 leading-6 border border-gray-300 font-medium">
+                  <td className="p-2 leading-6 border border-black font-semibold  uppercase text-center align-middle">
                     Waktu
                   </td>
-                  <td className="p-2 leading-6 border border-gray-300 font-medium">
+                  <td className="p-2 leading-6 border border-black font-semibold  uppercase text-center align-middle">
                     Tempat
                   </td>
-                  <td className="p-2 leading-6 border border-gray-300 font-medium">
+                  <td className="p-2 leading-6 border border-black font-semibold  uppercase text-center align-middle">
                     Faktor Memberatkan
                   </td>
-                  <td className="p-2 leading-6 border border-gray-300 font-medium">
+                  <td className="p-2 leading-6 border border-black font-semibold  uppercase text-center align-middle">
                     Faktor Meringankan
                   </td>
-                  <td className="p-2 leading-6 border border-gray-300 font-medium">
+                  <td className="p-2 leading-6 border border-black font-semibold  uppercase text-center align-middle">
                     Dampak Perbuatan
                   </td>
                 </tr>
@@ -101,22 +101,22 @@ export default function DetailExportSurat({
                 <tbody>
                   {DATA_DETAIL.hasil.map((item, index) => (
                     <tr key={index}>
-                      <td className="leading-6 p-2 border-b border-gray-300 font-medium">
+                      <td className="leading-6 p-2 border border-black font-medium">
                         {item.bentukPelanggaran}
                       </td>
-                      <td className="leading-6 p-2 border-b border-gray-300 font-medium">
+                      <td className="leading-6 p-2 border border-black font-medium">
                         {item.waktu}
                       </td>
-                      <td className="leading-6 p-2 border-b border-gray-300 font-medium">
+                      <td className="leading-6 p-2 border border-black font-medium">
                         {item.tempat}
                       </td>
-                      <td className="leading-6 p-2 border-b border-gray-300 font-medium">
+                      <td className="leading-6 p-2 border border-black font-medium">
                         {item.faktorPemberat}
                       </td>
-                      <td className="leading-6 p-2 border-b border-gray-300 font-medium">
+                      <td className="leading-6 p-2 border border-black font-medium">
                         {item.faktorMeringankan}
                       </td>
-                      <td className="leading-6 p-2 border-b border-gray-300 font-medium">
+                      <td className="leading-6 p-2 border border-black font-medium">
                         {item.dampak}
                       </td>
                     </tr>
