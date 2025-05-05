@@ -171,7 +171,7 @@ export default function CreateSurat() {
       const bulan = String(tanggal.getMonth() + 1).padStart(2, "0");
       const hari = String(tanggal.getDate()).padStart(2, "0");
 
-      formToSend.tanggalSurat = `${tahun}-${bulan}-${hari}T00:00:00`;
+      formToSend.tanggalSurat = `${tahun}-${bulan}-${hari}T00:00:00.000Z`;
     }
     if (formData.keterangan) formToSend.keterangan = formData.keterangan;
     if (formData.pemeriksa) formToSend.pemeriksa = formData.pemeriksa;

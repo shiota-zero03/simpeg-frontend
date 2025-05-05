@@ -193,35 +193,35 @@ export default function SummaryExport() {
             <thead>
               <tr>
                 <th
-                  className="border-accent-gray p-2 text-sm bg-gray-300 text-black rounded-tl-lg text-start"
+                  className="border-accent-gray p-2 text-sm bg-white border text-black rounded-tl-lg text-start"
                   colSpan={2}
                 >
                   Komposisi Pegawai
                 </th>
-                <th className="border-accent-gray p-2 text-sm bg-primary bg-gray-300 text-black text-center">
+                <th className="border-accent-gray p-2 text-sm bg-white border text-black text-center">
                   Ketersediaan
                 </th>
-                <th className="border-accent-gray p-2 text-sm bg-primary bg-gray-300 text-black text-center">
+                <th className="border-accent-gray p-2 text-sm bg-white border text-black text-center">
                   Pegawai ASN
                 </th>
-                <th className="border-accent-gray p-2 text-sm bg-primary bg-gray-300 text-black text-center rounded-tr-lg">
+                <th className="border-accent-gray p-2 text-sm bg-white border text-black text-center rounded-tr-lg">
                   Pegawai Non-ASN
                 </th>
               </tr>
               <tr>
-                <th className="border-accent-gray p-2 text-sm bg-primary text-white align-top">
+                <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white align-top">
                   No
                 </th>
-                <th className="min-w-60 border-accent-gray p-2 text-sm bg-primary text-white text-start align-top">
+                <th className="min-w-60 border-accent-gray p-2 text-sm bg-[#137269] text-white text-start align-top">
                   Jumlah Pegawai
                 </th>
-                <th className="min-w-20 border-accent-gray p-2 text-sm bg-primary text-white text-center align-top">
+                <th className="min-w-20 border-accent-gray p-2 text-sm bg-[#137269] text-white text-center align-top">
                   {totalKetersediaan}
                 </th>
-                <th className="min-w-20 border-accent-gray p-2 text-sm bg-primary text-white text-center align-top">
+                <th className="min-w-20 border-accent-gray p-2 text-sm bg-[#137269] text-white text-center align-top">
                   {totalASN}
                 </th>
-                <th className="min-w-20 border-accent-gray p-2 text-sm bg-primary text-white text-center align-top">
+                <th className="min-w-20 border-accent-gray p-2 text-sm bg-[#137269] text-white text-center align-top">
                   {totalNonASN}
                 </th>
               </tr>
@@ -279,13 +279,13 @@ export default function SummaryExport() {
           <table className="w-full">
             <thead>
               <tr>
-                <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-md">
+                <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tl-md">
                   No
                 </th>
-                <th className="min-w-60 border-accent-gray p-2 text-sm bg-primary text-white text-start">
+                <th className="min-w-60 border-accent-gray p-2 text-sm bg-[#137269] text-white text-start">
                   Jabatan Fungsional
                 </th>
-                <th className="min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-md text-start">
+                <th className="min-w-40 border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tr-md text-start">
                   Nama Pegawai
                 </th>
               </tr>
@@ -598,13 +598,13 @@ export default function SummaryExport() {
                         <table className="w-full">
                         <thead>
                             <tr>
-                            <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-md">
+                            <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tl-md">
                                 No
                             </th>
-                            <th className="min-w-60 border-accent-gray p-2 text-sm bg-primary text-white text-start">
+                            <th className="min-w-60 border-accent-gray p-2 text-sm bg-[#137269] text-white text-start">
                                 Golongan
                             </th>
-                            <th className="min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-md text-start">
+                            <th className="min-w-40 border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tr-md text-start">
                                 Jumlah Pegawai
                             </th>
                             </tr>
@@ -633,11 +633,11 @@ export default function SummaryExport() {
                             <tr>
                                 <th
                                     colSpan={2}
-                                    className="border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-md text-start"
+                                    className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-bl-md text-start"
                                 >
                                     Total
                                 </th>
-                                <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-br-md text-start">
+                                <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-br-md text-start">
                                 {
                                     DATA_FETCHING
                                         ? GolonganData?.reduce((total, unit) => {
@@ -661,13 +661,13 @@ export default function SummaryExport() {
                             <table className="w-full">
                                 <thead>
                                     <tr>
-                                        <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-md">
+                                        <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tl-md">
                                             No
                                         </th>
-                                        <th className="min-w-60 border-accent-gray p-2 text-sm bg-primary text-white text-left">
+                                        <th className="min-w-60 border-accent-gray p-2 text-sm bg-[#137269] text-white text-left">
                                             Eselon
                                         </th>
-                                        <th className="min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-md text-left">
+                                        <th className="min-w-40 border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tr-md text-left">
                                             Jumlah Pegawai
                                         </th>
                                     </tr>
@@ -696,11 +696,11 @@ export default function SummaryExport() {
                                     <tr>
                                         <th
                                             colSpan={2}
-                                            className="border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-md text-start"
+                                            className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-bl-md text-start"
                                         >
                                             Total
                                         </th>
-                                        <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-br-md text-start">
+                                        <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-br-md text-start">
                                         {
                                             DATA_FETCHING
                                                 ? EselonData?.reduce((total, unit) => {
@@ -723,13 +723,13 @@ export default function SummaryExport() {
                             <table className="w-full">
                                 <thead>
                                     <tr>
-                                        <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-lg">
+                                        <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tl-lg">
                                             No
                                         </th>
-                                        <th className="min-w-60 border-accent-gray p-2 text-sm bg-primary text-white text-start">
+                                        <th className="min-w-60 border-accent-gray p-2 text-sm bg-[#137269] text-white text-start">
                                             Pendidikan
                                         </th>
-                                        <th className="min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-lg text-start">
+                                        <th className="min-w-40 border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tr-lg text-start">
                                             Jumlah Pegawai
                                         </th>
                                     </tr>
@@ -758,11 +758,11 @@ export default function SummaryExport() {
                                     <tr>
                                         <th
                                             colSpan={2}
-                                            className="border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-md text-start"
+                                            className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-bl-md text-start"
                                         >
                                             Total
                                         </th>
-                                        <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-md text-start">
+                                        <th className="border-b-2 border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-br-md text-start">
                                             {DATA_FETCHING
                                                 ? pendidikanTerakhir?.reduce((total, unit) => {
                                                     const count = DATA_FETCHING.filter(
@@ -784,13 +784,13 @@ export default function SummaryExport() {
                             <table className="w-full">
                                 <thead>
                                     <tr>
-                                        <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-md">
+                                        <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tl-md">
                                             No
                                         </th>
-                                        <th className="min-w-60 border-accent-gray p-2 text-sm bg-primary text-white text-left">
+                                        <th className="min-w-60 border-accent-gray p-2 text-sm bg-[#137269] text-white text-left">
                                             Jenis Kelamin
                                         </th>
-                                        <th className="min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-md text-left">
+                                        <th className="min-w-40 border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tr-md text-left">
                                             Jumlah Orang
                                         </th>
                                     </tr>
@@ -835,11 +835,11 @@ export default function SummaryExport() {
                                     <tr>
                                         <th
                                             colSpan={2}
-                                            className="border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-md text-start"
+                                            className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-bl-md text-start"
                                         >
                                             Total
                                         </th>
-                                        <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-br-md text-start">
+                                        <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-br-md text-start">
                                             {DATA_FETCHING
                                                 ? DATA_FETCHING.filter(
                                                     (it) => (it.gender === "LAKI_LAKI" || it.gender === "PEREMPUAN"),
@@ -859,13 +859,13 @@ export default function SummaryExport() {
           <table className="w-full">
             <thead>
               <tr>
-                <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-md">
+                <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tl-md">
                   No
                 </th>
-                <th className="min-w-60 border-accent-gray p-2 text-sm bg-primary text-white text-start">
+                <th className="min-w-60 border-accent-gray p-2 text-sm bg-[#137269] text-white text-start">
                   Golongan
                 </th>
-                <th className="min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-md text-start">
+                <th className="min-w-40 border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tr-md text-start">
                   Jumlah Pegawai
                 </th>
               </tr>
@@ -891,11 +891,11 @@ export default function SummaryExport() {
               <tr>
                 <th
                   colSpan={2}
-                  className="border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-md text-start"
+                  className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-bl-md text-start"
                 >
                   Total
                 </th>
-                <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-br-md text-start">
+                <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-br-md text-start">
                   {DATA_FETCHING
                     ? GolonganData?.reduce((total, unit) => {
                         const count = DATA_FETCHING.filter(
@@ -917,13 +917,13 @@ export default function SummaryExport() {
           <table className="w-full">
             <thead>
               <tr>
-                <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-md">
+                <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tl-md">
                   No
                 </th>
-                <th className="min-w-60 border-accent-gray p-2 text-sm bg-primary text-white text-left">
+                <th className="min-w-60 border-accent-gray p-2 text-sm bg-[#137269] text-white text-left">
                   Eselon
                 </th>
-                <th className="min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-md text-left">
+                <th className="min-w-40 border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tr-md text-left">
                   Jumlah Pegawai
                 </th>
               </tr>
@@ -950,11 +950,11 @@ export default function SummaryExport() {
               <tr>
                 <th
                   colSpan={2}
-                  className="border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-md text-start"
+                  className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-bl-md text-start"
                 >
                   Total
                 </th>
-                <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-br-md text-start">
+                <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-br-md text-start">
                   {DATA_FETCHING
                     ? EselonData?.reduce((total, unit) => {
                         const count = DATA_FETCHING.filter(
@@ -976,13 +976,13 @@ export default function SummaryExport() {
           <table className="w-full">
             <thead>
               <tr>
-                <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-lg">
+                <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tl-lg">
                   No
                 </th>
-                <th className="min-w-60 border-accent-gray p-2 text-sm bg-primary text-white text-start">
+                <th className="min-w-60 border-accent-gray p-2 text-sm bg-[#137269] text-white text-start">
                   Pendidikan
                 </th>
-                <th className="min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-lg text-start">
+                <th className="min-w-40 border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tr-lg text-start">
                   Jumlah Pegawai
                 </th>
               </tr>
@@ -1008,11 +1008,11 @@ export default function SummaryExport() {
               <tr>
                 <th
                   colSpan={2}
-                  className="border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-md text-start"
+                  className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-bl-md text-start"
                 >
                   Total
                 </th>
-                <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-md text-start">
+                <th className="border-b-2 border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-br-md text-start">
                   {DATA_FETCHING
                     ? pendidikanTerakhir?.reduce((total, unit) => {
                         const count = DATA_FETCHING.filter(
@@ -1034,13 +1034,13 @@ export default function SummaryExport() {
           <table className="w-full">
             <thead>
               <tr>
-                <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-md">
+                <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tl-md">
                   No
                 </th>
-                <th className="min-w-60 border-accent-gray p-2 text-sm bg-primary text-white text-left">
+                <th className="min-w-60 border-accent-gray p-2 text-sm bg-[#137269] text-white text-left">
                   Jenis Kelamin
                 </th>
-                <th className="min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-md text-left">
+                <th className="min-w-40 border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tr-md text-left">
                   Jumlah Orang
                 </th>
               </tr>
@@ -1079,11 +1079,11 @@ export default function SummaryExport() {
               <tr>
                 <th
                   colSpan={2}
-                  className="border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-md text-start"
+                  className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-bl-md text-start"
                 >
                   Total
                 </th>
-                <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-br-md text-start">
+                <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-br-md text-start">
                   {DATA_FETCHING
                     ? DATA_FETCHING.filter(
                         (it) =>
@@ -1104,14 +1104,14 @@ export default function SummaryExport() {
           <table className="w-full">
             <thead>
               <tr>
-                <th className="border-accent-gray p-2 text-sm bg-primary text-white rounded-tl-md">
+                <th className="border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tl-md">
                   No
                 </th>
-                <th className="min-w-60 border-accent-gray p-2 text-sm bg-primary text-white text-left">
+                <th className="min-w-60 border-accent-gray p-2 text-sm bg-[#137269] text-white text-left">
                   Daftar Kenaikan Pangkat, Kegiatan Gaji Berkala, Pensiun dan
                   Cuti
                 </th>
-                <th className="min-w-40 border-accent-gray p-2 text-sm bg-primary text-white rounded-tr-md text-left">
+                <th className="min-w-40 border-accent-gray p-2 text-sm bg-[#137269] text-white rounded-tr-md text-left">
                   Nama Pegawai
                 </th>
               </tr>
