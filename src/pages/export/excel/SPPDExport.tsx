@@ -208,13 +208,13 @@ const ExportExcel: React.FC = () => {
   ) => {
     sheet.getCell(`A1`).value = title.toUpperCase();
     sheet.getCell(`A1`).font = { bold: true };
-    sheet.getCell(`A1`).alignment = { horizontal: "left", vertical: "middle" };
+    sheet.getCell(`A1`).alignment = { horizontal: "center", vertical: "middle" };
     sheet.mergeCells("A1:Q1");
 
     sheet.getCell(`A2`).value =
       String(`Periode ${DMYIndoToFormat(startDate)} - ${DMYIndoToFormat(endDate)}`).toUpperCase();
     sheet.getCell(`A2`).font = { bold: true };
-    sheet.getCell(`A2`).alignment = { horizontal: "left", vertical: "middle" };
+    sheet.getCell(`A2`).alignment = { horizontal: "center", vertical: "middle" };
     sheet.mergeCells("A2:Q2");
 
     headers1.forEach(({ cell, value, alignment }) => {
