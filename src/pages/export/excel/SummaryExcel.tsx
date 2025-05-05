@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { saveAs } from "file-saver";
 import ExcelJS, { Alignment } from "exceljs";
 import LoaderPage from "@/components/loader/LoaderPage";
 import { YMToIndoFormat } from "@/utils/dateFormater";
+import { useGetAllUnitOption } from "@/services/unit";
+import { useGetAllPegawaiOption } from "@/services/pegawai";
 
 const ExportExcel: React.FC = () => {
   const queryParams = new URLSearchParams(window.location.search);
@@ -13,19 +15,102 @@ const ExportExcel: React.FC = () => {
     date = YMToIndoFormat(`${m}-01`).toUpperCase();
   }
 
-  const UnitKerjaPegawai = [
-    { nameUnit: "Dinas", ketersediaan: 20, terisi: 20 },
-    { nameUnit: "UPTD I (Tambun)", ketersediaan: 20, terisi: 20 },
-    { nameUnit: "UPTD II (Cibitung)", ketersediaan: 20, terisi: 20 },
-    { nameUnit: "UPTD III (Setu)", ketersediaan: 20, terisi: 20 },
-    { nameUnit: "UPTD IV (Cikarang)", ketersediaan: 20, terisi: 20 },
-    { nameUnit: "UPTD V (Kedunggede)", ketersediaan: 20, terisi: 20 },
-    { nameUnit: "UPTD VI (Babelan)", ketersediaan: 20, terisi: 20 },
-    { nameUnit: "UPTD VII (Tarumajaya)", ketersediaan: 20, terisi: 20 },
-    { nameUnit: "UPTD VIII (Serang)", ketersediaan: 20, terisi: 20 },
-    { nameUnit: "UPTD IX (Cibarusah)", ketersediaan: 20, terisi: 20 },
-    { nameUnit: "UPTD Metrologi Legal", ketersediaan: 20, terisi: 20 },
-  ];
+  const [UnitKerjaPegawai, setUnitKerjaPegawai] = useState<{ nameUnit: string, ketersediaan: number, terisi: number }[]>([]);
+
+  const { data, refetch, isFetching } = useGetAllPegawaiOption();
+
+  const {
+    data: dataUnit,
+    refetch: refetchUnit,
+    isFetching: isFetchingUnit,
+  } = useGetAllUnitOption();
+
+  const DATA_FETCHING = useMemo(() => {
+    if (data) return data.data;
+    else return [];
+  }, [data]);
+
+  const DATA_FETCHING_UNIT = useMemo(() => {
+    if (dataUnit && dataUnit.data) {
+      const filteredUnits = dataUnit.data?.filter(
+        (item) =>
+          item.nameUnit.toLowerCase().includes("dinas") ||
+          item.nameUnit.toLowerCase().includes("uptd"),
+      );
+
+      return [...filteredUnits].sort((a, b) => a.id - b.id); // ascending berdasarkan id
+    } else {
+      return null;
+    }
+  }, [dataUnit]);
+
+  const { totalKetersediaan, totalASN, totalNonASN } = useMemo(() => {
+    let totalKetersediaan = 0;
+    let totalASN = 0;
+    let totalNonASN = 0;
+
+    DATA_FETCHING_UNIT?.forEach((item) => {
+      totalKetersediaan += item.jabatan.reduce(
+        (total, current) => total + (current.ketersediaan || 0),
+        0,
+      );
+
+      totalASN +=
+        DATA_FETCHING?.filter(
+          (it) => it.jabatan?.unit?.id === item.id && it.statusAsn === true,
+        ).length || 0;
+
+      totalNonASN +=
+        DATA_FETCHING?.filter(
+          (it) => it.jabatan?.unit?.id === item.id && it.statusAsn === false,
+        ).length || 0;
+    });
+
+    return { totalKetersediaan, totalASN, totalNonASN };
+  }, [DATA_FETCHING_UNIT, DATA_FETCHING]);
+
+  useEffect(() => {
+    if(DATA_FETCHING_UNIT) {
+      const newData = DATA_FETCHING_UNIT.map((unit) => {
+        const ketersediaan = unit.jabatan.reduce(
+          (total: number, jabatan: any) => total + (jabatan.ketersediaan || 0),
+          0,
+        );
+    
+        const terisi = DATA_FETCHING.filter(
+          (pegawai) => ((pegawai.jabatan?.unit?.id === unit.id) && pegawai.statusAsn === true),
+        ).length;
+    
+        return {
+          nameUnit: unit.nameUnit,
+          ketersediaan,
+          terisi,
+        };
+      });
+      console.log(newData)
+
+      setUnitKerjaPegawai(newData)
+    }
+  }, [DATA_FETCHING_UNIT, DATA_FETCHING])
+
+  useEffect(() => {
+    refetchUnit();
+    refetch();
+  }, [])
+
+  // const UnitKerjaPegawai = [
+  //   { nameUnit: "Dinas", ketersediaan: 20, terisi: 20 },
+  //   { nameUnit: "UPTD I (Tambun)", ketersediaan: 20, terisi: 20 },
+  //   { nameUnit: "UPTD II (Cibitung)", ketersediaan: 20, terisi: 20 },
+  //   { nameUnit: "UPTD III (Setu)", ketersediaan: 20, terisi: 20 },
+  //   { nameUnit: "UPTD IV (Cikarang)", ketersediaan: 20, terisi: 20 },
+  //   { nameUnit: "UPTD V (Kedunggede)", ketersediaan: 20, terisi: 20 },
+  //   { nameUnit: "UPTD VI (Babelan)", ketersediaan: 20, terisi: 20 },
+  //   { nameUnit: "UPTD VII (Tarumajaya)", ketersediaan: 20, terisi: 20 },
+  //   { nameUnit: "UPTD VIII (Serang)", ketersediaan: 20, terisi: 20 },
+  //   { nameUnit: "UPTD IX (Cibarusah)", ketersediaan: 20, terisi: 20 },
+  //   { nameUnit: "UPTD Metrologi Legal", ketersediaan: 20, terisi: 20 },
+  // ];
 
   const PNS = 21;
   const PPTK = 10;
@@ -44,22 +129,6 @@ const ExportExcel: React.FC = () => {
     { nameUnit: "UPTD Metrologi Legal", terisi: 20 },
   ];
 
-  const totalPegawai = UnitKerjaPegawai.reduce(
-    (acc, curr) => {
-      acc.ketersediaan += curr.ketersediaan;
-      acc.terisi += curr.terisi;
-      return acc;
-    },
-    { ketersediaan: 0, terisi: 0 },
-  );
-
-  const totalAsn = UnitKerjaASN.reduce(
-    (acc, curr) => {
-      acc.terisi += curr.terisi;
-      return acc;
-    },
-    { terisi: 0 },
-  );
 
   const AnalisPerdagangan = [
     {
@@ -153,7 +222,7 @@ const ExportExcel: React.FC = () => {
       vertical: "middle",
     };
     topSecondHeaderCell.font = { bold: true };
-    topSecondHeaderCell.value = "DATA SPPD DAN INFOGRAFIS DATA KEPEGAWAIAN";
+    topSecondHeaderCell.value = "DATA KEPEGAWAIAN";
     topSecondHeaderCell.border = {
       left: { style: "thin", color: { argb: "000000" } },
       right: { style: "thin", color: { argb: "000000" } },
@@ -235,12 +304,12 @@ const ExportExcel: React.FC = () => {
       },
       {
         cell: "C5",
-        value: `${totalPegawai.ketersediaan}`,
+        value: `${totalKetersediaan}`,
         alignment: { horizontal: "center", vertical: "middle" },
       },
       {
         cell: "D5",
-        value: `${totalPegawai.terisi}`,
+        value: `${totalASN}`,
         alignment: { horizontal: "center", vertical: "middle" },
       },
       {
@@ -384,7 +453,7 @@ const ExportExcel: React.FC = () => {
       },
       {
         cell: "I5",
-        value: `${totalAsn.terisi}`,
+        value: `${totalNonASN}`,
         alignment: { horizontal: "center", vertical: "middle" },
       },
     ];
@@ -700,8 +769,10 @@ const ExportExcel: React.FC = () => {
   };
 
   useEffect(() => {
-    handleExport();
-  }, []);
+    if(!isFetchingUnit && DATA_FETCHING_UNIT && !isFetching && DATA_FETCHING) {
+      handleExport();
+    }
+  }, [isFetchingUnit, DATA_FETCHING_UNIT, isFetching, DATA_FETCHING]);
 
   return <LoaderPage />;
 };
