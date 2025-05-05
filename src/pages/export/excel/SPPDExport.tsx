@@ -195,7 +195,7 @@ const ExportExcel: React.FC = () => {
     },
     {
       cell: "Q3",
-      value: "Jumalah Diterima",
+      value: "Jumlah Diterima",
       alignment: { horizontal: "center", vertical: "middle" },
     },
   ];
@@ -206,15 +206,15 @@ const ExportExcel: React.FC = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: any[],
   ) => {
-    sheet.getCell(`A1`).value = title;
+    sheet.getCell(`A1`).value = title.toUpperCase();
     sheet.getCell(`A1`).font = { bold: true };
-    sheet.getCell(`A1`).alignment = { horizontal: "left", vertical: "middle" };
+    sheet.getCell(`A1`).alignment = { horizontal: "center", vertical: "middle" };
     sheet.mergeCells("A1:Q1");
 
     sheet.getCell(`A2`).value =
-      `Periode ${DMYIndoToFormat(startDate)} - ${DMYIndoToFormat(endDate)}`;
+      String(`Periode ${DMYIndoToFormat(startDate)} - ${DMYIndoToFormat(endDate)}`).toUpperCase();
     sheet.getCell(`A2`).font = { bold: true };
-    sheet.getCell(`A2`).alignment = { horizontal: "left", vertical: "middle" };
+    sheet.getCell(`A2`).alignment = { horizontal: "center", vertical: "middle" };
     sheet.mergeCells("A2:Q2");
 
     headers1.forEach(({ cell, value, alignment }) => {
@@ -269,13 +269,13 @@ const ExportExcel: React.FC = () => {
           item.tujuan,
           item.uraian,
           `Rp ${item.transport.toLocaleString("id-ID")}`,
-          `Rp ${item.xtransport.toLocaleString("id-ID")}`,
+          `${item.xtransport.toLocaleString("id-ID")}`,
           `Rp ${item.jumlahtransport.toLocaleString("id-ID")}`,
           `Rp ${item.daily.toLocaleString("id-ID")}`,
-          `Rp ${item.xdaily.toLocaleString("id-ID")}`,
+          `${item.xdaily.toLocaleString("id-ID")}`,
           `Rp ${item.jumlahdaily.toLocaleString("id-ID")}`,
           `Rp ${item.representatif.toLocaleString("id-ID")}`,
-          `Rp ${item.xrepresentatif.toLocaleString("id-ID")}`,
+          `${item.xrepresentatif.toLocaleString("id-ID")}`,
           `Rp ${item.jumlahrepresentatif.toLocaleString("id-ID")}`,
           `Rp ${item.total.toLocaleString("id-ID")}`,
         ]);

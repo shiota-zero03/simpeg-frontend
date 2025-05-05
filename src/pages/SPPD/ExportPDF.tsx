@@ -120,6 +120,12 @@ export default function ExportIKP() {
                 </td>
               </tr>
               <tr>
+                <td className="text-[8pt] min-w-72">TEMPAT / TUJUAN</td>
+                <td className="text-[8pt] min-w-72">
+                  : {DATA_DETAIL.location}
+                </td>
+              </tr>
+              <tr>
                 <td className="text-[8pt] min-w-72">TANGGAL PELAKSANAAN</td>
                 <td className="text-[8pt] min-w-72">
                   :{" "}
@@ -130,12 +136,6 @@ export default function ExportIKP() {
                   {DATA_DETAIL.endDate
                     ? DMYIndoToFormat(DATA_DETAIL.endDate)
                     : ""}
-                </td>
-              </tr>
-              <tr>
-                <td className="text-[8pt] min-w-72">TEMPAT / TUJUAN</td>
-                <td className="text-[8pt] min-w-72">
-                  : {DATA_DETAIL.location}
                 </td>
               </tr>
             </tbody>
@@ -199,7 +199,7 @@ export default function ExportIKP() {
                     <td className="p-1 border border-black align-top text-[10pt] text-center">
                       Vol
                     </td>
-                    <td className="p-1 border border-black align-top text-[10pt] text-right">
+                    <td className="p-1 border border-black align-top text-[10pt] text-center">
                       {item.budgets[0]
                         ? Number(
                             item.budgets[0].volDailyAllowance || 0,
@@ -259,7 +259,7 @@ export default function ExportIKP() {
                     <td className="p-1 border border-black align-top text-[10pt] text-center">
                       Vol
                     </td>
-                    <td className="p-1 border border-black align-top text-[10pt] text-right">
+                    <td className="p-1 border border-black align-top text-[10pt] text-center">
                       {item.budgets[0]
                         ? Number(
                             item.budgets[0].volTransport || 0,
@@ -292,7 +292,7 @@ export default function ExportIKP() {
                     <td className="p-1 border border-black align-top text-[10pt] text-center">
                       Vol
                     </td>
-                    <td className="p-1 border border-black align-top text-[10pt] text-right">
+                    <td className="p-1 border border-black align-top text-[10pt] text-center">
                       {item.budgets[0]
                         ? Number(
                             item.budgets[0].volRepresentatif || 0,

@@ -261,12 +261,12 @@ export default function CreatePelaporan() {
     const typeDescriptions = Object.entries(typeMap)
       .map(
         ([type, count]) =>
-          `${count} perjalanan dinas berjenis ${type === "PERJALANAN_BIASA" ? "Perjalanan Dinas Biasa" : "Perjalanan Dinas Dalam Kota"}`,
+          `${count} ${type === "PERJALANAN_BIASA" ? "Perjalanan Dinas Biasa" : "Perjalanan Dinas Dalam Kota"}`,
       )
       .join(", ");
 
     const namaList = topNama
-      .map(([name, count], index) => `${index + 1}. ${name} (${count} kali)`)
+      .map(([name, count], index) => `${index + 1}. ${name} sebanyak ${count} kali`)
       .join("; ");
 
     const jumlahPegawai = topNama.length;
@@ -277,9 +277,17 @@ export default function CreatePelaporan() {
           ? `berikut ${jumlahPegawai} pegawai yang paling sering melakukan perjalanan dinas`
           : "sepuluh pegawai yang paling sering melakukan perjalanan dinas adalah";
 
+    const bulanIndo = [
+      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
+
+    const now = new Date();
+    const namaBulanTahun = `${bulanIndo[now.getMonth()]} ${now.getFullYear()}`;
+
     return `
       <div>
-        <div>Selama periode pelaporan, tercatat sebanyak ${totalPerjalanan} perjalanan dinas telah dilaksanakan. Perjalanan tersebut terdiri dari ${typeDescriptions}.</div>
+        <div>Selama periode pelaporan bulan ${namaBulanTahun}, tercatat sebanyak ${totalPerjalanan} perjalanan dinas telah dilaksanakan. Perjalanan tersebut terdiri dari ${typeDescriptions}.</div>
         <div>Adapun ${pengantarNama}: ${namaList}</div>
         <div>Data ini dapat menjadi dasar evaluasi terhadap intensitas pelaksanaan tugas luar kantor oleh masing-masing pegawai, serta menjadi acuan dalam pemerataan penugasan di masa mendatang.</div>
       </div>
