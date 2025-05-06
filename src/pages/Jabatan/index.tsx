@@ -13,6 +13,8 @@ import { useDeleteJabatan, useGetAllJabatan } from "@/services/jabatan";
 import { JabatanRes } from "@/interface/responses/jabatan.interface";
 import UpdateModal from "@/components/modals/JabatanModal/UpdateModal";
 import ImportModal from "@/components/modals/JabatanModal/ImportModal";
+import { Link } from "react-router-dom";
+import { FaFileExcel } from "react-icons/fa";
 
 interface DataProps {
   id: number;
@@ -342,6 +344,13 @@ export default function Jabatan() {
                   >
                     <BiReset size={12} />
                   </Button>
+                  <Link
+                    to={`/jabatan/export-data`}
+                    target="__blank"
+                    className="border-[0.8px] w-24 text-xs border-button-primary text-button-primary flex items-center justify-center gap-2 py-1.5 rounded-md"
+                  >
+                    <FaFileExcel size={12} /> Export
+                  </Link>
                   <Button
                     onPress={() => onOpenCreate()}
                     variant="solid"

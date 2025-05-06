@@ -5,6 +5,7 @@ import { useGetDetailSPPD } from "@/services/sppd";
 import { SPPDRes } from "@/interface/responses/sppd.interface";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { terbilang } from "@/utils/terbilang";
+import { capitalizeWords } from "@/utils/formatBreadcrumbsTitle";
 
 export default function ExportIKP() {
   const { id } = useParams();
@@ -325,7 +326,7 @@ export default function ExportIKP() {
             <tfoot>
               <tr>
                 <td
-                  className="p-1 border border-black text-[10pt] text-center font-semibold"
+                  className="p-1 border border-black text-[10pt] text-left font-semibold ps-4"
                   colSpan={10}
                 >
                   JUMLAH SELURUHNYA
@@ -340,8 +341,8 @@ export default function ExportIKP() {
                 <td className="p-1 border border-black text-[10pt] text-center"></td>
               </tr>
               <tr>
-                <td className="p-1 border border-black text-[10pt] font-semibold text-center" colSpan={12}>
-                  {totalAnggaran ? `Terbilang: ${terbilang(Number(totalAnggaran || 0))} rupiah` : ''}
+                <td className="p-1 border border-black text-[10pt] font-semibold text-left ps-4" colSpan={12}>
+                  {totalAnggaran ? `TERBILANG: ${capitalizeWords(terbilang(Number(totalAnggaran || 0)))} rupiah` : ''}
                 </td>
               </tr>
             </tfoot>

@@ -16,6 +16,9 @@ const HubungiKami = lazy(() => import("@/pages/HubungiKami"));
 const Profile = lazy(() => import("@/pages/Profile"));
 const EditProfile = lazy(() => import("@/pages/Profile/EditProfile"));
 const Jabatan = lazy(() => import("@/pages/Jabatan"));
+const ExportExcelJabatan = lazy(
+  () => import("@/pages/export/excel/JabatanExport"),
+);
 const Unit = lazy(() => import("@/pages/Unit"));
 const Pegawai = lazy(() => import("@/pages/Pegawai"));
 const CreatePegawai = lazy(() => import("@/pages/Pegawai/Created"));
@@ -336,6 +339,7 @@ export default function Router() {
           element={<ExportExcelSummary />}
         />
         <Route path="/pegawai/export-data" element={<ExportExcelPegawai />} />
+        <Route path="/jabatan/export-data" element={<ExportExcelJabatan />} />
         <Route path="/sppd/export-data" element={<ExportExcelSPPD />} />
 
         <Route
