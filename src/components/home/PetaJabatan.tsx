@@ -1305,7 +1305,11 @@ export default function BigTable() {
                       ></th>
                     </tr>
                     <tr>
-                      <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                      {itemLN.name ? (
+                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                      ) : (
+                        <th></th>
+                      )}
                       {itemSPL.name ? (
                         <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
                       ) : (

@@ -60,25 +60,25 @@ export default function DetailExportSurat({
               <div className="flex flex-col" key={index}>
                 <div className="flex items-center gap-2">
                   <div className="w-6">{index + 1}. </div>
-                  <div className="w-60">Nama</div>
-                  <div>: &nbsp; {item.name}</div>
+                  <div className="w-48">Nama</div>
+                  <div>: &nbsp; nbsp; nbsp; {item.name}</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-6"></div>
-                  <div className="w-60">NIP</div>
-                  <div>: &nbsp; {item.nip}</div>
+                  <div className="w-48">NIP</div>
+                  <div>: &nbsp;&nbsp;&nbsp; {item.nip}</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-6"></div>
-                  <div className="w-60">Pangkat / Golongan</div>
+                  <div className="w-48">Pangkat / Golongan</div>
                   <div>
-                    : &nbsp; {item.pangkat} / {item.golongan}
+                    : &nbsp;&nbsp;&nbsp; {item.pangkat} / {item.golongan}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-6"></div>
-                  <div className="w-60">Jabatan</div>
-                  <div>: &nbsp; {item.jabatan}</div>
+                  <div className="w-48">Jabatan</div>
+                  <div>: &nbsp;&nbsp;&nbsp; {item.jabatan}</div>
                 </div>
               </div>
             ))}
@@ -112,7 +112,7 @@ export default function DetailExportSurat({
             Demikian Berita Acara Permintaan Keterangan ini dibuat dan dibacakan
             ulang kepada Saudara, Kemudian ditutup dan ditandatangani.
           </div>
-          <div className="mt-2 grid sm:grid-cols-2 grid-cols-1 gap-2">
+          <div className="mt-2 grid sm:grid-cols-2 grid-cols-1 gap-12">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -122,7 +122,7 @@ export default function DetailExportSurat({
                     </th>
                   </tr>
                   <tr>
-                    <th className="text-start">No</th>
+                    <th className="text-start w-10">No</th>
                     <th className="text-start">Nama</th>
                     <th className="text-start">Tanda Tangan</th>
                   </tr>
@@ -143,7 +143,7 @@ export default function DetailExportSurat({
               <table className="w-full">
                 <thead>
                   <tr>
-                    <th className="text-start" colSpan={3}>
+                    <th className="text-start w-10" colSpan={3}>
                       Yang Dimintai Keterangan
                     </th>
                   </tr>

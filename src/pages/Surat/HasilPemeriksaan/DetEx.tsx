@@ -47,26 +47,26 @@ export default function DetailExportSurat({
           </div>
           <div className="flex flex-col ms-12">
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Nama </div>
+              <div className="w-28">Nama </div>
               <span className="font-semibold">
-                :&nbsp;{DATA_DETAIL?.namePermintaan}
+                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.namePermintaan}
               </span>
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">NIP </div>
-              :&nbsp;{DATA_DETAIL?.nipPermintaan}
+              <div className="w-28">NIP </div>
+              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.nipPermintaan}
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Jabatan </div>
-              :&nbsp;{DATA_DETAIL?.jabatanPermintaan}
+              <div className="w-28">Jabatan </div>
+              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.jabatanPermintaan}
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Golongan </div>
-              :&nbsp;{DATA_DETAIL?.golonganPermintaan}
+              <div className="w-28">Golongan </div>
+              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.golonganPermintaan}
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Unit Kerja </div>
-              :&nbsp;{DATA_DETAIL?.unitPermintaan}
+              <div className="w-28">Unit Kerja </div>
+              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.unitPermintaan}
             </div>
           </div>
           <br />

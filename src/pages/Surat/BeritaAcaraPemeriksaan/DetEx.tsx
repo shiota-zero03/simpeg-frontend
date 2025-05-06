@@ -38,24 +38,24 @@ export default function DetailExportSurat({
           <div className="flex flex-col ms-12">
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <div className="w-60">Nama</div>
-                <div>: &nbsp; {DATA_DETAIL.pemeriksa}</div>
+                <div className="w-32">Nama</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.pemeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-60">NIP</div>
-                <div>: &nbsp; {DATA_DETAIL.nipPemeriksa}</div>
+                <div className="w-32">NIP</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.nipPemeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-60">Jabatan</div>
-                <div>: &nbsp; {DATA_DETAIL.jabatanPemeriksa}</div>
+                <div className="w-32">Jabatan</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.jabatanPemeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-60">Pangkat</div>
-                <div>: &nbsp; {DATA_DETAIL.pangkatPemeriksa || "-"}</div>
+                <div className="w-32">Pangkat</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.pangkatPemeriksa || "-"}</div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-60">Golongan</div>
-                <div>: &nbsp; {DATA_DETAIL.golonganPemeriksa || "-"}</div>
+                <div className="w-32">Golongan</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.golonganPemeriksa || "-"}</div>
               </div>
             </div>
           </div>
@@ -67,28 +67,28 @@ export default function DetailExportSurat({
           <div className="flex flex-col ms-12">
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <div className="w-60">Nama</div>
-                <div>: &nbsp; {DATA_DETAIL.diPeriksa}</div>
+                <div className="w-32">Nama</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.diPeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-60">NIP</div>
-                <div>: &nbsp; {DATA_DETAIL.nipDiPeriksa}</div>
+                <div className="w-32">NIP</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.nipDiPeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-60">Jabatan</div>
-                <div>: &nbsp; {DATA_DETAIL.jabatanDiPeriksa}</div>
+                <div className="w-32">Jabatan</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.jabatanDiPeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-60">Pangkat</div>
-                <div>: &nbsp; {DATA_DETAIL.pangkatDiPeriksa || "-"}</div>
+                <div className="w-32">Pangkat</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.pangkatDiPeriksa || "-"}</div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-60">Golongan</div>
-                <div>: &nbsp; {DATA_DETAIL.golonganDiPeriksa || "-"}</div>
+                <div className="w-32">Golongan</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.golonganDiPeriksa || "-"}</div>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-60">Unit Kerja</div>
-                <div>: &nbsp; {DATA_DETAIL.unitDiPeriksa || "-"}</div>
+                <div className="w-32">Unit Kerja</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.unitDiPeriksa || "-"}</div>
               </div>
             </div>
           </div>
@@ -114,16 +114,16 @@ export default function DetailExportSurat({
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Nama</td>
-                    <td>: {DATA_DETAIL.diPeriksa}</td>
+                    <td className="w-36">Nama</td>
+                    <td>: &nbsp;&nbsp;&nbsp;{DATA_DETAIL.diPeriksa}</td>
                   </tr>
                   <tr>
-                    <td>NIP</td>
-                    <td>: {DATA_DETAIL.nipDiPeriksa}</td>
+                    <td className="w-36">NIP</td>
+                    <td>: &nbsp;&nbsp;&nbsp;{DATA_DETAIL.nipDiPeriksa}</td>
                   </tr>
                   <tr>
-                    <td>Tanda Tangan</td>
-                    <td>: </td>
+                    <td className="w-36">Tanda Tangan</td>
+                    <td>: &nbsp;&nbsp;&nbsp;</td>
                   </tr>
                 </tbody>
               </table>
@@ -139,16 +139,16 @@ export default function DetailExportSurat({
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Nama</td>
-                    <td>: {DATA_DETAIL.pemeriksa}</td>
+                    <td className="w-36">Nama</td>
+                    <td>:&nbsp;&nbsp;&nbsp;{DATA_DETAIL.pemeriksa}</td>
                   </tr>
                   <tr>
-                    <td>NIP</td>
-                    <td>: {DATA_DETAIL.nipPemeriksa}</td>
+                    <td className="w-36">NIP</td>
+                    <td>:&nbsp;&nbsp;&nbsp;{DATA_DETAIL.nipPemeriksa}</td>
                   </tr>
                   <tr>
-                    <td>Tanda Tangan</td>
-                    <td>: </td>
+                    <td className="w-36">Tanda Tangan</td>
+                    <td>:&nbsp;&nbsp;&nbsp;</td>
                   </tr>
                 </tbody>
               </table>

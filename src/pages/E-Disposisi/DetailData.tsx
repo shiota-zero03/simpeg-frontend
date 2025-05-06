@@ -137,9 +137,11 @@ export default function Verifikasi() {
                   {DATA_FETCHING?.description}
                 </div>
               </div>
-              <div className="flex items-center gap-2 text-success font-semibold">
-                <LucideCheckCircle /> Paraf
-              </div>
+              {DATA_FETCHING?.paraf && (
+                <div className="flex items-center gap-2 text-success font-semibold">
+                  <LucideCheckCircle /> Paraf
+                </div>
+              )}
             </div>
             <Divider className="h-0.5" />
             <div className="grid md:grid-cols-2 grid-cols-1 md:px-8 px-4 items-start gap-4">

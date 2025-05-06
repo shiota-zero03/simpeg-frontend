@@ -73,23 +73,23 @@ export default function DetailExportSurat({
                 {DATA_DETAIL.kesatu}
                 <div className="flex flex-col gap-2 my-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-[120pt]">Nama </div>:
+                    <div className="w-28">Nama </div>: &nbsp;&nbsp;&nbsp;
                     {DATA_DETAIL.nameYangDitetapkan}
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-[120pt]">NIP </div>:
+                    <div className="w-28">NIP </div>: &nbsp;&nbsp;&nbsp;
                     {DATA_DETAIL.nipYangDitetapkan}
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-[120pt]">Jabatan </div>:
+                    <div className="w-28">Jabatan </div>: &nbsp;&nbsp;&nbsp;
                     {DATA_DETAIL.jabatanYangDitetapkan}
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-[120pt]">Golongan </div>:
+                    <div className="w-28">Golongan </div>: &nbsp;&nbsp;&nbsp;
                     {DATA_DETAIL.golonganYangDitetapkan}
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-[120pt]">Unit Kerja </div>:
+                    <div className="w-28">Unit Kerja </div>: &nbsp;&nbsp;&nbsp;
                     {DATA_DETAIL.unitYangDitetapkan}
                   </div>
                 </div>
