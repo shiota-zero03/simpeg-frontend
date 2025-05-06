@@ -12,6 +12,7 @@ import { PegawaiRes } from "@/interface/responses/pegawai.interface";
 import store from "@/redux/store";
 import { FaFileExcel } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import ImportModal from "@/components/modals/PegawaiModal/ImportModal";
 
 interface DataProps {
   id: string;
@@ -242,6 +243,21 @@ export default function PegawaiIndex() {
       throw error;
     }
   };
+
+  const {
+    isOpen: isOpenImport,
+    // onOpen: onOpenImport,
+    onClose: onCloseImport,
+  } = useDisclosure();
+
+  const handleClose = () => {
+    setSelectedId(null);
+    setPageIndex(0);
+    onCloseDelete();
+    onCloseImport();
+    refetchData();
+  };
+
   return (
     <>
       <DeleteModal
@@ -250,6 +266,11 @@ export default function PegawaiIndex() {
         isLoading={isLoadingDelete}
         handleSubmit={handleDelete}
       />
+      <ImportModal
+          isOpen={isOpenImport}
+          onClose={onCloseImport}
+          handleClose={handleClose}
+        />
       <div>
         <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
           <div className="pt-8 px-4 w-full text-primary shadow-sm">
@@ -315,6 +336,16 @@ export default function PegawaiIndex() {
                     Tambah
                   </Button>
                 )}
+                {/* <Button
+                  onPress={() => onOpenImport()}
+                  variant="solid"
+                  radius="sm"
+                  size="sm"
+                  startContent={<BiCloudUpload size={12} />}
+                  className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                >
+                  Import
+                </Button> */}
               </div>
             </div>
           </div>
