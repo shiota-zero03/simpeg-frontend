@@ -39,19 +39,22 @@ export default function DetailExportSurat({
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
                 <div className="w-32">Nama</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.pemeriksa}</div>
+                <div>: &nbsp;&nbsp;&nbsp; {DATA_DETAIL.pemeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-32">NIP</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.nipPemeriksa}</div>
+                <div>: &nbsp;&nbsp;&nbsp; {DATA_DETAIL.nipPemeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-32">Pangkat/Gol</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.pangkatPemeriksa || "-"} / {DATA_DETAIL.golonganPemeriksa || "-"}</div>
+                <div>
+                  : &nbsp;&nbsp;&nbsp; {DATA_DETAIL.pangkatPemeriksa || "-"} /{" "}
+                  {DATA_DETAIL.golonganPemeriksa || "-"}
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-32">Jabatan</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.jabatanPemeriksa}</div>
+                <div>: &nbsp;&nbsp;&nbsp; {DATA_DETAIL.jabatanPemeriksa}</div>
               </div>
             </div>
           </div>
@@ -64,23 +67,28 @@ export default function DetailExportSurat({
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
                 <div className="w-32">Nama</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.diPeriksa}</div>
+                <div>: &nbsp;&nbsp;&nbsp; {DATA_DETAIL.diPeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-32">NIP</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.nipDiPeriksa}</div>
+                <div>: &nbsp;&nbsp;&nbsp; {DATA_DETAIL.nipDiPeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-32">Pangkat/Gol</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.pangkatDiPeriksa || "-"} / {DATA_DETAIL.golonganDiPeriksa || "-"}</div>
+                <div>
+                  : &nbsp;&nbsp;&nbsp; {DATA_DETAIL.pangkatDiPeriksa || "-"} /{" "}
+                  {DATA_DETAIL.golonganDiPeriksa || "-"}
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-32">Jabatan</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.jabatanDiPeriksa}</div>
+                <div>: &nbsp;&nbsp;&nbsp; {DATA_DETAIL.jabatanDiPeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-32">Unit Kerja</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.unitDiPeriksa || "-"}</div>
+                <div>
+                  : &nbsp;&nbsp;&nbsp; {DATA_DETAIL.unitDiPeriksa || "-"}
+                </div>
               </div>
             </div>
           </div>
@@ -93,7 +101,7 @@ export default function DetailExportSurat({
           <br />
           <div className="ms-auto w-1/2 text-start">
             <div className="ms-2">
-            Bekasi, {DMYIndoToFormat(DATA_DETAIL.createdAt)}
+              Bekasi, {DMYIndoToFormat(DATA_DETAIL.createdAt)}
             </div>
           </div>
           <div className="mt-2 grid sm:grid-cols-2 grid-cols-1 gap-2">

@@ -696,7 +696,7 @@ export const pendidikanTerakhir: {
     singkatan: "D3",
   },
   {
-    name: "Diploma D4",
+    name: "Diploma 4",
     key: "D4",
     singkatan: "D4",
   },

@@ -106,31 +106,31 @@ export default function ExportIKP() {
               <tr>
                 <td className="text-[8pt] min-w-48">KODE REKENING</td>
                 <td className="text-[8pt] min-w-72">
-                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL.kodeRekening}
+                  :&nbsp;&nbsp;&nbsp;{DATA_DETAIL.kodeRekening}
                 </td>
               </tr>
               <tr>
                 <td className="text-[8pt] min-w-48">SUB KEGIATAN</td>
                 <td className="text-[8pt] min-w-72">
-                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL.activity}
+                  :&nbsp;&nbsp;&nbsp;{DATA_DETAIL.activity}
                 </td>
               </tr>
               <tr>
                 <td className="text-[8pt] min-w-48">MAKSUD PERJALANAN</td>
                 <td className="text-[8pt] min-w-72">
-                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL.reasoning}
+                  :&nbsp;&nbsp;&nbsp;{DATA_DETAIL.reasoning}
                 </td>
               </tr>
               <tr>
                 <td className="text-[8pt] min-w-48">TEMPAT / TUJUAN</td>
                 <td className="text-[8pt] min-w-72">
-                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL.location}
+                  :&nbsp;&nbsp;&nbsp;{DATA_DETAIL.location}
                 </td>
               </tr>
               <tr>
                 <td className="text-[8pt] min-w-48">TANGGAL PELAKSANAAN</td>
                 <td className="text-[8pt] min-w-72">
-                :&nbsp;&nbsp;&nbsp;{" "}
+                  :&nbsp;&nbsp;&nbsp;{" "}
                   {DATA_DETAIL.startDate
                     ? DMYIndoToFormat(DATA_DETAIL.startDate)
                     : ""}{" "}
@@ -331,9 +331,7 @@ export default function ExportIKP() {
                 >
                   JUMLAH SELURUHNYA
                 </td>
-                <td
-                  className="p-1 border border-black text-[10pt] text-right font-semibold"
-                >
+                <td className="p-1 border border-black text-[10pt] text-right font-semibold">
                   {totalAnggaran
                     ? Number(totalAnggaran).toLocaleString("id-ID")
                     : 0}
@@ -341,8 +339,13 @@ export default function ExportIKP() {
                 <td className="p-1 border border-black text-[10pt] text-center"></td>
               </tr>
               <tr>
-                <td className="p-1 border border-black text-[10pt] font-semibold text-left ps-4" colSpan={12}>
-                  {totalAnggaran ? `TERBILANG: ${capitalizeWords(terbilang(Number(totalAnggaran || 0)))} rupiah` : ''}
+                <td
+                  className="p-1 border border-black text-[10pt] font-semibold text-left ps-4"
+                  colSpan={12}
+                >
+                  {totalAnggaran
+                    ? `TERBILANG: ${capitalizeWords(terbilang(Number(totalAnggaran || 0)))} rupiah`
+                    : ""}
                 </td>
               </tr>
             </tfoot>

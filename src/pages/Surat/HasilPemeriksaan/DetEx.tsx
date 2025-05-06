@@ -42,7 +42,8 @@ export default function DetailExportSurat({
             Dengan ini dilaporkan dengan hormat, pada Hari{" "}
             {DATA_DETAIL.tanggalSurat
               ? textToFormat(DATA_DETAIL.tanggalSurat)
-              : "-"},&nbsp;saya telah melakukan permintaan keterangan terhadap:
+              : "-"}
+            ,&nbsp;saya telah melakukan permintaan keterangan terhadap:
           </div>
           <div className="flex flex-col">
             <div className="flex items-center font-normal gap-2">
@@ -135,7 +136,10 @@ export default function DetailExportSurat({
             </table>
           </div>
           <br />
-          <div dangerouslySetInnerHTML={{ __html: DATA_DETAIL.keterangan }} className="ms-12" />
+          <div
+            dangerouslySetInnerHTML={{ __html: DATA_DETAIL.keterangan }}
+            className="ms-12"
+          />
           <br />
           <div>
             Sehubungan dengan hal tersebut, disampaikan Berita Acara Permintaan

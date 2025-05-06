@@ -129,10 +129,9 @@ const ExportExcel: React.FC = () => {
       D: item.rank || "-", // Pangkat
       E: item.group || "-", // Golongan
       F: item.jabatan.nameJob || "-", // Jabatan
-      G:
-        item.jabatan.nameJob.includes("KEPALA DINAS")
-          ? "PEMERINTAH KAB. BEKASI"
-          : "DINAS PERDAGANGAN KAB. BEKASI", // Unit Kerja
+      G: item.jabatan.nameJob.includes("KEPALA DINAS")
+        ? "PEMERINTAH KAB. BEKASI"
+        : "DINAS PERDAGANGAN KAB. BEKASI", // Unit Kerja
       H: item.jabatan.eselon || "-", // Eselon
       I: item.jabatan.unit.nameUnit || "-", // Sub Unor
     }));

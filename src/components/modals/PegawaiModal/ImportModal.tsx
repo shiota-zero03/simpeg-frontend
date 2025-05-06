@@ -47,7 +47,6 @@ const ImportModal = ({ isOpen, onClose, handleClose }: props) => {
 
       for (const item of data) {
         const formToSend: StorePegawai = {
-
           name: item["Nama Pegawai"],
           email: item["Email"],
           password: item["PASSWORD"],
@@ -65,7 +64,7 @@ const ImportModal = ({ isOpen, onClose, handleClose }: props) => {
           pensionAge: Number(item["Usia Pensiun"]),
           pensionDate: item["Tanggal Pensiun"],
           status: true,
-          statusAsn: item["Status ASN"] === "TRUE" ? true : false
+          statusAsn: item["Status ASN"] === "TRUE" ? true : false,
         };
 
         await new Promise((resolve, reject) => {

@@ -195,8 +195,6 @@ export function LoginSidebar() {
     return allowedSubMenus;
   }, [allowedSubMenus, getDataProfile, currentRole]);
 
-  console.log(filteredSubMenus)
-
   useEffect(() => {
     refetchProfile();
   }, []);

@@ -318,7 +318,9 @@ export default function CreateSurat() {
           namePermintaan: checkPegawai.name,
           nipPermintaan: checkPegawai.nip || "-",
           golonganPermintaan: checkPegawai.group || "-",
-          unitPermintaan: checkPegawai.jabatan.unit ? checkPegawai.jabatan.unit.nameUnit : "-",
+          unitPermintaan: checkPegawai.jabatan.unit
+            ? checkPegawai.jabatan.unit.nameUnit
+            : "-",
           jabatanPermintaan:
             checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
         });
@@ -343,7 +345,9 @@ export default function CreateSurat() {
           nipMelaporkan: checkPegawai.nip || "-",
           jabatanMelaporkan: checkPegawai.group || "-",
           pangkatMelaporakn: checkPegawai.rank || "-",
-          unitPermintaan: checkPegawai.jabatan.unit ? checkPegawai.jabatan.unit.nameUnit : "-"
+          unitPermintaan: checkPegawai.jabatan.unit
+            ? checkPegawai.jabatan.unit.nameUnit
+            : "-",
         });
       } else {
         setFormData({
