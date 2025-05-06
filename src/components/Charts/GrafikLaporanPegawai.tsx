@@ -108,7 +108,6 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
     (d) => d.education,
   );
   const dataGender = countByField(data, (d) => d.gender);
-  console.log(dataGender)
 
   const dataAsn = useMemo(() => {
     if (!DATA_FETCHING_UNIT) return [];
@@ -121,7 +120,6 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
       ),
     ).map((name) => ({ nama: name }));
 
-    console.log(simplifiedUnitNames);
     return countFromDefinedName(filteredData, simplifiedUnitNames, (d) =>
       simplifyUnitName(d.jabatan.unit.nameUnit),
     );
@@ -230,10 +228,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
               />
               <VictoryAxis
                 dependentAxis
-                domain={[
-                  0,
-                  Math.max(...dataAsn.map((d) => d.y)) + 10,
-                ]}
+                domain={[0, Math.max(...dataAsn.map((d) => d.y)) + 10]}
                 tickLabelComponent={<VictoryLabel dx={6} />}
                 style={{
                   axis: { stroke: "#31D8FF", strokeWidth: 1 },
@@ -298,10 +293,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
               />
               <VictoryAxis
                 dependentAxis
-                domain={[
-                  0,
-                  Math.max(...dataNonAsn.map((d) => d.y)) + 10,
-                ]}
+                domain={[0, Math.max(...dataNonAsn.map((d) => d.y)) + 10]}
                 tickLabelComponent={<VictoryLabel dx={6} />}
                 style={{
                   axis: { stroke: "#1AB29E", strokeWidth: 1 },
@@ -366,10 +358,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
               />
               <VictoryAxis
                 dependentAxis
-                domain={[
-                  0,
-                  Math.max(...dataEselon.map((d) => d.y)) + 10,
-                ]}
+                domain={[0, Math.max(...dataEselon.map((d) => d.y)) + 10]}
                 tickLabelComponent={<VictoryLabel dx={6} />}
                 style={{
                   axis: { stroke: "#128F82", strokeWidth: 1 },
@@ -519,11 +508,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
                 style={{
                   data: {
                     fill: ({ index }) => {
-                      const colors = [
-                        "#7BDFF2",
-                        "#137269",
-                        "33CEB7"
-                      ];
+                      const colors = ["#7BDFF2", "#137269", "33CEB7"];
                       const safeIndex = typeof index === "number" ? index : 0;
                       return colors[safeIndex % colors.length];
                     },
@@ -543,8 +528,10 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
               data={dataGender}
               innerRadius={16}
               cornerRadius={4}
-              labels={({ datum }) => `${datum.x === "LAKI_LAKI" ? "Laki - Laki" : "Perempuan"} (${datum.y})`}
-              labelRadius={64} 
+              labels={({ datum }) =>
+                `${datum.x === "LAKI_LAKI" ? "Laki - Laki" : "Perempuan"} (${datum.y})`
+              }
+              labelRadius={64}
               colorScale={["#33CEB7", "#137269"]}
               height={160}
               padding={{ top: 20, bottom: 20, left: 32, right: 32 }}
@@ -603,10 +590,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
               />
               <VictoryAxis
                 dependentAxis
-                domain={[
-                  0,
-                  Math.max(...dataEducation.map((d) => d.y)) + 10,
-                ]}
+                domain={[0, Math.max(...dataEducation.map((d) => d.y)) + 10]}
                 tickLabelComponent={<VictoryLabel dx={6} />}
                 style={{
                   axis: { stroke: "#128F82", strokeWidth: 1 },

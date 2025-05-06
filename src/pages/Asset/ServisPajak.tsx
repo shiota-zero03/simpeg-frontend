@@ -137,7 +137,9 @@ export default function AssetIndex() {
       accessorKey: "tanggalSurat",
       header: "Tanggal",
       cell: (info) => {
-        return info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-"
+        return info.getValue()
+          ? DMYIndoToFormat(info.getValue() as string)
+          : "-";
       },
       // meta: { align: "center" },
     },

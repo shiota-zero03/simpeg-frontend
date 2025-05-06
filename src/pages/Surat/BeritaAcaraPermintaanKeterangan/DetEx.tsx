@@ -102,7 +102,9 @@ export default function DetailExportSurat({
             ))}
           </div>
           <br />
-          <div className="mb-2 font-semibold">Catatan Hasil Permintaan Keterangan</div>
+          <div className="mb-2 font-semibold">
+            Catatan Hasil Permintaan Keterangan
+          </div>
           <div
             className="ck-editor-keterangan"
             dangerouslySetInnerHTML={{ __html: DATA_DETAIL.keterangan || "" }}

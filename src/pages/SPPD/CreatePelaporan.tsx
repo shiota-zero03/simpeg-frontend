@@ -266,7 +266,10 @@ export default function CreatePelaporan() {
       .join(", ");
 
     const namaList = topNama
-      .map(([name, count], index) => `${index + 1}. ${name} sebanyak ${count} kali`)
+      .map(
+        ([name, count], index) =>
+          `${index + 1}. ${name} sebanyak ${count} kali`,
+      )
       .join("; ");
 
     const jumlahPegawai = topNama.length;
@@ -278,8 +281,18 @@ export default function CreatePelaporan() {
           : "sepuluh pegawai yang paling sering melakukan perjalanan dinas adalah";
 
     const bulanIndo = [
-      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
     ];
 
     const now = new Date();

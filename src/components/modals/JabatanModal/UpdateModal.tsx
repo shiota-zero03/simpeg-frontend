@@ -354,13 +354,11 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                     listbox: "max-w-full",
                     popoverContent: "max-w-full",
                   }}
-                
                   inputProps={{
                     classNames: {
                       input: "text-xs",
                     },
                   }}
-
                   menuTrigger="focus"
                   itemHeight={40}
                   listboxProps={{
@@ -371,10 +369,12 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   }}
                 >
                   {(peg) => (
-                    <AutocompleteItem key={peg.id} textValue={peg.nameUnit} className="whitespace-normal break-words text-xs">
-                      <div className="text-wrap">
-                        {peg.nameUnit}
-                      </div>
+                    <AutocompleteItem
+                      key={peg.id}
+                      textValue={peg.nameUnit}
+                      className="whitespace-normal break-words text-xs"
+                    >
+                      <div className="text-wrap">{peg.nameUnit}</div>
                     </AutocompleteItem>
                   )}
                 </Autocomplete>

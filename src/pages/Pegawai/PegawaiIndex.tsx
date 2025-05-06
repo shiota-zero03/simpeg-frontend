@@ -267,10 +267,10 @@ export default function PegawaiIndex() {
         handleSubmit={handleDelete}
       />
       <ImportModal
-          isOpen={isOpenImport}
-          onClose={onCloseImport}
-          handleClose={handleClose}
-        />
+        isOpen={isOpenImport}
+        onClose={onCloseImport}
+        handleClose={handleClose}
+      />
       <div>
         <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
           <div className="pt-8 px-4 w-full text-primary shadow-sm">

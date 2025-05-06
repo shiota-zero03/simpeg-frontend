@@ -235,7 +235,9 @@ export default function CreateSurat() {
             : "Jabatan tidak diketahui",
           pangkatPemeriksa: checkPegawai?.rank || "-",
           golonganPemeriksa: checkPegawai?.group || "-",
-          unitPemeriksa: checkPegawai.jabatan.unit ? checkPegawai.jabatan.unit.nameUnit : "-"
+          unitPemeriksa: checkPegawai.jabatan.unit
+            ? checkPegawai.jabatan.unit.nameUnit
+            : "-",
         });
       } else {
         setFormData({
@@ -261,7 +263,9 @@ export default function CreateSurat() {
             : "Jabatan tidak diketahui",
           pangkatDiPeriksa: checkPegawai?.rank || "-",
           golonganDiPeriksa: checkPegawai?.group || "-",
-          unitDiPeriksa: checkPegawai.jabatan.unit ? checkPegawai.jabatan.unit.nameUnit : "-"
+          unitDiPeriksa: checkPegawai.jabatan.unit
+            ? checkPegawai.jabatan.unit.nameUnit
+            : "-",
         });
       } else {
         setFormData({

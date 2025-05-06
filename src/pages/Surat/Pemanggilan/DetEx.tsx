@@ -89,10 +89,8 @@ export default function DetailExportSurat({
             </div>
             <div className="flex items-center font-normal gap-2">
               <div className="w-28">Jam </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.waktu
-                ? HIDateformat(DATA_DETAIL.waktu)
-                : ""}{" "}
-              WIB
+              :&nbsp;&nbsp;&nbsp;
+              {DATA_DETAIL?.waktu ? HIDateformat(DATA_DETAIL.waktu) : ""} WIB
             </div>
             <div className="flex items-center font-normal gap-2">
               <div className="w-28">Tempat </div>

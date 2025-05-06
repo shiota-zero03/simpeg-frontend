@@ -275,7 +275,8 @@ export default function CreateSurat() {
           idPemanggil: checkPegawai.id,
           pemanggil: checkPegawai.name || "-",
           nipPemanggil: checkPegawai.nip || "-",
-          unitPemanggil: checkPegawai.jabatan.unit?.nameUnit || "Unit tidak diketahui",
+          unitPemanggil:
+            checkPegawai.jabatan.unit?.nameUnit || "Unit tidak diketahui",
           jabatanPemanggil:
             checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
         });
@@ -297,7 +298,8 @@ export default function CreateSurat() {
           idDipanggil: checkPegawai.id,
           diPanggil: checkPegawai.name || "-",
           nipDiPanggil: checkPegawai.nip || "-",
-          unitDiPanggil: checkPegawai.jabatan.unit?.nameUnit || "Unit tidak diketahui",
+          unitDiPanggil:
+            checkPegawai.jabatan.unit?.nameUnit || "Unit tidak diketahui",
           jabatanDiPanggil:
             checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
         });
