@@ -130,7 +130,7 @@ const ExportExcel: React.FC = () => {
       E: item.group || "-", // Golongan
       F: item.jabatan.nameJob || "-", // Jabatan
       G:
-        item.jabatan.nameJob === "KEPALA DINAS"
+        item.jabatan.nameJob.includes("KEPALA DINAS")
           ? "PEMERINTAH KAB. BEKASI"
           : "DINAS PERDAGANGAN KAB. BEKASI", // Unit Kerja
       H: item.jabatan.eselon || "-", // Eselon

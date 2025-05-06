@@ -46,16 +46,12 @@ export default function DetailExportSurat({
                 <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.nipPemeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
+                <div className="w-32">Pangkat/Gol</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.pangkatPemeriksa || "-"} / {DATA_DETAIL.golonganPemeriksa || "-"}</div>
+              </div>
+              <div className="flex items-center gap-2">
                 <div className="w-32">Jabatan</div>
                 <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.jabatanPemeriksa}</div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-32">Pangkat</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.pangkatPemeriksa || "-"}</div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-32">Golongan</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.golonganPemeriksa || "-"}</div>
               </div>
             </div>
           </div>
@@ -75,16 +71,12 @@ export default function DetailExportSurat({
                 <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.nipDiPeriksa}</div>
               </div>
               <div className="flex items-center gap-2">
+                <div className="w-32">Pangkat/Gol</div>
+                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.pangkatDiPeriksa || "-"} / {DATA_DETAIL.golonganDiPeriksa || "-"}</div>
+              </div>
+              <div className="flex items-center gap-2">
                 <div className="w-32">Jabatan</div>
                 <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.jabatanDiPeriksa}</div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-32">Pangkat</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.pangkatDiPeriksa || "-"}</div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-32">Golongan</div>
-                <div>: &nbsp;&nbsp;&nbsp;   {DATA_DETAIL.golonganDiPeriksa || "-"}</div>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-32">Unit Kerja</div>
@@ -99,17 +91,19 @@ export default function DetailExportSurat({
             sebagaimana mestinya.
           </div>
           <br />
-          <div className="ms-auto w-full text-end">
+          <div className="ms-auto w-1/2 text-start">
+            <div className="ms-2">
             Bekasi, {DMYIndoToFormat(DATA_DETAIL.createdAt)}
+            </div>
           </div>
           <div className="mt-2 grid sm:grid-cols-2 grid-cols-1 gap-2">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr>
-                    <th className="text-left" colSpan={2}>
+                    <td className="text-left" colSpan={2}>
                       Yang diperiksa
-                    </th>
+                    </td>
                   </tr>
                 </thead>
                 <tbody>
@@ -132,9 +126,9 @@ export default function DetailExportSurat({
               <table className="w-full">
                 <thead>
                   <tr>
-                    <th className="text-left" colSpan={2}>
+                    <td className="text-left" colSpan={2}>
                       Yang memeriksa
-                    </th>
+                    </td>
                   </tr>
                 </thead>
                 <tbody>

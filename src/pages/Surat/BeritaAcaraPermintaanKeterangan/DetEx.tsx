@@ -41,7 +41,7 @@ export default function DetailExportSurat({
             kami Tim Pemeriksa Internal pada Dinas Perdagangan Kabupaten Bekasi,
             sebagai berikut:
           </div>
-          <div className="flex flex-col ms-12">
+          <div className="flex flex-col">
             {DATA_DETAIL.TimPemeriksa.map((item, index) => (
               <div className="flex items-center gap-2" key={index}>
                 <div className="w-6">{index + 1}. </div>
@@ -55,39 +55,39 @@ export default function DetailExportSurat({
             {DATA_DETAIL.nomorSuratKeterangan} tersebut, kami telah melakukan
             permintaan keterangan-keterangan terhadap:
           </div>
-          <div className="flex flex-col ms-12">
+          <div className="flex flex-col ms-4">
             {DATA_DETAIL.PihakDimintai.map((item, index) => (
               <div className="flex flex-col" key={index}>
                 <div className="flex items-center gap-2">
                   <div className="w-6">{index + 1}. </div>
-                  <div className="w-48">Nama</div>
-                  <div>: &nbsp; nbsp; nbsp; {item.name}</div>
+                  <div className="w-32">Nama</div>
+                  <div>: &nbsp;&nbsp;&nbsp; {item.name}</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-6"></div>
-                  <div className="w-48">NIP</div>
+                  <div className="w-32">NIP</div>
                   <div>: &nbsp;&nbsp;&nbsp; {item.nip}</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-6"></div>
-                  <div className="w-48">Pangkat / Golongan</div>
+                  <div className="w-32">Pangkat / Gol</div>
                   <div>
                     : &nbsp;&nbsp;&nbsp; {item.pangkat} / {item.golongan}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-6"></div>
-                  <div className="w-48">Jabatan</div>
+                  <div className="w-32">Jabatan</div>
                   <div>: &nbsp;&nbsp;&nbsp; {item.jabatan}</div>
                 </div>
               </div>
             ))}
           </div>
           <br />
-          <div className="mb-2">
+          <div className="">
             Atas pertanyaan-pertanyaan tim pemeriksa sebagai berikut
           </div>
-          <div className="flex flex-col ms-12">
+          <div className="flex flex-col">
             {DATA_DETAIL.Pertanyaan.map((item, index) => (
               <div className="flex flex-col" key={index}>
                 <div className="flex items-center gap-2">
@@ -96,15 +96,15 @@ export default function DetailExportSurat({
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-6"></div>
-                  <div>Jawaban: {item.jawaban}</div>
+                  <div>Jawaban&nbsp;:&nbsp;{item.jawaban}</div>
                 </div>
               </div>
             ))}
           </div>
           <br />
-          <div className="mb-2">Catatan Hasil Permintaan Keterangan</div>
+          <div className="mb-2 font-semibold">Catatan Hasil Permintaan Keterangan</div>
           <div
-            className="ck-editor-keterangan ms-6"
+            className="ck-editor-keterangan"
             dangerouslySetInnerHTML={{ __html: DATA_DETAIL.keterangan || "" }}
           ></div>
           <br />
@@ -122,18 +122,18 @@ export default function DetailExportSurat({
                     </th>
                   </tr>
                   <tr>
-                    <th className="text-start w-10">No</th>
-                    <th className="text-start">Nama</th>
-                    <th className="text-start">Tanda Tangan</th>
+                    <th className="text-center align-top w-10">No</th>
+                    <th className="text-center align-top w-40">Nama</th>
+                    <th className="text-center w-20">Tanda Tangan</th>
                   </tr>
                 </thead>
                 <tbody>
                   {DATA_DETAIL.TimPemeriksa &&
                     DATA_DETAIL.TimPemeriksa.map((item, index) => (
                       <tr key={index}>
-                        <td className="h-20">{index + 1}</td>
+                        <td className="h-20 text-center">{index + 1}</td>
                         <td>{item.name}</td>
-                        <td>________________</td>
+                        <td className="text-center">__________</td>
                       </tr>
                     ))}
                 </tbody>
@@ -148,18 +148,18 @@ export default function DetailExportSurat({
                     </th>
                   </tr>
                   <tr>
-                    <th className="text-start">No</th>
-                    <th className="text-start">Nama</th>
-                    <th className="text-start">Tanda Tangan</th>
+                    <th className="text-center align-top w-10">No</th>
+                    <th className="text-center align-top w-40">Nama</th>
+                    <th className="text-center w-20">Tanda Tangan</th>
                   </tr>
                 </thead>
                 <tbody>
                   {DATA_DETAIL.PihakDimintai &&
                     DATA_DETAIL.PihakDimintai.map((item, index) => (
                       <tr key={index}>
-                        <td className="h-20">{index + 1}</td>
+                        <td className="h-20 text-center">{index + 1}</td>
                         <td>{item.name}</td>
-                        <td>________________</td>
+                        <td className="text-center">__________</td>
                       </tr>
                     ))}
                 </tbody>

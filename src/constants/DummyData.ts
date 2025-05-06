@@ -664,30 +664,45 @@ export const pendidikanTerakhir: {
   key: string;
   singkatan?: string;
 }[] = [
-  { name: "Sekolah Dasar (SD)", key: "Sekolah Dasar (SD)", singkatan: "SD" },
+  { name: "Sekolah Dasar (SD)", key: "SD", singkatan: "SD" },
   {
     name: "Sekolah Menengah Pertama (SMP)",
-    key: "Sekolah Menengah Pertama (SMP)",
-    singkatan: "SMP",
+    key: "SLTP",
+    singkatan: "SLTP",
   },
   {
     name: "Sekolah Menengah Atas (SMA)",
-    key: "Sekolah Menengah Atas (SMA)",
-    singkatan: "SMA",
+    key: "SLTA",
+    singkatan: "SLTA",
   },
   {
     name: "Sekolah Menengah Kejuruan (SMK)",
-    key: "Sekolah Menengah Kejuruan (SMK)",
+    key: "SMK",
     singkatan: "SMK",
   },
   {
-    name: "Diploma (D1, D2, D3, D4/Sarjana Terapan)",
-    key: "Diploma (D1, D2, D3, D4/Sarjana Terapan)",
-    singkatan: "DIPLOMA",
+    name: "Diploma 1",
+    key: "D1",
+    singkatan: "D1",
   },
-  { name: "Sarjana (S1)", key: "Sarjana (S1)", singkatan: "S1" },
-  { name: "Magister (S2)", key: "Magister (S2)", singkatan: "S2" },
-  { name: "Doktor (S3)", key: "Doktor (S3)", singkatan: "S3" },
+  {
+    name: "Diploma 2",
+    key: "D2",
+    singkatan: "D2",
+  },
+  {
+    name: "Diploma 3",
+    key: "D3",
+    singkatan: "D3",
+  },
+  {
+    name: "Diploma D4",
+    key: "D4",
+    singkatan: "D4",
+  },
+  { name: "Sarjana (S1)", key: "S1", singkatan: "S1" },
+  { name: "Magister (S2)", key: "S2", singkatan: "S2" },
+  { name: "Doktor (S3)", key: "S3", singkatan: "S3" },
 ];
 
 export const penilaianBobotDummy: {

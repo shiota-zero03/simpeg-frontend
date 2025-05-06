@@ -179,7 +179,7 @@ export function LoginSidebar() {
 
       // Cek apakah jabatan adalah KEPALA DINAS atau SEKRETARIS
       const isAuthorized =
-        jabatan === "KEPALA DINAS" || jabatan === "SEKRETARIS";
+        jabatan.includes("KEPALA DINAS") || jabatan.includes("SEKRETARIS");
 
       // Buat salinan array PEGAWAI
       const menuList = [...roleAccessMap.PEGAWAI];
@@ -194,6 +194,8 @@ export function LoginSidebar() {
 
     return allowedSubMenus;
   }, [allowedSubMenus, getDataProfile, currentRole]);
+
+  console.log(filteredSubMenus)
 
   useEffect(() => {
     refetchProfile();

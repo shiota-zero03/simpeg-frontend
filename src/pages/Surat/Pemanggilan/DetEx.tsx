@@ -32,13 +32,14 @@ export default function DetailExportSurat({
           <h1 className="text-center font-bold text-xl my-1">
             SURAT PEMANGGILAN {DATA_DETAIL.nomorPemanggilan}
           </h1>
-          <div className="flex items-center justify-center font-normal gap-2 my-2.5">
+          <div className="flex items-center justify-center font-normal gap-2 my-4">
             Nomor : {DATA_DETAIL?.nomorSurat}
           </div>
-          <div className="mb-2">
-            1. Bersama ini diminta dengan hormat kehadiran saudara:
+          <div className="flex items-center mb-4">
+            <div className="w-8">1. </div>
+            <div>Bersama ini diminta dengan hormat kehadiran saudara:</div>
           </div>
-          <div className="flex flex-col ms-12">
+          <div className="flex flex-col ms-8">
             <div className="flex items-center font-normal gap-2">
               <div className="w-28">Nama </div>
               <span className="font-semibold">
@@ -58,8 +59,8 @@ export default function DetailExportSurat({
               :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.jabatanDiPanggil}
             </div>
           </div>
-          <div className="mb-2">Untuk menghadap kepada</div>
-          <div className="flex flex-col ms-12">
+          <div className="mt-4 ms-8">Untuk menghadap kepada</div>
+          <div className="flex flex-col ms-8">
             <div className="flex items-center font-normal gap-2">
               <div className="w-28">Nama </div>
               <span className="font-semibold">
@@ -79,8 +80,8 @@ export default function DetailExportSurat({
               :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.jabatanPemanggil}
             </div>
           </div>
-          <div className="mb-2">Pada</div>
-          <div className="flex flex-col ms-12">
+          <div className="mt-4 ms-8">Pada</div>
+          <div className="flex flex-col ms-8">
             <div className="flex items-center font-normal gap-2">
               <div className="w-28">Hari, Tanggal </div>
               :&nbsp;&nbsp;&nbsp;
@@ -98,10 +99,13 @@ export default function DetailExportSurat({
               :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.tempat}
             </div>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 ms-8">
             Untuk {DATA_DETAIL?.keterangan || ""}
           </div>
-          <div>2. Demikian untuk dilaksanakan.</div>
+          <div className="flex items-center">
+            <div className="w-8">2. </div>
+            <div>Demikian untuk dilaksanakan.</div>
+          </div>
           <br />
           <br />
           <div className="ms-auto text-start">

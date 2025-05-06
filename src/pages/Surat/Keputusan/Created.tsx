@@ -297,7 +297,7 @@ export default function CreateSurat() {
           idYangDitetapkan: checkPegawai.id,
           nameYangDitetapkan: checkPegawai.name,
           nipYangDitetapkan: checkPegawai.nip || "-",
-          golonganYangDitetapkan: checkPegawai.group || "-",
+          golonganYangDitetapkan: checkPegawai.rank || "-",
           unitYangDitetapkan: checkPegawai.jabatan.unit ? checkPegawai.jabatan.unit.nameUnit : "-",
           jabatanYangDitetapkan:
             checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",

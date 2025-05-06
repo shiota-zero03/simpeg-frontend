@@ -22,6 +22,7 @@ import {
   useGetAllAssetService,
 } from "@/services/asset/asset-service";
 import { LucidePencilLine } from "lucide-react";
+import { DMYIndoToFormat } from "@/utils/dateFormater";
 
 interface DataProps {
   id: number;
@@ -133,9 +134,11 @@ export default function AssetIndex() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
-      accessorKey: "tanggal",
+      accessorKey: "tanggalSurat",
       header: "Tanggal",
-      cell: (info) => info.getValue() as string,
+      cell: (info) => {
+        return info.getValue() ? DMYIndoToFormat(info.getValue() as string) : "-"
+      },
       // meta: { align: "center" },
     },
     {

@@ -28,7 +28,7 @@ export default function DetailExportSurat({
             {DATA_DETAIL.lokasi}, {DMYIndoToFormat(DATA_DETAIL.tanggalSurat)}
           </div>
           <div className="flex">
-            <div className="w-24">Yth.</div>
+            <div className="w-16 mt-7">Yth.</div>
             <div className="flex flex-col gap-0.5">
               <div>Kepada :</div>
               <div>{DATA_DETAIL.nameKepada}</div>
@@ -39,33 +39,32 @@ export default function DetailExportSurat({
           <br />
           <h1 className="text-center font-bold text-xl">RAHASIA</h1>
           <div className="mb-2">
-            Dengan ini dilaporkan dengan hormat, pada hari{" "}
+            Dengan ini dilaporkan dengan hormat, pada Hari{" "}
             {DATA_DETAIL.tanggalSurat
               ? textToFormat(DATA_DETAIL.tanggalSurat)
-              : "-"}{" "}
-            Saya telah melakukan permintaan keterangan terhadap:
+              : "-"},&nbsp;saya telah melakukan permintaan keterangan terhadap:
           </div>
-          <div className="flex flex-col ms-12">
+          <div className="flex flex-col">
             <div className="flex items-center font-normal gap-2">
-              <div className="w-28">Nama </div>
+              <div className="w-24">Nama </div>
               <span className="font-semibold">
                 :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.namePermintaan}
               </span>
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-28">NIP </div>
+              <div className="w-24">NIP </div>
               :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.nipPermintaan}
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-28">Jabatan </div>
+              <div className="w-24">Jabatan </div>
               :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.jabatanPermintaan}
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-28">Golongan </div>
+              <div className="w-24">Golongan </div>
               :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.golonganPermintaan}
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-28">Unit Kerja </div>
+              <div className="w-24">Unit Kerja </div>
               :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.unitPermintaan}
             </div>
           </div>
@@ -136,7 +135,8 @@ export default function DetailExportSurat({
             </table>
           </div>
           <br />
-          <div dangerouslySetInnerHTML={{ __html: DATA_DETAIL.keterangan }} />
+          <div dangerouslySetInnerHTML={{ __html: DATA_DETAIL.keterangan }} className="ms-12" />
+          <br />
           <div>
             Sehubungan dengan hal tersebut, disampaikan Berita Acara Permintaan
             Keterangan terhadap PNS yang bersangkutan untuk digunakan dalam

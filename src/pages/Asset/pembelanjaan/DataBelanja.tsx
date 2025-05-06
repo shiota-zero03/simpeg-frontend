@@ -92,7 +92,7 @@ export default function AssetIndex() {
     },
     {
       accessorKey: "subKegiatan.name",
-      header: "Nomor Sub-Kegiatan",
+      header: "Nama Sub-Kegiatan",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },

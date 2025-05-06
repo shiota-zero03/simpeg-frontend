@@ -82,12 +82,6 @@ export default function AssetIndex() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "nama",
-      header: "Nama Barang",
-      cell: (info) => info.getValue() as string,
-      // meta: { align: "center" },
-    },
-    {
       accessorKey: "kode",
       header: "Nomor Rekening",
       cell: (info) => info.getValue() as string,
