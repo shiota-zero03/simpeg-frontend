@@ -67,7 +67,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
     const errors: errorProps = {};
     if (!formData.name) errors.name = "Nama kegiatan tidak boleh kosong";
     if (!formData.accountBank)
-      errors.accountBank = "Nomor rekening tidak boleh kosong";
+      errors.accountBank = "Kode rekening tidak boleh kosong";
 
     return errors;
   };
@@ -158,7 +158,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
-                  Nomor Rekening <span className="text-danger">*</span>
+                  Kode Rekening <span className="text-danger">*</span>
                 </label>
                 <Input
                   aria-label="lokasi"
