@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useGetDetailSPPD } from "@/services/sppd";
 import { SPPDRes } from "@/interface/responses/sppd.interface";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
+import { terbilang } from "@/utils/terbilang";
 
 export default function ExportIKP() {
   const { id } = useParams();
@@ -93,42 +94,42 @@ export default function ExportIKP() {
           <table>
             <tbody>
               <tr>
-                <td className="text-[8pt] min-w-72">URAIAN</td>
+                <td className="text-[8pt] min-w-48">URAIAN</td>
                 <td className="text-[8pt] min-w-72">
-                  :{" "}
+                  :&nbsp;&nbsp;&nbsp;{" "}
                   {DATA_DETAIL.type === "PERJALANAN_BIASA"
                     ? "PERJALANAN DINAS BIASA"
                     : "PERJALANAN DINAS DALAM KOTA"}
                 </td>
               </tr>
               <tr>
-                <td className="text-[8pt] min-w-72">KODE REKENING</td>
+                <td className="text-[8pt] min-w-48">KODE REKENING</td>
                 <td className="text-[8pt] min-w-72">
-                  : {DATA_DETAIL.kodeRekening}
+                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL.kodeRekening}
                 </td>
               </tr>
               <tr>
-                <td className="text-[8pt] min-w-72">SUB KEGIATAN</td>
+                <td className="text-[8pt] min-w-48">SUB KEGIATAN</td>
                 <td className="text-[8pt] min-w-72">
-                  : {DATA_DETAIL.activity}
+                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL.activity}
                 </td>
               </tr>
               <tr>
-                <td className="text-[8pt] min-w-72">MAKSUD PERJALANAN</td>
+                <td className="text-[8pt] min-w-48">MAKSUD PERJALANAN</td>
                 <td className="text-[8pt] min-w-72">
-                  : {DATA_DETAIL.reasoning}
+                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL.reasoning}
                 </td>
               </tr>
               <tr>
-                <td className="text-[8pt] min-w-72">TEMPAT / TUJUAN</td>
+                <td className="text-[8pt] min-w-48">TEMPAT / TUJUAN</td>
                 <td className="text-[8pt] min-w-72">
-                  : {DATA_DETAIL.location}
+                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL.location}
                 </td>
               </tr>
               <tr>
-                <td className="text-[8pt] min-w-72">TANGGAL PELAKSANAAN</td>
+                <td className="text-[8pt] min-w-48">TANGGAL PELAKSANAAN</td>
                 <td className="text-[8pt] min-w-72">
-                  :{" "}
+                :&nbsp;&nbsp;&nbsp;{" "}
                   {DATA_DETAIL.startDate
                     ? DMYIndoToFormat(DATA_DETAIL.startDate)
                     : ""}{" "}
@@ -324,20 +325,24 @@ export default function ExportIKP() {
             <tfoot>
               <tr>
                 <td
-                  className="p-1 border border-black text-[10pt] text-center"
+                  className="p-1 border border-black text-[10pt] text-center font-semibold"
                   colSpan={10}
                 >
                   JUMLAH SELURUHNYA
                 </td>
                 <td
-                  className="p-1 border border-black text-[10pt] text-right"
-                  rowSpan={3}
+                  className="p-1 border border-black text-[10pt] text-right font-semibold"
                 >
                   {totalAnggaran
                     ? Number(totalAnggaran).toLocaleString("id-ID")
                     : 0}
                 </td>
                 <td className="p-1 border border-black text-[10pt] text-center"></td>
+              </tr>
+              <tr>
+                <td className="p-1 border border-black text-[10pt] font-semibold text-center" colSpan={12}>
+                  {totalAnggaran ? `Terbilang: ${terbilang(Number(totalAnggaran || 0))} rupiah` : ''}
+                </td>
               </tr>
             </tfoot>
           </table>

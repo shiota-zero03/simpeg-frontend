@@ -40,62 +40,62 @@ export default function DetailExportSurat({
           </div>
           <div className="flex flex-col ms-12">
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Nama </div>
+              <div className="w-28">Nama </div>
               <span className="font-semibold">
-                :&nbsp;{DATA_DETAIL?.diPanggil}
+                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.diPanggil}
               </span>
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">NIP </div>
-              :&nbsp;{DATA_DETAIL?.nipDiPanggil}
+              <div className="w-28">NIP </div>
+              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.nipDiPanggil}
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Unit Kerja </div>
-              :&nbsp;{DATA_DETAIL?.unitDiPanggil}
+              <div className="w-28">Unit Kerja </div>
+              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.unitDiPanggil}
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Jabatan </div>
-              :&nbsp;{DATA_DETAIL?.jabatanDiPanggil}
+              <div className="w-28">Jabatan </div>
+              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.jabatanDiPanggil}
             </div>
           </div>
           <div className="mb-2">Untuk menghadap kepada</div>
           <div className="flex flex-col ms-12">
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Nama </div>
+              <div className="w-28">Nama </div>
               <span className="font-semibold">
-                :&nbsp;{DATA_DETAIL?.pemanggil}
+                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.pemanggil}
               </span>
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">NIP </div>
-              :&nbsp;{DATA_DETAIL?.nipPemanggil}
+              <div className="w-28">NIP </div>
+              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.nipPemanggil}
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Unit Kerja </div>
-              :&nbsp;{DATA_DETAIL?.unitPemanggil}
+              <div className="w-28">Unit Kerja </div>
+              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.unitPemanggil}
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Jabatan </div>
-              :&nbsp;{DATA_DETAIL?.jabatanPemanggil}
+              <div className="w-28">Jabatan </div>
+              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.jabatanPemanggil}
             </div>
           </div>
           <div className="mb-2">Pada</div>
           <div className="flex flex-col ms-12">
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Hari, Tanggal </div>
-              :&nbsp;
+              <div className="w-28">Hari, Tanggal </div>
+              :&nbsp;&nbsp;&nbsp;
               {DATA_DETAIL?.waktu ? DaysDMYIndoToFormat(DATA_DETAIL.waktu) : ""}
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Jam </div>
-              :&nbsp;{DATA_DETAIL?.waktu
+              <div className="w-28">Jam </div>
+              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.waktu
                 ? HIDateformat(DATA_DETAIL.waktu)
                 : ""}{" "}
               WIB
             </div>
             <div className="flex items-center font-normal gap-2">
-              <div className="w-36">Tempat </div>
-              :&nbsp;{DATA_DETAIL?.tempat}
+              <div className="w-28">Tempat </div>
+              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.tempat}
             </div>
           </div>
           <div className="flex gap-4">
