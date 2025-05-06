@@ -83,7 +83,7 @@ export default function AssetIndex() {
     },
     {
       accessorKey: "kode",
-      header: "Nomor Rekening",
+      header: "Kode Rekening",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
