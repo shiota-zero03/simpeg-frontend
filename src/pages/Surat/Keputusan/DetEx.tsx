@@ -24,16 +24,19 @@ export default function DetailExportSurat({
         <div className="flex flex-col text-lg px-24 py-12">
           <img src={kopSurat || KOP} alt="kop-surat" className="w-full" />
           <br />
-          <h1 className="text-center font-bold text-xl mb-1">RAHASIA</h1>
-          <h1 className="text-center font-bold text-xl mb-1">
+          <h1 className="text-center fonttext-xl">RAHASIA</h1>
+          <h1 className="text-center text-xl">
             KEPUTUSAN KEPALA DINAS PERDAGANGAN
           </h1>
-          <h1 className="text-center font-bold text-xl mb-1">
+          <h1 className="text-center font-bold text-xl">
             NOMOR: {DATA_DETAIL.nomorSurat}
           </h1>
-          <h1 className="text-center font-bold text-xl mb-1">TENTANG</h1>
-          <h1 className="text-center font-bold text-xl mb-1">
+          <h1 className="text-center text-xl">TENTANG</h1>
+          <h1 className="text-center text-xl">
             HUKUMAN DISIPLIN TINGKAT {DATA_DETAIL.tingkat}
+          </h1>
+          <h1 className="text-center text-xl mb-1">
+            DENGAN RAHMAT TUHAN YANG MAHA ESA
           </h1>
           <br />
           <div>
@@ -64,14 +67,14 @@ export default function DetailExportSurat({
             </div>
           </div>
           <br />
-          <h1 className="text-center font-bold text-xl mb-1">MEMUTUSKAN</h1>
-          <h1 className="text-left font-semibold">Menetapkan</h1>
+          <h1 className="text-center text-xl mb-1">MEMUTUSKAN</h1>
+          <h1 className="text-left">Menetapkan</h1>
           <div className="flex flex-col gap-2 mt-4">
             <div className="flex items-start gap-2">
               <div className="w-28">Kesatu </div>:
               <div className="w-full">
                 {DATA_DETAIL.kesatu}
-                <div className="flex flex-col gap-2 my-2">
+                <div className="flex flex-col my-2">
                   <div className="flex items-center gap-2">
                     <div className="w-28">Nama </div>: &nbsp;&nbsp;&nbsp;
                     {DATA_DETAIL.nameYangDitetapkan}
@@ -81,12 +84,12 @@ export default function DetailExportSurat({
                     {DATA_DETAIL.nipYangDitetapkan}
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-28">Jabatan </div>: &nbsp;&nbsp;&nbsp;
-                    {DATA_DETAIL.jabatanYangDitetapkan}
+                    <div className="w-28">Pangkat </div>: &nbsp;&nbsp;&nbsp;
+                    {DATA_DETAIL.golonganYangDitetapkan}
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-28">Golongan </div>: &nbsp;&nbsp;&nbsp;
-                    {DATA_DETAIL.golonganYangDitetapkan}
+                    <div className="w-28">Jabatan </div>: &nbsp;&nbsp;&nbsp;
+                    {DATA_DETAIL.jabatanYangDitetapkan}
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-28">Unit Kerja </div>: &nbsp;&nbsp;&nbsp;
@@ -117,7 +120,6 @@ export default function DetailExportSurat({
                 ? DMYIndoToFormat(DATA_DETAIL?.tanggalSurat)
                 : ""}
             </div>
-            <br />
             <div className="ms-auto">
               <div className="flex items-center font-semibold gap-2">
                 {DATA_DETAIL?.nameJabatan || "Autofill jabatan"}
@@ -137,14 +139,14 @@ export default function DetailExportSurat({
           <br />
           <div className="me-auto w-full">
             <div className="flex items-center justify-start font-semibold gap-2 mb-2">
-              Tembusan Yth:
+              Tembusan &nbsp;&nbsp;:
             </div>
             {DATA_DETAIL.tembusan.map((item, index) => (
               <div
                 key={index}
                 className="flex items-center font-semibold gap-2"
               >
-                {index + 1}. {item.jabatan}
+                {index + 1}.&nbsp;&nbsp;{item.jabatan}
               </div>
             ))}
           </div>

@@ -116,7 +116,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
             <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
               <div className="flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
-                  Nama Kegiatan <span className="text-danger">*</span>
+                  Nama Sub Kegiatan <span className="text-danger">*</span>
                 </label>
                 <Input
                   aria-label="lokasi"

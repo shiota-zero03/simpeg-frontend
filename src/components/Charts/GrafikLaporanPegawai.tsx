@@ -108,6 +108,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
     (d) => d.education,
   );
   const dataGender = countByField(data, (d) => d.gender);
+  console.log(dataGender)
 
   const dataAsn = useMemo(() => {
     if (!DATA_FETCHING_UNIT) return [];
@@ -186,7 +187,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
           <CardHeader className="font-semibold text-12">Pegawai ASN</CardHeader>
           <CardBody>
             <VictoryChart
-              domainPadding={{ x: 10 }}
+              // domainPadding={{ x: 10 }}
               theme={VictoryTheme.material}
               height={120}
               padding={{ top: 10, bottom: 10, left: 32, right: 32 }}
@@ -218,20 +219,20 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
                 style={{
                   axis: { stroke: "#31D8FF", strokeWidth: 2 },
                   tickLabels: {
-                    fontSize: 3,
-                    angle: -15,
-                    textAnchor: "start",
-                    top: -5,
+                    fontSize: 2.7,
+                    // angle: -15,
+                    // textAnchor: "start",
+                    // top: -5,
                   },
                 }}
-                tickLabelComponent={<VictoryLabel dy={-6} dx={-6} />}
+                tickLabelComponent={<VictoryLabel dy={-6} />}
                 // gridComponent={<></>}
               />
               <VictoryAxis
                 dependentAxis
                 domain={[
-                  Math.min(...dataEselon.map((d) => d.y)) - 1,
-                  Math.max(...dataEselon.map((d) => d.y)) + 2,
+                  0,
+                  Math.max(...dataAsn.map((d) => d.y)) + 10,
                 ]}
                 tickLabelComponent={<VictoryLabel dx={6} />}
                 style={{
@@ -254,7 +255,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
           </CardHeader>
           <CardBody>
             <VictoryChart
-              domainPadding={{ x: 10 }}
+              // domainPadding={{ x: 10 }}
               theme={VictoryTheme.material}
               height={120}
               padding={{ top: 10, bottom: 10, left: 32, right: 32 }}
@@ -286,20 +287,20 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
                 style={{
                   axis: { stroke: "#1AB29E", strokeWidth: 2 },
                   tickLabels: {
-                    fontSize: 3,
-                    angle: -15,
-                    textAnchor: "start",
-                    top: -5,
+                    fontSize: 2.7,
+                    // angle: -15,
+                    // textAnchor: "start",
+                    // top: -5,
                   },
                 }}
-                tickLabelComponent={<VictoryLabel dy={-6} dx={-6} />}
+                tickLabelComponent={<VictoryLabel dy={-6} />}
                 // gridComponent={<></>}
               />
               <VictoryAxis
                 dependentAxis
                 domain={[
-                  Math.min(...dataEselon.map((d) => d.y)) - 1,
-                  Math.max(...dataEselon.map((d) => d.y)) + 2,
+                  0,
+                  Math.max(...dataNonAsn.map((d) => d.y)) + 10,
                 ]}
                 tickLabelComponent={<VictoryLabel dx={6} />}
                 style={{
@@ -322,7 +323,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
           </CardHeader>
           <CardBody>
             <VictoryChart
-              domainPadding={{ x: 10 }}
+              // domainPadding={{ x: 10 }}
               theme={VictoryTheme.material}
               height={120}
               padding={{ top: 10, bottom: 10, left: 32, right: 32 }}
@@ -354,20 +355,20 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
                 style={{
                   axis: { stroke: "#128F82", strokeWidth: 2 },
                   tickLabels: {
-                    fontSize: 3,
-                    angle: -15,
-                    textAnchor: "start",
-                    top: -5,
+                    fontSize: 2.7,
+                    // angle: -15,
+                    // textAnchor: "start",
+                    // top: -5,
                   },
                 }}
-                tickLabelComponent={<VictoryLabel dy={-6} dx={4} />}
+                tickLabelComponent={<VictoryLabel dy={-6} />}
                 // gridComponent={<></>}
               />
               <VictoryAxis
                 dependentAxis
                 domain={[
-                  Math.min(...dataEselon.map((d) => d.y)) - 2,
-                  Math.max(...dataEselon.map((d) => d.y)) + 2,
+                  0,
+                  Math.max(...dataEselon.map((d) => d.y)) + 10,
                 ]}
                 tickLabelComponent={<VictoryLabel dx={6} />}
                 style={{
@@ -392,7 +393,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
           </CardHeader>
           <CardBody>
             <VictoryChart
-              domainPadding={{ x: 10 }}
+              // domainPadding={{ x: 10 }}
               theme={VictoryTheme.material}
               height={120}
               padding={{ top: 10, bottom: 10, left: 32, right: 32 }}
@@ -424,20 +425,20 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
                 style={{
                   axis: { stroke: "#128F82", strokeWidth: 2 },
                   tickLabels: {
-                    fontSize: 3,
-                    angle: -15,
-                    textAnchor: "start",
-                    top: -5,
+                    fontSize: 2.7,
+                    // angle: -15,
+                    // textAnchor: "start",
+                    // top: -5,
                   },
                 }}
-                tickLabelComponent={<VictoryLabel dy={-6} dx={0} />}
+                tickLabelComponent={<VictoryLabel dy={-6} />}
                 // gridComponent={<></>}
               />
               <VictoryAxis
                 dependentAxis
                 domain={[
                   Math.min(...dataGroup.map((d) => d.y)) - 2,
-                  Math.max(...dataGroup.map((d) => d.y)) + 2,
+                  Math.max(...dataGroup.map((d) => d.y)) + 10,
                 ]}
                 tickLabelComponent={<VictoryLabel dx={6} />}
                 style={{
@@ -461,7 +462,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
           </CardHeader>
           <CardBody className="pb-8">
             <VictoryChart
-              domainPadding={{ x: 10 }}
+              domainPadding={{ x: 32 }}
               theme={VictoryTheme.material}
               height={120}
               padding={{ top: 10, bottom: 10, left: 32, right: 32 }}
@@ -504,8 +505,8 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
               <VictoryAxis
                 dependentAxis
                 domain={[
-                  Math.min(...dataJabatanFungsional.map((d) => d.y)) - 1,
-                  Math.max(...dataJabatanFungsional.map((d) => d.y)) + 2,
+                  0,
+                  Math.max(...dataJabatanFungsional.map((d) => d.y)) + 10,
                 ]}
                 tickLabelComponent={<VictoryLabel dx={6} />}
                 style={{
@@ -519,11 +520,9 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
                   data: {
                     fill: ({ index }) => {
                       const colors = [
-                        "#9DF2E0",
                         "#7BDFF2",
-                        "#B2F7EF",
-                        "#EFF7F6",
-                        "#F7D6E0",
+                        "#137269",
+                        "33CEB7"
                       ];
                       const safeIndex = typeof index === "number" ? index : 0;
                       return colors[safeIndex % colors.length];
@@ -542,15 +541,14 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
           <CardBody className="pb-8">
             <VictoryPie
               data={dataGender}
-              innerRadius={32}
-              cornerRadius={10}
-              labels={({ datum }) =>
-                `${datum.x === "LAKI_LAKI" ? "Laki - Laki" : "Perempuan"} (${datum.y})`
-              }
+              innerRadius={16}
+              cornerRadius={4}
+              labels={({ datum }) => `${datum.x === "LAKI_LAKI" ? "Laki - Laki" : "Perempuan"} (${datum.y})`}
+              labelRadius={64} 
               colorScale={["#33CEB7", "#137269"]}
               height={160}
-              padding={{ top: 10, bottom: 10, left: 32, right: 32 }}
-              labelComponent={<VictoryLabel style={{ fontSize: 12 }} />}
+              padding={{ top: 20, bottom: 20, left: 32, right: 32 }}
+              labelComponent={<VictoryLabel style={{ fontSize: 14 }} />}
             />
           </CardBody>
         </Card>
@@ -594,20 +592,20 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
                 style={{
                   axis: { stroke: "#128F82", strokeWidth: 2 },
                   tickLabels: {
-                    fontSize: 3,
-                    angle: -15,
-                    textAnchor: "start",
-                    top: -5,
+                    fontSize: 2.7,
+                    // angle: -15,
+                    // textAnchor: "start",
+                    // top: -5,
                   },
                 }}
-                tickLabelComponent={<VictoryLabel dy={-6} dx={4} />}
+                tickLabelComponent={<VictoryLabel dy={-6} />}
                 // gridComponent={<></>}
               />
               <VictoryAxis
                 dependentAxis
                 domain={[
-                  Math.min(...dataEducation.map((d) => d.y)) - 1,
-                  Math.max(...dataEducation.map((d) => d.y)) + 2,
+                  0,
+                  Math.max(...dataEducation.map((d) => d.y)) + 10,
                 ]}
                 tickLabelComponent={<VictoryLabel dx={6} />}
                 style={{

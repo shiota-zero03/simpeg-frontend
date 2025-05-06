@@ -256,13 +256,13 @@ export default function EDisposisi() {
         header: "Status",
         cell: ({ row }) => {
           const { paraf, instruksi } = row.original;
-          if (getDataProfile?.jabatan.nameJob === "SEKRETARIS") {
+          if (getDataProfile?.jabatan.nameJob.includes("SEKRETARIS")) {
             return paraf ? (
               <div className="text-success">Sudah Diteruskan</div>
             ) : (
               <div className="text-danger">Belum Diteruskan</div>
             );
-          } else if (getDataProfile?.jabatan.nameJob === "KEPALA DINAS") {
+          } else if (getDataProfile?.jabatan.nameJob.includes("KEPALA DINAS")) {
             return !paraf ? (
               <div className="text-danger">Belum Diteruskan</div>
             ) : instruksi && instruksi.length > 0 ? (
@@ -279,7 +279,7 @@ export default function EDisposisi() {
         header: "Aksi",
         cell: ({ row }) => {
           const { id, paraf, instruksi } = row.original;
-          if (getDataProfile?.jabatan.nameJob === "SEKRETARIS") {
+          if (getDataProfile?.jabatan.nameJob.includes("SEKRETARIS")) {
             return (
               <div className="flex items-center gap-2 justify-center">
                 {paraf ? (
@@ -340,7 +340,7 @@ export default function EDisposisi() {
                 )}
               </div>
             );
-          } else if (getDataProfile?.jabatan.nameJob === "KEPALA DINAS") {
+          } else if (getDataProfile?.jabatan.nameJob.includes("KEPALA DINAS")) {
             return (
               <div className="flex items-center gap-2 justify-center">
                 {!paraf ? (
