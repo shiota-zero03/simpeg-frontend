@@ -479,7 +479,7 @@ export default function BigTable() {
                   className="px-2 py-2 text-center border border-button-primary text-xs"
                   colSpan={14}
                 >
-                  Kasubbag Umum dan Kepegawaian
+                  Kepala Subbagian Umum dan Kepegawaian
                 </th>
                 <th className="px-2 py-2 text-center text-xs" colSpan={42}></th>
               </tr>

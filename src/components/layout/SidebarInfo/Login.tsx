@@ -59,7 +59,7 @@ const roleAccessMap: Record<string, string[]> = {
     "laporan-hasil-pemeriksaan",
     "keputusan-hukuman-disiplin",
     "sppd",
-    "e-disposisi",
+    // "e-disposisi",
     "manajemen-aset",
     "buku-petunjuk",
     "hubungi-kami",
@@ -71,6 +71,8 @@ const roleAccessMap: Record<string, string[]> = {
   ADMIN: [
     "beranda",
     "peta-jabatan",
+    "unit",
+    "position",
     "pegawai",
     "summary-report",
     "penilaian-kinerja",
