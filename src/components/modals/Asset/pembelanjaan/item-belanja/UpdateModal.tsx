@@ -74,7 +74,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
     if (data) {
       setFormData({
         name: data.data.name,
-        idDataBelanja: data.data.dataBelanja.id,
+        idDataBelanja: data.data.dataBelanja?.id || null,
         namaBarang: data.data.namaBarang,
         tanggal: YMToIndoFormat(data.data.tanggal),
         jumlah: data.data.jumlah,
@@ -360,7 +360,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
-                  Jumlah Item <span className="text-danger">*</span>
+                Harga per Item <span className="text-danger">*</span>
                 </label>
                 <Input
                   type="number"

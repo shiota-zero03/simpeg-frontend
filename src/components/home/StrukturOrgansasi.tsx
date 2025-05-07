@@ -850,6 +850,12 @@ export default function BigTable() {
                 <th className="px-2 py-2 text-center text-xs"></th>
               </tr>
               {/* end kepala uptd */}
+
+              <tr>
+                {columns.map((col) => (
+                  <th key={col} className="w-6 h-60"></th>
+                ))}
+              </tr>
             </tbody>
           </table>
         </div>

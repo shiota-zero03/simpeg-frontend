@@ -338,7 +338,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="lokasi" className="text-xs font-semibold">
-                  Jumlah Item <span className="text-danger">*</span>
+                Harga per Item <span className="text-danger">*</span>
                 </label>
                 <Input
                   type="number"

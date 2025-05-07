@@ -33,6 +33,7 @@ interface DataProps {
   kategori: string;
   harga: string;
   merk: string;
+  status: boolean | null;
 }
 
 export default function AssetIndex() {
@@ -112,6 +113,7 @@ export default function AssetIndex() {
         kategori: item.kategori,
         harga: `Rp ${item.harga.toLocaleString("id-ID")}`,
         merk: item.merkTipe,
+        status: item.status,
       }));
     } else {
       return [];
@@ -181,7 +183,7 @@ export default function AssetIndex() {
     {
       header: "Aksi",
       cell: ({ row }) => {
-        const { id } = row.original;
+        const { id, status } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
@@ -213,6 +215,7 @@ export default function AssetIndex() {
             )}
             {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
               <Button
+                isDisabled={status === true}
                 onPress={() => {
                   setSelectedId(id);
                   onOpenDelete();

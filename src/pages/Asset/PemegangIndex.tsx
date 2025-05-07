@@ -18,33 +18,14 @@ import { useNavigate } from "react-router-dom";
 import store from "@/redux/store";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { getLocalTimeZone, parseDate } from "@internationalized/date";
-import ViewModal from "@/components/modals/Asset/DeetailAssetHolder";
 import {
-  useDeleteAssetHolderAll,
+  useDeleteAssetHolder,
   useGetAllAssetHolder,
 } from "@/services/asset/asset-holder";
 import { AssetHolderRes } from "@/interface/responses/assetHolder.interface";
-
-interface DataProps {
-  userId: string;
-  userName: string;
-  jabatan: string;
-  unit: string;
-  tanggal: string;
-  holders: {
-    id: number;
-    tanggal: string;
-    assetId: string;
-    kodeBarang: string;
-    nomorRegistrasi: string;
-    kategori: string;
-    assetName: string;
-    merk: string;
-    harga: number;
-    file: string;
-    noBast: string;
-  }[];
-}
+import { Link } from "react-router-dom";
+import { FaFileAlt } from "react-icons/fa";
+import { LucideInfo } from "lucide-react";
 
 export default function AssetIndex() {
   const role = store.getState().auth.role as string;
@@ -52,22 +33,6 @@ export default function AssetIndex() {
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
-
-  const [dataHolder, setDataHolder] = useState<
-    {
-      id: number;
-      tanggal: string;
-      assetId: string;
-      kodeBarang: string;
-      nomorRegistrasi: string;
-      kategori: string;
-      assetName: string;
-      merk: string;
-      harga: number;
-      file: string;
-      noBast: string;
-    }[]
-  >([]);
 
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -114,7 +79,7 @@ export default function AssetIndex() {
     rangeDate && formatDateToJakarta(rangeDate.end),
   );
 
-  const paginatedData: DataProps[] = useMemo(() => {
+  const paginatedData: AssetHolderRes[] = useMemo(() => {
     if (allData) {
       const data = allData.data;
       setTotalData(data.pagination.totalData || 0);
@@ -129,20 +94,13 @@ export default function AssetIndex() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: AssetHolderRes) => ({
-        userId: item.userId,
-        userName: item.userName || "",
-        jabatan: item.jabatan || "",
-        unit: item.unit || "",
-        tanggal: DMYIndoToFormat(item.tanggal),
-        holders: item.holders,
-      }));
+      return data.response;
     } else {
       return [];
     }
   }, [search, limit, pageIndex, allData]);
 
-  const columns: ColumnDef<DataProps>[] = [
+  const columns: ColumnDef<AssetHolderRes>[] = [
     {
       header: "No",
       cell: ({ row }) => {
@@ -152,60 +110,91 @@ export default function AssetIndex() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
-      accessorKey: "tanggal",
+      accessorKey: "createdAt",
       header: "Tanggal",
-      cell: (info) => info.getValue() as string,
+      cell: (info) => DMYIndoToFormat(info.getValue() as string),
       // meta: { align: "center" },
     },
     {
-      accessorKey: "unit",
+      accessorKey: "jabatan.unit.nameUnit",
       header: "Unit",
-      cell: (info) => info.getValue() as string,
+      cell: (info) => info.getValue() as string || "-",
       // meta: { align: "center" },
     },
     {
-      accessorKey: "userName",
+      accessorKey: "name",
       header: "Nama",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      accessorKey: "jabatan",
+      accessorKey: "jabatan.nameJob",
       header: "Jabatan",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
     {
-      header: "Barang/Kendaraan",
+      header: "Kode Barang / ID Barang",
       cell: ({ row }) => {
-        const { holders } = row.original;
-
-        return (
-          <div
-            onClick={() => {
-              setDataHolder(holders);
-              setTimeout(() => {
-                onOpenView();
-              }, 100);
-            }}
-            className="text-info font-semibold underline cursor-pointer"
-          >
-            {holders.length} Data
-          </div>
-        );
-      },
+        const { kodeBarang, idBarang } = row.original.asset;
+        return `${kodeBarang} / ${idBarang}`
+      }
       // meta: { align: "center" },
+    },
+    {
+      header: "Reg",
+      cell: ({ row }) => {
+        const { nomorRegistrasi } = row.original.asset;
+        return `${nomorRegistrasi}`
+      }
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "asset.namaBarang",
+      header: "Nama Asset",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "dokumenPendukung",
+      header: "Dokumen Pendukung",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      accessorKey: "noBast",
+      header: "No. BAST",
+      cell: (info) => info.getValue() as string,
+      // meta: { align: "center" },
+    },
+    {
+      header: "Lampiran",
+      cell: ({ row }) => {
+        const { file } = row.original;
+        return (
+          <div className="flex items-center justify-center">
+            {file ? (
+              <Link to={file} target="__blank">
+                <FaFileAlt className="text-button-primary" />
+              </Link>
+            ) : (
+              <LucideInfo className="text-danger" />
+            )}
+          </div>
+        )
+      },
+      meta: { align: "center" },
     },
     {
       header: "Aksi",
       cell: ({ row }) => {
-        const { userId } = row.original;
+        const { id } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
             {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
               <Button
                 onPress={() => {
-                  setSelectedId(userId);
+                  setSelectedId(String(id));
                   onOpenDelete();
                 }}
                 isIconOnly
@@ -228,12 +217,7 @@ export default function AssetIndex() {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
-  const {
-    isOpen: isOpenView,
-    onOpen: onOpenView,
-    onClose: onCloseView,
-  } = useDisclosure();
-
+  
   const handleSearch = () => {
     setPageIndex(0);
     refetchData();
@@ -256,7 +240,7 @@ export default function AssetIndex() {
   }, [pageIndex, refetchData]);
 
   const [isLoadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const { mutate: mutateDelete } = useDeleteAssetHolderAll();
+  const { mutate: mutateDelete } = useDeleteAssetHolder();
 
   const handleDelete = () => {
     if (isLoadingDelete) return;
@@ -303,14 +287,6 @@ export default function AssetIndex() {
         isLoading={isLoadingDelete}
         handleSubmit={handleDelete}
       />
-      <ViewModal
-        holder={dataHolder}
-        isOpen={isOpenView}
-        onClose={onCloseView}
-        handleClose={() => {
-          refetchData();
-        }}
-      />
       <div>
         <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
           <div className="pt-8 px-4 w-full text-primary shadow-sm">
@@ -325,7 +301,7 @@ export default function AssetIndex() {
                   radius="sm"
                   size="sm"
                   variant="bordered"
-                  placeholder="Cari nama barang/merk"
+                  placeholder="Cari nama pemegang"
                   startContent={
                     <LuSearch className="text-accent-gray text-xs" />
                   }

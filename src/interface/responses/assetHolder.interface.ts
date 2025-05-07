@@ -1,24 +1,31 @@
 import { BaseRes, PaginationRes } from "./base.response";
 
 export interface AssetHolderRes {
+  id: number;
+  assetId: string;
   userId: string;
-  userName: string;
-  jabatan: string;
-  unit: string;
-  tanggal: string;
-  holders: {
-    id: number;
-    tanggal: string;
-    assetId: string;
+  dokumenPendukung: string;
+  noBast: string;
+  file: string;
+  name: string;
+  asset: {
+    idBarang: string;
     kodeBarang: string;
+    namaBarang: string;
     nomorRegistrasi: string;
-    kategori: string;
-    assetName: string;
-    merk: string;
-    harga: number;
-    file: string;
-    noBast: string;
-  }[];
+  };
+  jabatan: {
+    id: number;
+    nameJob: string;
+    unit: {
+      id: number;
+      nameUnit: string;
+    }
+  };
+  email: string;
+  phoneNumber: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IAssetHolderRes extends BaseRes {
