@@ -44,6 +44,7 @@ const ImportModal = ({ isOpen, onClose, handleClose }: props) => {
 
     try {
       const data = await readExcel(fileExcel);
+      console.log(data);
 
       for (const item of data) {
         const formToSend: StorePegawai = {
@@ -64,7 +65,7 @@ const ImportModal = ({ isOpen, onClose, handleClose }: props) => {
           pensionAge: Number(item["Usia Pensiun"]),
           pensionDate: item["Tanggal Pensiun"],
           status: true,
-          statusAsn: item["Status ASN"] === "TRUE" ? true : false,
+          statusAsn: item["Status ASN"] ? true : false,
         };
 
         await new Promise((resolve, reject) => {

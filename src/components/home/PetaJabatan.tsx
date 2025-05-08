@@ -278,11 +278,12 @@ export default function BigTable() {
       const canvas = await html2canvas(tableRef.current, {
         scrollX: -window.scrollX,
         scrollY: -window.scrollY,
-        x: rect.left - 0.15 * tableRef.current.scrollWidth,
-        width: tableRef.current.scrollWidth,
+        x: rect.left - 0.12 * tableRef.current.scrollWidth,
+        width: tableRef.current.scrollWidth * 1.2,
         height: tableRef.current.scrollHeight,
-        windowWidth: tableRef.current.scrollWidth,
+        windowWidth: tableRef.current.scrollWidth * 1.4,
         windowHeight: tableRef.current.scrollHeight,
+        scale: window.devicePixelRatio,
       });
       const link = document.createElement("a");
       link.download = "PetaJabatan.png";

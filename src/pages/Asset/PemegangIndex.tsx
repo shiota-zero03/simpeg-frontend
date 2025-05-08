@@ -118,7 +118,7 @@ export default function AssetIndex() {
     {
       accessorKey: "jabatan.unit.nameUnit",
       header: "Unit",
-      cell: (info) => info.getValue() as string || "-",
+      cell: (info) => (info.getValue() as string) || "-",
       // meta: { align: "center" },
     },
     {
@@ -137,16 +137,16 @@ export default function AssetIndex() {
       header: "Kode Barang / ID Barang",
       cell: ({ row }) => {
         const { kodeBarang, idBarang } = row.original.asset;
-        return `${kodeBarang} / ${idBarang}`
-      }
+        return `${kodeBarang} / ${idBarang}`;
+      },
       // meta: { align: "center" },
     },
     {
       header: "Reg",
       cell: ({ row }) => {
         const { nomorRegistrasi } = row.original.asset;
-        return `${nomorRegistrasi}`
-      }
+        return `${nomorRegistrasi}`;
+      },
       // meta: { align: "center" },
     },
     {
@@ -181,7 +181,7 @@ export default function AssetIndex() {
               <LucideInfo className="text-danger" />
             )}
           </div>
-        )
+        );
       },
       meta: { align: "center" },
     },
@@ -217,7 +217,7 @@ export default function AssetIndex() {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
-  
+
   const handleSearch = () => {
     setPageIndex(0);
     refetchData();

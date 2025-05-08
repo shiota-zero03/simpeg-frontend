@@ -20,7 +20,7 @@ export interface AssetHolderRes {
     unit: {
       id: number;
       nameUnit: string;
-    }
+    };
   };
   email: string;
   phoneNumber: string;

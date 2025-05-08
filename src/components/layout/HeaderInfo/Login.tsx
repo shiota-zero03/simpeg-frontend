@@ -33,6 +33,7 @@ import { DMYIndoToFormat, HIDateformat } from "@/utils/dateFormater";
 import { ErrorToast } from "@/utils/ToastMessage";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
+import UserPNG from "@/assets/user.png";
 
 export default function Header() {
   const { role } = store.getState().auth;
@@ -278,7 +279,7 @@ export default function Header() {
                       as="button"
                       avatarProps={{
                         isBordered: true,
-                        src: `${getDataProfile?.photo ? getDataProfile?.photo : "https://i.pravatar.cc/150?u=a042581f4e29026024d"}`,
+                        src: `${getDataProfile?.photo ? getDataProfile?.photo : UserPNG}`,
                         size: "sm",
                       }}
                       className="transition-transform"

@@ -5,6 +5,7 @@ import { LucideDownloadCloud } from "lucide-react";
 import { LuFullscreen } from "react-icons/lu";
 import { useGetAllJabatanHirarki } from "@/services/jabatan";
 import { Commet } from "react-loading-indicators";
+import UserPNG from "@/assets/user.png";
 
 interface StrukturDataProps {
   name: string;
@@ -57,14 +58,12 @@ export default function BigTable() {
           ? {
               name: userKadin.name,
               jabatan: userKadin.jabatan.nameJob,
-              picture:
-                userKadin.photo ??
-                `https://ui-avatars.com/api/?name=${userKadin.name ?? "Kepala Dinas"}&background=random`,
+              picture: userKadin.photo ?? UserPNG,
             }
           : {
               name: "Kepala Dinas",
               jabatan: "Kepala Dinas",
-              picture: `https://ui-avatars.com/api/?name=Kepala Dinas&background=random`,
+              picture: UserPNG,
             },
       );
 
@@ -77,14 +76,12 @@ export default function BigTable() {
           ? {
               name: userSekdin.name,
               jabatan: userSekdin.jabatan.nameJob,
-              picture:
-                userSekdin.photo ??
-                `https://ui-avatars.com/api/?name=${userSekdin.name ?? "Sekretaris"}&background=random`,
+              picture: userSekdin.photo ?? UserPNG,
             }
           : {
               name: "Sekretaris",
               jabatan: "Sekretaris",
-              picture: `https://ui-avatars.com/api/?name=Sekretaris&background=random`,
+              picture: UserPNG,
             },
       );
 
@@ -97,14 +94,12 @@ export default function BigTable() {
           ? {
               name: userKasuang.name,
               jabatan: userKasuang.jabatan.nameJob,
-              picture:
-                userKasuang.photo ??
-                `https://ui-avatars.com/api/?name=${userKasuang.name ?? "Kepala Subbagian Keuangan"}&background=random`,
+              picture: userKasuang.photo ?? UserPNG,
             }
           : {
               name: "Kepala Subbagian Keuangan",
               jabatan: "Kepala Subbagian Keuangan",
-              picture: `https://ui-avatars.com/api/?name=Kepala Subbagian Keuangan&background=random`,
+              picture: UserPNG,
             },
       );
 
@@ -117,14 +112,12 @@ export default function BigTable() {
           ? {
               name: userKasumum.name,
               jabatan: userKasumum.jabatan.nameJob,
-              picture:
-                userKasumum.photo ??
-                `https://ui-avatars.com/api/?name=${userKasumum.name ?? "Kepala Subbagian Umum dan Kepegawaian"}&background=random`,
+              picture: userKasumum.photo ?? UserPNG,
             }
           : {
               name: "Kepala Subbagian Umum dan Kepegawaian",
               jabatan: "Kepala Subbagian Umum dan Kepegawaian",
-              picture: `https://ui-avatars.com/api/?name=Kepala Subbagian Umum dan Kepegawaian&background=random`,
+              picture: UserPNG,
             },
       );
 
@@ -137,14 +130,12 @@ export default function BigTable() {
           ? {
               name: userKabidPLN.name,
               jabatan: userKabidPLN.jabatan.nameJob,
-              picture:
-                userKabidPLN.photo ??
-                `https://ui-avatars.com/api/?name=${userKabidPLN.name ?? "	Kepala Bidang Pengembangan Perdagangan Luar Negeri"}&background=random`,
+              picture: userKabidPLN.photo ?? UserPNG,
             }
           : {
               name: "	Kepala Bidang Pengembangan Perdagangan Luar Negeri",
               jabatan: "	Kepala Bidang Pengembangan Perdagangan Luar Negeri",
-              picture: `https://ui-avatars.com/api/?name=	Kepala Bidang Pengembangan Perdagangan Luar Negeri&background=random`,
+              picture: UserPNG,
             },
       );
 
@@ -157,14 +148,12 @@ export default function BigTable() {
           ? {
               name: userKabidDistribisi.name,
               jabatan: userKabidDistribisi.jabatan.nameJob,
-              picture:
-                userKabidDistribisi.photo ??
-                `https://ui-avatars.com/api/?name=${userKabidDistribisi.name ?? "Kepala Bidang Sarana dan Pelaku Distribusi"}&background=random`,
+              picture: userKabidDistribisi.photo ?? UserPNG,
             }
           : {
               name: "Kepala Bidang Sarana dan Pelaku Distribusi",
               jabatan: "Kepala Bidang Sarana dan Pelaku Distribusi",
-              picture: `https://ui-avatars.com/api/?name=Kepala Bidang Sarana dan Pelaku Distribusi&background=random`,
+              picture: UserPNG,
             },
       );
 
@@ -177,14 +166,12 @@ export default function BigTable() {
           ? {
               name: userKemetrologian.name,
               jabatan: userKemetrologian.jabatan.nameJob,
-              picture:
-                userKemetrologian.photo ??
-                `https://ui-avatars.com/api/?name=${userKemetrologian.name ?? "Kepala Bidang Kemetrologian"}&background=random`,
+              picture: userKemetrologian.photo ?? UserPNG,
             }
           : {
               name: "Kepala Bidang Kemetrologian",
               jabatan: "Kepala Bidang Kemetrologian",
-              picture: `https://ui-avatars.com/api/?name=Kepala Bidang Kemetrologian&background=random`,
+              picture: UserPNG,
             },
       );
 
@@ -197,14 +184,12 @@ export default function BigTable() {
           ? {
               name: userKabidpengendalian.name,
               jabatan: userKabidpengendalian.jabatan.nameJob,
-              picture:
-                userKabidpengendalian.photo ??
-                `https://ui-avatars.com/api/?name=${userKabidpengendalian.name ?? "Kepala Bidang Pengendalian Barang Pokok dan Penting"}&background=random`,
+              picture: userKabidpengendalian.photo ?? UserPNG,
             }
           : {
               name: "Kepala Bidang Pengendalian Barang Pokok dan Penting",
               jabatan: "Kepala Bidang Pengendalian Barang Pokok dan Penting",
-              picture: `https://ui-avatars.com/api/?name=Kepala Bidang Pengendalian Barang Pokok dan Penting&background=random`,
+              picture: UserPNG,
             },
       );
 
@@ -217,14 +202,12 @@ export default function BigTable() {
           ? {
               name: userUptdMetrologi.name,
               jabatan: userUptdMetrologi.jabatan.nameJob,
-              picture:
-                userUptdMetrologi.photo ??
-                `https://ui-avatars.com/api/?name=${userUptdMetrologi.name ?? "Kepala UPTD Metrologi Legal"}&background=random`,
+              picture: userUptdMetrologi.photo ?? UserPNG,
             }
           : {
               name: "Kepala UPTD Metrologi Legal",
               jabatan: "KEPALA UPTD METROLOGI LEGAL",
-              picture: `https://ui-avatars.com/api/?name=Kepala UPTD Metrologi Legal&background=random`,
+              picture: UserPNG,
             },
       );
 
@@ -266,14 +249,12 @@ export default function BigTable() {
           ? {
               name: userKabiduptd.name,
               jabatan: `KEPALA UPTD WILAYAH ${romanNumerals[i - 1]}`,
-              picture:
-                userKabiduptd.photo ??
-                `https://ui-avatars.com/api/?name=${userKabiduptd.name ?? `KEPALA UPTD WILAYAH ${romanNumerals[i - 1]}`}&background=random`,
+              picture: userKabiduptd.photo ?? UserPNG,
             }
           : {
               name: `KEPALA UPTD WILAYAH ${romanNumerals[i - 1]}`,
               jabatan: `KEPALA UPTD WILAYAH ${romanNumerals[i - 1]}`,
-              picture: `https://ui-avatars.com/api/?name=KEPALA UPTD WILAYAH ${romanNumerals[i - 1]}&background=random`,
+              picture: UserPNG,
             };
 
         setters[i - 1](uptdData);
@@ -322,6 +303,10 @@ export default function BigTable() {
 
   const handleDownload = async () => {
     if (tableRef.current) {
+      const images = tableRef.current.querySelectorAll("img");
+      images.forEach((img) => {
+        img.crossOrigin = "anonymous";
+      });
       const rect = tableRef.current.getBoundingClientRect();
       const canvas = await html2canvas(tableRef.current, {
         scrollX: -window.scrollX,
@@ -331,6 +316,7 @@ export default function BigTable() {
         height: tableRef.current.scrollHeight,
         windowWidth: tableRef.current.scrollWidth * 2,
         windowHeight: tableRef.current.scrollHeight,
+        scale: window.devicePixelRatio,
       });
       const link = document.createElement("a");
       link.download = "StrukturOrganisasi.png";

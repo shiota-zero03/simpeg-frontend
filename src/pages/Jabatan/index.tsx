@@ -30,10 +30,7 @@ interface DataProps {
   atasan: string;
 }
 
-const protectedJabatan = [
-  'kepala dinas',
-  'sekretaris'
-]
+const protectedJabatan = ["kepala dinas", "sekretaris"];
 
 export default function Jabatan() {
   const limit = 10;
@@ -162,7 +159,9 @@ export default function Jabatan() {
               <LuPencilLine size={14} />
             </Button>
             <Button
-              isDisabled={protectedJabatan.some(jabatan => nama.toLowerCase().includes(jabatan))}
+              isDisabled={protectedJabatan.some((jabatan) =>
+                nama.toLowerCase().includes(jabatan),
+              )}
               onPress={() => {
                 setSelectedId(id);
                 onOpenDelete();

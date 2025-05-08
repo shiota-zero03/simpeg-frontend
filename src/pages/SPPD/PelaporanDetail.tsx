@@ -62,6 +62,8 @@ export default function DetailExportSurat({
       ) : (
         <div className="flex flex-col text-lg">
           <div className="print:break-after-page flex flex-col gap-4 items-center justify-center">
+            <br />
+            <br />
             <h1 className="text-[14pt] font-semibold text-center">
               LAPORAN KEGIATAN ADMINISTRASI UMUM PERANGKAT DAERAH
             </h1>
@@ -79,7 +81,9 @@ export default function DetailExportSurat({
             <br />
             <br />
             <br />
+            <br />
             <img src={Logo} alt="logo" className="w-[30%]" />
+            <br />
             <br />
             <br />
             <br />

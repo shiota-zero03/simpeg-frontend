@@ -54,7 +54,7 @@ export default function DataProfile() {
         onClose={onClosePassword}
         handleClose={handleClose}
       />
-      {(isFetching) && (
+      {isFetching && (
         <div className="inset-0 flex items-center justify-center absolute z-10">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
         </div>
@@ -122,8 +122,7 @@ export default function DataProfile() {
               <h4 className="font-semibold">
                 {DATA_FETCHING?.jabatan?.subUnor === "PEMERINTAH"
                   ? "Pemerintah Kab. Bekasi"
-                  : "Dinas Perdagangan Kab. Bekasi"
-                }
+                  : "Dinas Perdagangan Kab. Bekasi"}
               </h4>
             </div>
             <div>

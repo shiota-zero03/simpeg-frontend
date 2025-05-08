@@ -251,7 +251,11 @@ export default function CreateIKP() {
                   defaultItems={PEGAWAI_SELECT}
                   isLoading={isFetchingJabatan}
                   aria-label="pegawai"
-                  placeholder={PEGAWAI_SELECT.length > 0 ? `Cari pegawai` : `Tidak ditemukan data bawahan`}
+                  placeholder={
+                    PEGAWAI_SELECT.length > 0
+                      ? `Cari pegawai`
+                      : `Tidak ditemukan data bawahan`
+                  }
                   variant="bordered"
                   radius="sm"
                   selectedKey={String(formData.userId)}
