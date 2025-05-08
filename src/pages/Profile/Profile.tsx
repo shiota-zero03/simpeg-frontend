@@ -7,7 +7,6 @@ import { useGetProfile } from "@/services/auth";
 import { LucideKey, LucidePencilLine } from "lucide-react";
 import UpdateProfil from "@/components/modals/Profil/UpdateProfil";
 import UpdatePassword from "@/components/modals/Profil/UpdatePassword";
-import { useGetAllJabatanOption } from "@/services/jabatan";
 
 export default function DataProfile() {
   const { data, isFetching, refetch } = useGetProfile();
@@ -17,19 +16,8 @@ export default function DataProfile() {
     return data.data;
   }, [data]);
 
-  const {
-    data: allDataJabatan,
-    isFetching: isFetchingJabatan,
-    refetch: refetchJabatan,
-  } = useGetAllJabatanOption();
-  const JABATAN_SELECT = useMemo(() => {
-    if (!allDataJabatan) return [];
-    return allDataJabatan.data;
-  }, [allDataJabatan]);
-
   useEffect(() => {
     refetch();
-    refetchJabatan();
   }, []);
 
   const {
@@ -66,7 +54,7 @@ export default function DataProfile() {
         onClose={onClosePassword}
         handleClose={handleClose}
       />
-      {(isFetching || isFetchingJabatan) && (
+      {(isFetching) && (
         <div className="inset-0 flex items-center justify-center absolute z-10">
           <Commet color="#32cd32" size="medium" text="" textColor="" />
         </div>
@@ -132,27 +120,22 @@ export default function DataProfile() {
             <div>
               <p className="text-sm">Unit Kerja</p>
               <h4 className="font-semibold">
-                {JABATAN_SELECT.find(
-                  (it) => it.id === DATA_FETCHING?.jabatan.id,
-                )?.subUnor === "PEMERINTAH"
+                {DATA_FETCHING?.jabatan?.subUnor === "PEMERINTAH"
                   ? "Pemerintah Kab. Bekasi"
-                  : "Dinas Perdagangan Kab. Bekasi"}
+                  : "Dinas Perdagangan Kab. Bekasi"
+                }
               </h4>
             </div>
             <div>
               <p className="text-sm">Sub Unor</p>
               <h4 className="font-semibold">
-                {JABATAN_SELECT.find(
-                  (it) => it.id === DATA_FETCHING?.jabatan.id,
-                )?.unit?.nameUnit || "-"}
+                {DATA_FETCHING?.jabatan?.unit?.nameUnit || "-"}
               </h4>
             </div>
             <div>
               <p className="text-sm">Eselon</p>
               <h4 className="font-semibold">
-                {JABATAN_SELECT.find(
-                  (it) => it.id === DATA_FETCHING?.jabatan.id,
-                )?.eselon || "-"}
+                {DATA_FETCHING?.jabatan?.eselon || "-"}
               </h4>
             </div>
             <div>

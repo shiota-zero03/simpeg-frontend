@@ -247,10 +247,11 @@ export default function CreateIKP() {
                   </label>
                 </div>
                 <Autocomplete
+                  nonce="Tidak ada"
                   defaultItems={PEGAWAI_SELECT}
                   isLoading={isFetchingJabatan}
                   aria-label="pegawai"
-                  placeholder="Cari pegawai"
+                  placeholder={PEGAWAI_SELECT.length > 0 ? `Cari pegawai` : `Tidak ditemukan data bawahan`}
                   variant="bordered"
                   radius="sm"
                   selectedKey={String(formData.userId)}
@@ -263,6 +264,7 @@ export default function CreateIKP() {
                       inputWrapper: "border-[0.8px]",
                     },
                   }}
+                  isDisabled={PEGAWAI_SELECT.length === 0}
                 >
                   {(peg) => (
                     <AutocompleteItem key={peg.id} textValue={peg.name}>

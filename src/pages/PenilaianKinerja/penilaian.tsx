@@ -183,7 +183,7 @@ export default function ListKaryawan() {
                 <h1 className="font-semibold">
                   Daftar Penilaian Kinerja Pegawai
                 </h1>
-                <div className="flex lg:flex-row flex-col justify-between gap-2 sm:items-end">
+                <div className="flex lg:flex-row flex-col justify-between gap-2 sm:items-end lg:w-auto w-full">
                   <div className="flex lg:flex-row flex-col gap-2 items-end w-full">
                     <Input
                       aria-label="search"

@@ -184,7 +184,7 @@ export default function Login() {
             <div>
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div className="text-center font-medium xl:text-2xl md:text-lg text-sm">
-                  Masukkan username atau username dan password untuk masuk ke
+                  Masukkan username atau NIP dan password untuk masuk ke
                   halaman dashboard admin.
                 </div>
                 <div>
