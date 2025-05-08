@@ -179,20 +179,18 @@ export default function IKP() {
             >
               <FaFilePdf size={14} />
             </Link>
-            {(role === "ADMIN" || role === "SUPERUSERS") && (
-              <Button
-                onPress={() => {
-                  setSelectedId(id);
-                  onOpenDelete();
-                }}
-                isIconOnly
-                radius="sm"
-                size="sm"
-                className="bg-alert-danger text-danger shadow-sm"
-              >
-                <LuTrash2 size={14} />
-              </Button>
-            )}
+            <Button
+              onPress={() => {
+                setSelectedId(id);
+                onOpenDelete();
+              }}
+              isIconOnly
+              radius="sm"
+              size="sm"
+              className="bg-alert-danger text-danger shadow-sm"
+            >
+              <LuTrash2 size={14} />
+            </Button>
           </div>
         );
       },

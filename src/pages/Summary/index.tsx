@@ -120,12 +120,12 @@ export default function Jabatan() {
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <TitleCase
           title="Summary Report Pegawai"
-          text="Berikut ini menampilkan Summary Report Data SPPD, Dan Infografis Data Kepegawaian"
+          text="Berikut ini menampilkan Summary Report Infografis Data Kepegawaian"
         />
         <div className="bg-white shadow-md rounded-xl border min-h-[70vh]">
           <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
             <div className="pt-8 px-4 w-full text-primary shadow-sm">
-              <div className="flex sm:flex-row flex-col justify-between gap-2 sm:items-end">
+              <div className="flex lg:flex-row flex-col justify-between gap-2 sm:items-end">
                 <div className="flex items-center gap-1">
                   <Button
                     radius="sm"
@@ -169,7 +169,7 @@ export default function Jabatan() {
                     }}
                   />
                 </div>
-                <div className="flex items-center justify-end gap-2">
+                <div className="flex sm:flex-row flex-col items-center justify-end gap-2">
                   <Link
                     to={`/summary-report/export/pdf?m=${search}`}
                     target="__blank"
