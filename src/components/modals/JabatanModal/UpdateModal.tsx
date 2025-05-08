@@ -60,6 +60,11 @@ interface errorProps {
   ketersediaan?: string;
 }
 
+const protectedJabatan = [
+  'kepala dinas',
+  'sekretaris'
+]
+
 const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -207,6 +212,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                   Nama Jabatan <span className="text-danger">*</span>
                 </label>
                 <Input
+                  isDisabled={protectedJabatan.some(jabatan => formData.nama.toLowerCase().includes(jabatan))}
                   aria-label="lokasi"
                   variant="bordered"
                   radius="sm"

@@ -30,6 +30,11 @@ interface DataProps {
   atasan: string;
 }
 
+const protectedJabatan = [
+  'kepala dinas',
+  'sekretaris'
+]
+
 export default function Jabatan() {
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
@@ -141,7 +146,7 @@ export default function Jabatan() {
     {
       header: "Aksi",
       cell: ({ row }) => {
-        const { id } = row.original;
+        const { id, nama } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
             <Button
@@ -157,6 +162,7 @@ export default function Jabatan() {
               <LuPencilLine size={14} />
             </Button>
             <Button
+              isDisabled={protectedJabatan.some(jabatan => nama.toLowerCase().includes(jabatan))}
               onPress={() => {
                 setSelectedId(id);
                 onOpenDelete();

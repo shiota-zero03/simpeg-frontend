@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { LuCalendarDays, LuEye, LuSearch } from "react-icons/lu";
 import { BiReset, BiSearch } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import { FaFileExcel, FaFilePdf } from "react-icons/fa";
+import { FaFilePdf } from "react-icons/fa";
 import { useGetAllPenilaian } from "@/services/penilaian";
 import { PernilaianListRes } from "@/interface/responses/penilaian.interface";
 import dayjs from "dayjs";
@@ -248,16 +248,6 @@ export default function ListKaryawan() {
                       className="border-[0.8px] text-xs"
                     >
                       <BiReset size={12} />
-                    </Button>
-                    <Button
-                      onPress={() => navigate(`/pegawai/tambah-data`)}
-                      variant="solid"
-                      radius="sm"
-                      size="sm"
-                      startContent={<FaFileExcel size={12} />}
-                      className="border-[0.8px] w-28 text-xs text-button-primary bg-alert-success"
-                    >
-                      Export .xlsx
                     </Button>
                   </div>
                 </div>
