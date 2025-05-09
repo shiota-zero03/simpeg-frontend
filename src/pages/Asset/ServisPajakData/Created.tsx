@@ -177,9 +177,12 @@ export default function CreatePegawai() {
       }
     }
     if (formData.type) formToSend.type = formData.type;
-    if (formData.pajak5Tahun) formToSend.pajak5Tahun = formData.pajak5Tahun;
-    if (formData.pembayaranPajak)
-      formToSend.pembayaranPajak = formData.pembayaranPajak;
+    if (formData.pajak5Tahun) {
+      formToSend.pajak5Tahun = new Date(formData.pajak5Tahun).toISOString();
+    }
+    if (formData.pembayaranPajak) {
+      formToSend.pembayaranPajak = new Date(formData.pembayaranPajak).toISOString();
+    }
     if (formData.nominalBayar) formToSend.nominalBayar = formData.nominalBayar;
     if (formData.startServis) formToSend.startServis = formData.startServis;
     if (formData.endServis) formToSend.endServis = formData.endServis;
