@@ -64,7 +64,7 @@ export default function Unit() {
           item.typeForm === "CUTI"
             ? "Cuti"
             : item.typeForm === "KENAIKAN_GAJI"
-              ? "Kenaikan Gaji"
+              ? "Kenaikan Gaji Berkala"
               : "Kenaikan Pangkat",
       }));
     } else {

@@ -198,7 +198,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
             </div>
           )}
           <ModalHeader className="flex items-center justify-between">
-            <span className="text-base font-semibold">Update Data Unit</span>
+            <span className="text-base font-semibold">Update Data Cuti, Kenaikan Gaji Berkala & Pangkat</span>
             <LuX
               className="text-danger border border-danger rounded-full p-2 cursor-pointer"
               onClick={onClose}
@@ -300,7 +300,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                     Cuti
                   </Radio>
                   <Radio value={"KENAIKAN_GAJI"} key={"KENAIKAN_GAJI"}>
-                    Kenaikan Gaji
+                    Kenaikan Gaji Berkala
                   </Radio>
                   <Radio value={"KENAIKAN_PANGKAT"} key={"KENAIKAN_PANGKAT"}>
                     Kenaikan Pangkat

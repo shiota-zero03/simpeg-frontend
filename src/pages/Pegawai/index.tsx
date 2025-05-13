@@ -34,14 +34,20 @@ export default function Jabatan() {
               onClick={() => setSelectedTab("data-pegawai")}
               className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "data-pegawai" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
             >
-              Data Pegawai
+              Data Pegawai Aktif
+            </div>
+            <div
+              onClick={() => setSelectedTab("data-pegawai-non-aktif")}
+              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "data-pegawai-non-aktif" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+            >
+              Data Pegawai Tidak Aktif
             </div>
             {(role === "SUPERUSERS" || role === "ADMIN") && (
               <div
                 onClick={() => setSelectedTab("kgp")}
                 className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "kgp" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
               >
-                Data Cuti, Kenaikan Gaji & Pangkat
+                Data Cuti, Kenaikan Gaji Berkala & Pangkat
               </div>
             )}
             {(role === "SUPERUSERS" || role === "ADMIN") && (

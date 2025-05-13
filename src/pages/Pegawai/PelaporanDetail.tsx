@@ -88,6 +88,11 @@ export default function DetailExportSurat({
             <br />
           </div>
           <div className="flex flex-col gap-6">
+            <h1 className="text-[14pt] text-center font-semibold">
+              LAPORAN<br />
+              DAFTAR NOMINATIF PEGAWAI APARATUR SIPIL NEGARA DINAS PERDAGANGAN {MYIndoToFormat(DATA_DETAIL.createdAt).toUpperCase()}{" "}
+            </h1>
+            <br />
             <div>
               <div className="font-semibold text-[12pt] mb-2">
                 I. Latar Belakang

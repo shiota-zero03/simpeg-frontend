@@ -175,7 +175,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
         <ModalContent>
           <ModalHeader className="flex items-center justify-between">
             <span className="text-base font-semibold">
-              Tambah Data Cuti, Kenaikan Gaji & Pangkat{" "}
+              Tambah Data Cuti, Kenaikan Gaji Berkala & Pangkat{" "}
             </span>
             <LuX
               className="text-danger border border-danger rounded-full p-2 cursor-pointer"
@@ -278,7 +278,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                     Cuti
                   </Radio>
                   <Radio value={"KENAIKAN_GAJI"} key={"KENAIKAN_GAJI"}>
-                    Kenaikan Gaji
+                    Kenaikan Gaji Berkala
                   </Radio>
                   <Radio value={"KENAIKAN_PANGKAT"} key={"KENAIKAN_PANGKAT"}>
                     Kenaikan Pangkat
