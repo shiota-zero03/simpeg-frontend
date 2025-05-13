@@ -37,6 +37,18 @@ export default function BigTable() {
   const [kepalaUptdMetrologi, setKepalaUptdMetrologi] =
     useState<StrukturDataProps>();
 
+  const [kepalaTUUptd1, setKepalaTUUptd1] = useState<StrukturDataProps>();
+  const [kepalaTUUptd2, setKepalaTUUptd2] = useState<StrukturDataProps>();
+  const [kepalaTUUptd3, setKepalaTUUptd3] = useState<StrukturDataProps>();
+  const [kepalaTUUptd4, setKepalaTUUptd4] = useState<StrukturDataProps>();
+  const [kepalaTUUptd5, setKepalaTUUptd5] = useState<StrukturDataProps>();
+  const [kepalaTUUptd6, setKepalaTUUptd6] = useState<StrukturDataProps>();
+  const [kepalaTUUptd7, setKepalaTUUptd7] = useState<StrukturDataProps>();
+  const [kepalaTUUptd8, setKepalaTUUptd8] = useState<StrukturDataProps>();
+  const [kepalaTUUptd9, setKepalaTUUptd9] = useState<StrukturDataProps>();
+  const [kepalaTUUptdMetrologi, setKepalaTUUptdMetrologi] =
+    useState<StrukturDataProps>();
+
   const { data, refetch, isFetching } = useGetAllJabatanHirarki();
   const DATA_FETCHING = useMemo(() => {
     if (data) return data.data;
@@ -210,7 +222,6 @@ export default function BigTable() {
               picture: UserPNG,
             },
       );
-
       const setters = [
         setKepalaUptd1,
         setKepalaUptd2,
@@ -222,7 +233,6 @@ export default function BigTable() {
         setKepalaUptd8,
         setKepalaUptd9,
       ];
-
       const romanNumerals = [
         "I",
         "II",
@@ -234,7 +244,6 @@ export default function BigTable() {
         "VIII",
         "IX",
       ];
-
       for (let i = 1; i <= 9; i++) {
         const newItemsUptd = DATA_FETCHING.find((it) =>
           it.nameJob
@@ -258,6 +267,60 @@ export default function BigTable() {
             };
 
         setters[i - 1](uptdData);
+      }
+
+
+      const newItemsUptdMetrologi2 = DATA_FETCHING.find((it) =>
+        it.nameJob.toUpperCase().includes("KEPALA SUBBAGIAN TATA USAHA UPTD METROLOGI LEGAL"),
+      );
+      const userUptdTUMetrologi = newItemsUptdMetrologi2?.user?.[0];
+      setKepalaTUUptdMetrologi(
+        userUptdTUMetrologi
+          ? {
+              name: userUptdTUMetrologi.name,
+              jabatan: "KEPALA SUBBAGIAN TATA USAHA",
+              picture: userUptdTUMetrologi.photo ?? UserPNG,
+            }
+          : {
+              name: "Kepala Subbagian Tata Usaha",
+              jabatan: "Kepala Subbagian Tata Usaha",
+              picture: UserPNG,
+            },
+      );
+      const settersTU = [
+        setKepalaTUUptd1,
+        setKepalaTUUptd2,
+        setKepalaTUUptd3,
+        setKepalaTUUptd4,
+        setKepalaTUUptd5,
+        setKepalaTUUptd6,
+        setKepalaTUUptd7,
+        setKepalaTUUptd8,
+        setKepalaTUUptd9,
+      ];
+      for (let i = 1; i <= 9; i++) {
+        const newItemsUptd = DATA_FETCHING.find((it) =>
+          it.nameJob
+            .toUpperCase()
+            .includes(
+              `KEPALA SUBBAGIAN TATA USAHA UPTD PENGELOLAAN DAN PEMBINAAN PASAR WILAYAH ${romanNumerals[i - 1]} (`,
+            ),
+        );
+        const userKabiduptd = newItemsUptd?.user?.[0];
+
+        const uptdData = userKabiduptd
+          ? {
+              name: userKabiduptd.name,
+              jabatan: `KEPALA SUBBAGIAN TATA USAHA`,
+              picture: userKabiduptd.photo ?? UserPNG,
+            }
+          : {
+              name: `KEPALA SUBBAGIAN TATA USAHA`,
+              jabatan: `KEPALA SUBBAGIAN TATA USAHA`,
+              picture: UserPNG,
+            };
+
+          settersTU[i - 1](uptdData);
       }
     }
   }, [isFetching, DATA_FETCHING]);
@@ -836,6 +899,180 @@ export default function BigTable() {
                 <th className="px-2 py-2 text-center text-xs"></th>
               </tr>
               {/* end kepala uptd */}
+
+              <tr>
+                {Array.from({ length: 10 }).map((_, index) => (
+                  <React.Fragment key={index}>
+                    <td
+                      className="px-2 py-2 text-center border-e text-xs border-button-primary"
+                      colSpan={8}
+                    ></td>
+                    <td
+                      className="px-2 py-2 text-center border-s text-xs border-button-primary"
+                      colSpan={8}
+                    ></td>
+                  </React.Fragment>
+                ))}
+              </tr>
+              
+              {/* kepala subbagian tata usaha uptd */}
+              <tr>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th colSpan={14}>
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
+                    <img
+                      src={kepalaTUUptd1?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
+                    <div className="text-start flex flex-col gap-1">
+                      <h1 className="text-sm">{kepalaTUUptd1?.jabatan}</h1>
+                      <p className="font-normal text-xs">{kepalaTUUptd1?.name}</p>
+                    </div>
+                  </div>
+                </th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th colSpan={14}>
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
+                    <img
+                      src={kepalaTUUptd2?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
+                    <div className="text-start flex flex-col gap-1">
+                      <h1 className="text-sm">{kepalaTUUptd2?.jabatan}</h1>
+                      <p className="font-normal text-xs">{kepalaTUUptd2?.name}</p>
+                    </div>
+                  </div>
+                </th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th colSpan={14}>
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
+                    <img
+                      src={kepalaTUUptd3?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
+                    <div className="text-start flex flex-col gap-1">
+                      <h1 className="text-sm">{kepalaTUUptd3?.jabatan}</h1>
+                      <p className="font-normal text-xs">{kepalaTUUptd3?.name}</p>
+                    </div>
+                  </div>
+                </th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th colSpan={14}>
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
+                    <img
+                      src={kepalaTUUptd4?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
+                    <div className="text-start flex flex-col gap-1">
+                      <h1 className="text-sm">{kepalaTUUptd4?.jabatan}</h1>
+                      <p className="font-normal text-xs">{kepalaTUUptd4?.name}</p>
+                    </div>
+                  </div>
+                </th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th colSpan={14}>
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
+                    <img
+                      src={kepalaTUUptd5?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
+                    <div className="text-start flex flex-col gap-1">
+                      <h1 className="text-sm">{kepalaTUUptd5?.jabatan}</h1>
+                      <p className="font-normal text-xs">{kepalaTUUptd5?.name}</p>
+                    </div>
+                  </div>
+                </th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th colSpan={14}>
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
+                    <img
+                      src={kepalaTUUptd6?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
+                    <div className="text-start flex flex-col gap-1">
+                      <h1 className="text-sm">{kepalaTUUptd6?.jabatan}</h1>
+                      <p className="font-normal text-xs">{kepalaTUUptd6?.name}</p>
+                    </div>
+                  </div>
+                </th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th colSpan={14}>
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
+                    <img
+                      src={kepalaTUUptd7?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
+                    <div className="text-start flex flex-col gap-1">
+                      <h1 className="text-sm">{kepalaTUUptd7?.jabatan}</h1>
+                      <p className="font-normal text-xs">{kepalaTUUptd7?.name}</p>
+                    </div>
+                  </div>
+                </th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th colSpan={14}>
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
+                    <img
+                      src={kepalaTUUptd8?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
+                    <div className="text-start flex flex-col gap-1">
+                      <h1 className="text-sm">{kepalaTUUptd8?.jabatan}</h1>
+                      <p className="font-normal text-xs">{kepalaTUUptd8?.name}</p>
+                    </div>
+                  </div>
+                </th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th colSpan={14}>
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
+                    <img
+                      src={kepalaTUUptd9?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
+                    <div className="text-start flex flex-col gap-1">
+                      <h1 className="text-sm">{kepalaTUUptd9?.jabatan}</h1>
+                      <p className="font-normal text-xs">{kepalaTUUptd9?.name}</p>
+                    </div>
+                  </div>
+                </th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+                <th colSpan={14}>
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
+                    <img
+                      src={kepalaTUUptdMetrologi?.picture}
+                      alt="Kepala Subbagian Keuangan"
+                      className="w-12 h-12 rounded-full border border-accent-primary"
+                    />
+                    <div className="text-start flex flex-col gap-1">
+                      <h1 className="text-sm">
+                        {kepalaTUUptdMetrologi?.jabatan}
+                      </h1>
+                      <p className="font-normal text-xs">
+                        {kepalaTUUptdMetrologi?.name}
+                      </p>
+                    </div>
+                  </div>
+                </th>
+                <th className="px-2 py-2 text-center text-xs"></th>
+              </tr>
+              {/* end kepala subbagian tata usaha uptd */}
 
               <tr>
                 {columns.map((col) => (
