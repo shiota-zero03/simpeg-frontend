@@ -977,48 +977,31 @@ export default function CreateSurat() {
                             key={index}
                             className="w-full flex items-center gap-2"
                           >
-                            <Autocomplete
-                              isLoading={isFetchingJabatan}
-                              aria-label="pegawai"
-                              placeholder="Cari jabatan"
+                            <Input
                               variant="bordered"
-                              radius="sm"
+                              aria-label="nomorSurat"
                               size="sm"
-                              defaultItems={JABATAN_SELECT}
-                              selectedKey={String(item.id)}
-                              onSelectionChange={(value) => {
-                                const checkJabatan = JABATAN_SELECT.find(
-                                  (item) => item.id === Number(value),
-                                );
-
+                              radius="sm"
+                              className="w-full"
+                              classNames={{
+                                inputWrapper:
+                                  "border-[0.8px] border-button-primary rounded-md",
+                                input: "text-xs placeholder:italic",
+                              }}
+                              placeholder="Nama Jabatan"
+                              value={item.jabatan}
+                              onChange={(e) => {
                                 setFormData((prev) => {
                                   const updated = [...prev.tembusan];
                                   updated[index] = {
                                     ...updated[index],
-                                    id: String(checkJabatan?.id || ""),
-                                    jabatan: checkJabatan?.nameJob,
+                                    id: "",
+                                    jabatan: e.target.value,
                                   };
                                   return { ...prev, tembusan: updated };
                                 });
                               }}
-                              className="w-full"
-                              inputProps={{
-                                classNames: {
-                                  input: "text-xs",
-                                  inputWrapper:
-                                    "border-[0.8px] border-button-primary rounded-md",
-                                },
-                              }}
-                            >
-                              {(peg) => (
-                                <AutocompleteItem
-                                  key={String(peg.id)}
-                                  textValue={peg.nameJob}
-                                >
-                                  {peg.nameJob}
-                                </AutocompleteItem>
-                              )}
-                            </Autocomplete>
+                            />
                             <Button
                               onPress={() => removeTembusan(index)}
                               isIconOnly

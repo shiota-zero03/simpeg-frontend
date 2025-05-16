@@ -37,6 +37,7 @@
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "framer-motion": "^12.5.0",
+    "html-to-docx": "^1.8.0",
     "html2canvas": "^1.4.1",
     "js-cookie": "^3.0.5",
     "jspdf": "^3.0.1",
@@ -64,6 +65,7 @@
   "devDependencies": {
     "@eslint/js": "^9.23.0",
     "@types/file-saver": "^2.0.7",
+    "@types/html-docx-js": "^0.3.4",
     "@types/node": "^22.13.12",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",

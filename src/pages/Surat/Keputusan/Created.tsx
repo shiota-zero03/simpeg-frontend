@@ -441,7 +441,7 @@ export default function CreateSurat() {
                       >
                         <SelectItem key={"RENDAH"}>Rendah</SelectItem>
                         <SelectItem key={"SEDANG"}>Sedang</SelectItem>
-                        <SelectItem key={"TINGGI"}>Tinggi</SelectItem>
+                        <SelectItem key={"TINGGI"}>Berat</SelectItem>
                       </Select>
                     </div>
                   </div>

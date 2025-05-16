@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import html2canvas from "html2canvas";
-import { Button } from "@heroui/react";
+import { Button, Divider } from "@heroui/react";
 import { LucideDownloadCloud } from "lucide-react";
 import { LuFullscreen } from "react-icons/lu";
 import { useGetAllJabatanHirarki } from "@/services/jabatan";
@@ -18,13 +18,18 @@ export default function BigTable() {
   const [sekdin, setSekdin] = useState<StrukturDataProps>();
   const [kasuang, setKasuang] = useState<StrukturDataProps>();
   const [kasumum, setKasumum] = useState<StrukturDataProps>();
+  const [jabfungdin, setJabfungdin] = useState<{name: string; jabatan: string}[]>([]);
 
   const [kabidpln, setKabidpln] = useState<StrukturDataProps>();
+  const [jabfungpln, setJabfungpln] = useState<{name: string; jabatan: string}[]>([]);
   const [kabidDistribsu, setKabiddistribusi] = useState<StrukturDataProps>();
+  const [jabfungdistribusi, setJabfungdistribusi] = useState<{name: string; jabatan: string}[]>([]);
   const [kabidmetrologi, setKabidmetrologi] = useState<StrukturDataProps>();
+  const [jabfungmetrologi, setJabfungmetrologi] = useState<{name: string; jabatan: string}[]>([]);
   const [kabidpengendalian, setKabidpengendalian] =
-    useState<StrukturDataProps>();
-
+  useState<StrukturDataProps>();
+  const [jabfungpengendalian, setJabfungpengendalian] = useState<{name: string; jabatan: string}[]>([]);
+  
   const [kepalaUptd1, setKepalaUptd1] = useState<StrukturDataProps>();
   const [kepalaUptd2, setKepalaUptd2] = useState<StrukturDataProps>();
   const [kepalaUptd3, setKepalaUptd3] = useState<StrukturDataProps>();
@@ -61,6 +66,25 @@ export default function BigTable() {
 
   useEffect(() => {
     if (!isFetching && DATA_FETCHING) {
+      const newItemsJabfungDIN = DATA_FETCHING.filter((it) =>
+        (
+          it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") || 
+          it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") || 
+          it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") || 
+          it.nameJob.toUpperCase().includes("PENERA")
+        ),
+      );
+      let userjabfungDIN = newItemsJabfungDIN?.map(item => {
+        return item.user;
+      }).flat();
+      let getJabfungNameJabatanDIN = userjabfungDIN.map((item) => {
+        return {
+          jabatan: item.jabatan.nameJob,
+          name: item.name
+        }
+      });
+      setJabfungdin(getJabfungNameJabatanDIN)
+
       const newItemsKadin = DATA_FETCHING.find((it) =>
         it.nameJob.toUpperCase().includes("KEPALA DINAS"),
       );
@@ -151,6 +175,25 @@ export default function BigTable() {
             },
       );
 
+      const newItemsJabfungPLN = DATA_FETCHING.filter((it) =>
+        it.parent?.nameJob.toUpperCase().includes("PERDAGANGAN LUAR NEGERI") && (
+          it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") || 
+          it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") || 
+          it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") || 
+          it.nameJob.toUpperCase().includes("PENERA")
+        ),
+      );
+      let userjabfungPLN = newItemsJabfungPLN?.map(item => {
+        return item.user;
+      }).flat();
+      let getJabfungNameJabatan = userjabfungPLN.map((item) => {
+        return {
+          jabatan: item.jabatan.nameJob,
+          name: item.name
+        }
+      });
+      setJabfungpln(getJabfungNameJabatan)
+
       const newItemsKabidDistribisi = DATA_FETCHING.find((it) =>
         it.nameJob.toUpperCase().includes("PELAKU DISTRIBUSI"),
       );
@@ -169,8 +212,28 @@ export default function BigTable() {
             },
       );
 
+      const newItemsJabfungDistribusi = DATA_FETCHING.filter((it) =>
+        it.parent?.nameJob.toUpperCase().includes("PELAKU DISTRIBUSI") && (
+          it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") || 
+          it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") || 
+          it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") || 
+          it.nameJob.toUpperCase().includes("PENERA")
+        ),
+      );
+      let userjabfungDistribusi = newItemsJabfungDistribusi?.map(item => {
+        return item.user;
+      }).flat();
+      let getJabfungNameJabatanDistribusi = userjabfungDistribusi.map((item) => {
+        return {
+          jabatan: item.jabatan.nameJob,
+          name: item.name
+        }
+      });
+      setJabfungdistribusi(getJabfungNameJabatanDistribusi)
+
+
       const newItemsKemetrologian = DATA_FETCHING.find((it) =>
-        it.nameJob.toUpperCase().includes("KEMETROLOGIAN"),
+        it.nameJob.toUpperCase().includes("BIDANG KEMETROLOGIAN"),
       );
       const userKemetrologian = newItemsKemetrologian?.user?.[0];
       setKabidmetrologi(
@@ -186,6 +249,26 @@ export default function BigTable() {
               picture: UserPNG,
             },
       );
+
+      const newItemsJabfungKemetrologian = DATA_FETCHING.filter((it) =>
+        it.parent?.nameJob.toUpperCase().includes("BIDANG KEMETROLOGIAN") && (
+          it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") || 
+          it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") || 
+          it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") || 
+          it.nameJob.toUpperCase().includes("PENERA")
+        ),
+      );
+      let userjabfungKemetrologian = newItemsJabfungKemetrologian?.map(item => {
+        return item.user;
+      }).flat();
+      let getJabfungNameJabatanKemetrologian = userjabfungKemetrologian.map((item) => {
+        return {
+          jabatan: item.jabatan.nameJob,
+          name: item.name
+        }
+      });
+      setJabfungmetrologi(getJabfungNameJabatanKemetrologian)
+
 
       const newItemsKabidpengendalian = DATA_FETCHING.find((it) =>
         it.nameJob.toUpperCase().includes("BARANG POKOK"),
@@ -204,6 +287,27 @@ export default function BigTable() {
               picture: UserPNG,
             },
       );
+
+      const newItemsJabfungBarangPokok = DATA_FETCHING.filter((it) =>
+        it.parent?.nameJob.toUpperCase().includes("BARANG POKOK") && (
+          it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") || 
+          it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") || 
+          it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") || 
+          it.nameJob.toUpperCase().includes("PENERA")
+        ),
+      );
+      let userjabfungBarangPokok = newItemsJabfungBarangPokok?.map(item => {
+        return item.user;
+      }).flat();
+      let getJabfungNameJabatanBarangPokok = userjabfungBarangPokok.map((item) => {
+        return {
+          jabatan: item.jabatan.nameJob,
+          name: item.name
+        }
+      });
+      setJabfungpengendalian(getJabfungNameJabatanBarangPokok)
+
+
 
       const newItemsUptdMetrologi = DATA_FETCHING.find((it) =>
         it.nameJob.toUpperCase().includes("KEPALA UPTD METROLOGI LEGAL"),
@@ -476,7 +580,7 @@ export default function BigTable() {
                 ></td>
                 <td
                   className="py-2 border-s border-button-primary border-b"
-                  colSpan={18}
+                  colSpan={28}
                 ></td>
                 <th colSpan={18} rowSpan={2}>
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl">
@@ -491,15 +595,15 @@ export default function BigTable() {
                     </div>
                   </div>
                 </th>
-                <td className="py-2" colSpan={42}></td>
+                <td className="py-2" colSpan={32}></td>
               </tr>
               <tr>
                 <td
                   className="py-2 border-e border-button-primary"
                   colSpan={80}
                 ></td>
-                <td className="py-2" colSpan={18}></td>
-                <td className="py-2" colSpan={42}></td>
+                <td className="py-2" colSpan={28}></td>
+                <td className="py-2" colSpan={32}></td>
               </tr>
               {/* end sekre */}
 
@@ -510,6 +614,10 @@ export default function BigTable() {
                 ></td>
                 <td colSpan={17}></td>
                 <td
+                  className="py-2 border-b border-button-primary"
+                  colSpan={10}
+                ></td>
+                <td
                   className="py-2 border-e border-b border-button-primary"
                   colSpan={10}
                 ></td>
@@ -517,7 +625,11 @@ export default function BigTable() {
                   className="py-2 border-s border-b border-button-primary"
                   colSpan={10}
                 ></td>
-                <td className="py-2" colSpan={43}></td>
+                <td
+                  className="py-2 border-b border-button-primary"
+                  colSpan={10}
+                ></td>
+                <td className="py-2" colSpan={23}></td>
               </tr>
               <tr>
                 <td
@@ -529,11 +641,17 @@ export default function BigTable() {
                   className="py-2 border-s border-button-primary"
                   colSpan={10}
                 ></td>
+                <td className="py-2" colSpan={10}></td>
                 <td
-                  className="py-2 border-e border-button-primary"
+                  className="py-2 border-s border-button-primary"
                   colSpan={10}
                 ></td>
-                <td className="py-2" colSpan={43}></td>
+                <td className="py-2" colSpan={10}></td>
+                <td
+                  className="py-2 border-s border-button-primary"
+                  colSpan={10}
+                ></td>
+                <td className="py-2" colSpan={12}></td>
               </tr>
 
               {/* kaubbag */}
@@ -546,7 +664,7 @@ export default function BigTable() {
                   className="py-2 text-center text-xs border-s border-button-primary"
                   colSpan={8}
                 ></th>
-                <th colSpan={18}>
+                <th colSpan={18} className="align-top">
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
                     <img
                       src={kasuang?.picture}
@@ -561,7 +679,7 @@ export default function BigTable() {
                 </th>
                 <th className="py-2 text-center text-xs"></th>
                 <th className="py-2 text-center text-xs"></th>
-                <th colSpan={18}>
+                <th colSpan={18} className="align-top">
                   <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-28">
                     <img
                       src={kasumum?.picture}
@@ -574,7 +692,40 @@ export default function BigTable() {
                     </div>
                   </div>
                 </th>
-                <th className="py-2 text-center text-xs" colSpan={42}></th>
+                <th className="py-2 text-center text-xs"></th>
+                <th className="py-2 text-center text-xs"></th>
+                <th colSpan={18} className="align-top">
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl">
+                    <div className="text-start flex flex-col gap-1">
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={UserPNG}
+                          alt="Kelompok jabatan fungsional"
+                          className="w-12 h-12 rounded-full border border-accent-primary"
+                        />
+                        <h1 className="text-sm">KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA</h1>
+                      </div>
+                      <Divider className="my-2" />
+                      {Object.entries(
+                        jabfungdin.reduce((acc, curr) => {
+                          if (!acc[curr.jabatan]) acc[curr.jabatan] = [];
+                          acc[curr.jabatan].push(curr.name);
+                          return acc;
+                        }, {} as Record<string, string[]>)
+                      ).map(([jabatan, names]) => (
+                        <div key={jabatan}>
+                          <h4 className="font-semibold text-xs">{jabatan}</h4>
+                          <ol className="ms-4 list-decimal text-xs font-normal">
+                            {names.sort((a, b) => a.localeCompare(b)).map((name, index) => (
+                              <li key={index}>{name}</li>
+                            ))}
+                          </ol>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </th>
+                <th className="py-2 text-center text-xs" colSpan={22}></th>
               </tr>
               {/* end kaubbag */}
 
@@ -637,7 +788,7 @@ export default function BigTable() {
               <tr>
                 <th className="py-2" colSpan={41}></th>
                 <th colSpan={18}>
-                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-32">
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-36">
                     <img
                       src={kabidpln?.picture}
                       alt="Kepala Bidang Pengembangan Perdagangan Luar Negeri"
@@ -652,7 +803,7 @@ export default function BigTable() {
                 <th className="py-2"></th>
                 <th className="py-2"></th>
                 <th colSpan={18}>
-                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-32">
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-36">
                     <img
                       src={kabidDistribsu?.picture}
                       alt="Kepala Bidang Sarana dan Pelaku Distribusi"
@@ -669,7 +820,7 @@ export default function BigTable() {
                 <th className="py-2 border-e border-button-primary"></th>
                 <th className="py-2 border-s border-button-primary"></th>
                 <th colSpan={18}>
-                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-32">
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-36">
                     <img
                       src={kabidmetrologi?.picture}
                       alt="Kepala Bidang Kemetrologian"
@@ -686,7 +837,7 @@ export default function BigTable() {
                 <th className="py-2"></th>
                 <th className="py-2"></th>
                 <th colSpan={18}>
-                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-32">
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl h-36">
                     <img
                       src={kabidpengendalian?.picture}
                       alt="Kepala Bidang Pengendalian Barang Pokok dan Penting"
@@ -703,6 +854,176 @@ export default function BigTable() {
                 <th className="py-2" colSpan={41}></th>
               </tr>
               {/* kabid */}
+
+              <tr>
+                <th className="py-2" colSpan={40}></th>
+                <td
+                  className="py-2 border-e border-button-primary"
+                  colSpan={10}
+                ></td>
+                <td
+                  className="py-2 border-s border-button-primary"
+                  colSpan={10}
+                ></td>
+                <td
+                  className="py-2 border-e border-button-primary"
+                  colSpan={10}
+                ></td>
+                <td
+                  className="py-2 border-x border-button-primary"
+                  colSpan={10}
+                ></td>
+                <td
+                  className="py-2 border-x border-button-primary"
+                  colSpan={10}
+                ></td>
+                <td
+                  className="py-2 border-s border-button-primary"
+                  colSpan={10}
+                ></td>
+                <td
+                  className="py-2 border-e border-button-primary"
+                  colSpan={10}
+                ></td>
+                <th className="py-2" colSpan={50}></th>
+              </tr>
+
+              {/* jabfung kabid */}
+              <tr>
+                <th className="py-2" colSpan={41}></th>
+                <th colSpan={18} className="align-top">
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl">
+                    <div className="text-start flex flex-col gap-1">
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={UserPNG}
+                          alt="Kelompok jabatan fungsional"
+                          className="w-12 h-12 rounded-full border border-accent-primary"
+                        />
+                        <h1 className="text-sm">KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA</h1>
+                      </div>
+                      <Divider className="my-2" />
+                      {Object.entries(
+                        jabfungpln.reduce((acc, curr) => {
+                          if (!acc[curr.jabatan]) acc[curr.jabatan] = [];
+                          acc[curr.jabatan].push(curr.name);
+                          return acc;
+                        }, {} as Record<string, string[]>)
+                      ).map(([jabatan, names]) => (
+                        <div key={jabatan}>
+                          <h4 className="font-semibold text-xs">{jabatan}</h4>
+                          <ol className="ms-4 list-decimal text-xs font-normal">
+                            {names.sort((a, b) => a.localeCompare(b)).map((name, index) => (
+                              <li key={index}>{name}</li>
+                            ))}
+                          </ol>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </th>
+                <th className="py-2"></th>
+                <th className="py-2"></th>
+                <th colSpan={18} className="align-top">
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl">
+                    <div className="text-start flex flex-col gap-1">
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={UserPNG}
+                          alt="Kelompok jabatan fungsional"
+                          className="w-12 h-12 rounded-full border border-accent-primary"
+                        />
+                        <h1 className="text-sm">KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA</h1>
+                      </div>
+                      <Divider className="my-2" />
+                      {Object.entries(
+                        jabfungdistribusi.reduce((acc, curr) => {
+                          if (!acc[curr.jabatan]) acc[curr.jabatan] = [];
+                          acc[curr.jabatan].push(curr.name);
+                          return acc;
+                        }, {} as Record<string, string[]>)
+                      ).map(([jabatan, names]) => (
+                        <div key={jabatan}>
+                          <h4 className="font-semibold text-xs">{jabatan}</h4>
+                          <ol className="ms-4 list-decimal text-xs font-normal">
+                            {names.sort((a, b) => a.localeCompare(b)).map((name, index) => (
+                              <li key={index}>{name}</li>
+                            ))}
+                          </ol>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </th>
+                <th className="py-2 border-e border-button-primary"></th>
+                <th className="py-2 border-s border-button-primary"></th>
+                <th colSpan={18} className="align-top">
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl">
+                    <div className="text-start flex flex-col gap-1">
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={UserPNG}
+                          alt="Kelompok jabatan fungsional"
+                          className="w-12 h-12 rounded-full border border-accent-primary"
+                        />
+                        <h1 className="text-sm">KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA</h1>
+                      </div>
+                      <Divider className="my-2" />
+                      {Object.entries(
+                        jabfungmetrologi.reduce((acc, curr) => {
+                          if (!acc[curr.jabatan]) acc[curr.jabatan] = [];
+                          acc[curr.jabatan].push(curr.name);
+                          return acc;
+                        }, {} as Record<string, string[]>)
+                      ).map(([jabatan, names]) => (
+                        <div key={jabatan}>
+                          <h4 className="font-semibold text-xs">{jabatan}</h4>
+                          <ol className="ms-4 list-decimal text-xs font-normal">
+                            {names.sort((a, b) => a.localeCompare(b)).map((name, index) => (
+                              <li key={index}>{name}</li>
+                            ))}
+                          </ol>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </th>
+                <th className="py-2"></th>
+                <th className="py-2"></th>
+                <th colSpan={18} className="align-top">
+                  <div className="flex items-center gap-4 border px-4 py-4 border-button-primary text-xs rounded-tl-[40px] rounded-bl-xl rounded-br-[40px] rounded-tr-xl">
+                    <div className="text-start flex flex-col gap-1">
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={UserPNG}
+                          alt="Kelompok jabatan fungsional"
+                          className="w-12 h-12 rounded-full border border-accent-primary"
+                        />
+                        <h1 className="text-sm">KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA</h1>
+                      </div>
+                      <Divider className="my-2" />
+                      {Object.entries(
+                        jabfungpengendalian.reduce((acc, curr) => {
+                          if (!acc[curr.jabatan]) acc[curr.jabatan] = [];
+                          acc[curr.jabatan].push(curr.name);
+                          return acc;
+                        }, {} as Record<string, string[]>)
+                      ).map(([jabatan, names]) => (
+                        <div key={jabatan}>
+                          <h4 className="font-semibold text-xs">{jabatan}</h4>
+                          <ol className="ms-4 list-decimal text-xs font-normal">
+                            {names.sort((a, b) => a.localeCompare(b)).map((name, index) => (
+                              <li key={index}>{name}</li>
+                            ))}
+                          </ol>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </th>
+                <th className="py-2" colSpan={41}></th>
+              </tr>
+              {/* jabfung kabid */}
 
               <tr>
                 <td
