@@ -28,6 +28,7 @@ export interface HirarkiRes {
   nameJob: string;
   class: string | null;
   ketersediaan: number;
+  fungsional: boolean;
   subUnor: string;
   eselon: string | null;
   unit: {

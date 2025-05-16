@@ -138,14 +138,14 @@ const ExportExcel: React.FC = () => {
         0,
       );
 
-      totalASN +=
+      totalASN =
         DATA_FETCHING?.filter(
-          (it) => it.jabatan?.unit?.id === item.id && it.statusAsn === true,
+          (it) => it.statusAsn === true,
         ).length || 0;
 
-      totalNonASN +=
+      totalNonASN =
         DATA_FETCHING?.filter(
-          (it) => it.jabatan?.unit?.id === item.id && it.statusAsn === false,
+          (it) => it.statusAsn === false,
         ).length || 0;
     });
 
@@ -332,12 +332,16 @@ const ExportExcel: React.FC = () => {
           DATA_FETCHING.filter(
             (it) =>
               it.jabatan?.nameJob.toLowerCase() ===
-              "pengawas perdagangan ahli madya",
+              "pengawas perdagangan ahli madya" ||
+              it.jabatan?.nameJob.toLowerCase() ===
+              "pengawas kemetrologian ahli madya",
           ).length > 0
             ? DATA_FETCHING.filter(
                 (it) =>
                   it.jabatan?.nameJob.toLowerCase() ===
-                  "pengawas perdagangan ahli madya",
+                  "pengawas perdagangan ahli madya" ||
+                  it.jabatan?.nameJob.toLowerCase() ===
+                  "pengawas kemetrologian ahli madya",
               ).map((item) => {
                 return item.name;
               })
@@ -346,12 +350,16 @@ const ExportExcel: React.FC = () => {
           DATA_FETCHING.filter(
             (it) =>
               it.jabatan?.nameJob.toLowerCase() ===
-              "pengawas perdagangan ahli muda",
+              "pengawas perdagangan ahli muda" ||
+              it.jabatan?.nameJob.toLowerCase() ===
+              "pengawas kemetrologian ahli muda",
           ).length > 0
             ? DATA_FETCHING.filter(
                 (it) =>
                   it.jabatan?.nameJob.toLowerCase() ===
-                  "pengawas perdagangan ahli muda",
+                  "pengawas perdagangan ahli muda" ||
+                  it.jabatan?.nameJob.toLowerCase() ===
+                  "pengawas kemetrologian ahli muda",
               ).map((item) => {
                 return item.name;
               })
@@ -360,12 +368,16 @@ const ExportExcel: React.FC = () => {
           DATA_FETCHING.filter(
             (it) =>
               it.jabatan?.nameJob.toLowerCase() ===
-              "pengawas perdagangan ahli pertama",
+              "pengawas perdagangan ahli pertama" ||
+              it.jabatan?.nameJob.toLowerCase() ===
+              "pengawas kemetrologian ahli pertama",
           ).length > 0
             ? DATA_FETCHING.filter(
                 (it) =>
                   it.jabatan?.nameJob.toLowerCase() ===
-                  "pengawas perdagangan ahli pertama",
+                  "pengawas perdagangan ahli pertama" ||
+                  it.jabatan?.nameJob.toLowerCase() ===
+                  "pengawas kemetrologian ahli pertama",
               ).map((item) => {
                 return item.name;
               })

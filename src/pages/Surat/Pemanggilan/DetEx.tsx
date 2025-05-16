@@ -113,7 +113,7 @@ export default function DetailExportSurat({
                 ? DMYIndoToFormat(DATA_DETAIL?.tanggalSurat)
                 : ""}
             </div>
-            <div className="ms-auto">
+            <div className="ms-auto max-w-[400px]">
               <div className="flex items-center font-semibold gap-2">
                 {DATA_DETAIL?.jabatanTtd || "Autofill jabatan"}
               </div>

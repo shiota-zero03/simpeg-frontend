@@ -469,13 +469,12 @@ export default function Jabatan() {
                             </th>
                             <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-lg text-center">
                               {DATA_FETCHING
-                                ? DATA_FETCHING_UNIT?.reduce((total, unit) => {
+                                ? DATA_FETCHING_UNIT?.reduce(() => {
                                     const count = DATA_FETCHING.filter(
                                       (it) =>
-                                        it.jabatan?.unit?.id === unit.id &&
                                         it.statusAsn === true,
                                     ).length;
-                                    return total + count;
+                                    return count;
                                   }, 0)
                                 : 0}{" "}
                               Orang
@@ -553,13 +552,12 @@ export default function Jabatan() {
                             </th>
                             <th className="border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-br-lg text-center">
                               {DATA_FETCHING
-                                ? DATA_FETCHING_UNIT?.reduce((total, unit) => {
+                                ? DATA_FETCHING_UNIT?.reduce(() => {
                                     const count = DATA_FETCHING.filter(
                                       (it) =>
-                                        it.jabatan?.unit?.id === unit.id &&
                                         it.statusAsn === false,
                                     ).length;
-                                    return total + count;
+                                    return count;
                                   }, 0)
                                 : 0}{" "}
                               Orang
@@ -749,7 +747,13 @@ export default function Jabatan() {
                                           it.jabatan?.nameJob.toLowerCase() ===
                                             "pengawas perdagangan ahli muda" ||
                                           it.jabatan?.nameJob.toLowerCase() ===
-                                            "pengawas perdagangan ahli pertama",
+                                            "pengawas perdagangan ahli pertama" || 
+                                            it.jabatan?.nameJob.toLowerCase() ===
+                                            "pengawas kemetrologian ahli madya" ||
+                                          it.jabatan?.nameJob.toLowerCase() ===
+                                            "pengawas kemetrologian ahli muda" ||
+                                          it.jabatan?.nameJob.toLowerCase() ===
+                                            "pengawas kemetrologian ahli pertama",
                                       )
                                     : [],
                                 );
@@ -766,7 +770,13 @@ export default function Jabatan() {
                                       it.jabatan?.nameJob.toLowerCase() ===
                                         "pengawas perdagangan ahli muda" ||
                                       it.jabatan?.nameJob.toLowerCase() ===
-                                        "pengawas perdagangan ahli pertama",
+                                        "pengawas perdagangan ahli pertama" ||
+                                      it.jabatan?.nameJob.toLowerCase() ===
+                                        "pengawas kemetrologian ahli madya" ||
+                                      it.jabatan?.nameJob.toLowerCase() ===
+                                        "pengawas kemetrologian ahli muda" ||
+                                      it.jabatan?.nameJob.toLowerCase() ===
+                                        "pengawas kemetrologian ahli pertama",
                                   ).length
                                 : 0}{" "}
                               Orang
@@ -785,7 +795,9 @@ export default function Jabatan() {
                                     ? DATA_FETCHING.filter(
                                         (it) =>
                                           it.jabatan?.nameJob.toLowerCase() ===
-                                          "pengawas perdagangan ahli madya",
+                                          "pengawas perdagangan ahli madya" || 
+                                          it.jabatan?.nameJob.toLowerCase() ===
+                                          "pengawas kemetrologian ahli madya",
                                       )
                                     : [],
                                 );
@@ -798,7 +810,9 @@ export default function Jabatan() {
                                 ? DATA_FETCHING.filter(
                                     (it) =>
                                       it.jabatan?.nameJob.toLowerCase() ===
-                                      "pengawas perdagangan ahli madya",
+                                      "pengawas perdagangan ahli madya" ||
+                                      it.jabatan?.nameJob.toLowerCase() ===
+                                      "pengawas kemetrologian ahli madya",
                                   ).length
                                 : 0}{" "}
                               Orang
@@ -817,7 +831,9 @@ export default function Jabatan() {
                                     ? DATA_FETCHING.filter(
                                         (it) =>
                                           it.jabatan?.nameJob.toLowerCase() ===
-                                          "pengawas perdagangan ahli muda",
+                                          "pengawas perdagangan ahli muda" ||
+                                          it.jabatan?.nameJob.toLowerCase() ===
+                                          "pengawas kemetrologian ahli muda",
                                       )
                                     : [],
                                 );
@@ -830,7 +846,9 @@ export default function Jabatan() {
                                 ? DATA_FETCHING.filter(
                                     (it) =>
                                       it.jabatan?.nameJob.toLowerCase() ===
-                                      "pengawas perdagangan ahli muda",
+                                      "pengawas perdagangan ahli muda" ||
+                                      it.jabatan?.nameJob.toLowerCase() ===
+                                      "pengawas kemetrologian ahli muda",
                                   ).length
                                 : 0}{" "}
                               Orang
@@ -849,7 +867,9 @@ export default function Jabatan() {
                                     ? DATA_FETCHING.filter(
                                         (it) =>
                                           it.jabatan?.nameJob.toLowerCase() ===
-                                          "pengawas perdagangan ahli pertama",
+                                          "pengawas perdagangan ahli pertama" ||
+                                          it.jabatan?.nameJob.toLowerCase() ===
+                                          "pengawas kemetrologian ahli pertama",
                                       )
                                     : [],
                                 );
@@ -862,7 +882,9 @@ export default function Jabatan() {
                                 ? DATA_FETCHING.filter(
                                     (it) =>
                                       it.jabatan?.nameJob.toLowerCase() ===
-                                      "pengawas perdagangan ahli pertama",
+                                      "pengawas perdagangan ahli pertama" ||
+                                      it.jabatan?.nameJob.toLowerCase() ===
+                                      "pengawas kemetrologian ahli pertama",
                                   ).length
                                 : 0}{" "}
                               Orang

@@ -119,6 +119,7 @@ const roleAccessMap: Record<string, string[]> = {
     "peta-jabatan",
     "summary-report",
     "penilaian-kinerja",
+    "sppd",
     "e-disposisi",
     "dialog-kinerja",
     "buku-petunjuk",

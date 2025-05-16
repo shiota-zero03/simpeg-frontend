@@ -12,6 +12,7 @@ import {
 import Kop from "@/assets/kop-2.png";
 import {
   Button,
+  Checkbox,
   Divider,
   Input,
   Radio,
@@ -26,6 +27,25 @@ import { BaseErrorRes } from "@/interface/responses/base.response";
 import { FaCircle } from "react-icons/fa";
 
 export default function Verifikasi() {
+
+  const [penerusan, setPenerusan] = useState<string[]>([]);
+  const [uptdName, setUptdName] = useState<string | null>();
+  const [showInputFor, setShowInputFor] = useState<string | null>(null);
+
+  const handleCheckboxChange = (name: string, checked: boolean) => {
+    if (checked) {
+      setPenerusan((prev) => [...prev, name]);
+      if (name === "UPTD") {
+        setShowInputFor(name);
+      }
+    } else {
+      setPenerusan((prev) => prev.filter((item) => item !== name));
+      if (name === showInputFor) {
+        setShowInputFor(null);
+      }
+    }
+  };
+
   const [formData, setFormData] = useState({
     diteruskan: "",
     harap: "",
@@ -55,12 +75,15 @@ export default function Verifikasi() {
 
   useEffect(() => {
     refetch();
+    setPenerusan([])
+    setUptdName(null)
+    setShowInputFor(null)
   }, []);
 
   const { mutate: mutatePost } = useVerifikasiEDisposisi();
 
   const handleSubmit = () => {
-    if (!formData.diteruskan) {
+    if (penerusan.length === 0) {
       ErrorToast({ text: "Diteruskan belum dipilih" });
       return false;
     }
@@ -69,17 +92,23 @@ export default function Verifikasi() {
       return false;
     }
 
+    let hasilGabungan = [...penerusan];
+    if (penerusan.includes("UPTD")) {
+      // Tambahkan uptdName jika belum ada
+      if (!hasilGabungan.includes(uptdName ?? "")) {
+        hasilGabungan.push(uptdName ?? "");
+      }
+    }
+
+    const hasilString = hasilGabungan.join(";");
+
     setIsLoading(true);
 
     const formToSend: StoreEDisposisi = {};
     formToSend.disposisiId = Number(id);
     if (formData.catatan) formToSend.instruksi = formData.catatan;
-    if (formData.diteruskan) {
-      if (formData.diteruskan === "UPTD") {
-        formToSend.diteruskan = formData.uptdName;
-      } else {
-        formToSend.diteruskan = formData.diteruskan;
-      }
+    if (hasilString) {
+      formToSend.diteruskan = hasilString;
     }
     if (formData.harap) {
       if (formData.harap === "Lainnya") {
@@ -111,18 +140,28 @@ export default function Verifikasi() {
     }
   };
   const handleSubmit2 = () => {
-    if (!formData.diteruskan) {
+    if (penerusan.length === 0) {
       ErrorToast({ text: "Diteruskan belum dipilih" });
       return false;
     }
+
+    let hasilGabungan = [...penerusan];
+    if (penerusan.includes("UPTD")) {
+      // Tambahkan uptdName jika belum ada
+      if (!hasilGabungan.includes(uptdName ?? "")) {
+        hasilGabungan.push(uptdName ?? "");
+      }
+    }
+
+    const hasilString = hasilGabungan.join(";");
 
     setIsLoading(true);
 
     const formToSend: StoreEDisposisi = {};
     formToSend.disposisiId = Number(id);
     formToSend.instruksi = DATA_FETCHING?.instruksi?.[0].instruksi;
-    if (formData.diteruskan) {
-      formToSend.diteruskan = formData.diteruskan;
+    if (hasilString) {
+      formToSend.diteruskan = hasilString;
     }
     if (formData.harap)
       formToSend.denganHormat = DATA_FETCHING?.instruksi?.[0].denganHormat;
@@ -249,7 +288,11 @@ export default function Verifikasi() {
                             ? "Sangat Segera"
                             : DATA_FETCHING?.sifat === "SEGERA"
                               ? "Segera"
-                              : "Rahasia")}
+                                : DATA_FETCHING?.sifat === "PENTING"
+                                  ? "Penting"
+                                  : DATA_FETCHING?.sifat === "BIASA"
+                                    ? "Biasa"
+                                    : "Rahasia")}
                       </th>
                     </tr>
                   </tbody>
@@ -276,63 +319,51 @@ export default function Verifikasi() {
                   <label htmlFor="diteruskan" className="text-sm font-semibold">
                     Diteruskan kepada :
                   </label>
-                  <RadioGroup
-                    size="sm"
-                    value={formData.diteruskan}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        diteruskan: e.target.value,
-                      }))
-                    }
-                    orientation="vertical"
-                    className="ms-4"
-                  >
+                  <div className="ms-4 space-y-2">
                     {diteruskan.map((item) => (
-                      <Radio value={item.name} key={item.name}>
-                        {item.name}
-                      </Radio>
+                      <div key={item.name}>
+                        <Checkbox
+                          size="sm"
+                          checked={penerusan.includes(item.name)}
+                          onChange={(e) => handleCheckboxChange(item.name, e.target.checked)}
+                        >
+                          {item.name}
+                        </Checkbox>
+
+                        {/* Jika yang dipilih adalah 'Unit Lainnya' (atau unit tertentu), tampilkan input */}
+                        {showInputFor === item.name && (
+                          <Input
+                            aria-label="masukkan data"
+                            onClick={(e) => e.stopPropagation()}
+                            isDisabled={showInputFor !== item.name}
+                            value={uptdName ?? ""}
+                            onChange={(e) =>
+                              setUptdName(e.target.value )
+                            }
+                            variant="bordered"
+                            radius="sm"
+                            placeholder="Masukkan Disini"
+                            className="mx-4"
+                          />
+                        )}
+                      </div>
                     ))}
-                  </RadioGroup>
-                  <Input
-                    aria-label="masukkan data"
-                    onClick={(e) => e.stopPropagation()}
-                    isDisabled={formData.diteruskan !== "UPTD"}
-                    value={
-                      formData.diteruskan === "UPTD" ? formData.uptdName : ""
-                    }
-                    onChange={(e) =>
-                      setFormData({ ...formData, uptdName: e.target.value })
-                    }
-                    variant="bordered"
-                    radius="sm"
-                    placeholder="Masukkan Disini"
-                    className="mx-4"
-                  />
+                  </div>
                 </div>
               ) : (
                 <div className="flex flex-col gap-2">
                   <label htmlFor="diteruskan" className="text-sm font-semibold">
                     Diteruskan kepada :
                   </label>
-                  <RadioGroup
-                    size="sm"
-                    value={formData.diteruskan}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        diteruskan: e.target.value,
-                      }))
-                    }
-                    orientation="vertical"
-                    className="ms-4"
-                  >
-                    {diteruskan[0].sub?.map((item) => (
-                      <Radio value={item.name} key={item.name}>
-                        {item.name}
-                      </Radio>
-                    ))}
-                  </RadioGroup>
+                  {diteruskan[0].sub?.map((item) => (
+                    <Checkbox
+                      size="sm"
+                      checked={penerusan.includes(item.name)}
+                      onChange={(e) => handleCheckboxChange(item.name, e.target.checked)}
+                    >
+                      {item.name}
+                    </Checkbox>
+                  ))}
                 </div>
               )}
               {DATA_FETCHING?.instruksi &&

@@ -1,7 +1,7 @@
 import { TitleCase } from "@/components/card/TitleCase";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ErrorToast } from "@/utils/ToastMessage";
 import { LuArrowLeft } from "react-icons/lu";
 import { Commet } from "react-loading-indicators";
@@ -17,6 +17,8 @@ export default function Verifikasi() {
 
   const navigate = useNavigate();
 
+  const [ firstInstruction, setFirstInstruction ] = useState<string[]>([])
+
   const { data, isFetching, refetch, error } = useGetDetailEDisposisi(id || "");
   useEffect(() => {
     if (!isFetching && error) {
@@ -29,6 +31,17 @@ export default function Verifikasi() {
     if (data) return data.data;
     else return null;
   }, [data]);
+
+  useEffect(() => {
+    if(DATA_FETCHING && DATA_FETCHING.instruksi) {
+      if(DATA_FETCHING.instruksi.length > 0) {
+
+        const firstArray = DATA_FETCHING.instruksi[0].diteruskan.split(";").map(item => item.trim());
+        setFirstInstruction(firstArray)
+        
+      }
+    }
+  }, [DATA_FETCHING, data, id])
 
   useEffect(() => {
     refetch();
@@ -122,7 +135,11 @@ export default function Verifikasi() {
                             ? "Sangat Segera"
                             : DATA_FETCHING?.sifat === "SEGERA"
                               ? "Segera"
-                              : "Rahasia")}
+                                : DATA_FETCHING?.sifat === "PENTING"
+                                  ? "Penting"
+                                  : DATA_FETCHING?.sifat === "BIASA"
+                                    ? "Biasa"
+                                    : "Rahasia")}
                       </th>
                     </tr>
                   </tbody>
@@ -149,59 +166,53 @@ export default function Verifikasi() {
                 <label htmlFor="diteruskan" className="text-sm font-semibold">
                   Diteruskan kepada :
                 </label>
-                <div>
+                <ul className="ms-4">
                   {diteruskan.map((item) => (
                     <li
                       className={`
+                        list-disc
                       ${
                         DATA_FETCHING?.instruksi &&
                         DATA_FETCHING?.instruksi.length === 0
                           ? "text-gray-400"
                           : `
-                        ${DATA_FETCHING?.instruksi?.[0].diteruskan === item.name ? "text-success font-semibold" : "text-gray-400"}
+                        ${firstInstruction.includes(item.name) ? "text-success font-semibold" : "text-gray-400"}
                       `
                       }
                     `}
                       key={item.name}
                     >
                       {item.name}
-                      {item.sub &&
-                        item.sub.map((it) => (
-                          <li
-                            key={it.name}
-                            className={`
-                          ms-6 
-                          ${
-                            DATA_FETCHING?.instruksi &&
-                            DATA_FETCHING?.instruksi.length > 1
-                              ? `
-                            ${DATA_FETCHING?.instruksi?.[1].diteruskan === it.name ? "text-success font-semibold" : "text-gray-400 font-normal"}
-                          `
-                              : "text-gray-400 font-normal"
-                          }
-                        `}
-                          >
-                            {it.name}
-                          </li>
-                        ))}
+                      {item.sub && (
+                        <ul>
+                          {item.sub.map((it) => (
+                            <li
+                              key={it.name}
+                              className={`
+                            ms-6 list-disc
+                            ${
+                              DATA_FETCHING?.instruksi &&
+                              DATA_FETCHING?.instruksi.length > 1
+                                ? `
+                              ${DATA_FETCHING?.instruksi?.[1].diteruskan === it.name ? "text-success font-semibold" : "text-gray-400 font-normal"}
+                            `
+                                : "text-gray-400 font-normal"
+                            }
+                          `}
+                            >
+                              {it.name}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </li>
                   ))}
-                  {DATA_FETCHING?.instruksi?.[0]?.diteruskan &&
-                    !diteruskan.some(
-                      (item) =>
-                        item.name ===
-                          DATA_FETCHING?.instruksi?.[0]?.diteruskan ||
-                        item.sub?.some(
-                          (subItem) =>
-                            subItem.name ===
-                            DATA_FETCHING?.instruksi?.[0]?.diteruskan,
-                        ),
-                    ) && (
-                      <li className="text-success font-semibold">
-                        {DATA_FETCHING?.instruksi?.[0]?.diteruskan}
-                      </li>
-                    )}
-                </div>
+                  {firstInstruction.includes('UPTD') && (
+                    <li className="text-success font-semibold list-disc">
+                      {firstInstruction[firstInstruction.length - 1] ?? "-"}
+                    </li>
+                  )}
+                </ul>
               </div>
 
               <div className="flex flex-col gap-2">

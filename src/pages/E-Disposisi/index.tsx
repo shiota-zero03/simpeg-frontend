@@ -240,9 +240,25 @@ export default function EDisposisi() {
         cell: ({ row }) => {
           const { instruksi, paraf } = row.original;
           if (instruksi && instruksi.length > 0) {
-            return instruksi[1]
-              ? instruksi[1].diteruskan || "-"
-              : instruksi[0].diteruskan || "-";
+            if(instruksi[1]) {
+              let instruction = instruksi[1].diteruskan.split(";").map(item => item.trim());
+              return (
+                <ol className="ms-3">
+                  {instruction.map(item => (
+                    <li className="list-decimal" key={item}>{item}</li>
+                  ))}
+                </ol>
+              )
+            } else {
+              let instruction = instruksi[0].diteruskan.split(";").map(item => item.trim());
+              return (
+                <ol className="ms-3">
+                  {instruction.map(item => (
+                    <li className="list-decimal" key={item}>{item}</li>
+                  ))}
+                </ol>
+              )
+            }
           } else {
             if (!paraf) {
               return "Sekretaris Dinas";
@@ -280,12 +296,18 @@ export default function EDisposisi() {
         cell: ({ row }) => {
           const { id, paraf, instruksi } = row.original;
           if (getDataProfile?.jabatan.nameJob.includes("SEKRETARIS")) {
+
+            let instruction: string[] = [];
+            if(instruksi && instruksi[0] && instruksi[0].diteruskan) {
+              instruction = instruksi[0].diteruskan.split(";").map(item => item.trim());
+            }
+
             return (
               <div className="flex items-center gap-2 justify-center">
                 {paraf ? (
                   instruksi &&
                   instruksi[0] &&
-                  instruksi[0].diteruskan === "Sekretariat" ? (
+                  instruction.includes("Sekretariat") ? (
                     instruksi[1] ? (
                       <Button
                         onPress={() => {

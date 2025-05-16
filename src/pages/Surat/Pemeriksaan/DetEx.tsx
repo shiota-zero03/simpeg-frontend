@@ -90,7 +90,7 @@ export default function DetailExportSurat({
                 : ""}
             </div>
             <br />
-            <div className="ms-auto">
+            <div className="ms-auto max-w-[400px]">
               <div className="flex items-center font-semibold gap-2">
                 {DATA_DETAIL?.jabatanPemberiPerintah || "Autofill jabatan"}
               </div>

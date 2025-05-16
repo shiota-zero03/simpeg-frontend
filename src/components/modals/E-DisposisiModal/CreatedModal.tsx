@@ -260,6 +260,12 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
                   <Radio value={"RAHASIA"} key={" RAHASIA"}>
                     Rahasia
                   </Radio>
+                  <Radio value={"PENTING"} key={"PENTING"}>
+                    Penting
+                  </Radio>
+                  <Radio value={"BIASA"} key={"BIASA"}>
+                    Biasa
+                  </Radio>
                 </RadioGroup>
                 <div className="text-xs italic text-danger">
                   {formError.sifat}

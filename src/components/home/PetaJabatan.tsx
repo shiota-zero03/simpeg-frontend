@@ -24,6 +24,7 @@ export default function BigTable() {
   const [spl, setSpl] = useState<PetaJabatanData[]>([]);
   const [kemetrologian, setKemetrologian] = useState<PetaJabatanData[]>([]);
   const [pbpp, setPbpp] = useState<PetaJabatanData[]>([]);
+  const [jabfung, setJabfung] = useState<PetaJabatanData[]>([]);
 
   const [uptd1, setUptd1] = useState<PetaJabatanData[]>([]);
   const [uptd2, setUptd2] = useState<PetaJabatanData[]>([]);
@@ -160,6 +161,35 @@ export default function BigTable() {
       }));
       setPbpp(newItemsPbpp);
 
+
+      const newItemsJabfung = DATA_FETCHING
+      .filter((it) => it.fungsional === true)
+      .map((item) => ({
+        name: item.nameJob,
+        class: item.class === "undefined" ? "" : item.class || "",
+        b: item.user.length,
+        k: item.ketersediaan,
+      }))
+      .reduce((acc, curr) => {
+        const key = `${curr.name}-${curr.class}`;
+        const existing = acc.find((item) => `${item.name}-${item.class}` === key);
+
+        if (existing) {
+          existing.b += curr.b;
+          existing.k += curr.k;
+        } else {
+          acc.push({ ...curr });
+        }
+
+        return acc;
+      }, [] as { name: string; class: string; b: number; k: number; plus?: number; minus?: number }[])
+      .map((item) => ({
+        ...item,
+        plus: item.b > item.k ? item.b - item.k : 0,
+        minus: item.b <= item.k ? item.k - item.b : 0,
+      }));
+      setJabfung(newItemsJabfung);
+
       const setters = [
         setUptd1,
         setUptd2,
@@ -292,14 +322,18 @@ export default function BigTable() {
     }
   };
 
-  const dataToRenderPKUmpeg =
-    perencanaanKeuangan.length >= umpeg.length ? perencanaanKeuangan : umpeg;
+
+  const dataToRenderPKUmpeg = [
+    { name: "perencanaanKeuangan", data: perencanaanKeuangan },
+    { name: "umpeg", data: umpeg },
+    { name: "jabfung", data: jabfung }
+  ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
   const dataToRenderKabid = [
     { name: "ln", data: ln },
     { name: "spl", data: spl },
     { name: "kemetrologian", data: kemetrologian },
-    { name: "pbpp", data: pbpp },
+    { name: "pbpp", data: pbpp }
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
   const dataToRenderUPTD = [
@@ -402,8 +436,12 @@ export default function BigTable() {
                   Sekretaris
                 </th>
                 <td
-                  className="px-2 py-2 border-s border-button-primary text-center text-xs"
-                  colSpan={50}
+                  className="px-2 py-2 border-b border-button-primary text-center text-xs"
+                  colSpan={21}
+                ></td>
+                <td
+                  className="px-2 py-2 text-center text-xs"
+                  colSpan={29}
                 ></td>
               </tr>
               <tr>
@@ -422,8 +460,12 @@ export default function BigTable() {
                   Kelas 12
                 </td>
                 <td
+                  className="px-2 py-2 border-e border-button-primary text-center text-xs"
+                  colSpan={21}
+                ></td>
+                <td
                   className="px-2 py-2 border-s border-button-primary text-center text-xs"
-                  colSpan={50}
+                  colSpan={29}
                 ></td>
               </tr>
               <tr>
@@ -440,7 +482,14 @@ export default function BigTable() {
                   className="px-2 py-2 border-s border-b border-button-primary text-center text-xs"
                   colSpan={8}
                 ></td>
-                <td className="px-2 py-2 text-center text-xs" colSpan={49}></td>
+                <td
+                  className="px-2 py-2 border-e border-button-primary text-center text-xs"
+                  colSpan={20}
+                ></td>
+                <td
+                  className="px-2 py-2 border-s border-button-primary text-center text-xs"
+                  colSpan={29}
+                ></td>
               </tr>
               <tr>
                 <td
@@ -456,7 +505,14 @@ export default function BigTable() {
                   className="px-2 py-2 border-e border-button-primary text-center text-xs"
                   colSpan={8}
                 ></td>
-                <td className="px-2 py-2 text-center text-xs" colSpan={49}></td>
+                <td
+                  className="px-2 py-2 border-e border-button-primary text-center text-xs"
+                  colSpan={20}
+                ></td>
+                <td
+                  className="px-2 py-2 border-s border-button-primary text-center text-xs"
+                  colSpan={29}
+                ></td>
               </tr>
 
               <tr>
@@ -482,7 +538,14 @@ export default function BigTable() {
                 >
                   Kepala Subbagian Umum dan Kepegawaian
                 </th>
-                <th className="px-2 py-2 text-center text-xs" colSpan={42}></th>
+                <th className="px-2 py-2 text-center text-xs" colSpan={5}></th>
+                <th
+                  className="px-2 py-2 text-center border border-button-primary text-xs"
+                  colSpan={14}
+                >
+                  Kelompok Jabatan Fungsional
+                </th>
+                <th className="px-2 py-2 text-center text-xs" colSpan={23}></th>
               </tr>
               <tr>
                 <th
@@ -507,7 +570,12 @@ export default function BigTable() {
                 >
                   Kelas 9
                 </td>
-                <th className="px-2 py-2 text-center text-xs" colSpan={42}></th>
+                <th className="px-2 py-2 text-center text-xs" colSpan={5}></th>
+                <th
+                  className="px-2 py-2 text-center text-xs badge-map"
+                  colSpan={14}
+                ></th>
+                <th className="px-2 py-2 text-center text-xs" colSpan={23}></th>
               </tr>
               <tr>
                 <th
@@ -522,7 +590,11 @@ export default function BigTable() {
                   className="px-2 py-2 text-center text-xs border-e border-button-primary"
                   colSpan={16}
                 ></th>
-                <th className="px-2 py-2 text-center text-xs" colSpan={55}></th>
+                <th
+                  className="px-2 py-2 text-center text-xs border-e border-button-primary"
+                  colSpan={19}
+                ></th>
+                <th className="px-2 py-2 text-center text-xs" colSpan={24}></th>
               </tr>
               <tr>
                 <th
@@ -564,11 +636,47 @@ export default function BigTable() {
                     <th className={`px-2 py-2 text-center text-xs`}></th>
                   </React.Fragment>
                 ))}
-                <th className="px-2 py-2 text-center text-xs" colSpan={48}></th>
+                <th className="px-2 py-2 text-center text-xs" colSpan={3}></th>
+                {Array.from({ length: 1 }).map((_, index) => (
+                  <React.Fragment key={index}>
+                    <th
+                      className={`px-2 py-2 border-button-primary text-center text-xs ${index === 2 && "border-s border-button-primary"}`}
+                    ></th>
+                    <th className="px-2 py-2 border-e border-button-primary text-center text-xs"></th>
+                    <th className="px-2 py-2 text-center text-xs"></th>
+                    <th
+                      className="px-2 py-2 badge-map text-center text-xs"
+                      colSpan={6}
+                    >
+                      Jabatan
+                    </th>
+                    <th
+                      className="px-2 py-2 badge-map text-center text-xs"
+                      colSpan={2}
+                    >
+                      Kelas
+                    </th>
+                    <th className="px-2 py-2 badge-map text-center text-xs">
+                      B
+                    </th>
+                    <th className="px-2 py-2 badge-map text-center text-xs">
+                      K
+                    </th>
+                    <th className="px-2 py-2 badge-map text-center text-xs">
+                      (+)
+                    </th>
+                    <th className="px-2 py-2 badge-map text-center text-xs">
+                      (-)
+                    </th>
+                    <th className={`px-2 py-2 text-center text-xs`}></th>
+                  </React.Fragment>
+                ))}
+                <th className="px-2 py-2 text-center text-xs" colSpan={35}></th>
               </tr>
               {dataToRenderPKUmpeg.map((_, index) => {
                 const itemPK = perencanaanKeuangan[index] || {};
                 const itemUmpeg = umpeg[index] || {};
+                const itemJabfung = jabfung[index] || {};
                 return (
                   <React.Fragment key={index}>
                     <tr>
@@ -744,14 +852,93 @@ export default function BigTable() {
                       ) : (
                         <th rowSpan={2}></th>
                       )}
-                      <th
-                        className="px-2 py-2 text-center text-xs"
-                        rowSpan={2}
-                      ></th>
 
                       <th
                         className="px-2 py-2 text-center text-xs"
-                        colSpan={48}
+                        colSpan={4}
+                        rowSpan={2}
+                      ></th>
+
+                      {itemJabfung.name ? (
+                        <th
+                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
+                          colSpan={2}
+                          rowSpan={2}
+                        ></th>
+                      ) : (
+                        <td colSpan={2} rowSpan={2}></td>
+                      )}
+                      {itemJabfung.name ? (
+                        <th className="px-2 py-2 text-center text-xs"></th>
+                      ) : (
+                        <th></th>
+                      )}
+                      {itemJabfung.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          colSpan={6}
+                          rowSpan={2}
+                        >
+                          {itemJabfung.name}
+                        </td>
+                      ) : (
+                        <th colSpan={6} rowSpan={2}></th>
+                      )}
+                      {itemJabfung.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          colSpan={2}
+                          rowSpan={2}
+                        >
+                          {itemJabfung.class}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+                      {itemJabfung.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemJabfung.b}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+                      {itemJabfung.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemJabfung.k}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+                      {itemJabfung.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemJabfung.plus}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+                      {itemJabfung.name ? (
+                        <td
+                          className="px-2 py-2 border border-button-primary text-center text-xs"
+                          rowSpan={2}
+                        >
+                          {itemJabfung.minus}
+                        </td>
+                      ) : (
+                        <th rowSpan={2}></th>
+                      )}
+
+                      <th
+                        className="px-2 py-2 text-center text-xs"
+                        colSpan={23}
                         rowSpan={2}
                       ></th>
                     </tr>
@@ -761,7 +948,16 @@ export default function BigTable() {
                       ) : (
                         <th></th>
                       )}
-                      <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                      {itemUmpeg.name ? (
+                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                      ) : (
+                        <th></th>
+                      )}
+                      {itemJabfung.name ? (
+                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                      ) : (
+                        <th></th>
+                      )}
                     </tr>
                   </React.Fragment>
                 );

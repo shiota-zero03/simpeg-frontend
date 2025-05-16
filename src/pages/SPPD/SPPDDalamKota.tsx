@@ -494,7 +494,7 @@ export default function News() {
                   >
                     <BiReset size={12} />
                   </Button>
-                  {(role === "ADMIN_SPPD" || role === "SUPERUSERS") && (
+                  {(role === "ADMIN_SPPD" || role === "SUPERUSERS" || role === "PEGAWAI") && (
                     <Button
                       onPress={() =>
                         navigate("/sppd/tambah-data?type=PERJALANAN_DALAM_KOTA")

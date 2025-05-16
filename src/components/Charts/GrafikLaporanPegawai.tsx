@@ -204,7 +204,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
                       style={{
                         fontSize: 2.5,
                         fill: "#333",
-                        wordWrap: "break-word",
+                        wordWrap: "break-word", 
                       }}
                       cornerRadius={2}
                       pointerLength={4}
@@ -508,7 +508,15 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
                 style={{
                   data: {
                     fill: ({ index }) => {
-                      const colors = ["#7BDFF2", "#137269", "33CEB7"];
+                      const colors = [
+                        "#CEF9EF",
+                        "#9DF2E0",
+                        "#63E5CE",
+                        " #33CEB7",
+                        "#1AB29E",
+                        "#128F82",
+                        "#137269",
+                      ];
                       const safeIndex = typeof index === "number" ? index : 0;
                       return colors[safeIndex % colors.length];
                     },
@@ -603,11 +611,13 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
                   data: {
                     fill: ({ index }) => {
                       const colors = [
+                        "#CEF9EF",
                         "#9DF2E0",
-                        "#7BDFF2",
-                        "#B2F7EF",
-                        "#EFF7F6",
-                        "#F7D6E0",
+                        "#63E5CE",
+                        " #33CEB7",
+                        "#1AB29E",
+                        "#128F82",
+                        "#137269",
                       ];
                       const safeIndex = typeof index === "number" ? index : 0;
                       return colors[safeIndex % colors.length];
