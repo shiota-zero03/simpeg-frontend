@@ -6,6 +6,7 @@ import {
   deleteEDisposisi,
   getAllEDisposisi,
   getDetailEDisposisi,
+  updateEDisposisi,
 } from "./http";
 import { IEDisposisiRes } from "@/interface/responses/e-disposisi.interface";
 import { AxiosError } from "axios";
@@ -80,6 +81,20 @@ export const useVerifikasiEDisposisi = () => {
       mutationFn: (formData) => verifikasiEDisposisi(formData),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["verifikasiEDisposisi"] });
+      },
+      onError: (error) => {
+        throw error;
+      },
+    },
+  );
+};
+export const useUpdateEDisposisi = () => {
+  const queryClient = useQueryClient();
+  return useMutation<IEDisposisiRes, AxiosError<BaseErrorRes>, {id: string, formData: StoreEDisposisi}>(
+    {
+      mutationFn: ({id, formData}) => updateEDisposisi(id, formData),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["updateEDisposisi"] });
       },
       onError: (error) => {
         throw error;

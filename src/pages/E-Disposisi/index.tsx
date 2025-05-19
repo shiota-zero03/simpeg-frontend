@@ -10,7 +10,7 @@ import {
 } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import { LuEye, LuSearch, LuTrash2 } from "react-icons/lu";
+import { LuEye, LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
@@ -32,6 +32,7 @@ import store from "@/redux/store";
 import { useNavigate } from "react-router-dom";
 import { useGetProfile } from "@/services/auth";
 import { LucideChevronRightCircle } from "lucide-react";
+import UpdateDataModal from "@/components/modals/E-DisposisiModal/UpdateDataModal";
 
 export default function EDisposisi() {
   const { role } = store.getState().auth;
@@ -162,6 +163,18 @@ export default function EDisposisi() {
           const { id } = row.original;
           return (
             <div className="flex items-center gap-2 justify-center">
+              <Button
+                onPress={() => {
+                  setSelectedId(String(id));
+                  onOpenUpdateData();
+                }}
+                isIconOnly
+                radius="sm"
+                size="sm"
+                className="bg-alert-info text-info shadow-sm"
+              >
+                <LuPencilLine size={14} />
+              </Button>
               <Button
                 onPress={() => {
                   navigate(`/e-disposisi/detail-data/${id}`);
@@ -426,6 +439,11 @@ export default function EDisposisi() {
     onOpen: onOpenUpdate,
     onClose: onCloseUpdate,
   } = useDisclosure();
+  const {
+    isOpen: isOpenUpdateData,
+    onOpen: onOpenUpdateData,
+    onClose: onCloseUpdateData,
+  } = useDisclosure();
 
   const handleSearch = () => {
     setPageIndex(0);
@@ -518,6 +536,14 @@ export default function EDisposisi() {
           id={selectedId}
           isOpen={isOpenUpdate}
           onClose={onCloseUpdate}
+          handleClose={handleClose}
+        />
+      )}
+      {selectedId && (
+        <UpdateDataModal
+          id={selectedId}
+          isOpen={isOpenUpdateData}
+          onClose={onCloseUpdateData}
           handleClose={handleClose}
         />
       )}

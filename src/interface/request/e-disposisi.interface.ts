@@ -1,4 +1,5 @@
 export interface StoreEDisposisi {
+  file?: string;
   suratDari?: string;
   nomorSurat?: string;
   tanggalSurat?: string;

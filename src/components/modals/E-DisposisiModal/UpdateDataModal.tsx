@@ -15,13 +15,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
-import { useCreateEDisposisi } from "@/services/e-disposisi";
+import { useGetDetailEDisposisi, useUpdateEDisposisi } from "@/services/e-disposisi";
 import { StoreEDisposisi } from "@/interface/request/e-disposisi.interface";
 import { convertFileToBase64 } from "@/utils/base64Formater";
 import { IoFileTrayFullSharp } from "react-icons/io5";
 import { LucideUploadCloud } from "lucide-react";
+import { DateYMDFormat } from "@/utils/dateFormater";
 
 interface props {
+  id: string;
   isOpen: boolean;
   onClose: () => void;
   handleClose: () => void;
@@ -47,7 +49,7 @@ interface errorProps {
   description?: string;
 }
 
-const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
+const UpdateDataModal = ({ isOpen, onClose, handleClose, id }: props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [formData, setFormData] = useState<formProps>({
@@ -63,22 +65,33 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   const [formError, setFormError] = useState<errorProps>({});
 
   useEffect(() => {
-    setFormData({
-      file: "",
-      suratDari: "",
-      nomorSurat: "",
-      tanggalSurat: "",
-      tanggalDiterima: "",
-      sifat: "",
-      description: "",
-    });
     setIsLoading(false);
     setFormError({});
   }, [isOpen]);
 
+  const { data, isFetching, refetch } = useGetDetailEDisposisi(id || "");
+
+  useEffect(() => {
+    refetch();
+  }, [id])
+
+  useEffect(() => {
+    if(data) {
+      let dataFetching = data.data;
+      setFormData({
+        file: "",
+        suratDari: dataFetching.suratDari,
+        nomorSurat: dataFetching.nomorSurat,
+        tanggalSurat: DateYMDFormat(dataFetching.tanggalSurat),
+        tanggalDiterima: DateYMDFormat(dataFetching.tanggalDiterima),
+        sifat: dataFetching.sifat,
+        description: dataFetching.description,
+      });
+    }
+  }, [data, isFetching])
+
   const validateData = () => {
     const errors: errorProps = {};
-    if (!formData.file) errors.file = "Dokumen disposisi tidak boleh kosong;";
     if (!formData.suratDari) errors.suratDari = "suratDari tidak boleh kosong;";
     if (!formData.nomorSurat)
       errors.nomorSurat = "nomorSurat tidak boleh kosong;";
@@ -93,7 +106,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     return errors;
   };
 
-  const { mutate: mutatePost } = useCreateEDisposisi();
+  const { mutate: mutatePost } = useUpdateEDisposisi();
 
   const handleSubmit = () => {
     setFormError({});
@@ -118,7 +131,7 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
     if (formData.description) formToSend.description = formData.description;
 
     try {
-      mutatePost(formToSend, {
+      mutatePost({id: id, formData: formToSend}, {
         onSuccess: () => {
           SuccessToast({ text: "Data berhasil ditambahkan" });
           handleClose();
@@ -354,4 +367,4 @@ const CreateModal = ({ isOpen, onClose, handleClose }: props) => {
   );
 };
 
-export default CreateModal;
+export default UpdateDataModal;
