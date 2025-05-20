@@ -162,33 +162,43 @@ export default function BigTable() {
       setPbpp(newItemsPbpp);
 
 
-      const newItemsJabfung = DATA_FETCHING
-      .filter((it) => it.fungsional === true)
-      .map((item) => ({
-        name: item.nameJob,
-        class: item.class === "undefined" ? "" : item.class || "",
-        b: item.user.length,
-        k: item.ketersediaan,
-      }))
-      .reduce((acc, curr) => {
-        const key = `${curr.name}-${curr.class}`;
-        const existing = acc.find((item) => `${item.name}-${item.class}` === key);
-
-        if (existing) {
-          existing.b += curr.b;
-          existing.k += curr.k;
-        } else {
-          acc.push({ ...curr });
+      const filtered = DATA_FETCHING.filter(it =>
+        it.nameJob?.toUpperCase().includes("ANALIS PERDAGANGAN") ||
+        it.nameJob?.toUpperCase().includes("PENGAWAS PERDAGANGAN") ||
+        it.nameJob?.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") ||
+        it.nameJob?.toUpperCase().includes("PENERA")
+      );
+      
+      const grouped: Record<string, PetaJabatanData> = {};
+      
+      filtered.forEach(item => {
+        const key = item.nameJob;
+        if (!key) return;
+      
+        if (!grouped[key]) {
+          grouped[key] = {
+            name: key,
+            class: key.includes("MADYA") ? "12" : (key.includes("MUDA") ? "10" : "8"),
+            b: 0,
+            k: 0,
+            plus: 0,
+            minus: 0
+          };
         }
-
-        return acc;
-      }, [] as { name: string; class: string; b: number; k: number; plus?: number; minus?: number }[])
-      .map((item) => ({
-        ...item,
-        plus: item.b > item.k ? item.b - item.k : 0,
-        minus: item.b <= item.k ? item.k - item.b : 0,
-      }));
-      setJabfung(newItemsJabfung);
+      
+        grouped[key].b += item.ketersediaan || 0;
+        grouped[key].k += item.user?.length || 0;
+      });
+      
+      // Hitung plus & minus
+      Object.values(grouped).forEach(item => {
+        item.plus = Math.max(item.b - item.k, 0);
+        item.minus = Math.max(item.k - item.b, 0);
+      });
+      
+      const result: PetaJabatanData[] = Object.values(grouped);
+      result.sort((a, b) => a.name.localeCompare(b.name));
+      setJabfung(result);
 
       const setters = [
         setUptd1,
@@ -714,7 +724,7 @@ export default function BigTable() {
                           {itemPK.name}
                         </td>
                       ) : (
-                        <td colSpan={6} rowSpan={2}></td>
+                        <th colSpan={6} rowSpan={2}></th>
                       )}
                       {itemPK.name ? (
                         <td
@@ -810,7 +820,7 @@ export default function BigTable() {
                           {itemUmpeg.class}
                         </td>
                       ) : (
-                        <th rowSpan={2}></th>
+                        <th rowSpan={2} colSpan={2}></th>
                       )}
                       {itemUmpeg.name ? (
                         <td

@@ -33,6 +33,8 @@ import { useNavigate } from "react-router-dom";
 import { useGetProfile } from "@/services/auth";
 import { LucideChevronRightCircle } from "lucide-react";
 import UpdateDataModal from "@/components/modals/E-DisposisiModal/UpdateDataModal";
+import { Link } from "react-router-dom";
+import { FaFilePdf } from "react-icons/fa6";
 
 export default function EDisposisi() {
   const { role } = store.getState().auth;
@@ -158,23 +160,44 @@ export default function EDisposisi() {
         },
       },
       {
+        header: "Dokumen",
+        cell: ({ row }) => {
+          const { file } = row.original;
+          return (
+            <div className="flex items-center gap-2 justify-center text-danger">
+              {file ? (
+                <Link
+                  target="___blank"
+                  to={file}
+                >
+                  <FaFilePdf size={14} />
+                </Link>
+              ) : "-"}
+            </div>
+          );
+        },
+        meta: { align: "center" },
+      },
+      {
         header: "Aksi",
         cell: ({ row }) => {
-          const { id } = row.original;
+          const { id, paraf } = row.original;
           return (
             <div className="flex items-center gap-2 justify-center">
-              <Button
-                onPress={() => {
-                  setSelectedId(String(id));
-                  onOpenUpdateData();
-                }}
-                isIconOnly
-                radius="sm"
-                size="sm"
-                className="bg-alert-info text-info shadow-sm"
-              >
-                <LuPencilLine size={14} />
-              </Button>
+              {!paraf && (
+                <Button
+                  onPress={() => {
+                    setSelectedId(String(id));
+                    onOpenUpdateData();
+                  }}
+                  isIconOnly
+                  radius="sm"
+                  size="sm"
+                  className="bg-alert-info text-info shadow-sm"
+                >
+                  <LuPencilLine size={14} />
+                </Button>
+              )}
               <Button
                 onPress={() => {
                   navigate(`/e-disposisi/detail-data/${id}`);
@@ -303,6 +326,25 @@ export default function EDisposisi() {
             return "-";
           }
         },
+      },
+      {
+        header: "Dokumen",
+        cell: ({ row }) => {
+          const { file } = row.original;
+          return (
+            <div className="flex items-center gap-2 justify-center text-danger">
+              {file ? (
+                <Link
+                  target="___blank"
+                  to={file}
+                >
+                  <FaFilePdf size={14} />
+                </Link>
+              ) : "-"}
+            </div>
+          );
+        },
+        meta: { align: "center" },
       },
       {
         header: "Aksi",

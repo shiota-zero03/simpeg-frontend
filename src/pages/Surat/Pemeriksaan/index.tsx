@@ -26,7 +26,7 @@ interface DataProps {
   tanggalSurat: string;
   nomorSurat: string;
   namaTtd: string;
-  diPerintah: string;
+  pemberiPerintah: string;
 }
 
 export default function SuratPemeriksaan() {
@@ -70,7 +70,7 @@ export default function SuratPemeriksaan() {
         tanggalSurat: item.tanggalSurat,
         nomorSurat: item.nomorSurat,
         namaTtd: item.namaTtd,
-        diPerintah: item.diPerintah,
+        pemberiPerintah: item.pemberiPerintah,
       }));
     } else {
       return [];
@@ -121,8 +121,8 @@ export default function SuratPemeriksaan() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "diPerintah",
-      header: "Memerintahkan Kepada",
+      accessorKey: "pemberiPerintah",
+      header: "Yang Memberi Perintah",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },

@@ -9,6 +9,7 @@ export interface EDisposisiRes {
   sifat: string;
   description: string;
   paraf: boolean;
+  file: string;
   createdAt: string;
   updatedAt: string;
   user: {

@@ -24,7 +24,7 @@ import {
 interface DataProps {
   id: number;
   tanggalSurat: string;
-  nameKepada: string;
+  yangMelaporkan: string;
   namePermintaan: string;
 }
 
@@ -82,7 +82,7 @@ export default function HasilPemeriksaan() {
       return data.response.map((item: HasilPemeriksaanRes) => ({
         id: item.id,
         tanggalSurat: item.tanggalSurat,
-        nameKepada: item.nameKepada,
+        yangMelaporkan: item.yangMelaporkan,
         namePermintaan: item.namePermintaan,
       }));
     } else {
@@ -113,7 +113,7 @@ export default function HasilPemeriksaan() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "nameKepada",
+      accessorKey: "yangMelaporkan",
       header: "Yang Melaporkan",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
