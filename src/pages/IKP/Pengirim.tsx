@@ -179,6 +179,13 @@ export default function IKP() {
             >
               <FaFilePdf size={14} />
             </Link>
+            <Link
+              to={`/dialog-kinerja/export-excel/${id}`}
+              target="__blank"
+              className="bg-alert-success text-success shadow-sm p-2 rounded-md"
+            >
+              <FaFileExcel size={14} />
+            </Link>
             <Button
               onPress={() => {
                 setSelectedId(id);

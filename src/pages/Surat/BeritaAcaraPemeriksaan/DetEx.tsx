@@ -60,7 +60,7 @@ export default function DetailExportSurat({
           </div>
           <br />
           <div className="mb-2">
-            Berdasarkan Surat Pemanggilan Nomor : {DATA_DETAIL.nomorSurat},
+            Berdasarkan Surat Pemeriksaan Nomor : {DATA_DETAIL.nomorSurat},
             tidak dapat melakukan pemeriksaan dikarenakan saudara:
           </div>
           <div className="flex flex-col ms-12">

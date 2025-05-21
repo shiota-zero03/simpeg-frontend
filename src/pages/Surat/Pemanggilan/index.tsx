@@ -123,12 +123,6 @@ export default function SuratPemanggilan() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "diPanggil",
-      header: "Panggilan Kepada",
-      cell: (info) => info.getValue() as string,
-      // meta: { align: "center" },
-    },
-    {
       accessorKey: "pemanggil",
       header: "Untuk Menghadap",
       cell: (info) => info.getValue() as string,

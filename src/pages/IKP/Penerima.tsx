@@ -8,7 +8,7 @@ import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { YMToIndoFormat } from "@/utils/dateFormater";
 import { useNavigate } from "react-router-dom";
-import { FaFilePdf } from "react-icons/fa";
+import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useDeleteIKP, useGetAllIKP } from "@/services/ikp";
 import { IKPListRes } from "@/interface/responses/ikp.interface";
@@ -172,6 +172,13 @@ export default function IKP() {
             >
               <LuEye size={14} />
             </Button>
+            <Link
+              to={`/dialog-kinerja/export-excel/${id}`}
+              target="__blank"
+              className="bg-alert-success text-success shadow-sm p-2 rounded-md"
+            >
+              <FaFileExcel size={14} />
+            </Link>
             <Link
               to={`/dialog-kinerja/export-pdf/${id}`}
               target="__blank"

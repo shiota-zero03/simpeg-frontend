@@ -504,7 +504,7 @@ export default function CreateSurat() {
                   <div className="flex items-center gap-1 flex-wrap mt-2 whitespace-nowrap">
                     <span>Berdasarkan</span>
                     <span>Surat</span>
-                    <span>Pemanggilan</span>
+                    <span>Pemeriksaan</span>
                     <span>Nomor</span>
                     <Input
                       variant="bordered"

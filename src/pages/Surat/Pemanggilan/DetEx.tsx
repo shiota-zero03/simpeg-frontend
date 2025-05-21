@@ -39,45 +39,53 @@ export default function DetailExportSurat({
             <div className="w-8">1. </div>
             <div>Bersama ini diminta dengan hormat kehadiran saudara:</div>
           </div>
-          <div className="flex flex-col ms-8">
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-28">Nama </div>
-              <span className="font-semibold">
-                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.diPanggil}
-              </span>
-            </div>
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-28">NIP </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.nipDiPanggil}
-            </div>
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-28">Unit Kerja </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.unitDiPanggil}
-            </div>
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-28">Jabatan </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.jabatanDiPanggil}
+          <div className="ms-8 flex gap-2 items-start">
+            <div>I.</div>
+            <div className="flex flex-col ms-2">
+              <div className="flex items-start font-normal gap-2">
+                <div className="w-28">Nama </div>
+                <span className="font-semibold">
+                  :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.diPanggil}
+                </span>
+              </div>
+              <div className="flex items-start font-normal gap-2">
+                <div className="w-28">NIP </div>
+                :
+                <div>{DATA_DETAIL?.nipDiPanggil}</div>
+              </div>
+              <div className="flex items-start font-normal gap-2">
+                <div className="w-28">Unit Kerja </div>
+                :
+                <div>{DATA_DETAIL?.unitDiPanggil}</div>
+              </div>
+              <div className="flex items-start font-normal gap-2">
+                <div className="w-28">Jabatan </div>
+                :
+                <div>{DATA_DETAIL?.jabatanDiPanggil}</div>
+              </div>
             </div>
           </div>
           <div className="mt-4 ms-8">Untuk menghadap kepada</div>
           <div className="flex flex-col ms-8">
-            <div className="flex items-center font-normal gap-2">
+            <div className="flex items-start font-normal gap-2">
               <div className="w-28">Nama </div>
-              <span className="font-semibold">
-                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.pemanggil}
-              </span>
+                :
+              <div className="font-semibold">{DATA_DETAIL?.pemanggil}</div>
             </div>
-            <div className="flex items-center font-normal gap-2">
+            <div className="flex items-start font-normal gap-2">
               <div className="w-28">NIP </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.nipPemanggil}
+              :
+              <div>{DATA_DETAIL?.nipPemanggil}</div>
             </div>
-            <div className="flex items-center font-normal gap-2">
+            <div className="flex items-start font-normal gap-2">
               <div className="w-28">Unit Kerja </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.unitPemanggil}
+              :
+              <div>{DATA_DETAIL?.unitPemanggil}</div>
             </div>
-            <div className="flex items-center font-normal gap-2">
+            <div className="flex items-start font-normal gap-2">
               <div className="w-28">Jabatan </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.jabatanPemanggil}
+              :
+              <div>{DATA_DETAIL?.jabatanPemanggil}</div>
             </div>
           </div>
           <div className="mt-4 ms-8">Pada</div>
@@ -97,7 +105,7 @@ export default function DetailExportSurat({
               :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.tempat}
             </div>
           </div>
-          <div className="flex gap-4 ms-8">
+          <div className="flex gap-4 ms-8 my-4">
             Untuk {DATA_DETAIL?.keterangan || ""}
           </div>
           <div className="flex items-center">
@@ -113,7 +121,7 @@ export default function DetailExportSurat({
                 ? DMYIndoToFormat(DATA_DETAIL?.tanggalSurat)
                 : ""}
             </div>
-            <div className="ms-auto max-w-[400px]">
+            <div className="ms-auto max-w-[280px]">
               <div className="flex items-center font-semibold gap-2">
                 {DATA_DETAIL?.jabatanTtd || "Autofill jabatan"}
               </div>

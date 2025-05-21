@@ -156,7 +156,11 @@ export default function EDisposisi() {
             ? "Sangat Segera"
             : sifat === "SEGERA"
               ? "Segera"
-              : "Rahasia";
+              : sifat === "PENTING"
+                ? "Penting"
+                : sifat === "BIASA"
+                  ? "Biasa"
+                  : "Rahasia";
         },
       },
       {
@@ -268,7 +272,11 @@ export default function EDisposisi() {
             ? "Sangat Segera"
             : sifat === "SEGERA"
               ? "Segera"
-              : "Rahasia";
+              : sifat === "PENTING"
+                ? "Penting"
+                : sifat === "BIASA"
+                  ? "Biasa"
+                  : "Rahasia";
         },
       },
       {
@@ -552,6 +560,7 @@ export default function EDisposisi() {
     onCloseCreate();
     onCloseDelete();
     onCloseUpdate();
+    onCloseUpdateData();
     refetchData();
   };
 

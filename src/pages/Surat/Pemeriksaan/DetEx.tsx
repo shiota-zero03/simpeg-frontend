@@ -32,42 +32,47 @@ export default function DetailExportSurat({
           </div>
           <div className="mb-2">Yang bertanda tangan di bawah ini:</div>
           <div className="flex flex-col ms-12">
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-24">Nama </div>
-              <span className="font-semibold">
-                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.namaTtd}
-              </span>
+            <div className="flex items-start font-normal gap-2">
+              <div className="w-20">Nama </div>
+                :
+              <div className="font-semibold">{DATA_DETAIL?.namaTtd}</div>
             </div>
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-24">NIP </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.nipTtd}
+            <div className="flex items-start font-normal gap-2">
+              <div className="w-20">NIP </div>
+              :
+              <div>{DATA_DETAIL?.nipTtd}</div>
             </div>
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-24">Jabatan </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.jabatanTtd}
+            <div className="flex items-start font-normal gap-2">
+              <div className="w-20">Jabatan </div>
+              :
+              <div>{DATA_DETAIL?.jabatanTtd}</div>
             </div>
           </div>
           <br />
           <div className="mb-2">Memerintahkan kepada:</div>
-          <div className="flex flex-col ms-12">
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-24">Nama </div>
-              <span className="font-semibold">
-                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.diPerintah}
-              </span>
-            </div>
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-24">NIP </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.nipDiPerintah}
-            </div>
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-24">Jabatan </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.jabatanDiPerintah}
+          <div className="flex items-start gap-2">
+            <div className="ms-4">1.</div>
+            <div className="flex flex-col ms-4">
+              <div className="flex items-start font-normal gap-2">
+                <div className="w-20">Nama </div>
+                :
+                <div className="font-semibold">{DATA_DETAIL?.diPerintah}</div>
+              </div>
+              <div className="flex items-start font-normal gap-2">
+                <div className="w-20">NIP </div>
+                :
+                <div>{DATA_DETAIL?.nipDiPerintah}</div>
+              </div>
+              <div className="flex items-start font-normal gap-2">
+                <div className="w-20">Jabatan </div>
+                :
+                <div>{DATA_DETAIL?.jabatanDiPerintah}</div>
+              </div>
             </div>
           </div>
           <br />
           <div className="flex gap-2">
-            <div className="me-24">Untuk</div>
+            <div className="me-20">Untuk</div>
             <span>:</span>
             <div
               className="ck-editor-keterangan ms-1"
@@ -90,7 +95,7 @@ export default function DetailExportSurat({
                 : ""}
             </div>
             <br />
-            <div className="ms-auto max-w-[400px]">
+            <div className="ms-auto max-w-[280px]">
               <div className="flex items-center font-semibold gap-2">
                 {DATA_DETAIL?.jabatanPemberiPerintah || "Autofill jabatan"}
               </div>

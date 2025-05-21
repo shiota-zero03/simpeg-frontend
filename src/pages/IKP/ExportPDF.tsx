@@ -187,8 +187,8 @@ export default function ExportIKP() {
           </table>
           <br />
           <br />
-          <div className="flex items-center justify-between px-[80pt]">
-            <div className="flex flex-col">
+          <div className="flex items-end justify-between px-[80pt]">
+            <div className="flex flex-col max-w-[240px]">
               <span>{DATA_DETAIL.ttdJabatan || ""}</span>
               <br />
               <br />
@@ -196,7 +196,7 @@ export default function ExportIKP() {
               <span className="font-semibold">{DATA_DETAIL.ttdName || ""}</span>
               <span>NIP.{DATA_DETAIL.ttdNIP || ""}</span>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col max-w-[240px]">
               <span>{DATA_DETAIL.jabatan || ""}</span>
               <br />
               <br />

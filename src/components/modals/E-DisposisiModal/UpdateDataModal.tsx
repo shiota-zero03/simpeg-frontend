@@ -133,7 +133,7 @@ const UpdateDataModal = ({ isOpen, onClose, handleClose, id }: props) => {
     try {
       mutatePost({id: id, formData: formToSend}, {
         onSuccess: () => {
-          SuccessToast({ text: "Data berhasil ditambahkan" });
+          SuccessToast({ text: "Data berhasil diupdate" });
           handleClose();
         },
         onError: (error: AxiosError<BaseErrorRes>) => {

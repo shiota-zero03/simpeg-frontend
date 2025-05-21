@@ -56,6 +56,6 @@ export const updateEDisposisi = async (
   id: string,
   formData: StoreEDisposisi,
 ): Promise<IEDisposisiRes> => {
-  const response = await instance.post(`/admin/disposisi/update/${id}`, formData);
+  const response = await instance.put(`/admin/disposisi/update/${id}`, formData);
   return response.data;
 };
