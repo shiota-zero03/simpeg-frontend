@@ -360,18 +360,18 @@ export default function BigTable() {
     { name: "pbpp", data: pbpp.filter(it => !it.name.toUpperCase().includes('AHLI')) }
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
-  const dataToRenderUPTDFungsional = [
-    { name: "uptd1", data: uptd1.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd2", data: uptd2.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd3", data: uptd3.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd4", data: uptd4.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd5", data: uptd5.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd6", data: uptd6.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd7", data: uptd7.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd8", data: uptd8.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd9", data: uptd9.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptdMetrologiLegal", data: uptdMetrologiLegal },
-  ].sort((a, b) => b.data.length - a.data.length)[0].data;
+  // const dataToRenderUPTDFungsional = [
+  //   { name: "uptd1", data: uptd1.filter(it => it.name.toUpperCase().includes('AHLI')) },
+  //   { name: "uptd2", data: uptd2.filter(it => it.name.toUpperCase().includes('AHLI')) },
+  //   { name: "uptd3", data: uptd3.filter(it => it.name.toUpperCase().includes('AHLI')) },
+  //   { name: "uptd4", data: uptd4.filter(it => it.name.toUpperCase().includes('AHLI')) },
+  //   { name: "uptd5", data: uptd5.filter(it => it.name.toUpperCase().includes('AHLI')) },
+  //   { name: "uptd6", data: uptd6.filter(it => it.name.toUpperCase().includes('AHLI')) },
+  //   { name: "uptd7", data: uptd7.filter(it => it.name.toUpperCase().includes('AHLI')) },
+  //   { name: "uptd8", data: uptd8.filter(it => it.name.toUpperCase().includes('AHLI')) },
+  //   { name: "uptd9", data: uptd9.filter(it => it.name.toUpperCase().includes('AHLI')) },
+  //   { name: "uptdMetrologiLegal", data: uptdMetrologiLegal },
+  // ].sort((a, b) => b.data.length - a.data.length)[0].data;
   
   const dataToRenderUPTD = [
     { name: "uptd1", data: uptd1.filter(it => !it.name.toUpperCase().includes('AHLI')) },
