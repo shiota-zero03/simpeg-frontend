@@ -439,7 +439,7 @@ export default function CreateSurat() {
                           setFormData({ ...formData, tingkat: e.target.value })
                         }
                       >
-                        <SelectItem key={"RENDAH"}>Rendah</SelectItem>
+                        <SelectItem key={"RENDAH"}>Ringan</SelectItem>
                         <SelectItem key={"SEDANG"}>Sedang</SelectItem>
                         <SelectItem key={"TINGGI"}>Berat</SelectItem>
                       </Select>

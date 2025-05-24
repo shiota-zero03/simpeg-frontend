@@ -9,9 +9,11 @@ export interface StoreSuratPemeriksaan {
   pemberiPerintah?: string;
   nipPemberiPerintah?: string;
   jabatanPemberiPerintah?: string;
-  diPerintah?: string;
-  nipDiPerintah?: string;
-  jabatanDiPerintah?: string;
+  DiPerintahSuratPemeriksaan?: {
+    diPerintah?: string;
+    nipDiPerintah?: string;
+    jabatanDiPerintah?: string;
+  }[];
   keterangan?: string;
   namaTtd?: string;
   nipTtd?: string;

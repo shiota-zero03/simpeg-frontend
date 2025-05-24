@@ -15,7 +15,7 @@ import {
   useGetAllSuratPemeriksaan,
 } from "@/services/surat/pemeriksaan";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { FaFilePdf } from "react-icons/fa";
+import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
 import KopSuratModal from "@/components/modals/Surat/KopSuratModal";
@@ -149,6 +149,13 @@ export default function SuratPemeriksaan() {
               className="bg-alert-info text-info shadow-sm p-2 rounded-md"
             >
               <FaFilePdf size={14} />
+            </Link>
+            <Link
+              target="__blank"
+              to={`/surat-perintah-pemeriksaan/export-word/${id}`}
+              className="bg-alert-success text-success shadow-sm p-2 rounded-md"
+            >
+              <FaFileWord size={14} />
             </Link>
             <Button
               onPress={() => {

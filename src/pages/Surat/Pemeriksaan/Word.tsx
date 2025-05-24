@@ -1,11 +1,12 @@
 // components/ExportToWord.tsx
 import React, { useEffect, useMemo, useRef } from 'react';
-import DetailExportSurat from './DetEx';
 import { SuratPemeriksaanRes } from '@/interface/responses/surat.interface';
 import { useGetKopSuratBySlug } from '@/services/surat/kopsurat';
 import { ErrorToast } from '@/utils/ToastMessage';
 import { useGetDetailSuratPemeriksaan } from '@/services/surat/pemeriksaan';
 import { useNavigate, useParams } from 'react-router-dom';
+import { DMYIndoToFormat } from '@/utils/dateFormater';
+import { Commet } from 'react-loading-indicators';
 
 const ExportToWord: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -19,7 +20,41 @@ const ExportToWord: React.FC = () => {
       <html xmlns:o='urn:schemas-microsoft-com:office:office' 
             xmlns:w='urn:schemas-microsoft-com:office:word' 
             xmlns='http://www.w3.org/TR/REC-html40'>
-      <head><meta charset='utf-8'></head><body>`;
+      <head>
+        <meta charset='utf-8'>
+        <style>
+          body, h1, h2, h3, h4, h5, h6, p, div {
+            margin: 0;
+            padding: 0;
+          }
+          body {
+            font-family: Arial, sans-serif;
+            font-size: 12pt;
+            text-align: justify;
+          }
+          .title {
+            font-size: 14pt;
+            text-align: center;
+            text-decoration: underline;
+            margin: 0;
+          }
+          .underlined {
+            text-decoration: underline;
+          }
+          .subtitle {
+            font-size: 12pt;
+            text-align: center;
+            margin: 0;
+          }
+          td {
+            vertical-align: top;
+          }
+          .penandaTangan {
+          }
+        </style>
+      </head>
+      <body>
+    `;
     const footer = `</body></html>`;
     const sourceHTML = header + content + footer;
 
@@ -30,10 +65,15 @@ const ExportToWord: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'dokumen-word.doc';
+    link.download = 'Surat Perintah.doc';
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+      window.close();
+    }, 100)
+
   };
 
   const { id } = useParams();
@@ -52,7 +92,7 @@ const ExportToWord: React.FC = () => {
 
   const {
     data: allKop,
-    // isFetching: isFetchingKop,
+    isFetching: isFetchingKop,
     refetch: refetchKop,
   } = useGetKopSuratBySlug("SURAT_PEMERIKSAAN");
 
@@ -68,6 +108,15 @@ const ExportToWord: React.FC = () => {
 
   const DATA_DETAIL: SuratPemeriksaanRes | null = useMemo(() => {
     if (data) {
+
+      const diperintahkan = data.data.DiPerintahSuratPemeriksaan?.map(item => {
+        return {
+          diPerintah: item.diPerintah || "-",
+          nipDiPerintah: item.nipDiPerintah || "-",
+          jabatanDiPerintah: item.jabatanDiPerintah || "-"
+        }
+      })
+
       return {
         id: data.data.id,
         nomorSurat: data.data.nomorSurat,
@@ -83,50 +132,156 @@ const ExportToWord: React.FC = () => {
         namaTtd: data.data.namaTtd,
         nipTtd: data.data.nipTtd,
         jabatanTtd: data.data.jabatanTtd,
+        DiPerintahSuratPemeriksaan: diperintahkan
       };
     } else {
       return null;
     }
   }, [id, data]);
 
-//   useEffect(() => {
-//     if (!isFetching && !isFetchingKop && DATA_DETAIL && kopSuratData) {
-//       // Tunggu render selesai dulu baru trigger print
-//       setTimeout(() => {
-//         window.print();
-//       }, 500);
+  useEffect(() => {
+    if (!isFetching && !isFetchingKop && DATA_DETAIL && kopSuratData) {
+      // Tunggu render selesai dulu baru trigger print
+      setTimeout(() => {
+        exportToWord();
+      }, 500);
 
-//       // Setelah print ditutup, close tab
-//       const handleAfterPrint = () => {
-//         window.close();
-//       };
+      // Setelah print ditutup, close tab
+      const handleAfterPrint = () => {
+        window.close();
+      };
 
-//       window.addEventListener("afterprint", handleAfterPrint);
+      window.addEventListener("afterprint", handleAfterPrint);
 
-//       return () => {
-//         window.removeEventListener("afterprint", handleAfterPrint);
-//       };
-//     }
-//   }, [isFetching, isFetchingKop, DATA_DETAIL, kopSuratData]);
+      return () => {
+        window.removeEventListener("afterprint", handleAfterPrint);
+      };
+    }
+  }, [isFetching, isFetchingKop, DATA_DETAIL, kopSuratData]);
 
   return (
-    <div className="p-4">
+    <div className="p-4 relative">
+      <div className="inset-0 fixed flex items-center justify-center z-20">
+        <Commet color="#32cd32" size="medium" text="" textColor="" />
+      </div>
       <div ref={contentRef} className="border p-4 mb-4">
         {DATA_DETAIL && kopSuratData && (
-            <DetailExportSurat
-                DATA_DETAIL={DATA_DETAIL}
-                isFetching={isFetching}
-                kopSurat={kopSuratData.kopSurat}
-            />
-            )}
-      </div>
+          <>
+            <div>
+              <h1 className='title'>
+                SURAT PERINTAH
+              </h1>
+              <div className='subtitle'>
+                Nomor : {DATA_DETAIL.nomorSurat || "-"}
+              </div>
+            </div>
+            <br /><br />
+            <div>
+              <div>Yang bertanda tangan di bawah ini:</div>
+              <table style={{ marginLeft: "0.5cm" }}>
+                <tbody>
+                  <tr>
+                    <td style={{ width: "2cm" }}>Nama</td>
+                    <td>:&nbsp;&nbsp;</td>
+                    <td><b>{DATA_DETAIL.namaTtd || "-"}</b></td>
+                  </tr>
+                  <tr>
+                    <td>NIP</td>
+                    <td>:&nbsp;&nbsp;</td>
+                    <td>{DATA_DETAIL.nipTtd || "-"}</td>
+                  </tr>
+                  <tr>
+                    <td>Jabatan</td>
+                    <td>:&nbsp;&nbsp;</td>
+                    <td>{DATA_DETAIL.jabatanTtd || "-"}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <br />
+            <div>
+              <div>Memerintahkan kepada:</div>
+              <table style={{ marginLeft: "0.5cm" }}>
+                <tbody>
+                  {DATA_DETAIL.DiPerintahSuratPemeriksaan?.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <tr>
+                        <td style={{ textAlign: "center", width: "0.5cm" }}>{index + 1}. </td>
+                        <td style={{ width: "2cm" }}>Nama</td>
+                        <td>:&nbsp;&nbsp;</td>
+                        <td><b>{item.diPerintah || "-"}</b></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>NIP</td>
+                        <td>:&nbsp;&nbsp;</td>
+                        <td>{item.nipDiPerintah || "-"}</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>Jabatan</td>
+                        <td>:&nbsp;&nbsp;</td>
+                        <td>{item.jabatanDiPerintah || "-"}</td>
+                      </tr>
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <br />
+            <div>
+              <table>
+                <tbody>
+                  <tr>
+                    <td style={{ width: "2.5cm" }}>Untuk</td>
+                    <td>:&nbsp;&nbsp;</td>
+                    <td>
+                      <div dangerouslySetInnerHTML={{ __html: DATA_DETAIL.keterangan || "-" }} />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <br />
+            <br />
+              <table style={{ width: "100%" }}>
+                <tr>
+                  <td style={{ width: "60%" }}></td>
+                  <td style={{ textAlign: "left" }}>
+                    <table>
+                      <tr>
+                        <td style={{ width: "3.5cm" }}>Dikeluarkan di</td>
+                        <td>:&nbsp;</td>
+                        <td style={{ width: "6cm" }}>{DATA_DETAIL.tempatDikeluarkan || "-"}</td>
+                      </tr>
+                      <tr>
+                        <td>Pada Tanggal</td>
+                        <td>:&nbsp;</td>
+                        <td>{DATA_DETAIL.tanggalSurat ? DMYIndoToFormat(DATA_DETAIL.tanggalSurat) : "-"}</td>
+                      </tr>
+                      <tr>
+                        <td colSpan={3}><br /><br /></td>
+                      </tr>
+                      <tr>
+                        <td colSpan={3}><b>{DATA_DETAIL.jabatanTtd || "-"}</b></td>
+                      </tr>
+                      <tr>
+                        <td colSpan={3}><br /><br /><br /><br /><br /><br /><br /></td>
+                      </tr>
+                      <tr>
+                        <td colSpan={3}><b className="underlined">{DATA_DETAIL.namaTtd || "-"}</b></td>
+                      </tr>
+                      <tr>
+                        <td colSpan={3}>NIP. {DATA_DETAIL.nipTtd || "-"}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
 
-      <button
-        onClick={exportToWord}
-        className="px-4 py-2 bg-green-600 text-white rounded"
-      >
-        Export ke Word
-      </button>
+          </>
+        )}
+      </div>
     </div>
   );
 };

@@ -119,7 +119,7 @@ export default function Keputusan() {
     {
       accessorKey: "tingkat",
       header: "TIngkat Hukuman Disiplin",
-      cell: (info) => info.getValue() as string === "TINGGI" ? "BERAT" : info.getValue(),
+      cell: (info) => info.getValue() as string === "TINGGI" ? "BERAT" : (info.getValue() ==="RENDAH" ? "RINGAN" : info.getValue()),
       // meta: { align: "center" },
     },
     {

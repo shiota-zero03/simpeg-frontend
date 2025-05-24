@@ -378,6 +378,15 @@ export default function CreateSurat() {
     });
   };
 
+  const uniqueJabatanList = useMemo(() => {
+    const seen = new Set();
+    return JABATAN_SELECT.filter((item) => {
+      if (seen.has(item.nameJob)) return false;
+      seen.add(item.nameJob);
+      return true;
+    });
+  }, [JABATAN_SELECT]);
+
   return (
     <>
       <BreadcrumbAdmin location="/Laporan-Hasil-Pemeriksaan/Tambah-Data" />
@@ -486,7 +495,8 @@ export default function CreateSurat() {
                           variant="bordered"
                           radius="sm"
                           size="sm"
-                          defaultItems={JABATAN_SELECT}
+                          itemHeight={48}
+                          defaultItems={uniqueJabatanList}
                           selectedKey={String(formData.idKepada)}
                           onSelectionChange={(value) => {
                             const checkJabatan = JABATAN_SELECT.find(
@@ -498,7 +508,7 @@ export default function CreateSurat() {
                               nameKepada: checkJabatan?.nameJob,
                             });
                           }}
-                          className="max-w-72"
+                          className="w-full"
                           inputProps={{
                             classNames: {
                               input: "text-xs",
@@ -512,7 +522,9 @@ export default function CreateSurat() {
                               key={String(peg.id)}
                               textValue={peg.nameJob}
                             >
-                              {peg.nameJob}
+                              <div className="lg:text-xs sm:text-[10px] text-[8px] leading-[10px]">
+                                {peg.nameJob}
+                              </div>
                             </AutocompleteItem>
                           )}
                         </Autocomplete>
@@ -977,31 +989,79 @@ export default function CreateSurat() {
                             key={index}
                             className="w-full flex items-center gap-2"
                           >
-                            <Input
-                              variant="bordered"
-                              aria-label="nomorSurat"
-                              size="sm"
-                              radius="sm"
-                              className="w-full"
-                              classNames={{
-                                inputWrapper:
-                                  "border-[0.8px] border-button-primary rounded-md",
-                                input: "text-xs placeholder:italic",
-                              }}
-                              placeholder="Nama Jabatan"
-                              value={item.jabatan}
-                              onChange={(e) => {
-                                setFormData((prev) => {
-                                  const updated = [...prev.tembusan];
-                                  updated[index] = {
-                                    ...updated[index],
-                                    id: "",
-                                    jabatan: e.target.value,
-                                  };
-                                  return { ...prev, tembusan: updated };
-                                });
-                              }}
-                            />
+                            {index > 0 ? (
+                              <Input
+                                variant="bordered"
+                                aria-label="nomorSurat"
+                                size="sm"
+                                radius="sm"
+                                className="w-full"
+                                classNames={{
+                                  inputWrapper:
+                                    "border-[0.8px] border-button-primary rounded-md",
+                                  input: "text-xs placeholder:italic",
+                                }}
+                                placeholder="Nama Jabatan"
+                                value={item.jabatan}
+                                onChange={(e) => {
+                                  setFormData((prev) => {
+                                    const updated = [...prev.tembusan];
+                                    updated[index] = {
+                                      ...updated[index],
+                                      id: "",
+                                      jabatan: e.target.value,
+                                    };
+                                    return { ...prev, tembusan: updated };
+                                  });
+                                }}
+                              />
+                            ) : (
+                              <Autocomplete
+                                isLoading={isFetchingJabatan}
+                                aria-label="pegawai"
+                                placeholder="Cari jabatan"
+                                variant="bordered"
+                                radius="sm"
+                                size="sm"
+                                itemHeight={48}
+                                defaultItems={uniqueJabatanList}
+                                selectedKey={String(item.id)}
+                                onSelectionChange={(value) => {
+                                  const checkJabatan = JABATAN_SELECT.find(
+                                    (item) => item.id === Number(value),
+                                  );
+  
+                                  setFormData((prev) => {
+                                    const updated = [...prev.tembusan];
+                                    updated[index] = {
+                                      ...updated[index],
+                                      id: String(checkJabatan?.id || ""),
+                                      jabatan: checkJabatan?.nameJob,
+                                    };
+                                    return { ...prev, tembusan: updated };
+                                  });
+                                }}
+                                className="w-full"
+                                inputProps={{
+                                  classNames: {
+                                    input: "text-xs",
+                                    inputWrapper:
+                                      "border-[0.8px] border-button-primary rounded-md",
+                                  },
+                                }}
+                              >
+                                {(peg) => (
+                                  <AutocompleteItem
+                                    key={String(peg.id)}
+                                    textValue={peg.nameJob}
+                                  >
+                                    <div className="lg:text-xs sm:text-[10px] text-[8px] leading-[10px]">
+                                      {peg.nameJob}
+                                    </div>
+                                  </AutocompleteItem>
+                                )}
+                              </Autocomplete>
+                            )}
                             <Button
                               onPress={() => removeTembusan(index)}
                               isIconOnly

@@ -25,6 +25,11 @@ export interface SuratPemeriksaanRes {
   namaTtd: string;
   jabatanTtd: string;
   nipTtd: string;
+  DiPerintahSuratPemeriksaan?: {
+    diPerintah: string;
+    nipDiPerintah: string;
+    jabatanDiPerintah: string;
+  }[];
 }
 
 export interface ISuratPemeriksaanRes extends BaseRes {
