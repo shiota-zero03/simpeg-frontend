@@ -3,12 +3,12 @@ declare module "terbilang-js" {
   export default terbilang;
 }
 
-declare module 'html-to-docx' {
+declare module "html-to-docx" {
   const htmlToDocx: (
     element: HTMLElement,
     fileName?: string | null,
     options?: {
-      orientation?: 'portrait' | 'landscape';
+      orientation?: "portrait" | "landscape";
       margins?: {
         top?: number;
         right?: number;
@@ -16,7 +16,7 @@ declare module 'html-to-docx' {
         left?: number;
       };
       lineHeight?: number;
-    }
+    },
   ) => Promise<Blob>;
 
   export default htmlToDocx;

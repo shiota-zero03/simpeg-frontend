@@ -27,7 +27,6 @@ import { BaseErrorRes } from "@/interface/responses/base.response";
 import { FaCircle } from "react-icons/fa";
 
 export default function Verifikasi() {
-
   const [penerusan, setPenerusan] = useState<string[]>([]);
   const [uptdName, setUptdName] = useState<string | null>();
   const [showInputFor, setShowInputFor] = useState<string | null>(null);
@@ -75,9 +74,9 @@ export default function Verifikasi() {
 
   useEffect(() => {
     refetch();
-    setPenerusan([])
-    setUptdName(null)
-    setShowInputFor(null)
+    setPenerusan([]);
+    setUptdName(null);
+    setShowInputFor(null);
   }, []);
 
   const { mutate: mutatePost } = useVerifikasiEDisposisi();
@@ -92,7 +91,7 @@ export default function Verifikasi() {
       return false;
     }
 
-    let hasilGabungan = [...penerusan];
+    const hasilGabungan = [...penerusan];
     if (penerusan.includes("UPTD")) {
       // Tambahkan uptdName jika belum ada
       if (!hasilGabungan.includes(uptdName ?? "")) {
@@ -145,7 +144,7 @@ export default function Verifikasi() {
       return false;
     }
 
-    let hasilGabungan = [...penerusan];
+    const hasilGabungan = [...penerusan];
     if (penerusan.includes("UPTD")) {
       // Tambahkan uptdName jika belum ada
       if (!hasilGabungan.includes(uptdName ?? "")) {
@@ -288,11 +287,11 @@ export default function Verifikasi() {
                             ? "Sangat Segera"
                             : DATA_FETCHING?.sifat === "SEGERA"
                               ? "Segera"
-                                : DATA_FETCHING?.sifat === "PENTING"
-                                  ? "Penting"
-                                  : DATA_FETCHING?.sifat === "BIASA"
-                                    ? "Biasa"
-                                    : "Rahasia")}
+                              : DATA_FETCHING?.sifat === "PENTING"
+                                ? "Penting"
+                                : DATA_FETCHING?.sifat === "BIASA"
+                                  ? "Biasa"
+                                  : "Rahasia")}
                       </th>
                     </tr>
                   </tbody>
@@ -325,7 +324,9 @@ export default function Verifikasi() {
                         <Checkbox
                           size="sm"
                           checked={penerusan.includes(item.name)}
-                          onChange={(e) => handleCheckboxChange(item.name, e.target.checked)}
+                          onChange={(e) =>
+                            handleCheckboxChange(item.name, e.target.checked)
+                          }
                         >
                           {item.name}
                         </Checkbox>
@@ -337,9 +338,7 @@ export default function Verifikasi() {
                             onClick={(e) => e.stopPropagation()}
                             isDisabled={showInputFor !== item.name}
                             value={uptdName ?? ""}
-                            onChange={(e) =>
-                              setUptdName(e.target.value )
-                            }
+                            onChange={(e) => setUptdName(e.target.value)}
                             variant="bordered"
                             radius="sm"
                             placeholder="Masukkan Disini"
@@ -359,7 +358,9 @@ export default function Verifikasi() {
                     <Checkbox
                       size="sm"
                       checked={penerusan.includes(item.name)}
-                      onChange={(e) => handleCheckboxChange(item.name, e.target.checked)}
+                      onChange={(e) =>
+                        handleCheckboxChange(item.name, e.target.checked)
+                      }
                     >
                       {item.name}
                     </Checkbox>

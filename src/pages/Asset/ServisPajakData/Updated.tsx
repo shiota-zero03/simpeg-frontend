@@ -212,7 +212,9 @@ export default function CreatePegawai() {
       formToSend.pajak5Tahun = new Date(formData.pajak5Tahun).toISOString();
     }
     if (formData.pembayaranPajak) {
-      formToSend.pembayaranPajak = new Date(formData.pembayaranPajak).toISOString();
+      formToSend.pembayaranPajak = new Date(
+        formData.pembayaranPajak,
+      ).toISOString();
     }
     if (formData.nominalBayar) formToSend.nominalBayar = formData.nominalBayar;
     if (formData.startServis) formToSend.startServis = formData.startServis;

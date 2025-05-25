@@ -161,20 +161,19 @@ export default function BigTable() {
       }));
       setPbpp(newItemsPbpp);
 
-
       // const filtered = DATA_FETCHING.filter(it =>
       //   it.nameJob?.toUpperCase().includes("ANALIS PERDAGANGAN") ||
       //   it.nameJob?.toUpperCase().includes("PENGAWAS PERDAGANGAN") ||
       //   it.nameJob?.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") ||
       //   it.nameJob?.toUpperCase().includes("PENERA")
       // );
-      
+
       // const grouped: Record<string, PetaJabatanData> = {};
-      
+
       // filtered.forEach(item => {
       //   const key = item.nameJob;
       //   if (!key) return;
-      
+
       //   if (!grouped[key]) {
       //     grouped[key] = {
       //       name: key,
@@ -185,17 +184,17 @@ export default function BigTable() {
       //       minus: 0
       //     };
       //   }
-      
+
       //   grouped[key].b += item.ketersediaan || 0;
       //   grouped[key].k += item.user?.length || 0;
       // });
-      
+
       // // Hitung plus & minus
       // Object.values(grouped).forEach(item => {
       //   item.plus = Math.max(item.b - item.k, 0);
       //   item.minus = Math.max(item.k - item.b, 0);
       // });
-      
+
       // const result: PetaJabatanData[] = Object.values(grouped);
       // result.sort((a, b) => a.name.localeCompare(b.name));
       // setJabfung(result);
@@ -334,69 +333,177 @@ export default function BigTable() {
     }
   };
 
-
   const dataToRenderPKUmpeg = [
-    { name: "perencanaanKeuangan", data: perencanaanKeuangan.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "umpeg", data: umpeg.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "jabfung", data: [] }
+    {
+      name: "perencanaanKeuangan",
+      data: perencanaanKeuangan.filter((it) =>
+        it.name.toUpperCase().includes("AHLI"),
+      ),
+    },
+    {
+      name: "umpeg",
+      data: umpeg.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
+    { name: "jabfung", data: [] },
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
   const dataToRenderPKUmpegPelaksana = [
-    { name: "perencanaanKeuangan", data: perencanaanKeuangan.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "umpeg", data: umpeg.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "jabfung", data: [] }
+    {
+      name: "perencanaanKeuangan",
+      data: perencanaanKeuangan.filter(
+        (it) => !it.name.toUpperCase().includes("AHLI"),
+      ),
+    },
+    {
+      name: "umpeg",
+      data: umpeg.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
+    { name: "jabfung", data: [] },
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
   const dataToRenderKabid = [
-    { name: "ln", data: ln.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "spl", data: spl.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "kemetrologian", data: kemetrologian.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "pbpp", data: pbpp.filter(it => it.name.toUpperCase().includes('AHLI')) }
+    {
+      name: "ln",
+      data: ln.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "spl",
+      data: spl.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "kemetrologian",
+      data: kemetrologian.filter((it) =>
+        it.name.toUpperCase().includes("AHLI"),
+      ),
+    },
+    {
+      name: "pbpp",
+      data: pbpp.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
   const dataToRenderKabidPelaksana = [
-    { name: "ln", data: ln.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "spl", data: spl.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "kemetrologian", data: kemetrologian.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "pbpp", data: pbpp.filter(it => !it.name.toUpperCase().includes('AHLI')) }
+    {
+      name: "ln",
+      data: ln.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "spl",
+      data: spl.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "kemetrologian",
+      data: kemetrologian.filter(
+        (it) => !it.name.toUpperCase().includes("AHLI"),
+      ),
+    },
+    {
+      name: "pbpp",
+      data: pbpp.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
   const dataToRenderUPTDFungsional = [
-    { name: "uptd1", data: uptd1.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd2", data: uptd2.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd3", data: uptd3.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd4", data: uptd4.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd5", data: uptd5.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd6", data: uptd6.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd7", data: uptd7.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd8", data: uptd8.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd9", data: uptd9.filter(it => it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptdMetrologiLegal", data: uptdMetrologiLegal.filter(it => it.name.toUpperCase().includes('AHLI')) },
-  ].sort((a, b) => b.data.length - a.data.length)[0].data;
-  
-  const dataToRenderUPTD = [
-    { name: "uptd1", data: uptd1.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd2", data: uptd2.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd3", data: uptd3.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd4", data: uptd4.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd5", data: uptd5.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd6", data: uptd6.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd7", data: uptd7.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd8", data: uptd8.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptd9", data: uptd9.filter(it => !it.name.toUpperCase().includes('AHLI')) },
-    { name: "uptdMetrologiLegal", data: uptdMetrologiLegal.filter(it => !it.name.toUpperCase().includes('AHLI')) },
+    {
+      name: "uptd1",
+      data: uptd1.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd2",
+      data: uptd2.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd3",
+      data: uptd3.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd4",
+      data: uptd4.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd5",
+      data: uptd5.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd6",
+      data: uptd6.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd7",
+      data: uptd7.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd8",
+      data: uptd8.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd9",
+      data: uptd9.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptdMetrologiLegal",
+      data: uptdMetrologiLegal.filter((it) =>
+        it.name.toUpperCase().includes("AHLI"),
+      ),
+    },
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
-  let ArrayUptdFungsionalLength = [
-    uptd1.filter(it => it.name.toUpperCase().includes('AHLI')).length,
-    uptd2.filter(it => it.name.toUpperCase().includes('AHLI')).length,
-    uptd3.filter(it => it.name.toUpperCase().includes('AHLI')).length,
-    uptd4.filter(it => it.name.toUpperCase().includes('AHLI')).length,
-    uptd5.filter(it => it.name.toUpperCase().includes('AHLI')).length,
-    uptd6.filter(it => it.name.toUpperCase().includes('AHLI')).length,
-    uptd7.filter(it => it.name.toUpperCase().includes('AHLI')).length,
-    uptd8.filter(it => it.name.toUpperCase().includes('AHLI')).length,
-    uptd9.filter(it => it.name.toUpperCase().includes('AHLI')).length,
-    uptdMetrologiLegal.filter(it => it.name.toUpperCase().includes('AHLI')).length
+  const dataToRenderUPTD = [
+    {
+      name: "uptd1",
+      data: uptd1.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd2",
+      data: uptd2.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd3",
+      data: uptd3.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd4",
+      data: uptd4.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd5",
+      data: uptd5.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd6",
+      data: uptd6.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd7",
+      data: uptd7.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd8",
+      data: uptd8.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptd9",
+      data: uptd9.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
+    {
+      name: "uptdMetrologiLegal",
+      data: uptdMetrologiLegal.filter(
+        (it) => !it.name.toUpperCase().includes("AHLI"),
+      ),
+    },
+  ].sort((a, b) => b.data.length - a.data.length)[0].data;
+
+  const ArrayUptdFungsionalLength = [
+    uptd1.filter((it) => it.name.toUpperCase().includes("AHLI")).length,
+    uptd2.filter((it) => it.name.toUpperCase().includes("AHLI")).length,
+    uptd3.filter((it) => it.name.toUpperCase().includes("AHLI")).length,
+    uptd4.filter((it) => it.name.toUpperCase().includes("AHLI")).length,
+    uptd5.filter((it) => it.name.toUpperCase().includes("AHLI")).length,
+    uptd6.filter((it) => it.name.toUpperCase().includes("AHLI")).length,
+    uptd7.filter((it) => it.name.toUpperCase().includes("AHLI")).length,
+    uptd8.filter((it) => it.name.toUpperCase().includes("AHLI")).length,
+    uptd9.filter((it) => it.name.toUpperCase().includes("AHLI")).length,
+    uptdMetrologiLegal.filter((it) => it.name.toUpperCase().includes("AHLI"))
+      .length,
   ];
   return (
     <div className="bg-white">
@@ -484,10 +591,7 @@ export default function BigTable() {
                 >
                   Sekretaris
                 </th>
-                <td
-                  className="px-2 py-2 text-center text-xs"
-                  colSpan={32}
-                ></td>
+                <td className="px-2 py-2 text-center text-xs" colSpan={32}></td>
               </tr>
               <tr>
                 <td
@@ -746,9 +850,18 @@ export default function BigTable() {
                 <th className="px-2 py-2 text-center text-xs" colSpan={25}></th>
               </tr>
               {dataToRenderPKUmpeg.map((_, index) => {
-                const itemPK = perencanaanKeuangan.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUmpeg = umpeg.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemJabfung = jabfung.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
+                const itemPK =
+                  perencanaanKeuangan.filter((it) =>
+                    it.name.toUpperCase().includes("AHLI"),
+                  )[index] || {};
+                const itemUmpeg =
+                  umpeg.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemJabfung =
+                  jabfung.filter((it) =>
+                    it.name.toUpperCase().includes("AHLI"),
+                  )[index] || {};
                 return (
                   <React.Fragment key={index}>
                     <tr>
@@ -936,8 +1049,7 @@ export default function BigTable() {
                         <td
                           className="px-2 py-2 text-center text-xs "
                           rowSpan={2}
-                        >
-                        </td>
+                        ></td>
                       ) : (
                         <th rowSpan={2} className=""></th>
                       )}
@@ -1115,9 +1227,18 @@ export default function BigTable() {
                 <th className="px-2 py-2 text-center text-xs" colSpan={25}></th>
               </tr>
               {dataToRenderPKUmpegPelaksana.map((_, index) => {
-                const itemPK = perencanaanKeuangan.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUmpeg = umpeg.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemJabfung = jabfung.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
+                const itemPK =
+                  perencanaanKeuangan.filter(
+                    (it) => !it.name.toUpperCase().includes("AHLI"),
+                  )[index] || {};
+                const itemUmpeg =
+                  umpeg.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemJabfung =
+                  jabfung.filter(
+                    (it) => !it.name.toUpperCase().includes("AHLI"),
+                  )[index] || {};
                 return (
                   <React.Fragment key={index}>
                     <tr>
@@ -1133,15 +1254,9 @@ export default function BigTable() {
                       ></th>
 
                       {itemPK.name ? (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       )}
                       {itemPK.name ? (
                         <th className="px-2 py-2 text-center text-xs"></th>
@@ -1220,15 +1335,9 @@ export default function BigTable() {
                       )}
 
                       {itemUmpeg.name ? (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       )}
                       {itemUmpeg.name ? (
                         <th className="px-2 py-2 text-center text-xs"></th>
@@ -1301,22 +1410,15 @@ export default function BigTable() {
                         <td
                           className="px-2 py-2 text-center text-xs "
                           rowSpan={2}
-                        >
-                        </td>
+                        ></td>
                       ) : (
                         <th rowSpan={2} className=""></th>
                       )}
 
                       {itemJabfung.name ? (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       )}
                       {itemJabfung.name ? (
                         <th className="px-2 py-2 text-center text-xs"></th>
@@ -1547,7 +1649,10 @@ export default function BigTable() {
                       className={`px-2 py-2 border-button-primary text-center text-xs ${index === 2 && "border-s"}`}
                     ></td>
                     <td className="px-2 py-2 border-e border-button-primary text-center text-xs"></td>
-                    <td className="px-2 py-2 text-xs border-e border-button-primary border-dashed" colSpan={6}></td>
+                    <td
+                      className="px-2 py-2 text-xs border-e border-button-primary border-dashed"
+                      colSpan={6}
+                    ></td>
                     <td className="px-2 py-2 text-xs" colSpan={7}></td>
                     <td
                       className={`px-2 py-2 text-xs  ${index === 1 && "border-e border-button-primary"}`}
@@ -1564,7 +1669,10 @@ export default function BigTable() {
                       className={`px-2 py-2 border-button-primary text-center text-xs ${index === 2 && "border-s"}`}
                     ></td>
                     <td className="px-2 py-2 border-e border-button-primary text-center text-xs"></td>
-                    <td className="px-2 py-2 text-xs border-e border-button-primary border-dashed" colSpan={6}></td>
+                    <td
+                      className="px-2 py-2 text-xs border-e border-button-primary border-dashed"
+                      colSpan={6}
+                    ></td>
                     <td className="px-2 py-2 text-xs" colSpan={7}></td>
                     <td
                       className={`px-2 py-2 text-xs  ${index === 1 && "border-e border-button-primary"}`}
@@ -1614,10 +1722,22 @@ export default function BigTable() {
                 <th className="px-2 py-2 text-center text-xs" colSpan={48}></th>
               </tr>
               {dataToRenderKabid.map((_, index) => {
-                const itemLN = ln.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemSPL = spl.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemKemetrologian = kemetrologian.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemPBPP = pbpp.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
+                const itemLN =
+                  ln.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemSPL =
+                  spl.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemKemetrologian =
+                  kemetrologian.filter((it) =>
+                    it.name.toUpperCase().includes("AHLI"),
+                  )[index] || {};
+                const itemPBPP =
+                  pbpp.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
                 return (
                   <React.Fragment key={index}>
                     <tr>
@@ -1986,26 +2106,10 @@ export default function BigTable() {
                       ></th>
                     </tr>
                     <tr>
-                      {itemLN.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemSPL.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemKemetrologian.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemPBPP.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
+                      {itemLN.name ? <th></th> : <th></th>}
+                      {itemSPL.name ? <th></th> : <th></th>}
+                      {itemKemetrologian.name ? <th></th> : <th></th>}
+                      {itemPBPP.name ? <th></th> : <th></th>}
                     </tr>
                   </React.Fragment>
                 );
@@ -2067,10 +2171,22 @@ export default function BigTable() {
                 <th className="px-2 py-2 text-center text-xs" colSpan={48}></th>
               </tr>
               {dataToRenderKabidPelaksana.map((_, index) => {
-                const itemLN = ln.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemSPL = spl.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemKemetrologian = kemetrologian.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemPBPP = pbpp.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
+                const itemLN =
+                  ln.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemSPL =
+                  spl.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemKemetrologian =
+                  kemetrologian.filter(
+                    (it) => !it.name.toUpperCase().includes("AHLI"),
+                  )[index] || {};
+                const itemPBPP =
+                  pbpp.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
                 return (
                   <React.Fragment key={index}>
                     <tr>
@@ -2081,15 +2197,9 @@ export default function BigTable() {
                       ></th>
 
                       {itemLN.name ? (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       )}
                       {itemLN.name ? (
                         <th className="px-2 py-2 text-center text-xs"></th>
@@ -2164,15 +2274,9 @@ export default function BigTable() {
                       ></th>
 
                       {itemSPL.name ? (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       )}
                       {itemSPL.name ? (
                         <th className="px-2 py-2 text-center text-xs"></th>
@@ -2251,15 +2355,9 @@ export default function BigTable() {
                       )}
 
                       {itemKemetrologian.name ? (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       )}
                       {itemKemetrologian.name ? (
                         <th className="px-2 py-2 text-center text-xs"></th>
@@ -2338,15 +2436,9 @@ export default function BigTable() {
                       )}
 
                       {itemPBPP.name ? (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
+                        <th colSpan={2} rowSpan={2}></th>
                       )}
                       {itemPBPP.name ? (
                         <th className="px-2 py-2 text-center text-xs"></th>
@@ -2431,26 +2523,10 @@ export default function BigTable() {
                       ></th>
                     </tr>
                     <tr>
-                      {itemLN.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemSPL.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemKemetrologian.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemPBPP.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
+                      {itemLN.name ? <th></th> : <th></th>}
+                      {itemSPL.name ? <th></th> : <th></th>}
+                      {itemKemetrologian.name ? <th></th> : <th></th>}
+                      {itemPBPP.name ? <th></th> : <th></th>}
                     </tr>
                   </React.Fragment>
                 );
@@ -2606,15 +2682,11 @@ export default function BigTable() {
                       ></td>
                     )}
                     <td
-                      className={
-                        `px-2 py-2 text-center border-e text-xs border-button-primary ${ArrayUptdFungsionalLength[index] > 0 ? "border-dashed" : ""}`
-                      }
+                      className={`px-2 py-2 text-center border-e text-xs border-button-primary ${ArrayUptdFungsionalLength[index] > 0 ? "border-dashed" : ""}`}
                       colSpan={7}
                     ></td>
                     <td
-                      className={
-                        `px-2 py-2 text-center border-s text-xs border-button-primary ${ArrayUptdFungsionalLength[index] > 0 ? "border-dashed" : ""}`
-                      }
+                      className={`px-2 py-2 text-center border-s text-xs border-button-primary ${ArrayUptdFungsionalLength[index] > 0 ? "border-dashed" : ""}`}
                       colSpan={8}
                     ></td>
                   </React.Fragment>
@@ -2635,15 +2707,11 @@ export default function BigTable() {
                       ></td>
                     )}
                     <td
-                      className={
-                        `px-2 py-2 text-center border-e text-xs border-button-primary ${ArrayUptdFungsionalLength[index] > 0 ? "border-dashed" : ""}`
-                      }
+                      className={`px-2 py-2 text-center border-e text-xs border-button-primary ${ArrayUptdFungsionalLength[index] > 0 ? "border-dashed" : ""}`}
                       colSpan={7}
                     ></td>
                     <td
-                      className={
-                        `px-2 py-2 text-center border-s text-xs border-button-primary ${ArrayUptdFungsionalLength[index] > 0 ? "border-dashed" : ""}`
-                      }
+                      className={`px-2 py-2 text-center border-s text-xs border-button-primary ${ArrayUptdFungsionalLength[index] > 0 ? "border-dashed" : ""}`}
                       colSpan={8}
                     ></td>
                   </React.Fragment>
@@ -2681,33 +2749,61 @@ export default function BigTable() {
                       </th>
                       <th className="px-2 py-2 text-center text-xs"></th>
                     </React.Fragment>
-                  ): (
+                  ) : (
                     <React.Fragment key={index}>
                       <th
                         className="px-2 py-2 text-center text-xs border-e border-button-primary"
                         colSpan={8}
-                      >
-                      </th>
+                      ></th>
                       <th
                         className="px-2 py-2 text-center text-xs"
                         colSpan={8}
-                      >
-                      </th>
+                      ></th>
                     </React.Fragment>
-                  )
+                  );
                 })}
               </tr>
               {dataToRenderUPTDFungsional.map((_, index) => {
-                const itemUptd1 = uptd1.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd2 = uptd2.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd3 = uptd3.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd4 = uptd4.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd5 = uptd5.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd6 = uptd6.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd7 = uptd7.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd8 = uptd8.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd9 = uptd9.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemMetrologi = uptdMetrologiLegal.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
+                const itemUptd1 =
+                  uptd1.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd2 =
+                  uptd2.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd3 =
+                  uptd3.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd4 =
+                  uptd4.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd5 =
+                  uptd5.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd6 =
+                  uptd6.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd7 =
+                  uptd7.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd8 =
+                  uptd8.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd9 =
+                  uptd9.filter((it) => it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemMetrologi =
+                  uptdMetrologiLegal.filter((it) =>
+                    it.name.toUpperCase().includes("AHLI"),
+                  )[index] || {};
                 return (
                   <React.Fragment key={index}>
                     <tr>
@@ -2724,7 +2820,9 @@ export default function BigTable() {
                         >
                           {itemUptd1.name || "-"}
                         </td>
-                      ) : uptd1.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                      ) : uptd1.filter((it) =>
+                          it.name.toUpperCase().includes("AHLI"),
+                        ).length > 0 ? (
                         <React.Fragment>
                           <td
                             rowSpan={2}
@@ -2838,7 +2936,9 @@ export default function BigTable() {
                         >
                           {itemUptd2.name || "-"}
                         </td>
-                      ) : uptd2.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                      ) : uptd2.filter((it) =>
+                          it.name.toUpperCase().includes("AHLI"),
+                        ).length > 0 ? (
                         <React.Fragment>
                           <td
                             rowSpan={2}
@@ -2952,7 +3052,9 @@ export default function BigTable() {
                         >
                           {itemUptd3.name || "-"}
                         </td>
-                      ) : uptd3.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                      ) : uptd3.filter((it) =>
+                          it.name.toUpperCase().includes("AHLI"),
+                        ).length > 0 ? (
                         <React.Fragment>
                           <td
                             rowSpan={2}
@@ -3066,7 +3168,9 @@ export default function BigTable() {
                         >
                           {itemUptd4.name || "-"}
                         </td>
-                      ) : uptd4.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                      ) : uptd4.filter((it) =>
+                          it.name.toUpperCase().includes("AHLI"),
+                        ).length > 0 ? (
                         <React.Fragment>
                           <td
                             rowSpan={2}
@@ -3180,7 +3284,9 @@ export default function BigTable() {
                         >
                           {itemUptd5.name || "-"}
                         </td>
-                      ) : uptd5.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                      ) : uptd5.filter((it) =>
+                          it.name.toUpperCase().includes("AHLI"),
+                        ).length > 0 ? (
                         <React.Fragment>
                           <td
                             rowSpan={2}
@@ -3294,7 +3400,9 @@ export default function BigTable() {
                         >
                           {itemUptd6.name || "-"}
                         </td>
-                      ) : uptd6.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                      ) : uptd6.filter((it) =>
+                          it.name.toUpperCase().includes("AHLI"),
+                        ).length > 0 ? (
                         <React.Fragment>
                           <td
                             rowSpan={2}
@@ -3408,7 +3516,9 @@ export default function BigTable() {
                         >
                           {itemUptd7.name || "-"}
                         </td>
-                      ) : uptd7.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                      ) : uptd7.filter((it) =>
+                          it.name.toUpperCase().includes("AHLI"),
+                        ).length > 0 ? (
                         <React.Fragment>
                           <td
                             rowSpan={2}
@@ -3522,7 +3632,9 @@ export default function BigTable() {
                         >
                           {itemUptd8.name || "-"}
                         </td>
-                      ) : uptd8.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                      ) : uptd8.filter((it) =>
+                          it.name.toUpperCase().includes("AHLI"),
+                        ).length > 0 ? (
                         <React.Fragment>
                           <td
                             rowSpan={2}
@@ -3636,7 +3748,9 @@ export default function BigTable() {
                         >
                           {itemUptd9.name || "-"}
                         </td>
-                      ) : uptd9.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                      ) : uptd9.filter((it) =>
+                          it.name.toUpperCase().includes("AHLI"),
+                        ).length > 0 ? (
                         <React.Fragment>
                           <td
                             rowSpan={2}
@@ -3750,7 +3864,9 @@ export default function BigTable() {
                         >
                           {itemMetrologi.name}
                         </td>
-                      ) : uptdMetrologiLegal.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                      ) : uptdMetrologiLegal.filter((it) =>
+                          it.name.toUpperCase().includes("AHLI"),
+                        ).length > 0 ? (
                         <React.Fragment>
                           <td
                             rowSpan={2}
@@ -3911,7 +4027,7 @@ export default function BigTable() {
                         colSpan={8}
                       ></td>
                     </React.Fragment>
-                  )
+                  );
                 })}
               </tr>
 
@@ -4002,16 +4118,46 @@ export default function BigTable() {
                 ))}
               </tr>
               {dataToRenderUPTD.map((_, index) => {
-                const itemUptd1 = uptd1.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd2 = uptd2.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd3 = uptd3.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd4 = uptd4.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd5 = uptd5.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd6 = uptd6.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd7 = uptd7.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd8 = uptd8.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemUptd9 = uptd9.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
-                const itemMetrologi = uptdMetrologiLegal.filter(it => !it.name.toUpperCase().includes('AHLI'))[index] || {};
+                const itemUptd1 =
+                  uptd1.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd2 =
+                  uptd2.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd3 =
+                  uptd3.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd4 =
+                  uptd4.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd5 =
+                  uptd5.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd6 =
+                  uptd6.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd7 =
+                  uptd7.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd8 =
+                  uptd8.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemUptd9 =
+                  uptd9.filter((it) => !it.name.toUpperCase().includes("AHLI"))[
+                    index
+                  ] || {};
+                const itemMetrologi =
+                  uptdMetrologiLegal.filter(
+                    (it) => !it.name.toUpperCase().includes("AHLI"),
+                  )[index] || {};
                 return (
                   <React.Fragment key={index}>
                     <tr>
@@ -4982,56 +5128,16 @@ export default function BigTable() {
                       )}
                     </tr>
                     <tr>
-                      {itemUptd1.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemUptd2.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemUptd3.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemUptd4.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemUptd5.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemUptd6.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemUptd7.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemUptd8.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemUptd9.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
-                      {itemMetrologi.name ? (
-                        <th></th>
-                      ) : (
-                        <th></th>
-                      )}
+                      {itemUptd1.name ? <th></th> : <th></th>}
+                      {itemUptd2.name ? <th></th> : <th></th>}
+                      {itemUptd3.name ? <th></th> : <th></th>}
+                      {itemUptd4.name ? <th></th> : <th></th>}
+                      {itemUptd5.name ? <th></th> : <th></th>}
+                      {itemUptd6.name ? <th></th> : <th></th>}
+                      {itemUptd7.name ? <th></th> : <th></th>}
+                      {itemUptd8.name ? <th></th> : <th></th>}
+                      {itemUptd9.name ? <th></th> : <th></th>}
+                      {itemMetrologi.name ? <th></th> : <th></th>}
                     </tr>
                   </React.Fragment>
                 );

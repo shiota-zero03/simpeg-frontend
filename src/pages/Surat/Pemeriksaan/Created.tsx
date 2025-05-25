@@ -81,17 +81,22 @@ export default function CreateSurat() {
       ...prev,
       DiPerintahSuratPemeriksaan: [
         ...prev.DiPerintahSuratPemeriksaan,
-        { idDiperintah: "", diPerintah: "", nipDiPerintah: "", jabatanDiPerintah: "" }, // default kosong
+        {
+          idDiperintah: "",
+          diPerintah: "",
+          nipDiPerintah: "",
+          jabatanDiPerintah: "",
+        }, // default kosong
       ],
     }));
   };
-  
+
   // Hapus orang berdasarkan index
   const removeDiperintah = (index: number) => {
     setFormData((prev) => ({
       ...prev,
       DiPerintahSuratPemeriksaan: prev.DiPerintahSuratPemeriksaan.filter(
-        (_, i) => i !== index
+        (_, i) => i !== index,
       ),
     }));
   };
@@ -114,11 +119,15 @@ export default function CreateSurat() {
     if (!formData.nomorSurat)
       error.nomorSurat = "Nomor surat tidak boleh kosong";
     if (formData.DiPerintahSuratPemeriksaan.length === 0) {
-      error.DiPerintahSuratPemeriksaan = "Yang diberi perintah tidak boleh kosong";
+      error.DiPerintahSuratPemeriksaan =
+        "Yang diberi perintah tidak boleh kosong";
     } else {
-      formData.DiPerintahSuratPemeriksaan.map(item => {
-        !item.diPerintah ? error.DiPerintahSuratPemeriksaan = "Yang diberi perintah tidak boleh kosong" : null;
-      })
+      formData.DiPerintahSuratPemeriksaan.forEach((item) => {
+        if (!item.diPerintah) {
+          error.DiPerintahSuratPemeriksaan =
+            "Yang diberi perintah tidak boleh kosong";
+        }
+      });
     }
     if (!formData.idTtd)
       error.namaTtd = "Nama penanda tangan tidak boleh kosong";
@@ -150,7 +159,6 @@ export default function CreateSurat() {
     setFormError({});
     refetchPegawai();
   }, []);
-
 
   const navigate = useNavigate();
 
@@ -252,7 +260,6 @@ export default function CreateSurat() {
         });
       }
     } else if (type === "perintah") {
-      
       // if (checkPegawai) {
       //   setFormData({
       //     ...formData,
@@ -274,10 +281,7 @@ export default function CreateSurat() {
     }
   };
 
-  const handleChangeDiperintah = (
-    index: number,
-    value: string | number,
-  ) => {
+  const handleChangeDiperintah = (index: number, value: string | number) => {
     const updatedList = [...formData.DiPerintahSuratPemeriksaan];
 
     const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
@@ -292,7 +296,7 @@ export default function CreateSurat() {
           checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
       };
     }
-  
+
     setFormData((prev) => ({
       ...prev,
       DiPerintahSuratPemeriksaan: updatedList,
@@ -399,13 +403,11 @@ export default function CreateSurat() {
                         }}
                       >
                         {(peg) => (
-                          <AutocompleteItem 
-                            key={peg.id} 
-                            textValue={peg.name}
-                          >
+                          <AutocompleteItem key={peg.id} textValue={peg.name}>
                             <div className="lg:text-xs sm:text-[10px] text-[8px] leading-[10px]">
                               {peg.name} -{" "}
-                              {peg.jabatan?.nameJob || "jabatan tidak diketahui"}{" "}
+                              {peg.jabatan?.nameJob ||
+                                "jabatan tidak diketahui"}{" "}
                               - {peg.nip}
                             </div>
                           </AutocompleteItem>
@@ -486,10 +488,14 @@ export default function CreateSurat() {
                               }}
                             >
                               {(peg) => (
-                                <AutocompleteItem key={peg.id} textValue={peg.name}>
+                                <AutocompleteItem
+                                  key={peg.id}
+                                  textValue={peg.name}
+                                >
                                   <div className="lg:text-xs sm:text-[10px] text-[8px] leading-[10px]">
                                     {peg.name} -{" "}
-                                    {peg.jabatan?.nameJob || "jabatan tidak diketahui"}{" "}
+                                    {peg.jabatan?.nameJob ||
+                                      "jabatan tidak diketahui"}{" "}
                                     - {peg.nip}
                                   </div>
                                 </AutocompleteItem>
@@ -535,10 +541,22 @@ export default function CreateSurat() {
                             />
                           </div>
                         </div>
-                        <Button onPress={() => removeDiperintah(index)} className="bg-danger text-white" size="sm" isIconOnly><FaTrash /></Button>
+                        <Button
+                          onPress={() => removeDiperintah(index)}
+                          className="bg-danger text-white"
+                          size="sm"
+                          isIconOnly
+                        >
+                          <FaTrash />
+                        </Button>
                       </div>
                     ))}
-                    <Button onPress={addDiperintah} size="sm" radius="full" className="bg-primary text-white">
+                    <Button
+                      onPress={addDiperintah}
+                      size="sm"
+                      radius="full"
+                      className="bg-primary text-white"
+                    >
                       <FaPlusCircle /> Tambah
                     </Button>
                   </div>

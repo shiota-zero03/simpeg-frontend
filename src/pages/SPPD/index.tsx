@@ -22,7 +22,7 @@ export default function Jabatan() {
       }
     } else if (role === "PEGAWAI") {
       setSelectedTab("data-sppd");
-     } else {
+    } else {
       setSelectedTab("rekap");
     }
   }, [tabData, role]);
@@ -37,7 +37,9 @@ export default function Jabatan() {
         />
         <div>
           <div className="overflow-x-auto flex min-w-full">
-            {(role === "SUPERUSERS" || role === "ADMIN_SPPD" || role === "PEGAWAI") && (
+            {(role === "SUPERUSERS" ||
+              role === "ADMIN_SPPD" ||
+              role === "PEGAWAI") && (
               <div
                 onClick={() => setSelectedTab("data-sppd")}
                 className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "data-sppd" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
@@ -45,7 +47,7 @@ export default function Jabatan() {
                 Data SPPD
               </div>
             )}
-            {(role !== "PEGAWAI") && (
+            {role !== "PEGAWAI" && (
               <div
                 onClick={() => setSelectedTab("rekap")}
                 className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "rekap" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}

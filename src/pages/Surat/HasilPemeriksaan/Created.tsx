@@ -1030,7 +1030,7 @@ export default function CreateSurat() {
                                   const checkJabatan = JABATAN_SELECT.find(
                                     (item) => item.id === Number(value),
                                   );
-  
+
                                   setFormData((prev) => {
                                     const updated = [...prev.tembusan];
                                     updated[index] = {

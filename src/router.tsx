@@ -65,9 +65,7 @@ const ExportPDFSummary = lazy(() => import("@/pages/Summary/SummaryExport"));
 const ExportExcelSummary = lazy(
   () => import("@/pages/export/excel/SummaryExcel"),
 );
-const ExportExcelIKP = lazy(
-  () => import("@/pages/export/excel/IKPExport"),
-);
+const ExportExcelIKP = lazy(() => import("@/pages/export/excel/IKPExport"));
 
 const Error404 = lazy(() => import("@/pages/Errors/Error404"));
 
@@ -351,7 +349,10 @@ export default function Router() {
         <Route path="/pegawai/export-data" element={<ExportExcelPegawai />} />
         <Route path="/jabatan/export-data" element={<ExportExcelJabatan />} />
         <Route path="/sppd/export-data" element={<ExportExcelSPPD />} />
-        <Route path="/dialog-kinerja/export-excel/:id" element={<ExportExcelIKP />} />
+        <Route
+          path="/dialog-kinerja/export-excel/:id"
+          element={<ExportExcelIKP />}
+        />
 
         <Route
           path="/summary-report/export/pdf"

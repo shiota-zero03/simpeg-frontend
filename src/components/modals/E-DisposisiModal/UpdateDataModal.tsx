@@ -15,7 +15,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
-import { useGetDetailEDisposisi, useUpdateEDisposisi } from "@/services/e-disposisi";
+import {
+  useGetDetailEDisposisi,
+  useUpdateEDisposisi,
+} from "@/services/e-disposisi";
 import { StoreEDisposisi } from "@/interface/request/e-disposisi.interface";
 import { convertFileToBase64 } from "@/utils/base64Formater";
 import { IoFileTrayFullSharp } from "react-icons/io5";
@@ -73,11 +76,11 @@ const UpdateDataModal = ({ isOpen, onClose, handleClose, id }: props) => {
 
   useEffect(() => {
     refetch();
-  }, [id])
+  }, [id]);
 
   useEffect(() => {
-    if(data) {
-      let dataFetching = data.data;
+    if (data) {
+      const dataFetching = data.data;
       setFormData({
         file: "",
         suratDari: dataFetching.suratDari,
@@ -88,7 +91,7 @@ const UpdateDataModal = ({ isOpen, onClose, handleClose, id }: props) => {
         description: dataFetching.description,
       });
     }
-  }, [data, isFetching])
+  }, [data, isFetching]);
 
   const validateData = () => {
     const errors: errorProps = {};
@@ -131,21 +134,24 @@ const UpdateDataModal = ({ isOpen, onClose, handleClose, id }: props) => {
     if (formData.description) formToSend.description = formData.description;
 
     try {
-      mutatePost({id: id, formData: formToSend}, {
-        onSuccess: () => {
-          SuccessToast({ text: "Data berhasil diupdate" });
-          handleClose();
+      mutatePost(
+        { id: id, formData: formToSend },
+        {
+          onSuccess: () => {
+            SuccessToast({ text: "Data berhasil diupdate" });
+            handleClose();
+          },
+          onError: (error: AxiosError<BaseErrorRes>) => {
+            ErrorToast({
+              text:
+                (error.response?.data.message as string) ||
+                "Terjadi kesalahan saat mengirim data",
+            });
+            setIsLoading(false);
+            throw error;
+          },
         },
-        onError: (error: AxiosError<BaseErrorRes>) => {
-          ErrorToast({
-            text:
-              (error.response?.data.message as string) ||
-              "Terjadi kesalahan saat mengirim data",
-          });
-          setIsLoading(false);
-          throw error;
-        },
-      });
+      );
     } catch (error) {
       setIsLoading(false);
       throw error;

@@ -33,7 +33,12 @@ export default function DetailExportSurat({
           </h1>
           <h1 className="text-center text-xl">TENTANG</h1>
           <h1 className="text-center text-xl">
-            HUKUMAN DISIPLIN TINGKAT {DATA_DETAIL.tingkat ==="TINGGI" ? "BERAT" : (DATA_DETAIL.tingkat ==="RENDAH" ? "RINGAN" : DATA_DETAIL.tingkat)}
+            HUKUMAN DISIPLIN TINGKAT{" "}
+            {DATA_DETAIL.tingkat === "TINGGI"
+              ? "BERAT"
+              : DATA_DETAIL.tingkat === "RENDAH"
+                ? "RINGAN"
+                : DATA_DETAIL.tingkat}
           </h1>
           <h1 className="text-center text-xl mb-1">
             DENGAN RAHMAT TUHAN YANG MAHA ESA

@@ -10,7 +10,6 @@ export const convertFileToBase64 = (file: File): Promise<string> => {
   });
 };
 
-
 export const getBase64FromUrl = async (url: string): Promise<string> => {
   const response = await fetch(url);
   const blob = await response.blob();

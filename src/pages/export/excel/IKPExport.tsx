@@ -25,12 +25,12 @@ const ExportExcel: React.FC = () => {
   }, []);
 
   const DATA_FETCHING: IKPListRes | null = useMemo(() => {
-      if (data) {
-        return data.data;
-      } else {
-        return null;
-      }
-    }, [id, data]);
+    if (data) {
+      return data.data;
+    } else {
+      return null;
+    }
+  }, [id, data]);
 
   const headers1: {
     cell: string;
@@ -106,12 +106,12 @@ const ExportExcel: React.FC = () => {
       cell: "M4",
       value: "Dialog Kinerja",
       alignment: { horizontal: "center", vertical: "middle" },
-    }
+    },
   ];
 
   const populateSheet = (
     sheet: ExcelJS.Worksheet,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     data: IKPListRes | null,
   ) => {
     sheet.mergeCells("A3:A4");
@@ -125,7 +125,7 @@ const ExportExcel: React.FC = () => {
     sheet.mergeCells("I3:I4");
     sheet.mergeCells("J3:J4");
     sheet.mergeCells("K3:M3");
-    sheet.getCell(`A1`).value = 'Rekapitulasi IKP';
+    sheet.getCell(`A1`).value = "Rekapitulasi IKP";
     sheet.getCell(`A1`).font = { bold: true };
     sheet.getCell(`A1`).alignment = {
       horizontal: "center",
@@ -165,18 +165,21 @@ const ExportExcel: React.FC = () => {
 
     data?.ikps?.forEach((item, index) => {
       const row = sheet.addRow([
-        index + 1, '', '', '', 
-        item.sasaran || '',
-        item.indicator || '',
-        item.target || '',
-        item.realisasi || '',
-        item.status !== "DISETUJUI" ? "✓" : '',
-        item.status === "DISETUJUI" ? "✓" : '',
-        item.ubahTarget || '',
-        item.description || '',
-        item.dialog || '',
+        index + 1,
+        "",
+        "",
+        "",
+        item.sasaran || "",
+        item.indicator || "",
+        item.target || "",
+        item.realisasi || "",
+        item.status !== "DISETUJUI" ? "✓" : "",
+        item.status === "DISETUJUI" ? "✓" : "",
+        item.ubahTarget || "",
+        item.description || "",
+        item.dialog || "",
       ]);
-    
+
       row.eachCell((cell: Cell) => {
         cell.border = {
           top: { style: "thin", color: { argb: "000000" } },
@@ -190,29 +193,29 @@ const ExportExcel: React.FC = () => {
           horizontal: "center",
         };
       });
-    
+
       // Kolom status sekarang berada di kolom ke-10 (karena mulai dari F)
       const statusCell = row.getCell(10);
       statusCell.font = {
         color: { argb: item.status === "Belum" ? "BF1E43" : "000000" },
-        bold: item.status === "Belum"
+        bold: item.status === "Belum",
       };
-    }); 
-    
+    });
+
     const startRow = 5;
     const ikpsLength = data?.ikps?.length || 1;
     const endRow = startRow + ikpsLength - 1;
 
     const nameCell = sheet.getCell(`B${startRow}`);
-    nameCell.value = (data?.name || "-");
+    nameCell.value = data?.name || "-";
     sheet.mergeCells(`B${startRow}:B${endRow}`);
 
     const nipCell = sheet.getCell(`C${startRow}`);
-    nipCell.value = (data?.nip || "-");
+    nipCell.value = data?.nip || "-";
     sheet.mergeCells(`C${startRow}:C${endRow}`);
 
     const jabatanCell = sheet.getCell(`D${startRow}`);
-    jabatanCell.value = (data?.jabatan || "-");
+    jabatanCell.value = data?.jabatan || "-";
     sheet.mergeCells(`D${startRow}:D${endRow}`);
 
     [nameCell, nipCell, jabatanCell].forEach((cell) => {
@@ -255,10 +258,7 @@ const ExportExcel: React.FC = () => {
 
     // -------------------------------
     const buffer = await workbook.xlsx.writeBuffer();
-    saveAs(
-      new Blob([buffer]),
-      `Dialog Kinerja.xlsx`,
-    );
+    saveAs(new Blob([buffer]), `Dialog Kinerja.xlsx`);
     setTimeout(() => window.close(), 2000);
   };
 

@@ -90,15 +90,17 @@ export const useVerifikasiEDisposisi = () => {
 };
 export const useUpdateEDisposisi = () => {
   const queryClient = useQueryClient();
-  return useMutation<IEDisposisiRes, AxiosError<BaseErrorRes>, {id: string, formData: StoreEDisposisi}>(
-    {
-      mutationFn: ({id, formData}) => updateEDisposisi(id, formData),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["updateEDisposisi"] });
-      },
-      onError: (error) => {
-        throw error;
-      },
+  return useMutation<
+    IEDisposisiRes,
+    AxiosError<BaseErrorRes>,
+    { id: string; formData: StoreEDisposisi }
+  >({
+    mutationFn: ({ id, formData }) => updateEDisposisi(id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["updateEDisposisi"] });
     },
-  );
+    onError: (error) => {
+      throw error;
+    },
+  });
 };

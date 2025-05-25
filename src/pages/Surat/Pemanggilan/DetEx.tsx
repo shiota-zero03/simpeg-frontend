@@ -49,18 +49,15 @@ export default function DetailExportSurat({
                 </span>
               </div>
               <div className="flex items-start font-normal gap-2">
-                <div className="w-28">NIP </div>
-                :
+                <div className="w-28">NIP </div>:
                 <div>{DATA_DETAIL?.nipDiPanggil}</div>
               </div>
               <div className="flex items-start font-normal gap-2">
-                <div className="w-28">Unit Kerja </div>
-                :
+                <div className="w-28">Unit Kerja </div>:
                 <div>{DATA_DETAIL?.unitDiPanggil}</div>
               </div>
               <div className="flex items-start font-normal gap-2">
-                <div className="w-28">Jabatan </div>
-                :
+                <div className="w-28">Jabatan </div>:
                 <div>{DATA_DETAIL?.jabatanDiPanggil}</div>
               </div>
             </div>
@@ -68,23 +65,19 @@ export default function DetailExportSurat({
           <div className="mt-4 ms-8">Untuk menghadap kepada</div>
           <div className="flex flex-col ms-8">
             <div className="flex items-start font-normal gap-2">
-              <div className="w-28">Nama </div>
-                :
+              <div className="w-28">Nama </div>:
               <div className="font-semibold">{DATA_DETAIL?.pemanggil}</div>
             </div>
             <div className="flex items-start font-normal gap-2">
-              <div className="w-28">NIP </div>
-              :
+              <div className="w-28">NIP </div>:
               <div>{DATA_DETAIL?.nipPemanggil}</div>
             </div>
             <div className="flex items-start font-normal gap-2">
-              <div className="w-28">Unit Kerja </div>
-              :
+              <div className="w-28">Unit Kerja </div>:
               <div>{DATA_DETAIL?.unitPemanggil}</div>
             </div>
             <div className="flex items-start font-normal gap-2">
-              <div className="w-28">Jabatan </div>
-              :
+              <div className="w-28">Jabatan </div>:
               <div>{DATA_DETAIL?.jabatanPemanggil}</div>
             </div>
           </div>

@@ -198,7 +198,9 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
             </div>
           )}
           <ModalHeader className="flex items-center justify-between">
-            <span className="text-base font-semibold">Update Data Cuti, Kenaikan Gaji Berkala & Pangkat</span>
+            <span className="text-base font-semibold">
+              Update Data Cuti, Kenaikan Gaji Berkala & Pangkat
+            </span>
             <LuX
               className="text-danger border border-danger rounded-full p-2 cursor-pointer"
               onClick={onClose}

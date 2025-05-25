@@ -170,13 +170,12 @@ export default function EDisposisi() {
           return (
             <div className="flex items-center gap-2 justify-center text-danger">
               {file ? (
-                <Link
-                  target="___blank"
-                  to={file}
-                >
+                <Link target="___blank" to={file}>
                   <FaFilePdf size={14} />
                 </Link>
-              ) : "-"}
+              ) : (
+                "-"
+              )}
             </div>
           );
         },
@@ -284,24 +283,32 @@ export default function EDisposisi() {
         cell: ({ row }) => {
           const { instruksi, paraf } = row.original;
           if (instruksi && instruksi.length > 0) {
-            if(instruksi[1]) {
-              let instruction = instruksi[1].diteruskan.split(";").map(item => item.trim());
+            if (instruksi[1]) {
+              const instruction = instruksi[1].diteruskan
+                .split(";")
+                .map((item) => item.trim());
               return (
                 <ol className="ms-3">
-                  {instruction.map(item => (
-                    <li className="list-decimal" key={item}>{item}</li>
+                  {instruction.map((item) => (
+                    <li className="list-decimal" key={item}>
+                      {item}
+                    </li>
                   ))}
                 </ol>
-              )
+              );
             } else {
-              let instruction = instruksi[0].diteruskan.split(";").map(item => item.trim());
+              const instruction = instruksi[0].diteruskan
+                .split(";")
+                .map((item) => item.trim());
               return (
                 <ol className="ms-3">
-                  {instruction.map(item => (
-                    <li className="list-decimal" key={item}>{item}</li>
+                  {instruction.map((item) => (
+                    <li className="list-decimal" key={item}>
+                      {item}
+                    </li>
                   ))}
                 </ol>
-              )
+              );
             }
           } else {
             if (!paraf) {
@@ -342,13 +349,12 @@ export default function EDisposisi() {
           return (
             <div className="flex items-center gap-2 justify-center text-danger">
               {file ? (
-                <Link
-                  target="___blank"
-                  to={file}
-                >
+                <Link target="___blank" to={file}>
                   <FaFilePdf size={14} />
                 </Link>
-              ) : "-"}
+              ) : (
+                "-"
+              )}
             </div>
           );
         },
@@ -359,10 +365,11 @@ export default function EDisposisi() {
         cell: ({ row }) => {
           const { id, paraf, instruksi } = row.original;
           if (getDataProfile?.jabatan.nameJob.includes("SEKRETARIS")) {
-
             let instruction: string[] = [];
-            if(instruksi && instruksi[0] && instruksi[0].diteruskan) {
-              instruction = instruksi[0].diteruskan.split(";").map(item => item.trim());
+            if (instruksi && instruksi[0] && instruksi[0].diteruskan) {
+              instruction = instruksi[0].diteruskan
+                .split(";")
+                .map((item) => item.trim());
             }
 
             return (

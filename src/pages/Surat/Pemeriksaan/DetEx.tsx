@@ -33,18 +33,14 @@ export default function DetailExportSurat({
           <div className="mb-2">Yang bertanda tangan di bawah ini:</div>
           <div className="flex flex-col ms-12">
             <div className="flex items-start font-normal gap-2">
-              <div className="w-20">Nama </div>
-                :
+              <div className="w-20">Nama </div>:
               <div className="font-semibold">{DATA_DETAIL?.namaTtd}</div>
             </div>
             <div className="flex items-start font-normal gap-2">
-              <div className="w-20">NIP </div>
-              :
-              <div>{DATA_DETAIL?.nipTtd}</div>
+              <div className="w-20">NIP </div>:<div>{DATA_DETAIL?.nipTtd}</div>
             </div>
             <div className="flex items-start font-normal gap-2">
-              <div className="w-20">Jabatan </div>
-              :
+              <div className="w-20">Jabatan </div>:
               <div>{DATA_DETAIL?.jabatanTtd}</div>
             </div>
           </div>
@@ -54,18 +50,15 @@ export default function DetailExportSurat({
             <div className="ms-4">1.</div>
             <div className="flex flex-col ms-4">
               <div className="flex items-start font-normal gap-2">
-                <div className="w-20">Nama </div>
-                :
+                <div className="w-20">Nama </div>:
                 <div className="font-semibold">{DATA_DETAIL?.diPerintah}</div>
               </div>
               <div className="flex items-start font-normal gap-2">
-                <div className="w-20">NIP </div>
-                :
+                <div className="w-20">NIP </div>:
                 <div>{DATA_DETAIL?.nipDiPerintah}</div>
               </div>
               <div className="flex items-start font-normal gap-2">
-                <div className="w-20">Jabatan </div>
-                :
+                <div className="w-20">Jabatan </div>:
                 <div>{DATA_DETAIL?.jabatanDiPerintah}</div>
               </div>
             </div>

@@ -204,7 +204,7 @@ const GrafikPegawai = ({ data }: { data: PegawaiRes[] }) => {
                       style={{
                         fontSize: 2.5,
                         fill: "#333",
-                        wordWrap: "break-word", 
+                        wordWrap: "break-word",
                       }}
                       cornerRadius={2}
                       pointerLength={4}

@@ -17,7 +17,7 @@ export default function Verifikasi() {
 
   const navigate = useNavigate();
 
-  const [ firstInstruction, setFirstInstruction ] = useState<string[]>([])
+  const [firstInstruction, setFirstInstruction] = useState<string[]>([]);
 
   const { data, isFetching, refetch, error } = useGetDetailEDisposisi(id || "");
   useEffect(() => {
@@ -33,15 +33,15 @@ export default function Verifikasi() {
   }, [data]);
 
   useEffect(() => {
-    if(DATA_FETCHING && DATA_FETCHING.instruksi) {
-      if(DATA_FETCHING.instruksi.length > 0) {
-
-        const firstArray = DATA_FETCHING.instruksi[0].diteruskan.split(";").map(item => item.trim());
-        setFirstInstruction(firstArray)
-        
+    if (DATA_FETCHING && DATA_FETCHING.instruksi) {
+      if (DATA_FETCHING.instruksi.length > 0) {
+        const firstArray = DATA_FETCHING.instruksi[0].diteruskan
+          .split(";")
+          .map((item) => item.trim());
+        setFirstInstruction(firstArray);
       }
     }
-  }, [DATA_FETCHING, data, id])
+  }, [DATA_FETCHING, data, id]);
 
   useEffect(() => {
     refetch();
@@ -135,11 +135,11 @@ export default function Verifikasi() {
                             ? "Sangat Segera"
                             : DATA_FETCHING?.sifat === "SEGERA"
                               ? "Segera"
-                                : DATA_FETCHING?.sifat === "PENTING"
-                                  ? "Penting"
-                                  : DATA_FETCHING?.sifat === "BIASA"
-                                    ? "Biasa"
-                                    : "Rahasia")}
+                              : DATA_FETCHING?.sifat === "PENTING"
+                                ? "Penting"
+                                : DATA_FETCHING?.sifat === "BIASA"
+                                  ? "Biasa"
+                                  : "Rahasia")}
                       </th>
                     </tr>
                   </tbody>
@@ -207,7 +207,7 @@ export default function Verifikasi() {
                       )}
                     </li>
                   ))}
-                  {firstInstruction.includes('UPTD') && (
+                  {firstInstruction.includes("UPTD") && (
                     <li className="text-success font-semibold list-disc">
                       {firstInstruction[firstInstruction.length - 1] ?? "-"}
                     </li>

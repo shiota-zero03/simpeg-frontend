@@ -27,9 +27,9 @@ export default function BigTable() {
   const [kabidmetrologi, setKabidmetrologi] = useState<StrukturDataProps>();
   // const [jabfungmetrologi, setJabfungmetrologi] = useState<{name: string; jabatan: string}[]>([]);
   const [kabidpengendalian, setKabidpengendalian] =
-  useState<StrukturDataProps>();
+    useState<StrukturDataProps>();
   // const [jabfungpengendalian, setJabfungpengendalian] = useState<{name: string; jabatan: string}[]>([]);
-  
+
   const [kepalaUptd1, setKepalaUptd1] = useState<StrukturDataProps>();
   const [kepalaUptd2, setKepalaUptd2] = useState<StrukturDataProps>();
   const [kepalaUptd3, setKepalaUptd3] = useState<StrukturDataProps>();
@@ -68,9 +68,9 @@ export default function BigTable() {
     if (!isFetching && DATA_FETCHING) {
       // const newItemsJabfungDIN = DATA_FETCHING.filter((it) =>
       //   (
-      //     it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") || 
-      //     it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") || 
-      //     it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") || 
+      //     it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") ||
+      //     it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") ||
+      //     it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") ||
       //     it.nameJob.toUpperCase().includes("PENERA")
       //   ),
       // );
@@ -177,9 +177,9 @@ export default function BigTable() {
 
       // const newItemsJabfungPLN = DATA_FETCHING.filter((it) =>
       //   it.parent?.nameJob.toUpperCase().includes("PERDAGANGAN LUAR NEGERI") && (
-      //     it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") || 
-      //     it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") || 
-      //     it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") || 
+      //     it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") ||
+      //     it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") ||
+      //     it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") ||
       //     it.nameJob.toUpperCase().includes("PENERA")
       //   ),
       // );
@@ -214,9 +214,9 @@ export default function BigTable() {
 
       // const newItemsJabfungDistribusi = DATA_FETCHING.filter((it) =>
       //   it.parent?.nameJob.toUpperCase().includes("PELAKU DISTRIBUSI") && (
-      //     it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") || 
-      //     it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") || 
-      //     it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") || 
+      //     it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") ||
+      //     it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") ||
+      //     it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") ||
       //     it.nameJob.toUpperCase().includes("PENERA")
       //   ),
       // );
@@ -230,7 +230,6 @@ export default function BigTable() {
       //   }
       // });
       // setJabfungdistribusi(getJabfungNameJabatanDistribusi)
-
 
       const newItemsKemetrologian = DATA_FETCHING.find((it) =>
         it.nameJob.toUpperCase().includes("BIDANG KEMETROLOGIAN"),
@@ -252,9 +251,9 @@ export default function BigTable() {
 
       // const newItemsJabfungKemetrologian = DATA_FETCHING.filter((it) =>
       //   it.parent?.nameJob.toUpperCase().includes("BIDANG KEMETROLOGIAN") && (
-      //     it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") || 
-      //     it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") || 
-      //     it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") || 
+      //     it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") ||
+      //     it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") ||
+      //     it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") ||
       //     it.nameJob.toUpperCase().includes("PENERA")
       //   ),
       // );
@@ -268,7 +267,6 @@ export default function BigTable() {
       //   }
       // });
       // setJabfungmetrologi(getJabfungNameJabatanKemetrologian)
-
 
       const newItemsKabidpengendalian = DATA_FETCHING.find((it) =>
         it.nameJob.toUpperCase().includes("BARANG POKOK"),
@@ -290,9 +288,9 @@ export default function BigTable() {
 
       // const newItemsJabfungBarangPokok = DATA_FETCHING.filter((it) =>
       //   it.parent?.nameJob.toUpperCase().includes("BARANG POKOK") && (
-      //     it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") || 
-      //     it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") || 
-      //     it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") || 
+      //     it.nameJob.toUpperCase().includes("ANALIS PERDAGANGAN") ||
+      //     it.nameJob.toUpperCase().includes("PENGAWAS PERDAGANGAN") ||
+      //     it.nameJob.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") ||
       //     it.nameJob.toUpperCase().includes("PENERA")
       //   ),
       // );
@@ -306,8 +304,6 @@ export default function BigTable() {
       //   }
       // });
       // setJabfungpengendalian(getJabfungNameJabatanBarangPokok)
-
-
 
       const newItemsUptdMetrologi = DATA_FETCHING.find((it) =>
         it.nameJob.toUpperCase().includes("KEPALA UPTD METROLOGI LEGAL"),
@@ -373,9 +369,10 @@ export default function BigTable() {
         setters[i - 1](uptdData);
       }
 
-
       const newItemsUptdMetrologi2 = DATA_FETCHING.find((it) =>
-        it.nameJob.toUpperCase().includes("KEPALA SUBBAGIAN TATA USAHA UPTD METROLOGI LEGAL"),
+        it.nameJob
+          .toUpperCase()
+          .includes("KEPALA SUBBAGIAN TATA USAHA UPTD METROLOGI LEGAL"),
       );
       const userUptdTUMetrologi = newItemsUptdMetrologi2?.user?.[0];
       setKepalaTUUptdMetrologi(
@@ -424,7 +421,7 @@ export default function BigTable() {
               picture: UserPNG,
             };
 
-          settersTU[i - 1](uptdData);
+        settersTU[i - 1](uptdData);
       }
     }
   }, [isFetching, DATA_FETCHING]);
@@ -703,7 +700,9 @@ export default function BigTable() {
                           alt="Kelompok jabatan fungsional"
                           className="w-12 h-12 rounded-full border border-accent-primary"
                         />
-                        <h1 className="text-sm">KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA</h1>
+                        <h1 className="text-sm">
+                          KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA
+                        </h1>
                       </div>
                     </div>
                   </div>
@@ -915,7 +914,9 @@ export default function BigTable() {
                           alt="Kelompok jabatan fungsional"
                           className="w-12 h-12 rounded-full border border-accent-primary"
                         />
-                        <h1 className="text-sm">KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA</h1>
+                        <h1 className="text-sm">
+                          KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA
+                        </h1>
                       </div>
                     </div>
                   </div>
@@ -931,7 +932,9 @@ export default function BigTable() {
                           alt="Kelompok jabatan fungsional"
                           className="w-12 h-12 rounded-full border border-accent-primary"
                         />
-                        <h1 className="text-sm">KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA</h1>
+                        <h1 className="text-sm">
+                          KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA
+                        </h1>
                       </div>
                     </div>
                   </div>
@@ -947,7 +950,9 @@ export default function BigTable() {
                           alt="Kelompok jabatan fungsional"
                           className="w-12 h-12 rounded-full border border-accent-primary"
                         />
-                        <h1 className="text-sm">KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA</h1>
+                        <h1 className="text-sm">
+                          KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA
+                        </h1>
                       </div>
                     </div>
                   </div>
@@ -963,7 +968,9 @@ export default function BigTable() {
                           alt="Kelompok jabatan fungsional"
                           className="w-12 h-12 rounded-full border border-accent-primary"
                         />
-                        <h1 className="text-sm">KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA</h1>
+                        <h1 className="text-sm">
+                          KELOMPOK JABATAN FUNGSIONAL DAN PELAKSANA
+                        </h1>
                       </div>
                     </div>
                   </div>
@@ -1182,7 +1189,7 @@ export default function BigTable() {
                   </React.Fragment>
                 ))}
               </tr>
-              
+
               {/* kepala subbagian tata usaha uptd */}
               <tr>
                 <th className="px-2 py-2 text-center text-xs"></th>
@@ -1195,7 +1202,9 @@ export default function BigTable() {
                     />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaTUUptd1?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kepalaTUUptd1?.name}</p>
+                      <p className="font-normal text-xs">
+                        {kepalaTUUptd1?.name}
+                      </p>
                     </div>
                   </div>
                 </th>
@@ -1210,7 +1219,9 @@ export default function BigTable() {
                     />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaTUUptd2?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kepalaTUUptd2?.name}</p>
+                      <p className="font-normal text-xs">
+                        {kepalaTUUptd2?.name}
+                      </p>
                     </div>
                   </div>
                 </th>
@@ -1225,7 +1236,9 @@ export default function BigTable() {
                     />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaTUUptd3?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kepalaTUUptd3?.name}</p>
+                      <p className="font-normal text-xs">
+                        {kepalaTUUptd3?.name}
+                      </p>
                     </div>
                   </div>
                 </th>
@@ -1240,7 +1253,9 @@ export default function BigTable() {
                     />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaTUUptd4?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kepalaTUUptd4?.name}</p>
+                      <p className="font-normal text-xs">
+                        {kepalaTUUptd4?.name}
+                      </p>
                     </div>
                   </div>
                 </th>
@@ -1255,7 +1270,9 @@ export default function BigTable() {
                     />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaTUUptd5?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kepalaTUUptd5?.name}</p>
+                      <p className="font-normal text-xs">
+                        {kepalaTUUptd5?.name}
+                      </p>
                     </div>
                   </div>
                 </th>
@@ -1270,7 +1287,9 @@ export default function BigTable() {
                     />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaTUUptd6?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kepalaTUUptd6?.name}</p>
+                      <p className="font-normal text-xs">
+                        {kepalaTUUptd6?.name}
+                      </p>
                     </div>
                   </div>
                 </th>
@@ -1285,7 +1304,9 @@ export default function BigTable() {
                     />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaTUUptd7?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kepalaTUUptd7?.name}</p>
+                      <p className="font-normal text-xs">
+                        {kepalaTUUptd7?.name}
+                      </p>
                     </div>
                   </div>
                 </th>
@@ -1300,7 +1321,9 @@ export default function BigTable() {
                     />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaTUUptd8?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kepalaTUUptd8?.name}</p>
+                      <p className="font-normal text-xs">
+                        {kepalaTUUptd8?.name}
+                      </p>
                     </div>
                   </div>
                 </th>
@@ -1315,7 +1338,9 @@ export default function BigTable() {
                     />
                     <div className="text-start flex flex-col gap-1">
                       <h1 className="text-sm">{kepalaTUUptd9?.jabatan}</h1>
-                      <p className="font-normal text-xs">{kepalaTUUptd9?.name}</p>
+                      <p className="font-normal text-xs">
+                        {kepalaTUUptd9?.name}
+                      </p>
                     </div>
                   </div>
                 </th>
