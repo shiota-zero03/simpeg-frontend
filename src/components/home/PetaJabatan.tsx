@@ -360,18 +360,18 @@ export default function BigTable() {
     { name: "pbpp", data: pbpp.filter(it => !it.name.toUpperCase().includes('AHLI')) }
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
-  // const dataToRenderUPTDFungsional = [
-  //   { name: "uptd1", data: uptd1.filter(it => it.name.toUpperCase().includes('AHLI')) },
-  //   { name: "uptd2", data: uptd2.filter(it => it.name.toUpperCase().includes('AHLI')) },
-  //   { name: "uptd3", data: uptd3.filter(it => it.name.toUpperCase().includes('AHLI')) },
-  //   { name: "uptd4", data: uptd4.filter(it => it.name.toUpperCase().includes('AHLI')) },
-  //   { name: "uptd5", data: uptd5.filter(it => it.name.toUpperCase().includes('AHLI')) },
-  //   { name: "uptd6", data: uptd6.filter(it => it.name.toUpperCase().includes('AHLI')) },
-  //   { name: "uptd7", data: uptd7.filter(it => it.name.toUpperCase().includes('AHLI')) },
-  //   { name: "uptd8", data: uptd8.filter(it => it.name.toUpperCase().includes('AHLI')) },
-  //   { name: "uptd9", data: uptd9.filter(it => it.name.toUpperCase().includes('AHLI')) },
-  //   { name: "uptdMetrologiLegal", data: uptdMetrologiLegal },
-  // ].sort((a, b) => b.data.length - a.data.length)[0].data;
+  const dataToRenderUPTDFungsional = [
+    { name: "uptd1", data: uptd1.filter(it => it.name.toUpperCase().includes('AHLI')) },
+    { name: "uptd2", data: uptd2.filter(it => it.name.toUpperCase().includes('AHLI')) },
+    { name: "uptd3", data: uptd3.filter(it => it.name.toUpperCase().includes('AHLI')) },
+    { name: "uptd4", data: uptd4.filter(it => it.name.toUpperCase().includes('AHLI')) },
+    { name: "uptd5", data: uptd5.filter(it => it.name.toUpperCase().includes('AHLI')) },
+    { name: "uptd6", data: uptd6.filter(it => it.name.toUpperCase().includes('AHLI')) },
+    { name: "uptd7", data: uptd7.filter(it => it.name.toUpperCase().includes('AHLI')) },
+    { name: "uptd8", data: uptd8.filter(it => it.name.toUpperCase().includes('AHLI')) },
+    { name: "uptd9", data: uptd9.filter(it => it.name.toUpperCase().includes('AHLI')) },
+    { name: "uptdMetrologiLegal", data: uptdMetrologiLegal.filter(it => it.name.toUpperCase().includes('AHLI')) },
+  ].sort((a, b) => b.data.length - a.data.length)[0].data;
   
   const dataToRenderUPTD = [
     { name: "uptd1", data: uptd1.filter(it => !it.name.toUpperCase().includes('AHLI')) },
@@ -386,6 +386,18 @@ export default function BigTable() {
     { name: "uptdMetrologiLegal", data: uptdMetrologiLegal.filter(it => !it.name.toUpperCase().includes('AHLI')) },
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
+  let ArrayUptdFungsionalLength = [
+    uptd1.filter(it => it.name.toUpperCase().includes('AHLI')).length,
+    uptd2.filter(it => it.name.toUpperCase().includes('AHLI')).length,
+    uptd3.filter(it => it.name.toUpperCase().includes('AHLI')).length,
+    uptd4.filter(it => it.name.toUpperCase().includes('AHLI')).length,
+    uptd5.filter(it => it.name.toUpperCase().includes('AHLI')).length,
+    uptd6.filter(it => it.name.toUpperCase().includes('AHLI')).length,
+    uptd7.filter(it => it.name.toUpperCase().includes('AHLI')).length,
+    uptd8.filter(it => it.name.toUpperCase().includes('AHLI')).length,
+    uptd9.filter(it => it.name.toUpperCase().includes('AHLI')).length,
+    uptdMetrologiLegal.filter(it => it.name.toUpperCase().includes('AHLI')).length
+  ];
   return (
     <div className="bg-white">
       {isFetching && (
@@ -2564,7 +2576,11 @@ export default function BigTable() {
               <tr>
                 {Array.from({ length: 10 }).map((_, index) => (
                   <React.Fragment key={index}>
-                    <td className="px-2 py-2 text-center text-xs"></td>
+                    {ArrayUptdFungsionalLength[index] > 0 ? (
+                      <td className="px-2 py-2 text-center text-xs border-s border-t border-button-primary"></td>
+                    ) : (
+                      <td className="px-2 py-2 text-center text-xs"></td>
+                    )}
                     <td
                       className="px-2 py-2 text-center text-xs badge-map"
                       colSpan={14}
@@ -2578,12 +2594,27 @@ export default function BigTable() {
               <tr>
                 {Array.from({ length: 10 }).map((_, index) => (
                   <React.Fragment key={index}>
+                    {ArrayUptdFungsionalLength[index] > 0 ? (
+                      <td
+                        className="px-2 py-2 text-center border-s text-xs border-button-primary"
+                        colSpan={1}
+                      ></td>
+                    ) : (
+                      <td
+                        className="px-2 py-2 text-center text-xs"
+                        colSpan={1}
+                      ></td>
+                    )}
                     <td
-                      className="px-2 py-2 text-center border-e text-xs border-button-primary"
-                      colSpan={8}
+                      className={
+                        `px-2 py-2 text-center border-e text-xs border-button-primary ${ArrayUptdFungsionalLength[index] > 0 ? "border-dashed" : ""}`
+                      }
+                      colSpan={7}
                     ></td>
                     <td
-                      className="px-2 py-2 text-center border-s text-xs border-button-primary"
+                      className={
+                        `px-2 py-2 text-center border-s text-xs border-button-primary ${ArrayUptdFungsionalLength[index] > 0 ? "border-dashed" : ""}`
+                      }
                       colSpan={8}
                     ></td>
                   </React.Fragment>
@@ -2592,53 +2623,79 @@ export default function BigTable() {
               <tr>
                 {Array.from({ length: 10 }).map((_, index) => (
                   <React.Fragment key={index}>
+                    {ArrayUptdFungsionalLength[index] > 0 ? (
+                      <td
+                        className="px-2 py-2 text-center border-s text-xs border-button-primary"
+                        colSpan={1}
+                      ></td>
+                    ) : (
+                      <td
+                        className="px-2 py-2 text-center text-xs"
+                        colSpan={1}
+                      ></td>
+                    )}
                     <td
-                      className="px-2 py-2 text-center border-e text-xs border-button-primary"
-                      colSpan={8}
+                      className={
+                        `px-2 py-2 text-center border-e text-xs border-button-primary ${ArrayUptdFungsionalLength[index] > 0 ? "border-dashed" : ""}`
+                      }
+                      colSpan={7}
                     ></td>
                     <td
-                      className="px-2 py-2 text-center border-s text-xs border-button-primary"
+                      className={
+                        `px-2 py-2 text-center border-s text-xs border-button-primary ${ArrayUptdFungsionalLength[index] > 0 ? "border-dashed" : ""}`
+                      }
                       colSpan={8}
                     ></td>
                   </React.Fragment>
                 ))}
               </tr>
 
-              {/* <tr>
-                {Array.from({ length: 10 }).map((_, index) => (
-                  <React.Fragment key={index}>
-                    <th
-                      className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                      colSpan={2}
-                    ></th>
-                    <th className="px-2 py-2 text-center text-xs"></th>
-                    <th
-                      className="px-2 py-2 badge-map text-center text-xs"
-                      colSpan={6}
-                    >
-                      Jabatan Fungsional
-                    </th>
-                    <th
-                      className="px-2 py-2 badge-map text-center text-xs"
-                      colSpan={2}
-                    >
-                      Kelas
-                    </th>
-                    <th className="px-2 py-2 badge-map text-center text-xs">
-                      B
-                    </th>
-                    <th className="px-2 py-2 badge-map text-center text-xs">
-                      K
-                    </th>
-                    <th className="px-2 py-2 badge-map text-center text-xs">
-                      (+)
-                    </th>
-                    <th className="px-2 py-2 badge-map text-center text-xs">
-                      (-)
-                    </th>
-                    <th className="px-2 py-2 text-center text-xs"></th>
-                  </React.Fragment>
-                ))}
+              <tr>
+                {Array.from({ length: 10 }).map((_, index) => {
+                  return ArrayUptdFungsionalLength[index] > 0 ? (
+                    <React.Fragment key={index}>
+                      <th className="px-2 py-2 text-center text-xs border-s border-button-primary"></th>
+                      <th
+                        className="px-2 py-2 badge-map text-center text-xs"
+                        colSpan={8}
+                      >
+                        Jabatan Fungsional
+                      </th>
+                      <th
+                        className="px-2 py-2 badge-map text-center text-xs"
+                        colSpan={2}
+                      >
+                        Kelas
+                      </th>
+                      <th className="px-2 py-2 badge-map text-center text-xs">
+                        B
+                      </th>
+                      <th className="px-2 py-2 badge-map text-center text-xs">
+                        K
+                      </th>
+                      <th className="px-2 py-2 badge-map text-center text-xs">
+                        (+)
+                      </th>
+                      <th className="px-2 py-2 badge-map text-center text-xs">
+                        (-)
+                      </th>
+                      <th className="px-2 py-2 text-center text-xs"></th>
+                    </React.Fragment>
+                  ): (
+                    <React.Fragment key={index}>
+                      <th
+                        className="px-2 py-2 text-center text-xs border-e border-button-primary"
+                        colSpan={8}
+                      >
+                      </th>
+                      <th
+                        className="px-2 py-2 text-center text-xs"
+                        colSpan={8}
+                      >
+                      </th>
+                    </React.Fragment>
+                  )
+                })}
               </tr>
               {dataToRenderUPTDFungsional.map((_, index) => {
                 const itemUptd1 = uptd1.filter(it => it.name.toUpperCase().includes('AHLI'))[index] || {};
@@ -2655,20 +2712,7 @@ export default function BigTable() {
                   <React.Fragment key={index}>
                     <tr>
                       {itemUptd1.name ? (
-                        <th
-                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
-                      ) : (
-                        <th
-                          className="px-2 py-2 text-center text-xs"
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
-                      )}
-                      {itemUptd1.name ? (
-                        <th className="px-2 py-2 text-center text-xs"></th>
+                        <th className="px-2 py-2 text-center text-xs border-s border-button-primary"></th>
                       ) : (
                         <th className="px-2 py-2 text-center text-xs"></th>
                       )}
@@ -2676,16 +2720,31 @@ export default function BigTable() {
                         <td
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
-                          colSpan={6}
+                          colSpan={8}
                         >
                           {itemUptd1.name || "-"}
                         </td>
+                      ) : uptd1.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={8}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       ) : (
-                        <td
-                          rowSpan={2}
-                          colSpan={6}
-                          className="px-2 py-2 text-center text-xs"
-                        ></td>
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={7}
+                            className="px-2 py-2 text-center text-xs border-e border-button-primary"
+                          ></td>
+                          <td
+                            rowSpan={2}
+                            colSpan={1}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       )}
                       {itemUptd1.name ? (
                         <td
@@ -2767,20 +2826,7 @@ export default function BigTable() {
                       )}
 
                       {itemUptd2.name ? (
-                        <th
-                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
-                      ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                          className="px-2 py-2 text-center text-xs"
-                        ></th>
-                      )}
-                      {itemUptd2.name ? (
-                        <th className="px-2 py-2 text-center text-xs"></th>
+                        <th className="px-2 py-2 text-center text-xs border-s border-button-primary"></th>
                       ) : (
                         <th className="px-2 py-2 text-center text-xs"></th>
                       )}
@@ -2788,16 +2834,31 @@ export default function BigTable() {
                         <td
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
-                          colSpan={6}
+                          colSpan={8}
                         >
                           {itemUptd2.name || "-"}
                         </td>
+                      ) : uptd2.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={8}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       ) : (
-                        <td
-                          rowSpan={2}
-                          colSpan={6}
-                          className="px-2 py-2 text-center text-xs"
-                        ></td>
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={7}
+                            className="px-2 py-2 text-center text-xs border-e border-button-primary"
+                          ></td>
+                          <td
+                            rowSpan={2}
+                            colSpan={1}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       )}
                       {itemUptd2.name ? (
                         <td
@@ -2879,20 +2940,7 @@ export default function BigTable() {
                       )}
 
                       {itemUptd3.name ? (
-                        <th
-                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
-                      ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                          className="px-2 py-2 text-center text-xs"
-                        ></th>
-                      )}
-                      {itemUptd3.name ? (
-                        <th className="px-2 py-2 text-center text-xs"></th>
+                        <th className="px-2 py-2 text-center text-xs border-s border-button-primary"></th>
                       ) : (
                         <th className="px-2 py-2 text-center text-xs"></th>
                       )}
@@ -2900,16 +2948,31 @@ export default function BigTable() {
                         <td
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
-                          colSpan={6}
+                          colSpan={8}
                         >
                           {itemUptd3.name || "-"}
                         </td>
+                      ) : uptd3.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={8}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       ) : (
-                        <td
-                          rowSpan={2}
-                          colSpan={6}
-                          className="px-2 py-2 text-center text-xs"
-                        ></td>
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={7}
+                            className="px-2 py-2 text-center text-xs border-e border-button-primary"
+                          ></td>
+                          <td
+                            rowSpan={2}
+                            colSpan={1}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       )}
                       {itemUptd3.name ? (
                         <td
@@ -2991,20 +3054,7 @@ export default function BigTable() {
                       )}
 
                       {itemUptd4.name ? (
-                        <th
-                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
-                      ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                          className="px-2 py-2 text-center text-xs"
-                        ></th>
-                      )}
-                      {itemUptd4.name ? (
-                        <th className="px-2 py-2 text-center text-xs"></th>
+                        <th className="px-2 py-2 text-center text-xs border-s border-button-primary"></th>
                       ) : (
                         <th className="px-2 py-2 text-center text-xs"></th>
                       )}
@@ -3012,16 +3062,31 @@ export default function BigTable() {
                         <td
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
-                          colSpan={6}
+                          colSpan={8}
                         >
                           {itemUptd4.name || "-"}
                         </td>
+                      ) : uptd4.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={8}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       ) : (
-                        <td
-                          rowSpan={2}
-                          colSpan={6}
-                          className="px-2 py-2 text-center text-xs"
-                        ></td>
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={7}
+                            className="px-2 py-2 text-center text-xs border-e border-button-primary"
+                          ></td>
+                          <td
+                            rowSpan={2}
+                            colSpan={1}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       )}
                       {itemUptd4.name ? (
                         <td
@@ -3103,20 +3168,7 @@ export default function BigTable() {
                       )}
 
                       {itemUptd5.name ? (
-                        <th
-                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
-                      ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                          className="px-2 py-2 text-center text-xs"
-                        ></th>
-                      )}
-                      {itemUptd5.name ? (
-                        <th className="px-2 py-2 text-center text-xs"></th>
+                        <th className="px-2 py-2 text-center text-xs border-s border-button-primary"></th>
                       ) : (
                         <th className="px-2 py-2 text-center text-xs"></th>
                       )}
@@ -3124,16 +3176,31 @@ export default function BigTable() {
                         <td
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
-                          colSpan={6}
+                          colSpan={8}
                         >
                           {itemUptd5.name || "-"}
                         </td>
+                      ) : uptd5.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={8}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       ) : (
-                        <td
-                          rowSpan={2}
-                          colSpan={6}
-                          className="px-2 py-2 text-center text-xs"
-                        ></td>
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={7}
+                            className="px-2 py-2 text-center text-xs border-e border-button-primary"
+                          ></td>
+                          <td
+                            rowSpan={2}
+                            colSpan={1}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       )}
                       {itemUptd5.name ? (
                         <td
@@ -3215,20 +3282,7 @@ export default function BigTable() {
                       )}
 
                       {itemUptd6.name ? (
-                        <th
-                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
-                      ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                          className="px-2 py-2 text-center text-xs"
-                        ></th>
-                      )}
-                      {itemUptd6.name ? (
-                        <th className="px-2 py-2 text-center text-xs"></th>
+                        <th className="px-2 py-2 text-center text-xs border-s border-button-primary"></th>
                       ) : (
                         <th className="px-2 py-2 text-center text-xs"></th>
                       )}
@@ -3236,16 +3290,31 @@ export default function BigTable() {
                         <td
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
-                          colSpan={6}
+                          colSpan={8}
                         >
                           {itemUptd6.name || "-"}
                         </td>
+                      ) : uptd6.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={8}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       ) : (
-                        <td
-                          rowSpan={2}
-                          colSpan={6}
-                          className="px-2 py-2 text-center text-xs"
-                        ></td>
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={7}
+                            className="px-2 py-2 text-center text-xs border-e border-button-primary"
+                          ></td>
+                          <td
+                            rowSpan={2}
+                            colSpan={1}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       )}
                       {itemUptd6.name ? (
                         <td
@@ -3327,20 +3396,7 @@ export default function BigTable() {
                       )}
 
                       {itemUptd7.name ? (
-                        <th
-                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
-                      ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                          className="px-2 py-2 text-center text-xs"
-                        ></th>
-                      )}
-                      {itemUptd7.name ? (
-                        <th className="px-2 py-2 text-center text-xs"></th>
+                        <th className="px-2 py-2 text-center text-xs border-s border-button-primary"></th>
                       ) : (
                         <th className="px-2 py-2 text-center text-xs"></th>
                       )}
@@ -3348,16 +3404,31 @@ export default function BigTable() {
                         <td
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
-                          colSpan={6}
+                          colSpan={8}
                         >
                           {itemUptd7.name || "-"}
                         </td>
+                      ) : uptd7.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={8}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       ) : (
-                        <td
-                          rowSpan={2}
-                          colSpan={6}
-                          className="px-2 py-2 text-center text-xs"
-                        ></td>
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={7}
+                            className="px-2 py-2 text-center text-xs border-e border-button-primary"
+                          ></td>
+                          <td
+                            rowSpan={2}
+                            colSpan={1}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       )}
                       {itemUptd7.name ? (
                         <td
@@ -3439,20 +3510,7 @@ export default function BigTable() {
                       )}
 
                       {itemUptd8.name ? (
-                        <th
-                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
-                      ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                          className="px-2 py-2 text-center text-xs"
-                        ></th>
-                      )}
-                      {itemUptd8.name ? (
-                        <th className="px-2 py-2 text-center text-xs"></th>
+                        <th className="px-2 py-2 text-center text-xs border-s border-button-primary"></th>
                       ) : (
                         <th className="px-2 py-2 text-center text-xs"></th>
                       )}
@@ -3460,16 +3518,31 @@ export default function BigTable() {
                         <td
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
-                          colSpan={6}
+                          colSpan={8}
                         >
                           {itemUptd8.name || "-"}
                         </td>
+                      ) : uptd8.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={8}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       ) : (
-                        <td
-                          rowSpan={2}
-                          colSpan={6}
-                          className="px-2 py-2 text-center text-xs"
-                        ></td>
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={7}
+                            className="px-2 py-2 text-center text-xs border-e border-button-primary"
+                          ></td>
+                          <td
+                            rowSpan={2}
+                            colSpan={1}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       )}
                       {itemUptd8.name ? (
                         <td
@@ -3551,20 +3624,7 @@ export default function BigTable() {
                       )}
 
                       {itemUptd9.name ? (
-                        <th
-                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
-                      ) : (
-                        <th
-                          colSpan={2}
-                          rowSpan={2}
-                          className="px-2 py-2 text-center text-xs"
-                        ></th>
-                      )}
-                      {itemUptd9.name ? (
-                        <th className="px-2 py-2 text-center text-xs"></th>
+                        <th className="px-2 py-2 text-center text-xs border-s border-button-primary"></th>
                       ) : (
                         <th className="px-2 py-2 text-center text-xs"></th>
                       )}
@@ -3572,16 +3632,31 @@ export default function BigTable() {
                         <td
                           className="px-2 py-2 border border-button-primary text-center text-xs"
                           rowSpan={2}
-                          colSpan={6}
+                          colSpan={8}
                         >
                           {itemUptd9.name || "-"}
                         </td>
+                      ) : uptd9.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={8}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       ) : (
-                        <td
-                          rowSpan={2}
-                          colSpan={6}
-                          className="px-2 py-2 text-center text-xs"
-                        ></td>
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={7}
+                            className="px-2 py-2 text-center text-xs border-e border-button-primary"
+                          ></td>
+                          <td
+                            rowSpan={2}
+                            colSpan={1}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       )}
                       {itemUptd9.name ? (
                         <td
@@ -3663,29 +3738,39 @@ export default function BigTable() {
                       )}
 
                       {itemMetrologi.name ? (
-                        <th
-                          className="px-2 py-2 border-e border-button-primary text-center text-xs"
-                          colSpan={2}
-                          rowSpan={2}
-                        ></th>
-                      ) : (
-                        <th colSpan={2} rowSpan={2}></th>
-                      )}
-                      {itemMetrologi.name ? (
-                        <th className="px-2 py-2 text-center text-xs"></th>
+                        <th className="px-2 py-2 text-center text-xs border-s border-button-primary"></th>
                       ) : (
                         <th></th>
                       )}
                       {itemMetrologi.name ? (
                         <td
                           className="px-2 py-2 border border-button-primary text-center text-xs"
-                          colSpan={6}
+                          colSpan={8}
                           rowSpan={2}
                         >
                           {itemMetrologi.name}
                         </td>
+                      ) : uptdMetrologiLegal.filter(it => it.name.toUpperCase().includes('AHLI')).length > 0 ? (
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={8}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       ) : (
-                        <th colSpan={6} rowSpan={2}></th>
+                        <React.Fragment>
+                          <td
+                            rowSpan={2}
+                            colSpan={7}
+                            className="px-2 py-2 text-center text-xs border-e border-button-primary"
+                          ></td>
+                          <td
+                            rowSpan={2}
+                            colSpan={1}
+                            className="px-2 py-2 text-center text-xs"
+                          ></td>
+                        </React.Fragment>
                       )}
                       {itemMetrologi.name ? (
                         <td
@@ -3749,64 +3834,95 @@ export default function BigTable() {
                     </tr>
                     <tr>
                       {itemUptd1.name ? (
-                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                        <th className="border-s border-button-primary"></th>
                       ) : (
                         <th></th>
                       )}
                       {itemUptd2.name ? (
-                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                        <th className="border-s border-button-primary"></th>
                       ) : (
                         <th></th>
                       )}
                       {itemUptd3.name ? (
-                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                        <th className="border-s border-button-primary"></th>
                       ) : (
                         <th></th>
                       )}
                       {itemUptd4.name ? (
-                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                        <th className="border-s border-button-primary"></th>
                       ) : (
                         <th></th>
                       )}
                       {itemUptd5.name ? (
-                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                        <th className="border-s border-button-primary"></th>
                       ) : (
                         <th></th>
                       )}
                       {itemUptd6.name ? (
-                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                        <th className="border-s border-button-primary"></th>
                       ) : (
                         <th></th>
                       )}
                       {itemUptd7.name ? (
-                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                        <th className="border-s border-button-primary"></th>
                       ) : (
                         <th></th>
                       )}
                       {itemUptd8.name ? (
-                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                        <th className="border-s border-button-primary"></th>
                       ) : (
                         <th></th>
                       )}
                       {itemUptd9.name ? (
-                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                        <th className="border-s border-button-primary"></th>
                       ) : (
                         <th></th>
                       )}
                       {itemMetrologi.name ? (
-                        <th className="px-2 py-2 text-center text-xs border-t border-button-primary"></th>
+                        <th className="border-s border-button-primary"></th>
                       ) : (
                         <th></th>
                       )}
                     </tr>
                   </React.Fragment>
                 );
-              })} */}
+              })}
+              <tr>
+                {Array.from({ length: 10 }).map((_, index) => {
+                  return ArrayUptdFungsionalLength[index] > 0 ? (
+                    <React.Fragment>
+                      <td
+                        className="px-2 py-2 text-center border-s text-xs border-button-primary"
+                        colSpan={8}
+                      ></td>
+                      <td
+                        className="px-2 py-2 text-center text-xs"
+                        colSpan={8}
+                      ></td>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <td
+                        className="px-2 py-2 text-center border-e text-xs border-button-primary"
+                        colSpan={8}
+                      ></td>
+                      <td
+                        className="px-2 py-2 text-center border-s text-xs border-button-primary"
+                        colSpan={8}
+                      ></td>
+                    </React.Fragment>
+                  )
+                })}
+              </tr>
 
               <tr>
                 {Array.from({ length: 10 }).map((_, index) => (
                   <React.Fragment key={index}>
-                    <th className="px-2 py-2 text-center text-xs"></th>
+                    {ArrayUptdFungsionalLength[index] > 0 ? (
+                      <th className="px-2 py-2 text-center text-xs border-s border-b border-button-primary"></th>
+                    ) : (
+                      <th className="px-2 py-2 text-center text-xs"></th>
+                    )}
                     <th
                       className="px-2 py-2 text-center border border-button-primary text-xs"
                       colSpan={14}
