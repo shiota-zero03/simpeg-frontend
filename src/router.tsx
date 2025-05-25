@@ -84,6 +84,7 @@ const ExportSuratPemeriksaan = lazy(
 const ExportWordSuratPemeriksaan = lazy(
   () => import("@/pages/Surat/Pemeriksaan/Word"),
 );
+
 const SuratPemanggilan = lazy(() => import("@/pages/Surat/Pemanggilan"));
 const CreateSuratPemanggilan = lazy(
   () => import("@/pages/Surat/Pemanggilan/Created"),
@@ -93,6 +94,9 @@ const ViewSuratPemanggilan = lazy(
 );
 const ExportSuratPemanggilan = lazy(
   () => import("@/pages/Surat/Pemanggilan/Export"),
+);
+const ExportWordSuratPemanggilan = lazy(
+  () => import("@/pages/Surat/Pemanggilan/Word"),
 );
 
 const BeritaAcaraPermintaanKeterangan = lazy(
@@ -364,6 +368,10 @@ export default function Router() {
         <Route
           path="/surat-pemanggilan/export-data/:id"
           element={<ExportSuratPemanggilan />}
+        />
+        <Route
+          path="/surat-pemanggilan/export-word/:id"
+          element={<ExportWordSuratPemanggilan />}
         />
         <Route
           path="/berita-acara-permintaan-keterangan/export-data/:id"

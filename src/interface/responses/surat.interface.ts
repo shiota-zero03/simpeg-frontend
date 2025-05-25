@@ -55,10 +55,16 @@ export interface SuratPemanggilanRes {
   nipPemanggil: string;
   jabatanPemanggil: string;
   unitPemanggil: string;
-  diPanggil: string;
-  nipDiPanggil: string;
-  jabatanDiPanggil: string;
-  unitDiPanggil: string;
+  diPanggil?: string;
+  nipDiPanggil?: string;
+  jabatanDiPanggil?: string;
+  unitDiPanggil?: string;
+  DiPanggilSuratPemanggilan?: {
+    diPanggil: string;
+    nipDiPanggil: string;
+    jabatanDiPanggil: string;
+    unitDiPanggil: string;
+  }[] | null;
   namaTtd: string;
   nipTtd: string;
   jabatanTtd: string;

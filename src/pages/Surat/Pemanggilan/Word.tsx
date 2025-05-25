@@ -1,13 +1,13 @@
 // components/ExportToWord.tsx
 import React, { useEffect, useMemo, useRef } from 'react';
-import { SuratPemeriksaanRes } from '@/interface/responses/surat.interface';
+import { SuratPemanggilanRes } from '@/interface/responses/surat.interface';
 import { useGetKopSuratBySlug } from '@/services/surat/kopsurat';
 import { ErrorToast } from '@/utils/ToastMessage';
-import { useGetDetailSuratPemeriksaan } from '@/services/surat/pemeriksaan';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DMYIndoToFormat } from '@/utils/dateFormater';
+import { DaysDMYIndoToFormat, DMYIndoToFormat, HIDateformat } from '@/utils/dateFormater';
 import { Commet } from 'react-loading-indicators';
 import { getBase64FromUrl } from '@/utils/base64Formater';
+import { useGetDetailSuratPemanggilan } from '@/services/surat/pemanggilan';
 
 const ExportToWord: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -16,7 +16,7 @@ const ExportToWord: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const { data, isFetching, refetch, error } = useGetDetailSuratPemeriksaan(
+  const { data, isFetching, refetch, error } = useGetDetailSuratPemanggilan(
     id || "",
   );
   useEffect(() => {
@@ -30,7 +30,7 @@ const ExportToWord: React.FC = () => {
     data: allKop,
     isFetching: isFetchingKop,
     refetch: refetchKop,
-  } = useGetKopSuratBySlug("SURAT_PEMERIKSAAN");
+  } = useGetKopSuratBySlug("SURAT_PEMANGGILAN");
 
   const kopSuratData = useMemo(() => {
     if (!allKop) return null;
@@ -42,33 +42,38 @@ const ExportToWord: React.FC = () => {
     refetch();
   }, []);
 
-  const DATA_DETAIL: SuratPemeriksaanRes | null = useMemo(() => {
+  const DATA_DETAIL: SuratPemanggilanRes | null = useMemo(() => {
     if (data) {
 
-      const diperintahkan = data.data.DiPerintahSuratPemeriksaan?.map(item => {
+      const dipanggilData = data.data.DiPanggilSuratPemanggilan?.map(item => {
         return {
-          diPerintah: item.diPerintah || "-",
-          nipDiPerintah: item.nipDiPerintah || "-",
-          jabatanDiPerintah: item.jabatanDiPerintah || "-"
+          diPanggil: item.diPanggil,
+          nipDiPanggil: item.nipDiPanggil,
+          jabatanDiPanggil: item.jabatanDiPanggil,
+          unitDiPanggil: item.unitDiPanggil,
         }
       })
 
       return {
         id: data.data.id,
-        nomorSurat: data.data.nomorSurat,
-        tempatDikeluarkan: data.data.tempatDikeluarkan,
-        tanggalSurat: data.data.tanggalSurat,
-        pemberiPerintah: data.data.pemberiPerintah,
-        nipPemberiPerintah: data.data.nipPemberiPerintah,
-        jabatanPemberiPerintah: data.data.jabatanPemberiPerintah,
-        diPerintah: data.data.diPerintah,
-        nipDiPerintah: data.data.nipDiPerintah,
-        jabatanDiPerintah: data.data.jabatanDiPerintah,
-        keterangan: data.data.keterangan,
-        namaTtd: data.data.namaTtd,
-        nipTtd: data.data.nipTtd,
-        jabatanTtd: data.data.jabatanTtd,
-        DiPerintahSuratPemeriksaan: diperintahkan
+        nomorSurat: data.data.nomorSurat || "",
+        nomorPemanggilan: data.data.nomorPemanggilan || "",
+        tanggalSurat: data.data.tanggalSurat || "",
+        waktu: data.data.waktu || "",
+        tempat: data.data.tempat || "",
+        keterangan: data.data.keterangan || "",
+        pemanggil: data.data.pemanggil || "",
+        nipPemanggil: data.data.nipPemanggil || "",
+        jabatanPemanggil: data.data.jabatanPemanggil || "",
+        unitPemanggil: data.data.unitPemanggil || "",
+        diPanggil: data.data.diPanggil || "",
+        nipDiPanggil: data.data.nipDiPanggil || "",
+        jabatanDiPanggil: data.data.jabatanDiPanggil || "",
+        unitDiPanggil: data.data.unitDiPanggil || "",
+        DiPanggilSuratPemanggilan: dipanggilData,
+        namaTtd: data.data.namaTtd || "",
+        nipTtd: data.data.nipTtd || "",
+        jabatanTtd: data.data.jabatanTtd || "",
       };
     } else {
       return null;
@@ -101,7 +106,6 @@ const ExportToWord: React.FC = () => {
           .title {
             font-size: 14pt;
             text-align: center;
-            text-decoration: underline;
             margin: 0;
           }
           .underlined {
@@ -137,7 +141,7 @@ const ExportToWord: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'Surat Perintah.doc';
+    link.download = 'Surat Pemanggilan.doc';
     document.body.appendChild(link);
     link.click();
     setTimeout(() => {
@@ -177,7 +181,10 @@ const ExportToWord: React.FC = () => {
           <>
             <div>
               <h1 className='title'>
-                SURAT PERINTAH
+                RAHASIA
+              </h1>
+              <h1 className='title'>
+                SURAT PEMANGGILAN {DATA_DETAIL.nomorPemanggilan || "-"}
               </h1>
               <div className='subtitle'>
                 Nomor : {DATA_DETAIL.nomorSurat || "-"}
@@ -185,66 +192,107 @@ const ExportToWord: React.FC = () => {
             </div>
             <br /><br />
             <div>
-              <div>Yang bertanda tangan di bawah ini:</div>
-              <table style={{ marginLeft: "0.5cm" }}>
+              <table style={{ borderCollapse: "collapse", width: "100%" }}>
                 <tbody>
                   <tr>
-                    <td style={{ width: "2cm" }}>Nama</td>
-                    <td>:&nbsp;&nbsp;</td>
-                    <td><b>{DATA_DETAIL.namaTtd || "-"}</b></td>
-                  </tr>
-                  <tr>
-                    <td>NIP</td>
-                    <td>:&nbsp;&nbsp;</td>
-                    <td>{DATA_DETAIL.nipTtd || "-"}</td>
-                  </tr>
-                  <tr>
-                    <td>Jabatan</td>
-                    <td>:&nbsp;&nbsp;</td>
-                    <td>{DATA_DETAIL.jabatanTtd || "-"}</td>
+                    <td style={{ width: "0.5cm", verticalAlign: "top" }}>1.</td>
+                    <td style={{ verticalAlign: "top" }}>
+                      Bersama ini diminta dengan hormat kehadiran saudara:
+                    </td>
                   </tr>
                 </tbody>
               </table>
-            </div>
-            <br />
-            <div>
-              <div>Memerintahkan kepada:</div>
               <table style={{ marginLeft: "0.5cm" }}>
                 <tbody>
-                  {DATA_DETAIL.DiPerintahSuratPemeriksaan?.map((item, index) => (
+                  {DATA_DETAIL.DiPanggilSuratPemanggilan?.map((item, index) => (
                     <React.Fragment key={index}>
                       <tr>
                         <td style={{ textAlign: "center", width: "0.5cm" }}>{index + 1}. </td>
                         <td style={{ width: "2cm" }}>Nama</td>
                         <td>:&nbsp;&nbsp;</td>
-                        <td><b>{item.diPerintah || "-"}</b></td>
+                        <td><b>{item.diPanggil || "-"}</b></td>
                       </tr>
                       <tr>
                         <td></td>
                         <td>NIP</td>
                         <td>:&nbsp;&nbsp;</td>
-                        <td>{item.nipDiPerintah || "-"}</td>
+                        <td>{item.nipDiPanggil || "-"}</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>Unit Kerja</td>
+                        <td>:&nbsp;&nbsp;</td>
+                        <td>{item.unitDiPanggil || "-"}</td>
                       </tr>
                       <tr>
                         <td></td>
                         <td>Jabatan</td>
                         <td>:&nbsp;&nbsp;</td>
-                        <td>{item.jabatanDiPerintah || "-"}</td>
+                        <td>{item.jabatanDiPanggil || "-"}</td>
                       </tr>
                     </React.Fragment>
                   ))}
                 </tbody>
               </table>
-            </div>
-            <br />
-            <div>
-              <table>
+              <br />
+              <div style={{ marginLeft: "0.5cm" }}>Untuk menghadap kepada:</div>
+              <table style={{ marginLeft: "0.5cm" }}>
                 <tbody>
                   <tr>
-                    <td style={{ width: "2.5cm" }}>Untuk</td>
+                    <td style={{ width: "3cm" }}>Nama</td>
                     <td>:&nbsp;&nbsp;</td>
-                    <td>
-                      <div dangerouslySetInnerHTML={{ __html: DATA_DETAIL.keterangan || "-" }} />
+                    <td><b>{DATA_DETAIL.pemanggil || "-"}</b></td>
+                  </tr>
+                  <tr>
+                    <td>NIP</td>
+                    <td>:&nbsp;&nbsp;</td>
+                    <td>{DATA_DETAIL.nipPemanggil || "-"}</td>
+                  </tr>
+                  <tr>
+                    <td>Unit Kerja</td>
+                    <td>:&nbsp;&nbsp;</td>
+                    <td>{DATA_DETAIL.unitPemanggil || "-"}</td>
+                  </tr>
+                  <tr>
+                    <td>Jabatan</td>
+                    <td>:&nbsp;&nbsp;</td>
+                    <td>{DATA_DETAIL.jabatanPemanggil || "-"}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <br />
+              <div style={{ marginLeft: "0.5cm" }}>Pada:</div>
+              <table style={{ marginLeft: "0.5cm" }}>
+                <tbody>
+                  <tr>
+                    <td style={{ width: "3cm" }}>Hari, Tanggal</td>
+                    <td>:&nbsp;&nbsp;</td>
+                    <td>{DATA_DETAIL?.waktu ? DaysDMYIndoToFormat(DATA_DETAIL.waktu) : ""}</td>
+                  </tr>
+                  <tr>
+                    <td>Jam</td>
+                    <td>:&nbsp;&nbsp;</td>
+                    <td>{DATA_DETAIL?.waktu ? HIDateformat(DATA_DETAIL.waktu) : ""} WIB</td>
+                  </tr>
+                  <tr>
+                    <td>Tempat</td>
+                    <td>:&nbsp;&nbsp;</td>
+                    <td>{DATA_DETAIL.tempat || "-"}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <br />
+              <div style={{ display: "flex", alignItems: "top" }}>
+                <div style={{ width: "0.5cm" }}></div>
+                <div>Untuk {DATA_DETAIL?.keterangan || ""}</div>
+              </div>
+              <br />
+              <table style={{ borderCollapse: "collapse", width: "100%" }}>
+                <tbody>
+                  <tr>
+                    <td style={{ width: "0.5cm", verticalAlign: "top" }}>2.</td>
+                    <td style={{ verticalAlign: "top" }}>
+                      Demikian untuk dilaksanakan
                     </td>
                   </tr>
                 </tbody>
@@ -258,29 +306,19 @@ const ExportToWord: React.FC = () => {
                   <td style={{ textAlign: "left" }}>
                     <table>
                       <tr>
-                        <td style={{ width: "3.5cm" }}>Dikeluarkan di</td>
-                        <td>:&nbsp;</td>
-                        <td style={{ width: "6cm" }}>{DATA_DETAIL.tempatDikeluarkan || "-"}</td>
+                        <td>Bekasi, {DATA_DETAIL.tanggalSurat ? DMYIndoToFormat(DATA_DETAIL.tanggalSurat) : "-"}</td>
                       </tr>
                       <tr>
-                        <td>Pada Tanggal</td>
-                        <td>:&nbsp;</td>
-                        <td>{DATA_DETAIL.tanggalSurat ? DMYIndoToFormat(DATA_DETAIL.tanggalSurat) : "-"}</td>
+                        <td><b>{DATA_DETAIL.jabatanTtd || "-"}</b></td>
                       </tr>
                       <tr>
-                        <td colSpan={3}><br /><br /></td>
+                        <td><br /><br /><br /><br /><br /><br /><br /></td>
                       </tr>
                       <tr>
-                        <td colSpan={3}><b>{DATA_DETAIL.jabatanTtd || "-"}</b></td>
+                        <td><b className="underlined">{DATA_DETAIL.namaTtd || "-"}</b></td>
                       </tr>
                       <tr>
-                        <td colSpan={3}><br /><br /><br /><br /><br /><br /><br /></td>
-                      </tr>
-                      <tr>
-                        <td colSpan={3}><b className="underlined">{DATA_DETAIL.namaTtd || "-"}</b></td>
-                      </tr>
-                      <tr>
-                        <td colSpan={3}>NIP. {DATA_DETAIL.nipTtd || "-"}</td>
+                        <td>NIP. {DATA_DETAIL.nipTtd || "-"}</td>
                       </tr>
                     </table>
                   </td>
