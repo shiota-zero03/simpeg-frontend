@@ -5,6 +5,7 @@ import { LucideDownloadCloud } from "lucide-react";
 import { LuFullscreen } from "react-icons/lu";
 import { useGetAllJabatanHirarki } from "@/services/jabatan";
 import { Commet } from "react-loading-indicators";
+import { toRoman } from "@/utils/terbilang";
 
 interface PetaJabatanData {
   name: string;
@@ -161,45 +162,24 @@ export default function BigTable() {
       }));
       setPbpp(newItemsPbpp);
 
-      // const filtered = DATA_FETCHING.filter(it =>
-      //   it.nameJob?.toUpperCase().includes("ANALIS PERDAGANGAN") ||
-      //   it.nameJob?.toUpperCase().includes("PENGAWAS PERDAGANGAN") ||
-      //   it.nameJob?.toUpperCase().includes("PENGAWAS KEMETROLOGIAN") ||
-      //   it.nameJob?.toUpperCase().includes("PENERA")
-      // );
+      const newItemsJafung = DATA_FETCHING.filter((it) =>
+        it.parent?.nameJob.toUpperCase().includes("SEKRETARIS") && !it.nameJob.toUpperCase().includes('KEPALA'),
+      ).map((item) => ({
+        name: item.nameJob,
+        class: item.class === "undefined" ? "" : item.class || "",
+        b: item.user.length,
+        k: item.ketersediaan,
+        plus:
+          item.user.length > item.ketersediaan
+            ? item.user.length - item.ketersediaan
+            : 0,
+        minus:
+          item.user.length <= item.ketersediaan
+            ? item.ketersediaan - item.user.length
+            : 0,
+      }));
 
-      // const grouped: Record<string, PetaJabatanData> = {};
-
-      // filtered.forEach(item => {
-      //   const key = item.nameJob;
-      //   if (!key) return;
-
-      //   if (!grouped[key]) {
-      //     grouped[key] = {
-      //       name: key,
-      //       class: key.includes("MADYA") ? "12" : (key.includes("MUDA") ? "10" : "8"),
-      //       b: 0,
-      //       k: 0,
-      //       plus: 0,
-      //       minus: 0
-      //     };
-      //   }
-
-      //   grouped[key].b += item.ketersediaan || 0;
-      //   grouped[key].k += item.user?.length || 0;
-      // });
-
-      // // Hitung plus & minus
-      // Object.values(grouped).forEach(item => {
-      //   item.plus = Math.max(item.b - item.k, 0);
-      //   item.minus = Math.max(item.k - item.b, 0);
-      // });
-
-      // const result: PetaJabatanData[] = Object.values(grouped);
-      // result.sort((a, b) => a.name.localeCompare(b.name));
-      // setJabfung(result);
-
-      setJabfung([]);
+      setJabfung(newItemsJafung);
 
       const setters = [
         setUptd1,
@@ -344,7 +324,7 @@ export default function BigTable() {
       name: "umpeg",
       data: umpeg.filter((it) => it.name.toUpperCase().includes("AHLI")),
     },
-    { name: "jabfung", data: [] },
+    { name: "jabfung", data: jabfung.filter((it) => it.name.toUpperCase().includes("AHLI")) },
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
   const dataToRenderPKUmpegPelaksana = [
     {
@@ -357,7 +337,7 @@ export default function BigTable() {
       name: "umpeg",
       data: umpeg.filter((it) => !it.name.toUpperCase().includes("AHLI")),
     },
-    { name: "jabfung", data: [] },
+    { name: "jabfung", data: jabfung.filter((it) => !it.name.toUpperCase().includes("AHLI")) }
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
   const dataToRenderKabid = [
@@ -2573,7 +2553,7 @@ export default function BigTable() {
                   className="px-2 py-2 text-center border border-button-primary text-xs"
                   colSpan={14}
                 >
-                  UPTD Pengelolaan Pasar Tambun
+                  Kepala UPTD Pengelolaan dan Pembinaan Pasar Wilayah I
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
@@ -2581,7 +2561,7 @@ export default function BigTable() {
                   className="px-2 py-2 text-center border border-button-primary text-xs"
                   colSpan={14}
                 >
-                  UPTD Pengelolaan Pasar Cibitung dan Sukatani
+                  Kepala UPTD Pengelolaan dan Pembinaan Pasar Wilayah II
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
@@ -2589,7 +2569,7 @@ export default function BigTable() {
                   className="px-2 py-2 text-center border border-button-primary text-xs"
                   colSpan={14}
                 >
-                  UPTD Pengelolaan Pasar Setu
+                  Kepala UPTD Pengelolaan dan Pembinaan Pasar Wilayah III
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
@@ -2597,7 +2577,7 @@ export default function BigTable() {
                   className="px-2 py-2 text-center border border-button-primary text-xs"
                   colSpan={14}
                 >
-                  UPTD Pengelolaan Pasar Baru Cikarang dan Pertokoan
+                  Kepala UPTD Pengelolaan dan Pembinaan Pasar Wilayah IV
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
@@ -2605,7 +2585,7 @@ export default function BigTable() {
                   className="px-2 py-2 text-center border border-button-primary text-xs"
                   colSpan={14}
                 >
-                  UPTD Pengelolaan Pasar Lemah Abang Kedung Gede
+                  Kepala UPTD Pengelolaan dan Pembinaan Pasar Wilayah V
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
@@ -2613,7 +2593,7 @@ export default function BigTable() {
                   className="px-2 py-2 text-center border border-button-primary text-xs"
                   colSpan={14}
                 >
-                  UPTD Pengelolaan Pasar Babelan
+                  Kepala UPTD Pengelolaan dan Pembinaan Pasar Wilayah VI
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
@@ -2621,7 +2601,7 @@ export default function BigTable() {
                   className="px-2 py-2 text-center border border-button-primary text-xs"
                   colSpan={14}
                 >
-                  UPTD Pengelolaan Pasar Tarumajaya
+                  Kepala UPTD Pengelolaan dan Pembinaan Pasar Wilayah VII
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
@@ -2629,7 +2609,7 @@ export default function BigTable() {
                   className="px-2 py-2 text-center border border-button-primary text-xs"
                   colSpan={14}
                 >
-                  UPTD Pengelolaan Pasar Serang
+                  Kepala UPTD Pengelolaan dan Pembinaan Pasar Wilayah VIII
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
@@ -2637,7 +2617,7 @@ export default function BigTable() {
                   className="px-2 py-2 text-center border border-button-primary text-xs"
                   colSpan={14}
                 >
-                  UPTD Pengelolaan Pasar Cibarusah
+                  Kepala UPTD Pengelolaan dan Pembinaan Pasar Wilayah IX
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
                 <th className="px-2 py-2 text-center text-xs"></th>
@@ -2645,7 +2625,7 @@ export default function BigTable() {
                   className="px-2 py-2 text-center border border-button-primary text-xs"
                   colSpan={14}
                 >
-                  UPTD Metrologi Legal
+                  Kepala UPTD Metrologi Legal
                 </th>
                 <th className="px-2 py-2 text-center text-xs"></th>
               </tr>
@@ -4006,7 +3986,7 @@ export default function BigTable() {
               <tr>
                 {Array.from({ length: 10 }).map((_, index) => {
                   return ArrayUptdFungsionalLength[index] > 0 ? (
-                    <React.Fragment>
+                    <React.Fragment key={index}>
                       <td
                         className="px-2 py-2 text-center border-s text-xs border-button-primary"
                         colSpan={8}
@@ -4017,7 +3997,7 @@ export default function BigTable() {
                       ></td>
                     </React.Fragment>
                   ) : (
-                    <React.Fragment>
+                    <React.Fragment key={index}>
                       <td
                         className="px-2 py-2 text-center border-e text-xs border-button-primary"
                         colSpan={8}
@@ -4043,7 +4023,7 @@ export default function BigTable() {
                       className="px-2 py-2 text-center border border-button-primary text-xs"
                       colSpan={14}
                     >
-                      Kepala Subbagian Tata Usaha
+                      {index < 9 ? `Kepala Sub Bagian Tata Usaha UPTD Pengelolaan dan Pembinaan Pasar Wilayah ${toRoman(index + 1)}` :  `Kepala Sub Bagian Tata Usaha UPTD Metrologi Legal`}
                     </th>
                     <th className="px-2 py-2 text-center text-xs"></th>
                   </React.Fragment>
