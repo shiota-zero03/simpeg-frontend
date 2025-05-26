@@ -263,9 +263,14 @@ export default function CreatePegawai() {
       formToSend.pensionDate = null;
     }
     if (formData.foto) formToSend.photo = formData.foto;
-    if (formData.statusPegawai)
+
+    if (formData.statusPegawai) {
       formToSend.employmentStatus = formData.statusPegawai;
-    formToSend.status = formData.isActive;
+      formToSend.status = false;
+    } else {
+      formToSend.employmentStatus = null;
+      formToSend.status = formData.isActive;
+    }
     formToSend.statusAsn = formData.asnStatus;
 
     try {

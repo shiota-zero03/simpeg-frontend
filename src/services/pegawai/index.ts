@@ -66,10 +66,11 @@ export const useGetAllPegawai = (
   page: number,
   limit: number,
   title?: string,
+  status?: string,
 ) => {
   return useQuery({
-    queryKey: ["getAllPegawai"],
-    queryFn: () => getAllPegawai(page, limit, title),
+    queryKey: ["getAllPegawai", status],
+    queryFn: () => getAllPegawai(page, limit, title, status),
     staleTime: 300000,
   });
 };

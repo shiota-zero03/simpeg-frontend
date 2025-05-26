@@ -162,8 +162,10 @@ export default function BigTable() {
       }));
       setPbpp(newItemsPbpp);
 
-      const newItemsJafung = DATA_FETCHING.filter((it) =>
-        it.parent?.nameJob.toUpperCase().includes("SEKRETARIS") && !it.nameJob.toUpperCase().includes('KEPALA'),
+      const newItemsJafung = DATA_FETCHING.filter(
+        (it) =>
+          it.parent?.nameJob.toUpperCase().includes("SEKRETARIS") &&
+          !it.nameJob.toUpperCase().includes("KEPALA"),
       ).map((item) => ({
         name: item.nameJob,
         class: item.class === "undefined" ? "" : item.class || "",
@@ -324,7 +326,10 @@ export default function BigTable() {
       name: "umpeg",
       data: umpeg.filter((it) => it.name.toUpperCase().includes("AHLI")),
     },
-    { name: "jabfung", data: jabfung.filter((it) => it.name.toUpperCase().includes("AHLI")) },
+    {
+      name: "jabfung",
+      data: jabfung.filter((it) => it.name.toUpperCase().includes("AHLI")),
+    },
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
   const dataToRenderPKUmpegPelaksana = [
     {
@@ -337,7 +342,10 @@ export default function BigTable() {
       name: "umpeg",
       data: umpeg.filter((it) => !it.name.toUpperCase().includes("AHLI")),
     },
-    { name: "jabfung", data: jabfung.filter((it) => !it.name.toUpperCase().includes("AHLI")) }
+    {
+      name: "jabfung",
+      data: jabfung.filter((it) => !it.name.toUpperCase().includes("AHLI")),
+    },
   ].sort((a, b) => b.data.length - a.data.length)[0].data;
 
   const dataToRenderKabid = [
@@ -4023,7 +4031,9 @@ export default function BigTable() {
                       className="px-2 py-2 text-center border border-button-primary text-xs"
                       colSpan={14}
                     >
-                      {index < 9 ? `Kepala Sub Bagian Tata Usaha UPTD Pengelolaan dan Pembinaan Pasar Wilayah ${toRoman(index + 1)}` :  `Kepala Sub Bagian Tata Usaha UPTD Metrologi Legal`}
+                      {index < 9
+                        ? `Kepala Sub Bagian Tata Usaha UPTD Pengelolaan dan Pembinaan Pasar Wilayah ${toRoman(index + 1)}`
+                        : `Kepala Sub Bagian Tata Usaha UPTD Metrologi Legal`}
                     </th>
                     <th className="px-2 py-2 text-center text-xs"></th>
                   </React.Fragment>

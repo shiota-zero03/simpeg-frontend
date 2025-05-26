@@ -31,10 +31,12 @@ export interface StoreSuratPemanggilan {
   nipPemanggil?: string;
   jabatanPemanggil?: string;
   unitPemanggil?: string;
-  diPanggil?: string;
-  nipDiPanggil?: string;
-  jabatanDiPanggil?: string;
-  unitDiPanggil?: string;
+  diPanggil?: {
+    nama?: string;
+    nip?: string;
+    jabatan?: string;
+    unit?: string;
+  }[];
   namaTtd?: string;
   nipTtd?: string;
   jabatanTtd?: string;

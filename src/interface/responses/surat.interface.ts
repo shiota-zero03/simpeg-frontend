@@ -42,6 +42,9 @@ export interface ISuratPemeriksaanRes extends BaseRes {
 export interface ISuratPemeriksaanDetaiRes extends BaseRes {
   data: SuratPemeriksaanRes;
 }
+export interface ISuratDDPemeriksaanDetaiRes extends BaseRes {
+  data: SuratPemeriksaanRes[];
+}
 
 export interface SuratPemanggilanRes {
   id: number;
@@ -81,6 +84,9 @@ export interface ISuratPemanggilanRes extends BaseRes {
 
 export interface ISuratPemanggilanDetaiRes extends BaseRes {
   data: SuratPemanggilanRes;
+}
+export interface ISuratDDPemanggilanDetaiRes extends BaseRes {
+  data: SuratPemanggilanRes[];
 }
 
 export interface BeritaAcaraPermintaanRes {

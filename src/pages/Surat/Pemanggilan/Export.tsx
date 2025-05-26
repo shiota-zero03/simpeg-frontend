@@ -58,6 +58,7 @@ export default function ExportSurat() {
         namaTtd: data.data.namaTtd,
         nipTtd: data.data.nipTtd,
         jabatanTtd: data.data.jabatanTtd,
+        DiPanggilSuratPemanggilan: data.data.DiPanggilSuratPemanggilan,
       };
     } else {
       return null;

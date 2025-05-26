@@ -3,6 +3,7 @@ import { StoreSuratPemanggilan } from "@/interface/request/surat.interface";
 import {
   ISuratPemanggilanRes,
   ISuratPemanggilanDetaiRes,
+  ISuratDDPemanggilanDetaiRes,
 } from "@/interface/responses/surat.interface";
 
 export const getAllSuratPemanggilan = async (
@@ -22,6 +23,13 @@ export const getAllSuratPemanggilan = async (
   );
   return response.data;
 };
+export const getAllListSuratPemanggilan =
+  async (): Promise<ISuratDDPemanggilanDetaiRes> => {
+    const response = await instance.get(
+      `/admin/surat-pemanggilan/list/dropdown`,
+    );
+    return response.data;
+  };
 export const createSuratPemanggilan = async (
   formData: StoreSuratPemanggilan,
 ): Promise<ISuratPemanggilanDetaiRes> => {

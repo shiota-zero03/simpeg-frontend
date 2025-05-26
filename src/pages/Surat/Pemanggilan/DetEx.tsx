@@ -6,6 +6,7 @@ import {
 import { Commet } from "react-loading-indicators";
 import KOP from "@/assets/kop.png";
 import { SuratPemanggilanRes } from "@/interface/responses/surat.interface";
+import { toRoman } from "@/utils/terbilang";
 
 interface props {
   DATA_DETAIL: SuratPemanggilanRes;
@@ -35,33 +36,35 @@ export default function DetailExportSurat({
           <div className="flex items-center justify-center font-normal gap-2 my-4">
             Nomor : {DATA_DETAIL?.nomorSurat}
           </div>
-          <div className="flex items-center mb-4">
+          <div className="flex items-center mb-2">
             <div className="w-8">1. </div>
             <div>Bersama ini diminta dengan hormat kehadiran saudara:</div>
           </div>
-          <div className="ms-8 flex gap-2 items-start">
-            <div>I.</div>
-            <div className="flex flex-col ms-2">
-              <div className="flex items-start font-normal gap-2">
-                <div className="w-28">Nama </div>
-                <span className="font-semibold">
-                  :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.diPanggil}
-                </span>
-              </div>
-              <div className="flex items-start font-normal gap-2">
-                <div className="w-28">NIP </div>:
-                <div>{DATA_DETAIL?.nipDiPanggil}</div>
-              </div>
-              <div className="flex items-start font-normal gap-2">
-                <div className="w-28">Unit Kerja </div>:
-                <div>{DATA_DETAIL?.unitDiPanggil}</div>
-              </div>
-              <div className="flex items-start font-normal gap-2">
-                <div className="w-28">Jabatan </div>:
-                <div>{DATA_DETAIL?.jabatanDiPanggil}</div>
+          {DATA_DETAIL.DiPanggilSuratPemanggilan?.map((item, index) => (
+            <div key={index} className="ms-8 flex gap-2 items-start">
+              <div>{toRoman(index + 1)}.</div>
+              <div className="flex flex-col ms-2">
+                <div className="flex items-start font-normal gap-2">
+                  <div className="w-28">Nama </div>
+                  <span className="font-semibold">
+                    :&nbsp;&nbsp;&nbsp;{item.diPanggil || "-"}
+                  </span>
+                </div>
+                <div className="flex items-start font-normal gap-2">
+                  <div className="w-28">NIP </div>:
+                  <div>{item.nipDiPanggil || "-"}</div>
+                </div>
+                <div className="flex items-start font-normal gap-2">
+                  <div className="w-28">Unit Kerja </div>:
+                  <div>{item.unitDiPanggil || "-"}</div>
+                </div>
+                <div className="flex items-start font-normal gap-2">
+                  <div className="w-28">Jabatan </div>:
+                  <div>{item.jabatanDiPanggil.split(";;")[0] || "-"}</div>
+                </div>
               </div>
             </div>
-          </div>
+          ))}
           <div className="mt-4 ms-8">Untuk menghadap kepada</div>
           <div className="flex flex-col ms-8">
             <div className="flex items-start font-normal gap-2">

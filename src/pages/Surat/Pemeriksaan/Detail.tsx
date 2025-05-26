@@ -60,6 +60,7 @@ export default function DetailPemeriksaan() {
         namaTtd: data.data.namaTtd,
         nipTtd: data.data.nipTtd,
         jabatanTtd: data.data.jabatanTtd,
+        DiPerintahSuratPemeriksaan: data.data.DiPerintahSuratPemeriksaan,
       };
     } else {
       return null;

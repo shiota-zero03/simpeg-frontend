@@ -3,15 +3,13 @@ import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
 import { LuEye, LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
-import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
+import { BiReset, BiSearch } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import { useDeletePegawai, useGetAllPegawai } from "@/services/pegawai";
 import { PegawaiRes } from "@/interface/responses/pegawai.interface";
 import store from "@/redux/store";
-import { FaFileExcel } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import ImportModal from "@/components/modals/PegawaiModal/ImportModal";
 
 interface DataProps {
@@ -23,7 +21,7 @@ interface DataProps {
   isActive: boolean;
 }
 
-export default function PegawaiIndex() {
+export default function PegawaiIndexInActive() {
   const role = store.getState().auth.role as string;
 
   const limit = 10;
@@ -43,7 +41,7 @@ export default function PegawaiIndex() {
     data: allData,
     isFetching: isFetchingData,
     refetch: refetchData,
-  } = useGetAllPegawai(pageIndex + 1, limit, search, "true");
+  } = useGetAllPegawai(pageIndex + 1, limit, search, "false");
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
@@ -317,35 +315,6 @@ export default function PegawaiIndex() {
                 >
                   <BiReset size={12} />
                 </Button>
-                <Link
-                  to={`/pegawai/export-data`}
-                  target="__blank"
-                  className="border-[0.8px] w-24 text-xs border-button-primary text-button-primary flex items-center justify-center gap-2 py-1.5 rounded-md"
-                >
-                  <FaFileExcel size={12} /> Export
-                </Link>
-                {(role === "SUPERUSERS" || role === "ADMIN") && (
-                  <Button
-                    onPress={() => navigate(`/pegawai/tambah-data`)}
-                    variant="solid"
-                    radius="sm"
-                    size="sm"
-                    startContent={<BiSolidPlusSquare size={12} />}
-                    className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                  >
-                    Tambah
-                  </Button>
-                )}
-                {/* <Button
-                  onPress={() => onOpenImport()}
-                  variant="solid"
-                  radius="sm"
-                  size="sm"
-                  startContent={<BiCloudUpload size={12} />}
-                  className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
-                >
-                  Import
-                </Button> */}
               </div>
             </div>
           </div>

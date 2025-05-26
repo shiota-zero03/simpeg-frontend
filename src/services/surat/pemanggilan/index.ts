@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createSuratPemanggilan,
   deleteSuratPemanggilan,
+  getAllListSuratPemanggilan,
   getAllSuratPemanggilan,
   getDetailSuratPemanggilan,
   updateSuratPemanggilan,
@@ -20,6 +21,13 @@ export const useGetAllSuratPemanggilan = (
   return useQuery({
     queryKey: ["getAllSuratPemanggilan"],
     queryFn: () => getAllSuratPemanggilan(page, limit, name, nomorSurat),
+    staleTime: 300000,
+  });
+};
+export const useGetAllListSuratPemanggilan = () => {
+  return useQuery({
+    queryKey: ["getAllListSuratPemanggilan"],
+    queryFn: () => getAllListSuratPemanggilan(),
     staleTime: 300000,
   });
 };

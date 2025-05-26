@@ -3,6 +3,7 @@ import { StoreSuratPemeriksaan } from "@/interface/request/surat.interface";
 import {
   ISuratPemeriksaanRes,
   ISuratPemeriksaanDetaiRes,
+  ISuratDDPemeriksaanDetaiRes,
 } from "@/interface/responses/surat.interface";
 
 export const getAllSuratPemeriksaan = async (
@@ -22,6 +23,13 @@ export const getAllSuratPemeriksaan = async (
   );
   return response.data;
 };
+export const getAllListSuratPemeriksaan =
+  async (): Promise<ISuratDDPemeriksaanDetaiRes> => {
+    const response = await instance.get(
+      `/admin/surat-pemeriksaan/list/dropdown`,
+    );
+    return response.data;
+  };
 export const createSuratPemeriksaan = async (
   formData: StoreSuratPemeriksaan,
 ): Promise<ISuratPemeriksaanDetaiRes> => {

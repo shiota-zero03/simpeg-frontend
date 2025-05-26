@@ -44,7 +44,6 @@ const ImportModal = ({ isOpen, onClose, handleClose }: props) => {
 
     try {
       const data = await readExcel(fileExcel);
-      console.log(data);
 
       for (const item of data) {
         const formToSend: StorePegawai = {

@@ -38,6 +38,9 @@ interface formProps {
     diPerintah?: string;
     nipDiPerintah?: string;
     jabatanDiPerintah?: string;
+    unitDiperintah?: string;
+    golDiperintah?: string;
+    pangkatDiperintah?: string;
   }[];
   keterangan?: string;
   idTtd?: string;
@@ -86,6 +89,9 @@ export default function CreateSurat() {
           diPerintah: "",
           nipDiPerintah: "",
           jabatanDiPerintah: "",
+          unitDiperintah: "",
+          golDiperintah: "",
+          pangkatDiperintah: "",
         }, // default kosong
       ],
     }));
@@ -204,7 +210,16 @@ export default function CreateSurat() {
     if (formData.namaTtd) formToSend.namaTtd = formData.namaTtd;
     if (formData.nipTtd) formToSend.nipTtd = formData.nipTtd;
     if (formData.jabatanTtd) formToSend.jabatanTtd = formData.jabatanTtd;
-    formToSend.DiPerintahSuratPemeriksaan = formData.DiPerintahSuratPemeriksaan;
+
+    const diperintahData = formData.DiPerintahSuratPemeriksaan.map((item) => {
+      return {
+        idDiperintah: item.idDiperintah,
+        diPerintah: item.diPerintah,
+        nipDiPerintah: item.nipDiPerintah,
+        jabatanDiPerintah: `${item.jabatanDiPerintah};;${item.unitDiperintah};;${item.golDiperintah};;${item.pangkatDiperintah}`,
+      };
+    });
+    formToSend.DiPerintahSuratPemeriksaan = diperintahData;
 
     try {
       mutatePost(formToSend, {
@@ -259,25 +274,6 @@ export default function CreateSurat() {
           jabatanPemberiPerintah: "",
         });
       }
-    } else if (type === "perintah") {
-      // if (checkPegawai) {
-      //   setFormData({
-      //     ...formData,
-      //     idDiperintah: checkPegawai.id,
-      //     diPerintah: checkPegawai.name,
-      //     nipDiPerintah: checkPegawai.nip,
-      //     jabatanDiPerintah:
-      //       checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
-      //   });
-      // } else {
-      //   setFormData({
-      //     ...formData,
-      //     idDiperintah: "",
-      //     diPerintah: "",
-      //     nipDiPerintah: "",
-      //     jabatanDiPerintah: "",
-      //   });
-      // }
     }
   };
 
@@ -292,8 +288,10 @@ export default function CreateSurat() {
         idDiperintah: checkPegawai.id,
         diPerintah: checkPegawai.name,
         nipDiPerintah: checkPegawai.nip,
-        jabatanDiPerintah:
-          checkPegawai.jabatan?.nameJob || "Jabatan tidak diketahui",
+        jabatanDiPerintah: checkPegawai.jabatan?.nameJob || "-",
+        unitDiperintah: checkPegawai.jabatan?.unit?.nameUnit || "-",
+        golDiperintah: checkPegawai.group || "-",
+        pangkatDiperintah: checkPegawai.rank || "-",
       };
     }
 
@@ -457,7 +455,7 @@ export default function CreateSurat() {
                   <div>Memerintahkan kepada:</div>
                   <div>
                     {formData.DiPerintahSuratPemeriksaan.map((item, index) => (
-                      <div className="flex items-start gap-2 mb-4">
+                      <div className="flex items-start gap-2 mb-4" key={index}>
                         <div className="w-6 text-center mt-1.5 font-semibold flex flex-col items-center justify-center gap-1">
                           <span>{index + 1}.</span>
                         </div>

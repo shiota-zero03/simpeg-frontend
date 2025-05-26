@@ -46,23 +46,27 @@ export default function DetailExportSurat({
           </div>
           <br />
           <div className="mb-2">Memerintahkan kepada:</div>
-          <div className="flex items-start gap-2">
-            <div className="ms-4">1.</div>
-            <div className="flex flex-col ms-4">
-              <div className="flex items-start font-normal gap-2">
-                <div className="w-20">Nama </div>:
-                <div className="font-semibold">{DATA_DETAIL?.diPerintah}</div>
+          {DATA_DETAIL?.DiPerintahSuratPemeriksaan?.map((item, index) => {
+            return (
+              <div key={index} className="flex items-start gap-2">
+                <div className="ms-4">{index + 1}.</div>
+                <div className="flex flex-col ms-4">
+                  <div className="flex items-start font-normal gap-2">
+                    <div className="w-20">Nama </div>:
+                    <div className="font-semibold">{item.diPerintah}</div>
+                  </div>
+                  <div className="flex items-start font-normal gap-2">
+                    <div className="w-20">NIP </div>:
+                    <div>{item.nipDiPerintah}</div>
+                  </div>
+                  <div className="flex items-start font-normal gap-2">
+                    <div className="w-20">Jabatan </div>:
+                    <div>{item.jabatanDiPerintah.split(";;")[0]}</div>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-start font-normal gap-2">
-                <div className="w-20">NIP </div>:
-                <div>{DATA_DETAIL?.nipDiPerintah}</div>
-              </div>
-              <div className="flex items-start font-normal gap-2">
-                <div className="w-20">Jabatan </div>:
-                <div>{DATA_DETAIL?.jabatanDiPerintah}</div>
-              </div>
-            </div>
-          </div>
+            );
+          })}
           <br />
           <div className="flex gap-2">
             <div className="me-20">Untuk</div>

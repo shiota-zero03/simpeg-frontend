@@ -1,6 +1,7 @@
 import { TitleCase } from "@/components/card/TitleCase";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import PegawaiIndex from "./PegawaiIndex";
+import PegawaiIndexInActive from "./PegawaiIndexInActive";
 import Surat from "./Surat";
 import Pelaporan from "./Pelaporan";
 import { useEffect, useState } from "react";
@@ -36,12 +37,14 @@ export default function Jabatan() {
             >
               Data Pegawai Aktif
             </div>
-            <div
-              onClick={() => setSelectedTab("data-pegawai-non-aktif")}
-              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "data-pegawai-non-aktif" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
-            >
-              Data Pegawai Tidak Aktif
-            </div>
+            {(role === "SUPERUSERS" || role === "ADMIN") && (
+              <div
+                onClick={() => setSelectedTab("data-pegawai-non-aktif")}
+                className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "data-pegawai-non-aktif" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+              >
+                Data Pegawai Tidak Aktif
+              </div>
+            )}
             {(role === "SUPERUSERS" || role === "ADMIN") && (
               <div
                 onClick={() => setSelectedTab("kgp")}
@@ -61,6 +64,11 @@ export default function Jabatan() {
           </div>
           <div className="bg-white shadow-md rounded-b-xl border min-h-[70vh]">
             {selectedTab === "data-pegawai" ? <PegawaiIndex /> : <></>}
+            {selectedTab === "data-pegawai-non-aktif" ? (
+              <PegawaiIndexInActive />
+            ) : (
+              <></>
+            )}
             {selectedTab === "kgp" ? <Surat /> : <></>}
             {selectedTab === "pelaporan" ? <Pelaporan /> : <></>}
           </div>

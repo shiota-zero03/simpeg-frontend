@@ -279,13 +279,6 @@ export default function CreatePegawai() {
       formToSend.dateOfBirth = null;
     }
     if (formData.tempatLahir) formToSend.tempatLahir = formData.tempatLahir;
-    if (formData.pangkat) formToSend.rank = formData.pangkat;
-    if (formData.golongan) formToSend.group = formData.golongan;
-    if (formData.gender) formToSend.gender = formData.gender;
-
-    if (formData.jabatan) formToSend.position = Number(formData.jabatan);
-    if (formData.pendidikanTerakhir)
-      formToSend.education = formData.pendidikanTerakhir;
     if (formData.usiaPensiun) formToSend.pensionAge = formData.usiaPensiun;
     if (formData.tanggalPensiun) {
       formToSend.pensionDate = formData.tanggalPensiun;
@@ -293,9 +286,22 @@ export default function CreatePegawai() {
       formToSend.pensionDate = null;
     }
     if (formData.foto) formToSend.photo = formData.foto;
-    if (formData.statusPegawai)
+
+    if (formData.pangkat) formToSend.rank = formData.pangkat;
+    if (formData.golongan) formToSend.group = formData.golongan;
+    if (formData.gender) formToSend.gender = formData.gender;
+
+    if (formData.jabatan) formToSend.position = Number(formData.jabatan);
+    if (formData.pendidikanTerakhir)
+      formToSend.education = formData.pendidikanTerakhir;
+
+    if (formData.statusPegawai) {
       formToSend.employmentStatus = formData.statusPegawai;
-    formToSend.status = formData.isActive;
+      formToSend.status = false;
+    } else {
+      formToSend.employmentStatus = null;
+      formToSend.status = formData.isActive;
+    }
     formToSend.statusAsn = formData.asnStatus;
 
     try {

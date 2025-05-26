@@ -1,18 +1,13 @@
 // components/ExportToWord.tsx
 import React, { useEffect, useMemo, useRef } from "react";
-import { SuratPemanggilanRes } from "@/interface/responses/surat.interface";
+import { BeritaAcaraPermintaanRes } from "@/interface/responses/surat.interface";
 import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
 import { ErrorToast } from "@/utils/ToastMessage";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  DaysDMYIndoToFormat,
-  DMYIndoToFormat,
-  HIDateformat,
-} from "@/utils/dateFormater";
+import { HIDateformat, textToFormat } from "@/utils/dateFormater";
 import { Commet } from "react-loading-indicators";
 import { getBase64FromUrl } from "@/utils/base64Formater";
-import { useGetDetailSuratPemanggilan } from "@/services/surat/pemanggilan";
-import { toRoman } from "@/utils/terbilang";
+import { useGetDetailBeritaAcaraPermintaan } from "@/services/surat/berita-acara-permintaan";
 
 const ExportToWord: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -21,13 +16,12 @@ const ExportToWord: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const { data, isFetching, refetch, error } = useGetDetailSuratPemanggilan(
-    id || "",
-  );
+  const { data, isFetching, refetch, error } =
+    useGetDetailBeritaAcaraPermintaan(id || "");
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/surat-perintah-pemeriksaan");
+      navigate("/berita-acara-permintaan-keterangan");
     }
   }, [isFetching, refetch]);
 
@@ -35,7 +29,7 @@ const ExportToWord: React.FC = () => {
     data: allKop,
     isFetching: isFetchingKop,
     refetch: refetchKop,
-  } = useGetKopSuratBySlug("SURAT_PEMANGGILAN");
+  } = useGetKopSuratBySlug("BERITA_ACARA_PERMINTAAN_KETERANGAN");
 
   const kopSuratData = useMemo(() => {
     if (!allKop) return null;
@@ -47,37 +41,21 @@ const ExportToWord: React.FC = () => {
     refetch();
   }, []);
 
-  const DATA_DETAIL: SuratPemanggilanRes | null = useMemo(() => {
+  const DATA_DETAIL: BeritaAcaraPermintaanRes | null = useMemo(() => {
     if (data) {
-      const dipanggilData = data.data.DiPanggilSuratPemanggilan?.map((item) => {
-        return {
-          diPanggil: item.diPanggil,
-          nipDiPanggil: item.nipDiPanggil,
-          jabatanDiPanggil: item.jabatanDiPanggil,
-          unitDiPanggil: item.unitDiPanggil,
-        };
-      });
-
       return {
         id: data.data.id,
-        nomorSurat: data.data.nomorSurat || "",
-        nomorPemanggilan: data.data.nomorPemanggilan || "",
-        tanggalSurat: data.data.tanggalSurat || "",
-        waktu: data.data.waktu || "",
-        tempat: data.data.tempat || "",
-        keterangan: data.data.keterangan || "",
-        pemanggil: data.data.pemanggil || "",
-        nipPemanggil: data.data.nipPemanggil || "",
-        jabatanPemanggil: data.data.jabatanPemanggil || "",
-        unitPemanggil: data.data.unitPemanggil || "",
-        diPanggil: data.data.diPanggil || "",
-        nipDiPanggil: data.data.nipDiPanggil || "",
-        jabatanDiPanggil: data.data.jabatanDiPanggil || "",
-        unitDiPanggil: data.data.unitDiPanggil || "",
-        DiPanggilSuratPemanggilan: dipanggilData,
-        namaTtd: data.data.namaTtd || "",
-        nipTtd: data.data.nipTtd || "",
-        jabatanTtd: data.data.jabatanTtd || "",
+        nomorSurat: data.data.nomorSurat,
+        nomorSuratKeterangan: data.data.nomorSuratKeterangan,
+        tanggalSurat: data.data.tanggalSurat,
+        waktu: data.data.waktu,
+        tempat: data.data.tempat,
+        keterangan: data.data.keterangan,
+        createdAt: data.data.createdAt,
+        updatedAt: data.data.updatedAt,
+        TimPemeriksa: data.data.TimPemeriksa,
+        PihakDimintai: data.data.PihakDimintai,
+        Pertanyaan: data.data.Pertanyaan,
       };
     } else {
       return null;
@@ -145,7 +123,7 @@ const ExportToWord: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "Surat Pemanggilan.doc";
+    link.download = "Berita Acara Permintaan Keterangan.doc";
     document.body.appendChild(link);
     link.click();
     setTimeout(() => {
@@ -184,10 +162,7 @@ const ExportToWord: React.FC = () => {
         {DATA_DETAIL && kopSuratData && (
           <>
             <div>
-              <h1 className="title">RAHASIA</h1>
-              <h1 className="title">
-                SURAT PEMANGGILAN {DATA_DETAIL.nomorPemanggilan || "-"}
-              </h1>
+              <h1 className="title">BERITA ACARA PERMINTAAN KETERANGAN</h1>
               <div className="subtitle">
                 Nomor : {DATA_DETAIL.nomorSurat || "-"}
               </div>
@@ -195,128 +170,186 @@ const ExportToWord: React.FC = () => {
             <br />
             <br />
             <div>
-              <table style={{ borderCollapse: "collapse", width: "100%" }}>
+              Pada hari ini{" "}
+              {DATA_DETAIL.tanggalSurat
+                ? textToFormat(DATA_DETAIL.tanggalSurat)
+                : "-"}{" "}
+              bertempat di Kantor Dinas Perdagangan Kabupaten Bekasi pukul{" "}
+              {DATA_DETAIL.waktu ? HIDateformat(DATA_DETAIL.waktu) : "-"} WIB,
+              kami Tim Pemeriksa Internal pada Dinas Perdagangan Kabupaten
+              Bekasi, sebagai berikut:
+            </div>
+            <div>
+              <table>
                 <tbody>
-                  <tr>
-                    <td style={{ width: "0.5cm", verticalAlign: "top" }}>1.</td>
-                    <td style={{ verticalAlign: "top" }}>
-                      Bersama ini diminta dengan hormat kehadiran saudara:
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <table style={{ marginLeft: "0.5cm" }}>
-                <tbody>
-                  {DATA_DETAIL.DiPanggilSuratPemanggilan?.map((item, index) => (
+                  {DATA_DETAIL.TimPemeriksa?.map((item, index) => (
                     <React.Fragment key={index}>
                       <tr>
                         <td style={{ textAlign: "center", width: "0.5cm" }}>
-                          {toRoman(index + 1)}.{" "}
+                          {index + 1}.{" "}
                         </td>
-                        <td style={{ width: "2cm" }}>Nama</td>
+                        <td>{item.name || "-"}</td>
+                      </tr>
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <br />
+            <div>
+              Sesuai dengan Undangan Permintaan Keterangan Nomor :{" "}
+              {DATA_DETAIL.nomorSuratKeterangan} tersebut, kami telah melakukan
+              permintaan keterangan-keterangan terhadap:
+            </div>
+            <div>
+              <table style={{ marginLeft: "0.2cm" }}>
+                <tbody>
+                  {DATA_DETAIL.PihakDimintai?.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <tr>
+                        <td style={{ textAlign: "center", width: "0.5cm" }}>
+                          {index + 1}.{" "}
+                        </td>
+                        <td style={{ width: "3cm" }}>Nama</td>
                         <td>:&nbsp;&nbsp;</td>
                         <td>
-                          <b>{item.diPanggil || "-"}</b>
+                          <b>{item.name || "-"}</b>
                         </td>
                       </tr>
                       <tr>
                         <td></td>
                         <td>NIP</td>
                         <td>:&nbsp;&nbsp;</td>
-                        <td>{item.nipDiPanggil || "-"}</td>
+                        <td>{item.nip || "-"}</td>
                       </tr>
                       <tr>
                         <td></td>
-                        <td>Unit Kerja</td>
+                        <td>Pangkat / Gol</td>
                         <td>:&nbsp;&nbsp;</td>
-                        <td>{item.unitDiPanggil || "-"}</td>
+                        <td>
+                          {item.pangkat || "-"}/{item.golongan || "-"}
+                        </td>
                       </tr>
                       <tr>
                         <td></td>
                         <td>Jabatan</td>
                         <td>:&nbsp;&nbsp;</td>
-                        <td>{item.jabatanDiPanggil.split(";;")[0] || "-"}</td>
+                        <td>{item.jabatan || "-"}</td>
                       </tr>
                     </React.Fragment>
                   ))}
                 </tbody>
               </table>
-              <br />
-              <div style={{ marginLeft: "0.5cm" }}>Untuk menghadap kepada:</div>
-              <table style={{ marginLeft: "0.5cm" }}>
+            </div>
+            <br />
+            <div>Atas pertanyaan-pertanyaan tim pemeriksa sebagai berikut:</div>
+            <div>
+              <table style={{ marginLeft: "0.1cm" }}>
                 <tbody>
-                  <tr>
-                    <td style={{ width: "3cm" }}>Nama</td>
-                    <td>:&nbsp;&nbsp;</td>
-                    <td>
-                      <b>{DATA_DETAIL.pemanggil || "-"}</b>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>NIP</td>
-                    <td>:&nbsp;&nbsp;</td>
-                    <td>{DATA_DETAIL.nipPemanggil || "-"}</td>
-                  </tr>
-                  <tr>
-                    <td>Unit Kerja</td>
-                    <td>:&nbsp;&nbsp;</td>
-                    <td>{DATA_DETAIL.unitPemanggil || "-"}</td>
-                  </tr>
-                  <tr>
-                    <td>Jabatan</td>
-                    <td>:&nbsp;&nbsp;</td>
-                    <td>{DATA_DETAIL.jabatanPemanggil || "-"}</td>
-                  </tr>
+                  {DATA_DETAIL.Pertanyaan?.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <tr>
+                        <td style={{ textAlign: "center", width: "0.5cm" }}>
+                          {index + 1}.{" "}
+                        </td>
+                        <td>{item.pertanyaan || "-"}</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>Jawab &nbsp; : &nbsp; {item.jawaban || "-"}</td>
+                      </tr>
+                    </React.Fragment>
+                  ))}
                 </tbody>
               </table>
-              <br />
-              <div style={{ marginLeft: "0.5cm" }}>Pada:</div>
-              <table style={{ marginLeft: "0.5cm" }}>
+            </div>
+            <br />
+            <div>
+              <b>Catatan Hasil Permintaan Keterangan</b>
+            </div>
+            <div>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: DATA_DETAIL.keterangan || "-",
+                }}
+              />
+            </div>
+            <br />
+            <div>
+              Demikian Berita Acara Permintaan Keterangan ini dibuat dan
+              dibacakan ulang kepada Saudara, Kemudian ditutup dan
+              ditandatangani.
+            </div>
+            <br />
+            <br />
+            <div>
+              <table style={{ width: "100%" }}>
                 <tbody>
                   <tr>
-                    <td style={{ width: "3cm" }}>Hari, Tanggal</td>
-                    <td>:&nbsp;&nbsp;</td>
                     <td>
-                      {DATA_DETAIL?.waktu
-                        ? DaysDMYIndoToFormat(DATA_DETAIL.waktu)
-                        : ""}
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td colSpan={3}>
+                              <b>Yang Meminta Keterangan</b>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style={{ width: "1cm" }}>
+                              <b>No</b>
+                            </td>
+                            <td style={{ width: "8cm" }}>
+                              <b>Nama</b>
+                            </td>
+                            <td style={{ width: "6cm" }}>
+                              <b>Tanda Tangan</b>
+                            </td>
+                          </tr>
+                          {DATA_DETAIL.TimPemeriksa.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td style={{ textAlign: "left" }}>{item.name}</td>
+                              <td>______________</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </td>
-                  </tr>
-                  <tr>
-                    <td>Jam</td>
-                    <td>:&nbsp;&nbsp;</td>
+                    <td></td>
                     <td>
-                      {DATA_DETAIL?.waktu
-                        ? HIDateformat(DATA_DETAIL.waktu)
-                        : ""}{" "}
-                      WIB
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Tempat</td>
-                    <td>:&nbsp;&nbsp;</td>
-                    <td>{DATA_DETAIL.tempat || "-"}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <br />
-              <div style={{ display: "flex", alignItems: "top" }}>
-                <div style={{ width: "0.5cm" }}></div>
-                <div>Untuk {DATA_DETAIL?.keterangan || ""}</div>
-              </div>
-              <br />
-              <table style={{ borderCollapse: "collapse", width: "100%" }}>
-                <tbody>
-                  <tr>
-                    <td style={{ width: "0.5cm", verticalAlign: "top" }}>2.</td>
-                    <td style={{ verticalAlign: "top" }}>
-                      Demikian untuk dilaksanakan
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td colSpan={3}>
+                              <b>Yang Dimintai Keterangan</b>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style={{ width: "1cm" }}>
+                              <b>No</b>
+                            </td>
+                            <td style={{ width: "8cm" }}>
+                              <b>Nama</b>
+                            </td>
+                            <td style={{ width: "6cm" }}>
+                              <b>Tanda Tangan</b>
+                            </td>
+                          </tr>
+                          {DATA_DETAIL.PihakDimintai.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td style={{ textAlign: "left" }}>{item.name}</td>
+                              <td>______________</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <br />
+            {/* <br />
             <br />
             <table style={{ width: "100%" }}>
               <tr>
@@ -360,7 +393,7 @@ const ExportToWord: React.FC = () => {
                   </table>
                 </td>
               </tr>
-            </table>
+            </table> */}
           </>
         )}
       </div>

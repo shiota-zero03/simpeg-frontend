@@ -31,12 +31,14 @@ export const getAllPegawai = async (
   page: number,
   limit: number,
   title?: string,
+  status?: string,
 ): Promise<IPegawaiListRes> => {
   const params = new URLSearchParams();
 
   if (page) params.set("page", page.toString());
   if (limit) params.set("limit", limit.toString());
   if (title) params.set("name", title);
+  if (status) params.set("employmentStatus", status);
   const response = await instance.get(`/admin/pegawai?${params.toString()}`);
   return response.data;
 };

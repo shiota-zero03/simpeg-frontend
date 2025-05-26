@@ -145,7 +145,7 @@ const ExportToWord: React.FC = () => {
       URL.revokeObjectURL(url);
       document.body.removeChild(link);
       window.close();
-    }, 100);
+    }, 500);
   };
 
   useEffect(() => {
@@ -236,7 +236,9 @@ const ExportToWord: React.FC = () => {
                           <td></td>
                           <td>Jabatan</td>
                           <td>:&nbsp;&nbsp;</td>
-                          <td>{item.jabatanDiPerintah || "-"}</td>
+                          <td>
+                            {item.jabatanDiPerintah.split(";;")[0] || "-"}
+                          </td>
                         </tr>
                       </React.Fragment>
                     ),
@@ -266,7 +268,7 @@ const ExportToWord: React.FC = () => {
             <br />
             <table style={{ width: "100%" }}>
               <tr>
-                <td style={{ width: "60%" }}></td>
+                <td style={{ width: "50%" }}></td>
                 <td style={{ textAlign: "left" }}>
                   <table>
                     <tr>

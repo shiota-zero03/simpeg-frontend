@@ -109,6 +109,9 @@ const ViewBeritaAcaraPermintaanKeterangan = lazy(
 const ExportBeritaAcaraPermintaanKeterangan = lazy(
   () => import("@/pages/Surat/BeritaAcaraPermintaanKeterangan/Export"),
 );
+const ExportWordBeritaAcaraPermintaanKeterangan = lazy(
+  () => import("@/pages/Surat/BeritaAcaraPermintaanKeterangan/Word"),
+);
 
 const BeritaAcaraPemeriksaan = lazy(
   () => import("@/pages/Surat/BeritaAcaraPemeriksaan"),
@@ -377,6 +380,10 @@ export default function Router() {
         <Route
           path="/berita-acara-permintaan-keterangan/export-data/:id"
           element={<ExportBeritaAcaraPermintaanKeterangan />}
+        />
+        <Route
+          path="/berita-acara-permintaan-keterangan/export-word/:id"
+          element={<ExportWordBeritaAcaraPermintaanKeterangan />}
         />
         <Route
           path="/berita-acara-pemeriksaan/export-data/:id"
