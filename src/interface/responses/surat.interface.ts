@@ -151,6 +151,13 @@ export interface BeritaAcaraPemeriksaanRes {
   unitDiPeriksa: string;
   createdAt: string;
   updatedAt: string;
+
+  nama?: string[];
+  jabatan?: string[];
+  unit?: string[];
+  golongan?: string[];
+  pangkat?: string[];
+  nip?: string[];
 }
 
 export interface IBeritaAcaraPemeriksaanRes extends BaseRes {
@@ -197,6 +204,13 @@ export interface HasilPemeriksaanRes {
     idHasilPemeriksaan: number;
     idKeputusan: null;
   }[];
+
+  nama?: string[];
+  jabatan?: string[];
+  unit?: string[];
+  golongan?: string[];
+  pangkat?: string[];
+  nip?: string[];
 }
 
 export interface IHasilPemeriksaanRes extends BaseRes {

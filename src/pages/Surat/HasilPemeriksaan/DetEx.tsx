@@ -14,6 +14,13 @@ export default function DetailExportSurat({
   isFetching,
   kopSurat,
 }: props) {
+
+  const nama = DATA_DETAIL.namePermintaan.split(";;");
+  const nip = DATA_DETAIL.nipPermintaan.split(";;");
+  const jabatan = DATA_DETAIL.jabatanPermintaan.split(";;");
+  const golongan = DATA_DETAIL.golonganPermintaan.split(";;");
+  const unit = DATA_DETAIL.unitPermintaan.split(";;");
+
   return (
     <>
       {isFetching ? (
@@ -45,30 +52,40 @@ export default function DetailExportSurat({
               : "-"}
             ,&nbsp;saya telah melakukan permintaan keterangan terhadap:
           </div>
-          <div className="flex flex-col">
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-24">Nama </div>
-              <span className="font-semibold">
-                :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.namePermintaan}
-              </span>
+          {nama.map((item, index) => (
+            <div key={index} className="flex">
+              <div className="w-8">{index + 1}</div>
+              <div className="flex flex-col">
+                <div className="flex items-top font-normal gap-2">
+                  <div className="w-24">Nama </div>
+                  <span>:</span>
+                  <span className="font-semibold">
+                    &nbsp;&nbsp;&nbsp;{item}
+                  </span>
+                </div>
+                <div className="flex items-top font-normal gap-2">
+                  <div className="w-24">NIP </div>
+                  <span>:</span>
+                  <span>&nbsp;&nbsp;&nbsp;{nip[index] || "-"}</span>
+                </div>
+                <div className="flex items-top font-normal gap-2">
+                  <div className="w-24">Jabatan </div>
+                  <span>:</span>
+                  <span>&nbsp;&nbsp;&nbsp;{jabatan[index] || "-"}</span>
+                </div>
+                <div className="flex items-top font-normal gap-2">
+                  <div className="w-24">Golongan </div>
+                  <span>:</span>
+                  <span>&nbsp;&nbsp;&nbsp;{golongan[index] || "-"}</span>
+                </div>
+                <div className="flex items-top font-normal gap-2">
+                  <div className="w-24">Unit Kerja </div>
+                  <span>:</span>
+                  <span>&nbsp;&nbsp;&nbsp;{unit[index] || "-"}</span>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-24">NIP </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.nipPermintaan}
-            </div>
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-24">Jabatan </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.jabatanPermintaan}
-            </div>
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-24">Golongan </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.golonganPermintaan}
-            </div>
-            <div className="flex items-center font-normal gap-2">
-              <div className="w-24">Unit Kerja </div>
-              :&nbsp;&nbsp;&nbsp;{DATA_DETAIL?.unitPermintaan}
-            </div>
-          </div>
+          ))}
           <br />
           <div className="mb-2">
             Berdasarkan hal tersebut, dapat kami laporkan sebagai berikut:

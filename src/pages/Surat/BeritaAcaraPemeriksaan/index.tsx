@@ -11,7 +11,7 @@ import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { useNavigate } from "react-router-dom";
 import { BeritaAcaraPemeriksaanRes } from "@/interface/responses/surat.interface";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { FaFilePdf } from "react-icons/fa";
+import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
 import KopSuratModal from "@/components/modals/Surat/KopSuratModal";
@@ -144,9 +144,16 @@ export default function SuratPemeriksaan() {
             <Link
               target="__blank"
               to={`/berita-acara-pemeriksaan/export-data/${id}`}
-              className="bg-alert-info text-info shadow-sm p-2 rounded-md"
+              className="bg-alert-danger text-danger shadow-sm p-2 rounded-md"
             >
               <FaFilePdf size={14} />
+            </Link>
+            <Link
+              target="__blank"
+              to={`/berita-acara-pemeriksaan/export-word/${id}`}
+              className="bg-alert-info text-info shadow-sm p-2 rounded-md"
+            >
+              <FaFileWord size={14} />
             </Link>
             <Button
               onPress={() => {

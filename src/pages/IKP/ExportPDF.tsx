@@ -193,11 +193,15 @@ export default function ExportIKP() {
               <br />
               <br />
               <br />
+              <br />
+              <br />
               <span className="font-semibold">{DATA_DETAIL.ttdName || ""}</span>
               <span>NIP.{DATA_DETAIL.ttdNIP || ""}</span>
             </div>
             <div className="flex flex-col max-w-[240px]">
               <span>{DATA_DETAIL.jabatan || ""}</span>
+              <br />
+              <br />
               <br />
               <br />
               <br />

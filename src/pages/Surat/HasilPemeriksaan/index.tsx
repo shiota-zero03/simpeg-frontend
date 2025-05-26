@@ -11,7 +11,7 @@ import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { useNavigate } from "react-router-dom";
 import { HasilPemeriksaanRes } from "@/interface/responses/surat.interface";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { FaFilePdf } from "react-icons/fa";
+import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import KopSuratModal from "@/components/modals/Surat/KopSuratModal";
 import { LucideMail } from "lucide-react";
@@ -138,9 +138,16 @@ export default function HasilPemeriksaan() {
             <Link
               target="__blank"
               to={`/laporan-hasil-pemeriksaan/export-data/${id}`}
-              className="bg-alert-info text-info shadow-sm p-2 rounded-md"
+              className="bg-alert-danger text-danger shadow-sm p-2 rounded-md"
             >
               <FaFilePdf size={14} />
+            </Link>
+            <Link
+              target="__blank"
+              to={`/laporan-hasil-pemeriksaan/export-word/${id}`}
+              className="bg-alert-info text-info shadow-sm p-2 rounded-md"
+            >
+              <FaFileWord size={14} />
             </Link>
             <Button
               onPress={() => {

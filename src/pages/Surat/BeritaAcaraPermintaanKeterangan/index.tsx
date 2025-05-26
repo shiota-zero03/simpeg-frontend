@@ -180,14 +180,14 @@ export default function SuratPemeriksaan() {
             <Link
               target="__blank"
               to={`/berita-acara-permintaan-keterangan/export-data/${id}`}
-              className="bg-alert-info text-info shadow-sm p-2 rounded-md"
+              className="bg-alert-danger text-danger shadow-sm p-2 rounded-md"
             >
               <FaFilePdf size={14} />
             </Link>
             <Link
               target="__blank"
               to={`/berita-acara-permintaan-keterangan/export-word/${id}`}
-              className="bg-alert-success text-success shadow-sm p-2 rounded-md"
+              className="bg-alert-info text-info shadow-sm p-2 rounded-md"
             >
               <FaFileWord size={14} />
             </Link>

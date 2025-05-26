@@ -125,6 +125,9 @@ const ViewBeritaAcaraPemeriksaan = lazy(
 const ExportBeritaAcaraPemeriksaan = lazy(
   () => import("@/pages/Surat/BeritaAcaraPemeriksaan/Export"),
 );
+const ExportWordBeritaAcaraPemeriksaan = lazy(
+  () => import("@/pages/Surat/BeritaAcaraPemeriksaan/Word"),
+);
 const HasilPemeriksaan = lazy(() => import("@/pages/Surat/HasilPemeriksaan"));
 const CreateHasilPemeriksaan = lazy(
   () => import("@/pages/Surat/HasilPemeriksaan/Created"),
@@ -134,6 +137,9 @@ const ViewHasilPemeriksaan = lazy(
 );
 const ExportHasilPemeriksaan = lazy(
   () => import("@/pages/Surat/HasilPemeriksaan/Export"),
+);
+const ExportWordLaporanHasilPemeriksaan = lazy(
+  () => import("@/pages/Surat/HasilPemeriksaan/Word"),
 );
 const Keputusan = lazy(() => import("@/pages/Surat/Keputusan"));
 const CreateKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Created"));
@@ -390,8 +396,16 @@ export default function Router() {
           element={<ExportBeritaAcaraPemeriksaan />}
         />
         <Route
+          path="/berita-acara-pemeriksaan/export-word/:id"
+          element={<ExportWordBeritaAcaraPemeriksaan />}
+        />
+        <Route
           path="/laporan-hasil-pemeriksaan/export-data/:id"
           element={<ExportHasilPemeriksaan />}
+        />
+        <Route
+          path="/laporan-hasil-pemeriksaan/export-word/:id"
+          element={<ExportWordLaporanHasilPemeriksaan />}
         />
         <Route
           path="/keputusan-hukuman-disiplin/export-data/:id"

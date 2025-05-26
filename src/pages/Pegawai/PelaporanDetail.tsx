@@ -139,13 +139,11 @@ export default function DetailExportSurat({
                 <br />
                 <br />
                 <br />
-                <br />
                 <div>{DATA_DETAIL.pengelola}</div>
                 <div>NIP.{DATA_DETAIL.nipPengelola}</div>
               </div>
               <div className="flex flex-col gap-2 items-center justify-center font-semibold">
                 <div>{DATA_DETAIL.jabatanSekertaris}</div>
-                <br />
                 <br />
                 <br />
                 <br />
@@ -155,7 +153,6 @@ export default function DetailExportSurat({
               <br />
               <div className="col-span-2 flex flex-col gap-2 items-center justify-center font-semibold">
                 <div>{DATA_DETAIL.jabatanSubagin}</div>
-                <br />
                 <br />
                 <br />
                 <br />
