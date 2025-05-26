@@ -137,7 +137,7 @@ export default function ExportIKP() {
             <tbody>
               {DATA_DETAIL.ikps.map((item, index) => (
                 <tr key={index}>
-                  <td className="text-center p-1 border border-black">
+                  <td className="text-center p-1 border align-top border-black">
                     {index + 1}
                   </td>
                   {index === 0 && (
@@ -162,22 +162,22 @@ export default function ExportIKP() {
                       </td>
                     </>
                   )}
-                  <td className="p-1 border border-black">{item.sasaran}</td>
-                  <td className="p-1 border border-black">{item.indicator}</td>
-                  <td className="p-1 border border-black">{item.target}</td>
-                  <td className="p-1 border border-black">{item.realisasi}</td>
-                  <td className="p-1 border border-black ">
-                    <div className="flex justify-center">
+                  <td className="p-1 border align-top border-black">{item.sasaran}</td>
+                  <td className="p-1 border align-top border-black">{item.indicator}</td>
+                  <td className="p-1 border align-top border-black">{item.target}</td>
+                  <td className="p-1 border align-top border-black">{item.realisasi}</td>
+                  <td className="p-1 border align-top border-black ">
+                    <div className="flex justify-center align-top">
                       {item.status !== "DISETUJUI" && <FaCheck size={10} />}
                     </div>
                   </td>
-                  <td className="p-1 border border-black ">
+                  <td className="p-1 border border-black align-top">
                     <div className="flex justify-center">
                       {item.status === "DISETUJUI" && <FaCheck size={10} />}
                     </div>
                   </td>
-                  <td className="p-1 border border-black">{item.ubahTarget}</td>
-                  <td className="p-1 border border-black">
+                  <td className="p-1 border border-black align-top">{item.ubahTarget}</td>
+                  <td className="p-1 border border-black align-top">
                     {item.description}
                   </td>
                   <td className="p-1 border border-black">{item.dialog}</td>
