@@ -27,6 +27,11 @@ interface DataProps {
   nomorSurat: string;
   namaTtd: string;
   pemberiPerintah: string;
+  DiPerintahSuratPemeriksaan?: {
+    diPerintah: string;
+    nipDiPerintah: string;
+    jabatanDiPerintah: string;
+  }[];
 }
 
 export default function SuratPemeriksaan() {
@@ -71,6 +76,7 @@ export default function SuratPemeriksaan() {
         nomorSurat: item.nomorSurat,
         namaTtd: item.namaTtd,
         pemberiPerintah: item.pemberiPerintah,
+        DiPerintahSuratPemeriksaan: item.DiPerintahSuratPemeriksaan,
       }));
     } else {
       return [];
@@ -115,9 +121,17 @@ export default function SuratPemeriksaan() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "namaTtd",
-      header: "Yang bertanda tangan",
-      cell: (info) => info.getValue() as string,
+      header: "Yang Diberi Perintah",
+      cell: ({ row }) => {
+        const { DiPerintahSuratPemeriksaan } = row.original;
+        return (
+          <ol className="ms-4 list-decimal">
+            {DiPerintahSuratPemeriksaan?.map((item, index) => (
+              <li key={index}>{item.diPerintah}</li>
+            ))}
+          </ol>
+        );
+      },
       // meta: { align: "center" },
     },
     {

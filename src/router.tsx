@@ -145,6 +145,7 @@ const Keputusan = lazy(() => import("@/pages/Surat/Keputusan"));
 const CreateKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Created"));
 const ViewKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Detail"));
 const ExportKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Export"));
+const ExportWordKeputusan = lazy(() => import("@/pages/Surat/Keputusan/Word"));
 
 const Disposisi = lazy(() => import("@/pages/E-Disposisi"));
 const ViewDisposisi = lazy(() => import("@/pages/E-Disposisi/DetailData"));
@@ -410,6 +411,10 @@ export default function Router() {
         <Route
           path="/keputusan-hukuman-disiplin/export-data/:id"
           element={<ExportKeputusan />}
+        />
+        <Route
+          path="/keputusan-hukuman-disiplin/export-word/:id"
+          element={<ExportWordKeputusan />}
         />
 
         <Route path="/dialog-kinerja/export-pdf/:id" element={<ExportIKP />} />

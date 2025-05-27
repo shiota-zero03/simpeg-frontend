@@ -16,8 +16,9 @@ const ExportToWord: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const { data, isFetching, refetch, error } =
-  useGetDetailHasilPemeriksaan(id || "");
+  const { data, isFetching, refetch, error } = useGetDetailHasilPemeriksaan(
+    id || "",
+  );
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
@@ -42,37 +43,37 @@ const ExportToWord: React.FC = () => {
   }, []);
 
   const DATA_DETAIL: HasilPemeriksaanRes | null = useMemo(() => {
-      if (data) {
-        return {
-          id: data.data.id,
-          lokasi: data.data.lokasi,
-          yangMelaporkan: data.data.yangMelaporkan,
-          nipMelaporkan: data.data.nipMelaporkan,
-          jabatanMelaporkan: data.data.jabatanMelaporkan,
-          pangkatMelaporakn: data.data.pangkatMelaporakn,
-          nameKepada: data.data.nameKepada,
-          namePermintaan: data.data.namePermintaan,
-          tanggalSurat: data.data.tanggalSurat,
-          nipPermintaan: data.data.nipPermintaan,
-          jabatanPermintaan: data.data.jabatanPermintaan,
-          golonganPermintaan: data.data.golonganPermintaan,
-          unitPermintaan: data.data.unitPermintaan,
-          keterangan: data.data.keterangan,
-          createdAt: data.data.createdAt,
-          updatedAt: data.data.updatedAt,
-          hasil: data.data.hasil,
-          tembusan: data.data.tembusan,
+    if (data) {
+      return {
+        id: data.data.id,
+        lokasi: data.data.lokasi,
+        yangMelaporkan: data.data.yangMelaporkan,
+        nipMelaporkan: data.data.nipMelaporkan,
+        jabatanMelaporkan: data.data.jabatanMelaporkan,
+        pangkatMelaporakn: data.data.pangkatMelaporakn,
+        nameKepada: data.data.nameKepada,
+        namePermintaan: data.data.namePermintaan,
+        tanggalSurat: data.data.tanggalSurat,
+        nipPermintaan: data.data.nipPermintaan,
+        jabatanPermintaan: data.data.jabatanPermintaan,
+        golonganPermintaan: data.data.golonganPermintaan,
+        unitPermintaan: data.data.unitPermintaan,
+        keterangan: data.data.keterangan,
+        createdAt: data.data.createdAt,
+        updatedAt: data.data.updatedAt,
+        hasil: data.data.hasil,
+        tembusan: data.data.tembusan,
 
-          nama: data.data.namePermintaan.split(";;"),
-          nip: data.data.nipPermintaan.split(";;"),
-          jabatan: data.data.jabatanPermintaan.split(";;"),
-          golongan: data.data.golonganPermintaan.split(";;"),
-          unit: data.data.unitPermintaan.split(";;"),
-        };
-      } else {
-        return null;
-      }
-    }, [id, data]);
+        nama: data.data.namePermintaan.split(";;"),
+        nip: data.data.nipPermintaan.split(";;"),
+        jabatan: data.data.jabatanPermintaan.split(";;"),
+        golongan: data.data.golonganPermintaan.split(";;"),
+        unit: data.data.unitPermintaan.split(";;"),
+      };
+    } else {
+      return null;
+    }
+  }, [id, data]);
 
   const exportToWord = async () => {
     const content = contentRef.current?.innerHTML;
@@ -173,7 +174,9 @@ const ExportToWord: React.FC = () => {
       <div ref={contentRef} className="border p-4 mb-4">
         {DATA_DETAIL && kopSuratData && (
           <>
-            <div style={{ textAlign: "right" }}>{DATA_DETAIL.lokasi}, {DMYIndoToFormat(DATA_DETAIL.tanggalSurat)}</div>
+            <div style={{ textAlign: "right" }}>
+              {DATA_DETAIL.lokasi}, {DMYIndoToFormat(DATA_DETAIL.tanggalSurat)}
+            </div>
             <div>
               <table>
                 <tr>
@@ -203,9 +206,10 @@ const ExportToWord: React.FC = () => {
               Dengan ini dilaporkan dengan hormat, pada Hari{" "}
               {DATA_DETAIL.tanggalSurat
                 ? textToFormat(DATA_DETAIL.tanggalSurat)
-                : "-"},&nbsp;saya telah melakukan permintaan keterangan terhadap:
+                : "-"}
+              ,&nbsp;saya telah melakukan permintaan keterangan terhadap:
             </div>
-            
+
             <div>
               <table>
                 <tbody>
@@ -231,9 +235,7 @@ const ExportToWord: React.FC = () => {
                         <td></td>
                         <td>Golongan</td>
                         <td>:&nbsp;&nbsp;</td>
-                        <td>
-                          {DATA_DETAIL.golongan?.[index] || "-"}
-                        </td>
+                        <td>{DATA_DETAIL.golongan?.[index] || "-"}</td>
                       </tr>
                       <tr>
                         <td></td>
@@ -253,34 +255,142 @@ const ExportToWord: React.FC = () => {
               </table>
             </div>
             <br />
-            <div>Berdasarkan hal tersebut, dapat kami laporkan sebagai berikut:</div>
+            <div>
+              Berdasarkan hal tersebut, dapat kami laporkan sebagai berikut:
+            </div>
             <br />
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
-                <th style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt" }}>Bentuk Pelanggaran</th>
-                <th style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt" }}>Waktu</th>
-                <th style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt" }}>Tempat</th>
-                <th style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt" }}>Faktor Memberatkan</th>
-                <th style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt" }}>Faktor Meringankan</th>
-                <th style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt" }}>Dampak Perbuatan</th>
+                <th
+                  style={{
+                    border: "1px solid black",
+                    padding: "0.2cm",
+                    fontSize: "10pt",
+                  }}
+                >
+                  Bentuk Pelanggaran
+                </th>
+                <th
+                  style={{
+                    border: "1px solid black",
+                    padding: "0.2cm",
+                    fontSize: "10pt",
+                  }}
+                >
+                  Waktu
+                </th>
+                <th
+                  style={{
+                    border: "1px solid black",
+                    padding: "0.2cm",
+                    fontSize: "10pt",
+                  }}
+                >
+                  Tempat
+                </th>
+                <th
+                  style={{
+                    border: "1px solid black",
+                    padding: "0.2cm",
+                    fontSize: "10pt",
+                  }}
+                >
+                  Faktor Memberatkan
+                </th>
+                <th
+                  style={{
+                    border: "1px solid black",
+                    padding: "0.2cm",
+                    fontSize: "10pt",
+                  }}
+                >
+                  Faktor Meringankan
+                </th>
+                <th
+                  style={{
+                    border: "1px solid black",
+                    padding: "0.2cm",
+                    fontSize: "10pt",
+                  }}
+                >
+                  Dampak Perbuatan
+                </th>
               </thead>
               {DATA_DETAIL.hasil.length > 0 ? (
                 <tbody>
                   {DATA_DETAIL.hasil.map((item, index) => (
                     <tr key={index}>
-                      <td style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt" }}>{item.bentukPelanggaran}</td>
-                      <td style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt" }}>{item.waktu}</td>
-                      <td style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt" }}>{item.tempat}</td>
-                      <td style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt" }}>{item.faktorPemberat}</td>
-                      <td style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt" }}>{item.faktorMeringankan}</td>
-                      <td style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt" }}>{item.dampak}</td>
+                      <td
+                        style={{
+                          border: "1px solid black",
+                          padding: "0.2cm",
+                          fontSize: "10pt",
+                        }}
+                      >
+                        {item.bentukPelanggaran}
+                      </td>
+                      <td
+                        style={{
+                          border: "1px solid black",
+                          padding: "0.2cm",
+                          fontSize: "10pt",
+                        }}
+                      >
+                        {item.waktu}
+                      </td>
+                      <td
+                        style={{
+                          border: "1px solid black",
+                          padding: "0.2cm",
+                          fontSize: "10pt",
+                        }}
+                      >
+                        {item.tempat}
+                      </td>
+                      <td
+                        style={{
+                          border: "1px solid black",
+                          padding: "0.2cm",
+                          fontSize: "10pt",
+                        }}
+                      >
+                        {item.faktorPemberat}
+                      </td>
+                      <td
+                        style={{
+                          border: "1px solid black",
+                          padding: "0.2cm",
+                          fontSize: "10pt",
+                        }}
+                      >
+                        {item.faktorMeringankan}
+                      </td>
+                      <td
+                        style={{
+                          border: "1px solid black",
+                          padding: "0.2cm",
+                          fontSize: "10pt",
+                        }}
+                      >
+                        {item.dampak}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               ) : (
                 <tbody>
                   <tr>
-                    <td style={{ border: "1px solid black", padding: "0.2cm", fontSize: "10pt", textAlign: "center" }} colSpan={6}>Tidak ada hasil</td>
+                    <td
+                      style={{
+                        border: "1px solid black",
+                        padding: "0.2cm",
+                        fontSize: "10pt",
+                        textAlign: "center",
+                      }}
+                      colSpan={6}
+                    >
+                      Tidak ada hasil
+                    </td>
                   </tr>
                 </tbody>
               )}
@@ -292,9 +402,9 @@ const ExportToWord: React.FC = () => {
               />
             </div>
             <div>
-              Sehubungan dengan hal tersebut, disampaikan Berita Acara Permintaan
-              Keterangan terhadap PNS yang bersangkutan untuk digunakan dalam
-              penetapan keputusan penjatuhan Hukuman Disiplin
+              Sehubungan dengan hal tersebut, disampaikan Berita Acara
+              Permintaan Keterangan terhadap PNS yang bersangkutan untuk
+              digunakan dalam penetapan keputusan penjatuhan Hukuman Disiplin
             </div>
             <br />
             <br />
@@ -319,16 +429,12 @@ const ExportToWord: React.FC = () => {
                     </tr>
                     <tr>
                       <td>
-                        <b>
-                          {DATA_DETAIL.yangMelaporkan || "-"}
-                        </b>
+                        <b>{DATA_DETAIL.yangMelaporkan || "-"}</b>
                       </td>
                     </tr>
                     <tr>
                       <td>
-                        <b>
-                          {DATA_DETAIL.pangkatMelaporakn || "-"}
-                        </b>
+                        <b>{DATA_DETAIL.pangkatMelaporakn || "-"}</b>
                       </td>
                     </tr>
                     <tr>
@@ -344,17 +450,17 @@ const ExportToWord: React.FC = () => {
             <table>
               <tbody>
                 <tr>
-                  <td colSpan={2}>
-                    Tembusan Yth:
-                  </td>
+                  <td colSpan={2}>Tembusan Yth:</td>
                 </tr>
                 {DATA_DETAIL.tembusan?.map((item, index) => (
                   <React.Fragment key={index}>
                     <tr>
                       <td style={{ textAlign: "center", width: "0.5cm" }}>
-                        <b>{index + 1}.{" "}</b>
+                        <b>{index + 1}. </b>
                       </td>
-                      <td><b>{item.jabatan || "-"}</b></td>
+                      <td>
+                        <b>{item.jabatan || "-"}</b>
+                      </td>
                     </tr>
                   </React.Fragment>
                 ))}

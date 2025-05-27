@@ -234,27 +234,25 @@ const ExportExcel: React.FC = () => {
 
     const lastRow = 7 + (data?.ikps.length || 0);
 
-
     const jabatanCreate = sheet.getCell(`B${lastRow}`);
     jabatanCreate.value = data?.ttdJabatan || "-";
     sheet.mergeCells(`B${lastRow}:C${lastRow}`);
-    const namaCreate = sheet.getCell(`B${lastRow+4}`);
+    const namaCreate = sheet.getCell(`B${lastRow + 4}`);
     namaCreate.value = data?.ttdName || "-";
-    sheet.mergeCells(`B${lastRow+4}:C${lastRow+4}`);
-    const nipCreate = sheet.getCell(`B${lastRow+5}`);
+    sheet.mergeCells(`B${lastRow + 4}:C${lastRow + 4}`);
+    const nipCreate = sheet.getCell(`B${lastRow + 5}`);
     nipCreate.value = `NIP.${data?.ttdNIP || "-"}`;
-    sheet.mergeCells(`B${lastRow+5}:C${lastRow+5}`);
-
+    sheet.mergeCells(`B${lastRow + 5}:C${lastRow + 5}`);
 
     const jabatanTo = sheet.getCell(`J${lastRow}`);
     jabatanTo.value = data?.jabatan || "-";
     sheet.mergeCells(`J${lastRow}:L${lastRow}`);
-    const namaTo = sheet.getCell(`J${lastRow+4}`);
+    const namaTo = sheet.getCell(`J${lastRow + 4}`);
     namaTo.value = data?.name || "-";
-    sheet.mergeCells(`J${lastRow+4}:L${lastRow+4}`);
-    const nipTo = sheet.getCell(`J${lastRow+5}`);
+    sheet.mergeCells(`J${lastRow + 4}:L${lastRow + 4}`);
+    const nipTo = sheet.getCell(`J${lastRow + 5}`);
     nipTo.value = `NIP.${data?.nip || "-"}`;
-    sheet.mergeCells(`J${lastRow+5}:L${lastRow+5}`);
+    sheet.mergeCells(`J${lastRow + 5}:L${lastRow + 5}`);
 
     [jabatanCreate, jabatanTo, nipCreate, nipTo].forEach((cell) => {
       cell.alignment = {
@@ -270,8 +268,8 @@ const ExportExcel: React.FC = () => {
         horizontal: "center",
       };
       cell.font = {
-        bold: true
-      }
+        bold: true,
+      };
     });
 
     sheet.getColumn(1).width = 4;

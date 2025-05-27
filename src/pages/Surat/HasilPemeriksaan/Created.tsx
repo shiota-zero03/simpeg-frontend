@@ -94,7 +94,6 @@ interface pegawaiProps {
   pangkat?: string;
 }
 
-
 export default function CreateSurat() {
   const [formData, setFormData] = useState<formProps>({
     lokasi: "",
@@ -306,7 +305,6 @@ export default function CreateSurat() {
     if (formData.hasil) formToSend.hasil = formData.hasil;
     if (formData.tembusan) formToSend.tembusan = formData.tembusan;
 
-
     const diperintahData = formPegawai.map((item) => ({
       name: item.name,
       nip: item.nip,
@@ -443,7 +441,7 @@ export default function CreateSurat() {
     if (checkPegawai) {
       setFormData({
         ...formData,
-        dipanggil: String(checkPegawai.id)
+        dipanggil: String(checkPegawai.id),
       });
 
       const pegawaiBaru = checkPegawai.DiPanggilSuratPemanggilan
@@ -465,7 +463,7 @@ export default function CreateSurat() {
     } else {
       setFormData({
         ...formData,
-        dipanggil: ""
+        dipanggil: "",
       });
       setFormPegawai([]);
     }
@@ -632,7 +630,7 @@ export default function CreateSurat() {
                   <div className="flex items-center gap-1 flex-wrap mt-2 whitespace-nowrap">
                     <span>Sesuai</span>
                     <span>surat</span>
-                    <span>perintah</span>
+                    <span>pemanggilan</span>
                     <span>dengan</span>
                     <span>nomor:</span>
                     <Autocomplete

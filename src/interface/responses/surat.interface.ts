@@ -253,6 +253,13 @@ export interface KeputusanRes {
     idHasilPemeriksaan: string;
     idKeputusan: number;
   }[];
+
+  nama?: string[];
+  jabatan?: string[];
+  unit?: string[];
+  golongan?: string[];
+  pangkat?: string[];
+  nip?: string[];
 }
 
 export interface IKeputusanRes extends BaseRes {

@@ -120,7 +120,13 @@ export default function SuratPemeriksaan() {
       header: "Yang Diperiksa",
       cell: ({ row }) => {
         const { diPeriksa } = row.original;
-        return diPeriksa;
+        return (
+          <ol className="ms-4 list-decimal">
+            {diPeriksa.split(";;").map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ol>
+        );
       },
       // meta: { align: "center" },
     },

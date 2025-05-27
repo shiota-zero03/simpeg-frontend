@@ -14,7 +14,6 @@ export default function DetailExportSurat({
   isFetching,
   kopSurat,
 }: props) {
-
   const nama = DATA_DETAIL.namePermintaan.split(";;");
   const nip = DATA_DETAIL.nipPermintaan.split(";;");
   const jabatan = DATA_DETAIL.jabatanPermintaan.split(";;");

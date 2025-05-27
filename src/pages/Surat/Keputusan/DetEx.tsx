@@ -14,6 +14,12 @@ export default function DetailExportSurat({
   isFetching,
   kopSurat,
 }: props) {
+  const nama = DATA_DETAIL.nameYangDitetapkan.split(";;");
+  const nip = DATA_DETAIL.nipYangDitetapkan.split(";;");
+  const jabatan = DATA_DETAIL.jabatanYangDitetapkan.split(";;");
+  const golongan = DATA_DETAIL.golonganYangDitetapkan.split(";;");
+  const unit = DATA_DETAIL.unitYangDitetapkan.split(";;");
+
   return (
     <>
       {isFetching ? (
@@ -79,29 +85,36 @@ export default function DetailExportSurat({
               <div className="w-28">Kesatu </div>:
               <div className="w-full">
                 {DATA_DETAIL.kesatu}
-                <div className="flex flex-col my-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-28">Nama </div>: &nbsp;&nbsp;&nbsp;
-                    {DATA_DETAIL.nameYangDitetapkan}
+                {nama.map((item, index) => (
+                  <div key={index} className="flex">
+                    <div className="w-8">{index + 1}</div>
+                    <div className="flex flex-col mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-28">Nama </div>: &nbsp;&nbsp;&nbsp;
+                        {item}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-28">NIP </div>: &nbsp;&nbsp;&nbsp;
+                        {nip[index] || "-"}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-28">Pangkat </div>: &nbsp;&nbsp;&nbsp;
+                        {golongan[index] || "-"}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-28">Jabatan </div>: &nbsp;&nbsp;&nbsp;
+                        {jabatan[index] || "-"}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-28">Unit Kerja </div>:
+                        &nbsp;&nbsp;&nbsp;
+                        {unit[index] || "-"}
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-28">NIP </div>: &nbsp;&nbsp;&nbsp;
-                    {DATA_DETAIL.nipYangDitetapkan}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-28">Pangkat </div>: &nbsp;&nbsp;&nbsp;
-                    {DATA_DETAIL.golonganYangDitetapkan}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-28">Jabatan </div>: &nbsp;&nbsp;&nbsp;
-                    {DATA_DETAIL.jabatanYangDitetapkan}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-28">Unit Kerja </div>: &nbsp;&nbsp;&nbsp;
-                    {DATA_DETAIL.unitYangDitetapkan}
-                  </div>
-                </div>
-                {DATA_DETAIL.alasan}
+                ))}
+                Karena yang bersangkutan telah melakukan perbuatan yang
+                melanggar ketentuan {DATA_DETAIL.alasan}
               </div>
             </div>
             <div className="flex items-start gap-2">

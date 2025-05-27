@@ -107,9 +107,17 @@ export default function HasilPemeriksaan() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "namePermintaan",
       header: "Permintaan Keterangan Terhadap",
-      cell: (info) => info.getValue() as string,
+      cell: ({ row }) => {
+        const { namePermintaan } = row.original;
+        return (
+          <ol className="ms-4 list-decimal">
+            {namePermintaan.split(";;").map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ol>
+        );
+      },
       // meta: { align: "center" },
     },
     {
