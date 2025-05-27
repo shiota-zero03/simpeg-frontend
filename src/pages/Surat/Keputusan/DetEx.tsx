@@ -30,7 +30,7 @@ export default function DetailExportSurat({
         <div className="flex flex-col text-lg px-24 py-12">
           <img src={kopSurat || KOP} alt="kop-surat" className="w-full" />
           <br />
-          <h1 className="text-center fonttext-xl">RAHASIA</h1>
+          <h1 className="text-center fonttext-xl font-semibold mb-2">RAHASIA</h1>
           <h1 className="text-center text-xl">
             KEPUTUSAN KEPALA DINAS PERDAGANGAN
           </h1>
@@ -164,7 +164,7 @@ export default function DetailExportSurat({
                 key={index}
                 className="flex items-center font-semibold gap-2"
               >
-                {index + 1}.&nbsp;&nbsp;{item.jabatan}
+                <span className="w-4">{index + 1}.</span>&nbsp;&nbsp;{item.jabatan}
               </div>
             ))}
           </div>
