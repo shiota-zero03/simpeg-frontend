@@ -130,8 +130,8 @@ export default function DetailExportSurat({
                   {DATA_DETAIL.TimPemeriksa &&
                     DATA_DETAIL.TimPemeriksa.map((item, index) => (
                       <tr key={index}>
-                        <td className="h-20 text-center">{index + 1}</td>
-                        <td>{item.name}</td>
+                        <td className="h-20 text-center align-">{index + 1}</td>
+                        <td className="align-">{item.name}</td>
                         <td className="text-center">__________</td>
                       </tr>
                     ))}
@@ -156,8 +156,8 @@ export default function DetailExportSurat({
                   {DATA_DETAIL.PihakDimintai &&
                     DATA_DETAIL.PihakDimintai.map((item, index) => (
                       <tr key={index}>
-                        <td className="h-20 text-center align-top">{index + 1}</td>
-                        <td>{item.name}</td>
+                        <td className="h-20 text-center align-">{index + 1}</td>
+                        <td className="align-">{item.name}</td>
                         <td className="text-center">__________</td>
                       </tr>
                     ))}
