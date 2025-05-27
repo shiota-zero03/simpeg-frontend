@@ -54,14 +54,14 @@ export default function DetailExportSurat({
             <div className="flex items-start gap-2 mb-4">
               <div className="w-28">Membaca </div>:
               <div
-                className="w-full"
+                className="w-[calc(100%-7rem)]"
                 dangerouslySetInnerHTML={{ __html: DATA_DETAIL.membaca || "" }}
               />
             </div>
             <div className="flex items-start gap-2 mb-4">
               <div className="w-28">Menimbang </div>:
               <div
-                className="w-full"
+                className="w-[calc(100%-7rem)]"
                 dangerouslySetInnerHTML={{
                   __html: DATA_DETAIL.menimbang || "",
                 }}
@@ -70,7 +70,7 @@ export default function DetailExportSurat({
             <div className="flex items-start gap-2 mb-4">
               <div className="w-28">Mengingat </div>:
               <div
-                className="w-full"
+                className="w-[calc(100%-7rem)]"
                 dangerouslySetInnerHTML={{
                   __html: DATA_DETAIL.mengingat || "",
                 }}
@@ -83,7 +83,7 @@ export default function DetailExportSurat({
           <div className="flex flex-col gap-2 mt-4">
             <div className="flex items-start gap-2">
               <div className="w-28">Kesatu </div>:
-              <div className="w-full">
+              <div className="w-[calc(100%-7rem)]">
                 {DATA_DETAIL.kesatu}
                 {nama.map((item, index) => (
                   <div key={index} className="flex">
@@ -119,11 +119,11 @@ export default function DetailExportSurat({
             </div>
             <div className="flex items-start gap-2">
               <div className="w-28">Kedua </div>:
-              <div className="w-full">{DATA_DETAIL.kedua}</div>
+              <div className="w-[calc(100%-7rem)]">{DATA_DETAIL.kedua}</div>
             </div>
             <div className="flex items-start gap-2">
               <div className="w-28">Ketiga </div>:
-              <div className="w-full">{DATA_DETAIL.ketiga}</div>
+              <div className="w-[calc(100%-7rem)]">{DATA_DETAIL.ketiga}</div>
             </div>
           </div>
           <br />
