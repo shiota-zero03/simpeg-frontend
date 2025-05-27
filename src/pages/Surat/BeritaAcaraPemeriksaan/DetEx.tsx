@@ -83,17 +83,17 @@ export default function DetailExportSurat({
                 <div className="flex items-center gap-2">
                   <div className="w-32">Pangkat/Gol</div>
                   <div>
-                    : &nbsp;&nbsp;&nbsp; {pangkat[0] || "-"} /{" "}
-                    {golongan[0] || "-"}
+                    : &nbsp;&nbsp;&nbsp; {pangkat[index] || "-"} /{" "}
+                    {golongan[index] || "-"}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-32">Jabatan</div>
-                  <div>: &nbsp;&nbsp;&nbsp; {jabatan[0] || "-"}</div>
+                  <div>: &nbsp;&nbsp;&nbsp; {jabatan[index] || "-"}</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-32">Unit Kerja</div>
-                  <div>: &nbsp;&nbsp;&nbsp; {unit[0] || "-"}</div>
+                  <div>: &nbsp;&nbsp;&nbsp; {unit[index] || "-"}</div>
                 </div>
               </div>
             </div>
