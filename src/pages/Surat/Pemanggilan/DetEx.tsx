@@ -43,7 +43,7 @@ export default function DetailExportSurat({
           <div className="ms-8">
             {DATA_DETAIL.DiPanggilSuratPemanggilan?.map((item, index) => (
               <div key={index} className="flex flex-nowrap gap-2 mb-2">
-                <div className="min-w-[36px] max-w-[36px]">
+                <div className="min-w-[24px] max-w-[24px]">
                   {toRoman(index + 1)}.
                 </div>
                 <table>
