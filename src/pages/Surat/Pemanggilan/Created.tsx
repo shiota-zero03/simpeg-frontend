@@ -240,7 +240,7 @@ export default function CreateSurat() {
       return {
         nama: item.diPanggil,
         nip: item.nipDiPanggil,
-        jabatan: `${item.jabatanDiPanggil};;${item.golonganDiPanggil};;${item.jabatanDiPanggil}`,
+        jabatan: `${item.jabatanDiPanggil};;${item.golonganDiPanggil};;${item.pangkatDiPanggil}`,
         unit: item.unitDiPanggil,
       };
     });
