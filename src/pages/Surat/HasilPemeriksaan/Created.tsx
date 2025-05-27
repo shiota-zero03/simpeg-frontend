@@ -667,13 +667,10 @@ export default function CreateSurat() {
                       )}
                     </Autocomplete>
                   </div>
-                  <div className="flex items-center gap-1 flex-wrap mt-2 whitespace-nowrap">
-                    Dengan ini dilaporkan dengan hormat, pada hari{" "}
-                    {formData.tanggalSurat
-                      ? textToFormat(formData.tanggalSurat)
-                      : "-"}{" "}
-                    Saya telah melakukan permintaan keterangan terhadap:
-                  </div>
+                  <div className="flex items-center gap-1 flex-wrap mt-2 whitespace-nowrap" dangerouslySetInnerHTML={{ __html: `Dengan ini dilaporkan dengan hormat, pada hari${" "}
+                      ${formData.tanggalSurat
+                        ? textToFormat(formData.tanggalSurat)
+                        : "-"} Saya telah melakukan permintaan keterangan terhadap:` }} />
                   <div className="md:ms-4 flex flex-col gap-2">
                     <div className="overflow-x-auto">
                       <table className="w-full">

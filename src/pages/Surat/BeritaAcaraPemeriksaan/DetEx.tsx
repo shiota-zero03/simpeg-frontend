@@ -36,13 +36,10 @@ export default function DetailExportSurat({
             BERITA ACARA PEMERIKSAAN
           </h1>
           <br />
-          <div className="mb-2">
-            Pada hari ini{" "}
-            {DATA_DETAIL.tanggalSurat
+          <div className="mb-2" dangerouslySetInnerHTML={{ __html: `Pada hari ini${" "}
+            ${DATA_DETAIL.tanggalSurat
               ? textToFormat(DATA_DETAIL.tanggalSurat)
-              : "-"}{" "}
-            , kami :
-          </div>
+              : "-"}, kami :` }} />
           <div className="flex flex-col ms-12">
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
@@ -72,7 +69,7 @@ export default function DetailExportSurat({
             dapat melakukan pemeriksaan dikarenakan saudara:
           </div>
           {nama.map((item, index) => (
-            <div key={index} className="flex ms-12">
+            <div key={index} className="flex ms-5">
               <div className="w-8">{index + 1}.</div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
@@ -127,7 +124,7 @@ export default function DetailExportSurat({
                   {nama.map((item, index) => (
                     <React.Fragment key={index}>
                       <tr>
-                        <td className="w-8">{index + 1}</td>
+                        <td className="w-8 align-top">{index + 1}</td>
                         <td className="w-36 align-top">Nama</td>
                         <td className="align-top">: </td>
                         <td className="align-top">{item}</td>
@@ -136,7 +133,7 @@ export default function DetailExportSurat({
                         <td></td>
                         <td className="w-36 align-top">NIP</td>
                         <td className="align-top">: </td>
-                        <td className="align-top">{jabatan[0] || "-"}</td>
+                        <td className="align-top">{nip[0] || "-"}</td>
                       </tr>
                       <tr>
                         <td></td>

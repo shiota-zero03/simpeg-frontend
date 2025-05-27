@@ -160,6 +160,6 @@ export const textToFormat = (isoString: string) => {
   const tahunHuruf = "Dua Ribu Dua Puluh Lima"; // untuk 2025
 
   const tanggal = date.getDate();
-  const kalimat = `${namaHari} Tanggal ${angkaKeHuruf[tanggal]} Bulan ${namaBulan} Tahun ${tahunHuruf}`;
+  const kalimat = `<strong>${namaHari}</strong> tanggal <strong>${angkaKeHuruf[tanggal]}</strong> bulan <strong>${namaBulan}</strong> tahun <strong>${tahunHuruf}</strong>`;
   return kalimat;
 };

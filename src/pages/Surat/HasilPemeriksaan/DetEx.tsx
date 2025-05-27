@@ -44,13 +44,10 @@ export default function DetailExportSurat({
           </div>
           <br />
           <h1 className="text-center font-bold text-xl">RAHASIA</h1>
-          <div className="mb-2">
-            Dengan ini dilaporkan dengan hormat, pada Hari{" "}
-            {DATA_DETAIL.tanggalSurat
-              ? textToFormat(DATA_DETAIL.tanggalSurat)
-              : "-"}
-            ,&nbsp;saya telah melakukan permintaan keterangan terhadap:
-          </div>
+          <div className="mb-2" dangerouslySetInnerHTML={{ __html: `Dengan ini dilaporkan dengan hormat, pada Hari ${" "}
+                                  ${DATA_DETAIL.tanggalSurat
+                                    ? textToFormat(DATA_DETAIL.tanggalSurat)
+                                    : "-"}, saya telah melakukan permintaan keterangan terhadap:` }} />
           {nama.map((item, index) => (
             <div key={index} className="flex">
               <div className="w-8">{index + 1}</div>
