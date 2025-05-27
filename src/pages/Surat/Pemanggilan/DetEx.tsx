@@ -66,7 +66,7 @@ export default function DetailExportSurat({
                     <tr>
                       <td className="align-top">Jabatan</td>
                       <td className="align-top">:</td>
-                      <td className="align-top">{item.jabatanDiPanggil || "-"}</td>
+                      <td className="align-top">{item.jabatanDiPanggil.split(';;')[0] || "-"}</td>
                     </tr>
                   </tbody>
                 </table>
