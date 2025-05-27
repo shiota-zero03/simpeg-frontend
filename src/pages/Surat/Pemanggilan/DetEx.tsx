@@ -40,31 +40,40 @@ export default function DetailExportSurat({
             <div className="w-8">1. </div>
             <div>Bersama ini diminta dengan hormat kehadiran saudara:</div>
           </div>
-          {DATA_DETAIL.DiPanggilSuratPemanggilan?.map((item, index) => (
-            <div key={index} className="ms-8 flex gap-2 items-start">
-              <div>{toRoman(index + 1)}.</div>
-              <div className="flex flex-col ms-2">
-                <div className="flex items-start font-normal gap-2">
-                  <div className="w-28">Nama </div>
-                  <span className="font-semibold">
-                    :&nbsp;&nbsp;&nbsp;{item.diPanggil || "-"}
-                  </span>
+          <div className="ms-8">
+            {DATA_DETAIL.DiPanggilSuratPemanggilan?.map((item, index) => (
+              <div key={index} className="flex flex-nowrap gap-2 mb-2">
+                <div className="min-w-[36px] max-w-[36px]">
+                  {toRoman(index + 1)}.
                 </div>
-                <div className="flex items-start font-normal gap-2">
-                  <div className="w-28">NIP </div>:
-                  <div>{item.nipDiPanggil || "-"}</div>
-                </div>
-                <div className="flex items-start font-normal gap-2">
-                  <div className="w-28">Unit Kerja </div>:
-                  <div>{item.unitDiPanggil || "-"}</div>
-                </div>
-                <div className="flex items-start font-normal gap-2">
-                  <div className="w-28">Jabatan </div>:
-                  <div>{item.jabatanDiPanggil.split(";;")[0] || "-"}</div>
-                </div>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td className="align-top w-24">Nama</td>
+                      <td className="align-top">:</td>
+                      <th className="text-start align-top">{item.diPanggil || "-"}</th>
+                    </tr>
+                    <tr>
+                      <td className="align-top">NIP</td>
+                      <td className="align-top">:</td>
+                      <td className="align-top">{item.nipDiPanggil || "-"}</td>
+                    </tr>
+                    <tr>
+                      <td className="align-top">Unit Kerja</td>
+                      <td className="align-top">:</td>
+                      <td className="align-top">{item.unitDiPanggil || "-"}</td>
+                    </tr>
+                    <tr>
+                      <td className="align-top">Jabatan</td>
+                      <td className="align-top">:</td>
+                      <td className="align-top">{item.jabatanDiPanggil || "-"}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
           <div className="mt-4 ms-8">Untuk menghadap kepada</div>
           <div className="flex flex-col ms-8">
             <div className="flex items-start font-normal gap-2">
