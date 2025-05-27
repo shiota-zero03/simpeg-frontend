@@ -49,7 +49,7 @@ export default function DetailExportSurat({
           {DATA_DETAIL?.DiPerintahSuratPemeriksaan?.map((item, index) => {
             return (
               <div key={index} className="flex items-start gap-2">
-                <div className="ms-4">{index + 1}.</div>
+                <div className="ms-4 w-6">{index + 1}.</div>
                 <div className="flex flex-col ms-4">
                   <div className="flex items-start font-normal gap-2">
                     <div className="w-20">Nama </div>:
