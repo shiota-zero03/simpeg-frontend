@@ -90,25 +90,24 @@ export default function DetailExportSurat({
                     <div className="w-8">{index + 1}</div>
                     <div className="flex flex-col mb-2">
                       <div className="flex items-center gap-2">
-                        <div className="w-28">Nama </div>: &nbsp;&nbsp;&nbsp;
-                        {item}
+                        <div className="min-w-24 max-w-24">Nama </div>:
+                        <div>{item}</div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-28">NIP </div>: &nbsp;&nbsp;&nbsp;
-                        {nip[index] || "-"}
+                        <div className="min-w-24 max-w-24">NIP </div>:
+                        <div>{nip[index] || "-"}</div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-28">Pangkat </div>: &nbsp;&nbsp;&nbsp;
-                        {golongan[index] || "-"}
+                        <div className="min-w-24 max-w-24">Pangkat </div>:
+                        <div>{golongan[index] || "-"}</div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-28">Jabatan </div>: &nbsp;&nbsp;&nbsp;
-                        {jabatan[index] || "-"}
+                        <div className="min-w-24 max-w-24">Jabatan </div>:
+                        <div>{jabatan[index] || "-"}</div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-28">Unit Kerja </div>:
-                        &nbsp;&nbsp;&nbsp;
-                        {unit[index] || "-"}
+                        <div className="min-w-24 max-w-24">Unit Kerja </div>:
+                        <div>{unit[index] || "-"}</div>
                       </div>
                     </div>
                   </div>

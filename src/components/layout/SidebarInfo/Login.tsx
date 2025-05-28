@@ -114,6 +114,86 @@ const roleAccessMap: Record<string, string[]> = {
     "hubungi-kami",
     "e-filling",
   ],
+  UPTD_1: [
+    "beranda",
+    "peta-jabatan",
+    "summary-report",
+    "manajemen-aset",
+    "buku-petunjuk",
+    "hubungi-kami"
+  ],
+  UPTD_2: [
+    "beranda",
+    "peta-jabatan",
+    "summary-report",
+    "manajemen-aset",
+    "buku-petunjuk",
+    "hubungi-kami"
+  ],
+  UPTD_3: [
+    "beranda",
+    "peta-jabatan",
+    "summary-report",
+    "manajemen-aset",
+    "buku-petunjuk",
+    "hubungi-kami"
+  ],
+  UPTD_4: [
+    "beranda",
+    "peta-jabatan",
+    "summary-report",
+    "manajemen-aset",
+    "buku-petunjuk",
+    "hubungi-kami"
+  ],
+  UPTD_5: [
+    "beranda",
+    "peta-jabatan",
+    "summary-report",
+    "manajemen-aset",
+    "buku-petunjuk",
+    "hubungi-kami"
+  ],
+  UPTD_6: [
+    "beranda",
+    "peta-jabatan",
+    "summary-report",
+    "manajemen-aset",
+    "buku-petunjuk",
+    "hubungi-kami"
+  ],
+  UPTD_7: [
+    "beranda",
+    "peta-jabatan",
+    "summary-report",
+    "manajemen-aset",
+    "buku-petunjuk",
+    "hubungi-kami"
+  ],
+  UPTD_8: [
+    "beranda",
+    "peta-jabatan",
+    "summary-report",
+    "manajemen-aset",
+    "buku-petunjuk",
+    "hubungi-kami"
+  ],
+  UPTD_9: [
+    "beranda",
+    "peta-jabatan",
+    "summary-report",
+    "manajemen-aset",
+    "buku-petunjuk",
+    "hubungi-kami"
+  ],
+  UPTD_LEGAL: [
+    "beranda",
+    "peta-jabatan",
+    "summary-report",
+    "manajemen-aset",
+    "buku-petunjuk",
+    "hubungi-kami"
+  ],
   PEGAWAI: [
     "beranda",
     "peta-jabatan",
