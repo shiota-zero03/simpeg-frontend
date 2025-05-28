@@ -24,6 +24,7 @@ import {
   StorePelaporanSPPD,
   StoreSPPD,
 } from "@/interface/request/sppd.interface";
+import store from "@/redux/store";
 
 export const useGetAllSPPDUserAll = (
   start?: string | null,
@@ -76,8 +77,9 @@ export const useGetAllSPPD = (
   start?: string | null,
   end?: string | null,
 ) => {
+  const { role } = store.getState().auth;
   return useQuery({
-    queryKey: ["getAllSPPD", type],
+    queryKey: ["getAllSPPD", type, role],
     queryFn: () => getAllSPPD(page, limit, title, type, nomorSurat, start, end),
     staleTime: 300000,
   });

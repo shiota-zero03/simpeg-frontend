@@ -2,6 +2,7 @@ import { Modal, ModalBody, ModalContent, ModalHeader } from "@heroui/react";
 import { LuX } from "react-icons/lu";
 import "react-datepicker/dist/react-datepicker.css";
 import React from "react";
+import store from "@/redux/store";
 
 interface PegawaiProps {
   id: number;
@@ -38,6 +39,9 @@ interface props {
 }
 
 const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
+
+  const { role } = store.getState().auth;
+
   let totalAnggaran = 0;
   return (
     <>
@@ -65,9 +69,11 @@ const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
                     <th className="text-left border-b-2 min-w-60 border-accent-gray p-2 text-sm bg-primary text-white">
                       NIP
                     </th>
-                    <th className="text-left border-b-2 min-w-40 border-accent-gray p-2 text-sm bg-primary text-white">
-                      Jabatan
-                    </th>
+                    {role !== "PEGAWAI" ? (
+                      <th className="text-left border-b-2 min-w-40 border-accent-gray p-2 text-sm bg-primary text-white">
+                        Jabatan
+                      </th>
+                    ) : null}
                     <th
                       colSpan={2}
                       className="text-left border-b-2 min-w-96 border-accent-gray p-2 text-sm bg-primary text-white"
@@ -155,12 +161,14 @@ const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
                             >
                               {user.nip ?? "-"}
                             </td>
-                            <td
-                              rowSpan={3}
-                              className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold"
-                            >
-                              {user.jabatan?.nameJob ?? "-"}
-                            </td>
+                            {role !== "PEGAWAI" ? (
+                              <td
+                                rowSpan={3}
+                                className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold"
+                              >
+                                {user.jabatan?.nameJob ?? "-"}
+                              </td>
+                            ) : null }
                             <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
                               Uang Harian
                             </td>

@@ -26,6 +26,8 @@ import {
 import { useCreateSPPD } from "@/services/sppd";
 import { StoreSPPD } from "@/interface/request/sppd.interface";
 import { convertFileToBase64 } from "@/utils/base64Formater";
+import store from "@/redux/store";
+import { useGetProfile } from "@/services/auth";
 
 interface formProps {
   nomorSurat?: string;
@@ -107,6 +109,9 @@ interface errorProps {
 }
 
 export default function CreateSPPD() {
+
+  const { role } = store.getState().auth;
+
   const queryParams = new URLSearchParams(window.location.search);
   const tab = queryParams.get("type");
   const tabData = tab as string;
@@ -222,6 +227,13 @@ export default function CreateSPPD() {
 
   const [formError, setFormError] = useState<errorProps>({});
 
+
+  const { data: dataProfile, refetch: refetchProfile } = useGetProfile();
+  const DATA_FETCHING = useMemo(() => {
+    if (!dataProfile) return null;
+    return dataProfile.data;
+  }, [dataProfile]);
+
   const rules = () => {
     const error: errorProps = {};
     if (!formData.nomorSurat)
@@ -240,11 +252,19 @@ export default function CreateSPPD() {
       error.komitmenid = "Data komitmen tidak boleh kosong";
     if (!formData.bendaharaId)
       error.bendaharaId = "Data bendahara tidak boleh kosong";
-    if (
-      !formData.participantsLeader?.userId ||
-      !formData.participantsLeader?.bankAccount
-    )
-      error.participantsLeader = "Data pegawai belum lengkap";
+
+    if(role === "PEGAWAI") {
+      if (
+        !formData.participantsLeader?.bankAccount
+      )
+        error.participantsLeader = "Data pegawai belum lengkap";
+    } else {
+      if (
+        !formData.participantsLeader?.userId ||
+        !formData.participantsLeader?.bankAccount
+      )
+        error.participantsLeader = "Data pegawai belum lengkap";
+    }
 
     return error;
   };
@@ -308,6 +328,7 @@ export default function CreateSPPD() {
       ],
     });
     refetchJabatan();
+    refetchProfile();
   }, []);
 
   type BudgetsKey = keyof NonNullable<
@@ -478,36 +499,70 @@ export default function CreateSPPD() {
       }[];
     }[] = [];
 
-    if (formData.participantsLeader) {
-      const partiLead = formData.participantsLeader;
-      participantData.push({
-        userId: partiLead.userId,
-        bankAccount: partiLead.bankAccount,
-        position: partiLead.position,
-        role: partiLead.role,
-        budgets: [
-          {
-            transport: partiLead.budgets ? partiLead.budgets.transport : 0,
-            volTransport: partiLead.budgets
-              ? partiLead.budgets.volTransport
-              : 0,
-            representatif: partiLead.budgets
-              ? partiLead.budgets.representatif
-              : 0,
-            volRepresentatif: partiLead.budgets
-              ? partiLead.budgets.volRepresentatif
-              : 0,
-            dailyAllowance: partiLead.budgets
-              ? partiLead.budgets.dailyAllowance
-              : 0,
-            volDailyAllowance: partiLead.budgets
-              ? partiLead.budgets.volDailyAllowance
-              : 0,
-            bankAccount: partiLead.bankAccount,
-          },
-        ],
-      });
+    if(role === "PEGAWAI") {
+      if (formData.participantsLeader && DATA_FETCHING) {
+        const partiLead = formData.participantsLeader;
+        participantData.push({
+          userId: DATA_FETCHING.id,
+          bankAccount: partiLead.bankAccount,
+          position: partiLead.position,
+          role: partiLead.role,
+          budgets: [
+            {
+              transport: partiLead.budgets ? partiLead.budgets.transport : 0,
+              volTransport: partiLead.budgets
+                ? partiLead.budgets.volTransport
+                : 0,
+              representatif: partiLead.budgets
+                ? partiLead.budgets.representatif
+                : 0,
+              volRepresentatif: partiLead.budgets
+                ? partiLead.budgets.volRepresentatif
+                : 0,
+              dailyAllowance: partiLead.budgets
+                ? partiLead.budgets.dailyAllowance
+                : 0,
+              volDailyAllowance: partiLead.budgets
+                ? partiLead.budgets.volDailyAllowance
+                : 0,
+              bankAccount: partiLead.bankAccount,
+            },
+          ],
+        });
+      }
+    } else {
+      if (formData.participantsLeader) {
+        const partiLead = formData.participantsLeader;
+        participantData.push({
+          userId: partiLead.userId,
+          bankAccount: partiLead.bankAccount,
+          position: partiLead.position,
+          role: partiLead.role,
+          budgets: [
+            {
+              transport: partiLead.budgets ? partiLead.budgets.transport : 0,
+              volTransport: partiLead.budgets
+                ? partiLead.budgets.volTransport
+                : 0,
+              representatif: partiLead.budgets
+                ? partiLead.budgets.representatif
+                : 0,
+              volRepresentatif: partiLead.budgets
+                ? partiLead.budgets.volRepresentatif
+                : 0,
+              dailyAllowance: partiLead.budgets
+                ? partiLead.budgets.dailyAllowance
+                : 0,
+              volDailyAllowance: partiLead.budgets
+                ? partiLead.budgets.volDailyAllowance
+                : 0,
+              bankAccount: partiLead.bankAccount,
+            },
+          ],
+        });
+      }
     }
+
     if (formData.participants) {
       formData.participants.forEach((item) => {
         if (item.userId && item.bankAccount && item.position && item.role) {
@@ -827,11 +882,12 @@ export default function CreateSPPD() {
                   <Autocomplete
                     defaultItems={PEGAWAI_SELECT}
                     isLoading={isFetchingJabatan}
+                    isDisabled={role === "PEGAWAI"}
                     aria-label="pegawai"
                     placeholder="Cari pegawai"
                     variant="bordered"
                     radius="sm"
-                    selectedKey={String(formData.participantsLeader?.userId)}
+                    selectedKey={role === "PEGAWAI" ? DATA_FETCHING?.id : String(formData.participantsLeader?.userId)}
                     onSelectionChange={(value) =>
                       onChangeLeader(value as string, "userId")
                     }

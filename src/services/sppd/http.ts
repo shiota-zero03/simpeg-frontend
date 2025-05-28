@@ -10,6 +10,7 @@ import {
   IPelaporanSPPDListRes,
   ISPPDRekapRes,
 } from "@/interface/responses/sppd.interface";
+import store from "@/redux/store";
 
 export const getAllSPPDUser = async (
   page: number,
@@ -81,6 +82,7 @@ export const getAllSPPD = async (
   startDate?: string | null,
   endDate?: string | null,
 ): Promise<ISPPDRes> => {
+  const { role } = store.getState().auth;
   const params = new URLSearchParams();
 
   if (page) params.set("page", page.toString());
@@ -90,9 +92,14 @@ export const getAllSPPD = async (
   if (title) params.set("title", title);
   if (type) params.set("type", type);
   if (nomorSurat) params.set("nomorSurat", nomorSurat);
-  const response = await instance.get(
-    `/admin/sppd/data/admin?${params.toString()}`,
-  );
+
+  let link = `/admin/sppd/data/admin?${params.toString()}`;
+  if(role === "PEGAWAI") {
+    link = `/admin/sppd/rekap/byuser/iduser?${params.toString()}`;
+  } else {
+    link = `/admin/sppd/data/admin?${params.toString()}`;
+  }
+  const response = await instance.get(link);
   return response.data;
 };
 export const createSPPD = async (

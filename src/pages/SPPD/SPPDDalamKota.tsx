@@ -181,33 +181,63 @@ export default function News() {
       setStartData(start);
       setEndData(end);
 
-      return data.response.map((item: SPPDRes) => {
-        let anggaran = 0;
-        const participantLeader = item.participants.find(
-          (it) => it.role === "PEGAWAI",
-        );
-        item.participants.map((it) => {
-          anggaran +=
-            (it.budgets[0]?.dailyAllowance ||
-              0 * it.budgets[0]?.volDailyAllowance ||
-              0) +
-            (it.budgets[0]?.transport || 0 * it.budgets[0]?.volTransport || 0) +
-            (it.budgets[0]?.representatif ||
-              0 * it.budgets[0]?.volRepresentatif ||
-              0);
+      if(role === "PEGAWAI") {
+        return data.response.map((item: SPPDRes) => {
+          let anggaran = 0;
+          const participantLeader = item.sppd.participants.find(
+            (it) => it.role === "PEGAWAI",
+          );
+          item.sppd.participants.map((it) => {
+            anggaran +=
+              (it.budgets[0]?.dailyAllowance ||
+                0 * it.budgets[0]?.volDailyAllowance ||
+                0) +
+              (it.budgets[0]?.transport || 0 * it.budgets[0]?.volTransport || 0) +
+              (it.budgets[0]?.representatif ||
+                0 * it.budgets[0]?.volRepresentatif ||
+                0);
+          });
+  
+          return {
+            id: item.sppd.id,
+            nomorSurat: item.sppd.nomorSurat,
+            kegiatan: item.sppd.activity,
+            waktu: `${item.sppd.startDate ? DMYIndoToFormat(item.sppd.startDate) : ""} - ${item.sppd.endDate ? DMYIndoToFormat(item.sppd.endDate) : ""}`,
+            lokasi: item.sppd.location,
+            anggaran: anggaran,
+            participantsLeader: participantLeader,
+            participants: item.sppd.participants,
+          };
         });
-
-        return {
-          id: item.id,
-          nomorSurat: item.nomorSurat,
-          kegiatan: item.activity,
-          waktu: `${item.startDate ? DMYIndoToFormat(item.startDate) : ""} - ${item.endDate ? DMYIndoToFormat(item.endDate) : ""}`,
-          lokasi: item.location,
-          anggaran: anggaran,
-          participantsLeader: participantLeader,
-          participants: item.participants,
-        };
-      });
+      } else {
+        return data.response.map((item: SPPDRes) => {
+          let anggaran = 0;
+          const participantLeader = item.participants.find(
+            (it) => it.role === "PEGAWAI",
+          );
+          item.participants.map((it) => {
+            anggaran +=
+              (it.budgets[0]?.dailyAllowance ||
+                0 * it.budgets[0]?.volDailyAllowance ||
+                0) +
+              (it.budgets[0]?.transport || 0 * it.budgets[0]?.volTransport || 0) +
+              (it.budgets[0]?.representatif ||
+                0 * it.budgets[0]?.volRepresentatif ||
+                0);
+          });
+  
+          return {
+            id: item.id,
+            nomorSurat: item.nomorSurat,
+            kegiatan: item.activity,
+            waktu: `${item.startDate ? DMYIndoToFormat(item.startDate) : ""} - ${item.endDate ? DMYIndoToFormat(item.endDate) : ""}`,
+            lokasi: item.location,
+            anggaran: anggaran,
+            participantsLeader: participantLeader,
+            participants: item.participants,
+          };
+        });
+      }
     } else {
       return [];
     }
@@ -280,7 +310,7 @@ export default function News() {
         const { id } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
-            {(role === "ADMIN_SPPD" || role === "SUPERUSERS") && (
+            {(role === "ADMIN_SPPD" || role === "SUPERUSERS" || role === "PEGAWAI") && (
               <Button
                 onPress={() =>
                   navigate(`/sppd/update-data/${id}?type=PERJALANAN_DALAM_KOTA`)
@@ -300,7 +330,7 @@ export default function News() {
             >
               <FaFilePdf size={14} />
             </Link>
-            {(role === "ADMIN_SPPD" || role === "SUPERUSERS") && (
+            {(role === "ADMIN_SPPD" || role === "SUPERUSERS" || role === "PEGAWAI") && (
               <Button
                 onPress={() => {
                   setSelectedId(id);

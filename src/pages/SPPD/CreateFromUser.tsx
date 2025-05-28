@@ -12,24 +12,20 @@ import {
 import { LuArchiveRestore, LuArrowLeft, LuSave } from "react-icons/lu";
 import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { Link } from "react-router-dom";
 import { useGetAllPegawaiOption } from "@/services/pegawai";
 import {
-  LucideEye,
   LucidePlusCircle,
   LucideTrash2,
   LucideUploadCloud,
 } from "lucide-react";
-import { useGetDetailSPPD, useUpdateSPPD } from "@/services/sppd";
+import { useCreateSPPD } from "@/services/sppd";
 import { StoreSPPD } from "@/interface/request/sppd.interface";
 import { convertFileToBase64 } from "@/utils/base64Formater";
-import { DateYMDFormat } from "@/utils/dateFormater";
-import { Commet } from "react-loading-indicators";
-import store from "@/redux/store";
 
 interface formProps {
   nomorSurat?: string;
@@ -110,15 +106,11 @@ interface errorProps {
   participants?: string;
 }
 
-export default function UpdateSPPD() {
-  const { role } = store.getState().auth;
+export default function CreateSPPD() {
   const queryParams = new URLSearchParams(window.location.search);
   const tab = queryParams.get("type");
   const tabData = tab as string;
 
-  const { id } = useParams();
-
-  const [file, setFile] = useState<string>("");
   const [formData, setFormData] = useState<formProps>({
     nomorSurat: "",
     type: "",
@@ -217,17 +209,6 @@ export default function UpdateSPPD() {
     }
   };
 
-  const { data, isFetching, refetch, error } = useGetDetailSPPD(id as string);
-
-  useEffect(() => {
-    if (!isFetching && error) {
-      ErrorToast({ text: "Data tidak ditemukan" });
-      navigate(
-        `/sppd?tabs=${tabData === "PERJALANAN_DALAM_KOTA" ? "dalamkota" : "biasa"}`,
-      );
-    }
-  }, [isFetching, refetch]);
-
   const {
     data: allDataJabatan,
     isFetching: isFetchingJabatan,
@@ -254,6 +235,7 @@ export default function UpdateSPPD() {
     if (!formData.startDate)
       error.startDate = "Tanggal mulai tidak boleh kosong";
     if (!formData.endDate) error.endDate = "Tanggal selesai tidak boleh kosong";
+    if (!formData.file) error.file = "File tidak boleh kosong";
     if (!formData.komitmenid)
       error.komitmenid = "Data komitmen tidak boleh kosong";
     if (!formData.bendaharaId)
@@ -268,88 +250,65 @@ export default function UpdateSPPD() {
   };
 
   useEffect(() => {
-    if (data) {
-      const dataGet = data.data;
-      setFile(dataGet.file);
-
-      const partiLeader = dataGet.participants.find(
-        (key) => key.role === "PEGAWAI",
-      );
-
-      const partiMember = dataGet.participants.filter(
-        (key) => key.role !== "PEGAWAI",
-      );
-
-      const dataMember = partiMember.map((item) => {
-        return {
-          userId: item?.user.id,
-          userName: item?.user?.name ?? "",
-          userJabatan: item?.user?.jabatan?.nameJob ?? "",
-          userNIP: item?.user?.nip ?? "",
-          bankAccount: item?.bankAccount ?? "",
-          position: item?.position ?? "",
+    setFormData({
+      nomorSurat: "",
+      type: "",
+      kodeRekening: "",
+      activity: "",
+      reasoning: "",
+      location: "",
+      startDate: "",
+      endDate: "",
+      file: "",
+      komitmenid: "",
+      komitmenName: "",
+      komitmenJabatan: "",
+      komitmenNip: "",
+      bendaharaId: "",
+      bendaharaName: "",
+      bendaharaJabatan: "",
+      bendaharaNip: "",
+      participantsLeader: {
+        userId: "",
+        userName: "",
+        userJabatan: "",
+        userNIP: "",
+        bankAccount: "",
+        position: "",
+        role: "PEGAWAI",
+        budgets: {
+          transport: 0,
+          volTransport: 0,
+          representatif: 0,
+          volRepresentatif: 0,
+          dailyAllowance: 0,
+          volDailyAllowance: 0,
+          bankAccount: "",
+        },
+      },
+      participants: [
+        {
+          userId: "",
+          userName: "",
+          userJabatan: "",
+          userNIP: "",
+          bankAccount: "",
+          position: "",
           role: "PENGIKUT",
           budgets: {
-            transport: item?.budgets[0]?.transport,
-            volTransport: item?.budgets[0]?.volTransport,
-            representatif: item?.budgets[0]?.representatif,
-            volRepresentatif: item?.budgets[0]?.volRepresentatif,
-            dailyAllowance: item?.budgets[0]?.dailyAllowance,
-            volDailyAllowance: item?.budgets[0]?.volDailyAllowance,
-            bankAccount: item?.bankAccount,
-          },
-        };
-      });
-
-      setFormData({
-        nomorSurat: dataGet.nomorSurat,
-        type: dataGet.type,
-        kodeRekening: dataGet.kodeRekening,
-        activity: dataGet.activity,
-        reasoning: dataGet.reasoning,
-        location: dataGet.location,
-        startDate: dataGet.startDate ? DateYMDFormat(dataGet.startDate) : "",
-        endDate: dataGet.endDate ? DateYMDFormat(dataGet.endDate) : "",
-        file: "",
-        komitmenid: dataGet.komitmenid,
-        komitmenName: dataGet.komitmenName,
-        komitmenJabatan: dataGet.komitmenJabatan,
-        komitmenNip: dataGet.komitmenNip,
-        bendaharaId: dataGet.bendaharaId,
-        bendaharaName: dataGet.bendaharaName,
-        bendaharaJabatan: dataGet.bendaharaJabatan,
-        bendaharaNip: dataGet.bendaharaNip,
-        participantsLeader: {
-          userId: partiLeader?.userId,
-          userName: partiLeader?.user.name,
-          userJabatan: partiLeader?.user.jabatan
-            ? partiLeader?.user.jabatan.nameJob
-            : "",
-          userNIP: partiLeader?.user.nip,
-          bankAccount: partiLeader?.bankAccount,
-          position: partiLeader?.position,
-          role: "PEGAWAI",
-          budgets: {
-            transport: partiLeader?.budgets[0]?.transport,
-            volTransport: partiLeader?.budgets[0]?.volTransport,
-            representatif: partiLeader?.budgets[0]?.representatif,
-            volRepresentatif: partiLeader?.budgets[0]?.volRepresentatif,
-            dailyAllowance: partiLeader?.budgets[0]?.dailyAllowance,
-            volDailyAllowance: partiLeader?.budgets[0]?.volDailyAllowance,
-            bankAccount: partiLeader?.bankAccount,
+            transport: 0,
+            volTransport: 0,
+            representatif: 0,
+            volRepresentatif: 0,
+            dailyAllowance: 0,
+            volDailyAllowance: 0,
+            bankAccount: "",
           },
         },
-        participants: dataMember,
-      });
-    }
-  }, [id, data]);
-
-  useEffect(() => {
+      ],
+    });
     refetchJabatan();
   }, []);
-  useEffect(() => {
-    refetch();
-  }, [id]);
 
   type BudgetsKey = keyof NonNullable<
     NonNullable<typeof formData.participantsLeader>["budgets"]
@@ -487,7 +446,7 @@ export default function UpdateSPPD() {
     onOpenConfirm();
   };
 
-  const { mutate: mutatePost } = useUpdateSPPD();
+  const { mutate: mutatePost } = useCreateSPPD();
   const handleConfirm = () => {
     setLoadingConfirm(true);
 
@@ -528,21 +487,21 @@ export default function UpdateSPPD() {
         role: partiLead.role,
         budgets: [
           {
-            transport: partiLead.budgets ? partiLead.budgets.transport || 0 : 0,
+            transport: partiLead.budgets ? partiLead.budgets.transport : 0,
             volTransport: partiLead.budgets
-              ? partiLead.budgets.volTransport || 0
+              ? partiLead.budgets.volTransport
               : 0,
             representatif: partiLead.budgets
-              ? partiLead.budgets.representatif || 0
+              ? partiLead.budgets.representatif
               : 0,
             volRepresentatif: partiLead.budgets
-              ? partiLead.budgets.volRepresentatif || 0
+              ? partiLead.budgets.volRepresentatif
               : 0,
             dailyAllowance: partiLead.budgets
-              ? partiLead.budgets.dailyAllowance || 0
+              ? partiLead.budgets.dailyAllowance
               : 0,
             volDailyAllowance: partiLead.budgets
-              ? partiLead.budgets.volDailyAllowance || 0
+              ? partiLead.budgets.volDailyAllowance
               : 0,
             bankAccount: partiLead.bankAccount,
           },
@@ -559,19 +518,15 @@ export default function UpdateSPPD() {
             role: item.role,
             budgets: [
               {
-                transport: item.budgets ? item.budgets.transport || 0 : 0,
-                volTransport: item.budgets ? item.budgets.volTransport || 0 : 0,
-                representatif: item.budgets
-                  ? item.budgets.representatif || 0
-                  : 0,
+                transport: item.budgets ? item.budgets.transport : 0,
+                volTransport: item.budgets ? item.budgets.volTransport : 0,
+                representatif: item.budgets ? item.budgets.representatif : 0,
                 volRepresentatif: item.budgets
-                  ? item.budgets.volRepresentatif || 0
+                  ? item.budgets.volRepresentatif
                   : 0,
-                dailyAllowance: item.budgets
-                  ? item.budgets.dailyAllowance || 0
-                  : 0,
+                dailyAllowance: item.budgets ? item.budgets.dailyAllowance : 0,
                 volDailyAllowance: item.budgets
-                  ? item.budgets.volDailyAllowance || 0
+                  ? item.budgets.volDailyAllowance
                   : 0,
                 bankAccount: item.bankAccount,
               },
@@ -580,6 +535,7 @@ export default function UpdateSPPD() {
         }
       });
     }
+
     if (formData.nomorSurat) formToSendData.nomorSurat = formData.nomorSurat;
     if (formData.type) formToSendData.type = formData.type;
     if (formData.type === "PERJALANAN_BIASA") {
@@ -610,38 +566,41 @@ export default function UpdateSPPD() {
     formToSendData.participants = participantData;
 
     try {
-      mutatePost(
-        {
-          id: id as string,
-          formData: formToSendData,
+      mutatePost(formToSendData, {
+        onSuccess: () => {
+          SuccessToast({ text: "Data berhasil disimpan" });
+          setLoadingConfirm(false);
+          onCloseConfirm();
+          navigate(
+            `/sppd?tabs=${tabData === "PERJALANAN_DALAM_KOTA" ? "dalamkota" : "biasa"}`,
+          );
         },
-        {
-          onSuccess: () => {
-            SuccessToast({ text: "Data berhasil disimpan" });
-            setLoadingConfirm(false);
-            onCloseConfirm();
-            navigate(
-              `/sppd?tabs=${tabData === "PERJALANAN_DALAM_KOTA" ? "dalamkota" : "biasa"}`,
-            );
-          },
-          onError: (error: AxiosError<BaseErrorRes>) => {
-            setLoadingConfirm(false);
-            onCloseConfirm();
-            ErrorToast({
-              text:
-                (error.response?.data.message as string) ||
-                "Terjadi kesalahan saat menambah data",
-            });
-            throw error;
-          },
+        onError: (error: AxiosError<BaseErrorRes>) => {
+          setLoadingConfirm(false);
+          onCloseConfirm();
+          ErrorToast({
+            text:
+              (error.response?.data.message as string) ||
+              "Terjadi kesalahan saat menambah data",
+          });
+          throw error;
         },
-      );
+      });
     } catch (error) {
       setLoadingConfirm(false);
       onCloseConfirm();
       throw error;
     }
   };
+
+  useEffect(() => {
+    if (tabData) {
+      setFormData({
+        ...formData,
+        type: tabData,
+      });
+    }
+  }, [tabData]);
 
   return (
     <>
@@ -652,11 +611,6 @@ export default function UpdateSPPD() {
         isLoading={isLoadingConfirm}
         handleSubmit={handleConfirm}
       />
-      {isFetching && (
-        <div className="inset-0 fixed flex items-center justify-center z-20">
-          <Commet color="#32cd32" size="medium" text="" textColor="" />
-        </div>
-      )}
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8">
         <div className="flex">
           <Link
@@ -873,7 +827,6 @@ export default function UpdateSPPD() {
                   <Autocomplete
                     defaultItems={PEGAWAI_SELECT}
                     isLoading={isFetchingJabatan}
-                    isDisabled={role === "PEGAWAI"}
                     aria-label="pegawai"
                     placeholder="Cari pegawai"
                     variant="bordered"
@@ -1782,17 +1735,8 @@ export default function UpdateSPPD() {
                 <div className="max-w-80">
                   <div className="mb-1">
                     <label htmlFor="content" className="font-semibold text-xs">
-                      File
+                      File <span className="text-danger">*</span>
                     </label>
-                  </div>
-                  <div>
-                    <Link
-                      to={file}
-                      target="__blank"
-                      className="bg-accent-primary flex items-center gap-2 text-center rounded-md p-2 text-white mb-2 text-xs"
-                    >
-                      <LucideEye size={14} /> File Sebelumnya
-                    </Link>
                   </div>
                   <div className="border p-8 mb-2 flex items-center justify-center">
                     {formData.file ? (

@@ -37,6 +37,7 @@ import DataTables from "@/components/DataTables";
 import { BiReset, BiSearch } from "react-icons/bi";
 import { convertFileToBase64 } from "@/utils/base64Formater";
 import { LucideUploadCloud } from "lucide-react";
+import store from "@/redux/store";
 
 interface formProps {
   userId?: string;
@@ -73,6 +74,7 @@ interface DataProps {
 }
 
 export default function CreatePegawai() {
+  const { role } = store.getState().auth;
   const [formAsset, setFormAsset] = useState<assetProps[]>([]);
   const [formData, setFormData] = useState<formProps>({
     userId: "",
@@ -90,7 +92,33 @@ export default function CreatePegawai() {
 
   const PEGAWAI_SELECT = useMemo(() => {
     if (!allDataPegawai) return [];
-    return allDataPegawai.data;
+    if(role?.includes('UPTD')){
+      if(role === "UPTD_1") {
+        return allDataPegawai.data.filter(it => it.jabatan.unit.nameUnit.includes('WILAYAH I'))
+      } else if(role === "UPTD_2") {
+        return allDataPegawai.data.filter(it => it.jabatan.unit.nameUnit.includes('WILAYAH II'))
+      } else if(role === "UPTD_3") {
+        return allDataPegawai.data.filter(it => it.jabatan.unit.nameUnit.includes('WILAYAH III'))
+      } else if(role === "UPTD_4") {
+        return allDataPegawai.data.filter(it => it.jabatan.unit.nameUnit.includes('WILAYAH IV'))
+      } else if(role === "UPTD_5") {
+        return allDataPegawai.data.filter(it => it.jabatan.unit.nameUnit.includes('WILAYAH V'))
+      } else if(role === "UPTD_6") {
+        return allDataPegawai.data.filter(it => it.jabatan.unit.nameUnit.includes('WILAYAH VI'))
+      } else if(role === "UPTD_7") {
+        return allDataPegawai.data.filter(it => it.jabatan.unit.nameUnit.includes('WILAYAH VII'))
+      } else if(role === "UPTD_8") {
+        return allDataPegawai.data.filter(it => it.jabatan.unit.nameUnit.includes('WILAYAH VIII'))
+      } else if(role === "UPTD_9") {
+        return allDataPegawai.data.filter(it => it.jabatan.unit.nameUnit.includes('WILAYAH IX'))
+      } else if(role === "UPTD_LEGAL") {
+        return allDataPegawai.data.filter(it => it.jabatan.unit.nameUnit.includes('METROLOGI LEGAL'))
+      } else {
+        return allDataPegawai.data;  
+      }
+    } else {
+      return allDataPegawai.data;
+    }
   }, [allDataPegawai]);
 
   const changePegawai = (value: string) => {
