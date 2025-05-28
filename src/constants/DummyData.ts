@@ -22,6 +22,46 @@ export const RoleAccess: {
     name: "Pegawai",
     key: "PEGAWAI",
   },
+  {
+    name: "Admin UPTD Wilayah I",
+    key: "UPTD_1",
+  },
+  {
+    name: "Admin UPTD Wilayah II",
+    key: "UPTD_2",
+  },
+  {
+    name: "Admin UPTD Wilayah III",
+    key: "UPTD_3",
+  },
+  {
+    name: "Admin UPTD Wilayah IV",
+    key: "UPTD_4",
+  },
+  {
+    name: "Admin UPTD Wilayah V",
+    key: "UPTD_5",
+  },
+  {
+    name: "Admin UPTD Wilayah VI",
+    key: "UPTD_6",
+  },
+  {
+    name: "Admin UPTD Wilayah VII",
+    key: "UPTD_7",
+  },
+  {
+    name: "Admin UPTD Wilayah VIII",
+    key: "UPTD_8",
+  },
+  {
+    name: "Admin UPTD Wilayah IX",
+    key: "UPTD_9",
+  },
+  {
+    name: "Admin UPTD Metrologi Legal",
+    key: "UPTD_LEGAL",
+  },
 ];
 
 export const EselonData: {
@@ -653,6 +693,7 @@ export const DinasUptdData: { name: string; key: string }[] = [
 ];
 
 export const statusKepegawaianData: { name: string; key: string }[] = [
+  { key: "", name: "Aktif" },
   { key: "MENINGGAL", name: "Meninggal" },
   { key: "MUTASI", name: "Mutasi (Pindah)" },
   { key: "MENGUNDURKAN_DIRI", name: "Mengundurkan diri" },

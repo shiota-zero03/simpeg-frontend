@@ -18,7 +18,7 @@ import {
 import { LuArrowLeft, LuImage, LuSave } from "react-icons/lu";
 import ConfirmModal from "@/components/modals/UtilsModal/ConfirmModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
 import { Link } from "react-router-dom";
 import {
@@ -92,6 +92,9 @@ interface errorProps {
 export default function CreatePegawai() {
   const { id } = useParams();
 
+  const [searchParams] = useSearchParams();
+  const s = searchParams.get("s");
+
   const [foto, setFoto] = useState<string>("");
 
   const navigate = useNavigate();
@@ -100,7 +103,7 @@ export default function CreatePegawai() {
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/pegawai");
+      navigate(`/pegawai${s ? `?tab=${s}` : ""}`);
     }
   }, [isFetching, refetch]);
 
@@ -295,13 +298,15 @@ export default function CreatePegawai() {
     if (formData.pendidikanTerakhir)
       formToSend.education = formData.pendidikanTerakhir;
 
+
     if (formData.statusPegawai) {
       formToSend.employmentStatus = formData.statusPegawai;
       formToSend.status = false;
     } else {
       formToSend.employmentStatus = null;
-      formToSend.status = formData.isActive;
+      formToSend.status = true;
     }
+    
     formToSend.statusAsn = formData.asnStatus;
 
     try {
@@ -313,7 +318,7 @@ export default function CreatePegawai() {
         {
           onSuccess: () => {
             SuccessToast({ text: "Data berhasil diperbarui" });
-            navigate("/pegawai");
+            navigate(`/pegawai${s ? `?tab=${s}` : ""}`);
           },
           onError: (error: AxiosError<BaseErrorRes>) => {
             ErrorToast({
@@ -378,7 +383,7 @@ export default function CreatePegawai() {
       <div className="md:p-8 p-4 grid grid-cols-1 gap-8 relative z-10">
         <div className="flex">
           <Link
-            to={`/pegawai`}
+            to={`/pegawai${s ? `?tab=${s}` : ""}`}
             className="flex items-center text-accent-primary gap-2 py-1 px-2 border border-accent-primary rounded-full font-medium text-xs hover:bg-accent-primary hover:text-white duration-200"
           >
             <LuArrowLeft /> Kembali
@@ -672,7 +677,7 @@ export default function CreatePegawai() {
                       </label>
                     </div>
                     <Select
-                      selectedKeys={[formData.statusPegawai]}
+                      selectedKeys={[formData.statusPegawai || ""]}
                       onChange={(e) =>
                         setFormData({
                           ...formData,

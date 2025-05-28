@@ -136,7 +136,7 @@ export default function PegawaiIndexInActive() {
           <div className="flex items-center gap-2 justify-center">
             <Button
               onPress={() => {
-                navigate(`/pegawai/detail-data/${id}`);
+                navigate(`/pegawai/detail-data/${id}?s=data-pegawai-non-aktif`);
               }}
               isIconOnly
               radius="sm"
@@ -148,7 +148,7 @@ export default function PegawaiIndexInActive() {
             {(role === "SUPERUSERS" || role === "ADMIN") && (
               <Button
                 onPress={() => {
-                  navigate(`/pegawai/edit-data/${id}`);
+                  navigate(`/pegawai/edit-data/${id}?s=data-pegawai-non-aktif`);
                 }}
                 isIconOnly
                 radius="sm"

@@ -1,7 +1,7 @@
 import { TitleCase } from "@/components/card/TitleCase";
 import { Card, CardBody, CardHeader } from "@heroui/react";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { LucidePencilLine } from "lucide-react";
 import { useGetDetailPegawai } from "@/services/pegawai";
 import { useEffect, useMemo } from "react";
@@ -15,6 +15,8 @@ export default function UpdateNews() {
   const role = store.getState().auth.role as string;
   const { id } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const s = searchParams.get("s");
 
   const { data, isFetching, refetch, error } = useGetDetailPegawai(id || "");
   const {
@@ -30,7 +32,7 @@ export default function UpdateNews() {
   useEffect(() => {
     if (!isFetching && error) {
       ErrorToast({ text: "Data tidak ditemukan" });
-      navigate("/pegawai");
+      navigate(`/pegawai${s ? `?s=${s}` : ""}`);
     }
   }, [isFetching, refetch]);
 
@@ -59,7 +61,7 @@ export default function UpdateNews() {
           {(role === "ADMIN" || role === "SUPERUSERS") && (
             <CardHeader>
               <Link
-                to={`/pegawai/edit-data/${id}`}
+                to={`/pegawai/edit-data/${id}${s ? `?s=${s}` : ""}`}
                 className="flex gap-2 items-center text-info bg-alert-info font-semibold p-2 text-sm rounded-md ms-auto"
               >
                 <LucidePencilLine size={18} /> Edit Data
