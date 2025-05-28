@@ -191,7 +191,7 @@ export default function AssetIndex() {
         const { id } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
-            {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
+            {(role === "SUPERUSERS" || role === "ADMIN_ASSET" || role.includes("UPTD")) && (
               <Button
                 onPress={() => {
                   setSelectedId(String(id));
@@ -345,7 +345,7 @@ export default function AssetIndex() {
                 >
                   <BiReset size={12} />
                 </Button>
-                {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
+                {(role === "SUPERUSERS" || role === "ADMIN_ASSET" || role.includes("UPTD")) && (
                   <Button
                     onPress={() =>
                       navigate(`/manajemen-aset/tambah-pemegang-aset`)

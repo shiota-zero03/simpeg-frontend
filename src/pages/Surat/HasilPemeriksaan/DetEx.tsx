@@ -50,34 +50,34 @@ export default function DetailExportSurat({
                                     : "-"}, saya telah melakukan permintaan keterangan terhadap:` }} />
           {nama.map((item, index) => (
             <div key={index} className="flex">
-              <div className="w-8">{index + 1}</div>
+              <div className="min-w-8 max-w-8">{index + 1}</div>
               <div className="flex flex-col">
                 <div className="flex items-top font-normal gap-2">
-                  <div className="w-24">Nama </div>
+                  <div className="min-w-24 max-w-24">Nama </div>
                   <span>:</span>
                   <span className="font-semibold">
-                    &nbsp;&nbsp;&nbsp;{item}
+                    {item}
                   </span>
                 </div>
                 <div className="flex items-top font-normal gap-2">
-                  <div className="w-24">NIP </div>
+                  <div className="min-w-24 max-w-24">NIP </div>
                   <span>:</span>
-                  <span>&nbsp;&nbsp;&nbsp;{nip[index] || "-"}</span>
+                  <span>{nip[index] || "-"}</span>
                 </div>
                 <div className="flex items-top font-normal gap-2">
-                  <div className="w-24">Jabatan </div>
+                  <div className="min-w-24 max-w-24">Jabatan </div>
                   <span>:</span>
-                  <span>&nbsp;&nbsp;&nbsp;{jabatan[index] || "-"}</span>
+                  <span>{jabatan[index] || "-"}</span>
                 </div>
                 <div className="flex items-top font-normal gap-2">
-                  <div className="w-24">Golongan </div>
+                  <div className="min-w-24 max-w-24">Golongan </div>
                   <span>:</span>
-                  <span>&nbsp;&nbsp;&nbsp;{golongan[index] || "-"}</span>
+                  <span>{golongan[index] || "-"}</span>
                 </div>
                 <div className="flex items-top font-normal gap-2">
-                  <div className="w-24">Unit Kerja </div>
+                  <div className="min-w-24 max-w-24">Unit Kerja </div>
                   <span>:</span>
-                  <span>&nbsp;&nbsp;&nbsp;{unit[index] || "-"}</span>
+                  <span>{unit[index] || "-"}</span>
                 </div>
               </div>
             </div>
