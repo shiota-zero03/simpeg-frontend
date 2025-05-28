@@ -120,7 +120,7 @@ export default function DetailExportSurat({
               <table className="w-full">
                 <thead>
                   <tr>
-                    <td className="text-left" colSpan={2}>
+                    <td className="text-left" colSpan={4}>
                       Yang diperiksa
                     </td>
                   </tr>
@@ -130,19 +130,19 @@ export default function DetailExportSurat({
                     <React.Fragment key={index}>
                       <tr>
                         <td className="w-8 align-top">{index + 1}</td>
-                        <td className="w-36 align-top">Nama</td>
+                        <td className="min-w-24 max-w-24 align-top">Nama</td>
                         <td className="align-top">: </td>
                         <td className="align-top">{item}</td>
                       </tr>
                       <tr>
                         <td></td>
-                        <td className="w-36 align-top">NIP</td>
+                        <td className="min-w-24 max-w-24 align-top">NIP</td>
                         <td className="align-top">: </td>
                         <td className="align-top">{nip[0] || "-"}</td>
                       </tr>
                       <tr>
                         <td></td>
-                        <td className="w-36 align-top">Tanda Tangan</td>
+                        <td className="min-w-24 max-w-24 align-top">Tanda Tangan</td>
                         <td className="align-top">: </td>
                         <td className="align-top"></td>
                       </tr>
@@ -155,24 +155,24 @@ export default function DetailExportSurat({
               <table className="w-full">
                 <thead>
                   <tr>
-                    <td className="text-left" colSpan={2}>
+                    <td className="text-left" colSpan={3}>
                       Yang memeriksa
                     </td>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="w-36 align-top">Nama</td>
+                    <td className="min-w-28 max-w-28 align-top">Nama</td>
                     <td className="align-top">:</td>
                     <td>{DATA_DETAIL.pemeriksa}</td>
                   </tr>
                   <tr>
-                    <td className="w-36 align-top">NIP</td>
+                    <td className="min-w-28 max-w-28 align-top">NIP</td>
                     <td className="align-top">:</td>
                     <td>{DATA_DETAIL.nipPemeriksa}</td>
                   </tr>
                   <tr>
-                    <td className="w-36 align-top">Tanda Tangan</td>
+                    <td className="min-w-28 max-w-28 align-top">Tanda Tangan</td>
                     <td className="align-top">:</td>
                     <td></td>
                   </tr>
