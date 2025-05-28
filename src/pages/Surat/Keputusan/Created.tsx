@@ -408,7 +408,7 @@ export default function CreateSurat() {
               name: item.diPanggil,
               nip: item.nipDiPanggil,
               jabatan: jabatan,
-              unit: item.nipDiPanggil,
+              unit: item.unitDiPanggil,
               golongan: golongan,
               pangkat: pangkat,
             };
