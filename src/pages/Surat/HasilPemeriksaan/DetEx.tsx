@@ -188,9 +188,9 @@ export default function DetailExportSurat({
             {DATA_DETAIL.tembusan.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center font-semibold gap-2"
+                className="flex items-start font-semibold gap-2"
               >
-                {index + 1}. {item.jabatan}
+                <div className="min-w-6 max-w-6">{index + 1}.</div> {item.jabatan}
               </div>
             ))}
           </div>
