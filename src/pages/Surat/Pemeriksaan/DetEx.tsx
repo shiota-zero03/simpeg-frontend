@@ -33,14 +33,14 @@ export default function DetailExportSurat({
           <div className="mb-2">Yang bertanda tangan di bawah ini:</div>
           <div className="flex flex-col ms-12">
             <div className="flex items-start font-normal gap-2">
-              <div className="w-20">Nama </div>:
+              <div className="min-w-20 max-w-20">Nama </div>:
               <div className="font-semibold">{DATA_DETAIL?.namaTtd}</div>
             </div>
             <div className="flex items-start font-normal gap-2">
-              <div className="w-20">NIP </div>:<div>{DATA_DETAIL?.nipTtd}</div>
+              <div className="min-w-20 max-w-20">NIP </div>:<div>{DATA_DETAIL?.nipTtd}</div>
             </div>
             <div className="flex items-start font-normal gap-2">
-              <div className="w-20">Jabatan </div>:
+              <div className="min-w-20 max-w-20">Jabatan </div>:
               <div>{DATA_DETAIL?.jabatanTtd}</div>
             </div>
           </div>
@@ -80,7 +80,7 @@ export default function DetailExportSurat({
           </div>
           <br />
           <br />
-          <div className="ms-auto text-start">
+          <div className="ms-auto text-start avoid-break">
             <div className="flex items-center font-normal gap-2">
               <div className="w-36">Dikeluarkan di</div>:{" "}
               {DATA_DETAIL?.tempatDikeluarkan}

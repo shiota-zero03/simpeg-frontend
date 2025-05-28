@@ -160,7 +160,7 @@ export default function DetailExportSurat({
             penetapan keputusan penjatuhan Hukuman Disiplin
           </div>
           <br />
-          <div className="ms-auto text-start">
+          <div className="ms-auto text-start avoid-break">
             <div className="flex items-center gap-2 font-semibold">
               Yang melaporkan,
             </div>
@@ -181,7 +181,7 @@ export default function DetailExportSurat({
               </div>
             </div>
           </div>
-          <div className="me-auto w-full">
+          <div className="me-auto w-full avoid-break">
             <div className="flex items-center justify-start font-semibold text-sm gap-2 mb-2">
               Tembusan Yth:
             </div>

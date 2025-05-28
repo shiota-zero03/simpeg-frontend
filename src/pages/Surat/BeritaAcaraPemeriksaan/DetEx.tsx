@@ -110,74 +110,76 @@ export default function DetailExportSurat({
             sebagaimana mestinya.
           </div>
           <br />
-          <div className="ms-auto w-[calc(500%/11)] text-start">
-            <div className="ms-2">
-              Bekasi, {DMYIndoToFormat(DATA_DETAIL.createdAt)}
+          <div className="avoid-break">
+            <div className="ms-auto w-[calc(500%/11)] text-start">
+              <div className="ms-2">
+                Bekasi, {DMYIndoToFormat(DATA_DETAIL.createdAt)}
+              </div>
             </div>
-          </div>
-          <div className="mt-2 grid sm:grid-cols-11 grid-cols-1 gap-2">
-            <div className="overflow-x-auto sm:col-span-6">
-              <table className="w-full">
-                <thead>
-                  <tr>
-                    <td className="text-left" colSpan={4}>
-                      Yang diperiksa
-                    </td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {nama.map((item, index) => (
-                    <React.Fragment key={index}>
-                      <tr>
-                        <td className="w-8 align-top">{index + 1}</td>
-                        <td className="min-w-24 max-w-24 align-top">Nama</td>
-                        <td className="align-top">: </td>
-                        <td className="align-top">{item}</td>
-                      </tr>
-                      <tr>
-                        <td></td>
-                        <td className="min-w-24 max-w-24 align-top">NIP</td>
-                        <td className="align-top">: </td>
-                        <td className="align-top">{nip[0] || "-"}</td>
-                      </tr>
-                      <tr>
-                        <td></td>
-                        <td className="min-w-24 max-w-24 align-top">Tanda Tangan</td>
-                        <td className="align-top">: </td>
-                        <td className="align-top"></td>
-                      </tr>
-                    </React.Fragment>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="overflow-x-auto sm:col-span-5">
-              <table className="w-full">
-                <thead>
-                  <tr>
-                    <td className="text-left" colSpan={3}>
-                      Yang memeriksa
-                    </td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="min-w-28 max-w-28 align-top">Nama</td>
-                    <td className="align-top">:</td>
-                    <td>{DATA_DETAIL.pemeriksa}</td>
-                  </tr>
-                  <tr>
-                    <td className="min-w-28 max-w-28 align-top">NIP</td>
-                    <td className="align-top">:</td>
-                    <td>{DATA_DETAIL.nipPemeriksa}</td>
-                  </tr>
-                  <tr>
-                    <td className="min-w-28 max-w-28 align-top">Tanda Tangan</td>
-                    <td className="align-top">:</td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
+            <div className="mt-2 grid sm:grid-cols-11 grid-cols-1 gap-2 ">
+              <div className="overflow-x-auto sm:col-span-6">
+                <table className="w-full">
+                  <thead>
+                    <tr>
+                      <td className="text-left" colSpan={4}>
+                        Yang diperiksa
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {nama.map((item, index) => (
+                      <React.Fragment key={index}>
+                        <tr>
+                          <td className="w-8 align-top">{index + 1}</td>
+                          <td className="min-w-24 max-w-24 align-top">Nama</td>
+                          <td className="align-top">: </td>
+                          <td className="align-top">{item}</td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td className="min-w-24 max-w-24 align-top">NIP</td>
+                          <td className="align-top">: </td>
+                          <td className="align-top">{nip[0] || "-"}</td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td className="min-w-24 max-w-24 align-top">Tanda Tangan</td>
+                          <td className="align-top">: </td>
+                          <td className="align-top"></td>
+                        </tr>
+                      </React.Fragment>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="overflow-x-auto sm:col-span-5">
+                <table className="w-full">
+                  <thead>
+                    <tr>
+                      <td className="text-left" colSpan={3}>
+                        Yang memeriksa
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="min-w-28 max-w-28 align-top">Nama</td>
+                      <td className="align-top">:</td>
+                      <td>{DATA_DETAIL.pemeriksa}</td>
+                    </tr>
+                    <tr>
+                      <td className="min-w-28 max-w-28 align-top">NIP</td>
+                      <td className="align-top">:</td>
+                      <td>{DATA_DETAIL.nipPemeriksa}</td>
+                    </tr>
+                    <tr>
+                      <td className="min-w-28 max-w-28 align-top">Tanda Tangan</td>
+                      <td className="align-top">:</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

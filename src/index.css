@@ -35,25 +35,36 @@
 
 @media print {
   @page {
-    margin: 0;
     size: A4 portrait;
+    margin-right: 0 !important;
+    margin-bottom: 2.5cm;
+    margin-top: 2.5cm;
+    margin-left: 0 !important;
+  }
 
-    /* Coba hilangkan header & footer default */
-    /* Chrome tidak selalu hormati ini, tapi layak dicoba */
+  @page :first {
+    margin-top: 0;
+    margin-right: 0 !important;
+    margin-bottom: 2.5cm;
+    margin-left: 0 !important;
   }
 
   html,
   body {
-    margin: 0 !important;
-    padding: 0 !important;
     font-size: 12px;
-    -webkit-print-color-adjust: exact; /* agar warna tailwind tetap terlihat */
+    margin: 0 !important;
+    -webkit-print-color-adjust: exact;
   }
 
-  /* Sembunyikan elemen-elemen tertentu jika perlu */
   .no-print {
     display: none !important;
   }
+
+  .avoid-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
 }
 
 * {

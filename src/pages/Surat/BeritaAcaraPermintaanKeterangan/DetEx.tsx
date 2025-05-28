@@ -111,7 +111,7 @@ export default function DetailExportSurat({
             Demikian Berita Acara Permintaan Keterangan ini dibuat dan dibacakan
             ulang kepada Saudara, Kemudian ditutup dan ditandatangani.
           </div>
-          <div className="mt-2 grid sm:grid-cols-2 grid-cols-1 gap-12">
+          <div className="mt-2 grid sm:grid-cols-2 grid-cols-1 gap-12 avoid-break">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>

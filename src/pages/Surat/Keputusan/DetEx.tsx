@@ -87,26 +87,26 @@ export default function DetailExportSurat({
                 {DATA_DETAIL.kesatu}
                 {nama.map((item, index) => (
                   <div key={index} className="flex">
-                    <div className="w-8">{index + 1}</div>
+                    <div className="min-w-8 max-w-8">{index + 1}</div>
                     <div className="flex flex-col mb-2">
-                      <div className="flex items-center gap-2">
-                        <div className="min-w-24 max-w-24">Nama </div>:
+                      <div className="flex items-start gap-2">
+                        <div className="min-w-[5.2rem] max-w-[5.2rem]">Nama </div>:
                         <div>{item}</div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="min-w-24 max-w-24">NIP </div>:
+                      <div className="flex items-start gap-2">
+                        <div className="min-w-[5.2rem] max-w-[5.2rem]">NIP </div>:
                         <div>{nip[index] || "-"}</div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="min-w-24 max-w-24">Pangkat </div>:
+                      <div className="flex items-start gap-2">
+                        <div className="min-w-[5.2rem] max-w-[5.2rem]">Pangkat </div>:
                         <div>{golongan[index] || "-"}</div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="min-w-24 max-w-24">Jabatan </div>:
+                      <div className="flex items-start gap-2">
+                        <div className="min-w-[5.2rem] max-w-[5.2rem]">Jabatan </div>:
                         <div>{jabatan[index] || "-"}</div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="min-w-24 max-w-24">Unit Kerja </div>:
+                      <div className="flex items-start gap-2">
+                        <div className="min-w-[5.2rem] max-w-[5.2rem]">Unit Kerja </div>:
                         <div>{unit[index] || "-"}</div>
                       </div>
                     </div>
@@ -126,7 +126,7 @@ export default function DetailExportSurat({
             </div>
           </div>
           <br />
-          <div className="ms-auto text-start">
+          <div className="ms-auto text-start avoid-break">
             <div className="flex items-center font-normal gap-2">
               <div className="w-36">Dikeluarkan di</div>:{" "}
               {DATA_DETAIL?.tempatDikeluarkan || "Bekasi"}
@@ -154,7 +154,7 @@ export default function DetailExportSurat({
             </div>
           </div>
           <br />
-          <div className="me-auto w-full">
+          <div className="me-auto w-full avoid-break">
             <div className="flex items-center justify-start font-semibold gap-2 mb-2">
               Tembusan &nbsp;&nbsp;:
             </div>

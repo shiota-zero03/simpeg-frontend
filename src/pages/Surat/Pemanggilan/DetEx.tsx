@@ -49,7 +49,7 @@ export default function DetailExportSurat({
                 <table>
                   <tbody>
                     <tr>
-                      <td className="align-top w-24">Nama</td>
+                      <td className="align-top min-w-24 max-w-24">Nama</td>
                       <td className="align-top">:</td>
                       <th className="text-start align-top">{item.diPanggil || "-"}</th>
                     </tr>
@@ -77,19 +77,19 @@ export default function DetailExportSurat({
           <div className="mt-4 ms-8">Untuk menghadap kepada</div>
           <div className="flex flex-col ms-8">
             <div className="flex items-start font-normal gap-2">
-              <div className="w-28">Nama </div>:
+              <div className="max-w-28 min-w-28">Nama </div>:
               <div className="font-semibold">{DATA_DETAIL?.pemanggil}</div>
             </div>
             <div className="flex items-start font-normal gap-2">
-              <div className="w-28">NIP </div>:
+              <div className="max-w-28 min-w-28">NIP </div>:
               <div>{DATA_DETAIL?.nipPemanggil}</div>
             </div>
             <div className="flex items-start font-normal gap-2">
-              <div className="w-28">Unit Kerja </div>:
+              <div className="max-w-28 min-w-28">Unit Kerja </div>:
               <div>{DATA_DETAIL?.unitPemanggil}</div>
             </div>
             <div className="flex items-start font-normal gap-2">
-              <div className="w-28">Jabatan </div>:
+              <div className="max-w-28 min-w-28">Jabatan </div>:
               <div>{DATA_DETAIL?.jabatanPemanggil}</div>
             </div>
           </div>
@@ -119,7 +119,7 @@ export default function DetailExportSurat({
           </div>
           <br />
           <br />
-          <div className="ms-auto text-start">
+          <div className="ms-auto text-start avoid-break">
             <div className="flex items-center font-normal gap-2">
               Bekasi,{" "}
               {DATA_DETAIL?.tanggalSurat
