@@ -221,7 +221,7 @@ const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
                     })
                   ) : (
                     <tr>
-                      <td colSpan={9} className="text-center p-2 text-sm">
+                      <td colSpan={role !== "PEGAWAI" ? 9 : 8} className="text-center p-2 text-sm">
                         Tidak ada data
                       </td>
                     </tr>
@@ -229,7 +229,7 @@ const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
                 </tbody>
                 <tfoot>
                   <th
-                    colSpan={8}
+                    colSpan={role !== "PEGAWAI" ? 8 : 7}
                     className="text-left border-b-2 border-accent-gray p-2 text-sm bg-primary text-white rounded-bl-lg"
                   >
                     Total Anggaran
