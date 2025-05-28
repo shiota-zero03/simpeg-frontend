@@ -121,7 +121,7 @@ export default function DetailExportSurat({
           <br />
           <div className="ms-auto text-start">
             <div className="flex items-center font-normal gap-2">
-              Bekasi,
+              Bekasi,{" "}
               {DATA_DETAIL?.tanggalSurat
                 ? DMYIndoToFormat(DATA_DETAIL?.tanggalSurat)
                 : ""}

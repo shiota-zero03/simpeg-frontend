@@ -70,30 +70,35 @@ export default function DetailExportSurat({
           </div>
           {nama.map((item, index) => (
             <div key={index} className="flex ms-5">
-              <div className="w-8">{index + 1}.</div>
+              <div className="min-w-8 max-w-8">{index + 1}.</div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
-                  <div className="w-32">Nama</div>
-                  <div>: &nbsp;&nbsp;&nbsp; {item || "-"}</div>
+                  <div className="min-w-32 max-w-32">Nama</div>
+                  <div>:</div>
+                  <div>{item || "-"}</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-32">NIP</div>
-                  <div>: &nbsp;&nbsp;&nbsp; {nip[index] || "-"}</div>
+                  <div className="min-w-32 max-w-32">NIP</div>
+                  <div>:</div>
+                  <div>{nip[index] || "-"}</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-32">Pangkat/Gol</div>
+                  <div className="min-w-32 max-w-32">Pangkat/Gol</div>
+                  <div>:</div>
                   <div>
-                    : &nbsp;&nbsp;&nbsp; {pangkat[index] || "-"} /{" "}
+                    {pangkat[index] || "-"} /{" "}
                     {golongan[index] || "-"}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-32">Jabatan</div>
-                  <div>: &nbsp;&nbsp;&nbsp; {jabatan[index] || "-"}</div>
+                  <div className="min-w-32 max-w-32">Jabatan</div>
+                  <div>:</div>
+                  <div>{jabatan[index] || "-"}</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-32">Unit Kerja</div>
-                  <div>: &nbsp;&nbsp;&nbsp; {unit[index] || "-"}</div>
+                  <div className="min-w-32 max-w-32">Unit Kerja</div>
+                  <div>:</div>
+                  <div>{unit[index] || "-"}</div>
                 </div>
               </div>
             </div>
