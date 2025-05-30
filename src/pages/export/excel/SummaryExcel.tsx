@@ -195,15 +195,15 @@ const ExportExcel: React.FC = () => {
         setUnitKerjaASN(newData2);
 
         const pppkCount = DATA_FETCHING.filter(
-          (pegawai) => pegawai.rank.toLowerCase() === "pppk",
+          (pegawai) => pegawai?.rank?.toLowerCase() === "pppk",
         ).length;
         setPPPK(pppkCount);
         const pnsCount = DATA_FETCHING.filter(
           (pegawai) =>
-            pegawai.rank.toLowerCase().includes("juru") ||
-            pegawai.rank.toLowerCase().includes("pengatur") ||
-            pegawai.rank.toLowerCase().includes("penata") ||
-            pegawai.rank.toLowerCase().includes("pembina"),
+            pegawai?.rank?.toLowerCase().includes("juru") ||
+            pegawai?.rank?.toLowerCase().includes("pengatur") ||
+            pegawai?.rank?.toLowerCase().includes("penata") ||
+            pegawai?.rank?.toLowerCase().includes("pembina"),
         ).length;
         setPNS(pnsCount);
         // end unit

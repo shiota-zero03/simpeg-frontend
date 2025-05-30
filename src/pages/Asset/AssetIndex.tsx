@@ -376,7 +376,7 @@ export default function AssetIndex() {
                       `/manajemen-aset/export-aset`
                     }
                     target="__blank"
-                    className="border-[0.8px] w-24 text-xs bg-success text-white flex items-center justify-center rounded-md p-2 gap-2"
+                    className="border-[0.8px] w-24 text-xs bg-success text-white flex items-center justify-center rounded-lg p-2 gap-2"
                   >
                     <FaFileExcel size={12} /> Export
                   </Link>

@@ -14,6 +14,7 @@ import {
   useGetAllDataBelanja,
 } from "@/services/asset/asset-pembelanjaan/data-pembelanjaan";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
+import { useNavigate } from "react-router-dom";
 
 interface DataProps {
   id: number;
@@ -57,6 +58,8 @@ export default function AssetIndex() {
     isFetching: isFetchingData,
     refetch: refetchData,
   } = useGetAllDataBelanja(pageIndex + 1, limit, search);
+
+  const navigate = useNavigate();
 
   const paginatedData: DataProps[] = useMemo(() => {
     if (allData) {
@@ -157,7 +160,7 @@ export default function AssetIndex() {
 
   const {
     isOpen: isOpenCreate,
-    onOpen: onOpenCreate,
+    // onOpen: onOpenCreate,
     onClose: onCloseCreate,
   } = useDisclosure();
   const {
@@ -308,7 +311,7 @@ export default function AssetIndex() {
                 </Button>
                 {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
                   <Button
-                    onPress={onOpenCreate}
+                    onPress={() => navigate('/manajemen-aset/tambah-item-belanja')}
                     variant="solid"
                     radius="sm"
                     size="sm"

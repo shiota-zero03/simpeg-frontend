@@ -2,10 +2,20 @@ import DataKegiatan from "./pembelanjaan/DataKegiatan";
 import DataSubKegiatan from "./pembelanjaan/DataSubKegiatan";
 import DataBelanja from "./pembelanjaan/DataBelanja";
 import ItemBelanja from "./pembelanjaan/ItemBelanja";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Asset() {
   const [selectedTab, setSelectedTab] = useState<string>("kegiatan");
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const tab = queryParams.get("stab");
+  const tabData = tab as string;
+
+  useEffect(() => {
+    if (tabData) {
+      setSelectedTab(tabData);
+    }
+  }, [tabData]);
 
   return (
     <>

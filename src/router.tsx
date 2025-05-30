@@ -154,6 +154,7 @@ const VerifyDisposisi = lazy(() => import("@/pages/E-Disposisi/Verifikasi"));
 const Asset = lazy(() => import("@/pages/Asset"));
 const AssetExport = lazy(() => import("@/pages/export/excel/AssetExport"));
 const AssetCreated = lazy(() => import("@/pages/Asset/Asset/Created"));
+const AssetItemCreated = lazy(() => import("@/pages/Asset/pembelanjaan/CreatedItemBelanja"));
 const AssetUpdated = lazy(() => import("@/pages/Asset/Asset/Updated"));
 const AssetHolderCreated = lazy(() => import("@/pages/Asset/Pemegang/Created"));
 const AssetServiceCreated = lazy(
@@ -245,6 +246,11 @@ export default function Router() {
           <Route
             path="/manajemen-aset/tambah-pemegang-aset"
             element={<AssetHolderCreated />}
+          />
+
+          <Route
+            path="/manajemen-aset/tambah-item-belanja"
+            element={<AssetItemCreated />}
           />
 
           <Route
