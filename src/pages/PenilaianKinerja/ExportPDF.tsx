@@ -783,11 +783,11 @@ export default function ExportPenilaianKinerja() {
                       colSpan={5}
                     ></th>
                     <th className="text-[10pt] border border-black bg-gray-200">
-                      {((DATA_DETAIL.performanceBobot || 0) * 50) / 100 +
+                      {(((DATA_DETAIL.performanceBobot || 0) * 50) / 100 +
                         ((DATA_DETAIL.disciplineBobot || 0) * 20) / 100 +
                         ((DATA_DETAIL.loyaltyBobot || 0) * 5) / 100 +
                         ((DATA_DETAIL.cooperationBobot || 0) * 5) / 100 +
-                        ((DATA_DETAIL.attitudeBobot || 0) * 20) / 100}
+                        ((DATA_DETAIL.attitudeBobot || 0) * 20) / 100).toFixed(2)}
                     </th>
                   </tr>
                 </tfoot>
