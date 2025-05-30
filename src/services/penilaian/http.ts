@@ -14,7 +14,7 @@ export const getAllPenilaianCountUser = async (
   const params = new URLSearchParams();
 
   if (yearly) params.set("yearly", yearly);
-  const link = `/admin/penilaian/count/users/${id}${params.toString()}`;
+  const link = `/admin/penilaian/count/users/${id}?${params.toString()}`;
   const response = await instance.get(link);
   return response.data;
 };
