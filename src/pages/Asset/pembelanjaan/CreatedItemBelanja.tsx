@@ -24,9 +24,10 @@ import { Link } from "react-router-dom";
 import { convertFileToBase64 } from "@/utils/base64Formater";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
-import { useCreateAsset } from "@/services/asset/asset";
 import { StoreAsset } from "@/interface/request/asset.interface";
 import { useGetAllKegiatanBelanjaOption } from "@/services/asset/asset-pembelanjaan/data-item-belanja";
+import { useCreateDataBelanja } from "@/services/asset/asset-pembelanjaan/data-pembelanjaan";
+import { StoreDataBelanja } from "@/interface/request/assetPembelanjaan";
 
 interface formProps {
   name?: string;
@@ -210,7 +211,7 @@ export default function CreatePegawai() {
     onOpenConfirm();
   };
 
-  const { mutate: mutatePost } = useCreateAsset();
+  const { mutate: mutatePost } = useCreateDataBelanja();
 
   const handleConfirm = () => {
     setLoadingConfirm(true);
@@ -225,29 +226,43 @@ export default function CreatePegawai() {
       return true;
     }
 
-    const formToSend: StoreAsset = {};
+    const formToSend: StoreDataBelanja = {};
 
-    if (formData.idBarang) formToSend.idBarang = formData.idBarang;
-    if (formData.kodeBarang) formToSend.kodeBarang = formData.kodeBarang;
-    if (formData.namaBarang) formToSend.namaBarang = formData.namaBarang;
+    let formAsset: StoreAsset = {};
+
+    if (formData.idBarang) formAsset.idBarang = formData.idBarang;
+    if (formData.kodeBarang) formAsset.kodeBarang = formData.kodeBarang;
+    if (formData.namaBarang) formAsset.namaBarang = formData.namaBarang;
     if (formData.nomorRegistrasi)
-      formToSend.nomorRegistrasi = formData.nomorRegistrasi;
-    if (formData.harga) formToSend.harga = formData.harga;
-    if (formData.merkTipe) formToSend.merkTipe = formData.merkTipe;
-    if (formData.ukuranCC) formToSend.ukuranCC = formData.ukuranCC;
-    if (formData.jenisBahan) formToSend.jenisBahan = formData.jenisBahan;
-    if (formData.nomorPabrik) formToSend.nomorPabrik = formData.nomorPabrik;
-    if (formData.nomorRangka) formToSend.nomorRangka = formData.nomorRangka;
-    if (formData.nomorMesin) formToSend.nomorMesin = formData.nomorMesin;
-    if (formData.nomorPolisi) formToSend.nomorPolisi = formData.nomorPolisi;
-    if (formData.dokumenTipe) formToSend.dokumenTipe = formData.dokumenTipe;
-    if (formData.dokumenNomor) formToSend.dokumenNomor = formData.dokumenNomor;
-    if (formData.keterangan) formToSend.keterangan = formData.keterangan;
+      formAsset.nomorRegistrasi = formData.nomorRegistrasi;
+    if (formData.merkTipe) formAsset.merkTipe = formData.merkTipe;
+    if (formData.ukuranCC) formAsset.ukuranCC = formData.ukuranCC;
+    if (formData.jenisBahan) formAsset.jenisBahan = formData.jenisBahan;
+    if (formData.nomorPabrik) formAsset.nomorPabrik = formData.nomorPabrik;
+    if (formData.nomorRangka) formAsset.nomorRangka = formData.nomorRangka;
+    if (formData.nomorMesin) formAsset.nomorMesin = formData.nomorMesin;
+    if (formData.nomorPolisi) formAsset.nomorPolisi = formData.nomorPolisi;
+    if (formData.dokumenTipe) formAsset.dokumenTipe = formData.dokumenTipe;
+    if (formData.dokumenNomor) formAsset.dokumenNomor = formData.dokumenNomor;
+    if (formData.keterangan) formAsset.keterangan = formData.keterangan;
     if (formData.tahunPerolehan)
-      formToSend.tahunPerolehan = formData.tahunPerolehan;
-    if (formData.kategori) formToSend.kategori = formData.kategori;
-    if (formData.dokumen) formToSend.dokumen = formData.dokumen;
+      formAsset.tahunPerolehan = formData.tahunPerolehan;
+    if (formData.kategori) formAsset.kategori = formData.kategori;
+    if (formData.dokumen) formAsset.dokumen = formData.dokumen;
+    if(formData.hargaPerItem && formData.jumlah) {
+      formAsset.harga = (formData.hargaPerItem || 0) * (formData.jumlah || 0);
+    }
 
+
+    if (formData.name) { formToSend.name = formData.name; }
+    if (formData.idDataBelanja) { formToSend.idDataBelanja = Number(formData.idDataBelanja); }
+    if (formData.namaBarang) { formToSend.namaBarang = formData.namaBarang; }
+    if (formData.tanggal) { formToSend.tanggal = formData.tanggal; }
+    if (formData.jumlah) { formToSend.jumlah = formData.jumlah; }
+    if (formData.satuan) { formToSend.satuan = formData.satuan; }
+    if (formData.hargaPerItem) { formToSend.hargaPerItem = formData.hargaPerItem; }
+    formToSend.asset = formAsset;
+    
     try {
       mutatePost(formToSend, {
         onSuccess: () => {
@@ -383,121 +398,6 @@ export default function CreatePegawai() {
                         input: "text-xs",
                       }}
                     />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="lokasi" className="text-xs font-semibold">
-                      Nama Item belanja <span className="text-danger">*</span>
-                    </label>
-                    <Input
-                      aria-label="lokasi"
-                      variant="bordered"
-                      radius="sm"
-                      value={formData.namaBarang}
-                      onChange={(e) =>
-                        setFormData({ ...formData, namaBarang: e.target.value })
-                      }
-                      placeholder="Masukkan disini"
-                      classNames={{
-                        input: "text-xs",
-                      }}
-                    />
-                    <div className="text-xs italic text-danger">
-                      {formError.namaBarang}
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="lokasi" className="text-xs font-semibold">
-                      Jumlah Item <span className="text-danger">*</span>
-                    </label>
-                    <Input
-                      type="numebr"
-                      aria-label="lokasi"
-                      variant="bordered"
-                      radius="sm"
-                      value={String(formData.jumlah)}
-                      onChange={(e) =>
-                        setFormData({ ...formData, jumlah: Number(e.target.value) })
-                      }
-                      placeholder="Masukkan disini"
-                      classNames={{
-                        input: "text-xs",
-                      }}
-                    />
-                    <div className="text-xs italic text-danger">
-                      {formError.jumlah}
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="lokasi" className="text-xs font-semibold">
-                      Satuan Item <span className="text-danger">*</span>
-                    </label>
-                    <Input
-                      aria-label="lokasi"
-                      variant="bordered"
-                      radius="sm"
-                      value={formData.satuan}
-                      onChange={(e) =>
-                        setFormData({ ...formData, satuan: e.target.value })
-                      }
-                      placeholder="Masukkan disini"
-                      classNames={{
-                        input: "text-xs",
-                      }}
-                    />
-                    <div className="text-xs italic text-danger">
-                      {formError.satuan}
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="lokasi" className="text-xs font-semibold">
-                      Harga per Item <span className="text-danger">*</span>
-                    </label>
-                    <Input
-                      type="number"
-                      aria-label="lokasi"
-                      variant="bordered"
-                      radius="sm"
-                      startContent="Rp"
-                      value={String(formData.hargaPerItem)}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          hargaPerItem: Number(e.target.value),
-                        })
-                      }
-                      placeholder="Masukkan disini"
-                      classNames={{
-                        input: "text-xs",
-                      }}
-                    />
-                    <div className="text-xs italic text-danger">
-                      {formError.hargaPerItem}
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-1 sm:col-span-2 col-span-1">
-                    <label htmlFor="lokasi" className="text-xs font-semibold">
-                      Jumlah Pagu (Harga * Jumlah Item){" "}
-                      <span className="text-danger">*</span>
-                    </label>
-                    <Input
-                      aria-label="lokasi"
-                      variant="bordered"
-                      radius="sm"
-                      isDisabled
-                      startContent="Rp"
-                      value={String(
-                        (
-                          (formData.hargaPerItem || 0) * (formData.jumlah || 0)
-                        ).toLocaleString("id-ID"),
-                      )}
-                      placeholder="Masukkan disini"
-                      classNames={{
-                        input: "text-xs",
-                      }}
-                    />
-                    <div className="text-xs italic text-danger">
-                      {formError.hargaPerItem}
-                    </div>
                   </div>
                   <div className="flex flex-col gap-1 md:col-span-3 col-span-1">
                     <label htmlFor="lokasi" className="text-xs font-semibold">
@@ -712,37 +612,106 @@ export default function CreatePegawai() {
                 <Divider className="my-2" />
                 {formData.kategori && (
                   <div className="grid sm:grid-cols-6 grid-cols-1 gap-2">
-                    <div className="sm:col-span-3 col-span-1">
+                    <div className="sm:col-span-2 col-span-1">
                       <div className="mb-1">
-                        <label
-                          htmlFor="content"
-                          className="font-semibold text-xs"
-                        >
-                          Harga
+                        <label htmlFor="lokasi" className="text-xs font-semibold">
+                          Jumlah Item <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      <Input
+                        type="numebr"
+                        aria-label="lokasi"
+                        variant="bordered"
+                        radius="sm"
+                        value={String(formData.jumlah)}
+                        onChange={(e) =>
+                          setFormData({ ...formData, jumlah: Number(e.target.value) })
+                        }
+                        placeholder="Masukkan disini"
+                        classNames={{
+                          input: "text-xs",
+                        }}
+                      />
+                      <div className="text-xs italic text-danger">
+                        {formError.jumlah}
+                      </div>
+                    </div>
+                    <div className="sm:col-span-2 col-span-1">
+                      <div className="mb-1">
+                        <label htmlFor="lokasi" className="text-xs font-semibold">
+                          Satuan Item <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      <Input
+                        aria-label="lokasi"
+                        variant="bordered"
+                        radius="sm"
+                        value={formData.satuan}
+                        onChange={(e) =>
+                          setFormData({ ...formData, satuan: e.target.value })
+                        }
+                        placeholder="Masukkan disini"
+                        classNames={{
+                          input: "text-xs",
+                        }}
+                      />
+                      <div className="text-xs italic text-danger">
+                        {formError.satuan}
+                      </div>
+                    </div>
+                    <div className="sm:col-span-2 col-span-1">
+                      <div className="mb-1">
+                        <label htmlFor="lokasi" className="text-xs font-semibold">
+                          Harga per Item <span className="text-danger">*</span>
                         </label>
                       </div>
                       <Input
                         type="number"
-                        value={String(formData.harga)}
+                        aria-label="lokasi"
+                        variant="bordered"
+                        radius="sm"
+                        startContent="Rp"
+                        value={String(formData.hargaPerItem)}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
-                            harga: Number(e.target.value),
+                            hargaPerItem: Number(e.target.value),
                           })
                         }
-                        startContent={"Rp"}
-                        aria-label="Judul"
-                        labelPlacement="outside"
                         placeholder="Masukkan disini"
-                        variant="bordered"
-                        radius="sm"
                         classNames={{
-                          inputWrapper: "border-[0.8px]",
                           input: "text-xs",
                         }}
                       />
-                      <div className="text-danger text-[0.7rem] mt-1">
-                        {formError.harga}
+                      <div className="text-xs italic text-danger">
+                        {formError.hargaPerItem}
+                      </div>
+                    </div>
+                    <div className="sm:col-span-3 col-span-1">
+                      <div className="mb-1">
+                        <label htmlFor="lokasi" className="text-xs font-semibold">
+                          Jumlah Pagu (Harga * Jumlah Item){" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      <Input
+                        aria-label="lokasi"
+                        variant="bordered"
+                        radius="sm"
+                        isDisabled
+                        startContent="Rp"
+                        value={String(
+                          (
+                            (formData.hargaPerItem || 0) * (formData.jumlah || 0)
+                          ).toLocaleString("id-ID"),
+                        )}
+                        placeholder="Masukkan disini"
+                        classNames={{
+                          input: "text-xs",
+                        }}
+                      />
+                      <div className="text-xs italic text-danger">
+                        {formError.hargaPerItem}
                       </div>
                     </div>
                     <div className="sm:col-span-3 col-span-1">
