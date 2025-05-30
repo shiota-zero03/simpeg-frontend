@@ -392,7 +392,7 @@ const ViewModal = ({ id, isOpen, onClose }: props) => {
                         htmlFor="content"
                         className="font-semibold text-xs"
                       >
-                        Foto
+                        Dokumen Aset
                       </label>
                     </div>
                     <div className="border p-8 mb-2 flex items-center justify-center">
