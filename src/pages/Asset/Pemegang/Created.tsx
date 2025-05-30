@@ -268,7 +268,7 @@ export default function CreatePegawai() {
         kodeBarang: item.kodeBarang,
         noRegistrasi: item.nomorRegistrasi,
         kategori: item.kategori,
-        harga: `Rp ${item.harga.toLocaleString("id-ID")}`,
+        harga: item.harga ? `Rp ${item.harga.toLocaleString("id-ID")}` : "-",
         merk: item.merkTipe,
         status: item.status,
       }));

@@ -27,6 +27,7 @@ import { DMYIndoToFormat } from "@/utils/dateFormater";
 interface DataProps {
   id: number;
   tanggalSurat: string;
+  createdAt: string;
   type: string;
   itemBelanjaRel: {
     id: number;
@@ -134,7 +135,7 @@ export default function AssetIndex() {
       meta: { align: "center", cellWidth: "10" },
     },
     {
-      accessorKey: "tanggalSurat",
+      accessorKey: "createdAt",
       header: "Tanggal",
       cell: (info) => {
         return info.getValue()

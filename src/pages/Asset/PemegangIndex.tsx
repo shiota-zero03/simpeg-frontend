@@ -17,14 +17,14 @@ import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import store from "@/redux/store";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { getLocalTimeZone, parseDate } from "@internationalized/date";
+import { getLocalTimeZone } from "@internationalized/date";
 import {
   useDeleteAssetHolder,
   useGetAllAssetHolder,
 } from "@/services/asset/asset-holder";
 import { AssetHolderRes } from "@/interface/responses/assetHolder.interface";
 import { Link } from "react-router-dom";
-import { FaFileAlt } from "react-icons/fa";
+import { FaFileAlt, FaFileExcel } from "react-icons/fa";
 import { LucideInfo } from "lucide-react";
 
 export default function AssetIndex() {
@@ -34,12 +34,7 @@ export default function AssetIndex() {
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
 
-  const today = new Date();
-  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>({
-    start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
-    end: parseDate(today.toISOString().split("T")[0]),
-  });
+  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(null);
 
   const formatDateToJakarta = (
     calendarDate: CalendarDate | null | undefined,
@@ -225,10 +220,7 @@ export default function AssetIndex() {
 
   const handleReset = () => {
     setSearch("");
-    setRangeDate({
-      start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
-      end: parseDate(today.toISOString().split("T")[0]),
-    });
+    setRangeDate(null);
     setPageIndex(0);
     setTimeout(() => {
       refetchData();
@@ -358,6 +350,17 @@ export default function AssetIndex() {
                   >
                     Tambah
                   </Button>
+                )}
+                {(role === "SUPERUSERS" || role === "ADMIN_ASSET" || role.includes("UPTD")) && (
+                  <Link
+                    to={
+                      `/manajemen-aset/export-aset`
+                    }
+                    target="__blank"
+                    className="border-[0.8px] w-24 text-xs bg-success text-white flex items-center justify-center rounded-md p-2 gap-2"
+                  >
+                    <FaFileExcel size={12} /> Export
+                  </Link>
                 )}
               </div>
             </div>

@@ -3,6 +3,7 @@ import { BaseRes, PaginationRes } from "./base.response";
 export interface AssetServiceRes {
   id: number;
   type: string;
+  createdAt: string;
   pajak5Tahun: string;
   pembayaranPajak: string;
   nominalBayar: number;

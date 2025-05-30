@@ -11,7 +11,7 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
 import { LuPencilLine, LuSearch, LuTrash2 } from "react-icons/lu";
-import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
+import { BiReset, BiSearch } from "react-icons/bi";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
@@ -19,9 +19,11 @@ import store from "@/redux/store";
 import { useDeleteAsset, useGetAllAsset } from "@/services/asset/asset";
 import { AssetRes } from "@/interface/responses/asset.interface";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { getLocalTimeZone, parseDate } from "@internationalized/date";
+import { getLocalTimeZone } from "@internationalized/date";
 import { LucideEye } from "lucide-react";
 import ViewModal from "@/components/modals/Asset/DeetailAsset";
+import { FaFileExcel } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 interface DataProps {
   id: string;
@@ -43,12 +45,7 @@ export default function AssetIndex() {
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
 
-  const today = new Date();
-  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>({
-    start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
-    end: parseDate(today.toISOString().split("T")[0]),
-  });
+  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(null);
 
   const formatDateToJakarta = (
     calendarDate: CalendarDate | null | undefined,
@@ -111,7 +108,7 @@ export default function AssetIndex() {
         kodeBarang: item.kodeBarang,
         noRegistrasi: item.nomorRegistrasi,
         kategori: item.kategori,
-        harga: `Rp ${item.harga.toLocaleString("id-ID")}`,
+        harga: item.harga ? `Rp ${item.harga.toLocaleString("id-ID")}` : "-",
         merk: item.merkTipe,
         status: item.status,
       }));
@@ -253,10 +250,7 @@ export default function AssetIndex() {
 
   const handleReset = () => {
     setSearch("");
-    setRangeDate({
-      start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
-      end: parseDate(today.toISOString().split("T")[0]),
-    });
+    setRangeDate(null);
     setPageIndex(0);
     setTimeout(() => {
       refetchData();
@@ -377,16 +371,15 @@ export default function AssetIndex() {
                   <BiReset size={12} />
                 </Button>
                 {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
-                  <Button
-                    onPress={() => navigate(`/manajemen-aset/tambah-aset`)}
-                    variant="solid"
-                    radius="sm"
-                    size="sm"
-                    startContent={<BiSolidPlusSquare size={12} />}
-                    className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
+                  <Link
+                    to={
+                      `/manajemen-aset/export-aset`
+                    }
+                    target="__blank"
+                    className="border-[0.8px] w-24 text-xs bg-success text-white flex items-center justify-center rounded-md p-2 gap-2"
                   >
-                    Tambah
-                  </Button>
+                    <FaFileExcel size={12} /> Export
+                  </Link>
                 )}
               </div>
             </div>
