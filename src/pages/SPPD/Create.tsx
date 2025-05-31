@@ -109,7 +109,6 @@ interface errorProps {
 }
 
 export default function CreateSPPD() {
-
   const { role } = store.getState().auth;
 
   const queryParams = new URLSearchParams(window.location.search);
@@ -227,7 +226,6 @@ export default function CreateSPPD() {
 
   const [formError, setFormError] = useState<errorProps>({});
 
-
   const { data: dataProfile, refetch: refetchProfile } = useGetProfile();
   const DATA_FETCHING = useMemo(() => {
     if (!dataProfile) return null;
@@ -253,10 +251,8 @@ export default function CreateSPPD() {
     if (!formData.bendaharaId)
       error.bendaharaId = "Data bendahara tidak boleh kosong";
 
-    if(role === "PEGAWAI") {
-      if (
-        !formData.participantsLeader?.bankAccount
-      )
+    if (role === "PEGAWAI") {
+      if (!formData.participantsLeader?.bankAccount)
         error.participantsLeader = "Data pegawai belum lengkap";
     } else {
       if (
@@ -499,7 +495,7 @@ export default function CreateSPPD() {
       }[];
     }[] = [];
 
-    if(role === "PEGAWAI") {
+    if (role === "PEGAWAI") {
       if (formData.participantsLeader && DATA_FETCHING) {
         const partiLead = formData.participantsLeader;
         participantData.push({
@@ -887,7 +883,11 @@ export default function CreateSPPD() {
                     placeholder="Cari pegawai"
                     variant="bordered"
                     radius="sm"
-                    selectedKey={role === "PEGAWAI" ? DATA_FETCHING?.id : String(formData.participantsLeader?.userId)}
+                    selectedKey={
+                      role === "PEGAWAI"
+                        ? DATA_FETCHING?.id
+                        : String(formData.participantsLeader?.userId)
+                    }
                     onSelectionChange={(value) =>
                       onChangeLeader(value as string, "userId")
                     }

@@ -39,7 +39,6 @@ interface props {
 }
 
 const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
-
   const { role } = store.getState().auth;
 
   let totalAnggaran = 0;
@@ -168,7 +167,7 @@ const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
                               >
                                 {user.jabatan?.nameJob ?? "-"}
                               </td>
-                            ) : null }
+                            ) : null}
                             <td className="border-b-2 border-e-2 border-accent-gray p-2 text-sm font-semibold">
                               Uang Harian
                             </td>
@@ -221,7 +220,10 @@ const PegawaiModal = ({ pegawai, isOpen, onClose }: props) => {
                     })
                   ) : (
                     <tr>
-                      <td colSpan={role !== "PEGAWAI" ? 9 : 8} className="text-center p-2 text-sm">
+                      <td
+                        colSpan={role !== "PEGAWAI" ? 9 : 8}
+                        className="text-center p-2 text-sm"
+                      >
                         Tidak ada data
                       </td>
                     </tr>

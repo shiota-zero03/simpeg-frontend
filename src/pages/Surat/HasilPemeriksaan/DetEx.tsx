@@ -44,10 +44,17 @@ export default function DetailExportSurat({
           </div>
           <br />
           <h1 className="text-center font-bold text-xl">RAHASIA</h1>
-          <div className="mb-2" dangerouslySetInnerHTML={{ __html: `Dengan ini dilaporkan dengan hormat, pada Hari ${" "}
-                                  ${DATA_DETAIL.tanggalSurat
-                                    ? textToFormat(DATA_DETAIL.tanggalSurat)
-                                    : "-"}, saya telah melakukan permintaan keterangan terhadap:` }} />
+          <div
+            className="mb-2"
+            dangerouslySetInnerHTML={{
+              __html: `Dengan ini dilaporkan dengan hormat, pada Hari ${" "}
+                                  ${
+                                    DATA_DETAIL.tanggalSurat
+                                      ? textToFormat(DATA_DETAIL.tanggalSurat)
+                                      : "-"
+                                  }, saya telah melakukan permintaan keterangan terhadap:`,
+            }}
+          />
           {nama.map((item, index) => (
             <div key={index} className="flex">
               <div className="min-w-8 max-w-8">{index + 1}</div>
@@ -55,9 +62,7 @@ export default function DetailExportSurat({
                 <div className="flex items-top font-normal gap-2">
                   <div className="min-w-24 max-w-24">Nama </div>
                   <span>:</span>
-                  <span className="font-semibold">
-                    {item}
-                  </span>
+                  <span className="font-semibold">{item}</span>
                 </div>
                 <div className="flex items-top font-normal gap-2">
                   <div className="min-w-24 max-w-24">NIP </div>
@@ -186,11 +191,9 @@ export default function DetailExportSurat({
               Tembusan Yth:
             </div>
             {DATA_DETAIL.tembusan.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-start font-semibold gap-2"
-              >
-                <div className="min-w-6 max-w-6">{index + 1}.</div> {item.jabatan}
+              <div key={index} className="flex items-start font-semibold gap-2">
+                <div className="min-w-6 max-w-6">{index + 1}.</div>{" "}
+                {item.jabatan}
               </div>
             ))}
           </div>

@@ -1,7 +1,12 @@
 import { TitleCase } from "@/components/card/TitleCase";
 import { Card, CardBody, CardHeader } from "@heroui/react";
 import BreadcrumbAdmin from "@/components/breadcrumbs/BreadcrumbsAdmin";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { LucidePencilLine } from "lucide-react";
 import { useGetDetailPegawai } from "@/services/pegawai";
 import { useEffect, useMemo } from "react";

@@ -202,10 +202,16 @@ const ExportToWord: React.FC = () => {
               <h1 className="title">RAHASIA</h1>
             </div>
             <br />
-            <div dangerouslySetInnerHTML={{ __html: `Dengan ini dilaporkan dengan hormat, pada Hari ${" "}
-                        ${DATA_DETAIL.tanggalSurat
-                          ? textToFormat(DATA_DETAIL.tanggalSurat)
-                          : "-"}, saya telah melakukan permintaan keterangan terhadap:` }} />
+            <div
+              dangerouslySetInnerHTML={{
+                __html: `Dengan ini dilaporkan dengan hormat, pada Hari ${" "}
+                        ${
+                          DATA_DETAIL.tanggalSurat
+                            ? textToFormat(DATA_DETAIL.tanggalSurat)
+                            : "-"
+                        }, saya telah melakukan permintaan keterangan terhadap:`,
+              }}
+            />
 
             <div>
               <table>

@@ -120,7 +120,7 @@ const roleAccessMap: Record<string, string[]> = {
     "summary-report",
     "manajemen-aset",
     "buku-petunjuk",
-    "hubungi-kami"
+    "hubungi-kami",
   ],
   UPTD_2: [
     "beranda",
@@ -128,7 +128,7 @@ const roleAccessMap: Record<string, string[]> = {
     "summary-report",
     "manajemen-aset",
     "buku-petunjuk",
-    "hubungi-kami"
+    "hubungi-kami",
   ],
   UPTD_3: [
     "beranda",
@@ -136,7 +136,7 @@ const roleAccessMap: Record<string, string[]> = {
     "summary-report",
     "manajemen-aset",
     "buku-petunjuk",
-    "hubungi-kami"
+    "hubungi-kami",
   ],
   UPTD_4: [
     "beranda",
@@ -144,7 +144,7 @@ const roleAccessMap: Record<string, string[]> = {
     "summary-report",
     "manajemen-aset",
     "buku-petunjuk",
-    "hubungi-kami"
+    "hubungi-kami",
   ],
   UPTD_5: [
     "beranda",
@@ -152,7 +152,7 @@ const roleAccessMap: Record<string, string[]> = {
     "summary-report",
     "manajemen-aset",
     "buku-petunjuk",
-    "hubungi-kami"
+    "hubungi-kami",
   ],
   UPTD_6: [
     "beranda",
@@ -160,7 +160,7 @@ const roleAccessMap: Record<string, string[]> = {
     "summary-report",
     "manajemen-aset",
     "buku-petunjuk",
-    "hubungi-kami"
+    "hubungi-kami",
   ],
   UPTD_7: [
     "beranda",
@@ -168,7 +168,7 @@ const roleAccessMap: Record<string, string[]> = {
     "summary-report",
     "manajemen-aset",
     "buku-petunjuk",
-    "hubungi-kami"
+    "hubungi-kami",
   ],
   UPTD_8: [
     "beranda",
@@ -176,7 +176,7 @@ const roleAccessMap: Record<string, string[]> = {
     "summary-report",
     "manajemen-aset",
     "buku-petunjuk",
-    "hubungi-kami"
+    "hubungi-kami",
   ],
   UPTD_9: [
     "beranda",
@@ -184,7 +184,7 @@ const roleAccessMap: Record<string, string[]> = {
     "summary-report",
     "manajemen-aset",
     "buku-petunjuk",
-    "hubungi-kami"
+    "hubungi-kami",
   ],
   UPTD_LEGAL: [
     "beranda",
@@ -192,7 +192,7 @@ const roleAccessMap: Record<string, string[]> = {
     "summary-report",
     "manajemen-aset",
     "buku-petunjuk",
-    "hubungi-kami"
+    "hubungi-kami",
   ],
   PEGAWAI: [
     "beranda",

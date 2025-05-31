@@ -58,7 +58,6 @@ interface formProps {
   dokumen?: string;
 }
 
-
 interface errorProps {
   name?: string;
   idDataBelanja?: string;
@@ -89,7 +88,6 @@ interface errorProps {
 }
 
 export default function CreatePegawai() {
-
   const [formData, setFormData] = useState<formProps>({
     name: "",
     idDataBelanja: null,
@@ -228,7 +226,7 @@ export default function CreatePegawai() {
 
     const formToSend: StoreDataBelanja = {};
 
-    let formAsset: StoreAsset = {};
+    const formAsset: StoreAsset = {};
 
     if (formData.idBarang) formAsset.idBarang = formData.idBarang;
     if (formData.kodeBarang) formAsset.kodeBarang = formData.kodeBarang;
@@ -249,20 +247,33 @@ export default function CreatePegawai() {
       formAsset.tahunPerolehan = formData.tahunPerolehan;
     if (formData.kategori) formAsset.kategori = formData.kategori;
     if (formData.dokumen) formAsset.dokumen = formData.dokumen;
-    if(formData.hargaPerItem && formData.jumlah) {
+    if (formData.hargaPerItem && formData.jumlah) {
       formAsset.harga = (formData.hargaPerItem || 0) * (formData.jumlah || 0);
     }
 
-
-    if (formData.name) { formToSend.name = formData.name; }
-    if (formData.idDataBelanja) { formToSend.idDataBelanja = Number(formData.idDataBelanja); }
-    if (formData.namaBarang) { formToSend.namaBarang = formData.namaBarang; }
-    if (formData.tanggal) { formToSend.tanggal = formData.tanggal; }
-    if (formData.jumlah) { formToSend.jumlah = formData.jumlah; }
-    if (formData.satuan) { formToSend.satuan = formData.satuan; }
-    if (formData.hargaPerItem) { formToSend.hargaPerItem = formData.hargaPerItem; }
+    if (formData.name) {
+      formToSend.name = formData.name;
+    }
+    if (formData.idDataBelanja) {
+      formToSend.idDataBelanja = Number(formData.idDataBelanja);
+    }
+    if (formData.namaBarang) {
+      formToSend.namaBarang = formData.namaBarang;
+    }
+    if (formData.tanggal) {
+      formToSend.tanggal = formData.tanggal;
+    }
+    if (formData.jumlah) {
+      formToSend.jumlah = formData.jumlah;
+    }
+    if (formData.satuan) {
+      formToSend.satuan = formData.satuan;
+    }
+    if (formData.hargaPerItem) {
+      formToSend.hargaPerItem = formData.hargaPerItem;
+    }
     formToSend.asset = formAsset;
-    
+
     try {
       mutatePost(formToSend, {
         onSuccess: () => {
@@ -358,7 +369,10 @@ export default function CreatePegawai() {
                       }}
                     >
                       {(peg) => (
-                        <AutocompleteItem key={peg.id} textValue={peg.namaBelanja}>
+                        <AutocompleteItem
+                          key={peg.id}
+                          textValue={peg.namaBelanja}
+                        >
                           {peg.namaBelanja}
                         </AutocompleteItem>
                       )}
@@ -614,7 +628,10 @@ export default function CreatePegawai() {
                   <div className="grid sm:grid-cols-6 grid-cols-1 gap-2">
                     <div className="sm:col-span-2 col-span-1">
                       <div className="mb-1">
-                        <label htmlFor="lokasi" className="text-xs font-semibold">
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold"
+                        >
                           Jumlah Item <span className="text-danger">*</span>
                         </label>
                       </div>
@@ -625,7 +642,10 @@ export default function CreatePegawai() {
                         radius="sm"
                         value={String(formData.jumlah)}
                         onChange={(e) =>
-                          setFormData({ ...formData, jumlah: Number(e.target.value) })
+                          setFormData({
+                            ...formData,
+                            jumlah: Number(e.target.value),
+                          })
                         }
                         placeholder="Masukkan disini"
                         classNames={{
@@ -638,7 +658,10 @@ export default function CreatePegawai() {
                     </div>
                     <div className="sm:col-span-2 col-span-1">
                       <div className="mb-1">
-                        <label htmlFor="lokasi" className="text-xs font-semibold">
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold"
+                        >
                           Satuan Item <span className="text-danger">*</span>
                         </label>
                       </div>
@@ -661,7 +684,10 @@ export default function CreatePegawai() {
                     </div>
                     <div className="sm:col-span-2 col-span-1">
                       <div className="mb-1">
-                        <label htmlFor="lokasi" className="text-xs font-semibold">
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold"
+                        >
                           Harga per Item <span className="text-danger">*</span>
                         </label>
                       </div>
@@ -689,7 +715,10 @@ export default function CreatePegawai() {
                     </div>
                     <div className="sm:col-span-3 col-span-1">
                       <div className="mb-1">
-                        <label htmlFor="lokasi" className="text-xs font-semibold">
+                        <label
+                          htmlFor="lokasi"
+                          className="text-xs font-semibold"
+                        >
                           Jumlah Pagu (Harga * Jumlah Item){" "}
                           <span className="text-danger">*</span>
                         </label>
@@ -702,7 +731,8 @@ export default function CreatePegawai() {
                         startContent="Rp"
                         value={String(
                           (
-                            (formData.hargaPerItem || 0) * (formData.jumlah || 0)
+                            (formData.hargaPerItem || 0) *
+                            (formData.jumlah || 0)
                           ).toLocaleString("id-ID"),
                         )}
                         placeholder="Masukkan disini"

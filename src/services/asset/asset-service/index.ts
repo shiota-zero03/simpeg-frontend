@@ -3,6 +3,7 @@ import {
   createAssetService,
   deleteAssetService,
   getAllAssetService,
+  getAllAssetServiceExport,
   getAllAssetServiceOption,
   getDetailAssetService,
   updateAssetService,
@@ -20,6 +21,16 @@ export const useGetAllAssetServiceOption = () => {
   });
 };
 
+export const useGetAllAssetServiceExport = (
+  startDate?: string | null,
+  endDate?: string | null,
+) => {
+  return useQuery({
+    queryKey: ["getAllAssetServiceExport", startDate, endDate],
+    queryFn: () => getAllAssetServiceExport(startDate, endDate),
+    staleTime: 300000,
+  });
+};
 export const useGetAllAssetService = (
   page: number,
   limit: number,

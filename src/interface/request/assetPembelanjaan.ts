@@ -26,7 +26,7 @@ export interface StoreDataBelanja {
   tanggal?: string;
   idDataBelanja?: number | null;
 
-  asset? :{
+  asset?: {
     idBarang?: string;
     kodeBarang?: string;
     namaBarang?: string;
@@ -45,5 +45,5 @@ export interface StoreDataBelanja {
     tahunPerolehan?: string;
     kategori?: string;
     dokumen?: string;
-  }
+  };
 }

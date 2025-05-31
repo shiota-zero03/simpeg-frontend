@@ -34,7 +34,9 @@ export default function AssetIndex() {
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
 
-  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(null);
+  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(
+    null,
+  );
 
   const formatDateToJakarta = (
     calendarDate: CalendarDate | null | undefined,
@@ -186,7 +188,9 @@ export default function AssetIndex() {
         const { id } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
-            {(role === "SUPERUSERS" || role === "ADMIN_ASSET" || role.includes("UPTD")) && (
+            {(role === "SUPERUSERS" ||
+              role === "ADMIN_ASSET" ||
+              role.includes("UPTD")) && (
               <Button
                 onPress={() => {
                   setSelectedId(String(id));
@@ -337,7 +341,9 @@ export default function AssetIndex() {
                 >
                   <BiReset size={12} />
                 </Button>
-                {(role === "SUPERUSERS" || role === "ADMIN_ASSET" || role.includes("UPTD")) && (
+                {(role === "SUPERUSERS" ||
+                  role === "ADMIN_ASSET" ||
+                  role.includes("UPTD")) && (
                   <Button
                     onPress={() =>
                       navigate(`/manajemen-aset/tambah-pemegang-aset`)
@@ -351,11 +357,11 @@ export default function AssetIndex() {
                     Tambah
                   </Button>
                 )}
-                {(role === "SUPERUSERS" || role === "ADMIN_ASSET" || role.includes("UPTD")) && (
+                {(role === "SUPERUSERS" ||
+                  role === "ADMIN_ASSET" ||
+                  role.includes("UPTD")) && (
                   <Link
-                    to={
-                      `/manajemen-aset/export-aset`
-                    }
+                    to={`/manajemen-aset/export-aset`}
                     target="__blank"
                     className="border-[0.8px] w-24 text-xs bg-success text-white flex items-center justify-center rounded-lg p-2 gap-2"
                   >

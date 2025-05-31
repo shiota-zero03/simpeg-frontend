@@ -36,10 +36,17 @@ export default function DetailExportSurat({
             BERITA ACARA PEMERIKSAAN
           </h1>
           <br />
-          <div className="mb-2" dangerouslySetInnerHTML={{ __html: `Pada hari ini${" "}
-            ${DATA_DETAIL.tanggalSurat
-              ? textToFormat(DATA_DETAIL.tanggalSurat)
-              : "-"}, kami :` }} />
+          <div
+            className="mb-2"
+            dangerouslySetInnerHTML={{
+              __html: `Pada hari ini${" "}
+            ${
+              DATA_DETAIL.tanggalSurat
+                ? textToFormat(DATA_DETAIL.tanggalSurat)
+                : "-"
+            }, kami :`,
+            }}
+          />
           <div className="flex flex-col ms-12">
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
@@ -86,8 +93,7 @@ export default function DetailExportSurat({
                   <div className="min-w-32 max-w-32">Pangkat/Gol</div>
                   <div>:</div>
                   <div>
-                    {pangkat[index] || "-"} /{" "}
-                    {golongan[index] || "-"}
+                    {pangkat[index] || "-"} / {golongan[index] || "-"}
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
@@ -143,7 +149,9 @@ export default function DetailExportSurat({
                         </tr>
                         <tr>
                           <td></td>
-                          <td className="min-w-24 max-w-24 align-top">Tanda Tangan</td>
+                          <td className="min-w-24 max-w-24 align-top">
+                            Tanda Tangan
+                          </td>
                           <td className="align-top">: </td>
                           <td className="align-top"></td>
                         </tr>
@@ -173,7 +181,9 @@ export default function DetailExportSurat({
                       <td>{DATA_DETAIL.nipPemeriksa}</td>
                     </tr>
                     <tr>
-                      <td className="min-w-28 max-w-28 align-top">Tanda Tangan</td>
+                      <td className="min-w-28 max-w-28 align-top">
+                        Tanda Tangan
+                      </td>
                       <td className="align-top">:</td>
                       <td></td>
                     </tr>

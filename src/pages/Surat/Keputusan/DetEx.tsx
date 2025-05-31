@@ -30,7 +30,9 @@ export default function DetailExportSurat({
         <div className="flex flex-col text-lg px-24 py-12">
           <img src={kopSurat || KOP} alt="kop-surat" className="w-full" />
           <br />
-          <h1 className="text-center fonttext-xl font-semibold mb-2">RAHASIA</h1>
+          <h1 className="text-center fonttext-xl font-semibold mb-2">
+            RAHASIA
+          </h1>
           <h1 className="text-center text-xl">
             KEPUTUSAN KEPALA DINAS PERDAGANGAN
           </h1>
@@ -90,24 +92,34 @@ export default function DetailExportSurat({
                     <div className="min-w-8 max-w-8">{index + 1}</div>
                     <div className="flex flex-col mb-2">
                       <div className="flex items-start gap-2">
-                        <div className="min-w-[5.2rem] max-w-[5.2rem]">Nama </div>:
-                        <div>{item}</div>
+                        <div className="min-w-[5.2rem] max-w-[5.2rem]">
+                          Nama{" "}
+                        </div>
+                        :<div>{item}</div>
                       </div>
                       <div className="flex items-start gap-2">
-                        <div className="min-w-[5.2rem] max-w-[5.2rem]">NIP </div>:
-                        <div>{nip[index] || "-"}</div>
+                        <div className="min-w-[5.2rem] max-w-[5.2rem]">
+                          NIP{" "}
+                        </div>
+                        :<div>{nip[index] || "-"}</div>
                       </div>
                       <div className="flex items-start gap-2">
-                        <div className="min-w-[5.2rem] max-w-[5.2rem]">Pangkat </div>:
-                        <div>{golongan[index] || "-"}</div>
+                        <div className="min-w-[5.2rem] max-w-[5.2rem]">
+                          Pangkat{" "}
+                        </div>
+                        :<div>{golongan[index] || "-"}</div>
                       </div>
                       <div className="flex items-start gap-2">
-                        <div className="min-w-[5.2rem] max-w-[5.2rem]">Jabatan </div>:
-                        <div>{jabatan[index] || "-"}</div>
+                        <div className="min-w-[5.2rem] max-w-[5.2rem]">
+                          Jabatan{" "}
+                        </div>
+                        :<div>{jabatan[index] || "-"}</div>
                       </div>
                       <div className="flex items-start gap-2">
-                        <div className="min-w-[5.2rem] max-w-[5.2rem]">Unit Kerja </div>:
-                        <div>{unit[index] || "-"}</div>
+                        <div className="min-w-[5.2rem] max-w-[5.2rem]">
+                          Unit Kerja{" "}
+                        </div>
+                        :<div>{unit[index] || "-"}</div>
                       </div>
                     </div>
                   </div>
@@ -159,11 +171,9 @@ export default function DetailExportSurat({
               Tembusan &nbsp;&nbsp;:
             </div>
             {DATA_DETAIL.tembusan.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-start font-semibold gap-2"
-              >
-                <span className="min-w-6 max-w-6">{index + 1}.</span>&nbsp;&nbsp;{item.jabatan}
+              <div key={index} className="flex items-start font-semibold gap-2">
+                <span className="min-w-6 max-w-6">{index + 1}.</span>
+                &nbsp;&nbsp;{item.jabatan}
               </div>
             ))}
           </div>

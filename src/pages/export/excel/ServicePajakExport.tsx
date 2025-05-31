@@ -2,65 +2,40 @@ import React, { useEffect, useMemo } from "react";
 import { saveAs } from "file-saver";
 import ExcelJS, { Alignment } from "exceljs";
 import LoaderPage from "@/components/loader/LoaderPage";
-import {
-  useGetAllAssetOption,
-  useGetAllAssetOptionWithHolder,
-} from "@/services/asset/asset";
+import { useGetAllAssetServiceExport } from "@/services/asset/asset-service";
+import { DMYIndoToFormat } from "@/utils/dateFormater";
 
 const ExportExcel: React.FC = () => {
-  const { data, refetch, isFetching } = useGetAllAssetOption();
-  const {
-    data: dataHolder,
-    refetch: refetchHolder,
-    isFetching: isFetchingHolder,
-  } = useGetAllAssetOptionWithHolder();
+  const queryParams = new URLSearchParams(window.location.search);
+  const s = queryParams.get("s");
+  const e = queryParams.get("e");
+
+  const { data, refetch, isFetching } = useGetAllAssetServiceExport(s, e);
 
   const DATA_FETCHING = useMemo(() => {
-    if (data && dataHolder) {
-      const holder = dataHolder.data;
-      return data.data.map((item) => {
-        const pemegangAsset = holder.find((it) => it.id === item.id);
-        return {
-          kodeBarang: item.kodeBarang,
-          idBarang: item.idBarang,
-          nomorRegistrasi: item.nomorRegistrasi,
-          kategori: item.kategori,
-          namaBarang: item.namaBarang,
-          merkTipe: item.merkTipe,
-          harga: item.harga ? item.harga.toLocaleString("id-ID") : "",
-          tahunPerolehan: item.tahunPerolehan,
-          jenisBahan: item.jenisBahan,
-          nomorPabrik: item.nomorPabrik,
-          nomorMesin: item.nomorMesin,
-          ukuranCC: item.ukuranCC,
-          nomorRangka: item.nomorRangka,
-          nomorPolisi: item.nomorPolisi,
-          dokumenNomor: item.dokumenNomor,
-          pemegang: pemegangAsset?.holders?.[0]?.user?.name || "",
-        };
-      });
+    if (data) {
+      return data;
     } else return [];
-  }, [data, dataHolder]);
+  }, [data]);
 
   useEffect(() => {
     refetch();
-    refetchHolder();
   }, []);
 
   const handleExport = async () => {
     const workbook = new ExcelJS.Workbook();
-    const sheet = workbook.addWorksheet("Data Aset");
+    const sheet = workbook.addWorksheet("Data Servis dan Pajak");
 
     const topHeaderCell = sheet.getCell(`A1`);
     topHeaderCell.alignment = { horizontal: "left", vertical: "middle" };
     topHeaderCell.font = { bold: true };
-    topHeaderCell.value = "HASIL EXPORT LIST DATA ASET";
+    topHeaderCell.value = `HASIL EXPORT LIST DATA SERVIS DAN PAJAK ${s && e ? `Periode ${DMYIndoToFormat(s)} - ${DMYIndoToFormat(e)}` : ""}`;
     topHeaderCell.border = {
       top: { style: "thin", color: { argb: "000000" } },
       left: { style: "thin", color: { argb: "000000" } },
       right: { style: "thin", color: { argb: "000000" } },
     };
-    sheet.mergeCells("A1:Q1");
+    sheet.mergeCells("A1:O1");
 
     // Header Pegawai
     const headers1: {
@@ -75,82 +50,72 @@ const ExportExcel: React.FC = () => {
       },
       {
         cell: "B2",
-        value: "Kode Barang",
+        value: "Nama Belanja",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "C2",
-        value: "ID Barang",
+        value: "Nama Aset / Item Belanja",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "D2",
-        value: "No. Registrasi",
+        value: "Penanggung Jawab",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "E2",
-        value: "Kategori",
+        value: "Tanggal Dibuat",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "F2",
-        value: "Nama Barang",
+        value: "Tipe (Servis / Pajak)",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "G2",
-        value: "Merk/Tipe",
+        value: "Tanggal Mulai Servis",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "H2",
-        value: "Harga",
+        value: "Tanggal Selesai Servis",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "I2",
-        value: "Tahun Perolehan",
+        value: "Nominal Servis",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "J2",
-        value: "Jenis Bahan",
+        value: "Servis Ke-",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "K2",
-        value: "Nomor Pabrik",
+        value: "No. Surat Pesanan",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "L2",
-        value: "Nomor Mesin",
+        value: "Tanggal Surat Pesanan",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "M2",
-        value: "Ukuran/CC",
+        value: "Tanggal Pajak 5 Tahunan",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "N2",
-        value: "Nomor Rangka",
+        value: "Tanggal Pembayaran Pajak",
         alignment: { horizontal: "left", vertical: "middle" },
       },
       {
         cell: "O2",
-        value: "Nomor Polisi",
-        alignment: { horizontal: "left", vertical: "middle" },
-      },
-      {
-        cell: "P2",
-        value: "Nomor BPKB/STNK",
-        alignment: { horizontal: "left", vertical: "middle" },
-      },
-      {
-        cell: "Q2",
-        value: "Nama Pemegang",
+        value: "Nominal Pajak",
         alignment: { horizontal: "left", vertical: "middle" },
       },
     ];
@@ -176,25 +141,35 @@ const ExportExcel: React.FC = () => {
 
     const dataPegawai = DATA_FETCHING.map((item, index) => ({
       A: index + 1, // Nomor
-      B: item.kodeBarang || "-", // NIP
-      C: item.idBarang || "-", // Nama
-      D: item.nomorRegistrasi || "-", // Pangkat
-      E:
-        item.kategori === "PERALATAN"
-          ? "Peralatan Kantor / Mesin"
-          : "Kendaraan", // Pangkat
-      F: item.namaBarang || "-", // Golongan
-      G: item.merkTipe || "-", // Golongan
-      H: item.harga || "-", // Golongan
-      I: item.tahunPerolehan ? item.tahunPerolehan.split("-")[0] : "-", // Golongan
-      J: item.jenisBahan || "-", // Golongan
-      K: item.nomorPabrik || "-", // Golongan
-      L: item.nomorMesin || "-", // Golongan
-      M: item.ukuranCC || "-", // Golongan
-      N: item.nomorRangka || "-", // Golongan
-      O: item.nomorPolisi || "-", // Golongan
-      P: item.dokumenNomor || "-", // Golongan
-      Q: item.pemegang || "-", // Golongan
+      B: item.itemBelanjaRel?.dataBelanja?.kegiatan?.name || "-", // NIP
+      C: item.asset?.namaBarang || item.itemBelanjaRel?.namaBarang || "-", // Nama
+      D: item.assetHolder?.user?.name || "-", // Pangkat
+      E: item.createdAt ? DMYIndoToFormat(item.createdAt) : "-", // Pangkat
+      F: item.type || "-", // Golongan
+      G: item.type === "SERVIS" ? item.startServis || "-" : "-",
+      H: item.type === "SERVIS" ? item.endServis || "-" : "-",
+      I: item.type === "SERVIS" ? item.nominalServis || "-" : "-",
+      J: item.type === "SERVIS" ? item.servicesKe || "-" : "-",
+      K: item.type === "SERVIS" ? item.nomorSurat || "-" : "-",
+      L:
+        item.type === "SERVIS"
+          ? item.tanggalSurat
+            ? DMYIndoToFormat(item.tanggalSurat)
+            : "-"
+          : "-",
+      M:
+        item.type === "PAJAK"
+          ? item.pajak5Tahun
+            ? DMYIndoToFormat(item.pajak5Tahun)
+            : "-"
+          : "-",
+      N:
+        item.type === "PAJAK"
+          ? item.pembayaranPajak
+            ? DMYIndoToFormat(item.pembayaranPajak)
+            : "-"
+          : "-",
+      O: item.type === "PAJAK" ? item.nominalBayar || "-" : "-",
     }));
 
     dataPegawai.forEach((data, index) => {
@@ -214,8 +189,6 @@ const ExportExcel: React.FC = () => {
       row.getCell("M").value = data.M;
       row.getCell("N").value = data.N;
       row.getCell("O").value = data.O;
-      row.getCell("P").value = data.P;
-      row.getCell("Q").value = data.Q;
 
       // Menambahkan gaya jika perlu (misalnya, border)
       row.eachCell((cell) => {
@@ -244,23 +217,21 @@ const ExportExcel: React.FC = () => {
     sheet.getColumn(13).width = 20;
     sheet.getColumn(14).width = 20;
     sheet.getColumn(15).width = 20;
-    sheet.getColumn(16).width = 20;
-    sheet.getColumn(17).width = 20;
 
     // -------------------------------
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
-    saveAs(blob, "Data Aset.xlsx");
+    saveAs(blob, "Data Servis dan Pajak.xlsx");
     setTimeout(() => window.close(), 500);
   };
 
   useEffect(() => {
-    if (!isFetching && !isFetchingHolder && DATA_FETCHING) {
+    if (!isFetching && DATA_FETCHING) {
       handleExport();
     }
-  }, [isFetching, isFetchingHolder, DATA_FETCHING]);
+  }, [isFetching, DATA_FETCHING]);
 
   return <LoaderPage />;
 };

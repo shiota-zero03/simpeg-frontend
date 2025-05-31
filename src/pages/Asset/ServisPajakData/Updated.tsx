@@ -21,7 +21,6 @@ import { Link } from "react-router-dom";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
 import { Commet } from "react-loading-indicators";
-import { useGetAllAssetOptionWithHolder } from "@/services/asset/asset";
 import {
   useGetDetailAssetService,
   useUpdateAssetService,
@@ -99,9 +98,6 @@ export default function CreatePegawai() {
     const errors: errorProps = {};
     if (!formData.itemBelanjaId) {
       errors.itemBelanjaId = "Item belanja tidak boleh kosong";
-    }
-    if (!formData.assetId) {
-      errors.assetId = "ID aset tidak boleh kosong";
     }
     if (!formData.type) {
       errors.type = "Jenis layanan tidak boleh kosong";
@@ -199,12 +195,13 @@ export default function CreatePegawai() {
     }
 
     const formToSend: StoreAssetService = {};
-    if (formData.itemBelanjaId)
+    if (formData.itemBelanjaId) {
       formToSend.itemBelanjaId = Number(formData.itemBelanjaId);
-    if (formData.assetId) {
-      formToSend.assetId = formData.assetId;
-      if (selectedItem?.holders[0]) {
-        formToSend.assetHolderId = Number(selectedItem?.holders[0].id);
+      if (selectedItem?.Asset) {
+        formToSend.assetId = selectedItem?.Asset.id;
+      }
+      if (selectedItem?.Asset?.holders[0]) {
+        formToSend.assetHolderId = Number(selectedItem?.Asset?.holders[0].id);
       }
     }
     if (formData.type) formToSend.type = formData.type;
@@ -264,23 +261,16 @@ export default function CreatePegawai() {
     return allDataBelanja ? allDataBelanja.data : [];
   }, [allDataBelanja]);
 
-  const {
-    data: allDataAsset,
-    isFetching: isFetchingAsset,
-    refetch: refetchAsset,
-  } = useGetAllAssetOptionWithHolder();
-  const ASSET_SELECT = useMemo(() => {
-    return allDataAsset ? allDataAsset.data : [];
-  }, [allDataAsset]);
-
   useEffect(() => {
     refetchBelanja();
-    refetchAsset();
   }, []);
 
   const selectedItem = useMemo(() => {
-    return ASSET_SELECT.find((it) => it.id === formData.assetId) || null;
-  }, [ASSET_SELECT, formData.assetId]);
+    return (
+      BELANJA_SELECT.find((it) => it.id === Number(formData.itemBelanjaId)) ||
+      null
+    );
+  }, [BELANJA_SELECT, formData.itemBelanjaId]);
 
   return (
     <>
@@ -317,9 +307,10 @@ export default function CreatePegawai() {
             <Card shadow="none" className="border p-4">
               <CardBody className="flex flex-col gap-2">
                 <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
-                  <div className="flex flex-col gap-1 sm:col-span-2 col-span-1">
+                  <div className="flex flex-col gap-1">
                     <label htmlFor="lokasi" className="text-xs font-semibold">
-                      Nama Item Belanja <span className="text-danger">*</span>
+                      Nama Aset / Item Belanja{" "}
+                      <span className="text-danger">*</span>
                     </label>
                     <Autocomplete
                       isLoading={isFetchingBelanja}
@@ -344,51 +335,17 @@ export default function CreatePegawai() {
                       {(peg) => (
                         <AutocompleteItem
                           key={peg.id}
-                          textValue={peg.namaBarang}
+                          textValue={
+                            peg.Asset ? peg.Asset.namaBarang : peg.namaBarang
+                          }
                         >
-                          {peg.namaBarang} - {peg.dataBelanja.namaBelanja}
+                          {peg.Asset ? peg.Asset.namaBarang : peg.namaBarang} -{" "}
+                          {peg.dataBelanja.namaBelanja}
                         </AutocompleteItem>
                       )}
                     </Autocomplete>
                     <div className="text-xs italic text-danger">
                       {formError.itemBelanjaId}
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="lokasi" className="text-xs font-semibold">
-                      Nama Aset <span className="text-danger">*</span>
-                    </label>
-                    <Autocomplete
-                      isLoading={isFetchingAsset}
-                      aria-label="pegawai"
-                      placeholder="Cari data aset"
-                      variant="bordered"
-                      radius="sm"
-                      defaultItems={ASSET_SELECT}
-                      selectedKey={String(formData.assetId)}
-                      onSelectionChange={(value) =>
-                        setFormData({
-                          ...formData,
-                          assetId: value as string,
-                        })
-                      }
-                      inputProps={{
-                        classNames: {
-                          input: "text-xs",
-                        },
-                      }}
-                    >
-                      {(peg) => (
-                        <AutocompleteItem
-                          key={peg.id}
-                          textValue={peg.namaBarang}
-                        >
-                          {peg.namaBarang}
-                        </AutocompleteItem>
-                      )}
-                    </Autocomplete>
-                    <div className="text-xs italic text-danger">
-                      {formError.assetId}
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
@@ -398,8 +355,8 @@ export default function CreatePegawai() {
                     </label>
                     <Input
                       value={
-                        selectedItem?.holders[0]
-                          ? selectedItem?.holders[0].user.name
+                        selectedItem?.Asset?.holders[0]
+                          ? selectedItem?.Asset?.holders[0].user.name
                           : ""
                       }
                       isDisabled

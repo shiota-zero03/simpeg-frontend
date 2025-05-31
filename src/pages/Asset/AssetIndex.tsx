@@ -45,7 +45,9 @@ export default function AssetIndex() {
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
 
-  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(null);
+  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(
+    null,
+  );
 
   const formatDateToJakarta = (
     calendarDate: CalendarDate | null | undefined,
@@ -372,9 +374,7 @@ export default function AssetIndex() {
                 </Button>
                 {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
                   <Link
-                    to={
-                      `/manajemen-aset/export-aset`
-                    }
+                    to={`/manajemen-aset/export-aset`}
                     target="__blank"
                     className="border-[0.8px] w-24 text-xs bg-success text-white flex items-center justify-center rounded-lg p-2 gap-2"
                   >

@@ -94,7 +94,7 @@ export const getAllSPPD = async (
   if (nomorSurat) params.set("nomorSurat", nomorSurat);
 
   let link = `/admin/sppd/data/admin?${params.toString()}`;
-  if(role === "PEGAWAI") {
+  if (role === "PEGAWAI") {
     link = `/admin/sppd/rekap/byuser/iduser?${params.toString()}`;
   } else {
     link = `/admin/sppd/data/admin?${params.toString()}`;

@@ -169,13 +169,19 @@ const ExportToWord: React.FC = () => {
             </div>
             <br />
             <br />
-            <div dangerouslySetInnerHTML={{ __html: `Pada hari ini${" "}
-                                    ${DATA_DETAIL.tanggalSurat
-                                      ? textToFormat(DATA_DETAIL.tanggalSurat)
-                                      : "-"}, bertempat di Kantor Dinas Perdagangan Kabupaten Bekasi pukul${" "}
+            <div
+              dangerouslySetInnerHTML={{
+                __html: `Pada hari ini${" "}
+                                    ${
+                                      DATA_DETAIL.tanggalSurat
+                                        ? textToFormat(DATA_DETAIL.tanggalSurat)
+                                        : "-"
+                                    }, bertempat di Kantor Dinas Perdagangan Kabupaten Bekasi pukul${" "}
                                       ${DATA_DETAIL.waktu ? HIDateformat(DATA_DETAIL.waktu) : "-"} WIB,
                                       kami Tim Pemeriksa Internal pada Dinas Perdagangan Kabupaten Bekasi,
-                                      sebagai berikut: :` }} />
+                                      sebagai berikut: :`,
+              }}
+            />
             <div>
               <table>
                 <tbody>

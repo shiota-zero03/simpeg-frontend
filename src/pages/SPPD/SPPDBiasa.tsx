@@ -15,10 +15,7 @@ import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import {
-  CalendarDate,
-  getLocalTimeZone
-} from "@internationalized/date";
+import { CalendarDate, getLocalTimeZone } from "@internationalized/date";
 import { useDeleteSPPD, useGetAllSPPD } from "@/services/sppd";
 import { SPPDRes } from "@/interface/responses/sppd.interface";
 import PegawaiModal from "@/components/modals/SPPDModal/PegawaiModal";
@@ -128,7 +125,9 @@ export default function News() {
   const [searchKegiatan, setSearchKegiatan] = useState("");
   const [listPegawai, setListPegawai] = useState<PegawaiProps[] | null>(null);
 
-  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(null);
+  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(
+    null,
+  );
 
   const formatDateToJakarta = (
     calendarDate: CalendarDate | null | undefined,
@@ -181,7 +180,7 @@ export default function News() {
       setStartData(start);
       setEndData(end);
 
-      if(role === "PEGAWAI") {
+      if (role === "PEGAWAI") {
         return data.response.map((item: SPPDRes) => {
           let anggaran = 0;
           const participantLeader = item.sppd.participants.find(
@@ -192,12 +191,14 @@ export default function News() {
               (it.budgets[0]?.dailyAllowance ||
                 0 * it.budgets[0]?.volDailyAllowance ||
                 0) +
-              (it.budgets[0]?.transport || 0 * it.budgets[0]?.volTransport || 0) +
+              (it.budgets[0]?.transport ||
+                0 * it.budgets[0]?.volTransport ||
+                0) +
               (it.budgets[0]?.representatif ||
                 0 * it.budgets[0]?.volRepresentatif ||
                 0);
           });
-  
+
           return {
             id: item.sppd.id,
             nomorSurat: item.sppd.nomorSurat,
@@ -220,12 +221,14 @@ export default function News() {
               (it.budgets[0]?.dailyAllowance ||
                 0 * it.budgets[0]?.volDailyAllowance ||
                 0) +
-              (it.budgets[0]?.transport || 0 * it.budgets[0]?.volTransport || 0) +
+              (it.budgets[0]?.transport ||
+                0 * it.budgets[0]?.volTransport ||
+                0) +
               (it.budgets[0]?.representatif ||
                 0 * it.budgets[0]?.volRepresentatif ||
                 0);
           });
-  
+
           return {
             id: item.id,
             nomorSurat: item.nomorSurat,
@@ -310,7 +313,9 @@ export default function News() {
         const { id } = row.original;
         return (
           <div className="flex items-center gap-2 justify-center">
-            {(role === "ADMIN_SPPD" || role === "SUPERUSERS" || role === "PEGAWAI") && (
+            {(role === "ADMIN_SPPD" ||
+              role === "SUPERUSERS" ||
+              role === "PEGAWAI") && (
               <Button
                 onPress={() =>
                   navigate(`/sppd/update-data/${id}?type=PERJALANAN_BIASA`)
@@ -330,7 +335,9 @@ export default function News() {
             >
               <FaFilePdf size={14} />
             </Link>
-            {(role === "ADMIN_SPPD" || role === "SUPERUSERS" || role === "PEGAWAI") && (
+            {(role === "ADMIN_SPPD" ||
+              role === "SUPERUSERS" ||
+              role === "PEGAWAI") && (
               <Button
                 onPress={() => {
                   setSelectedId(id);

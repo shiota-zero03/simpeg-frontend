@@ -179,10 +179,16 @@ const ExportToWord: React.FC = () => {
             </div>
             <br />
             <br />
-            <div dangerouslySetInnerHTML={{ __html: `Pada hari ini${" "}
-                        ${DATA_DETAIL.tanggalSurat
-                          ? textToFormat(DATA_DETAIL.tanggalSurat)
-                          : "-"}, kami :` }} />
+            <div
+              dangerouslySetInnerHTML={{
+                __html: `Pada hari ini${" "}
+                        ${
+                          DATA_DETAIL.tanggalSurat
+                            ? textToFormat(DATA_DETAIL.tanggalSurat)
+                            : "-"
+                        }, kami :`,
+              }}
+            />
             <div>
               <table style={{ marginLeft: "0.5cm" }}>
                 <tbody>

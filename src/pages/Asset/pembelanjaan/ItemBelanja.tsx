@@ -311,7 +311,9 @@ export default function AssetIndex() {
                 </Button>
                 {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
                   <Button
-                    onPress={() => navigate('/manajemen-aset/tambah-item-belanja')}
+                    onPress={() =>
+                      navigate("/manajemen-aset/tambah-item-belanja")
+                    }
                     variant="solid"
                     radius="sm"
                     size="sm"

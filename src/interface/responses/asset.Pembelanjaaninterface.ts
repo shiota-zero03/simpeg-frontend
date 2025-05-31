@@ -102,6 +102,38 @@ export interface DataBelanjaRes {
       name: string;
     };
   };
+  Asset: {
+    id: string;
+    idBarang: string;
+    kodeBarang: string;
+    namaBarang: string;
+    nomorRegistrasi: string;
+    harga: number;
+    merkTipe: string;
+    ukuranCC: string;
+    jenisBahan: string;
+    nomorPabrik: string;
+    nomorRangka: string;
+    nomorMesin: string;
+    nomorPolisi: string;
+    dokumenTipe: string;
+    dokumenNomor: string;
+    keterangan: string;
+    dokumen: string;
+    kategori: string;
+    tahunPerolehan: string;
+    createdAt: string;
+    updatedAt: string;
+    images: string;
+    status: boolean | null;
+    holders: {
+      id: number;
+      user: {
+        id: string;
+        name: string;
+      };
+    }[];
+  };
 }
 
 export interface IDataBelanjaRes extends BaseRes {

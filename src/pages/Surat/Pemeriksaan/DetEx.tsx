@@ -37,7 +37,8 @@ export default function DetailExportSurat({
               <div className="font-semibold">{DATA_DETAIL?.namaTtd}</div>
             </div>
             <div className="flex items-start font-normal gap-2">
-              <div className="min-w-20 max-w-20">NIP </div>:<div>{DATA_DETAIL?.nipTtd}</div>
+              <div className="min-w-20 max-w-20">NIP </div>:
+              <div>{DATA_DETAIL?.nipTtd}</div>
             </div>
             <div className="flex items-start font-normal gap-2">
               <div className="min-w-20 max-w-20">Jabatan </div>:

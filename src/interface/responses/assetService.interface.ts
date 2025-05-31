@@ -17,6 +17,13 @@ export interface AssetServiceRes {
     id: number;
     name: string;
     namaBarang: string;
+    dataBelanja: {
+      kegiatan: {
+        id: number;
+        name: string;
+        accountBank: string;
+      };
+    };
   };
   asset: {
     id: string;

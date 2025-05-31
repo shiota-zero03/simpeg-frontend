@@ -16,13 +16,15 @@ import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import { useNavigate } from "react-router-dom";
 import store from "@/redux/store";
-import { getLocalTimeZone, parseDate } from "@internationalized/date";
+import { getLocalTimeZone } from "@internationalized/date";
 import {
   useDeleteAssetService,
   useGetAllAssetService,
 } from "@/services/asset/asset-service";
 import { LucidePencilLine } from "lucide-react";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
+import { Link } from "react-router-dom";
+import { FaFileExcel } from "react-icons/fa";
 
 interface DataProps {
   id: number;
@@ -59,12 +61,9 @@ export default function AssetIndex() {
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
 
-  const today = new Date();
-  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>({
-    start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
-    end: parseDate(today.toISOString().split("T")[0]),
-  });
+  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(
+    null,
+  );
 
   const formatDateToJakarta = (
     calendarDate: CalendarDate | null | undefined,
@@ -227,10 +226,7 @@ export default function AssetIndex() {
 
   const handleReset = () => {
     setSearch("");
-    setRangeDate({
-      start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
-      end: parseDate(today.toISOString().split("T")[0]),
-    });
+    setRangeDate(null);
     setPageIndex(0);
     setTimeout(() => {
       refetchData();
@@ -358,6 +354,15 @@ export default function AssetIndex() {
                   >
                     Tambah
                   </Button>
+                )}
+                {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
+                  <Link
+                    to={`/manajemen-aset/export-servis-pajak?${rangeDate && `s=${formatDateToJakarta(rangeDate.start)}&e=${formatDateToJakarta(rangeDate.end)}`}`}
+                    target="__blank"
+                    className="border-[0.8px] w-24 text-xs bg-success text-white flex items-center justify-center rounded-lg p-2 gap-2"
+                  >
+                    <FaFileExcel size={12} /> Export
+                  </Link>
                 )}
               </div>
             </div>

@@ -31,13 +31,20 @@ export default function DetailExportSurat({
             Nomor : {DATA_DETAIL?.nomorSurat}
           </div>
           <br />
-          <div className="mb-2" dangerouslySetInnerHTML={{ __html: `Pada hari ini${" "}
-                        ${DATA_DETAIL.tanggalSurat
-                          ? textToFormat(DATA_DETAIL.tanggalSurat)
-                          : "-"}, bertempat di Kantor Dinas Perdagangan Kabupaten Bekasi pukul${" "}
+          <div
+            className="mb-2"
+            dangerouslySetInnerHTML={{
+              __html: `Pada hari ini${" "}
+                        ${
+                          DATA_DETAIL.tanggalSurat
+                            ? textToFormat(DATA_DETAIL.tanggalSurat)
+                            : "-"
+                        }, bertempat di Kantor Dinas Perdagangan Kabupaten Bekasi pukul${" "}
                           ${DATA_DETAIL.waktu ? HIDateformat(DATA_DETAIL.waktu) : "-"} WIB,
                           kami Tim Pemeriksa Internal pada Dinas Perdagangan Kabupaten Bekasi,
-                          sebagai berikut: :` }} />
+                          sebagai berikut: :`,
+            }}
+          />
           <div className="flex flex-col">
             {DATA_DETAIL.TimPemeriksa.map((item, index) => (
               <div className="flex items-center gap-2" key={index}>

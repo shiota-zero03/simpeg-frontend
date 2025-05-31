@@ -97,7 +97,7 @@ export interface SPPDRes {
         bankAccount: string;
       }[];
     }[];
-  }
+  };
 }
 
 export interface SPPDRekapRes {

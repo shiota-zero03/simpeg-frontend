@@ -298,7 +298,6 @@ export default function CreatePegawai() {
     if (formData.pendidikanTerakhir)
       formToSend.education = formData.pendidikanTerakhir;
 
-
     if (formData.statusPegawai) {
       formToSend.employmentStatus = formData.statusPegawai;
       formToSend.status = false;
@@ -306,7 +305,7 @@ export default function CreatePegawai() {
       formToSend.employmentStatus = null;
       formToSend.status = true;
     }
-    
+
     formToSend.statusAsn = formData.asnStatus;
 
     try {

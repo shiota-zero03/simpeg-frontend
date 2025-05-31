@@ -51,7 +51,9 @@ export default function DetailExportSurat({
                     <tr>
                       <td className="align-top min-w-24 max-w-24">Nama</td>
                       <td className="align-top">:</td>
-                      <th className="text-start align-top">{item.diPanggil || "-"}</th>
+                      <th className="text-start align-top">
+                        {item.diPanggil || "-"}
+                      </th>
                     </tr>
                     <tr>
                       <td className="align-top">NIP</td>
@@ -66,7 +68,9 @@ export default function DetailExportSurat({
                     <tr>
                       <td className="align-top">Jabatan</td>
                       <td className="align-top">:</td>
-                      <td className="align-top">{item.jabatanDiPanggil.split(';;')[0] || "-"}</td>
+                      <td className="align-top">
+                        {item.jabatanDiPanggil.split(";;")[0] || "-"}
+                      </td>
                     </tr>
                   </tbody>
                 </table>

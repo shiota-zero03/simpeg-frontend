@@ -16,7 +16,7 @@ export default function Asset() {
   const tabData = tab as string;
 
   useEffect(() => {
-    if (role?.includes('UPTD')) {
+    if (role?.includes("UPTD")) {
       setSelectedTab("pemegang");
     } else {
       if (tabData) {
@@ -32,36 +32,36 @@ export default function Asset() {
         <TitleCase title="Aset" text="Berikut ini Mengelola Daftar Aset" />
         <div>
           <div className="overflow-x-auto flex min-w-full">
-          {!role?.includes('UPTD') ? (
-            <div
-              onClick={() => setSelectedTab("barang-kendaraan")}
-              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "barang-kendaraan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
-            >
-              Barang / Kendaraan
-            </div>
-          ) : null}
+            {!role?.includes("UPTD") ? (
+              <div
+                onClick={() => setSelectedTab("barang-kendaraan")}
+                className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "barang-kendaraan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+              >
+                Barang / Kendaraan
+              </div>
+            ) : null}
             <div
               onClick={() => setSelectedTab("pemegang")}
               className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pemegang" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
             >
               Pemegang / Penanggung Jawab
             </div>
-          {!role?.includes('UPTD') ? (
-            <div
-              onClick={() => setSelectedTab("pembelanjaan")}
-              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pembelanjaan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
-            >
-              Kegiatan Pembelanjaan
-            </div>
-          ) : null}
-          {!role?.includes('UPTD') ? (
-            <div
-              onClick={() => setSelectedTab("servis")}
-              className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "servis" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
-            >
-              Servis & Pajak
-            </div>
-          ) : null}
+            {!role?.includes("UPTD") ? (
+              <div
+                onClick={() => setSelectedTab("pembelanjaan")}
+                className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "pembelanjaan" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+              >
+                Kegiatan Pembelanjaan
+              </div>
+            ) : null}
+            {!role?.includes("UPTD") ? (
+              <div
+                onClick={() => setSelectedTab("servis")}
+                className={`rounded-t-xl border-t border-x px-4 ${selectedTab === "servis" ? "bg-[#E1FFDD] text-success" : "bg-white"} min-w-60 text-center py-2 text-sm cursor-pointer`}
+              >
+                Servis & Pajak
+              </div>
+            ) : null}
           </div>
           <div className="bg-white shadow-md rounded-b-xl border min-h-[70vh]">
             {selectedTab === "barang-kendaraan" ? <AssetIndex /> : <></>}
