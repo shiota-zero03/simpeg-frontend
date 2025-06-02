@@ -241,14 +241,6 @@ export default function Login() {
                     {formError.password}
                   </div>
                 </div>
-                <div className="text-end -my-1">
-                  <Link
-                    className="text-accent-primary font-semibold text-xs hover:underline"
-                    to={"#"}
-                  >
-                    Lupa Password ?
-                  </Link>
-                </div>
                 <div>
                   <Button
                     isDisabled={isButtonActive}
