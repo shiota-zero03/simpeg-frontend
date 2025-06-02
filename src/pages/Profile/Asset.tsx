@@ -14,8 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import {
   CalendarDate,
-  getLocalTimeZone,
-  parseDate,
+  getLocalTimeZone
 } from "@internationalized/date";
 import store from "@/redux/store";
 import { useGetAllAssetbyHolder } from "@/services/asset/asset";
@@ -50,12 +49,7 @@ export default function News() {
   const [searchKegiatan, setSearchKegiatan] = useState("");
   const [searchNomorRegistrasi, setSearchNomorRegistrasi] = useState("");
 
-  const today = new Date();
-  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>({
-    start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
-    end: parseDate(today.toISOString().split("T")[0]),
-  });
+  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(null);
 
   const formatDateToJakarta = (
     calendarDate: CalendarDate | null | undefined,
@@ -205,10 +199,7 @@ export default function News() {
     setSearch("");
     setSearchKegiatan("");
     setSearchNomorRegistrasi("");
-    setRangeDate({
-      start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
-      end: parseDate(today.toISOString().split("T")[0]),
-    });
+    setRangeDate(null);
     setTimeout(() => {
       refetchData();
     }, 100);

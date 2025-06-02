@@ -14,8 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import {
   CalendarDate,
-  getLocalTimeZone,
-  parseDate,
+  getLocalTimeZone
 } from "@internationalized/date";
 import { useGetAllSPPDUser } from "@/services/sppd";
 import { SPPDRekapRes } from "@/interface/responses/sppd.interface";
@@ -41,12 +40,7 @@ export default function News() {
   const [search, setSearch] = useState("");
   const [searchKegiatan, setSearchKegiatan] = useState("");
 
-  const today = new Date();
-  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>({
-    start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
-    end: parseDate(today.toISOString().split("T")[0]),
-  });
+  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(null);
 
   const formatDateToJakarta = (
     calendarDate: CalendarDate | null | undefined,
@@ -177,10 +171,7 @@ export default function News() {
   const handleReset = () => {
     setSearch("");
     setSearchKegiatan("");
-    setRangeDate({
-      start: parseDate(firstDayOfMonth.toISOString().split("T")[0]),
-      end: parseDate(today.toISOString().split("T")[0]),
-    });
+    setRangeDate(null);
     setTimeout(() => {
       refetchData();
     }, 100);
