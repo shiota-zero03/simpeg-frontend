@@ -133,6 +133,7 @@ export default function DetailExportSurat({
                 dangerouslySetInnerHTML={{ __html: DATA_DETAIL.isiLaporan }}
               />
             </div>
+            <br />
             <div className="grid grid-cols-2 gap-2 print:break-after-page avoid-break">
               <div className="flex flex-col gap-2 items-center justify-center font-semibold">
                 <div>{DATA_DETAIL.jabatanPengelola}</div>

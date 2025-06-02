@@ -105,6 +105,13 @@ export default function DetailExportSurat({
             <br />
           </div>
           <div className="flex flex-col gap-6">
+            <h1 className="text-[14pt] text-center font-semibold">
+              LAPORAN
+              <br />
+              DAFTAR PERJALANAN DINAS APARATUR SIPIL NEGARA DINAS PERDAGANGAN{" "}
+              {MYIndoToFormat(DATA_DETAIL.createdAt).toUpperCase()}{" "}
+            </h1>
+            <br />
             <div>
               <div className="font-semibold text-[12pt] mb-2">
                 I. Latar Belakang
@@ -143,8 +150,9 @@ export default function DetailExportSurat({
                 dangerouslySetInnerHTML={{ __html: DATA_DETAIL.isiLaporan }}
               />
             </div>
+            <br />
             <div className="grid grid-cols-2 gap-2 print:break-after-page">
-              <div className="flex flex-col gap-2 items-center justify-center font-semibold">
+              <div className="flex flex-col gap-2 items-center justify-center font-semibold avoid-break">
                 <div>{DATA_DETAIL.jabatanPengelola}</div>
                 <br />
                 <br />
@@ -153,7 +161,7 @@ export default function DetailExportSurat({
                 <div>{DATA_DETAIL.pengelola}</div>
                 <div>NIP.{DATA_DETAIL.nipPengelola}</div>
               </div>
-              <div className="flex flex-col gap-2 items-center justify-center font-semibold">
+              <div className="flex flex-col gap-2 items-center justify-center font-semibold avoid-break">
                 <div>{DATA_DETAIL.jabatanSekertaris}</div>
                 <br />
                 <br />
@@ -163,7 +171,7 @@ export default function DetailExportSurat({
                 <div>NIP.{DATA_DETAIL.nipSekertaris}</div>
               </div>
               <br />
-              <div className="col-span-2 flex flex-col gap-2 items-center justify-center font-semibold">
+              <div className="col-span-2 flex flex-col gap-2 items-center justify-center font-semibold avoid-break">
                 <div>{DATA_DETAIL.jabatanSubagin}</div>
                 <br />
                 <br />
