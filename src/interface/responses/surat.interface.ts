@@ -73,6 +73,11 @@ export interface SuratPemanggilanRes {
   namaTtd: string;
   nipTtd: string;
   jabatanTtd: string;
+
+  nama?: string[];
+  nip?: string[];
+  jabatan?: string[];
+  unit?: string[];
 }
 
 export interface ISuratPemanggilanRes extends BaseRes {

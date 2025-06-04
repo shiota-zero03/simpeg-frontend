@@ -216,15 +216,19 @@ export default function CreatePegawai() {
 
     const formToSend: StoreAssetHolder[] = [];
 
-    formAsset.forEach((item) =>
-      formToSend.push({
+    formAsset.forEach((item) => {
+      const formSendData: StoreAssetHolder = {
         userId: formData.userId,
-        assetId: item.assetId,
-        noBast: item.noBast || "",
-        dokumenPendukung: item.dokumenPendukung || "",
-        file: item.file || "",
-      }),
-    );
+      };
+    
+      if (item.assetId) formSendData.assetId = item.assetId;
+      if (item.noBast) formSendData.noBast = item.noBast;
+      if (item.dokumenPendukung) formSendData.dokumenPendukung = item.dokumenPendukung;
+      if (item.file) formSendData.file = item.file;
+    
+      formToSend.push(formSendData);
+    });
+    
 
     try {
       mutatePost(formToSend, {

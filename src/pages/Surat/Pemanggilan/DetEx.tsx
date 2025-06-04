@@ -19,6 +19,12 @@ export default function DetailExportSurat({
   isFetching,
   kopSurat,
 }: props) {
+
+    const nama = DATA_DETAIL.pemanggil.split(";;");
+    const nip = DATA_DETAIL.nipPemanggil.split(";;");
+    const jabatan = DATA_DETAIL.jabatanPemanggil.split(";;");
+    const unit = DATA_DETAIL.unitPemanggil.split(";;");
+
   return (
     <>
       {isFetching ? (
@@ -80,22 +86,41 @@ export default function DetailExportSurat({
 
           <div className="mt-4 ms-8">Untuk menghadap kepada</div>
           <div className="flex flex-col ms-8">
-            <div className="flex items-start font-normal gap-2">
-              <div className="max-w-28 min-w-28">Nama </div>:
-              <div className="font-semibold">{DATA_DETAIL?.pemanggil}</div>
-            </div>
-            <div className="flex items-start font-normal gap-2">
-              <div className="max-w-28 min-w-28">NIP </div>:
-              <div>{DATA_DETAIL?.nipPemanggil}</div>
-            </div>
-            <div className="flex items-start font-normal gap-2">
-              <div className="max-w-28 min-w-28">Unit Kerja </div>:
-              <div>{DATA_DETAIL?.unitPemanggil}</div>
-            </div>
-            <div className="flex items-start font-normal gap-2">
-              <div className="max-w-28 min-w-28">Jabatan </div>:
-              <div>{DATA_DETAIL?.jabatanPemanggil}</div>
-            </div>
+            {nama.map((item, index) => (
+              <div key={index} className="flex flex-nowrap gap-2 mb-2">
+                <div className="min-w-[24px] max-w-[24px]">
+                  {index + 1}.
+                </div>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td className="align-top min-w-24 max-w-24">Nama</td>
+                      <td className="align-top">:</td>
+                      <th className="text-start align-top">
+                        {item || "-"}
+                      </th>
+                    </tr>
+                    <tr>
+                      <td className="align-top">NIP</td>
+                      <td className="align-top">:</td>
+                      <td className="align-top">{nip[index] || "-"}</td>
+                    </tr>
+                    <tr>
+                      <td className="align-top">Unit Kerja</td>
+                      <td className="align-top">:</td>
+                      <td className="align-top">{unit[index] || "-"}</td>
+                    </tr>
+                    <tr>
+                      <td className="align-top">Jabatan</td>
+                      <td className="align-top">:</td>
+                      <td className="align-top">
+                        {jabatan[index] || "-"}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            ))}
           </div>
           <div className="mt-4 ms-8">Pada</div>
           <div className="flex flex-col ms-8">

@@ -78,6 +78,11 @@ const ExportToWord: React.FC = () => {
         namaTtd: data.data.namaTtd || "",
         nipTtd: data.data.nipTtd || "",
         jabatanTtd: data.data.jabatanTtd || "",
+
+        nama: data.data.pemanggil.split(";;"),
+        nip: data.data.nipPemanggil.split(";;"),
+        jabatan: data.data.jabatanPemanggil.split(";;"),
+        unit: data.data.unitPemanggil.split(";;"),
       };
     } else {
       return null;
@@ -245,28 +250,38 @@ const ExportToWord: React.FC = () => {
               <div style={{ marginLeft: "0.5cm" }}>Untuk menghadap kepada:</div>
               <table style={{ marginLeft: "0.5cm" }}>
                 <tbody>
-                  <tr>
-                    <td style={{ width: "3cm" }}>Nama</td>
-                    <td>:&nbsp;&nbsp;</td>
-                    <td>
-                      <b>{DATA_DETAIL.pemanggil || "-"}</b>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>NIP</td>
-                    <td>:&nbsp;&nbsp;</td>
-                    <td>{DATA_DETAIL.nipPemanggil || "-"}</td>
-                  </tr>
-                  <tr>
-                    <td>Unit Kerja</td>
-                    <td>:&nbsp;&nbsp;</td>
-                    <td>{DATA_DETAIL.unitPemanggil || "-"}</td>
-                  </tr>
-                  <tr>
-                    <td>Jabatan</td>
-                    <td>:&nbsp;&nbsp;</td>
-                    <td>{DATA_DETAIL.jabatanPemanggil || "-"}</td>
-                  </tr>
+                  {DATA_DETAIL.nama?.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <tr>
+                        <td style={{ textAlign: "center", width: "0.5cm" }}>
+                          {index + 1}.{" "}
+                        </td>
+                        <td style={{ width: "2cm" }}>Nama</td>
+                        <td>:&nbsp;&nbsp;</td>
+                        <td>
+                          <b>{item || "-"}</b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>NIP</td>
+                        <td>:&nbsp;&nbsp;</td>
+                        <td>{DATA_DETAIL.nip?.[index] || "-"}</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>Unit Kerja</td>
+                        <td>:&nbsp;&nbsp;</td>
+                        <td>{DATA_DETAIL.unit?.[index] || "-"}</td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>Jabatan</td>
+                        <td>:&nbsp;&nbsp;</td>
+                        <td>{DATA_DETAIL.jabatan?.[index] || "-"}</td>
+                      </tr>
+                    </React.Fragment>
+                  ))}
                 </tbody>
               </table>
               <br />

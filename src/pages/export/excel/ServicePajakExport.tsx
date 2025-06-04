@@ -146,8 +146,8 @@ const ExportExcel: React.FC = () => {
       D: item.assetHolder?.user?.name || "-", // Pangkat
       E: item.createdAt ? DMYIndoToFormat(item.createdAt) : "-", // Pangkat
       F: item.type || "-", // Golongan
-      G: item.type === "SERVIS" ? item.startServis || "-" : "-",
-      H: item.type === "SERVIS" ? item.endServis || "-" : "-",
+      G: item.type === "SERVIS" ? DMYIndoToFormat(item.startServis) || "-" : "-",
+      H: item.type === "SERVIS" ? DMYIndoToFormat(item.endServis) || "-" : "-",
       I: item.type === "SERVIS" ? item.nominalServis || "-" : "-",
       J: item.type === "SERVIS" ? item.servicesKe || "-" : "-",
       K: item.type === "SERVIS" ? item.nomorSurat || "-" : "-",

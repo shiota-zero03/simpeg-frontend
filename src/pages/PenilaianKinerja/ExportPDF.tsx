@@ -13,6 +13,7 @@ import {
 import { VictoryPie, VictoryTheme } from "victory";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Commet } from "react-loading-indicators";
+import { MYIndoToFormat } from "@/utils/dateFormater";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -78,7 +79,6 @@ export default function ExportPenilaianKinerja() {
     (DATA_DETAIL?.loyaltyNilai || 0) +
     (DATA_DETAIL?.cooperationNilai || 0) +
     (DATA_DETAIL?.attitudeNilai || 0);
-
   // Di dalam komponen utam
 
   return (
@@ -111,6 +111,7 @@ export default function ExportPenilaianKinerja() {
                   PERDAGANGAN
                 </h1>
                 <h1>PEMERINTAH DAERAH KABUPATEN BEKASI</h1>
+                <h1 className="uppercase">PERIODE {MYIndoToFormat(searchMonth)}</h1>
               </div>
               <br />
               <br />

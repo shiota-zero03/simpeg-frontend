@@ -123,9 +123,17 @@ export default function SuratPemanggilan() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "pemanggil",
-      header: "Untuk Menghadap",
-      cell: (info) => info.getValue() as string,
+      header: "Yang Menghadap",
+      cell: ({ row }) => {
+        const { pemanggil } = row.original;
+        return (
+          <ol className="ms-4 list-decimal">
+            {pemanggil.split(";;").map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ol>
+        );
+      },
       // meta: { align: "center" },
     },
     {

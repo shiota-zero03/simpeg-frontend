@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createIKP,
+  deleteDataIKP,
   deleteIKP,
   getAllIKP,
   getDetailIKP,
@@ -106,6 +107,22 @@ export const useUpdateIKP = () => {
     mutationFn: ({ id, formData }) => updateIKP(id, formData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["updateIKP"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
+  });
+};
+export const useDeleteDataIKP = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IIKPDetailRes,
+    AxiosError<BaseErrorRes>,
+    { id: string; }
+  >({
+    mutationFn: ({ id }) => deleteDataIKP(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["deleteDataIKP"] });
     },
     onError: (error) => {
       throw error;

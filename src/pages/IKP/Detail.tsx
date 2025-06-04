@@ -18,10 +18,12 @@ import {
   LucideFileCheck2,
   LucideSave,
   LucideSend,
+  LucideTrash2,
   LucideX,
   LucideXCircle,
 } from "lucide-react";
 import {
+  useDeleteDataIKP,
   useGetDetailIKP,
   useUpdateIKP,
   useUpdateStatusIKP,
@@ -34,6 +36,7 @@ import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StoreIKPSetuju } from "@/interface/request/ikp.interface";
 import TolakModal from "@/components/modals/ikp/TolakModal.tsx";
 import { FaFilePdf, FaQuestionCircle } from "react-icons/fa";
+import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
 
 interface PropsPerubahan {
   id: number;
@@ -175,7 +178,12 @@ export default function DetailIKP() {
     onClose: onCloseConfirm5,
     // onOpen: onOpenConfirm5,
   } = useDisclosure();
-
+  const {
+    isOpen: isOpenDelete,
+    onClose: onCloseDelete,
+    onOpen: onOpenDelete,
+  } = useDisclosure();
+  
   const [isPengajuaun, setIsPengajuan] = useState<boolean>(false);
 
   const [isLoadingConfirm, setIsLoadingConfirm] = useState<boolean>(false);
@@ -388,6 +396,43 @@ export default function DetailIKP() {
     }
   };
 
+  const { mutate: mutateDelete } = useDeleteDataIKP();
+
+  const handleDelete = async () => {
+    setIsLoadingConfirm(true);
+    try {
+      mutateDelete(
+        {
+          id: String(selectedId)
+        },
+        {
+          onSuccess: () => {
+            SuccessToast({ text: "Data berhasil dihapus" });
+            setIsLoadingConfirm(false);
+            setSelectedid(null);
+            handleConfirmClose();
+          },
+          onError: (error: AxiosError<BaseErrorRes>) => {
+            setIsLoadingConfirm(false);
+            onCloseDelete();
+            setSelectedid(null);
+            ErrorToast({
+              text:
+                (error.response?.data.message as string) ||
+                "Terjadi kesalahan saat menghapus data",
+            });
+            throw error;
+          },
+        },
+      );
+    } catch (error) {
+      setIsLoadingConfirm(false);
+      onCloseDelete();
+      setSelectedid(null);
+      throw error;
+    }
+  };
+
   const handleConfirmClose = () => {
     refetch();
     onCloseConfirm5();
@@ -395,6 +440,7 @@ export default function DetailIKP() {
     onCloseConfirm3();
     onCloseConfirm2();
     onCloseConfirm();
+    onCloseDelete();
   };
 
   const handleUpdateById = async (idx: number) => {
@@ -484,6 +530,12 @@ export default function DetailIKP() {
         onClose={onCloseConfirm3}
         isLoading={isLoadingConfirm}
         handleSubmit={handleUpdate}
+      />
+      <DeleteModal
+        isOpen={isOpenDelete}
+        onClose={onCloseDelete}
+        isLoading={isLoadingConfirm}
+        handleSubmit={handleDelete}
       />
       {selectedId && selectedCount && (
         <TolakModal
@@ -847,6 +899,20 @@ export default function DetailIKP() {
                                   }}
                                 >
                                   <LucideXCircle size={12} />
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  isIconOnly
+                                  className="bg-danger text-white"
+                                  onPress={() => {
+                                    setSelectedid(item.id);
+                                    setSelectedCount(item.count);
+                                    setTimeout(() => {
+                                      onOpenDelete();
+                                    }, 100);
+                                  }}
+                                >
+                                  <LucideTrash2 size={12} />
                                 </Button>
                               </div>
                             ) : null}

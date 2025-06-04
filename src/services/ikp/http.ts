@@ -78,3 +78,10 @@ export const updateIKP = async (
   const response = await instance.put(`/admin/ikp/update/${id}`, formData);
   return response.data;
 };
+
+export const deleteDataIKP = async (
+  id: string
+): Promise<IIKPDetailRes> => {
+  const response = await instance.delete(`/admin/ikp/delete/ikp/${id}`);
+  return response.data;
+};

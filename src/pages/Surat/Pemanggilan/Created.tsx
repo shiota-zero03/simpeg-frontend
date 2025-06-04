@@ -23,6 +23,7 @@ import { StoreSuratPemanggilan } from "@/interface/request/surat.interface";
 import { useCreateSuratPemanggilan } from "@/services/surat/pemanggilan";
 import { useGetAllListSuratPemeriksaan } from "@/services/surat/pemeriksaan";
 import { toRoman } from "@/utils/terbilang";
+import { FaPlusCircle, FaTrash } from "react-icons/fa";
 
 interface formProps {
   nomorPanggilan?: string;
@@ -76,6 +77,15 @@ interface errorProps {
 }
 
 interface pegawaiProps {
+  idDipanggil?: string;
+  diPanggil?: string;
+  nipDiPanggil?: string;
+  jabatanDiPanggil?: string;
+  unitDiPanggil?: string;
+  golonganDiPanggil?: string;
+  pangkatDiPanggil?: string;
+}
+interface pemanggilProps {
   diPanggil?: string;
   nipDiPanggil?: string;
   jabatanDiPanggil?: string;
@@ -111,7 +121,28 @@ export default function CreateSurat() {
   });
 
   const [formPegawai, setFormPegawai] = useState<pegawaiProps[]>([]);
+  const [formPemanggil, setFormPemanggil] = useState<pemanggilProps[]>([]);
 
+  const addDiperintah = () => {
+    setFormPegawai((prev) => [
+      ...prev,
+      {
+        idDipanggil: "",
+        diPanggil: "",
+        nipDiPanggil: "",
+        jabatanDiPanggil: "",
+        unitDiPanggil: "",
+        golonganDiPanggil: "",
+        pangkatDiPanggil: "",
+      },
+    ]);
+  };
+  
+  const removeDiperintah = (index: number) => {
+    setFormPegawai((prev) => prev.filter((_, i) => i !== index));
+  };
+  
+  
   const [formError, setFormError] = useState<errorProps>({});
 
   const {
@@ -142,9 +173,9 @@ export default function CreateSurat() {
     if (!formData.nomorSurat)
       error.nomorSurat = "Nomor surat tidak boleh kosong";
     if (!formData.suratPemeriksaan)
-      error.suratPemeriksaan = "Nomor surat pemeriksaan belum dipilih";
-    if (!formData.idPemanggil)
-      error.pemanggil = "Nama yang memanggil perintah tidak boleh kosong";
+      error.pemanggil = "Nomor surat pemeriksaan belum dipilih";
+    if (formPegawai.length === 0)
+      error.suratPemeriksaan = "Yang dimintai keterangan tidak boleh kosong";
     if (!formData.idTtd)
       error.namaTtd = "Nama penanda tangan tidak boleh kosong";
     if (!formData.waktu) error.waktu = "Waktu tidak boleh kosong";
@@ -220,13 +251,6 @@ export default function CreateSurat() {
       formToSend.nomorPanggilan = formData.nomorPanggilan;
     if (formData.nomorSurat) formToSend.nomorSurat = formData.nomorSurat;
 
-    if (formData.pemanggil) formToSend.pemanggil = formData.pemanggil;
-    if (formData.nipPemanggil) formToSend.nipPemanggil = formData.nipPemanggil;
-    if (formData.jabatanPemanggil)
-      formToSend.jabatanPemanggil = formData.jabatanPemanggil;
-    if (formData.unitPemanggil)
-      formToSend.unitPemanggil = formData.unitPemanggil;
-
     if (formData.waktu) formToSend.waktu = formData.waktu;
     if (formData.tempat) formToSend.tempat = formData.tempat;
     if (formData.keterangan) formToSend.keterangan = formData.keterangan;
@@ -244,7 +268,21 @@ export default function CreateSurat() {
         unit: item.unitDiPanggil,
       };
     });
+
     formToSend.diPanggil = diperintahData;
+
+    const namaDiPeriksa = formPemanggil.map((item) => item.diPanggil).join(";;");
+    const nipDiPeriksa = formPemanggil.map((item) => item.nipDiPanggil).join(";;");
+    const jabatanDiPeriksa = formPemanggil
+      .map((item) => item.jabatanDiPanggil)
+      .join(";;");
+    const unitDiPeriksa = formPemanggil.map((item) => item.unitDiPanggil).join(";;");
+
+    if (namaDiPeriksa) formToSend.pemanggil = namaDiPeriksa;
+    if (nipDiPeriksa) formToSend.nipPemanggil = nipDiPeriksa;
+    if (jabatanDiPeriksa) formToSend.jabatanPemanggil = jabatanDiPeriksa;
+    if (unitDiPeriksa) formToSend.unitPemanggil = unitDiPeriksa;
+
 
     try {
       mutatePost(formToSend, {
@@ -319,12 +357,11 @@ export default function CreateSurat() {
   };
   const onChangeNameSurat = (value: string) => {
     const checkPegawai = SURAT_SELECT.find((item) => item.id === Number(value));
+    setFormData({
+      ...formData,
+      suratPemeriksaan: value
+    })
     if (checkPegawai) {
-      setFormData({
-        ...formData,
-        suratPemeriksaan: String(checkPegawai.id),
-      });
-
       const pegawaiBaru = checkPegawai.DiPerintahSuratPemeriksaan
         ? checkPegawai.DiPerintahSuratPemeriksaan.map((item) => {
             const [jabatan, unit, golongan, pangkat] =
@@ -339,14 +376,30 @@ export default function CreateSurat() {
             };
           })
         : [];
-      setFormPegawai(pegawaiBaru);
+      setFormPemanggil(pegawaiBaru);
     } else {
-      setFormData({
-        ...formData,
-        suratPemeriksaan: "",
-      });
-      setFormPegawai([]);
+      setFormPemanggil([]);
     }
+  };
+  const handleChangeDiperintah = (index: number, value: string | number) => {
+    const updatedList = [...formPegawai];
+
+    const checkPegawai = PEGAWAI_SELECT.find((item) => item.id === value);
+
+    if (checkPegawai) {
+      updatedList[index] = {
+        ...updatedList[index],
+        idDipanggil: checkPegawai.id,
+        diPanggil: checkPegawai.name,
+        nipDiPanggil: checkPegawai.nip,
+        jabatanDiPanggil: checkPegawai.jabatan?.nameJob || "-",
+        unitDiPanggil: checkPegawai.jabatan?.unit?.nameUnit || "-",
+        golonganDiPanggil: checkPegawai.group || "-",
+        pangkatDiPanggil: checkPegawai.rank || "-",
+      };
+    }
+
+    setFormPegawai(updatedList);
   };
 
   return (
@@ -494,6 +547,132 @@ export default function CreateSurat() {
                           <span>{toRoman(index + 1)}.</span>
                         </div>
                         <div className="flex flex-col gap-2 ms-4 w-full">
+                          <div className="flex sm:items-center font-semibold text-sm gap-2 mb-2 sm:flex-row flex-col">
+                            <div className="w-24 text-start">Nama </div>
+                            <span className="sm:block hidden">:</span>
+                            <Autocomplete
+                              isLoading={isFetchingPegawai}
+                              aria-label="pegawai"
+                              placeholder="Cari pegawai"
+                              variant="bordered"
+                              radius="sm"
+                              size="sm"
+                              defaultItems={PEGAWAI_SELECT}
+                              selectedKey={String(item.idDipanggil)}
+                              onSelectionChange={(value) =>
+                                handleChangeDiperintah(index, value as string)
+                              }
+                              itemHeight={48}
+                              className="w-full"
+                              inputProps={{
+                                classNames: {
+                                  input: "text-xs",
+                                  inputWrapper:
+                                    "border-[0.8px] border-button-primary rounded-md",
+                                },
+                              }}
+                            >
+                              {(peg) => (
+                                <AutocompleteItem
+                                  key={peg.id}
+                                  textValue={peg.name}
+                                >
+                                  <div className="lg:text-xs sm:text-[10px] text-[8px] leading-[10px]">
+                                    {peg.name} -{" "}
+                                    {peg.jabatan?.nameJob ||
+                                      "jabatan tidak diketahui"}{" "}
+                                    - {peg.nip}
+                                  </div>
+                                </AutocompleteItem>
+                              )}
+                            </Autocomplete>
+                          </div>
+                          <div className="flex items-center font-semibold text-sm gap-2 mb-2">
+                            <div className="w-24">NIP </div>
+                            :
+                            <Input
+                              isReadOnly
+                              variant="bordered"
+                              aria-label="nomorSurat"
+                              size="sm"
+                              radius="sm"
+                              className="w-full"
+                              classNames={{
+                                inputWrapper:
+                                  "border-[0.8px] border-button-primary rounded-md",
+                                input: "text-xs placeholder:italic",
+                              }}
+                              placeholder="Autofill NIP"
+                              value={item.nipDiPanggil}
+                            />
+                          </div>
+                          <div className="flex items-center font-semibold text-sm gap-2 mb-2">
+                            <div className="w-24">Unit Kerja </div>
+                            :
+                            <Input
+                              isReadOnly
+                              variant="bordered"
+                              aria-label="nomorSurat"
+                              size="sm"
+                              radius="sm"
+                              className="w-full"
+                              classNames={{
+                                inputWrapper:
+                                  "border-[0.8px] border-button-primary rounded-md",
+                                input: "text-xs placeholder:italic",
+                              }}
+                              placeholder="Autofill Jabatan"
+                              value={item.unitDiPanggil}
+                            />
+                          </div>
+                          <div className="flex items-center font-semibold text-sm gap-2 mb-2">
+                            <div className="w-24">Jabatan </div>
+                            :
+                            <Input
+                              isReadOnly
+                              variant="bordered"
+                              aria-label="nomorSurat"
+                              size="sm"
+                              radius="sm"
+                              className="w-full"
+                              classNames={{
+                                inputWrapper:
+                                  "border-[0.8px] border-button-primary rounded-md",
+                                input: "text-xs placeholder:italic",
+                              }}
+                              placeholder="Autofill Jabatan"
+                              value={item.jabatanDiPanggil}
+                            />
+                          </div>
+                        </div>
+                        <Button
+                          onPress={() => removeDiperintah(index)}
+                          className="bg-danger text-white"
+                          size="sm"
+                          isIconOnly
+                        >
+                          <FaTrash />
+                        </Button>
+                      </div>
+                    ))}
+                    <Button
+                      onPress={addDiperintah}
+                      size="sm"
+                      radius="full"
+                      className="bg-primary text-white"
+                    >
+                      <FaPlusCircle /> Tambah
+                    </Button>
+                  </div>
+                  <br />
+                  <div>Untuk menghadap kepada</div>
+                  <div className="ms-4">
+                    {formPemanggil.map((item, index) => (
+                      <div className="flex items-start gap-2 mb-4" key={index}>
+                        <div className="w-6 text-center mt-1.5 font-semibold flex flex-col items-center justify-center gap-1">
+                          <span>{index + 1}.</span>
+                        </div>
+                        <div className="flex flex-col gap-2 ms-4 w-full">
                           <div className="flex items-center font-semibold text-sm gap-2 mb-2">
                             <div className="w-24">Nama </div>
                             :
@@ -574,105 +753,6 @@ export default function CreateSurat() {
                       </div>
                     ))}
                   </div>
-                  <br />
-                  <div>Untuk menghadap kepada</div>
-                  <div className="flex flex-col gap-2 ms-4">
-                    <div className="flex md:flex-row flex-col md:items-center font-semibold text-sm gap-2 mb-2">
-                      <div className="w-20">Nama </div>
-                      <span className="md:block hidden">:</span>
-                      <Autocomplete
-                        isLoading={isFetchingPegawai}
-                        aria-label="pegawai"
-                        placeholder="Cari pegawai"
-                        variant="bordered"
-                        radius="sm"
-                        size="sm"
-                        defaultItems={PEGAWAI_SELECT}
-                        selectedKey={String(formData.idPemanggil)}
-                        onSelectionChange={(value) =>
-                          onChangeName(value as string, "pemanggil")
-                        }
-                        itemHeight={48}
-                        className="w-full"
-                        inputProps={{
-                          classNames: {
-                            input: "text-xs",
-                            inputWrapper:
-                              "border-[0.8px] border-button-primary rounded-md",
-                          },
-                        }}
-                      >
-                        {(peg) => (
-                          <AutocompleteItem key={peg.id} textValue={peg.name}>
-                            <div className="lg:text-xs sm:text-[10px] text-[8px] leading-[10px]">
-                              {peg.name} -{" "}
-                              {peg.jabatan?.nameJob ||
-                                "jabatan tidak diketahui"}{" "}
-                              - {peg.nip}
-                            </div>
-                          </AutocompleteItem>
-                        )}
-                      </Autocomplete>
-                    </div>
-                    <div className="flex md:flex-row flex-col md:items-center font-semibold text-sm gap-2 mb-2">
-                      <div className="w-20">NIP </div>
-                      <span className="md:block hidden">:</span>
-                      <Input
-                        isReadOnly
-                        variant="bordered"
-                        aria-label="nomorSurat"
-                        size="sm"
-                        radius="sm"
-                        className="w-full"
-                        classNames={{
-                          inputWrapper:
-                            "border-[0.8px] border-button-primary rounded-md",
-                          input: "text-xs placeholder:italic",
-                        }}
-                        placeholder="Autofill NIP"
-                        value={formData.nipPemanggil}
-                      />
-                    </div>
-                    <div className="flex md:flex-row flex-col md:items-center font-semibold text-sm gap-2 mb-2">
-                      <div className="w-20">Unit </div>
-                      <span className="md:block hidden">:</span>
-                      <Input
-                        isReadOnly
-                        variant="bordered"
-                        aria-label="nomorSurat"
-                        size="sm"
-                        radius="sm"
-                        className="w-full"
-                        classNames={{
-                          inputWrapper:
-                            "border-[0.8px] border-button-primary rounded-md",
-                          input: "text-xs placeholder:italic",
-                        }}
-                        placeholder="Autofill Jabatan"
-                        value={formData.unitPemanggil}
-                      />
-                    </div>
-                    <div className="flex md:flex-row flex-col md:items-center font-semibold text-sm gap-2 mb-2">
-                      <div className="w-20">Jabatan </div>
-                      <span className="md:block hidden">:</span>
-                      <Input
-                        isReadOnly
-                        variant="bordered"
-                        aria-label="nomorSurat"
-                        size="sm"
-                        radius="sm"
-                        className="w-full"
-                        classNames={{
-                          inputWrapper:
-                            "border-[0.8px] border-button-primary rounded-md",
-                          input: "text-xs placeholder:italic",
-                        }}
-                        placeholder="Autofill Jabatan"
-                        value={formData.jabatanPemanggil}
-                      />
-                    </div>
-                  </div>
-                  <br />
                   <div>Pada</div>
                   <div className="flex flex-col gap-2 ms-4">
                     <div className="flex md:flex-row flex-col md:items-center font-semibold text-sm gap-2 mb-2">
