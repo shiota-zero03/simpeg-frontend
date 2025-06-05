@@ -1,9 +1,18 @@
 import CustomChart from "@/components/Charts/Recharts";
 import { useGetAllPenilaianGrafikUser } from "@/services/penilaian";
-import { useEffect, useMemo } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useMemo } from "react";
 import { Commet } from "react-loading-indicators";
 
-const PenilaianKinerjaLine = ({ id }: { id: string }) => {
+export type RefetchHandle = {
+  refetch: () => void;
+};
+
+type PenilaianKinerjaProps = {
+  id: string;
+};
+
+const PenilaianKinerjaLine = forwardRef<RefetchHandle, PenilaianKinerjaProps>(
+  ({ id }, ref) => {
   const { data, isFetching, refetch } = useGetAllPenilaianGrafikUser(
     id,
     String(new Date().getFullYear()),
@@ -17,6 +26,10 @@ const PenilaianKinerjaLine = ({ id }: { id: string }) => {
   useEffect(() => {
     refetch();
   }, []);
+
+  useImperativeHandle(ref, () => ({
+    refetch,
+  }));
 
   return (
     <div className="p-6 grid grid-cols-1 gap-6 relative">
@@ -132,9 +145,10 @@ const PenilaianKinerjaLine = ({ id }: { id: string }) => {
       />
     </div>
   );
-};
+});
 
-const PenilaianKinerjaDougnhut = ({ id }: { id: string }) => {
+const PenilaianKinerjaDougnhut = forwardRef<RefetchHandle, PenilaianKinerjaProps>(
+  ({ id }, ref) => {
   const { data, isFetching, refetch } = useGetAllPenilaianGrafikUser(
     id,
     String(new Date().getFullYear()),
@@ -148,6 +162,11 @@ const PenilaianKinerjaDougnhut = ({ id }: { id: string }) => {
   useEffect(() => {
     refetch();
   }, []);
+  
+  useImperativeHandle(ref, () => ({
+    refetch,
+  }));
+
   return (
     <div className="p-6 grid grid-cols-1 gap-6 relative">
       {isFetching && (
@@ -204,5 +223,5 @@ const PenilaianKinerjaDougnhut = ({ id }: { id: string }) => {
       />
     </div>
   );
-};
+});
 export { PenilaianKinerjaLine, PenilaianKinerjaDougnhut };

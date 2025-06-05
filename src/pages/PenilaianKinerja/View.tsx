@@ -20,6 +20,7 @@ import { FaFilePdf, FaQuestionCircle } from "react-icons/fa";
 import {
   PenilaianKinerjaDougnhut,
   PenilaianKinerjaLine,
+  RefetchHandle,
 } from "@/components/Charts/penilaian-kinerja/indexProfile";
 import EditPenilaian from "@/components/modals/Penilaian/EditPenilaian";
 import {
@@ -29,7 +30,7 @@ import {
   TooltipKinerjaNilai,
   TooltipLoyalitasNilai,
 } from "./TooltipContent";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGetDetailPenilaian } from "@/services/penilaian";
 import { Commet } from "react-loading-indicators";
 import { ErrorToast } from "@/utils/ToastMessage";
@@ -204,6 +205,8 @@ export default function ViewBobotKinerja() {
     }
   };
 
+  const chartRef = useRef<RefetchHandle>(null);
+
   return (
     <>
       <EditPenilaian
@@ -220,6 +223,7 @@ export default function ViewBobotKinerja() {
         handleClose={() => {
           onClose();
           refetch();
+          chartRef.current?.refetch();
         }}
       />
       <BreadcrumbAdmin location="/Penilaian Kinerja" />
@@ -268,8 +272,8 @@ export default function ViewBobotKinerja() {
               </Card>
               <Card className="border relative w-full" shadow="none">
                 <CardBody className="grid md:grid-cols-2 grid-cols-1">
-                  <PenilaianKinerjaLine id={id || ""} />
-                  <PenilaianKinerjaDougnhut id={id || ""} />
+                  <PenilaianKinerjaLine ref={chartRef} id={id || ""} />
+                  <PenilaianKinerjaDougnhut ref={chartRef} id={id || ""} />
                 </CardBody>
               </Card>
             </div>

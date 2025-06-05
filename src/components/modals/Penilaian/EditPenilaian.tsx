@@ -166,28 +166,28 @@ const EditPenilaian = ({
     if (userData) {
       setFormData({
         kinerja: userData.performanceBobot || 0,
-        kinerjaAttach: userData.performanceProofBobot || "",
+        kinerjaAttach: "",
         disiplin: userData.disciplineBobot || 0,
-        disiplinAttach: userData.disciplineProofBobot || "",
+        disiplinAttach: "",
         loyalitas: userData.loyaltyBobot || 0,
-        loyalitasAttach: userData.loyaltyProofBobot || "",
+        loyalitasAttach: "",
         kerjasama: userData.cooperationBobot || 0,
-        kerjasamaAttach: userData.cooperationProofBobot || "",
+        kerjasamaAttach: "",
         attitude: userData.attitudeBobot || 0,
-        attitudeAttach: userData.attitudeProofBobot || "",
+        attitudeAttach: "",
       });
 
       setFormDataBobot({
         kinerja: String(userData.performanceNilai || ""),
-        kinerjaAttach: userData.performanceProofNilai || "",
+        kinerjaAttach: "",
         disiplin: String(userData.disciplineNilai || ""),
-        disiplinAttach: userData.disciplineProofNilai || "",
+        disiplinAttach: "",
         loyalitas: String(userData.loyaltyNilai || ""),
-        loyalitasAttach: userData.loyaltyProofNilai || "",
+        loyalitasAttach: "",
         kerjasama: String(userData.cooperationNilai || ""),
-        kerjasamaAttach: userData.cooperationProofNilai || "",
+        kerjasamaAttach: "",
         attitude: String(userData.attitudeNilai || ""),
-        attitudeAttach: userData.attitudeProofNilai || "",
+        attitudeAttach: "",
       });
     }
   }, [isOpen, userData]);
