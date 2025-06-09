@@ -14,6 +14,8 @@ import {
 import { DataKegiatanRes } from "@/interface/responses/asset.Pembelanjaaninterface";
 import CreateModal from "@/components/modals/Asset/pembelanjaan/data-kegiatan/CreatedModal";
 import UpdateModal from "@/components/modals/Asset/pembelanjaan/data-kegiatan/UpdateModal";
+import { FaFileExcel } from "react-icons/fa";
+import ImportKegiatan from "@/components/modals/AssetImport/ImportKegiatan";
 
 interface DataProps {
   id: number;
@@ -145,6 +147,11 @@ export default function AssetIndex() {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
+  const {
+    isOpen: isOpenImport,
+    onOpen: onOpenImport,
+    onClose: onCloseImport,
+  } = useDisclosure();
 
   const handleSearch = () => {
     setPageIndex(0);
@@ -209,6 +216,7 @@ export default function AssetIndex() {
     onCloseCreate();
     onCloseDelete();
     onCloseUpdate();
+    onCloseImport();
     refetchData();
   };
 
@@ -224,6 +232,12 @@ export default function AssetIndex() {
       <CreateModal
         isOpen={isOpenCreate}
         onClose={onCloseCreate}
+        handleClose={handleClose}
+      />
+
+      <ImportKegiatan
+        isOpen={isOpenImport}
+        onClose={onCloseImport}
         handleClose={handleClose}
       />
       {selectedId && (
@@ -291,6 +305,18 @@ export default function AssetIndex() {
                     className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
                   >
                     Tambah
+                  </Button>
+                )}
+                {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
+                  <Button
+                    onPress={onOpenImport}
+                    variant="solid"
+                    radius="sm"
+                    size="sm"
+                    startContent={<FaFileExcel size={12} />}
+                    className="border-[0.8px] w-24 text-xs bg-success text-white"
+                  >
+                    Import
                   </Button>
                 )}
               </div>

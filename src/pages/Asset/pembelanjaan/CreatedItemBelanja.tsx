@@ -92,7 +92,7 @@ export default function CreatePegawai() {
     name: "",
     idDataBelanja: null,
     tanggal: "",
-    jumlah: 0,
+    jumlah: 1,
     satuan: "",
     hargaPerItem: 0,
     jumlahPagu: 0,
@@ -158,7 +158,7 @@ export default function CreatePegawai() {
       name: "",
       idDataBelanja: null,
       tanggal: "",
-      jumlah: 0,
+      jumlah: 1,
       satuan: "",
       hargaPerItem: 0,
       jumlahPagu: 0,
@@ -236,15 +236,16 @@ export default function CreatePegawai() {
     if (formData.merkTipe) formAsset.merkTipe = formData.merkTipe;
     if (formData.ukuranCC) formAsset.ukuranCC = formData.ukuranCC;
     if (formData.jenisBahan) formAsset.jenisBahan = formData.jenisBahan;
+    if (formData.tahunPerolehan)
+      formAsset.tahunPerolehan = formData.tahunPerolehan;
     if (formData.nomorPabrik) formAsset.nomorPabrik = formData.nomorPabrik;
     if (formData.nomorRangka) formAsset.nomorRangka = formData.nomorRangka;
     if (formData.nomorMesin) formAsset.nomorMesin = formData.nomorMesin;
     if (formData.nomorPolisi) formAsset.nomorPolisi = formData.nomorPolisi;
     if (formData.dokumenTipe) formAsset.dokumenTipe = formData.dokumenTipe;
     if (formData.dokumenNomor) formAsset.dokumenNomor = formData.dokumenNomor;
+
     if (formData.keterangan) formAsset.keterangan = formData.keterangan;
-    if (formData.tahunPerolehan)
-      formAsset.tahunPerolehan = formData.tahunPerolehan;
     if (formData.kategori) formAsset.kategori = formData.kategori;
     if (formData.dokumen) formAsset.dokumen = formData.dokumen;
     if (formData.hargaPerItem && formData.jumlah) {
@@ -637,7 +638,8 @@ export default function CreatePegawai() {
                         </label>
                       </div>
                       <Input
-                        type="numebr"
+                        isDisabled
+                        type="number"
                         aria-label="lokasi"
                         variant="bordered"
                         radius="sm"

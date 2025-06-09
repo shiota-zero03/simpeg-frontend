@@ -15,6 +15,8 @@ import {
 } from "@/services/asset/asset-pembelanjaan/data-pembelanjaan";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
 import { useNavigate } from "react-router-dom";
+import ImportAsset from "@/components/modals/AssetImport/ImportAsset";
+import { FaFileExcel } from "react-icons/fa";
 
 interface DataProps {
   id: number;
@@ -173,6 +175,11 @@ export default function AssetIndex() {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
+  const {
+    isOpen: isOpenImport,
+    onOpen: onOpenImport,
+    onClose: onCloseImport,
+  } = useDisclosure();
 
   const handleSearch = () => {
     setPageIndex(0);
@@ -237,6 +244,7 @@ export default function AssetIndex() {
     onCloseCreate();
     onCloseDelete();
     onCloseUpdate();
+    onCloseImport();
     refetchData();
   };
 
@@ -262,6 +270,12 @@ export default function AssetIndex() {
           handleClose={handleClose}
         />
       )}
+
+      <ImportAsset
+        isOpen={isOpenImport}
+        onClose={onCloseImport}
+        handleClose={handleClose}
+      />
 
       <div>
         <div className="flex lg:items-center items-end lg:px-0 px-4 lg:flex-row flex-col justify-between lg:gap-0 gap-2">
@@ -321,6 +335,18 @@ export default function AssetIndex() {
                     className="border-[0.8px] w-24 text-xs bg-button-primary text-white"
                   >
                     Tambah
+                  </Button>
+                )}
+                {(role === "SUPERUSERS" || role === "ADMIN_ASSET") && (
+                  <Button
+                    onPress={onOpenImport}
+                    variant="solid"
+                    radius="sm"
+                    size="sm"
+                    startContent={<FaFileExcel size={12} />}
+                    className="border-[0.8px] w-24 text-xs bg-success text-white"
+                  >
+                    Import
                   </Button>
                 )}
               </div>
