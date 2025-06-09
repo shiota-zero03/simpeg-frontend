@@ -176,12 +176,12 @@ export default function ExportIKP() {
                   </td>
                   <td className="p-1 border align-top border-black ">
                     <div className="flex justify-center align-top">
-                      {item.status !== "DISETUJUI" && <FaCheck size={10} />}
+                      {(item.status !== "DISETUJUI" && item.status !== "SELESEI") && <FaCheck size={10} />}
                     </div>
                   </td>
                   <td className="p-1 border border-black align-top">
                     <div className="flex justify-center">
-                      {item.status === "DISETUJUI" && <FaCheck size={10} />}
+                      {(item.status === "DISETUJUI" || item.status === "SELESEI") && <FaCheck size={10} />}
                     </div>
                   </td>
                   <td className="p-1 border border-black align-top">
