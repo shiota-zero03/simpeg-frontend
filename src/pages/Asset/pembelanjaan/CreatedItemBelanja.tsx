@@ -310,7 +310,8 @@ export default function CreatePegawai() {
 
   const selectedItem = useMemo(() => {
     return (
-      BELANJA_SELECT.find((it) => it.id === Number(formData.idDataBelanja)) || null
+      BELANJA_SELECT.find((it) => it.id === Number(formData.idDataBelanja)) ||
+      null
     );
   }, [BELANJA_SELECT, formData.idDataBelanja]);
 

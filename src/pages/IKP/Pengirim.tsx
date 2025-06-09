@@ -74,6 +74,7 @@ export default function IKP() {
 
         const hasMenunggu = ikps.some((el) => el.status === "MENUNGGU");
         const allSetujui = ikps.every((el) => el.status === "DISETUJUI");
+        const allSelesai = ikps.every((el) => el.status === "SELESEI");
 
         let status = "MENUNGGU"; // default
 
@@ -81,6 +82,8 @@ export default function IKP() {
           status = "MENUNGGU";
         } else if (allSetujui) {
           status = "SETUJUI";
+        } else if (allSelesai) {
+          status = "SELESAI";
         }
 
         return {
@@ -146,6 +149,8 @@ export default function IKP() {
               <li className="list-disc font-semibold text-warning">Menunggu</li>
             ) : status === "DITOLAK" ? (
               <li className="list-disc font-semibold text-danger">Ditolak</li>
+            ) : status === "SELESAI" ? (
+              <li className="list-disc font-semibold text-success">Selesai</li>
             ) : (
               <li className="list-disc font-semibold text-success">
                 Disetujui

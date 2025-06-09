@@ -115,11 +115,7 @@ export const useUpdateIKP = () => {
 };
 export const useDeleteDataIKP = () => {
   const queryClient = useQueryClient();
-  return useMutation<
-    IIKPDetailRes,
-    AxiosError<BaseErrorRes>,
-    { id: string; }
-  >({
+  return useMutation<IIKPDetailRes, AxiosError<BaseErrorRes>, { id: string }>({
     mutationFn: ({ id }) => deleteDataIKP(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["deleteDataIKP"] });

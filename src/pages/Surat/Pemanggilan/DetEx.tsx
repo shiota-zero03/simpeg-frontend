@@ -19,11 +19,10 @@ export default function DetailExportSurat({
   isFetching,
   kopSurat,
 }: props) {
-
-    const nama = DATA_DETAIL.pemanggil.split(";;");
-    const nip = DATA_DETAIL.nipPemanggil.split(";;");
-    const jabatan = DATA_DETAIL.jabatanPemanggil.split(";;");
-    const unit = DATA_DETAIL.unitPemanggil.split(";;");
+  const nama = DATA_DETAIL.pemanggil.split(";;");
+  const nip = DATA_DETAIL.nipPemanggil.split(";;");
+  const jabatan = DATA_DETAIL.jabatanPemanggil.split(";;");
+  const unit = DATA_DETAIL.unitPemanggil.split(";;");
 
   return (
     <>
@@ -88,17 +87,13 @@ export default function DetailExportSurat({
           <div className="flex flex-col ms-8">
             {nama.map((item, index) => (
               <div key={index} className="flex flex-nowrap gap-2 mb-2">
-                <div className="min-w-[24px] max-w-[24px]">
-                  {index + 1}.
-                </div>
+                <div className="min-w-[24px] max-w-[24px]">{index + 1}.</div>
                 <table>
                   <tbody>
                     <tr>
                       <td className="align-top min-w-24 max-w-24">Nama</td>
                       <td className="align-top">:</td>
-                      <th className="text-start align-top">
-                        {item || "-"}
-                      </th>
+                      <th className="text-start align-top">{item || "-"}</th>
                     </tr>
                     <tr>
                       <td className="align-top">NIP</td>
@@ -113,9 +108,7 @@ export default function DetailExportSurat({
                     <tr>
                       <td className="align-top">Jabatan</td>
                       <td className="align-top">:</td>
-                      <td className="align-top">
-                        {jabatan[index] || "-"}
-                      </td>
+                      <td className="align-top">{jabatan[index] || "-"}</td>
                     </tr>
                   </tbody>
                 </table>

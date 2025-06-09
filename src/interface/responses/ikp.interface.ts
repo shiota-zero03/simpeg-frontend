@@ -20,6 +20,11 @@ export interface IKPListRes {
     realisasi: string | null;
     reasoning: string | null;
     count: number | null;
+    attachement: {
+      id: number;
+      idIkp: number;
+      file: string;
+    }[];
   }[];
   createdAt: string;
 }

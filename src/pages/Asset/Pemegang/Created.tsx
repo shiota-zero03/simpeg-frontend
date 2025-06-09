@@ -220,15 +220,15 @@ export default function CreatePegawai() {
       const formSendData: StoreAssetHolder = {
         userId: formData.userId,
       };
-    
+
       if (item.assetId) formSendData.assetId = item.assetId;
       if (item.noBast) formSendData.noBast = item.noBast;
-      if (item.dokumenPendukung) formSendData.dokumenPendukung = item.dokumenPendukung;
+      if (item.dokumenPendukung)
+        formSendData.dokumenPendukung = item.dokumenPendukung;
       if (item.file) formSendData.file = item.file;
-    
+
       formToSend.push(formSendData);
     });
-    
 
     try {
       mutatePost(formToSend, {

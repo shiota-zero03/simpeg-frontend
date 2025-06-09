@@ -49,7 +49,7 @@ const TolakModal = ({ isOpen, onClose, id, count, handleSubmit }: props) => {
         },
         {
           onSuccess: () => {
-            SuccessToast({ text: "Data berhasil disetujui" });
+            SuccessToast({ text: "Data berhasil diubah" });
             setIsLoadingConfirm(false);
             handleSubmit();
           },

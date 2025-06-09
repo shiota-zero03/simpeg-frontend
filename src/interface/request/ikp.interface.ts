@@ -18,6 +18,9 @@ export interface StoreIKPSetuju {
   target?: string;
   status?: string;
   realisasi?: string;
+  dokument?: {
+    file?: string;
+  }[];
 }
 
 export interface StoreIKPTolak {

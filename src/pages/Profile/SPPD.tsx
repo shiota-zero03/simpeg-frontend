@@ -12,10 +12,7 @@ import { LuSearch } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import {
-  CalendarDate,
-  getLocalTimeZone
-} from "@internationalized/date";
+import { CalendarDate, getLocalTimeZone } from "@internationalized/date";
 import { useGetAllSPPDUser } from "@/services/sppd";
 import { SPPDRekapRes } from "@/interface/responses/sppd.interface";
 import store from "@/redux/store";
@@ -40,7 +37,9 @@ export default function News() {
   const [search, setSearch] = useState("");
   const [searchKegiatan, setSearchKegiatan] = useState("");
 
-  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(null);
+  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(
+    null,
+  );
 
   const formatDateToJakarta = (
     calendarDate: CalendarDate | null | undefined,

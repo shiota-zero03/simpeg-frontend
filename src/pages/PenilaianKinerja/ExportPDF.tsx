@@ -111,7 +111,9 @@ export default function ExportPenilaianKinerja() {
                   PERDAGANGAN
                 </h1>
                 <h1>PEMERINTAH DAERAH KABUPATEN BEKASI</h1>
-                <h1 className="uppercase">PERIODE {MYIndoToFormat(searchMonth)}</h1>
+                <h1 className="uppercase">
+                  PERIODE {MYIndoToFormat(searchMonth)}
+                </h1>
               </div>
               <br />
               <br />

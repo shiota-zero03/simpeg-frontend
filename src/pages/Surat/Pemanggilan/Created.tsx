@@ -137,12 +137,11 @@ export default function CreateSurat() {
       },
     ]);
   };
-  
+
   const removeDiperintah = (index: number) => {
     setFormPegawai((prev) => prev.filter((_, i) => i !== index));
   };
-  
-  
+
   const [formError, setFormError] = useState<errorProps>({});
 
   const {
@@ -271,18 +270,23 @@ export default function CreateSurat() {
 
     formToSend.diPanggil = diperintahData;
 
-    const namaDiPeriksa = formPemanggil.map((item) => item.diPanggil).join(";;");
-    const nipDiPeriksa = formPemanggil.map((item) => item.nipDiPanggil).join(";;");
+    const namaDiPeriksa = formPemanggil
+      .map((item) => item.diPanggil)
+      .join(";;");
+    const nipDiPeriksa = formPemanggil
+      .map((item) => item.nipDiPanggil)
+      .join(";;");
     const jabatanDiPeriksa = formPemanggil
       .map((item) => item.jabatanDiPanggil)
       .join(";;");
-    const unitDiPeriksa = formPemanggil.map((item) => item.unitDiPanggil).join(";;");
+    const unitDiPeriksa = formPemanggil
+      .map((item) => item.unitDiPanggil)
+      .join(";;");
 
     if (namaDiPeriksa) formToSend.pemanggil = namaDiPeriksa;
     if (nipDiPeriksa) formToSend.nipPemanggil = nipDiPeriksa;
     if (jabatanDiPeriksa) formToSend.jabatanPemanggil = jabatanDiPeriksa;
     if (unitDiPeriksa) formToSend.unitPemanggil = unitDiPeriksa;
-
 
     try {
       mutatePost(formToSend, {
@@ -359,8 +363,8 @@ export default function CreateSurat() {
     const checkPegawai = SURAT_SELECT.find((item) => item.id === Number(value));
     setFormData({
       ...formData,
-      suratPemeriksaan: value
-    })
+      suratPemeriksaan: value,
+    });
     if (checkPegawai) {
       const pegawaiBaru = checkPegawai.DiPerintahSuratPemeriksaan
         ? checkPegawai.DiPerintahSuratPemeriksaan.map((item) => {

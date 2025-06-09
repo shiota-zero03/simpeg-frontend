@@ -79,9 +79,7 @@ export const updateIKP = async (
   return response.data;
 };
 
-export const deleteDataIKP = async (
-  id: string
-): Promise<IIKPDetailRes> => {
+export const deleteDataIKP = async (id: string): Promise<IIKPDetailRes> => {
   const response = await instance.delete(`/admin/ikp/delete/ikp/${id}`);
   return response.data;
 };

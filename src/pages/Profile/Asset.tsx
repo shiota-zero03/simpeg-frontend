@@ -12,10 +12,7 @@ import { LuSearch } from "react-icons/lu";
 import { BiReset, BiSearch, BiSolidPlusSquare } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import {
-  CalendarDate,
-  getLocalTimeZone
-} from "@internationalized/date";
+import { CalendarDate, getLocalTimeZone } from "@internationalized/date";
 import store from "@/redux/store";
 import { useGetAllAssetbyHolder } from "@/services/asset/asset";
 import { Link } from "react-router-dom";
@@ -49,7 +46,9 @@ export default function News() {
   const [searchKegiatan, setSearchKegiatan] = useState("");
   const [searchNomorRegistrasi, setSearchNomorRegistrasi] = useState("");
 
-  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(null);
+  const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(
+    null,
+  );
 
   const formatDateToJakarta = (
     calendarDate: CalendarDate | null | undefined,

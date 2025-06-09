@@ -37,6 +37,7 @@ import { StoreIKPSetuju } from "@/interface/request/ikp.interface";
 import TolakModal from "@/components/modals/ikp/TolakModal.tsx";
 import { FaFilePdf, FaQuestionCircle } from "react-icons/fa";
 import DeleteModal from "@/components/modals/UtilsModal/DeleteModal";
+import EditRealisasi from "@/components/modals/ikp/EditRealisasi";
 
 interface PropsPerubahan {
   id: number;
@@ -50,9 +51,29 @@ interface PropsPerubahan {
   status: string;
 }
 
+interface formPropsPerubahan {
+  id: number;
+  sasaran: string;
+  indicator: string;
+  count: number;
+  target: string;
+  description: string;
+  dialog: string;
+  ubahTarget: string;
+  status: string;
+  realisasi: string;
+  attachement: {
+    file: string;
+  }[];
+}
+
 export default function DetailIKP() {
   const { id, type } = useParams();
   const [status, setStatus] = useState<string>("MENUNGGU");
+
+  const [selectedIKP, setSelectedIKP] = useState<formPropsPerubahan | null>(
+    null,
+  );
 
   const [isEditAll, setIsEditAll] = useState<boolean>(false);
   const [formRealisasi, setFormRealisasi] = useState<
@@ -90,22 +111,29 @@ export default function DetailIKP() {
 
     const hasMenunggu = ikps.some((el) => el.status === "MENUNGGU");
     const allSetujui = ikps.every((el) => el.status === "DISETUJUI");
+    const allSelesai = ikps.every((el) => el.status === "SELESEI");
 
     if (hasMenunggu) {
       setStatus("MENUNGGU");
     } else if (allSetujui) {
       setStatus("DISETUJUI");
+    } else if (allSelesai) {
+      setStatus("SELESAI");
     }
 
     return data.data;
   }, [data, id]);
 
-  const openEditRealisasi = (index: number) => {
-    setFormRealisasi((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, isOpenRealisasi: true } : item,
-      ),
-    );
+  const openEditRealisasi = (data: formPropsPerubahan) => {
+    setSelectedIKP(data);
+    setTimeout(() => {
+      onOpenConfirm5();
+    }, 500);
+    // setFormRealisasi((prev) =>
+    //   prev.map((item, i) =>
+    //     i === index ? { ...item, isOpenRealisasi: true } : item,
+    //   ),
+    // );
   };
   const closeEditRealisasi = (index: number) => {
     setFormRealisasi((prev) =>
@@ -115,27 +143,27 @@ export default function DetailIKP() {
     );
   };
 
-  useEffect(() => {
-    if (formRealisasi.length > 0) {
-      if (isEditAll) {
-        formRealisasi.map((_item, index) => {
-          openEditRealisasi(index);
-        });
-      } else {
-        formRealisasi.map((_item, index) => {
-          closeEditRealisasi(index);
-        });
-      }
-    }
-  }, [isEditAll]);
+  // useEffect(() => {
+  //   if (formRealisasi.length > 0) {
+  //     if (isEditAll) {
+  //       formRealisasi.map((_item, index) => {
+  //         openEditRealisasi(index);
+  //       });
+  //     } else {
+  //       formRealisasi.map((_item, index) => {
+  //         closeEditRealisasi(index);
+  //       });
+  //     }
+  //   }
+  // }, [isEditAll]);
 
-  const handleChangeRealisasi = (index: number, value: string) => {
-    setFormRealisasi((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, realisasi: value } : item,
-      ),
-    );
-  };
+  // const handleChangeRealisasi = (index: number, value: string) => {
+  //   setFormRealisasi((prev) =>
+  //     prev.map((item, i) =>
+  //       i === index ? { ...item, realisasi: value } : item,
+  //     ),
+  //   );
+  // };
 
   useEffect(() => {
     refetch();
@@ -174,16 +202,21 @@ export default function DetailIKP() {
     onOpen: onOpenConfirm4,
   } = useDisclosure();
   const {
-    // isOpen: isOpenConfirm5,
+    isOpen: isOpenConfirm5,
     onClose: onCloseConfirm5,
-    // onOpen: onOpenConfirm5,
+    onOpen: onOpenConfirm5,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenConfirm8,
+    onClose: onCloseConfirm8,
+    onOpen: onOpenConfirm8,
   } = useDisclosure();
   const {
     isOpen: isOpenDelete,
     onClose: onCloseDelete,
     onOpen: onOpenDelete,
   } = useDisclosure();
-  
+
   const [isPengajuaun, setIsPengajuan] = useState<boolean>(false);
 
   const [isLoadingConfirm, setIsLoadingConfirm] = useState<boolean>(false);
@@ -200,6 +233,30 @@ export default function DetailIKP() {
           formData: { status: "DISETUJUI" },
         });
       }
+
+      SuccessToast({ text: "Data berhasil diperbarui" });
+      onCloseConfirm();
+      navigate(`/dialog-kinerja?tab=${type}`);
+    } catch (error) {
+      const err = error as AxiosError<BaseErrorRes>;
+      ErrorToast({
+        text:
+          (err.response?.data.message as string) ||
+          "Terjadi kesalahan saat mengubah data",
+      });
+    } finally {
+      setIsLoadingConfirm(false);
+    }
+  };
+
+  const handleSelesai = async () => {
+    setIsLoadingConfirm(true);
+
+    try {
+      await mutatePost({
+        id: String(selectedId || ""),
+        formData: { status: "SELESEI" },
+      });
 
       SuccessToast({ text: "Data berhasil diperbarui" });
       onCloseConfirm();
@@ -403,7 +460,7 @@ export default function DetailIKP() {
     try {
       mutateDelete(
         {
-          id: String(selectedId)
+          id: String(selectedId),
         },
         {
           onSuccess: () => {
@@ -435,6 +492,8 @@ export default function DetailIKP() {
 
   const handleConfirmClose = () => {
     refetch();
+    setSelectedIKP(null);
+    onCloseConfirm8();
     onCloseConfirm5();
     onCloseConfirm4();
     onCloseConfirm3();
@@ -483,33 +542,33 @@ export default function DetailIKP() {
     }
   };
 
-  const handleUpdateAll = async () => {
-    setIsLoadingConfirm(true);
+  // const handleUpdateAll = async () => {
+  //   setIsLoadingConfirm(true);
 
-    try {
-      for (const element of formRealisasi) {
-        mutateUpdate({
-          id: String(element.id),
-          formData: {
-            realisasi: element.realisasi,
-          },
-        });
-      }
+  //   try {
+  //     for (const element of formRealisasi) {
+  //       mutateUpdate({
+  //         id: String(element.id),
+  //         formData: {
+  //           realisasi: element.realisasi,
+  //         },
+  //       });
+  //     }
 
-      SuccessToast({ text: "Data berhasil diperbarui" });
-      setIsEditAll(false);
-    } catch (error) {
-      const err = error as AxiosError<BaseErrorRes>;
-      ErrorToast({
-        text:
-          (err.response?.data.message as string) ||
-          "Terjadi kesalahan saat mengubah data",
-      });
-    } finally {
-      setIsLoadingConfirm(false);
-      refetch();
-    }
-  };
+  //     SuccessToast({ text: "Data berhasil diperbarui" });
+  //     setIsEditAll(false);
+  //   } catch (error) {
+  //     const err = error as AxiosError<BaseErrorRes>;
+  //     ErrorToast({
+  //       text:
+  //         (err.response?.data.message as string) ||
+  //         "Terjadi kesalahan saat mengubah data",
+  //     });
+  //   } finally {
+  //     setIsLoadingConfirm(false);
+  //     refetch();
+  //   }
+  // };
 
   return (
     <>
@@ -531,6 +590,12 @@ export default function DetailIKP() {
         isLoading={isLoadingConfirm}
         handleSubmit={handleUpdate}
       />
+      <ConfirmModal
+        isOpen={isOpenConfirm8}
+        onClose={onCloseConfirm8}
+        isLoading={isLoadingConfirm}
+        handleSubmit={handleSelesai}
+      />
       <DeleteModal
         isOpen={isOpenDelete}
         onClose={onCloseDelete}
@@ -543,6 +608,14 @@ export default function DetailIKP() {
           onClose={onCloseConfirm4}
           id={selectedId}
           count={selectedCount}
+          handleSubmit={handleConfirmClose}
+        />
+      )}
+      {selectedIKP && (
+        <EditRealisasi
+          isOpen={isOpenConfirm5}
+          onClose={onCloseConfirm5}
+          id={selectedIKP}
           handleSubmit={handleConfirmClose}
         />
       )}
@@ -568,7 +641,7 @@ export default function DetailIKP() {
               >
                 <FaFilePdf size={14} /> Export PDF
               </Link>
-              {type === "penerima" && status === "DISETUJUI" && (
+              {/* {type === "penerima" && status === "DISETUJUI" && (
                 <>
                   {isEditAll ? (
                     <Button
@@ -590,7 +663,7 @@ export default function DetailIKP() {
                     </Button>
                   )}
                 </>
-              )}
+              )} */}
               {type === "penerima" && status === "MENUNGGU" && (
                 <div className="flex items-center justify-end gap-2">
                   <Button
@@ -677,7 +750,9 @@ export default function DetailIKP() {
                         ? "Disetujui"
                         : status === "DITOLAK"
                           ? "Ditolak"
-                          : "Menunggu"
+                          : status === "SELESAI"
+                            ? "Selesai"
+                            : "Menunggu"
                     }
                     aria-label="Judul"
                     labelPlacement="outside"
@@ -686,7 +761,7 @@ export default function DetailIKP() {
                     radius="sm"
                     classNames={{
                       inputWrapper: "border-none",
-                      input: `text-xs font-semibold ${status === "DISETUJUI" ? "text-success" : status === "DITOLAK" ? "text-danger" : "text-warning"}`,
+                      input: `text-xs font-semibold ${status === "DISETUJUI" || status === "SELESAI" ? "text-success" : status === "DITOLAK" ? "text-danger" : "text-warning"}`,
                     }}
                   />
                 </div>
@@ -719,6 +794,11 @@ export default function DetailIKP() {
                         className={`border-b-2 border-accent-gray p-2 text-left text-sm bg-primary text-white`}
                       >
                         Realisasi
+                      </th>
+                      <th
+                        className={`border-b-2 border-accent-gray p-2 text-left text-sm bg-primary text-white`}
+                      >
+                        Dokumen Realisasi
                       </th>
                       <th
                         className={`border-b-2 border-accent-gray p-2 text-left text-sm bg-primary text-white`}
@@ -775,7 +855,7 @@ export default function DetailIKP() {
                             <td
                               className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left`}
                             >
-                              {formRealisasi[index] &&
+                              {/* {formRealisasi[index] &&
                               formRealisasi[index].isOpenRealisasi ? (
                                 <Input
                                   aria-label="realisasi"
@@ -793,7 +873,8 @@ export default function DetailIKP() {
                                 />
                               ) : (
                                 item.realisasi || "-"
-                              )}
+                              )} */}
+                              {item.realisasi || "-"}
                             </td>
                           ) : (
                             <td
@@ -802,13 +883,31 @@ export default function DetailIKP() {
                               {item.realisasi || "-"}
                             </td>
                           )}
+                          <td className="px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left">
+                            <div className=" flex flex-col gap-1">
+                              {item.attachement.length > 0
+                                ? item.attachement.map((item, index) => (
+                                    <Link
+                                      to={item.file}
+                                      key={index}
+                                      target="_blank"
+                                      className="block text-blue-500 underline"
+                                    >
+                                      Dokumen {index + 1}
+                                    </Link>
+                                  ))
+                                : "-"}
+                            </div>
+                          </td>
                           <td
-                            className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left ${item.status === "DISETUJUI" ? "text-success" : item.status === "DITOLAK" ? "text-danger" : "text-warning"}`}
+                            className={`px-2 py-4 text-xs max-w-72 border-b-2 border-accent-gray text-left ${item.status === "DISETUJUI" || item.status === "SELESEI" ? "text-success" : item.status === "DITOLAK" ? "text-danger" : "text-warning"}`}
                           >
                             {item.status === "MENUNGGU" ? (
                               "Menunggu"
                             ) : item.status === "DISETUJUI" ? (
                               "Disetujui"
+                            ) : item.status === "SELESEI" ? (
+                              "Selesai"
                             ) : item.status === "DITOLAK" ? (
                               <div>
                                 Ditolak
@@ -862,7 +961,25 @@ export default function DetailIKP() {
                                         isLoading={isLoadingConfirm}
                                         isIconOnly
                                         className="bg-alert-warning text-warning"
-                                        onPress={() => openEditRealisasi(index)}
+                                        onPress={() => {
+                                          if (data) {
+                                            openEditRealisasi({
+                                              id: item.id || 0,
+                                              sasaran: item.sasaran || "",
+                                              indicator: item.indicator || "",
+                                              count: item.count || 0,
+                                              target: item.target || "",
+                                              description:
+                                                item.description || "",
+                                              dialog: item.dialog || "",
+                                              ubahTarget: item.ubahTarget || "",
+                                              status: item.status || "",
+                                              realisasi: item.realisasi || "",
+                                              attachement:
+                                                item.attachement || [],
+                                            });
+                                          }
+                                        }}
                                       >
                                         <LuFilePenLine size={12} />
                                       </Button>
@@ -913,6 +1030,23 @@ export default function DetailIKP() {
                                   }}
                                 >
                                   <LucideTrash2 size={12} />
+                                </Button>
+                              </div>
+                            ) : item.status === "DISETUJUI" &&
+                              !!item.realisasi &&
+                              type === "pengirim" ? (
+                              <div className="flex items-center justify-center gap-2">
+                                <Button
+                                  size="sm"
+                                  onPress={() => {
+                                    setSelectedid(item.id);
+                                    setTimeout(() => {
+                                      onOpenConfirm8();
+                                    }, 100);
+                                  }}
+                                  className="bg-alert-success text-success"
+                                >
+                                  Selesaikan
                                 </Button>
                               </div>
                             ) : null}
