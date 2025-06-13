@@ -1,6 +1,6 @@
 import { StoreKopSurat } from "@/interface/request/surat.interface";
 import { BaseErrorRes } from "@/interface/responses/base.response";
-import { useUpdateKopSurat } from "@/services/surat/kopsurat";
+import { usePostKopSurat, useUpdateKopSurat } from "@/services/surat/kopsurat";
 import { convertFileToBase64 } from "@/utils/base64Formater";
 import { ErrorToast, SuccessToast } from "@/utils/ToastMessage";
 import {
@@ -16,6 +16,7 @@ import { LuSave, LuX } from "react-icons/lu";
 
 interface props {
   id: number;
+  slug: string;
   fileShow: string;
   isOpen: boolean;
   onClose: () => void;
@@ -24,6 +25,7 @@ interface props {
 
 const KopSuratModal = ({
   id,
+  slug,
   fileShow,
   isOpen,
   onClose,
@@ -53,6 +55,7 @@ const KopSuratModal = ({
     }
   };
 
+  const { mutate: mutateCreate } = usePostKopSurat();
   const { mutate: mutatePost } = useUpdateKopSurat();
 
   const handleSubmit = () => {
@@ -67,11 +70,35 @@ const KopSuratModal = ({
 
     const formToSend: StoreKopSurat = {};
     if (formData.file) formToSend.file = formData.file;
+    formToSend.slug = slug;
 
-    try {
-      mutatePost(
-        { formData: formToSend, id: String(id) },
-        {
+    if (id) {
+      try {
+        mutatePost(
+          { formData: formToSend, id: String(id) },
+          {
+            onSuccess: () => {
+              SuccessToast({ text: "Kop surat berhasil diperbarui" });
+              handleClose();
+            },
+            onError: (error: AxiosError<BaseErrorRes>) => {
+              ErrorToast({
+                text:
+                  (error.response?.data.message as string) ||
+                  "Terjadi kesalahan saat mengirim data",
+              });
+              setIsLoading(false);
+              throw error;
+            },
+          },
+        );
+      } catch (error) {
+        setIsLoading(false);
+        throw error;
+      }
+    } else {
+      try {
+        mutateCreate(formToSend, {
           onSuccess: () => {
             SuccessToast({ text: "Kop surat berhasil diperbarui" });
             handleClose();
@@ -85,11 +112,11 @@ const KopSuratModal = ({
             setIsLoading(false);
             throw error;
           },
-        },
-      );
-    } catch (error) {
-      setIsLoading(false);
-      throw error;
+        });
+      } catch (error) {
+        setIsLoading(false);
+        throw error;
+      }
     }
   };
 

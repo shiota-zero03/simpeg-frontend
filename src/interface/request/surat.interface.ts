@@ -1,4 +1,5 @@
 export interface StoreKopSurat {
+  slug?: string;
   file?: string;
 }
 

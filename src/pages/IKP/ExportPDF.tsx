@@ -192,7 +192,9 @@ export default function ExportIKP() {
                   <td className="p-1 border border-black align-top">
                     {item.description}
                   </td>
-                  <td className="p-1 border border-black align-top">{item.dialog}</td>
+                  <td className="p-1 border border-black align-top">
+                    {item.dialog}
+                  </td>
                 </tr>
               ))}
             </tbody>

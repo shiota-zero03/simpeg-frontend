@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getKopSuratBySlug, updateKopSurat } from "./http";
+import { getKopSuratBySlug, postKopSurat, updateKopSurat } from "./http";
 import { IKopSuratDetaiRes } from "@/interface/responses/surat.interface";
 import { AxiosError } from "axios";
 import { BaseErrorRes } from "@/interface/responses/base.response";
@@ -18,6 +18,22 @@ export const useGetKopSuratBySlug = (
     queryKey: ["getKopSuratBySlug"],
     queryFn: () => getKopSuratBySlug(slug),
     staleTime: 300000,
+  });
+};
+export const usePostKopSurat = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    IKopSuratDetaiRes,
+    AxiosError<BaseErrorRes>,
+    StoreKopSurat
+  >({
+    mutationFn: (formData) => postKopSurat(formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["postKopSurat"] });
+    },
+    onError: (error) => {
+      throw error;
+    },
   });
 };
 export const useUpdateKopSurat = () => {

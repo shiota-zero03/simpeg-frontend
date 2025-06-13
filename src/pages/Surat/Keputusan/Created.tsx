@@ -30,7 +30,7 @@ import { ClassicEditor, SimpleUploadAdapter } from "ckeditor5";
 import { ckPlugins, ckToolbar } from "@/constants/CkEditorPlugin";
 import { useCreateKeputusan } from "@/services/surat/surat-keputusan";
 import { useGetAllListSuratPemanggilan } from "@/services/surat/pemanggilan";
-
+import store from "@/redux/store";
 interface formProps {
   membaca?: string;
   menimbang?: string;
@@ -96,6 +96,7 @@ interface pegawaiProps {
 }
 
 export default function CreateSurat() {
+  const { role } = store.getState().auth;
   const [formData, setFormData] = useState<formProps>({
     membaca: "",
     menimbang: "",
@@ -147,7 +148,73 @@ export default function CreateSurat() {
   } = useGetAllPegawaiOption();
   const PEGAWAI_SELECT = useMemo(() => {
     if (!allDataPegawai) return [];
-    return allDataPegawai.data;
+    if (role?.includes("UPTD")) {
+      if (role === "UPTD_LEGAL") {
+        return allDataPegawai.data.filter(
+          (it) =>
+            it.jabatan.unit.nameUnit.includes("METROLOGI LEGAL") ||
+            it.jabatan.nameJob.includes("METROLOGI LEGAL"),
+        );
+      } else if (role === "UPTD_9") {
+        return allDataPegawai.data.filter(
+          (it) =>
+            it.jabatan.unit.nameUnit.includes("WILAYAH IX ") ||
+            it.jabatan.nameJob.includes("WILAYAH IX "),
+        );
+      } else if (role === "UPTD_8") {
+        return allDataPegawai.data.filter(
+          (it) =>
+            it.jabatan.unit.nameUnit.includes("WILAYAH VIII ") ||
+            it.jabatan.nameJob.includes("WILAYAH VIII "),
+        );
+      } else if (role === "UPTD_7") {
+        return allDataPegawai.data.filter(
+          (it) =>
+            it.jabatan.unit.nameUnit.includes("WILAYAH VII ") ||
+            it.jabatan.nameJob.includes("WILAYAH VII "),
+        );
+      } else if (role === "UPTD_6") {
+        return allDataPegawai.data.filter(
+          (it) =>
+            it.jabatan.unit.nameUnit.includes("WILAYAH VI ") ||
+            it.jabatan.nameJob.includes("WILAYAH VI "),
+        );
+      } else if (role === "UPTD_5") {
+        return allDataPegawai.data.filter(
+          (it) =>
+            it.jabatan.unit.nameUnit.includes("WILAYAH V ") ||
+            it.jabatan.nameJob.includes("WILAYAH V "),
+        );
+      } else if (role === "UPTD_4") {
+        return allDataPegawai.data.filter(
+          (it) =>
+            it.jabatan.unit.nameUnit.includes("WILAYAH IV ") ||
+            it.jabatan.nameJob.includes("WILAYAH IV "),
+        );
+      } else if (role === "UPTD_3") {
+        return allDataPegawai.data.filter(
+          (it) =>
+            it.jabatan.unit.nameUnit.includes("WILAYAH III ") ||
+            it.jabatan.nameJob.includes("WILAYAH III "),
+        );
+      } else if (role === "UPTD_2") {
+        return allDataPegawai.data.filter(
+          (it) =>
+            it.jabatan.unit.nameUnit.includes("WILAYAH II ") ||
+            it.jabatan.nameJob.includes("WILAYAH II "),
+        );
+      } else if (role === "UPTD_1") {
+        return allDataPegawai.data.filter(
+          (it) =>
+            it.jabatan.unit.nameUnit.includes("WILAYAH I ") ||
+            it.jabatan.nameJob.includes("WILAYAH I "),
+        );
+      } else {
+        return allDataPegawai.data;
+      }
+    } else {
+      return allDataPegawai.data;
+    }
   }, [allDataPegawai]);
 
   // const {

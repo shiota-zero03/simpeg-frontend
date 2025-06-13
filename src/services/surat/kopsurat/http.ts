@@ -15,6 +15,13 @@ export const getKopSuratBySlug = async (
   return response.data;
 };
 
+export const postKopSurat = async (
+  formData: StoreKopSurat,
+): Promise<IKopSuratDetaiRes> => {
+  const response = await instance.post(`/admin/kop-surat/upload`, formData);
+  return response.data;
+};
+
 export const updateKopSurat = async (
   id: string,
   formData: StoreKopSurat,

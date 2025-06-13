@@ -51,7 +51,7 @@ export default function HasilPemeriksaan() {
 
   const {
     data: allKop,
-    isFetching: isFetchingKop,
+    isLoading: isFetchingKop,
     refetch: refetchKop,
   } = useGetKopSuratBySlug("HASIL_PEMERIKSAAN");
 
@@ -255,11 +255,12 @@ export default function HasilPemeriksaan() {
         isLoading={isLoadingDelete}
         handleSubmit={handleDelete}
       />
-      {!isFetchingKop && kopSuratData && (
+      {!isFetchingKop && (
         <KopSuratModal
           isOpen={isOpenKop}
           onClose={onCloseKop}
-          id={kopSuratData?.id}
+          id={kopSuratData?.id || 0}
+          slug={"HASIL_PEMERIKSAAN"}
           fileShow={kopSuratData?.kopSurat || ""}
           handleClose={() => {
             onCloseKop();

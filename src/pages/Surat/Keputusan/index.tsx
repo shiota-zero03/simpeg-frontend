@@ -53,7 +53,7 @@ export default function Keputusan() {
 
   const {
     data: allKop,
-    isFetching: isFetchingKop,
+    isLoading: isFetchingKop,
     refetch: refetchKop,
   } = useGetKopSuratBySlug("HUKUMAN_DISIPLIN");
 
@@ -271,11 +271,12 @@ export default function Keputusan() {
         isLoading={isLoadingDelete}
         handleSubmit={handleDelete}
       />
-      {!isFetchingKop && kopSuratData && (
+      {!isFetchingKop && (
         <KopSuratModal
           isOpen={isOpenKop}
           onClose={onCloseKop}
-          id={kopSuratData?.id}
+          id={kopSuratData?.id || 0}
+          slug={"HUKUMAN_DISIPLIN"}
           fileShow={kopSuratData?.kopSurat || ""}
           handleClose={() => {
             onCloseKop();

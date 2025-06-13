@@ -52,7 +52,7 @@ export default function SuratPemanggilan() {
 
   const {
     data: allKop,
-    isFetching: isFetchingKop,
+    isLoading: isFetchingKop,
     refetch: refetchKop,
   } = useGetKopSuratBySlug("SURAT_PEMANGGILAN");
 
@@ -265,11 +265,12 @@ export default function SuratPemanggilan() {
         isLoading={isLoadingDelete}
         handleSubmit={handleDelete}
       />
-      {!isFetchingKop && kopSuratData && (
+      {!isFetchingKop && (
         <KopSuratModal
           isOpen={isOpenKop}
           onClose={onCloseKop}
-          id={kopSuratData?.id}
+          slug={"SURAT_PEMANGGILAN"}
+          id={kopSuratData?.id || 0}
           fileShow={kopSuratData?.kopSurat || ""}
           handleClose={() => {
             onCloseKop();

@@ -83,7 +83,7 @@ export default function SuratPemeriksaan() {
 
   const {
     data: allKop,
-    isFetching: isFetchingKop,
+    isLoading: isFetchingKop,
     refetch: refetchKop,
   } = useGetKopSuratBySlug("BERITA_ACARA_PERMINTAAN_KETERANGAN");
 
@@ -289,11 +289,12 @@ export default function SuratPemeriksaan() {
         isLoading={isLoadingDelete}
         handleSubmit={handleDelete}
       />
-      {!isFetchingKop && kopSuratData && (
+      {!isFetchingKop && (
         <KopSuratModal
           isOpen={isOpenKop}
           onClose={onCloseKop}
-          id={kopSuratData?.id}
+          id={kopSuratData?.id || 0}
+          slug="BERITA_ACARA_PERMINTAAN_KETERANGAN"
           fileShow={kopSuratData?.kopSurat || ""}
           handleClose={() => {
             onCloseKop();
