@@ -301,7 +301,6 @@ const ImportAsset = ({ isOpen, onClose, handleClose }: props) => {
           !harga ||
           !idBarang ||
           !kodeBarang ||
-          !noRegistrasi ||
           !kategori ||
           !namaBarang
         ) {
@@ -311,24 +310,24 @@ const ImportAsset = ({ isOpen, onClose, handleClose }: props) => {
 
         const formAsset: StoreAsset = {};
 
-        if (idBarang) formAsset.idBarang = idBarang;
-        if (kodeBarang) formAsset.kodeBarang = kodeBarang;
-        if (namaBarang) formAsset.namaBarang = namaBarang;
-        if (noRegistrasi) formAsset.nomorRegistrasi = noRegistrasi;
-        if (merkTipe) formAsset.merkTipe = merkTipe;
-        if (ukuranCC) formAsset.ukuranCC = ukuranCC;
-        if (bahan) formAsset.jenisBahan = bahan;
-        if (tahun) formAsset.tahunPerolehan = tahun;
-        if (pabrik) formAsset.nomorPabrik = pabrik;
-        if (rangka) formAsset.nomorRangka = rangka;
-        if (mesin) formAsset.nomorMesin = mesin;
-        if (polisi) formAsset.nomorPolisi = polisi;
+        if (idBarang) formAsset.idBarang = String(idBarang || "");
+        if (kodeBarang) formAsset.kodeBarang = String(kodeBarang || "");
+        if (namaBarang) formAsset.namaBarang = String(namaBarang || "");
+        formAsset.nomorRegistrasi = String(noRegistrasi).padStart(4, "0");
+        if (merkTipe) formAsset.merkTipe = String(merkTipe || "");
+        if (ukuranCC) formAsset.ukuranCC = String(ukuranCC || "");
+        if (bahan) formAsset.jenisBahan = String(bahan || "");
+        if (tahun) formAsset.tahunPerolehan = String(tahun || "");
+        if (pabrik) formAsset.nomorPabrik = String(pabrik || "");
+        if (rangka) formAsset.nomorRangka = String(rangka || "");
+        if (mesin) formAsset.nomorMesin = String(mesin || "");
+        if (polisi) formAsset.nomorPolisi = String(polisi || "");
         if (bpkb_stnk && ["BPKB", "STNK"].includes(bpkb_stnk.toUpperCase())) {
           formAsset.dokumenTipe =
             bpkb_stnk.toUpperCase() === "BPKB" ? "BPKB" : "STNK";
         }
-        if (no_bpkb_stnk) formAsset.dokumenNomor = no_bpkb_stnk;
-        if (keterangan) formAsset.keterangan = keterangan;
+        if (no_bpkb_stnk) formAsset.dokumenNomor = String(no_bpkb_stnk || "");
+        if (keterangan) formAsset.keterangan = String(keterangan || "");
         if (kategori) {
           const upperKategori = kategori.toUpperCase();
           if (upperKategori.includes("KENDARAAN")) {
