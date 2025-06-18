@@ -15,7 +15,7 @@ export const useGetKopSuratBySlug = (
     | "HUKUMAN_DISIPLIN",
 ) => {
   return useQuery({
-    queryKey: ["getKopSuratBySlug"],
+    queryKey: ["getKopSuratBySlug", slug],
     queryFn: () => getKopSuratBySlug(slug),
     staleTime: 300000,
   });

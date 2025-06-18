@@ -5,6 +5,7 @@ import DetailExportSurat from "./DetEx";
 import { HasilPemeriksaanRes } from "@/interface/responses/surat.interface";
 import { useGetKopSuratBySlug } from "@/services/surat/kopsurat";
 import { useGetDetailHasilPemeriksaan } from "@/services/surat/hasil-pemeriksaan";
+import { Commet } from "react-loading-indicators";
 
 export default function ExportSurat() {
   const { id } = useParams();
@@ -65,7 +66,7 @@ export default function ExportSurat() {
   }, [id, data]);
 
   useEffect(() => {
-    if (!isFetching && !isFetchingKop && DATA_DETAIL && kopSuratData) {
+    if (!isFetching && !isFetchingKop && DATA_DETAIL) {
       // Tunggu render selesai dulu baru trigger print
       setTimeout(() => {
         window.print();
@@ -86,12 +87,18 @@ export default function ExportSurat() {
 
   return (
     <>
-      {DATA_DETAIL && kopSuratData && (
-        <DetailExportSurat
-          DATA_DETAIL={DATA_DETAIL}
-          isFetching={isFetching}
-          kopSurat={kopSuratData.kopSurat}
-        />
+      {isFetching || isFetchingKop ? (
+        <div className="inset-0 fixed flex items-center justify-center z-20">
+          <Commet color="#32cd32" size="medium" text="" textColor="" />
+        </div>
+      ) : (
+        DATA_DETAIL && (
+          <DetailExportSurat
+            DATA_DETAIL={DATA_DETAIL}
+            isFetching={isFetching}
+            kopSurat={kopSuratData?.kopSurat || ""}
+          />
+        )
       )}
     </>
   );

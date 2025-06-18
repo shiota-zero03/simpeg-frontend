@@ -64,10 +64,12 @@ const ExportToWord: React.FC = () => {
 
   const exportToWord = async () => {
     const content = contentRef.current?.innerHTML;
-    if (!content || !kopSuratData?.kopSurat) return;
+    if (!content) return;
 
-    const fullImageUrl = `${kopSuratData.kopSurat}`;
-    const kopSuratBase64 = await getBase64FromUrl(fullImageUrl);
+    const fullImageUrl = `${kopSuratData?.kopSurat}`;
+    const kopSuratBase64 = fullImageUrl
+      ? await getBase64FromUrl(fullImageUrl)
+      : "";
 
     const header = `
       <html xmlns:o='urn:schemas-microsoft-com:office:office' 
@@ -108,9 +110,12 @@ const ExportToWord: React.FC = () => {
         </style>
       </head>
       <body>
-        <div class="kop-surat" style="width: 150px; overflow: hidden;">
-          <img src="${kopSuratBase64}" alt="Kop Surat" style="width: 100%;" width="620" />
-        </div>
+        ${
+          kopSuratBase64 &&
+          `<div class="kop-surat" style="width: 150px; overflow: hidden;">
+            <img src="${kopSuratBase64}" alt="Kop Surat" style="width: 100%;" width="620" />
+          </div>`
+        }
     `;
 
     const footer = `</body></html>`;
@@ -134,7 +139,7 @@ const ExportToWord: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!isFetching && !isFetchingKop && DATA_DETAIL && kopSuratData) {
+    if (!isFetching && !isFetchingKop && DATA_DETAIL) {
       // Tunggu render selesai dulu baru trigger print
       setTimeout(() => {
         exportToWord();
@@ -159,7 +164,7 @@ const ExportToWord: React.FC = () => {
         <Commet color="#32cd32" size="medium" text="" textColor="" />
       </div>
       <div ref={contentRef} className="border p-4 mb-4">
-        {DATA_DETAIL && kopSuratData && (
+        {DATA_DETAIL && (
           <>
             <div>
               <h1 className="title">BERITA ACARA PERMINTAAN KETERANGAN</h1>

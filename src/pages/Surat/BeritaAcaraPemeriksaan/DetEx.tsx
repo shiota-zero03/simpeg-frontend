@@ -30,7 +30,9 @@ export default function DetailExportSurat({
         </div>
       ) : (
         <div className="flex flex-col text-lg px-24 py-12">
-          <img src={kopSurat || KOP} alt="kop-surat" className="w-full" />
+          {kopSurat && (
+            <img src={kopSurat || KOP} alt="kop-surat" className="w-full" />
+          )}
           <br />
           <h1 className="text-center font-bold text-xl">
             BERITA ACARA PEMERIKSAAN
@@ -49,24 +51,28 @@ export default function DetailExportSurat({
           />
           <div className="flex flex-col ms-12">
             <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <div className="w-32">Nama</div>
-                <div>: &nbsp;&nbsp;&nbsp; {DATA_DETAIL.pemeriksa}</div>
+              <div className="flex items-start gap-2">
+                <div className="max-w-32 min-w-32">Nama</div>
+                <span>: </span>
+                <div>{DATA_DETAIL.pemeriksa}</div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-32">NIP</div>
-                <div>: &nbsp;&nbsp;&nbsp; {DATA_DETAIL.nipPemeriksa}</div>
+              <div className="flex items-start gap-2">
+                <div className="max-w-32 min-w-32">NIP</div>
+                <span>: </span>
+                <div>{DATA_DETAIL.nipPemeriksa}</div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-32">Pangkat/Gol</div>
+              <div className="flex items-start gap-2">
+                <div className="max-w-32 min-w-32">Pangkat/Gol</div>
+                <span>: </span>
                 <div>
-                  : &nbsp;&nbsp;&nbsp; {DATA_DETAIL.pangkatPemeriksa || "-"} /{" "}
+                  {DATA_DETAIL.pangkatPemeriksa || "-"} /{" "}
                   {DATA_DETAIL.golonganPemeriksa || "-"}
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-32">Jabatan</div>
-                <div>: &nbsp;&nbsp;&nbsp; {DATA_DETAIL.jabatanPemeriksa}</div>
+              <div className="flex items-start gap-2">
+                <div className="max-w-32 min-w-32">Jabatan</div>
+                <span>: </span>
+                <div>{DATA_DETAIL.jabatanPemeriksa}</div>
               </div>
             </div>
           </div>

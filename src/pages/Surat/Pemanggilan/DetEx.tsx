@@ -32,7 +32,9 @@ export default function DetailExportSurat({
         </div>
       ) : (
         <div className="flex flex-col text-lg px-24 py-12">
-          <img src={kopSurat || KOP} alt="kop-surat" className="w-full" />
+          {kopSurat && (
+            <img src={kopSurat || KOP} alt="kop-surat" className="w-full" />
+          )}
           <br />
           <h1 className="text-center font-bold text-xl">RAHASIA</h1>
           <h1 className="text-center font-bold text-xl my-1">

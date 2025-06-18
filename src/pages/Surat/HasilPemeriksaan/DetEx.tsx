@@ -28,7 +28,9 @@ export default function DetailExportSurat({
         </div>
       ) : (
         <div className="flex flex-col text-lg px-24 py-12">
-          <img src={kopSurat || KOP} alt="kop-surat" className="w-full" />
+          {kopSurat && (
+            <img src={kopSurat || KOP} alt="kop-surat" className="w-full" />
+          )}
           <br />
           <div className="ms-auto flex items-center justify-end gap-2">
             {DATA_DETAIL.lokasi}, {DMYIndoToFormat(DATA_DETAIL.tanggalSurat)}

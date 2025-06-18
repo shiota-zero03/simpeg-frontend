@@ -98,11 +98,11 @@ export default function DetailPemeriksaan() {
               </Link>
             </CardHeader>
             <CardBody className="flex flex-col">
-              {DATA_DETAIL && kopSuratData && (
+              {DATA_DETAIL && (
                 <DetailExportSurat
                   DATA_DETAIL={DATA_DETAIL}
                   isFetching={isFetching}
-                  kopSurat={kopSuratData.kopSurat || ""}
+                  kopSurat={kopSuratData?.kopSurat || ""}
                 />
               )}
             </CardBody>

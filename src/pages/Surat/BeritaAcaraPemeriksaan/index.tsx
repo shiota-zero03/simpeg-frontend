@@ -282,6 +282,7 @@ export default function SuratPemeriksaan() {
             onPress={onOpenKop}
             className="bg-alert-warning text-warning font-semibold flex items-center gap-2 border border-warning"
             size="sm"
+            isLoading={isFetchingKop}
           >
             <LucideMail size={16} /> Kop Surat
           </Button>
