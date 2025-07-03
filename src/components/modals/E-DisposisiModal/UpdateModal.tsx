@@ -5,6 +5,7 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
+  useDisclosure,
 } from "@heroui/react";
 import { useEffect, useMemo, useState } from "react";
 import { LuX } from "react-icons/lu";
@@ -20,6 +21,8 @@ import {
 } from "@/services/e-disposisi";
 import { DMYIndoToFormat, HIDateformat } from "@/utils/dateFormater";
 import { FaCircle } from "react-icons/fa";
+import BeriInstruksiSek from "./BeriInstruksiSek";
+import { GrDocumentSound } from "react-icons/gr";
 
 interface props {
   id: string;
@@ -75,8 +78,24 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
     }
   };
 
+
+  const {
+    isOpen: isOpenInstruction,
+    onOpen: onOpenInstruction,
+    onClose: onCloseInstruction,
+  } = useDisclosure();
+
   return (
     <>
+      <BeriInstruksiSek
+        id={id}
+        isOpen={isOpenInstruction}
+        onClose={onCloseInstruction}
+        handleClose={() => {
+          onCloseInstruction();
+          handleClose();
+        }}
+      />
       <Modal isOpen={isOpen} backdrop="blur" hideCloseButton size="4xl">
         <ModalContent>
           {isFetching && (
@@ -192,7 +211,16 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                 <div className="text-xs">{DATA_FETCHING?.description}</div>
               </div>
             </div>
-            <div className="flex items-center justify-end w-full gap-2">
+            <div className="flex sm:flex-row flex-col items-center justify-end w-full gap-2">
+              <Button
+                isLoading={isLoading}
+                onPress={onOpenInstruction}
+                className="border border-button-primary bg-white text-button-primary font-semibold"
+                size="sm"
+                radius="sm"
+              >
+                <GrDocumentSound size="16" /> Beri Instruksi
+              </Button>
               <Button
                 isLoading={isLoading}
                 onPress={handleSubmit}
@@ -200,7 +228,7 @@ const UpdateModal = ({ id, isOpen, onClose, handleClose }: props) => {
                 size="sm"
                 radius="sm"
               >
-                <LucideInbox /> Teruskan E-Disposisi
+                <LucideInbox size="16" /> Teruskan E-Disposisi
               </Button>
             </div>
             <div>

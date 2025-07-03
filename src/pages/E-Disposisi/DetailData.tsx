@@ -194,7 +194,7 @@ export default function Verifikasi() {
                               DATA_FETCHING?.instruksi &&
                               DATA_FETCHING?.instruksi.length > 1
                                 ? `
-                              ${DATA_FETCHING?.instruksi?.[1].diteruskan === it.name ? "text-success font-semibold" : "text-gray-400 font-normal"}
+                              ${DATA_FETCHING?.instruksi?.[1].diteruskan.includes(it.name) ? "text-success font-semibold" : "text-gray-400 font-normal"}
                             `
                                 : "text-gray-400 font-normal"
                             }
@@ -261,25 +261,104 @@ export default function Verifikasi() {
             <div className="md:px-8 px-4">
               <h1 className="font-semibold">Riwayat E-Disposisi</h1>
               <ol className="relative border-s border-gray-200 dark:border-gray-700 ms-4 mt-2">
-                {DATA_FETCHING?.riwayat.map((item, idx) => (
-                  <li className="mb-10 ms-6" key={idx}>
-                    <span
-                      className={`absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-white ${idx === 0 ? "bg-[#E0FFFB]" : "bg-white"}`}
-                    >
-                      <FaCircle
-                        size={10}
-                        className={`${idx === 0 ? "text-[#1AB29E]" : "text-[#939597]"}`}
-                      />
-                    </span>
-                    <h3 className="text-sm font-semibold mb-2">
-                      {item.description}
-                    </h3>
-                    <p className="text-xs text-gray-500">
-                      {DMYIndoToFormat(item.createdAt)} &nbsp;|&nbsp;{" "}
-                      {HIDateformat(item.createdAt)}
-                    </p>
-                  </li>
-                ))}
+                {DATA_FETCHING?.riwayat.map((item, idx) => {
+                  if(DATA_FETCHING?.instruksi && DATA_FETCHING?.instruksi?.length === 2) {
+                    if((DATA_FETCHING?.instruksi[0].diteruskan === DATA_FETCHING?.instruksi[1].diteruskan) && item.description !== "Meneruskan E-Disposisi kepada Kadis untuk konfirmasi") {
+                      return (
+                        <li className="mb-10 ms-6" key={idx}>
+                          <span
+                            className={`absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-white ${idx === 0 ? "bg-[#E0FFFB]" : "bg-white"}`}
+                          >
+                            <FaCircle
+                              size={10}
+                              className={`${idx === 0 ? "text-[#1AB29E]" : "text-[#939597]"}`}
+                            />
+                          </span>
+                          <h3 className="text-sm font-semibold mb-2">
+                            {item.description}
+                          </h3>
+                          <p className="text-xs text-gray-500">
+                            {DMYIndoToFormat(item.createdAt)} &nbsp;|&nbsp;{" "}
+                            {HIDateformat(item.createdAt)}
+                          </p>
+                        </li>
+                      )
+                    } else {
+                      if(idx === 0) {
+                        return (
+                          <li className="mb-10 ms-6" key={idx}>
+                            <span
+                              className={`absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-white ${idx === 0 ? "bg-[#E0FFFB]" : "bg-white"}`}
+                            >
+                              <FaCircle
+                                size={10}
+                                className={`text-[#1AB29E]`}
+                              />
+                            </span>
+                            <h3 className="text-sm font-semibold mb-2">
+                              Diselesaikan oleh Sekretaris Dinas
+                            </h3>
+                            <p className="text-xs text-gray-500">
+                              {DMYIndoToFormat(item.createdAt)} &nbsp;|&nbsp;{" "}
+                              {HIDateformat(item.createdAt)}
+                            </p>
+                          </li>
+                        )
+                      }
+                    }
+                  } else {
+                    return (
+                      <>
+                        {item.description === "Meneruskan E-Disposisi kepada Kadis untuk konfirmasi" && (
+                          <li className="mb-10 ms-6" key={idx}>
+                            <span
+                              className={`absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-white ${idx === 0 ? "bg-[#E0FFFB]" : "bg-white"}`}
+                            >
+                              <FaCircle
+                                size={10}
+                                className={`text-[#1AB29E]`}
+                              />
+                            </span>
+                            <h3 className="text-sm font-semibold mb-2">
+                              Selesai
+                            </h3>
+                            <p className="text-xs text-gray-500">
+                              {DMYIndoToFormat(item.createdAt)} &nbsp;|&nbsp;{" "}
+                              {HIDateformat(item.createdAt)}
+                            </p>
+                          </li>
+                        )}
+                        <li className="mb-10 ms-6" key={idx}>
+                          <span
+                            className={
+                              `absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-white 
+                              ${DATA_FETCHING?.riwayat.filter(it => it.description.includes("Meneruskan E-Disposisi kepada Kadis untuk konfirmasi")) ? "bg-white" : (
+                                idx === 0 ? "bg-[#E0FFFB]" : "bg-white"
+                              )}
+                              `
+                            }
+                          >
+                            <FaCircle
+                              size={10}
+                              className={
+                                DATA_FETCHING?.riwayat.filter(it => it.description.includes("Meneruskan E-Disposisi kepada Kadis untuk konfirmasi")) ? "text-[#939597]" : (
+                                  `${idx === 0 ? "text-[#1AB29E]" : "text-[#939597]"}`
+                                )
+                              }
+                            />
+                          </span>
+                          <h3 className="text-sm font-semibold mb-2">
+                            {item.description}
+                          </h3>
+                          <p className="text-xs text-gray-500">
+                            {DMYIndoToFormat(item.createdAt)} &nbsp;|&nbsp;{" "}
+                            {HIDateformat(item.createdAt)}
+                          </p>
+                        </li>
+                      </>
+                    )
+                  }
+                })}
               </ol>
             </div>
           </div>
