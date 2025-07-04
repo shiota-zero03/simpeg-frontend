@@ -358,14 +358,12 @@ export default function ExportIKP() {
               <br />
               <br />
               <br />
-              <span className="font-semibold">
-                {DATA_DETAIL.participants.find((it) => it.role === "PEGAWAI")
-                  ?.user.name || "-"}
+              <span className="font-semibold uppercase">
+                {import.meta.env.VITE_SPPD_NAME ?? "Gatot Purnomo, SE, MM"}
               </span>
               <span>
                 NIP.
-                {DATA_DETAIL.participants.find((it) => it.role === "PEGAWAI")
-                  ?.user.nip || "-"}
+                {import.meta.env.VITE_SPPD_NIP ?? "197211222008011002"}
               </span>
             </div>
             <div className="flex flex-col">
