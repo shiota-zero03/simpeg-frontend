@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import store from "@/redux/store";
 import { useDeleteAsset, useGetAllAsset } from "@/services/asset/asset";
 import { AssetRes } from "@/interface/responses/asset.interface";
-import { DMYIndoToFormat } from "@/utils/dateFormater";
+import { DMYIndoToFormat, YIndoToFormat } from "@/utils/dateFormater";
 import { getLocalTimeZone } from "@internationalized/date";
 import { LucideEye } from "lucide-react";
 import ViewModal from "@/components/modals/Asset/DeetailAsset";
@@ -32,6 +32,7 @@ interface DataProps {
   kodeBarang: string;
   nama: string;
   noRegistrasi: string;
+  tahunPerolehan: string;
   kategori: string;
   harga: string;
   merk: string;
@@ -44,6 +45,7 @@ export default function AssetIndex() {
   const limit = 10;
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
+  const [searchYear, setSearchYear] = useState("");
 
   const [rangeDate, setRangeDate] = useState<RangeValue<CalendarDate> | null>(
     null,
@@ -85,6 +87,7 @@ export default function AssetIndex() {
     search,
     rangeDate && formatDateToJakarta(rangeDate.start),
     rangeDate && formatDateToJakarta(rangeDate.end),
+    searchYear
   );
 
   const paginatedData: DataProps[] = useMemo(() => {
@@ -109,8 +112,9 @@ export default function AssetIndex() {
         idBarang: item.idBarang,
         kodeBarang: item.kodeBarang,
         noRegistrasi: item.nomorRegistrasi,
+        tahunPerolehan: item.tahunPerolehan,
         kategori: item.kategori,
-        harga: item.harga ? `Rp ${item.harga.toLocaleString("id-ID")}` : "-",
+        harga: item.harga ? `Rp${item.harga.toLocaleString("id-ID")}` : "-",
         merk: item.merkTipe,
         status: item.status,
       }));
@@ -130,7 +134,7 @@ export default function AssetIndex() {
     },
     {
       accessorKey: "tanggal",
-      header: "Tanggal",
+      header: "Tanggal Penginputan",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
@@ -159,12 +163,9 @@ export default function AssetIndex() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "kategori",
-      header: "Kategori",
-      cell: (info) =>
-        (info.getValue() as string) === "PERALATAN"
-          ? "Peralatan Kantor / Mesin"
-          : "Kendaraan",
+      accessorKey: "tahunPerolehan",
+      header: "Tahun Perolehan",
+      cell: (info) => info.getValue() ? YIndoToFormat(info.getValue() as string) : '',
       // meta: { align: "center" },
     },
     {
@@ -329,6 +330,24 @@ export default function AssetIndex() {
                   size="sm"
                   variant="bordered"
                   placeholder="Cari nama barang/merk"
+                  startContent={
+                    <LuSearch className="text-accent-gray text-xs" />
+                  }
+                  classNames={{
+                    inputWrapper: "border-[0.8px]",
+                    input: "text-xs",
+                  }}
+                />
+                <Input
+                  aria-label="search"
+                  value={searchYear}
+                  onChange={(e) => {
+                    setSearchYear(e.target.value);
+                  }}
+                  radius="sm"
+                  size="sm"
+                  variant="bordered"
+                  placeholder="Cari berdasarkan tahun"
                   startContent={
                     <LuSearch className="text-accent-gray text-xs" />
                   }

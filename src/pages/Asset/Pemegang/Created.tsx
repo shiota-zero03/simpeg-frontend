@@ -32,7 +32,7 @@ import { useCreateAssetHolder } from "@/services/asset/asset-holder";
 import { useGetAllAsset } from "@/services/asset/asset";
 import { ColumnDef } from "@tanstack/react-table";
 import { AssetRes } from "@/interface/responses/asset.interface";
-import { DMYIndoToFormat } from "@/utils/dateFormater";
+import { DMYIndoToFormat, YIndoToFormat } from "@/utils/dateFormater";
 import DataTables from "@/components/DataTables";
 import { BiReset, BiSearch } from "react-icons/bi";
 import { convertFileToBase64 } from "@/utils/base64Formater";
@@ -68,6 +68,7 @@ interface DataProps {
   kodeBarang: string;
   noRegistrasi: string;
   kategori: string;
+  tahunPerolehan: string;
   harga: string;
   merk: string;
   status: boolean | null;
@@ -311,8 +312,9 @@ export default function CreatePegawai() {
         idBarang: item.idBarang,
         kodeBarang: item.kodeBarang,
         noRegistrasi: item.nomorRegistrasi,
+        tahunPerolehan: item.tahunPerolehan,
         kategori: item.kategori,
-        harga: item.harga ? `Rp ${item.harga.toLocaleString("id-ID")}` : "-",
+        harga: item.harga ? `Rp${item.harga.toLocaleString("id-ID")}` : "-",
         merk: item.merkTipe,
         status: item.status,
       }));
@@ -379,7 +381,7 @@ export default function CreatePegawai() {
     },
     {
       accessorKey: "tanggal",
-      header: "Tanggal",
+      header: "Tanggal Penginputan",
       cell: (info) => info.getValue() as string,
       // meta: { align: "center" },
     },
@@ -408,9 +410,9 @@ export default function CreatePegawai() {
       // meta: { align: "center" },
     },
     {
-      accessorKey: "kategori",
-      header: "Kategori",
-      cell: (info) => info.getValue() as string,
+      accessorKey: "tahunPerolehan",
+      header: "Tahun Perolehan",
+      cell: (info) => info.getValue() ? YIndoToFormat(info.getValue() as string) : '',
       // meta: { align: "center" },
     },
     {

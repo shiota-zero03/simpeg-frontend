@@ -148,7 +148,7 @@ export default function DataProfile() {
             <div>
               <p className="text-sm">Status Kepegawaian</p>
               <h4 className="font-semibold">
-                {DATA_FETCHING?.employmentStatus ?? "-"}
+                {DATA_FETCHING?.employmentStatus ? (DATA_FETCHING?.employmentStatus === "MENINGGAL" ? "Meninggal / Pensiun" : "-") : "-"}
               </h4>
             </div>
             <div>

@@ -61,10 +61,11 @@ export const useGetAllAsset = (
   title?: string,
   startDate?: string | null,
   endDate?: string | null,
+  searchYear?: string | null,
 ) => {
   return useQuery({
     queryKey: ["getAllAsset"],
-    queryFn: () => getAllAsset(page, limit, title, startDate, endDate),
+    queryFn: () => getAllAsset(page, limit, title, startDate, endDate, searchYear),
     staleTime: 300000,
   });
 };

@@ -49,6 +49,16 @@ export const MYIndoToFormat = (timeStamp: string) => {
   return formattedTimestamp;
 };
 
+export const YIndoToFormat = (timeStamp: string) => {
+  const date = new Date(timeStamp);
+
+  const year = date.getFullYear();
+
+  const formattedTimestamp = `${year}`;
+
+  return formattedTimestamp;
+};
+
 export const timestampIndoToFormat = (format: string, timeStamp: string) => {
   const date = new Date(timeStamp);
 

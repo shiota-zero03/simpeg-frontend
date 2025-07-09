@@ -694,7 +694,7 @@ export const DinasUptdData: { name: string; key: string }[] = [
 
 export const statusKepegawaianData: { name: string; key: string }[] = [
   { key: "", name: "Aktif" },
-  { key: "MENINGGAL", name: "Meninggal" },
+  { key: "MENINGGAL", name: "Meninggal / Pensiun" },
   { key: "MUTASI", name: "Mutasi (Pindah)" },
   { key: "MENGUNDURKAN_DIRI", name: "Mengundurkan diri" },
   { key: "DIBERHENTIKAN", name: "Diberhentikan Karena Hukuman Disiplin" },

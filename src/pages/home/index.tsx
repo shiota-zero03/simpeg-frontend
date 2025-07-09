@@ -22,10 +22,10 @@ export default function Home() {
           />
           <div className="flex flex-col md:items-start items-center md:text-left text-center text-white lg:px-12 sm:px-10 px-2 gap-1.5 relative z-10">
             <p className="lg:text-sm text-xs font-light">
-              Selamat Datang di Aplikasi
+              Selamat Datang di Aplikasi SIMPEG
             </p>
             <h1 className="lg:text-3xl sm:text-2xl text-lg font-semibold my-1">
-              Sistem Informasi Manajemen Pegawai
+              Sistem Informasi Manajemen Pengelolaan Kinerja Pegawai Dinas Perdagangan Kabupaten Bekasi (SIPEKERJA DISDAG)
             </h1>
           </div>
         </div>
