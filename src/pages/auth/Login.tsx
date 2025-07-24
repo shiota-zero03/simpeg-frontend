@@ -128,10 +128,10 @@ export default function Login() {
             </div>
             <div className="relative z-10 text-left px-8 text-white flex flex-col gap-3">
               <h3 className="font-medium xl:text-lg text-base">
-                Selamat Datang di Aplikasi
+                Selamat Datang di Aplikasi Simpeg
               </h3>
               <h1 className="font-semibold xl:text-3xl text-2xl">
-                Sistem Informasi Manajemen Pegawai
+                SISTEM INFORMASI MANAJEMEN PENGELOLAAN KINERJA PEGAWAI DINAS PERDAGANGAN (SIPEKERJA DISDAG)
               </h1>
               <h5 className="xl:text-base text-sm">
                 Kelola data pegawai, administrasi, dan layanan kepegawaian

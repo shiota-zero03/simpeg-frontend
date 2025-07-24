@@ -123,7 +123,7 @@ export default function SuratPemanggilan() {
       // meta: { align: "center" },
     },
     {
-      header: "Yang Menghadap",
+      header: "Menghadap Kepada",
       cell: ({ row }) => {
         const { pemanggil } = row.original;
         return (
