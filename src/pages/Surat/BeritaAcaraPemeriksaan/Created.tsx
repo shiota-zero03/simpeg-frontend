@@ -22,8 +22,8 @@ import { BaseErrorRes } from "@/interface/responses/base.response";
 import { StoreBeritaAcaraPemeriksaan } from "@/interface/request/surat.interface";
 import { useCreateBeritaAcaraPemeriksaan } from "@/services/surat/berita-acara-pemeriksaan";
 import { DMYIndoToFormat } from "@/utils/dateFormater";
-import { useGetAllListSuratPemeriksaan } from "@/services/surat/pemeriksaan";
 import store from "@/redux/store";
+import { useGetAllListSuratPemanggilan } from "@/services/surat/pemanggilan";
 
 interface formProps {
   nomorPeriksa?: string;
@@ -180,7 +180,7 @@ export default function CreateSurat() {
     data: allDataNomorSurat,
     isFetching: isFetchingNomorSurat,
     refetch: refetchNomorSurat,
-  } = useGetAllListSuratPemeriksaan();
+  } = useGetAllListSuratPemanggilan();
   const SURAT_SELECT = useMemo(() => {
     if (!allDataNomorSurat) return [];
     return allDataNomorSurat.data;
@@ -402,15 +402,16 @@ export default function CreateSurat() {
         nomorSurat: String(checkPegawai.nomorSurat),
       });
 
-      const pegawaiBaru = checkPegawai.DiPerintahSuratPemeriksaan
-        ? checkPegawai.DiPerintahSuratPemeriksaan.map((item) => {
-            const [jabatan, unit, golongan, pangkat] =
-              item.jabatanDiPerintah.split(";;");
+      const pegawaiBaru = checkPegawai.DiPanggilSuratPemanggilan
+        ? checkPegawai.DiPanggilSuratPemanggilan.map((item) => {
+            const [jabatan, golongan, pangkat] = item.jabatanDiPanggil
+              ? item.jabatanDiPanggil.split(";;")
+              : "";
             return {
-              name: item.diPerintah,
-              nip: item.nipDiPerintah,
+              name: item.diPanggil,
+              nip: item.nipDiPanggil,
               jabatan: jabatan,
-              unit: unit,
+              unit: item.nipDiPanggil,
               golongan: golongan,
               pangkat: pangkat,
             };
